@@ -1,4 +1,4 @@
-package org.scribe.specs;
+package org.scribe.examples;
 
 import java.util.Scanner;
 
@@ -8,21 +8,21 @@ import org.scribe.model.*;
 import org.scribe.model.Request.*;
 import org.scribe.oauth.*;
 
-public class TwitterSpec
+public class LinkedInExample
 {
-  private static final String AUTHORIZE_URL = "https://twitter.com/oauth/authorize?oauth_token=";
-  private static final String PROTECTED_RESOURCE_URL = "http://api.twitter.com/1/account/verify_credentials.xml";
+  private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authorize?oauth_token=";
+  private static final String PROTECTED_RESOURCE_URL = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
   
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
-                                .provider(TwitterApi.class)
-                                .apiKey("6icbcAXyZx67r8uTAUM5Qw")
-                                .apiSecret("SCCAdUUc6LXxiazxH3N0QfpNUvlUy84mZ2XZKiv39s")
-                                .build();
+                                  .provider(LinkedInApi.class)
+                                  .apiKey("CiEgwWDkA5BFpNrc0RfGyVuSlOh4tig5kOTZ9q97qcXNrFl7zqk-Ts7DqRGaKDCV")
+                                  .apiSecret("dhho4dfoCmiQXrkw4yslork5XWLFnPSuMR-8gscPVjY4jqFFHPYWJKgpFl4uLTM6")
+                                  .build();
+    
     Scanner in = new Scanner(System.in);
-
-    System.out.println("=== Twitter's OAuth Workflow ===");
+    System.out.println("=== LinkedIn's OAuth Workflow ===");
     System.out.println();
 
     // Obtain the Request Token
@@ -31,7 +31,7 @@ public class TwitterSpec
     System.out.println("Got the Request Token!");
     System.out.println();
 
-    System.out.println("Now go and authorize Resin here:");
+    System.out.println("Now go and authorize Scribe here:");
     System.out.println(AUTHORIZE_URL + requestToken.getToken());
     System.out.println("And paste the verifier here");
     System.out.print(">>");
@@ -55,7 +55,9 @@ public class TwitterSpec
     System.out.println(response.getBody());
 
     System.out.println();
-    System.out.println("Thats it man! Go and build something awesome with Resin! :)");
+    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
+    
+    System.out.println(service.getRequestToken());
   }
 
 }

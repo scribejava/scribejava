@@ -1,4 +1,4 @@
-package org.scribe.specs;
+package org.scribe.examples;
 
 import java.util.Scanner;
 
@@ -8,21 +8,22 @@ import org.scribe.model.*;
 import org.scribe.model.Request.*;
 import org.scribe.oauth.*;
 
-public class LinkedInSpec
+public class YahooExample
 {
-  private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authorize?oauth_token=";
-  private static final String PROTECTED_RESOURCE_URL = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
-  
+  private static final String NETWORK_NAME = "Yahoo";
+  private static final String AUTHORIZE_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token=";
+  private static final String PROTECTED_RESOURCE_URL = "http://social.yahooapis.com/v1/user/A6ROU63MXWDCW3Y5MGCYWVHDJI/profile/status?format=json";
+
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
-                                  .provider(LinkedInApi.class)
-                                  .apiKey("CiEgwWDkA5BFpNrc0RfGyVuSlOh4tig5kOTZ9q97qcXNrFl7zqk-Ts7DqRGaKDCV")
-                                  .apiSecret("dhho4dfoCmiQXrkw4yslork5XWLFnPSuMR-8gscPVjY4jqFFHPYWJKgpFl4uLTM6")
+                                  .provider(YahooApi.class)
+                                  .apiKey("dj0yJmk9TXZDWVpNVVdGaVFmJmQ9WVdrOWMweHZXbkZLTkhVbWNHbzlNVEl5TWprd05qUTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wMw--")
+                                  .apiSecret("262be559f92a2be20c4c039419018f2b48cdfce9")
                                   .build();
-    
     Scanner in = new Scanner(System.in);
-    System.out.println("=== LinkedIn's OAuth Workflow ===");
+
+    System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
     System.out.println();
 
     // Obtain the Request Token
@@ -52,12 +53,11 @@ public class LinkedInSpec
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");
     System.out.println();
+    System.out.println(response.getCode());
     System.out.println(response.getBody());
 
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-    
-    System.out.println(service.getRequestToken());
-  }
 
+  }
 }
