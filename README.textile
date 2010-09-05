@@ -1,6 +1,6 @@
 !http://img411.imageshack.us/img411/2851/scribelogo.png!
 
-h1. Welcome to the home of Scribe, the simple OAuth Java lib!
+h2. Welcome to the home of Scribe, the simple OAuth Java lib!
 
 h1. Why use Scribe?
 
@@ -22,15 +22,31 @@ Hit Scribe as hard and with many threads as you like.
 
 h3. Supports all major OAuth APIs out-of-the-box
 
-logos here
+* Google
+
+* Yahoo
+
+* LinkedIn
+
+* Twitter
+
+* Salesforce
+
+* Foursquare
+
+* and many more! check the "examples folder":http://github.com/fernandezpablo85/scribe-java/tree/master/src/test/java/org/scribe/examples
 
 h3. Small and modular
 
 Scribe's code is small (about 1k LOC) and simple to understand. No smart-ass or "clever" hacks here.
 
+h3. Android-Ready
+
+Works out of the box with android(TM) applications.
+
 h3. Stable & bulletproof
 
-Test coverage of about x% to keep you safe from harm. 
+Goo test coverage to keep you safe from harm. 
 
 When something bad actually happens, Scribe's meaningful error messages will tell you exactly what went wrong, when and where.
 
