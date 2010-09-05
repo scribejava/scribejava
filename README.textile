@@ -1,20 +1,18 @@
 !http://img411.imageshack.us/img411/2851/scribelogo.png!
 
-h1. Welcome
-
-h3. Welcome to the *new* home of **Scribe**
+h1. Welcome to the home of Scribe, the simple OAuth Java lib!
 
 h1. Why use Scribe?
 
-h3. Dead Simple
+h3. Dead Simple 
 
-Who said OAuth was difficult? Configuring scribe is so easy your grandma can do it! check it out:
+Who said OAuth was difficult? Configuring scribe is __so easy your grandma can do it__! check it out:
 
-OAuthService service = new ServiceBuilder()
-                                  .provider(LinkedInApi.class)
-                                  .apiKey(YOUR_API_KEY)
-                                  .apiSecret(YOUR_API_SECRET)
-                                  .build();
+@OAuthService service = new ServiceBuilder()@
+                                  @.provider(LinkedInApi.class)@
+                                  @.apiKey(YOUR_API_KEY)@
+                                  @.apiSecret(YOUR_API_SECRET)@
+                                  @.build();@
                                   
 That **single line** (added newlines for readability) is the only thing you need to configure scribe with LinkedIn's OAuth API for example.
 
@@ -38,13 +36,13 @@ When something bad actually happens, Scribe's meaningful error messages will tel
 
 h1. Getting started in less than 2 minutes
 
-Check the "Getting Started":http://wiki.github.com/fernandezpablo85/scribe/getting-started page and start rocking!
+Check the "Getting Started":http://wiki.github.com/fernandezpablo85/scribe-java/getting-started page and start rocking!
 
-h1. Please Read the "FAQ":http://wiki.github.com/fernandezpablo85/scribe/faq before creating an issue :)
+h1. Please Read the "FAQ":http://wiki.github.com/fernandezpablo85/scribe-java/faq before creating an issue :)
 
 h1. About me
 
-LinkedIn "profile":http://linkedinprofile
+"LinkedIn profile":http://www.linkedin.com/in/fernandezpablo85
 
 Email me: fernandezpablo85 at gmail.com
 
