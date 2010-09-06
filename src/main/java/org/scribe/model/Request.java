@@ -22,8 +22,15 @@ public class Request
   private Map<String, String> bodyParams;
   private Map<String, String> headers;
   private String payload = null;
+  private Integer timeout = null;
   private HttpURLConnection connection;
 
+  /**
+   * Creates a new Http Request
+   * 
+   * @param verb Http Verb (GET, POST, etc)
+   * @param url url with optional querystring parameters.
+   */
   public Request(Verb verb, String url)
   {
     this.verb = verb;
@@ -32,7 +39,8 @@ public class Request
     this.headers = new HashMap<String, String>();
     try
     {
-      this.connection = (HttpURLConnection) new URL(url).openConnection();
+      connection = (HttpURLConnection) new URL(url).openConnection();
+      if(timeout != null) connection.setConnectTimeout(timeout);
     } catch (IOException ioe)
     {
       throw new OAuthException("Could not open connection to: " + url, ioe);
@@ -174,6 +182,11 @@ public class Request
     return url.replaceAll("\\?.*", "").replace("\\:\\d{4}", "");
   }
 
+  /**
+   * Returns the body of the request
+   * 
+   * @return form encoded string
+   */
   public String getBodyContents()
   {
     return (payload != null) ? payload : URLUtils.formURLEncodeMap(bodyParams);
@@ -188,12 +201,30 @@ public class Request
   {
     return verb;
   }
-
+  
+  /**
+   * Returns the connection headers as a {@link Map}
+   * 
+   * @return map of headers
+   */
   public Map<String, String> getHeaders()
   {
     return headers;
   }
 
+  /**
+   * Sets the connection timeout in milliseconds for the underlying {@link HttpURLConnection}
+   * 
+   * @param timeout in milliseconds
+   */
+  public void setTimeout(int timeout)
+  {
+    this.timeout = timeout;
+  }
+  
+  /*
+   * We need this in order to stub the connection object for test cases
+   */
   void setConnection(HttpURLConnection connection)
   {
     this.connection = connection;
