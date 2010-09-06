@@ -5,7 +5,6 @@ import java.util.Scanner;
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
-import org.scribe.model.Request.*;
 import org.scribe.oauth.*;
 
 public class LinkedInExample

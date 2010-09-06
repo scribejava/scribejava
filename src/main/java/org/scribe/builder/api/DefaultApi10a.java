@@ -1,10 +1,8 @@
 package org.scribe.builder.api;
 
 import org.scribe.extractors.*;
-import org.scribe.model.OAuthConfig;
-import org.scribe.model.Request.Verb;
-import org.scribe.oauth.OAuth10aServiceImpl;
-import org.scribe.oauth.OAuthService;
+import org.scribe.model.*;
+import org.scribe.oauth.*;
 import org.scribe.services.*;
 
 public abstract class DefaultApi10a implements Api

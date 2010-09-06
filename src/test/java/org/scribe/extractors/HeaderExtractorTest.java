@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.*;
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
-import org.scribe.model.Request.*;
 import org.scribe.test.helpers.*;
 
 public class HeaderExtractorTest

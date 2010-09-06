@@ -12,7 +12,7 @@ import org.scribe.utils.*;
  * 
  * @author Pablo Fernandez
  */
-public class Request
+class Request
 {
 
   private static final String CONTENT_LENGTH = "Content-Length";
@@ -234,15 +234,5 @@ public class Request
   public String toString()
   {
     return String.format("@Request(%s %s)", getVerb(), getUrl());
-  }
-
-  /**
-   * An enumeration containing the most common HTTP Verbs.
-   * 
-   * @author Pablo Fernandez
-   */
-  public static enum Verb
-  {
-    GET, POST, PUT, DELETE
   }
 }

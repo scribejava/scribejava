@@ -3,7 +3,6 @@ package org.scribe.model;
 import static org.junit.Assert.*;
 
 import org.junit.*;
-import org.scribe.model.Request.*;
 
 public class RequestTest
 {

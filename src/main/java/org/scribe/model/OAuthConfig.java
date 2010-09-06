@@ -1,7 +1,5 @@
 package org.scribe.model;
 
-import org.scribe.model.Request.*;
-
 public class OAuthConfig
 {
   private String apiKey;

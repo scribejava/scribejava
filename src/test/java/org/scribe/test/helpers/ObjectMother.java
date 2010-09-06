@@ -1,7 +1,6 @@
 package org.scribe.test.helpers;
 
 import org.scribe.model.*;
-import org.scribe.model.Request.*;
 
 public class ObjectMother
 {
