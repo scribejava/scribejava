@@ -31,7 +31,7 @@ public class TwitterExample
     System.out.println("Got the Request Token!");
     System.out.println();
 
-    System.out.println("Now go and authorize Resin here:");
+    System.out.println("Now go and authorize Scribe here:");
     System.out.println(AUTHORIZE_URL + requestToken.getToken());
     System.out.println("And paste the verifier here");
     System.out.print(">>");
@@ -55,7 +55,7 @@ public class TwitterExample
     System.out.println(response.getBody());
 
     System.out.println();
-    System.out.println("Thats it man! Go and build something awesome with Resin! :)");
+    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
   }
 
 }
