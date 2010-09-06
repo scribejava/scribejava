@@ -5,12 +5,12 @@ public class GoogleApi extends DefaultApi10a
   @Override
   public String getAccessTokenEndpoint()
   {
-    throw new UnsupportedOperationException();
+    return "https://www.google.com/accounts/OAuthGetRequestToken"; 
   }
 
   @Override
   public String getRequestTokenEndpoint()
   {
-    throw new UnsupportedOperationException();
+    return "https://www.google.com/accounts/OAuthGetAccessToken";
   }
 }
