@@ -5,12 +5,12 @@ public class FoursquareApi extends DefaultApi10a
   @Override
   public String getAccessTokenEndpoint()
   {
-    throw new UnsupportedOperationException();
+    return "http://foursquare.com/oauth/access_token";
   }
 
   @Override
   public String getRequestTokenEndpoint()
   {
-    throw new UnsupportedOperationException();
+    return "http://foursquare.com/oauth/request_token";
   }
 }

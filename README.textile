@@ -30,8 +30,6 @@ h3. Supports all major OAuth APIs out-of-the-box
 
 * Twitter
 
-* Salesforce
-
 * Foursquare
 
 * and many more! check the "examples folder":http://github.com/fernandezpablo85/scribe-java/tree/master/src/test/java/org/scribe/examples
