@@ -44,7 +44,7 @@ Works out of the box with android(TM) applications.
 
 h3. Stable & bulletproof
 
-Goo test coverage to keep you safe from harm. 
+Good test coverage to keep you safe from harm. 
 
 When something bad actually happens, Scribe's meaningful error messages will tell you exactly what went wrong, when and where.
 
