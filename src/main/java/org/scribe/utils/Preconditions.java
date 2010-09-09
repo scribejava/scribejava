@@ -13,7 +13,7 @@ public class Preconditions
 
   public static void checkEmptyString(String string, String errorMsg)
   {
-    check(string != null && !string.trim().isEmpty(), errorMsg);
+    check(string != null && !string.trim().equals(""), errorMsg);
   }
 
   public static void checkValidUrl(String url, String errorMsg)
