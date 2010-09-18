@@ -24,17 +24,16 @@ public class URLUtils
 
   private static String doFormUrlEncode(Map<String, String> map)
   {
-    StringBuffer encodedString = new StringBuffer();
+    StringBuffer encodedString = new StringBuffer(map.size() * 20);
     for (String key : map.keySet())
     {
-      encodedString.append(percentEncode(key)).append(PAIR_SEPARATOR).append(percentEncode(map.get(key))).append(PARAM_SEPARATOR);
+      if(encodedString.length() > 0) 
+      {
+        encodedString.append(PARAM_SEPARATOR);
+      }
+      encodedString.append(percentEncode(key)).append(PAIR_SEPARATOR).append(percentEncode(map.get(key)));
     }
-    return removeTrailingSeparator(encodedString);
-  }
-
-  private static String removeTrailingSeparator(StringBuffer buffer)
-  {
-    return buffer.toString().substring(0, buffer.length() - 1);
+    return encodedString.toString();
   }
 
   public static String percentEncode(String string)
@@ -43,7 +42,8 @@ public class URLUtils
     try
     {
       return URLEncoder.encode(string, UTF_8);
-    } catch (UnsupportedEncodingException uee)
+    } 
+    catch (UnsupportedEncodingException uee)
     {
       throw new OAuthException(ERROR_MSG, uee);
     }

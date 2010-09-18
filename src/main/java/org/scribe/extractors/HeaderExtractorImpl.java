@@ -8,20 +8,24 @@ import org.scribe.utils.*;
 
 public class HeaderExtractorImpl implements HeaderExtractor
 {
-
+  private static final String PARAM_SEPARATOR = ", ";
   private static final String PREAMBLE = "OAuth ";
 
   public String extract(OAuthRequest request)
   {
     checkPreconditions(request);
     Map<String, String> parameters = request.getOauthParameters();
-    StringBuffer header = new StringBuffer();
+    StringBuffer header = new StringBuffer(parameters.size() * 20);
     header.append(PREAMBLE);
     for (String key : parameters.keySet())
     {
-      addToHeader(header, key, parameters.get(key));
+      if(header.length() > PREAMBLE.length())
+      { 
+        header.append(PARAM_SEPARATOR);
+      }
+      header.append(String.format("%s=\"%s\"", key, URLUtils.percentEncode(parameters.get(key))));
     }
-    return removeTrail(header);
+    return header.toString();
   }
 
   private void checkPreconditions(OAuthRequest request)
@@ -34,13 +38,4 @@ public class HeaderExtractorImpl implements HeaderExtractor
     }
   }
 
-  private void addToHeader(StringBuffer header, String name, String value)
-  {
-    header.append(String.format("%s=\"%s\", ", name, URLUtils.percentEncode(value)));
-  }
-
-  private String removeTrail(StringBuffer header)
-  {
-    return header.toString().substring(0, header.length() - 2);
-  }
 }
