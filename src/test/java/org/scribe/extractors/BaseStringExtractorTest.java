@@ -41,4 +41,12 @@ public class BaseStringExtractorTest
     OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com");
     extractor.extract(request);
   }
+  
+  @Test
+  public void shouldProperlyEncodeSpaces()
+  {
+    String expected = "GET&http%3A%2F%2Fexample.com&body%3Dthis%2520param%2520has%2520whitespace%26oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback%26oauth_consumer_key%3DAS%2523%2524%255E*%2540%2526%26oauth_signature%3DOAuth-Signature%26oauth_timestamp%3D123456";
+    request.addBodyParameter("body", "this param has whitespace");
+    assertEquals(expected, extractor.extract(request));
+  }
 }

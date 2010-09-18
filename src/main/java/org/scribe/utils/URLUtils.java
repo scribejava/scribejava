@@ -41,7 +41,7 @@ public class URLUtils
     Preconditions.checkNotNull(string, "Cannot encode null string");
     try
     {
-      return URLEncoder.encode(string, UTF_8);
+      return URLEncoder.encode(string, UTF_8).replaceAll("\\+", "%20");
     } 
     catch (UnsupportedEncodingException uee)
     {

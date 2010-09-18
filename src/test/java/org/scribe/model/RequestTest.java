@@ -52,7 +52,7 @@ public class RequestTest
     postRequest.addBodyParameter("param", "value");
     postRequest.addBodyParameter("param two", "value with spaces");
     postRequest.send();
-    assertEquals("param+two=value+with+spaces&param=value", postRequest.getBodyContents());
+    assertEquals("param%20two=value%20with%20spaces&param=value", postRequest.getBodyContents());
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
   }
 

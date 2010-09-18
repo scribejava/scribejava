@@ -23,7 +23,7 @@ public class URLUtilsTest
     params.put("key with spaces", "value with spaces");
     params.put("&symbols!", "#!");
 
-    String expected = "key=value&key+with+spaces=value+with+spaces&%26symbols%21=%23%21";
+    String expected = "key=value&key%20with%20spaces=value%20with%20spaces&%26symbols%21=%23%21";
     assertEquals(expected, URLUtils.formURLEncodeMap(params));
   }
 
@@ -39,7 +39,7 @@ public class URLUtilsTest
   public void shouldPercentEncodeString()
   {
     String toEncode = "this is a test &^";
-    String expected = "this+is+a+test+%26%5E";
+    String expected = "this%20is%20a%20test%20%26%5E";
     assertEquals(expected, URLUtils.percentEncode(toEncode));
   }
 
