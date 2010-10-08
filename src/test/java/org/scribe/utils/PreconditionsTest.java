@@ -53,6 +53,17 @@ public class PreconditionsTest
     Preconditions.checkValidUrl("https://www.example.com", ERROR_MSG);
   }
   
+  public void shouldAllowNonStandarProtocolsForAndroid()
+  {
+    Preconditions.checkValidUrl("myUrl://www.example.com", ERROR_MSG);
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldNotAllowStrangeProtocolNames()
+  {
+    Preconditions.checkValidUrl("_weird*://www.example.com", ERROR_MSG);
+  }
+  
   public void shouldAllowOutOfBandAsValidCallbackValue()
   {
     Preconditions.checkValidOAuthCallback("oob", ERROR_MSG);

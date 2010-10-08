@@ -1,10 +1,13 @@
 package org.scribe.utils;
 
+import java.util.regex.Pattern;
+
 import org.scribe.model.OAuthConstants;
 
 public class Preconditions
 {
   private static final String DEFAULT_MESSAGE = "Received an invalid parameter";
+  private static final Pattern URL_PATTERN = Pattern.compile("[a-zA-Z]+://\\S+");
 
   public static void checkNotNull(Object object, String errorMsg)
   {
@@ -33,7 +36,7 @@ public class Preconditions
   
   static boolean isUrl(String url)
   {
-    return url.startsWith("http://") || url.startsWith("https://");
+    return URL_PATTERN.matcher(url).matches();
   }
   
   private static void check(boolean requirements, String error)
