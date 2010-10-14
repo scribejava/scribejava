@@ -7,7 +7,7 @@ import org.scribe.model.OAuthConstants;
 public class Preconditions
 {
   private static final String DEFAULT_MESSAGE = "Received an invalid parameter";
-  private static final Pattern URL_PATTERN = Pattern.compile("[a-zA-Z]+://\\S+");
+  private static final Pattern URL_PATTERN = Pattern.compile("[a-zA-Z_-]+://\\S+");
 
   public static void checkNotNull(Object object, String errorMsg)
   {
