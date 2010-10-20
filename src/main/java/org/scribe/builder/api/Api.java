@@ -20,4 +20,16 @@ public interface Api
    * @return fully configured {@link OAuthService}
    */
   OAuthService createService(String apiKey, String apiSecret, String callback);
+  
+  /**
+   * Creates an {@link OAuthService}
+   * 
+   * @param apiKey your application api key
+   * @param apiSecret your application api secret
+   * @param callback the callback url (or 'oob' for out of band OAuth)
+   * @param scope the OAuth scope
+   * 
+   * @return fully configured {@link OAuthService}
+   */
+  OAuthService createService(String apiKey, String apiSecret, String callback, String scope);
 }

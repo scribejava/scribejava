@@ -50,7 +50,6 @@ public abstract class DefaultApi10a implements Api
   public abstract String getRequestTokenEndpoint();
   public abstract String getAccessTokenEndpoint();
   
-  @Override
   public OAuthService createService(String apiKey, String apiSecret, String callback)
   {
     return new OAuth10aServiceImpl( getSignatureService(), 
@@ -60,6 +59,13 @@ public abstract class DefaultApi10a implements Api
                                     getRequestTokenExtractor(), 
                                     getAccessTokenExtractor(), 
                                     createConfig(apiKey, apiSecret, callback));
+  }
+  
+  public OAuthService createService(String apiKey, String apiSecret, String callback, String scope)
+  {
+    OAuthService service = createService(apiKey, apiSecret, callback);
+    service.addScope(scope);
+    return service;
   }
 
   private OAuthConfig createConfig(String apiKey, String apiSecret, String callback)

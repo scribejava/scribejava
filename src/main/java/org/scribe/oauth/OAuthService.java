@@ -11,4 +11,6 @@ public interface OAuthService
   public void signRequest(Token accessToken, OAuthRequest request);
 
   public String getVersion();
+
+  public void addScope(String scope);
 }

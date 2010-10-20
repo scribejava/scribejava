@@ -6,7 +6,7 @@ import org.scribe.services.*;
 
 public class OAuth10aServiceImpl implements OAuthService
 {
-
+  private static final String NO_SCOPE = null;
   private static final String VERSION = "1.0";
 
   private OAuthConfig config;
@@ -16,6 +16,7 @@ public class OAuth10aServiceImpl implements OAuthService
   private HeaderExtractor headerExtractor;
   private RequestTokenExtractor rtExtractor;
   private AccessTokenExtractor atExtractor;
+  private String scope;
 
   public OAuth10aServiceImpl(SignatureService signatureService, TimestampService timestampService, BaseStringExtractor baseStringExtractor,
       HeaderExtractor headerExtractor, RequestTokenExtractor rtExtractor, AccessTokenExtractor atExtractor, OAuthConfig config)
@@ -27,6 +28,7 @@ public class OAuth10aServiceImpl implements OAuthService
     this.rtExtractor = rtExtractor;
     this.atExtractor = atExtractor;
     this.config = config;
+    this.scope = NO_SCOPE;
   }
 
   public Token getRequestToken()
@@ -47,6 +49,10 @@ public class OAuth10aServiceImpl implements OAuthService
     request.addOAuthParameter(OAuthConstants.VERSION, getVersion());
     request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
     request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, token));
+    if(scope != NO_SCOPE)
+    {
+      request.addOAuthParameter(OAuthConstants.SCOPE, scope);
+    }
   }
 
   public Token getAccessToken(Token requestToken, Verifier verifier)
@@ -72,6 +78,11 @@ public class OAuth10aServiceImpl implements OAuthService
     return VERSION;
   }
 
+  public void addScope(String scope)
+  {
+    this.scope = scope;
+  }
+  
   private String getSignature(OAuthRequest request, Token token)
   {
     String baseString = baseStringExtractor.extract(request);

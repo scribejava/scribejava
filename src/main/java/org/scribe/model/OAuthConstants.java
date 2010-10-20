@@ -38,4 +38,5 @@ public class OAuthConstants
   public static final String VERIFIER = "oauth_verifier";
   public static final String HEADER = "Authorization";
   public static final Token EMPTY_TOKEN = new Token("", "");
+  public static final String SCOPE = "scope";
 }

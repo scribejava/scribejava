@@ -20,6 +20,7 @@ public class ServiceBuilder
   private String apiSecret;
   private String callback;
   private Api api;
+  private String scope;
   
   public ServiceBuilder()
   {
@@ -93,6 +94,18 @@ public class ServiceBuilder
   }
   
   /**
+   * Configures the OAuth scope. This is only necessary in some APIs (like Google's).
+   * 
+   * @param scope The OAuth scope
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder scope(String scope)
+  {
+    this.scope = scope;
+    return this;
+  }
+  
+  /**
    * Returns the fully configured {@link OAuthService}
    * 
    * @return fully configured {@link OAuthService}
@@ -102,6 +115,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(apiKey, apiSecret, callback);
+    return api.createService(apiKey, apiSecret, callback, scope);
   }
 }
