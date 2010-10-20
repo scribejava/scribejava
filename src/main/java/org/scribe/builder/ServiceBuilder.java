@@ -101,6 +101,7 @@ public class ServiceBuilder
    */
   public ServiceBuilder scope(String scope)
   {
+    Preconditions.checkEmptyString(scope, "Invalid OAuth scope");
     this.scope = scope;
     return this;
   }
