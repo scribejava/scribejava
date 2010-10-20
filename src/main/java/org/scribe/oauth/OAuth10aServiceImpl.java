@@ -4,6 +4,11 @@ import org.scribe.extractors.*;
 import org.scribe.model.*;
 import org.scribe.services.*;
 
+/**
+ * OAuth 1.0a implementation of {@link OAuthService}
+ * 
+ * @author Pablo Fernandez
+ */
 public class OAuth10aServiceImpl implements OAuthService
 {
   private static final String NO_SCOPE = null;
@@ -18,6 +23,17 @@ public class OAuth10aServiceImpl implements OAuthService
   private AccessTokenExtractor atExtractor;
   private String scope;
 
+  /**
+   * Default constructor
+   * 
+   * @param signatureService OAuth 1.0a signature service
+   * @param timestampService OAuth 1.0a timestamp service
+   * @param baseStringExtractor OAuth 1.0a base string extractor
+   * @param headerExtractor OAuth 1.0a http header extractor
+   * @param rtExtractor OAuth 1.0a request token extractor
+   * @param atExtractor OAuth 1.0a access token extractor
+   * @param config OAuth 1.0a configuration param object
+   */
   public OAuth10aServiceImpl(SignatureService signatureService, TimestampService timestampService, BaseStringExtractor baseStringExtractor,
       HeaderExtractor headerExtractor, RequestTokenExtractor rtExtractor, AccessTokenExtractor atExtractor, OAuthConfig config)
   {
@@ -31,6 +47,9 @@ public class OAuth10aServiceImpl implements OAuthService
     this.scope = NO_SCOPE;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public Token getRequestToken()
   {
     OAuthRequest request = new OAuthRequest(config.getRequestTokenVerb(), config.getRequestTokenEndpoint());
@@ -48,13 +67,13 @@ public class OAuth10aServiceImpl implements OAuthService
     request.addOAuthParameter(OAuthConstants.SIGN_METHOD, signatureService.getSignatureMethod());
     request.addOAuthParameter(OAuthConstants.VERSION, getVersion());
     request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
+    if(scope != NO_SCOPE) request.addOAuthParameter(OAuthConstants.SCOPE, scope);
     request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, token));
-    if(scope != NO_SCOPE)
-    {
-      request.addOAuthParameter(OAuthConstants.SCOPE, scope);
-    }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(config.getAccessTokenVerb(), config.getAccessTokenEndpoint());
@@ -66,6 +85,9 @@ public class OAuth10aServiceImpl implements OAuthService
     return atExtractor.extract(response.getBody());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void signRequest(Token token, OAuthRequest request)
   {
     request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
@@ -73,11 +95,17 @@ public class OAuth10aServiceImpl implements OAuthService
     addOAuthHeader(request);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public String getVersion()
   {
     return VERSION;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void addScope(String scope)
   {
     this.scope = scope;
