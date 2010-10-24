@@ -6,11 +6,20 @@ import org.scribe.exceptions.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
 
+/**
+ * Default implementation of {@link BaseStringExtractor}. Conforms to OAuth 1.0a
+ * 
+ * @author Pablo Fernandez
+ *
+ */
 public class BaseStringExtractorImpl implements BaseStringExtractor
 {
 
   private static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
 
+  /**
+   * {@inheritDoc}
+   */
   public String extract(OAuthRequest request)
   {
     checkPreconditions(request);

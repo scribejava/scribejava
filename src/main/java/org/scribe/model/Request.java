@@ -14,7 +14,6 @@ import org.scribe.utils.*;
  */
 class Request
 {
-
   private static final String CONTENT_LENGTH = "Content-Length";
 
   private String url;

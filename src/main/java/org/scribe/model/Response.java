@@ -13,7 +13,6 @@ import org.scribe.utils.*;
  */
 public class Response
 {
-
   private static final String EMPTY = "";
 
   private int code;
@@ -52,11 +51,6 @@ public class Response
     return headers;
   }
 
-  /**
-   * Checks if the code is in the successful or redirect range.
-   * 
-   * @return true if successful
-   */
   private boolean wasSuccessful()
   {
     return getCode() >= 200 && getCode() < 400;

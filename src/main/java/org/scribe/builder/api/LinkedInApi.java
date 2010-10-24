@@ -7,19 +7,19 @@ public class LinkedInApi extends DefaultApi10a
 {
 
   @Override
-  public String getAccessTokenEndpoint()
+  protected String getAccessTokenEndpoint()
   {
     return "https://api.linkedin.com/uas/oauth/accessToken";
   }
 
   @Override
-  public String getRequestTokenEndpoint()
+  protected String getRequestTokenEndpoint()
   {
     return "https://api.linkedin.com/uas/oauth/requestToken";
   }
   
   @Override
-  public BaseStringExtractor getBaseStringExtractor()
+  protected BaseStringExtractor getBaseStringExtractor()
   {
     return new LinkedInBaseStringExtractorImpl();
   }

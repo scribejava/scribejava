@@ -6,9 +6,13 @@ import java.util.*;
 
 import org.scribe.exceptions.*;
 
+/**
+ * Utils to deal with URL and url-encodings 
+ * 
+ * @author Pablo Fernandez
+ */
 public class URLUtils
 {
-
   private static final String EMPTY_STRING = "";
   private static final String UTF_8 = "UTF-8";
   private static final char PAIR_SEPARATOR = '=';
@@ -16,6 +20,12 @@ public class URLUtils
 
   private static final String ERROR_MSG = String.format("Cannot find specified encoding: %s", UTF_8);
 
+  /**
+   * Turns a map into a form-url-encoded string (key=value&key2=value2)
+   * 
+   * @param map any map
+   * @return form-url-encoded string
+   */
   public static String formURLEncodeMap(Map<String, String> map)
   {
     Preconditions.checkNotNull(map, "Cannot url-encode a null object");
@@ -36,6 +46,12 @@ public class URLUtils
     return encodedString.toString();
   }
 
+  /**
+   * Percent encodes a string
+   * 
+   * @param plain
+   * @return percent encoded string
+   */
   public static String percentEncode(String string)
   {
     Preconditions.checkNotNull(string, "Cannot encode null string");
@@ -49,6 +65,12 @@ public class URLUtils
     }
   }
 
+  /**
+   * Percent decodes a string
+   * 
+   * @param string percent encoded string
+   * @return plain string
+   */
   public static String percentDecode(String string)
   {
     Preconditions.checkNotNull(string, "Cannot decode null string");

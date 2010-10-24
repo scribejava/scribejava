@@ -2,9 +2,19 @@ package org.scribe.utils;
 
 import java.util.*;
 
+/**
+ * Utils for {@link Map} manipulation
+ * 
+ * @author Pablo Fernandez
+ */
 public class MapUtils
 {
-
+  /**
+   * Sorts a Map
+   * 
+   * @param map unsorted map
+   * @return sorted map
+   */
   public static final Map<String, String> sort(Map<String, String> map)
   {
     Preconditions.checkNotNull(map, "Cannot sort a null object.");

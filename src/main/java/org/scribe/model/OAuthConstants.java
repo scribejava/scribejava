@@ -19,7 +19,6 @@ package org.scribe.model;
  * This class contains OAuth constants, used project-wide
  * 
  * @author Pablo Fernandez
- * 
  */
 public class OAuthConstants
 {

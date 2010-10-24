@@ -22,6 +22,9 @@ public class ServiceBuilder
   private Api api;
   private String scope;
   
+  /**
+   * Default constructor
+   */
   public ServiceBuilder()
   {
     this.callback = OAuthConstants.OUT_OF_BAND;

@@ -2,9 +2,19 @@ package org.scribe.utils;
 
 import java.io.*;
 
+/**
+ * Utils to deal with Streams.
+ *  
+ * @author Pablo Fernandez
+ */
 public class StreamUtils
 {
-
+  /**
+   * Returns the stream contents as an UTF-8 encoded string
+   * 
+   * @param is input stream
+   * @return string contents
+   */
   public static String getStreamContents(InputStream is)
   {
     Preconditions.checkNotNull(is, "Cannot get String from a null object");

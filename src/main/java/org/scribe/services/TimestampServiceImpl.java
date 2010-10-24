@@ -2,22 +2,35 @@ package org.scribe.services;
 
 import java.util.*;
 
+/**
+ * Implementation of {@link TimestampService} using plain java classes.
+ * 
+ * @author Pablo Fernandez
+ */
 public class TimestampServiceImpl implements TimestampService
 {
-
   private Timer timer;
 
+  /**
+   * Default constructor. 
+   */
   public TimestampServiceImpl()
   {
     timer = new Timer();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public String getNonce()
   {
     Long ts = getTs();
     return String.valueOf(ts + timer.getRandomInteger());
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public String getTimestampInSeconds()
   {
     return String.valueOf(getTs());
@@ -33,14 +46,19 @@ public class TimestampServiceImpl implements TimestampService
     this.timer = timer;
   }
 
+  /**
+   * Inner class that uses {@link System} for generating the timestamps.
+   * 
+   * @author Pablo Fernandez
+   */
   static class Timer
   {
-    public Long getMilis()
+    Long getMilis()
     {
       return System.currentTimeMillis();
     }
 
-    public Integer getRandomInteger()
+    Integer getRandomInteger()
     {
       return new Random().nextInt();
     }
