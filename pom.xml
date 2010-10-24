@@ -7,7 +7,13 @@
   <version>1.0.5</version>
   <name>Scribe OAuth Library</name>
   <description>The best OAuth library out there</description>
-  <url>github.com/fernandezpablo85/scribe-java</url>
+  <url>http://github.com/fernandezpablo85/scribe-java</url>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>5</version>
+  </parent>
 
   <developers>
     <developer>
@@ -42,6 +48,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.1</version>
+      <scope>test</scope>
     </dependency>
     
   </dependencies>
