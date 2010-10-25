@@ -48,6 +48,16 @@ Good test coverage to keep you safe from harm.
 
 When something bad actually happens, Scribe's meaningful error messages will tell you exactly what went wrong, when and where.
 
+h3. Pull it from Maven! (new)
+
+You can pull scribe from a maven repository, just add this to your __pom.xml__ file:
+
+@<dependency>@
+  @<groupId>org.scribe</groupId>@
+  @<artifactId>scribe</artifactId>@
+  @<version>1.0.6</version>@
+@</dependency>@
+
 h1. Getting started in less than 2 minutes
 
 Check the "Getting Started":http://wiki.github.com/fernandezpablo85/scribe-java/getting-started page and start rocking!
