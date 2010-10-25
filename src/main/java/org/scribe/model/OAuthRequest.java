@@ -41,7 +41,7 @@ public class OAuthRequest extends Request
 
   private String checkKey(String key)
   {
-    if (!key.startsWith(OAUTH_PREFIX) || !key.equals(OAuthConstants.SCOPE))
+    if (!key.startsWith(OAUTH_PREFIX) && !key.equals(OAuthConstants.SCOPE))
     {
       throw new IllegalArgumentException(String.format("OAuth parameters must either be %s or start with '%s'", OAuthConstants.SCOPE, OAUTH_PREFIX));
     } else
