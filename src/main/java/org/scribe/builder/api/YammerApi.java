@@ -1,6 +1,7 @@
 package org.scribe.builder.api;
 
-public class YammerApi extends DefaultApi10a {
+public class YammerApi extends DefaultApi10a
+{
 
 	@Override
 	public String getRequestTokenEndpoint()
