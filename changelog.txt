@@ -1,0 +1,8 @@
+[1.0.6]
+
+ * FEATURE: Available in maven central repositories.
+
+[1.0.7]
+
+ * FEATURE: Added support for Yammer and Evernote ( thanks oparrsih )
+ * FIX: Fixed bug that preventing setting the scope param on Google Api  
