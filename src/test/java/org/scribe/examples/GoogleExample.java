@@ -45,14 +45,15 @@ public class GoogleExample
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
-    System.out.println("(if your curious it looks like this: " + accessToken + " )");
     System.out.println();
 
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");
     OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-    request.addHeader("GData-Version", "3.0");  
     service.signRequest(accessToken, request);
+    //For Google docs, need to specify the GData version
+    //http://code.google.com/apis/documents/docs/3.0/developers_guide_protocol.html#Versioning
+    request.addHeader("GData-Version", "3.0");  
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");
     System.out.println();
