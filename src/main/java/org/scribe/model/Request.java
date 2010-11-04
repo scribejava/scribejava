@@ -21,7 +21,6 @@ class Request
   private Map<String, String> bodyParams;
   private Map<String, String> headers;
   private String payload = null;
-  private Integer timeout = null;
   private HttpURLConnection connection;
 
   /**
@@ -39,7 +38,6 @@ class Request
     try
     {
       connection = (HttpURLConnection) new URL(url).openConnection();
-      if(timeout != null) connection.setConnectTimeout(timeout);
     } catch (IOException ioe)
     {
       throw new OAuthException("Could not open connection to: " + url, ioe);
@@ -212,13 +210,23 @@ class Request
   }
 
   /**
-   * Sets the connection timeout in milliseconds for the underlying {@link HttpURLConnection}
+   * Sets the connect timeout in milliseconds for the underlying {@link HttpURLConnection}
    * 
-   * @param timeout in milliseconds
+   * @param connect timeout in milliseconds
    */
-  public void setTimeout(int timeout)
+  public void setConnectTimeout(int timeout)
   {
-    this.timeout = timeout;
+    this.connection.setConnectTimeout(timeout);
+  }
+
+  /**
+   * Sets the read timeout in milliseconds for the underlying {@link HttpURLConnection}
+   * 
+   * @param read timeout in milliseconds
+   */
+  public void setReadTimeout(int timeout)
+  {
+    this.connection.setReadTimeout(timeout);
   }
   
   /*
