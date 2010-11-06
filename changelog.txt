@@ -10,3 +10,4 @@
 [1.0.8]
 
  * FEATURE: Added setConnectTimeout and setReadTimeout for the Request Object
+ * FIX: Fixed Evernote Api (uses GET for request and access tokens)
