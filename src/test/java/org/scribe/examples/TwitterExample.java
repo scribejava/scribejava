@@ -9,7 +9,7 @@ import org.scribe.oauth.*;
 
 public class TwitterExample
 {
-  private static final String AUTHORIZE_URL = "https://twitter.com/oauth/authorize?oauth_token=";
+  private static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize?oauth_token=";
   private static final String PROTECTED_RESOURCE_URL = "http://api.twitter.com/1/account/verify_credentials.xml";
   
   public static void main(String[] args)
