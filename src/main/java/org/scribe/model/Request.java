@@ -3,6 +3,7 @@ package org.scribe.model;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import org.scribe.exceptions.*;
 import org.scribe.utils.*;
@@ -210,23 +211,27 @@ class Request
   }
 
   /**
-   * Sets the connect timeout in milliseconds for the underlying {@link HttpURLConnection}
+   * Sets the connect timeout for the underlying {@link HttpURLConnection}
    * 
-   * @param connect timeout in milliseconds
+   * @param duration duration of the timeout
+   * 
+   * @param unit unit of time (milliseconds, seconds, etc)
    */
-  public void setConnectTimeout(int timeout)
+  public void setConnectTimeout(int duration, TimeUnit unit)
   {
-    this.connection.setConnectTimeout(timeout);
+    this.connection.setConnectTimeout((int) unit.toMillis(duration));
   }
 
   /**
-   * Sets the read timeout in milliseconds for the underlying {@link HttpURLConnection}
+   * Sets the read timeout for the underlying {@link HttpURLConnection}
    * 
-   * @param read timeout in milliseconds
+   * @param duration duration of the timeout
+   * 
+   * @param unit unit of time (milliseconds, seconds, etc)
    */
-  public void setReadTimeout(int timeout)
+  public void setReadTimeout(int duration, TimeUnit unit)
   {
-    this.connection.setReadTimeout(timeout);
+    this.connection.setReadTimeout((int) unit.toMillis(duration));
   }
   
   /*
