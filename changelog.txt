@@ -6,3 +6,7 @@
 
  * FEATURE: Added support for Yammer and Evernote ( thanks oparrsih )
  * FIX: Fixed bug that preventing setting the scope param on Google Api  
+
+[1.0.8]
+
+ * FEATURE: Added setConnectTimeout and setReadTimeout for the Request Object
