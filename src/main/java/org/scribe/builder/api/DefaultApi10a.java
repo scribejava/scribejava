@@ -82,12 +82,12 @@ public abstract class DefaultApi10a implements Api
    */
   public OAuthService createService(OAuthConfig config, String scope)
   {
-    OAuthService service = createService(config);
+    OAuthService service = doCreateService(config);
     service.addScope(scope);
     return service;
   }
   
-  private OAuthService createService(OAuthConfig config)
+  private OAuthService doCreateService(OAuthConfig config)
   {
     return new OAuth10aServiceImpl(this, config);
   }
