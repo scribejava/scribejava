@@ -18,42 +18,42 @@ import org.scribe.services.*;
 public abstract class DefaultApi10a implements Api
 {
   
-  protected AccessTokenExtractor getAccessTokenExtractor()
+  public AccessTokenExtractor getAccessTokenExtractor()
   {
     return new TokenExtractorImpl();
   }
 
-  protected BaseStringExtractor getBaseStringExtractor()
+  public BaseStringExtractor getBaseStringExtractor()
   {
     return new BaseStringExtractorImpl();
   }
 
-  protected HeaderExtractor getHeaderExtractor()
+  public HeaderExtractor getHeaderExtractor()
   {
     return new HeaderExtractorImpl();
   }
 
-  protected RequestTokenExtractor getRequestTokenExtractor()
+  public RequestTokenExtractor getRequestTokenExtractor()
   {
     return new TokenExtractorImpl();
   }
 
-  protected SignatureService getSignatureService()
+  public SignatureService getSignatureService()
   {
     return new HMACSha1SignatureService(); 
   }
 
-  protected TimestampService getTimestampService()
+  public TimestampService getTimestampService()
   {
     return new TimestampServiceImpl();
   }
   
-  protected Verb getAccessTokenVerb()
+  public Verb getAccessTokenVerb()
   {
     return Verb.POST;
   }
   
-  protected Verb getRequestTokenVerb()
+  public Verb getRequestTokenVerb()
   {
     return Verb.POST;
   }
@@ -63,14 +63,14 @@ public abstract class DefaultApi10a implements Api
    * 
    * @return request token URL
    */
-  protected abstract String getRequestTokenEndpoint();
+  public abstract String getRequestTokenEndpoint();
   
   /**
    * Returns the URL that receives the access token requests.
    * 
    * @return access token URL
    */
-  protected abstract String getAccessTokenEndpoint();
+  public abstract String getAccessTokenEndpoint();
   
   /**
    * Returns the {@link OAuthService} for this Api
@@ -89,13 +89,7 @@ public abstract class DefaultApi10a implements Api
   
   private OAuthService createService(String apiKey, String apiSecret, String callback)
   {
-    return new OAuth10aServiceImpl( getSignatureService(), 
-                                    getTimestampService(), 
-                                    getBaseStringExtractor(), 
-                                    getHeaderExtractor(), 
-                                    getRequestTokenExtractor(), 
-                                    getAccessTokenExtractor(), 
-                                    createConfig(apiKey, apiSecret, callback));
+    return new OAuth10aServiceImpl(this, createConfig(apiKey, apiSecret, callback));
   }
   
   private OAuthConfig createConfig(String apiKey, String apiSecret, String callback)
