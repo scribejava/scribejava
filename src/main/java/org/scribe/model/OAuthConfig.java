@@ -10,6 +10,18 @@ public class OAuthConfig
   private String apiKey;
   private String apiSecret;
   private String callback;
+  
+  public OAuthConfig(String key, String secret)
+  {
+    this(key,secret,null);
+  }
+  
+  public OAuthConfig(String key, String secret, String callback)
+  {
+    this.apiKey = key;
+    this.apiSecret = secret;
+    this.callback = callback;
+  }
 
   public String getApiKey()
   {

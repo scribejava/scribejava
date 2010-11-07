@@ -1,5 +1,6 @@
 package org.scribe.builder.api;
 
+import org.scribe.model.*;
 import org.scribe.oauth.*;
 
 /**
@@ -20,5 +21,5 @@ public interface Api
    * 
    * @return fully configured {@link OAuthService}
    */
-  OAuthService createService(String apiKey, String apiSecret, String callback, String scope);
+  OAuthService createService(OAuthConfig config, String scope);
 }
