@@ -5,7 +5,7 @@ import org.scribe.model.Verb;
 public class EvernoteApi extends DefaultApi10a
 {
   @Override
-  protected Verb getRequestTokenVerb()
+  public Verb getRequestTokenVerb()
   {
     return Verb.GET;
   }
@@ -17,7 +17,7 @@ public class EvernoteApi extends DefaultApi10a
 	}
 
 	@Override
-	protected Verb getAccessTokenVerb()
+	public Verb getAccessTokenVerb()
 	{
 	  return Verb.GET;
 	}
