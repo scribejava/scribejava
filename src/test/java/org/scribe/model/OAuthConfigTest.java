@@ -10,17 +10,14 @@ public class OAuthConfigTest
   @Test
   public void shouldReturnDefaultValuesIfNotSet()
   {
-    OAuthConfig config = new OAuthConfig();
+    OAuthConfig config = new OAuthConfig("key", "secret");
     assertEquals(OAuthConstants.OUT_OF_BAND, config.getCallback());
   }
 
   @Test
   public void shouldOverrideDefaultsIfSet()
   {
-    OAuthConfig config = new OAuthConfig();
-    config.setCallback("http://callback");
-    config.setApiKey("key");
-    config.setApiSecret("secret");
+    OAuthConfig config = new OAuthConfig("key", "secret", "http://callback");
     assertEquals("http://callback", config.getCallback());
     assertEquals("key", config.getApiKey());
     assertEquals("secret", config.getApiSecret());

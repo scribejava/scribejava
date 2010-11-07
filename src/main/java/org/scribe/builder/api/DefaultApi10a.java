@@ -80,25 +80,15 @@ public abstract class DefaultApi10a implements Api
    * @param callback OAuth callback (either URL or 'oob')
    * @param scope OAuth scope (optional) 
    */
-  public OAuthService createService(String apiKey, String apiSecret, String callback, String scope)
+  public OAuthService createService(OAuthConfig config, String scope)
   {
-    OAuthService service = createService(apiKey, apiSecret, callback);
+    OAuthService service = createService(config);
     service.addScope(scope);
     return service;
   }
   
-  private OAuthService createService(String apiKey, String apiSecret, String callback)
+  private OAuthService createService(OAuthConfig config)
   {
-    return new OAuth10aServiceImpl(this, createConfig(apiKey, apiSecret, callback));
+    return new OAuth10aServiceImpl(this, config);
   }
-  
-  private OAuthConfig createConfig(String apiKey, String apiSecret, String callback)
-  {
-    OAuthConfig config = new OAuthConfig();
-    config.setApiKey(apiKey);
-    config.setApiSecret(apiSecret);
-    config.setCallback(callback);
-    return config;
-  }
-
 }

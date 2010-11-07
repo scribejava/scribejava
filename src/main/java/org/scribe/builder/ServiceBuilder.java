@@ -2,7 +2,6 @@ package org.scribe.builder;
 
 import org.scribe.builder.api.*;
 import org.scribe.exceptions.*;
-
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 import org.scribe.utils.*;
@@ -119,6 +118,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(apiKey, apiSecret, callback, scope);
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback), scope);
   }
 }
