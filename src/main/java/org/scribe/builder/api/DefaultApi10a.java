@@ -95,10 +95,6 @@ public abstract class DefaultApi10a implements Api
   private OAuthConfig createConfig(String apiKey, String apiSecret, String callback)
   {
     OAuthConfig config = new OAuthConfig();
-    config.setRequestTokenVerb(getRequestTokenVerb());
-    config.setRequestTokenEndpoint(getRequestTokenEndpoint());
-    config.setAccessTokenVerb(getAccessTokenVerb());
-    config.setAccessTokenEndpoint(getAccessTokenEndpoint());
     config.setApiKey(apiKey);
     config.setApiSecret(apiSecret);
     config.setCallback(callback);
