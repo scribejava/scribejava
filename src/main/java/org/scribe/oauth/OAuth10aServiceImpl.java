@@ -93,6 +93,14 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     this.scope = scope;
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  public String getAuthorizationUrl(Token requestToken)
+  {
+    return api.getAuthorizationUrl(requestToken);
+  }
   
   private String getSignature(OAuthRequest request, Token token)
   {

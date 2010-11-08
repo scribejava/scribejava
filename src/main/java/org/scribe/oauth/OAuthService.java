@@ -48,4 +48,13 @@ public interface OAuthService
    * @param scope OAuth Api scope (optional)
    */
   public void addScope(String scope);
+  
+  /**
+   * Returns the URL where you should redirect your users to authenticate
+   * your application.
+   * 
+   * @param requestToken the request token you need to authorize
+   * @return the URL where you should redirect your users
+   */
+  public String getAuthorizationUrl(Token requestToken);
 }

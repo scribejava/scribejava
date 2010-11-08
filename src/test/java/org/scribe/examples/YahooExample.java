@@ -9,20 +9,18 @@ import org.scribe.oauth.*;
 
 public class YahooExample
 {
-  private static final String NETWORK_NAME = "Yahoo";
-  private static final String AUTHORIZE_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token=";
   private static final String PROTECTED_RESOURCE_URL = "http://social.yahooapis.com/v1/user/A6ROU63MXWDCW3Y5MGCYWVHDJI/profile/status?format=json";
 
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
-                                  .provider(YahooApi.class)
-                                  .apiKey("dj0yJmk9TXZDWVpNVVdGaVFmJmQ9WVdrOWMweHZXbkZLTkhVbWNHbzlNVEl5TWprd05qUTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wMw--")
-                                  .apiSecret("262be559f92a2be20c4c039419018f2b48cdfce9")
-                                  .build();
+                                .provider(YahooApi.class)
+                                .apiKey("dj0yJmk9TXZDWVpNVVdGaVFmJmQ9WVdrOWMweHZXbkZLTkhVbWNHbzlNVEl5TWprd05qUTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wMw--")
+                                .apiSecret("262be559f92a2be20c4c039419018f2b48cdfce9")
+                                .build();
     Scanner in = new Scanner(System.in);
 
-    System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
+    System.out.println("=== Yahoo's OAuth Workflow ===");
     System.out.println();
 
     // Obtain the Request Token
@@ -32,7 +30,7 @@ public class YahooExample
     System.out.println();
 
     System.out.println("Now go and authorize Scribe here:");
-    System.out.println(AUTHORIZE_URL + requestToken.getToken());
+    System.out.println(service.getAuthorizationUrl(requestToken));
     System.out.println("And paste the verifier here");
     System.out.print(">>");
     Verifier verifier = new Verifier(in.nextLine());

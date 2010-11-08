@@ -9,18 +9,17 @@ import org.scribe.oauth.*;
 
 public class LinkedInExample
 {
-  private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authorize?oauth_token=";
   private static final String PROTECTED_RESOURCE_URL = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
   
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
-                                  .provider(LinkedInApi.class)
-                                  .apiKey("CiEgwWDkA5BFpNrc0RfGyVuSlOh4tig5kOTZ9q97qcXNrFl7zqk-Ts7DqRGaKDCV")
-                                  .apiSecret("dhho4dfoCmiQXrkw4yslork5XWLFnPSuMR-8gscPVjY4jqFFHPYWJKgpFl4uLTM6")
-                                  .build();
-    
+                                .provider(LinkedInApi.class)
+                                .apiKey("CiEgwWDkA5BFpNrc0RfGyVuSlOh4tig5kOTZ9q97qcXNrFl7zqk-Ts7DqRGaKDCV")
+                                .apiSecret("dhho4dfoCmiQXrkw4yslork5XWLFnPSuMR-8gscPVjY4jqFFHPYWJKgpFl4uLTM6")
+                                .build();
     Scanner in = new Scanner(System.in);
+    
     System.out.println("=== LinkedIn's OAuth Workflow ===");
     System.out.println();
 
@@ -31,7 +30,7 @@ public class LinkedInExample
     System.out.println();
 
     System.out.println("Now go and authorize Scribe here:");
-    System.out.println(AUTHORIZE_URL + requestToken.getToken());
+    System.out.println(service.getAuthorizationUrl(requestToken));
     System.out.println("And paste the verifier here");
     System.out.print(">>");
     Verifier verifier = new Verifier(in.nextLine());

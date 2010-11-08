@@ -9,7 +9,6 @@ import org.scribe.oauth.*;
 
 public class TwitterExample
 {
-  private static final String AUTHORIZE_URL = "https://api.twitter.com/oauth/authorize?oauth_token=";
   private static final String PROTECTED_RESOURCE_URL = "http://api.twitter.com/1/account/verify_credentials.xml";
   
   public static void main(String[] args)
@@ -31,7 +30,7 @@ public class TwitterExample
     System.out.println();
 
     System.out.println("Now go and authorize Scribe here:");
-    System.out.println(AUTHORIZE_URL + requestToken.getToken());
+    System.out.println(service.getAuthorizationUrl(requestToken));
     System.out.println("And paste the verifier here");
     System.out.print(">>");
     Verifier verifier = new Verifier(in.nextLine());

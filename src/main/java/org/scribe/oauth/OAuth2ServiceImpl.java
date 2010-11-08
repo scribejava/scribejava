@@ -37,4 +37,10 @@ public class OAuth2ServiceImpl implements OAuthService
     
   }
 
+  @Override
+  public String getAuthorizationUrl(Token requestToken)
+  {
+    return null;
+  }
+
 }
