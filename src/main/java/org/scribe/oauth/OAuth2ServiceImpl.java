@@ -1,11 +1,18 @@
 package org.scribe.oauth;
 
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Token;
-import org.scribe.model.Verifier;
+import org.scribe.builder.api.*;
+import org.scribe.model.*;
 
 public class OAuth2ServiceImpl implements OAuthService
 {
+  private final Api api;
+  private final OAuthConfig config;
+  
+  public OAuth2ServiceImpl(Api api, OAuthConfig config)
+  {
+    this.api = api;
+    this.config = config;
+  }
 
   @Override
   public void addScope(String scope)
