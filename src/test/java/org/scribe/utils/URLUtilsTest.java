@@ -8,13 +8,6 @@ import org.junit.*;
 
 public class URLUtilsTest
 {
-
-  @Before
-  public void setup()
-  {
-
-  }
-
   @Test
   public void shouldPercentEncodeMap()
   {
@@ -49,6 +42,23 @@ public class URLUtilsTest
     String toDecode = "this+is+a+test+%26%5E";
     String expected = "this is a test &^";
     assertEquals(expected, URLUtils.percentDecode(toDecode));
+  }
+
+  @Test
+  public void shouldEncodeAllSpecialCharacters()
+  {
+    String plain = "!*'();:@&=+$,/?#[]";
+    String encoded = "%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%23%5B%5D";
+    assertEquals(encoded, URLUtils.percentEncode(plain));
+    assertEquals(plain, URLUtils.percentDecode(encoded));
+  }
+
+  @Test
+  public void shouldNotEncodeReservedCharacters()
+  {
+    String plain = "abcde123456-._~";
+    String encoded = plain;
+    assertEquals(encoded, URLUtils.percentEncode(plain));
   }
 
   @Test(expected = IllegalArgumentException.class)

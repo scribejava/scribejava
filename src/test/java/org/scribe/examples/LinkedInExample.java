@@ -55,8 +55,6 @@ public class LinkedInExample
 
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-    
-    System.out.println(service.getRequestToken());
   }
 
 }

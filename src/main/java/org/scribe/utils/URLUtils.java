@@ -20,6 +20,17 @@ public class URLUtils
 
   private static final String ERROR_MSG = String.format("Cannot find specified encoding: %s", UTF_8);
 
+  private static final Set<EncodingRule> ENCODING_RULES;
+
+  static
+  {
+    Set<EncodingRule> rules = new HashSet<EncodingRule>();
+    rules.add(new EncodingRule("*","%2A"));
+    rules.add(new EncodingRule("+","%20"));
+    rules.add(new EncodingRule("%7E", "~"));
+    ENCODING_RULES = Collections.unmodifiableSet(rules);
+  }
+
   /**
    * Turns a map into a form-url-encoded string (key=value&key2=value2)
    * 
@@ -57,7 +68,12 @@ public class URLUtils
     Preconditions.checkNotNull(string, "Cannot encode null string");
     try
     {
-      return URLEncoder.encode(string, UTF_8).replaceAll("\\+", "%20");
+      String encoded = URLEncoder.encode(string, UTF_8);
+      for(EncodingRule rule : ENCODING_RULES)
+      {
+        encoded = rule.apply(encoded);
+      }
+      return encoded;
     } 
     catch (UnsupportedEncodingException uee)
     {
@@ -77,9 +93,26 @@ public class URLUtils
     try
     {
       return URLDecoder.decode(string, UTF_8);
-    } catch (UnsupportedEncodingException uee)
+    }
+    catch (UnsupportedEncodingException uee)
     {
       throw new OAuthException(ERROR_MSG, uee);
+    }
+  }
+
+  private static final class EncodingRule
+  {
+    private final String ch;
+    private final String toCh;
+
+    EncodingRule(String ch, String toCh)
+    {
+      this.ch = ch;
+      this.toCh = toCh;
+    }
+
+    String apply(String string) {
+      return string.replace(ch, toCh);
     }
   }
 }
