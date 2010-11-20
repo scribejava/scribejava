@@ -22,7 +22,7 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
    */
   public Token extract(String response)
   {
-    Preconditions.checkEmptyString(response, "Cant extract a token from null object or an empty string.");
+    Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
 
     Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
     if (matcher.matches())
@@ -32,7 +32,7 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
       return new Token(token, secret);
     } else
     {
-      throw new OAuthException("Could not find request token or secret in response: " + response, null);
+      throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
     }
   }
 }
