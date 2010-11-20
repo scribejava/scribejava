@@ -36,4 +36,27 @@ public class EvernoteApi extends DefaultApi10a
 	{
 	  return String.format(AUTHORIZATION_URL, requestToken.getToken());
 	}
+
+	public static class Sandbox extends EvernoteApi
+	{
+	  private static final String SANDBOX_URL = "https://sandbox.evernote.com/oauth";
+
+	  @Override
+	  public String getRequestTokenEndpoint()
+	  {
+	    return SANDBOX_URL;
+	  }
+
+	  @Override
+	  public String getAccessTokenEndpoint()
+	  {
+	    return SANDBOX_URL;
+	  }
+
+	  @Override
+	  public String getAuthorizationUrl(Token requestToken)
+	  {
+	    return String.format(SANDBOX_URL + "?oauth_token=%s", requestToken.getToken());
+	  }
+	}
 }
