@@ -90,8 +90,8 @@ class Request
   /**
    * Add an HTTP Header to the Request
    * 
-   * @param name
-   * @param value
+   * @param key the header name
+   * @param value the header value
    */
   public void addHeader(String key, String value)
   {
@@ -101,8 +101,8 @@ class Request
   /**
    * Add a body Parameter (for POST/ PUT Requests)
    * 
-   * @param name
-   * @param value
+   * @param key the parameter name
+   * @param value the parameter value
    */
   public void addBodyParameter(String key, String value)
   {
@@ -117,7 +117,7 @@ class Request
    * 
    * Note: The contents are not part of the OAuth signature
    * 
-   * @param payload
+   * @param payload the body of the request
    */
   public void addPayload(String payload)
   {
