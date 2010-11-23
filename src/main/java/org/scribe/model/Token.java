@@ -1,12 +1,16 @@
 package org.scribe.model;
 
+import java.io.Serializable;
+
 /**
  * Represents an OAuth token (either request or access token) and its secret
  * 
  * @author Pablo Fernandez
  */
-public class Token
+public class Token implements Serializable
 {
+  private static final long serialVersionUID = 715000866082812683L;
+	
   private final String token;
   private final String secret;
 
