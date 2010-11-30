@@ -14,6 +14,7 @@
  * REFACTOR: URLEncoding stuff. LinkedIn specific decoder is no longer needed
  * FEATURE: Added Google example
 
-[1.1.0]
+[1.0.9]
 
  * FEATURE: Token made Serializable
+ * FIX: Google Api encoding issues (thanks @roger and @klakegg)
