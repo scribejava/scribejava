@@ -19,13 +19,13 @@ public class GoogleApi extends DefaultApi10a
   }
 
   @Override
-  protected Verb getAccessTokenVerb()
+  public Verb getAccessTokenVerb()
   {
     return Verb.GET;
   }
 
   @Override
-  protected Verb getRequestTokenVerb()
+  public Verb getRequestTokenVerb()
   {
     return Verb.GET;
   }
