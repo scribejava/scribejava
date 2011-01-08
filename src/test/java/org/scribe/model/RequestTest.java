@@ -49,8 +49,8 @@ public class RequestTest
   @Test
   public void shouldSetBodyParamsAndHeaders()
   {
-    postRequest.addBodyParameter("param", "value");
-    postRequest.addBodyParameter("param two", "value with spaces");
+    postRequest.addParameter("param", "value");
+    postRequest.addParameter("param two", "value with spaces");
     postRequest.send();
     assertEquals("param%20two=value%20with%20spaces&param=value", postRequest.getBodyContents());
     assertTrue(connection.getHeaders().containsKey("Content-Length"));

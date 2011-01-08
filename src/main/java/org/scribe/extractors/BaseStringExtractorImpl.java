@@ -33,7 +33,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
   {
     Map<String, String> params = new HashMap<String, String>();
     params.putAll(request.getQueryStringParams());
-    params.putAll(request.getBodyParams());
+    params.putAll(request.getParams());
     params.putAll(request.getOauthParameters());
     params = MapUtils.sort(params);
     return URLUtils.percentEncode(URLUtils.formURLEncodeMap(params));

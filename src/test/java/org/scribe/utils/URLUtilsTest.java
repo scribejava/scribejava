@@ -81,5 +81,36 @@ public class URLUtilsTest
     String toDecode = null;
     URLUtils.percentDecode(toDecode);
   }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldThrowExceptionIfParameterMapIsNull()
+  {
+    String url = "http://www.example.com";
+    Map<String, String> nullMap = null;
+    URLUtils.appendParametersToQueryString(url, nullMap);
+  }
+  
+  @Test
+  public void shouldNotAlterUrlIfParameterMapIsEmpty()
+  {
+    String url = "http://www.example.com";
+    Map<String, String> emptyMap = new HashMap<String, String>();
+    String newUrl = URLUtils.appendParametersToQueryString(url, emptyMap);
+    Assert.assertEquals(url, newUrl);
+  }
+  
+  @Test
+  public void shouldAppendParametersToUrl()
+  {
+    String url = "http://www.example.com";
+    String expectedUrl = "http://www.example.com?param1=value1&param2=value%20with%20spaces";
+    
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("param1", "value1");
+    params.put("param2", "value with spaces");
+    
+    url = URLUtils.appendParametersToQueryString(url, params);
+    Assert.assertEquals(url, expectedUrl);
+  }
 
 }

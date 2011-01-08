@@ -17,6 +17,7 @@ public class URLUtils
   private static final String UTF_8 = "UTF-8";
   private static final char PAIR_SEPARATOR = '=';
   private static final char PARAM_SEPARATOR = '&';
+  private static final char QUERY_STRING_SEPARATOR = '?';
 
   private static final String ERROR_MSG = String.format("Cannot find specified encoding: %s", UTF_8);
 
@@ -98,6 +99,26 @@ public class URLUtils
     {
       throw new OAuthException(ERROR_MSG, uee);
     }
+  }
+  
+  /**
+   * Append given parameters to the query string of the url
+   * 
+   * @param url the url to append parameters to
+   * @param params any map
+   * @return new url with parameters on query string
+   */
+  public static String appendParametersToQueryString(String url, Map<String, String> params)
+  {
+    Preconditions.checkNotNull(url, "Cannot append to null URL");
+    String queryString = formURLEncodeMap(params);
+    StringBuffer newUrl = new StringBuffer(url);
+    if (!EMPTY_STRING.equals(queryString))
+    {
+      newUrl.append(url.indexOf(QUERY_STRING_SEPARATOR) != -1 ? PARAM_SEPARATOR : QUERY_STRING_SEPARATOR);
+      newUrl.append(queryString);
+    }
+    return newUrl.toString();
   }
 
   private static final class EncodingRule

@@ -19,7 +19,7 @@ class Request
 
   private String url;
   private Verb verb;
-  private Map<String, String> bodyParams;
+  private Map<String, String> params;
   private Map<String, String> headers;
   private String payload = null;
   private HttpURLConnection connection;
@@ -34,11 +34,16 @@ class Request
   {
     this.verb = verb;
     this.url = url;
-    this.bodyParams = new HashMap<String, String>();
+    this.params = new HashMap<String, String>();
     this.headers = new HashMap<String, String>();
+  }
+  
+  private void openConnection()
+  {
     try
     {
-      connection = (HttpURLConnection) new URL(url).openConnection();
+      if(connection == null)
+        connection = (HttpURLConnection) new URL(url).openConnection();
     } catch (IOException ioe)
     {
       throw new OAuthException("Could not open connection to: " + url, ioe);
@@ -65,6 +70,11 @@ class Request
 
   Response doSend() throws IOException
   {
+    if (verb.equals(Verb.GET))
+    {
+      url = URLUtils.appendParametersToQueryString(url, params);
+    }
+    openConnection();
     connection.setRequestMethod(this.verb.name());
     addHeaders(connection);
     if (verb.equals(Verb.PUT) || verb.equals(Verb.POST))
@@ -99,14 +109,14 @@ class Request
   }
 
   /**
-   * Add a body Parameter (for POST/ PUT Requests)
+   * Add a Parameter
    * 
    * @param key the parameter name
    * @param value the parameter value
    */
-  public void addBodyParameter(String key, String value)
+  public void addParameter(String key, String value)
   {
-    this.bodyParams.put(key, value);
+    this.params.put(key, value);
   }
 
   /**
@@ -151,13 +161,13 @@ class Request
   }
 
   /**
-   * Obtains a {@link Map} of the body parameters.
+   * Obtains a {@link Map} of the parameters.
    * 
-   * @return a map containing the body parameters.
+   * @return a map containing the parameters.
    */
-  public Map<String, String> getBodyParams()
+  public Map<String, String> getParams()
   {
-    return bodyParams;
+    return params;
   }
 
   /**
@@ -187,7 +197,7 @@ class Request
    */
   public String getBodyContents()
   {
-    return (payload != null) ? payload : URLUtils.formURLEncodeMap(bodyParams);
+    return (payload != null) ? payload : URLUtils.formURLEncodeMap(params);
   }
 
   /**
