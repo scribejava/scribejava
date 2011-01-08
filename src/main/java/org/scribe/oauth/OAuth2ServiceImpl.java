@@ -23,13 +23,13 @@ public class OAuth2ServiceImpl implements OAuthService
   @Override
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
-    return null;
+    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
 
   @Override
   public Token getRequestToken()
   {
-    throw new UnsupportedOperationException("OAuth 2 does not use request tokens. Use 'getAccessToken' directly");
+    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
 
   @Override

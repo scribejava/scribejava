@@ -24,7 +24,7 @@ public class HeaderExtractorTest
   public void shouldExtractStandardHeader()
   {
     String expected = "OAuth oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\", " + "oauth_signature=\"OAuth-Signature\", "
-        + "oauth_consumer_key=\"AS%23%24%5E*%40%26\", " + "oauth_timestamp=\"123456\"";
+        + "oauth_consumer_key=\"AS%23%24%5E%2A%40%26\", " + "oauth_timestamp=\"123456\"";
     String header = extractor.extract(request);
     assertEquals(expected, header);
   }

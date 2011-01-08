@@ -1,8 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.extensions.linkedin.*;
-import org.scribe.extractors.*;
-import org.scribe.model.Token;
+import org.scribe.model.*;
 
 public class LinkedInApi extends DefaultApi10a
 {
@@ -26,10 +24,4 @@ public class LinkedInApi extends DefaultApi10a
     return String.format(AUTHORIZE_URL, requestToken.getToken());
   }
   
-  @Override
-  public BaseStringExtractor getBaseStringExtractor()
-  {
-    return new LinkedInBaseStringExtractorImpl();
-  }
-
 }
