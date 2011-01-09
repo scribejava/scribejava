@@ -19,6 +19,7 @@ class Request
 
   private String url;
   private Verb verb;
+  private Map<String, String> querystringParams;
   private Map<String, String> bodyParams;
   private Map<String, String> headers;
   private String payload = null;
@@ -34,6 +35,7 @@ class Request
   {
     this.verb = verb;
     this.url = url;
+    this.querystringParams = new HashMap<String, String>();
     this.bodyParams = new HashMap<String, String>();
     this.headers = new HashMap<String, String>();
   }
@@ -112,6 +114,17 @@ class Request
   }
 
   /**
+   * Add a QueryString parameter
+   *
+   * @param key the parameter name
+   * @param value the parameter value
+   */
+  public void addQuerystringParam(String key, String value)
+  {
+    this.querystringParams.put(key, value);
+  }
+
+  /**
    * Add body payload.
    * 
    * This method is used when the HTTP body is not a form-url-encoded string,
@@ -145,8 +158,10 @@ class Request
           params.put(pair[0], pair[1]);
         }
       }
+      params.putAll(querystringParams);
       return params;
-    } catch (MalformedURLException mue)
+    }
+    catch (MalformedURLException mue)
     {
       throw new OAuthException("Malformed URL", mue);
     }

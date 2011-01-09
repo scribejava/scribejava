@@ -65,4 +65,13 @@ public class RequestTest
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
   }
 
+  @Test
+  public void shouldAllowAddingQuerystringParametersAfterCreation()
+  {
+    Request request = new Request(Verb.GET, "http://example.com?one=val");
+    request.addQuerystringParam("two", "other val");
+    request.addQuerystringParam("more", "params");
+    assertEquals(3, request.getQueryStringParams().size());
+  }
+
 }
