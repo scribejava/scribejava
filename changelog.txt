@@ -18,3 +18,9 @@
 
  * FEATURE: Token made Serializable
  * FIX: Google Api encoding issues (thanks @roger and @klakegg)
+
+[1.1.0]
+
+  * FEATURE: OAuth 2.0 Support and Facebook support out of the box (thanks Diego Silveira)
+  * REFACTOR: Api creation and OAuthService refactors
+  * REFACTOR: Connections are created lazily (just before sending the request)
