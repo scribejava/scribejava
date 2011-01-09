@@ -3,51 +3,71 @@ package org.scribe.oauth;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
-public class OAuth2ServiceImpl implements OAuthService
+public class OAuth20ServiceImpl implements OAuthService
 {
-  private final Api api;
+  private static final String VERSION = "2.0";
+  
+  private final DefaultApi20 api;
   private final OAuthConfig config;
   
-  public OAuth2ServiceImpl(Api api, OAuthConfig config)
+  /**
+   * Default constructor
+   * 
+   * @param api OAuth2.0 api information
+   * @param config OAuth 2.0 configuration param object
+   */
+  public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config)
   {
     this.api = api;
     this.config = config;
   }
 
-  @Override
+  /**
+   * {@inheritDoc}
+   */
   public void addScope(String scope)
   {
     throw new UnsupportedOperationException("OAuth 2 does not use scopes");
   }
 
-  @Override
+  /**
+   * {@inheritDoc}
+   */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
 
-  @Override
+  /**
+   * {@inheritDoc}
+   */
   public Token getRequestToken()
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
 
-  @Override
+  /**
+   * {@inheritDoc}
+   */
   public String getVersion()
   {
-    return "2.0";
+    return VERSION;
   }
 
-  @Override
+  /**
+   * {@inheritDoc}
+   */
   public void signRequest(Token accessToken, OAuthRequest request)
   {
-    
+    request.addParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
   }
 
-  @Override
+  /**
+   * {@inheritDoc}
+   */
   public String getAuthorizationUrl(Token requestToken)
   {
-    return null;
+    return api.getAuthorizationUrl(config);
   }
 
 }
