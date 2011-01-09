@@ -7,8 +7,8 @@ import java.util.*;
 import org.scribe.exceptions.*;
 
 /**
- * Utils to deal with URL and url-encodings 
- * 
+ * Utils to deal with URL and url-encodings
+ *
  * @author Pablo Fernandez
  */
 public class URLUtils
@@ -17,6 +17,7 @@ public class URLUtils
   private static final String UTF_8 = "UTF-8";
   private static final char PAIR_SEPARATOR = '=';
   private static final char PARAM_SEPARATOR = '&';
+  private static final char QUERY_STRING_SEPARATOR = '?';
 
   private static final String ERROR_MSG = String.format("Cannot find specified encoding: %s", UTF_8);
 
@@ -98,6 +99,25 @@ public class URLUtils
     {
       throw new OAuthException(ERROR_MSG, uee);
     }
+  }
+
+  /**
+   * Append given parameters to the query string of the url
+   *
+   * @param url the url to append parameters to
+   * @param params any map
+   * @return new url with parameters on query string
+   */
+  public static String appendParametersToQueryString(String url, Map<String, String> params)
+  {
+    Preconditions.checkNotNull(url, "Cannot append to null URL");
+    String queryString = URLUtils.formURLEncodeMap(params);
+    if (queryString.isEmpty()) return url;
+
+    // Check if there are parameters in the url already and use '&' instead of '?'
+    url += url.indexOf(QUERY_STRING_SEPARATOR) != -1 ? PARAM_SEPARATOR : QUERY_STRING_SEPARATOR;
+    url += queryString;
+    return url;
   }
 
   private static final class EncodingRule
