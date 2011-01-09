@@ -36,13 +36,6 @@ class Request
     this.url = url;
     this.bodyParams = new HashMap<String, String>();
     this.headers = new HashMap<String, String>();
-    try
-    {
-      connection = (HttpURLConnection) new URL(url).openConnection();
-    } catch (IOException ioe)
-    {
-      throw new OAuthException("Could not open connection to: " + url, ioe);
-    }
   }
 
   /**
@@ -56,10 +49,19 @@ class Request
   {
     try
     {
+      createConnection();
       return doSend();
     } catch (IOException ioe)
     {
       throw new OAuthException("Problems while creating connection", ioe);
+    }
+  }
+
+  private void createConnection() throws IOException
+  {
+    if (connection == null)
+    {
+      connection = (HttpURLConnection) new URL(url).openConnection();
     }
   }
 
