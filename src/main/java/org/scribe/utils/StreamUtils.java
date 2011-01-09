@@ -36,7 +36,7 @@ public class StreamUtils
       return out.toString();
     } catch (IOException ioe)
     {
-      throw new RuntimeException("Error while reading response body", ioe);
+      throw new IllegalStateException("Error while reading response body", ioe);
     }
   }
 }

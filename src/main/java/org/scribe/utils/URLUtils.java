@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import org.scribe.exceptions.*;
-
 /**
  * Utils to deal with URL and url-encodings
  *
@@ -78,7 +76,7 @@ public class URLUtils
     } 
     catch (UnsupportedEncodingException uee)
     {
-      throw new OAuthException(ERROR_MSG, uee);
+      throw new IllegalStateException(ERROR_MSG, uee);
     }
   }
 
@@ -97,7 +95,7 @@ public class URLUtils
     }
     catch (UnsupportedEncodingException uee)
     {
-      throw new OAuthException(ERROR_MSG, uee);
+      throw new IllegalStateException(ERROR_MSG, uee);
     }
   }
 
