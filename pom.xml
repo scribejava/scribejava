@@ -22,6 +22,12 @@
       <email>fernandezpablo85@gmail.com</email>
       <timezone>-3</timezone>
     </developer>
+    <developer>
+      <id>diegossilveira</id>
+      <name>Diego Silveira</name>
+      <email>diegossilveira@gmail.com</email>
+      <timezone>-3</timezone>
+    </developer>
   </developers>
 
   <licenses>
