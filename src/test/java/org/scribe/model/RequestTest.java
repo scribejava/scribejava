@@ -69,8 +69,8 @@ public class RequestTest
   public void shouldAllowAddingQuerystringParametersAfterCreation()
   {
     Request request = new Request(Verb.GET, "http://example.com?one=val");
-    request.addQuerystringParam("two", "other val");
-    request.addQuerystringParam("more", "params");
+    request.addQuerystringParameter("two", "other val");
+    request.addQuerystringParameter("more", "params");
     assertEquals(3, request.getQueryStringParams().size());
   }
 

@@ -61,9 +61,10 @@ class Request
 
   private void createConnection() throws IOException
   {
+    String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
     if (connection == null)
     {
-      connection = (HttpURLConnection) new URL(url).openConnection();
+      connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
     }
   }
 
@@ -119,7 +120,7 @@ class Request
    * @param key the parameter name
    * @param value the parameter value
    */
-  public void addQuerystringParam(String key, String value)
+  public void addQuerystringParameter(String key, String value)
   {
     this.querystringParams.put(key, value);
   }
