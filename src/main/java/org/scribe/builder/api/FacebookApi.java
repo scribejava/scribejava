@@ -2,6 +2,7 @@ package org.scribe.builder.api;
 
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
+import org.scribe.utils.URLUtils;
 
 public class FacebookApi extends DefaultApi20
 {
@@ -11,6 +12,6 @@ public class FacebookApi extends DefaultApi20
   {
     if(OAuthConstants.OUT_OF_BAND.equals(config.getCallback()))
     	throw new OAuthException("Facebook does not support oob authentication.");
-    return String.format(AUTHORIZE_URL, config.getApiKey(), config.getCallback());
+    return String.format(AUTHORIZE_URL, config.getApiKey(), URLUtils.percentEncode(config.getCallback()));
   }
 }
