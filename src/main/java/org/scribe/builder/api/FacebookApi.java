@@ -2,7 +2,7 @@ package org.scribe.builder.api;
 
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
-import org.scribe.utils.URLUtils;
+import org.scribe.utils.*;
 
 public class FacebookApi extends DefaultApi20
 {
