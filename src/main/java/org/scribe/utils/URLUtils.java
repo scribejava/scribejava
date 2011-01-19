@@ -110,7 +110,7 @@ public class URLUtils
   {
     Preconditions.checkNotNull(url, "Cannot append to null URL");
     String queryString = URLUtils.formURLEncodeMap(params);
-    if (queryString.isEmpty()) return url;
+    if (queryString.length() == 0) return url;
 
     // Check if there are parameters in the url already and use '&' instead of '?'
     url += url.indexOf(QUERY_STRING_SEPARATOR) != -1 ? PARAM_SEPARATOR : QUERY_STRING_SEPARATOR;
