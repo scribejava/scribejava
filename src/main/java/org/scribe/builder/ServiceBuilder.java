@@ -55,7 +55,22 @@ public class ServiceBuilder
     }
     return api;
   }
-  
+
+  /**
+   * Configures the {@link Api}
+   *
+   * Overloaded version. Let's you use an instance instead of a class.
+   *
+   * @param api instance of {@link Api}s
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder provider(Api api)
+  {
+	  Preconditions.checkNotNull(api, "Api cannot be null");
+	  this.api = api;
+	  return this;
+  }
+
   /**
    * Adds an OAuth callback url
    * 

@@ -24,3 +24,8 @@
   * FEATURE: OAuth 2.0 Support and Facebook support out of the box (thanks Diego Silveira)
   * REFACTOR: Api creation and OAuthService refactors
   * REFACTOR: Connections are created lazily (just before sending the request)
+
+[1.1.1]
+
+  * FIX: Removed isEmpty() from OAuth2.0 code in order to support older JVMs
+  * FEATURE: Overloaded provider() method to support instances as well as classes (thanks dustismo)
