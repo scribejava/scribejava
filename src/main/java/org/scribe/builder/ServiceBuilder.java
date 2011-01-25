@@ -40,7 +40,7 @@ public class ServiceBuilder
     this.api = createApi(apiClass);
     return this;
   }
-
+  
   private Api createApi(Class<? extends Api> apiClass)
   {
     Preconditions.checkNotNull(apiClass, "Api class cannot be null");
@@ -54,6 +54,21 @@ public class ServiceBuilder
       throw new OAuthException("Error while creating the Api object", e);
     }
     return api;
+  }
+  
+  /**
+   * Configures the {@link Api}
+   * 
+   * This is an alternative to the provider() method.
+   * 
+   * @param instance of {@link Api}s
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder api(Api api) 
+  {
+	  Preconditions.checkNotNull(api, "Api cannot be null");
+	  this.api = api;
+	  return this;
   }
   
   /**
@@ -115,7 +130,7 @@ public class ServiceBuilder
    */
   public OAuthService build()
   {
-    Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
+    Preconditions.checkNotNull(api, "You must specify a valid api through the provider() or api() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
     return api.createService(new OAuthConfig(apiKey, apiSecret, callback), scope);
