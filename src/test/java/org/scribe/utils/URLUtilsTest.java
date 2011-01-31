@@ -127,4 +127,21 @@ public class URLUtilsTest
     Assert.assertEquals(url, expectedUrl);
   }
 
+  @Test
+  public void shouldEncodePlusSymbol()
+  {
+    String plain = "7aEP+jNAwvjc0mjhqg0nuXPf";
+    String encoded = "7aEP%2BjNAwvjc0mjhqg0nuXPf";
+
+    Assert.assertEquals(encoded, URLUtils.percentEncode(plain));
+  }
+
+  @Test
+  public void shouldDecodePlusSymbol()
+  {
+    String encoded = "oauth_verifier=7aEP%2BjNAwvjc0mjhqg0nuXPf";
+    String expected = "oauth_verifier=7aEP+jNAwvjc0mjhqg0nuXPf";
+
+    Assert.assertEquals(expected, URLUtils.percentDecode(encoded));
+  }
 }
