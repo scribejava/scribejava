@@ -15,7 +15,7 @@ public class StreamUtilsTest
   {
     String value = "expected";
     InputStream is = new ByteArrayInputStream(value.getBytes());
-    String decoded = StreamUtils.getStreamContents(is);
+    String decoded = new String(StreamUtils.getStreamContents(is));
     assertEquals("expected", decoded);
   }
   

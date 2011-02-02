@@ -12,31 +12,44 @@ public class StreamUtils
   /**
    * Returns the stream contents as an UTF-8 encoded string
    * 
-   * @param is input stream
-   * @return string contents
+   * @param in input stream
+   * @return stream contents
    */
-  public static String getStreamContents(InputStream is)
+  public static byte[] getStreamContents(InputStream in)
   {
-    Preconditions.checkNotNull(is, "Cannot get String from a null object");
+    Preconditions.checkNotNull(in, "Cannot get String from a null object");
+    ByteArrayOutputStream out = null;
     try
     {
-      final char[] buffer = new char[0x10000];
-      StringBuilder out = new StringBuilder();
-      Reader in = new InputStreamReader(is, "UTF-8");
+      final byte[] buffer = new byte[0x10000];
+      out = new ByteArrayOutputStream();
       int read;
-      do
-      {
-        read = in.read(buffer, 0, buffer.length);
-        if (read > 0)
-        {
-          out.append(buffer, 0, read);
-        }
-      } while (read >= 0);
-      in.close();
-      return out.toString();
+      while (0 < (read = in.read(buffer, 0, buffer.length)))
+        out.write(buffer, 0, read);
+      return out.toByteArray();
     } catch (IOException ioe)
     {
       throw new IllegalStateException("Error while reading response body", ioe);
+    } finally {
+      close(in);
+      close(out);
+    }
+  }
+
+  /**
+   * Closes any {@link Closeable} while quashing any exceptions.
+   * @param closeable the {@link Closeable} to close (may be {@code null}).
+   */
+  public static void close(Closeable closeable) {
+    if (closeable != null)
+    {
+      try
+      {
+        closeable.close();
+      } catch (IOException e)
+      {
+        // ignore
+      }
     }
   }
 }

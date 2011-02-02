@@ -13,10 +13,11 @@ import org.scribe.utils.*;
  */
 public class Response
 {
-  private static final String EMPTY = "";
+  private static final byte[] EMPTY = new byte[0];
 
   private int code;
-  private String body;
+  private byte[] body;
+  private String bodyUTF8;
   private InputStream stream;
   private Map<String, String> headers;
 
@@ -35,7 +36,7 @@ public class Response
     }
   }
 
-  private String parseBodyContents()
+  private byte[] parseBodyContents()
   {
     body = StreamUtils.getStreamContents(getStream());
     return body;
@@ -62,6 +63,19 @@ public class Response
    * @return response body
    */
   public String getBody()
+  {
+    if (bodyUTF8 == null) {
+        bodyUTF8 = new String(getBodyAsByteArray());
+    }
+    return bodyUTF8;
+  }
+
+  /**
+   * Obtains the HTTP Response body
+   *
+   * @return response body
+   */
+  public byte[] getBodyAsByteArray()
   {
     return body != null ? body : parseBodyContents();
   }

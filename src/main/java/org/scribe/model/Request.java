@@ -86,7 +86,7 @@ class Request
     for (String key : headers.keySet())
       conn.setRequestProperty(key, headers.get(key));
     if (!headers.containsKey(CONTENT_TYPE)) {
-        conn.setRequestProperty(CONTENT_TYPE, "");
+        conn.setRequestProperty(CONTENT_TYPE, "application/x-www-form-urlencoded");
     }
   }
 

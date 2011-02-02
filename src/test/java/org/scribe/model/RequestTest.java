@@ -1,8 +1,15 @@
 package org.scribe.model;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+
+import java.nio.charset.Charset;
+import java.util.AbstractMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class RequestTest
 {
@@ -42,8 +49,21 @@ public class RequestTest
     getRequest.addHeader("Header", "1");
     getRequest.addHeader("Header2", "2");
     getRequest.send();
-    assertEquals(2, getRequest.getHeaders().size());
-    assertEquals(2, connection.getHeaders().size());
+    assertThat(getRequest.getHeaders(), is(map(entry("Header", "1"), entry("Header2", "2"))));
+    assertThat(connection.getHeaders(), is(map(entry("Header", "1"), entry("Header2", "2"),
+            entry("Content-Type", "application/x-www-form-urlencoded"))));
+  }
+
+  public static <K,V> Map.Entry<K,V> entry(K k,V v) {
+      return new AbstractMap.SimpleEntry<K, V>(k,v);
+  }
+
+  public static <K,V> Map<K,V> map(Map.Entry<K,V>... entries) {
+      Map<K,V> result = new LinkedHashMap<K, V>();
+      for (Map.Entry<K,V> entry: entries) {
+          result.put(entry.getKey(), entry.getValue());
+      }
+      return result;
   }
 
   @Test
@@ -52,7 +72,7 @@ public class RequestTest
     postRequest.addBodyParameter("param", "value");
     postRequest.addBodyParameter("param two", "value with spaces");
     postRequest.send();
-    assertEquals("param%20two=value%20with%20spaces&param=value", postRequest.getBodyContents());
+    assertEquals("param%20two=value%20with%20spaces&param=value", new String(postRequest.getBodyContents()));
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
   }
 
@@ -61,8 +81,19 @@ public class RequestTest
   {
     postRequest.addPayload("PAYLOAD");
     postRequest.send();
-    assertEquals("PAYLOAD", postRequest.getBodyContents());
+    assertEquals("PAYLOAD", new String(postRequest.getBodyContents()));
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
+  }
+
+  @Test
+  public void shouldSetPayloadContentTypeAndHeaders()
+  {
+    postRequest.addPayload("PAYLOAD", "text/plain", Charset.forName("UTF-8"));
+    postRequest.send();
+    assertEquals("PAYLOAD", new String(postRequest.getBodyContents()));
+    assertTrue(connection.getHeaders().containsKey("Content-Length"));
+    assertTrue(connection.getHeaders().containsKey("Content-Type"));
+    assertThat(connection.getHeaders().get("Content-Type").toLowerCase(), is("text/plain; charset=utf-8"));
   }
 
   @Test
