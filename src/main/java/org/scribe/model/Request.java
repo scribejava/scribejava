@@ -144,6 +144,7 @@ class Request
    * Get a {@link Map} of the query string parameters.
    * 
    * @return a map containing the query string parameters
+ * @throws UnsupportedEncodingException 
    */
   public Map<String, String> getQueryStringParams()
   {
@@ -156,7 +157,11 @@ class Request
         for (String param : query.split("&"))
         {
           String pair[] = param.split("=");
-          params.put(pair[0], pair[1]);
+          String valuePart = "";
+          if (pair.length > 1) {
+        	  valuePart = URLUtils.urlDecodeWrapper(pair[1]);
+          }
+          params.put(URLUtils.urlDecodeWrapper(pair[0]),valuePart ); 
         }
       }
       params.putAll(querystringParams);
@@ -165,7 +170,7 @@ class Request
     catch (MalformedURLException mue)
     {
       throw new OAuthException("Malformed URL", mue);
-    }
+    } 
   }
 
   /**

@@ -1,7 +1,5 @@
 package org.scribe.model;
 
-import org.scribe.utils.*;
-
 /**
  * Represents an OAuth verifier code.
  * 
@@ -19,7 +17,10 @@ public class Verifier
    */
   public Verifier(String value)
   {
-    this.value = URLUtils.percentDecode(value);
+	  if (value == null) {
+		  throw new IllegalArgumentException();
+	  }
+    this.value = value;
   }
 
   public String getValue()

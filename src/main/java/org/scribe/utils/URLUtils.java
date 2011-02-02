@@ -31,7 +31,7 @@ public class URLUtils
   }
 
   /**
-   * Turns a map into a form-url-encoded string (key=value&key2=value2)
+   * Turns a map into a form-url-encoded string (key=value&key2&key3=value)
    * 
    * @param map any map
    * @return form-url-encoded string
@@ -51,7 +51,10 @@ public class URLUtils
       {
         encodedString.append(PARAM_SEPARATOR);
       }
-      encodedString.append(percentEncode(key)).append(PAIR_SEPARATOR).append(percentEncode(map.get(key)));
+      encodedString.append(urlEncodeWrapper(key));
+      if (map.get(key).length() > 0) {
+    	  encodedString.append(PAIR_SEPARATOR).append(urlEncodeWrapper(map.get(key)));
+      } 
     }
     return encodedString.toString();
   }
@@ -81,12 +84,31 @@ public class URLUtils
   }
 
   /**
-   * Percent decodes a string
+   * URL encodes a string
+   * 
+   * @param plain
+   * @return percent encoded string
+   */
+  public static String urlEncodeWrapper(String string)
+  {
+    Preconditions.checkNotNull(string, "Cannot encode null string");
+    try
+    {
+      return URLEncoder.encode(string, UTF_8);
+    } 
+    catch (UnsupportedEncodingException uee)
+    {
+      throw new IllegalStateException(ERROR_MSG, uee);
+    }
+  }
+  
+  /**
+   * URL decodes a string
    * 
    * @param string percent encoded string
    * @return plain string
    */
-  public static String percentDecode(String string)
+  public static String urlDecodeWrapper(String string)
   {
     Preconditions.checkNotNull(string, "Cannot decode null string");
     try
@@ -133,4 +155,15 @@ public class URLUtils
       return string.replace(ch, toCh);
     }
   }
+
+  public static String concatSortedPercentEncodedParams(Map<String, String> params) {
+	  	StringBuilder target = new StringBuilder();
+	    for (String key:params.keySet()){
+	    	target.append(key);
+	    	target.append(PAIR_SEPARATOR);
+	    	target.append(params.get(key));
+	    	target.append(PARAM_SEPARATOR);
+	    }
+	    return target.deleteCharAt(target.length() - 1).toString();
+}
 }

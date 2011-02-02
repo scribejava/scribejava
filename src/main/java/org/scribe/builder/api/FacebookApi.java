@@ -11,6 +11,6 @@ public class FacebookApi extends DefaultApi20
   public String getAuthorizationUrl(OAuthConfig config)
   {
     Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Facebook does not support OOB");
-    return String.format(AUTHORIZE_URL, config.getApiKey(), URLUtils.percentEncode(config.getCallback()));
+    return String.format(AUTHORIZE_URL, config.getApiKey(), URLUtils.urlEncodeWrapper(config.getCallback()));
   }
 }

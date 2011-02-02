@@ -16,7 +16,7 @@ public class URLUtilsTest
     params.put("key with spaces", "value with spaces");
     params.put("&symbols!", "#!");
 
-    String expected = "key=value&key%20with%20spaces=value%20with%20spaces&%26symbols%21=%23%21";
+    String expected = "key=value&key+with+spaces=value+with+spaces&%26symbols%21=%23%21";
     assertEquals(expected, URLUtils.formURLEncodeMap(params));
   }
 
@@ -41,7 +41,7 @@ public class URLUtilsTest
   {
     String toDecode = "this+is+a+test+%26%5E";
     String expected = "this is a test &^";
-    assertEquals(expected, URLUtils.percentDecode(toDecode));
+    assertEquals(expected, URLUtils.urlDecodeWrapper(toDecode));
   }
 
   @Test
@@ -50,7 +50,7 @@ public class URLUtilsTest
     String plain = "!*'();:@&=+$,/?#[]";
     String encoded = "%21%2A%27%28%29%3B%3A%40%26%3D%2B%24%2C%2F%3F%23%5B%5D";
     assertEquals(encoded, URLUtils.percentEncode(plain));
-    assertEquals(plain, URLUtils.percentDecode(encoded));
+    assertEquals(plain, URLUtils.urlDecodeWrapper(encoded));
   }
 
   @Test
@@ -79,7 +79,7 @@ public class URLUtilsTest
   public void shouldThrowExceptionIfStringToDecodeIsNull()
   {
     String toDecode = null;
-    URLUtils.percentDecode(toDecode);
+    URLUtils.urlDecodeWrapper(toDecode);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -103,7 +103,7 @@ public class URLUtilsTest
   public void shouldAppendParametersToSimpleUrl()
   {
     String url = "http://www.example.com";
-    String expectedUrl = "http://www.example.com?param1=value1&param2=value%20with%20spaces";
+    String expectedUrl = "http://www.example.com?param1=value1&param2=value+with+spaces";
 
     Map<String, String> params = new HashMap<String, String>();
     params.put("param1", "value1");
@@ -117,7 +117,7 @@ public class URLUtilsTest
   public void shouldAppendParametersToUrlWithQuerystring()
   {
     String url = "http://www.example.com?already=present";
-    String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=value%20with%20spaces";
+    String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=value+with+spaces";
 
     Map<String, String> params = new HashMap<String, String>();
     params.put("param1", "value1");
@@ -142,6 +142,6 @@ public class URLUtilsTest
     String encoded = "oauth_verifier=7aEP%2BjNAwvjc0mjhqg0nuXPf";
     String expected = "oauth_verifier=7aEP+jNAwvjc0mjhqg0nuXPf";
 
-    Assert.assertEquals(expected, URLUtils.percentDecode(encoded));
+    Assert.assertEquals(expected, URLUtils.urlDecodeWrapper(encoded));
   }
 }

@@ -17,7 +17,7 @@ public class RequestTest
     connection = new ConnectionStub();
     postRequest = new Request(Verb.POST, "http://example.com");
     postRequest.setConnection(connection);
-    getRequest = new Request(Verb.GET, "http://example.com?qsparam=value&other=value+with+spaces");
+    getRequest = new Request(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces");
     getRequest.setConnection(connection);
   }
 
@@ -34,6 +34,8 @@ public class RequestTest
     assertEquals(2, getRequest.getQueryStringParams().size());
     assertEquals(0, postRequest.getQueryStringParams().size());
     assertTrue(getRequest.getQueryStringParams().containsKey("qsparam"));
+    assertTrue(getRequest.getQueryStringParams().get("qsparam").equals("value"));
+    assertTrue(getRequest.getQueryStringParams().get("other param").equals("value with spaces"));
   }
 
   @Test
@@ -52,7 +54,7 @@ public class RequestTest
     postRequest.addBodyParameter("param", "value");
     postRequest.addBodyParameter("param two", "value with spaces");
     postRequest.send();
-    assertEquals("param%20two=value%20with%20spaces&param=value", postRequest.getBodyContents());
+    assertEquals("param+two=value+with+spaces&param=value", postRequest.getBodyContents());
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
   }
 

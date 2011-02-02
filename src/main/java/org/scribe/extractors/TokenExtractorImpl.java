@@ -27,8 +27,8 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
     Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
     if (matcher.matches())
     {
-      String token = URLUtils.percentDecode(matcher.group(1));
-      String secret = URLUtils.percentDecode(matcher.group(2));
+      String token = URLUtils.urlDecodeWrapper(matcher.group(1));
+      String secret = URLUtils.urlDecodeWrapper(matcher.group(2));
       return new Token(token, secret);
     } else
     {
