@@ -2,6 +2,7 @@ package org.scribe.model;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -16,13 +17,14 @@ import org.scribe.utils.*;
 class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
+    private static final String CONTENT_TYPE = "Content-Type";
 
-  private String url;
+    private String url;
   private Verb verb;
   private Map<String, String> querystringParams;
   private Map<String, String> bodyParams;
   private Map<String, String> headers;
-  private String payload = null;
+  private byte[] payload = null;
   private HttpURLConnection connection;
 
   /**
@@ -83,13 +85,16 @@ class Request
   {
     for (String key : headers.keySet())
       conn.setRequestProperty(key, headers.get(key));
+    if (!headers.containsKey(CONTENT_TYPE)) {
+        conn.setRequestProperty(CONTENT_TYPE, "");
+    }
   }
 
-  void addBody(HttpURLConnection conn, String content) throws IOException
+  void addBody(HttpURLConnection conn, byte[] content) throws IOException
   {
-    conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.getBytes().length));
+    conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
     conn.setDoOutput(true);
-    conn.getOutputStream().write(content.getBytes());
+    conn.getOutputStream().write(content);
   }
 
   /**
@@ -137,7 +142,76 @@ class Request
    */
   public void addPayload(String payload)
   {
+    this.payload = payload.getBytes();
+  }
+
+  /**
+   * Add body payload.
+   *
+   * This method is used when the HTTP body is not a form-url-encoded string,
+   * but another thing. Like for example XML.
+   *
+   * Note: The contents are not part of the OAuth signature
+   *
+   * @param payload the body of the request
+   */
+  public void addPayload(byte[] payload)
+  {
     this.payload = payload;
+  }
+
+  /**
+   * Add body payload and set the content type header.
+   *
+   * This method is used when the HTTP body is not a form-url-encoded string,
+   * but another thing, like for example {@code text/xml}.
+   *
+   * @param payload The payload.
+   * @param contentType The content type of the payload (if the content type starts with {@code text/} and does not
+   *                    include the charset, it will be added automatically.
+   * @param charset The charset to encode the payload as.
+   */
+  public void addPayload(String payload, String contentType, Charset charset) {
+    payload.getClass(); // throw NPE if null
+    contentType.getClass(); // throw NPE if null
+    charset.getClass(); // throw NPE if null
+    contentType = contentType.trim();
+    if (contentType.startsWith("text/")) {
+      if (!contentType.contains("charset=")) {
+        contentType = contentType + "; charset=" + charset.name();
+      }
+    }
+    addPayload(payload.getBytes(charset),contentType);
+  }
+
+  /**
+   * Add body payload and set the content type header.
+   *
+   * This method is used when the HTTP body is not a form-url-encoded string,
+   * but another thing, like for example {@code text/xml}.
+   *
+   * @param payload The payload (which will be encoded using the system default charset).
+   * @param contentType The content type of the payload (if the content type starts with {@code text/} and does not
+   *                    include the charset, it will be added automatically.
+   */
+  public void addPayload(String payload, String contentType) {
+    addPayload(payload, contentType, Charset.defaultCharset());
+  }
+
+  /**
+   * Add body payload and set the content type header.
+   *
+   * This method is used when the HTTP body is not a form-url-encoded string,
+   * but another thing, like for example {@code text/xml}.
+   *
+   * @param payload The payload
+   * @param contentType The content type of the payload.
+   */
+  public void addPayload(byte[] payload, String contentType) {
+    payload.getClass(); // throw NPE if null
+    contentType.getClass(); // throw NPE if null
+    addHeader(CONTENT_TYPE, contentType);
+    addPayload(payload);
   }
 
   /**
@@ -203,9 +277,9 @@ class Request
    * 
    * @return form encoded string
    */
-  public String getBodyContents()
+  public byte[] getBodyContents()
   {
-    return (payload != null) ? payload : URLUtils.formURLEncodeMap(bodyParams);
+    return (payload != null) ? payload : URLUtils.formURLEncodeMap(bodyParams).getBytes();
   }
 
   /**
