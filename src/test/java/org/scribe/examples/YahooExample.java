@@ -1,5 +1,6 @@
 package org.scribe.examples;
 
+import java.net.MalformedURLException;
 import java.util.Scanner;
 
 import org.scribe.builder.*;
@@ -11,7 +12,7 @@ public class YahooExample
 {
   private static final String PROTECTED_RESOURCE_URL = "http://social.yahooapis.com/v1/user/A6ROU63MXWDCW3Y5MGCYWVHDJI/profile/status?format=json";
 
-  public static void main(String[] args)
+  public static void main(String[] args) throws MalformedURLException
   {
     OAuthService service = new ServiceBuilder()
                                 .provider(YahooApi.class)

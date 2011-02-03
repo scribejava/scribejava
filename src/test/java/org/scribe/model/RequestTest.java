@@ -2,6 +2,8 @@ package org.scribe.model;
 
 import static org.junit.Assert.*;
 
+import java.net.MalformedURLException;
+
 import org.junit.*;
 
 public class RequestTest
@@ -68,7 +70,7 @@ public class RequestTest
   }
 
   @Test
-  public void shouldAllowAddingQuerystringParametersAfterCreation()
+  public void shouldAllowAddingQuerystringParametersAfterCreation() throws MalformedURLException
   {
     Request request = new Request(Verb.GET, "http://example.com?one=val");
     request.addQuerystringParameter("two", "other val");
@@ -76,4 +78,37 @@ public class RequestTest
     assertEquals(3, request.getQueryStringParams().size());
   }
 
+  @Test
+  public void sanatizeUrlTest() throws MalformedURLException
+  {
+    Request request = new Request(Verb.GET, "http://example.com?one=val");
+    assertEquals("http://example.com", request.getSanitizedUrl());
+    
+    request = new Request(Verb.GET, "http://EXAMPLE.com:80/?one=val");
+    assertEquals("http://example.com/", request.getSanitizedUrl());
+    
+    request = new Request(Verb.GET, "http://EXAMPLE.com:8080?one=val");
+    assertEquals("http://example.com:8080", request.getSanitizedUrl());
+    
+    request = new Request(Verb.GET, "http://EXAMPLE.com:8080?one=val");
+    assertEquals("http://example.com:8080", request.getSanitizedUrl());
+    
+    request = new Request(Verb.GET, "http://EXAMPLE.com:80/test/?one=val");
+    assertEquals("http://example.com/test/", request.getSanitizedUrl());
+    
+    request = new Request(Verb.GET, "http://EXAMPLE.com:8080/test/?one=val#Hello");
+    assertEquals("http://example.com:8080/test/", request.getSanitizedUrl());
+    
+    request = new Request(Verb.GET, "HTTP://EXAMPLE.com:8080/test/?one=val#Hello");
+    assertEquals("http://example.com:8080/test/", request.getSanitizedUrl());
+    
+    //From RFC5849 example p.20
+    request = new Request(Verb.GET, "http://example.com:80/r%20v/X?id=123");
+    assertEquals("http://example.com/r%20v/X", request.getSanitizedUrl());
+    
+    //From RFC5849 example p.20
+    request = new Request(Verb.GET, "https://www.example.com:8080/?q=1");
+    assertEquals("https://www.example.com:8080/", request.getSanitizedUrl());
+  }
+  
 }

@@ -2,6 +2,8 @@ package org.scribe.model;
 
 import static org.junit.Assert.*;
 
+import java.net.MalformedURLException;
+
 import org.junit.*;
 
 public class OAuthRequestTest
@@ -10,7 +12,7 @@ public class OAuthRequestTest
   private OAuthRequest request;
 
   @Before
-  public void setup()
+  public void setup() throws MalformedURLException
   {
     request = new OAuthRequest(Verb.GET, "http://example.com");
   }

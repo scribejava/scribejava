@@ -1,5 +1,6 @@
 package org.scribe.examples;
 
+import java.net.MalformedURLException;
 import java.util.*;
 
 import org.scribe.builder.*;
@@ -14,7 +15,7 @@ public class GoogleExample
   private static final String PROTECTED_RESOURCE_URL = "https://docs.google.com/feeds/default/private/full/";
   private static final String SCOPE = "https://docs.google.com/feeds/"; 
 
-  public static void main(String[] args)
+  public static void main(String[] args) throws MalformedURLException
   {
     OAuthService service = new ServiceBuilder()
                                   .provider(GoogleApi.class)

@@ -1,6 +1,9 @@
 package org.scribe.oauth;
 
+import java.net.MalformedURLException;
+
 import org.scribe.builder.api.*;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.*;
 
 /**
@@ -35,7 +38,12 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getRequestToken()
   {
-    OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
+    OAuthRequest request = null;;
+	try {
+		request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
+	} catch (MalformedURLException e) {
+		throw new OAuthException("Problems while creating connection", e);
+	}
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
     addOAuthHeader(request);
     Response response = request.send();
@@ -59,7 +67,12 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
-    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    OAuthRequest request = null;
+	try {
+		request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+	} catch (MalformedURLException e) {
+		throw new OAuthException("Problems while creating connection", e);
+	}
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
     addOAuthParams(request, requestToken);

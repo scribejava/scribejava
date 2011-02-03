@@ -2,6 +2,8 @@ package org.scribe.extractors;
 
 import static org.junit.Assert.*;
 
+import java.net.MalformedURLException;
+
 import org.junit.*;
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
@@ -12,12 +14,16 @@ public class BaseStringExtractorTest
 
   private BaseStringExtractorImpl extractor;
   private OAuthRequest request;
+  private OAuthRequest request2;
 
   @Before
-  public void setup()
+  public void setup() throws MalformedURLException
   {
     request = ObjectMother.createSampleOAuthRequest();
+    request2 = ObjectMother.createSampleOAuthRequest2();
     extractor = new BaseStringExtractorImpl();
+    
+   
   }
 
   @Test
@@ -25,6 +31,14 @@ public class BaseStringExtractorTest
   {
     String expected = "GET&http%3A%2F%2Fexample.com&oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback%26oauth_consumer_key%3DAS%2523%2524%255E%252A%2540%2526%26oauth_signature%3DOAuth-Signature%26oauth_timestamp%3D123456";
     String baseString = extractor.extract(request);
+    assertEquals(expected, baseString);
+  }
+  
+  @Test
+  public void shouldExtractBaseStringFromOAuthRequest2()
+  {
+    String expected = "GET&http%3A%2F%2Fexample.com&oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback%26oauth_consumer_key%3DAS%2523%2524%255E%252A%2540%2526%26oauth_signature%3DOAuth-Signature%26oauth_timestamp%3D123456";
+    String baseString = extractor.extract(request2);
     assertEquals(expected, baseString);
   }
 
@@ -36,7 +50,7 @@ public class BaseStringExtractorTest
   }
 
   @Test(expected = OAuthParametersMissingException.class)
-  public void shouldThrowExceptionIfRquestHasNoOAuthParameters()
+  public void shouldThrowExceptionIfRquestHasNoOAuthParameters() throws MalformedURLException
   {
     OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com");
     extractor.extract(request);

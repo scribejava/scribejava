@@ -1,5 +1,6 @@
 package org.scribe.examples;
 
+import java.net.MalformedURLException;
 import java.util.*;
 
 import org.scribe.builder.*;
@@ -14,7 +15,7 @@ public class FacebookExample
   private static final String NO_SECRET_NEEDED = "";
   private static final Token EMPTY_TOKEN = null;
 
-  public static void main(String[] args)
+  public static void main(String[] args) throws MalformedURLException
   {
     // Replace these with your own api key and secret
     String apiKey = "your_api_key";

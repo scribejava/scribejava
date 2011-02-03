@@ -1,5 +1,6 @@
 package org.scribe.model;
 
+import java.net.MalformedURLException;
 import java.util.*;
 
 /**
@@ -19,8 +20,9 @@ public class OAuthRequest extends Request
    * 
    * @param verb Http verb/method
    * @param url resource URL
+ * @throws MalformedURLException 
    */
-  public OAuthRequest(Verb verb, String url)
+  public OAuthRequest(Verb verb, String url) throws MalformedURLException
   {
     super(verb, url);
     this.oauthParameters = new HashMap<String, String>();

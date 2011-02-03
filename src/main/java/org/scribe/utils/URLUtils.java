@@ -16,6 +16,10 @@ public class URLUtils
   private static final char PAIR_SEPARATOR = '=';
   private static final char PARAM_SEPARATOR = '&';
   private static final char QUERY_STRING_SEPARATOR = '?';
+  private static final String HTTP_PROTOCOL = "http";
+  private static final int HTTP_DEFAULT_PORT = 80;
+  private static final String HTTPS_PROTOCOL = "https";
+  private static final int HTTPS_DEFAULT_PORT = 443;
 
   private static final String ERROR_MSG = String.format("Cannot find specified encoding: %s", UTF_8);
 
@@ -166,4 +170,29 @@ public class URLUtils
 	    }
 	    return target.deleteCharAt(target.length() - 1).toString();
 }
+  
+  public static String convertUrlToBaseStringURI(URL url){
+	    URI uri = null;
+		try {
+			uri = url.toURI();
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		String scheme = uri.getScheme().toLowerCase();
+		String host = uri.getHost().toLowerCase();
+		int port = uri.getPort();
+		if (
+				(scheme.equals(HTTP_PROTOCOL) && port == HTTP_DEFAULT_PORT)
+			||  (scheme.equals(HTTPS_PROTOCOL) && port == HTTPS_DEFAULT_PORT)
+			){
+			port = -1;
+		}
+		URI baseUri = null;
+		try {
+			baseUri = new URI(scheme,null, host, port, uri.getPath(), null, null);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return baseUri.toString();
+  }
 }

@@ -2,6 +2,8 @@ package org.scribe.extractors;
 
 import static org.junit.Assert.*;
 
+import java.net.MalformedURLException;
+
 import org.junit.*;
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
@@ -14,7 +16,7 @@ public class HeaderExtractorTest
   private OAuthRequest request;
 
   @Before
-  public void setup()
+  public void setup() throws MalformedURLException
   {
     request = ObjectMother.createSampleOAuthRequest();
     extractor = new HeaderExtractorImpl();
@@ -37,7 +39,7 @@ public class HeaderExtractorTest
   }
 
   @Test(expected = OAuthParametersMissingException.class)
-  public void shouldExceptionIfRequestHasNoOAuthParams()
+  public void shouldExceptionIfRequestHasNoOAuthParams() throws MalformedURLException
   {
     OAuthRequest emptyRequest = new OAuthRequest(Verb.GET, "http://example.com");
     extractor.extract(emptyRequest);

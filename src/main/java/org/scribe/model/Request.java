@@ -17,7 +17,7 @@ class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
 
-  private String url;
+  private URL url;
   private Verb verb;
   private Map<String, String> querystringParams;
   private Map<String, String> bodyParams;
@@ -30,11 +30,12 @@ class Request
    * 
    * @param verb Http Verb (GET, POST, etc)
    * @param url url with optional querystring parameters.
+ * @throws MalformedURLException 
    */
-  public Request(Verb verb, String url)
+  public Request(Verb verb, String url) throws MalformedURLException
   {
     this.verb = verb;
-    this.url = url;
+    this.url = new URL(url);
     this.querystringParams = new HashMap<String, String>();
     this.bodyParams = new HashMap<String, String>();
     this.headers = new HashMap<String, String>();
@@ -61,7 +62,7 @@ class Request
 
   private void createConnection() throws IOException
   {
-    String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
+    String effectiveUrl = URLUtils.appendParametersToQueryString(url.toString(), querystringParams);
     if (connection == null)
     {
       connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
@@ -144,14 +145,11 @@ class Request
    * Get a {@link Map} of the query string parameters.
    * 
    * @return a map containing the query string parameters
- * @throws UnsupportedEncodingException 
    */
   public Map<String, String> getQueryStringParams()
   {
-    try
-    {
       Map<String, String> params = new HashMap<String, String>();
-      String query = new URL(url).getQuery();
+      String query = url.getQuery();
       if (query != null)
       {
         for (String param : query.split("&"))
@@ -165,12 +163,7 @@ class Request
         }
       }
       params.putAll(querystringParams);
-      return params;
-    }
-    catch (MalformedURLException mue)
-    {
-      throw new OAuthException("Malformed URL", mue);
-    } 
+      return params; 
   }
 
   /**
@@ -190,7 +183,7 @@ class Request
    */
   public String getUrl()
   {
-    return url;
+    return url.toString();
   }
 
   /**
@@ -200,7 +193,7 @@ class Request
    */
   public String getSanitizedUrl()
   {
-    return url.replaceAll("\\?.*", "").replace("\\:\\d{4}", "");
+	return URLUtils.convertUrlToBaseStringURI(url);
   }
 
   /**

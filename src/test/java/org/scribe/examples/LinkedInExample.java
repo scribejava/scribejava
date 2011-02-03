@@ -1,5 +1,6 @@
 package org.scribe.examples;
 
+import java.net.MalformedURLException;
 import java.util.Scanner;
 
 import org.scribe.builder.*;
@@ -11,7 +12,7 @@ public class LinkedInExample
 {
   private static final String PROTECTED_RESOURCE_URL = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
   
-  public static void main(String[] args)
+  public static void main(String[] args) throws MalformedURLException
   {
     OAuthService service = new ServiceBuilder()
                                 .provider(LinkedInApi.class)
