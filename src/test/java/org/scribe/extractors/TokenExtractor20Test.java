@@ -1,11 +1,10 @@
 package org.scribe.extractors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.scribe.exceptions.OAuthException;
-import org.scribe.model.Token;
+import org.junit.*;
+import org.scribe.exceptions.*;
+import org.scribe.model.*;
 
 public class TokenExtractor20Test
 {

@@ -1,12 +1,7 @@
 package org.scribe.oauth;
 
-import org.scribe.builder.api.DefaultApi20;
-import org.scribe.model.OAuthConfig;
-import org.scribe.model.OAuthConstants;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
-import org.scribe.model.Verifier;
+import org.scribe.builder.api.*;
+import org.scribe.model.*;
 
 public class OAuth20ServiceImpl implements OAuthService
 {

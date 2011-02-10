@@ -1,11 +1,8 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.AccessTokenExtractor;
-import org.scribe.extractors.TokenExtractor20Impl;
-import org.scribe.model.OAuthConfig;
-import org.scribe.model.Verb;
-import org.scribe.oauth.OAuth20ServiceImpl;
-import org.scribe.oauth.OAuthService;
+import org.scribe.extractors.*;
+import org.scribe.model.*;
+import org.scribe.oauth.*;
 
 /**
  * Default implementation of the OAuth protocol, version 2.0 (draft 11)
