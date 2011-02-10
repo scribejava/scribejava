@@ -11,19 +11,19 @@ public class FacebookExample
 {
   private static final String NETWORK_NAME = "Facebook";
   private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
-  private static final String NO_SECRET_NEEDED = "";
   private static final Token EMPTY_TOKEN = null;
 
   public static void main(String[] args)
   {
     // Replace these with your own api key and secret
-    String apiKey = "your_api_key";
-    String apiSecret = "your_api_secret";
+    String apiKey = "151212568269315";//"your_api_key";
+    String apiSecret = "783080a95ff0e1e7266c8022b2e95fa2";//"your_api_secret";
     OAuthService service = new ServiceBuilder()
                                   .provider(FacebookApi.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
-                                  .callback("http://www.example.com/oauth_callback/")
+                                  //.callback("http://www.example.com/oauth_callback/")
+                                  .callback("https://github.com/diegossilveira/")
                                   .build();
     Scanner in = new Scanner(System.in);
 
@@ -36,9 +36,16 @@ public class FacebookExample
     System.out.println("Got the Authorization URL!");
     System.out.println("Now go and authorize Scribe here:");
     System.out.println(authorizationUrl);
-    System.out.println("And paste the access token here");
+    System.out.println("And paste the authorization code here");
     System.out.print(">>");
-    Token accessToken = new Token(in.nextLine(), NO_SECRET_NEEDED);
+    Verifier verifier = new Verifier(in.nextLine());
+    System.out.println();
+    
+    // Trade the Request Token and Verfier for the Access Token
+    System.out.println("Trading the Request Token for an Access Token...");
+    Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+    System.out.println("Got the Access Token!");
+    System.out.println("(if your curious it looks like this: " + accessToken + " )");
     System.out.println();
 
     // Now let's go and ask for a protected resource!
