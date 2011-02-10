@@ -1,7 +1,11 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.*;
-import org.scribe.oauth.*;
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.TokenExtractor20Impl;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.Verb;
+import org.scribe.oauth.OAuth20ServiceImpl;
+import org.scribe.oauth.OAuthService;
 
 /**
  * Default implementation of the OAuth protocol, version 2.0 (draft 11)
@@ -22,6 +26,33 @@ import org.scribe.oauth.*;
 public abstract class DefaultApi20 implements Api
 {
 
+  /**
+   * Returns the access token extractor.
+   * 
+   * @return access token extractor
+   */
+  public AccessTokenExtractor getAccessTokenExtractor()
+  {
+    return new TokenExtractor20Impl();
+  }
+	
+  /**
+   * Returns the verb for the access token endpoint (defaults to GET)
+   * 
+   * @return access token endpoint verb
+   */
+  public Verb getAccessTokenVerb()
+  {
+    return Verb.GET;
+  }
+	
+  /**
+   * Returns the URL that receives the access token requests.
+   * 
+   * @return access token URL
+   */
+  public abstract String getAccessTokenEndpoint();
+	
   /**
    * Returns the URL where you should redirect your users to authenticate
    * your application.
