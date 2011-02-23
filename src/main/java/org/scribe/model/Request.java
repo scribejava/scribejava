@@ -144,22 +144,16 @@ class Request
    * Get a {@link Map} of the query string parameters.
    * 
    * @return a map containing the query string parameters
+   * @throws OAuthException if the URL is not valid
    */
   public Map<String, String> getQueryStringParams()
   {
     try
     {
       Map<String, String> params = new HashMap<String, String>();
-      String query = new URL(url).getQuery();
-      if (query != null)
-      {
-        for (String param : query.split("&"))
-        {
-          String pair[] = param.split("=");
-          params.put(pair[0], pair[1]);
-        }
-      }
-      params.putAll(querystringParams);
+      String queryString = new URL(url).getQuery();
+      params.putAll(URLUtils.queryStringToMap(queryString));
+      params.putAll(this.querystringParams);
       return params;
     }
     catch (MalformedURLException mue)
