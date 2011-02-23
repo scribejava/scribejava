@@ -19,7 +19,8 @@ public class Verifier
    */
   public Verifier(String value)
   {
-    this.value = URLUtils.percentDecode(value);
+    Preconditions.checkNotNull(value, "Must provide a valid string as verifier");
+    this.value = value;
   }
 
   public String getValue()
