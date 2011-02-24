@@ -32,11 +32,11 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
   private String getSortedAndEncodedParams(OAuthRequest request)
   {
     Map<String, String> params = new HashMap<String, String>();
-    params.putAll(request.getQueryStringParams());
-    params.putAll(request.getBodyParams());
-    params.putAll(request.getOauthParameters());
+    MapUtils.decodeAndAppendEntries(request.getQueryStringParams(), params);
+    MapUtils.decodeAndAppendEntries(request.getBodyParams(), params);
+    MapUtils.decodeAndAppendEntries(request.getOauthParameters(), params);
     params = MapUtils.sort(params);
-    return URLUtils.percentEncode(URLUtils.formURLEncodeMap(params));
+    return URLUtils.percentEncode(URLUtils.concatSortedPercentEncodedParams(params));
   }
 
   private void checkPreconditions(OAuthRequest request)
