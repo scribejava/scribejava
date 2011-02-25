@@ -103,6 +103,16 @@ public abstract class DefaultApi10a implements Api
     return Verb.POST;
   }
   
+   /**
+    * Returns the transmission type for oauth parameters (defaults to HEADER)
+    *
+    * @return parameter transmission type
+    */
+  public TransmissionType getTransmissionType()
+  {
+    return TransmissionType.HEADER;
+  }
+  
   /**
    * Returns the URL that receives the request token requests.
    * 
