@@ -1,5 +1,6 @@
 package org.scribe.oauth;
 
+import java.util.Map;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
@@ -120,5 +121,12 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     String oauthHeader = api.getHeaderExtractor().extract(request);
     request.addHeader(OAuthConstants.HEADER, oauthHeader);
+  }
+  
+  private void addOAuthQuerystring(OAuthRequest request) {
+    Map<String, String> parameters = request.getOauthParameters();
+    for (String key : parameters.keySet()) {
+      request.addQuerystringParameter(key, parameters.get(key));
+    }
   }
 }
