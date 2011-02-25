@@ -37,7 +37,11 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
-    addOAuthHeader(request);
+    switch (api.getTransmissionType())
+    {
+      case URI: addOAuthQuerystring(request); break;
+      case HEADER: addOAuthHeader(request); break;
+    }
     Response response = request.send();
     return api.getRequestTokenExtractor().extract(response.getBody());
   }
@@ -63,7 +67,11 @@ public class OAuth10aServiceImpl implements OAuthService
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
     addOAuthParams(request, requestToken);
-    addOAuthHeader(request);
+    switch (api.getTransmissionType())
+    {
+      case URI: addOAuthQuerystring(request); break;
+      case HEADER: addOAuthHeader(request); break;
+    }
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
