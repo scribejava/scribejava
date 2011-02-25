@@ -9,6 +9,8 @@ public class OAuth20ServiceImpl implements OAuthService
   
   private final DefaultApi20 api;
   private final OAuthConfig config;
+  private String proxyUrl;
+  private Integer proxyPort;
   
   /**
    * Default constructor
@@ -28,6 +30,15 @@ public class OAuth20ServiceImpl implements OAuthService
   public void addScope(String scope)
   {
     throw new UnsupportedOperationException("OAuth 2 does not use scopes");
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setProxy(String url, Integer port)
+  {
+    this.proxyUrl = url;
+    this.proxyPort = port;
   }
 
   /**

@@ -48,6 +48,14 @@ public interface OAuthService
    * @param scope OAuth Api scope (optional)
    */
   public void addScope(String scope);
+
+  /**
+   * Configures the proxy URL and port number to use when sending requests.
+   *
+   * @param url The proxy URL address
+   * @param port The proxy port number
+   */
+  public void setProxy(String url, Integer port);
   
   /**
    * Returns the URL where you should redirect your users to authenticate

@@ -27,6 +27,20 @@ public class OAuthRequest extends Request
   }
 
   /**
+   * Constructor with the necessary proxy parameters.
+   *
+   * @param verb Http verb/method
+   * @param url resource URL
+   * @param proxyUrl The proxy URL address
+   * @param proxyPort The proxy port number
+   */
+  public OAuthRequest(Verb verb, String url, String proxyUrl, Integer proxyPort)
+  {
+    super(verb, url, proxyUrl, proxyPort);
+    this.oauthParameters = new HashMap<String, String>();
+  }
+
+  /**
    * Adds an OAuth parameter.
    * 
    * @param key name of the parameter
