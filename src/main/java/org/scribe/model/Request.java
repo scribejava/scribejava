@@ -19,6 +19,8 @@ class Request
 
   private String url;
   private Verb verb;
+  private String proxyUrl;
+  private Integer proxyPort;
   private Map<String, String> querystringParams;
   private Map<String, String> bodyParams;
   private Map<String, String> headers;
@@ -41,6 +43,25 @@ class Request
   }
 
   /**
+   * Creates a new Http Request with a proxy configured
+   *
+   * @param verb Http Verb (GET, POST, etc)
+   * @param url url with optional querystring parameters.
+   * @param proxyUrl The proxy URL address
+   * @param proxyPort The proxy port number
+   */
+  public Request(Verb verb, String url, String proxyUrl, Integer proxyPort)
+  {
+    this.verb = verb;
+    this.url = url;
+    this.proxyUrl = proxyUrl;
+    this.proxyPort = proxyPort;
+    this.querystringParams = new HashMap<String, String>();
+    this.bodyParams = new HashMap<String, String>();
+    this.headers = new HashMap<String, String>();
+  }
+
+  /**
    * Execute the request and return a {@link Response}
    * 
    * @return Http Response
@@ -56,15 +77,26 @@ class Request
     } catch (IOException ioe)
     {
       throw new OAuthException("Problems while creating connection", ioe);
+    } catch (IllegalArgumentException iae)
+    {
+      throw new OAuthException("Problems while creating connection", iae);
     }
   }
 
-  private void createConnection() throws IOException
+  private void createConnection() throws IOException, IllegalArgumentException
   {
     String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
     if (connection == null)
     {
-      connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
+      if (hasProxy())
+      {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyUrl, proxyPort));
+        connection = (HttpURLConnection) new URL(effectiveUrl).openConnection(proxy);
+      }
+      else
+      {
+        connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
+      }
     }
   }
 
@@ -258,6 +290,14 @@ class Request
   void setConnection(HttpURLConnection connection)
   {
     this.connection = connection;
+  }
+
+  /*
+   * Verifies if the connection has a proxy configured
+   */
+  private boolean hasProxy()
+  {
+    return (this.proxyUrl != null && this.proxyPort != null);
   }
 
   @Override

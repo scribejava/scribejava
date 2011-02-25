@@ -54,9 +54,11 @@ public class ServiceBuilderTest
   {
     public static OAuthConfig config;
     public static String scope;
+    public static String proxyUrl;
+    public static Integer proxyPort;
     
     @Override
-    public OAuthService createService(OAuthConfig config, String scope)
+    public OAuthService createService(OAuthConfig config, String scope, String proxyUrl, Integer proxyPort)
     {
       ApiMock.config = config;
       ApiMock.scope = scope;

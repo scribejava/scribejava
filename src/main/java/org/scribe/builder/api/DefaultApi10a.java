@@ -144,10 +144,11 @@ public abstract class DefaultApi10a implements Api
    * @param callback OAuth callback (either URL or 'oob')
    * @param scope OAuth scope (optional) 
    */
-  public OAuthService createService(OAuthConfig config, String scope)
+  public OAuthService createService(OAuthConfig config, String scope, String proxyUrl, Integer proxyPort)
   {
     OAuthService service = doCreateService(config);
     service.addScope(scope);
+    service.setProxy(proxyUrl, proxyPort);
     return service;
   }
   

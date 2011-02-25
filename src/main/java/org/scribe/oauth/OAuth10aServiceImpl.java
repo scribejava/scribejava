@@ -17,6 +17,8 @@ public class OAuth10aServiceImpl implements OAuthService
   private OAuthConfig config;
   private DefaultApi10a api;
   private String scope;
+  private String proxyUrl;
+  private Integer proxyPort;
 
   /**
    * Default constructor
@@ -36,7 +38,7 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getRequestToken()
   {
-    OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
+    OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), proxyUrl, proxyPort);
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
     switch (api.getTransmissionType())
     {
@@ -64,7 +66,7 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
-    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), proxyUrl, proxyPort);
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
     addOAuthParams(request, requestToken);
@@ -101,6 +103,15 @@ public class OAuth10aServiceImpl implements OAuthService
   public void addScope(String scope)
   {
     this.scope = scope;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setProxy(String url, Integer port)
+  {
+    this.proxyUrl = url;
+    this.proxyPort = port;
   }
 
   /**

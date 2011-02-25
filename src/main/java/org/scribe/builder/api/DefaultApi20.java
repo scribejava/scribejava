@@ -34,7 +34,7 @@ public abstract class DefaultApi20 implements Api
   /**
    * {@inheritDoc}
    */
-  public OAuthService createService(OAuthConfig config, String scope)
+  public OAuthService createService(OAuthConfig config, String scope, String proxyUrl, Integer proxyPort)
   {
     return new OAuth20ServiceImpl(this, config);
   }

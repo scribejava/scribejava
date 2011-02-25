@@ -20,6 +20,8 @@ public class ServiceBuilder
   private String callback;
   private Api api;
   private String scope;
+  private String proxyUrl;
+  private Integer proxyPort;
   
   /**
    * Default constructor
@@ -122,6 +124,21 @@ public class ServiceBuilder
     this.scope = scope;
     return this;
   }
+
+  /**
+   * Configures the proxy to use when sending requests (opcional).
+   *
+   * @param proxyUrl The proxy URL address
+   * @param proxyPort The proxy port number
+   * @return
+   */
+  public ServiceBuilder proxy(String proxyUrl, Integer proxyPort) {
+        Preconditions.checkValidUrl(proxyUrl, "Invalid proxy url");
+        Preconditions.checkNotNull(proxyPort, "Invalid proxy port");
+        this.proxyUrl = proxyUrl;
+        this.proxyPort = proxyPort;
+        return this;
+    }
   
   /**
    * Returns the fully configured {@link OAuthService}
@@ -133,6 +150,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback), scope);
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback), scope, proxyUrl, proxyPort);
   }
 }
