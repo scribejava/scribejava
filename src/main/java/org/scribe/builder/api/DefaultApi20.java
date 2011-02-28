@@ -1,7 +1,9 @@
 package org.scribe.builder.api;
 
+import org.scribe.extractors.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
+
 
 /**
  * Default implementation of the OAuth protocol, version 2.0 (draft 11)
@@ -19,24 +21,54 @@ import org.scribe.oauth.*;
  * @author Diego Silveira
  *
  */
-public abstract class DefaultApi20 implements Api
-{
+public abstract class DefaultApi20 implements Api {
 
-  /**
-   * Returns the URL where you should redirect your users to authenticate
-   * your application.
-   *
-   * @param config OAuth 2.0 configuration param object
-   * @return the URL where you should redirect your users
-   */
-  public abstract String getAuthorizationUrl(OAuthConfig config);
+    /**
+     * Returns the access token extractor.
+     *
+     * @return access token extractor
+     */
+    public AccessTokenExtractor getAccessTokenExtractor() {
+        return new TokenExtractor20Impl();
+    }
 
-  /**
-   * {@inheritDoc}
-   */
-  public OAuthService createService(OAuthConfig config, String scope, String proxyUrl, Integer proxyPort)
-  {
-    return new OAuth20ServiceImpl(this, config);
-  }
+    /**
+     * Returns the verb for the access token endpoint (defaults to GET)
+     *
+     * @return access token endpoint verb
+     */
+    public Verb getAccessTokenVerb() {
+        return Verb.GET;
+    }
 
+    /**
+     * Returns the URL that receives the access token requests.
+     *
+     * @return access token URL
+     */
+    public abstract String getAccessTokenEndpoint();
+
+    /** Returns the URL where you should redirect your users to authenticate
+     * your application.
+     *
+     * @param config OAuth 2.0 configuration param object
+     * @return the URL where you should redirect your users
+     */
+    public abstract String getAuthorizationUrl(OAuthConfig config);
+
+    /**
+     * {@inheritDoc}
+     */
+    public OAuthService createService(OAuthConfig config,
+                                      String scope,
+                                      String proxyUrl,
+                                      Integer proxyPort) {
+        OAuthService service = doCreateService(config);
+        service.setProxy(proxyUrl, proxyPort);
+        return new OAuth20ServiceImpl(this, config);
+    }
+
+    private OAuthService doCreateService(OAuthConfig config) {
+        return new OAuth20ServiceImpl(this, config);
+    }
 }
