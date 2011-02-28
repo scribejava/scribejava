@@ -72,7 +72,7 @@ public class Preconditions
     return URL_PATTERN.matcher(url).matches();
   }
   
-  private static void check(boolean requirements, String error)
+  public static void check(boolean requirements, String error)
   {
     String message = (error == null || error.trim().length() <= 0) ? DEFAULT_MESSAGE : error;
     if (!requirements)

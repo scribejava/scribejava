@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.util.Map;
+
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
@@ -35,6 +37,11 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
+    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
+  }
+
+  public Token getAccessToken(Token requestToken, Verifier verifier,
+          Map<String, String> responseParams) {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
 

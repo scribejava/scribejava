@@ -1,6 +1,10 @@
 package org.scribe.oauth;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.scribe.builder.api.*;
+import org.scribe.extractors.QueryStringParamExtractor;
 import org.scribe.model.*;
 
 /**
@@ -59,13 +63,22 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
+    return getAccessToken(requestToken, verifier, new HashMap<String, String>());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Token getAccessToken(Token requestToken, Verifier verifier, Map<String, String> responseParams)
+  {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
     addOAuthParams(request, requestToken);
     addOAuthHeader(request);
-    Response response = request.send();
-    return api.getAccessTokenExtractor().extract(response.getBody());
+    String body = request.send().getBody();
+    responseParams.putAll(QueryStringParamExtractor.extract(body));
+    return api.getAccessTokenExtractor().extract(body);
   }
 
   /**

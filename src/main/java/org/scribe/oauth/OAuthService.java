@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.util.Map;
+
 import org.scribe.model.*;
 
 /**
@@ -26,6 +28,17 @@ public interface OAuthService
    * @return access token
    */
   public Token getAccessToken(Token requestToken, Verifier verifier);
+  
+  /**
+   * Retrieve the access token and parameters included in the response
+   * 
+   * @param requestToken request token (obtained previously)
+   * @param verifier verifier code
+   * @param responseParams any parameters included in the response are inserted
+   *        into this map
+   * @return access token
+   */
+  public Token getAccessToken(Token requestToken, Verifier verifier, Map<String, String> responseParams);
 
   /**
    * Signs am OAuth request
