@@ -30,3 +30,4 @@
   * FIX: Removed isEmpty() from OAuth2.0 code in order to support older JVMs
   * FEATURE: Overloaded provider() method to support instances as well as classes (thanks dustismo)
   * FIX: White-space parameter bug (thanks Krogoth)
+  * FEATURE: OAuth 2.0 now implements server-flow (thanks Diego Silveira)
