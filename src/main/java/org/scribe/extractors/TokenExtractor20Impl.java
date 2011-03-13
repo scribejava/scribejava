@@ -25,9 +25,10 @@ public class TokenExtractor20Impl implements AccessTokenExtractor
     Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
     if (matcher.matches())
     {
-      String token = URLUtils.percentDecode(matcher.group(1));
+      String token = URLUtils.formURLDecode(matcher.group(1));
       return new Token(token, EMPTY_SECRET);
-    } else
+    } 
+    else
     {
       throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
     }
