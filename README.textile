@@ -20,9 +20,11 @@ h3. Threadsafe
 
 Hit Scribe as hard and with many threads as you like.
 
-h3. Supports all major OAuth APIs out-of-the-box
+h3. Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
 * Google
+
+* Facebook
 
 * Yahoo
 
