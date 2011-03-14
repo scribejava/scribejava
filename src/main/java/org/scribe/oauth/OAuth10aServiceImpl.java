@@ -36,8 +36,8 @@ public class OAuth10aServiceImpl implements OAuthService
   public Token getRequestToken()
   {
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
-    addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
     request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
+    addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
     addOAuthHeader(request);
     Response response = request.send();
     return api.getRequestTokenExtractor().extract(response.getBody());
