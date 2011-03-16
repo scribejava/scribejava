@@ -64,6 +64,7 @@ class Request
     String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
     if (connection == null)
     {
+      System.setProperty("http.keepAlive", "false");
       connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
     }
   }
