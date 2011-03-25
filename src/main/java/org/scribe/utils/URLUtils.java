@@ -13,8 +13,8 @@ public class URLUtils
 {
   private static final String EMPTY_STRING = "";
   private static final String UTF_8 = "UTF-8";
-  private static final char PAIR_SEPARATOR = '=';
-  private static final char PARAM_SEPARATOR = '&';
+  private static final String PAIR_SEPARATOR = "=";
+  private static final String PARAM_SEPARATOR = "&";
   private static final char QUERY_STRING_SEPARATOR = '?';
 
   private static final String ERROR_MSG = String.format("Cannot find specified encoding: %s", UTF_8);
@@ -31,7 +31,7 @@ public class URLUtils
   }
 
   /**
-   * Turns a map into a form-url-encoded string (key=value&key2=value2)
+   * Turns a map into a form-urlencoded string
    * 
    * @param map any map
    * @return form-url-encoded string
@@ -47,32 +47,43 @@ public class URLUtils
     StringBuffer encodedString = new StringBuffer(map.size() * 20);
     for (String key : map.keySet())
     {
-      if(encodedString.length() > 0) 
+      encodedString.append(PARAM_SEPARATOR).append(formURLEncode(key));
+      if(map.get(key) != null)
       {
-        encodedString.append(PARAM_SEPARATOR);
+        encodedString.append(PAIR_SEPARATOR).append(formURLEncode(map.get(key)));
       }
-      encodedString.append(percentEncode(key)).append(PAIR_SEPARATOR).append(percentEncode(map.get(key)));
     }
-    return encodedString.toString();
+    return encodedString.toString().substring(1);
   }
 
   /**
    * Percent encodes a string
    * 
-   * @param plain
+   * @param string plain string
    * @return percent encoded string
    */
   public static String percentEncode(String string)
   {
+    String encoded = formURLEncode(string);
+    for (EncodingRule rule : ENCODING_RULES)
+    {
+      encoded = rule.apply(encoded);
+    }
+    return encoded;
+  }
+
+  /**
+   * Translates a string into application/x-www-form-urlencoded format
+   *
+   * @param plain
+   * @return form-urlencoded string
+   */
+  public static String formURLEncode(String string)
+  {
     Preconditions.checkNotNull(string, "Cannot encode null string");
     try
     {
-      String encoded = URLEncoder.encode(string, UTF_8);
-      for(EncodingRule rule : ENCODING_RULES)
-      {
-        encoded = rule.apply(encoded);
-      }
-      return encoded;
+      return URLEncoder.encode(string, UTF_8);
     } 
     catch (UnsupportedEncodingException uee)
     {
@@ -81,12 +92,12 @@ public class URLUtils
   }
 
   /**
-   * Percent decodes a string
+   * Decodes a application/x-www-form-urlencoded string
    * 
-   * @param string percent encoded string
+   * @param string form-urlencoded string
    * @return plain string
    */
-  public static String percentDecode(String string)
+  public static String formURLDecode(String string)
   {
     Preconditions.checkNotNull(string, "Cannot decode null string");
     try
@@ -110,12 +121,57 @@ public class URLUtils
   {
     Preconditions.checkNotNull(url, "Cannot append to null URL");
     String queryString = URLUtils.formURLEncodeMap(params);
-    if (queryString.length() == 0) return url;
+    if (queryString.equals(EMPTY_STRING))
+    {
+      return url;
+    }
+    else
+    {
+      url += url.indexOf(QUERY_STRING_SEPARATOR) != -1 ? PARAM_SEPARATOR : QUERY_STRING_SEPARATOR;
+      url += queryString;
+      return url;
+    }
+  }
 
-    // Check if there are parameters in the url already and use '&' instead of '?'
-    url += url.indexOf(QUERY_STRING_SEPARATOR) != -1 ? PARAM_SEPARATOR : QUERY_STRING_SEPARATOR;
-    url += queryString;
-    return url;
+  /**
+   * Concats a key-value map into a querystring-like String
+   *
+   * @param params key-value map
+   * @return querystring-like String
+   */
+  // TODO Move to MapUtils
+  public static String concatSortedPercentEncodedParams(Map<String, String> params)
+  {
+    StringBuilder result = new StringBuilder();
+    for (String key : params.keySet())
+    {
+      result.append(key).append(PAIR_SEPARATOR);
+      result.append(params.get(key)).append(PARAM_SEPARATOR);
+    }
+    return result.toString().substring(0, result.length() - 1);
+  }
+
+  /**
+   * Parses and form-urldecodes a querystring-like string into a map
+   *
+   * @param queryString querystring-like String
+   * @return a map with the form-urldecoded parameters
+   */
+  // TODO Move to MapUtils
+  public static Map<String, String> queryStringToMap(String queryString)
+  {
+    Map<String, String> result = new HashMap<String, String>();
+    if (queryString != null && queryString.length() > 0)
+    {
+      for (String param : queryString.split(PARAM_SEPARATOR))
+      {
+        String pair[] = param.split(PAIR_SEPARATOR);
+        String key = formURLDecode(pair[0]);
+        String value = pair.length > 1 ? formURLDecode(pair[1]) : EMPTY_STRING;
+        result.put(key, value);
+      }
+    }
+    return result;
   }
 
   private static final class EncodingRule

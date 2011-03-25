@@ -7,15 +7,13 @@ import org.scribe.model.*;
 import org.scribe.utils.*;
 
 /**
- * Default implementation of {@RequestTokenExtractor} and {@AccessTokenExtractor}. Conforms to OAuth 1.0a
+ * Default implementation of {@AccessTokenExtractor}. Conforms to OAuth 2.0
  *
- * The process for extracting access and request tokens is similar so this class can do both things.
- * 
- * @author Pablo Fernandez
  */
-public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExtractor
+public class TokenExtractor20Impl implements AccessTokenExtractor
 {
-  private static final String TOKEN_REGEX = "oauth_token=(\\S*)&oauth_token_secret=(\\S*?)(&(.*))?";
+  private static final String TOKEN_REGEX = "access_token=(\\S*?)(&(\\S*))?";
+  private static final String EMPTY_SECRET = "";
 
   /**
    * {@inheritDoc} 
@@ -28,9 +26,8 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
     if (matcher.matches())
     {
       String token = URLUtils.formURLDecode(matcher.group(1));
-      String secret = URLUtils.formURLDecode(matcher.group(2));
-      return new Token(token, secret);
-    }
+      return new Token(token, EMPTY_SECRET);
+    } 
     else
     {
       throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);

@@ -20,9 +20,11 @@ h3. Threadsafe
 
 Hit Scribe as hard and with many threads as you like.
 
-h3. Supports all major OAuth APIs out-of-the-box
+h3. Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
 * Google
+
+* Facebook
 
 * Yahoo
 
@@ -61,7 +63,7 @@ You can pull scribe from a maven repository, just add this to your __pom.xml__ f
 @<dependency>@
   @<groupId>org.scribe</groupId>@
   @<artifactId>scribe</artifactId>@
-  @<version>1.0.6</version>@
+  @<version>1.1.0</version>@
 @</dependency>@
 
 h1. Getting started in less than 2 minutes

@@ -33,4 +33,19 @@ public class MapUtils
     Collections.sort(keys);
     return keys;
   }
+
+  /**
+   * Form-urlDecodes and appends all keys from the source {@link Map} to the
+   * target {@link Map}
+   *
+   * @param source Map from where the keys get copied and decoded
+   * @param target Map where the decoded keys are copied to
+   */
+  public static void decodeAndAppendEntries(Map<String, String> source, Map<String, String> target)
+  {
+    for (String key: source.keySet())
+    {
+      target.put(URLUtils.percentEncode(key), URLUtils.percentEncode(source.get(key)));
+    }
+  }
 }

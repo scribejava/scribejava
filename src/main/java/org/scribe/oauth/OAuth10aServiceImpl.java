@@ -37,6 +37,7 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
+    request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
     addOAuthHeader(request);
     Response response = request.send();
     return api.getRequestTokenExtractor().extract(response.getBody());
@@ -49,7 +50,6 @@ public class OAuth10aServiceImpl implements OAuthService
     request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, config.getApiKey());
     request.addOAuthParameter(OAuthConstants.SIGN_METHOD, api.getSignatureService().getSignatureMethod());
     request.addOAuthParameter(OAuthConstants.VERSION, getVersion());
-    request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
     if(scope != NO_SCOPE) request.addOAuthParameter(OAuthConstants.SCOPE, scope);
     request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, token));
   }
