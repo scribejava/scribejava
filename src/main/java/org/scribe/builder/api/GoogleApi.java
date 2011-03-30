@@ -35,4 +35,10 @@ public class GoogleApi extends DefaultApi10a
   {
     return String.format(AUTHORIZATION_URL, requestToken.getToken());
   }
+
+  @Override
+  public String getAuthorizationUrl(Token requestToken, String consumerKey) 
+  {
+    return String.format(AUTHORIZATION_URL, requestToken.getToken());
+  }
 }

@@ -127,6 +127,16 @@ public abstract class DefaultApi10a implements Api
   public abstract String getAuthorizationUrl(Token requestToken);
   
   /**
+   * Returns the URL where you should redirect your users to authenticate
+   * your application.
+   * 
+   * @param requestToken the request token you need to authorize
+   * @param consumerKey the key provided to the developer by netflix
+   * @return the URL where you should redirect your users
+   */
+  public abstract String getAuthorizationUrl(Token requestToken, String consumerKey);
+  
+  /**
    * Returns the {@link OAuthService} for this Api
    * 
    * @param apiKey Key

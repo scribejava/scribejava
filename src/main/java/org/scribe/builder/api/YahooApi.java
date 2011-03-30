@@ -23,4 +23,11 @@ public class YahooApi extends DefaultApi10a
   {
     return String.format(AUTHORIZE_URL, requestToken.getToken());
   }
+
+  @Override
+  public String getAuthorizationUrl(Token requestToken, String consumerKey) 
+  {
+     return String.format(AUTHORIZE_URL, requestToken.getToken());
+  }
+  
 }
