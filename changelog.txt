@@ -35,3 +35,7 @@
 [1.1.2]
 
   * FIX: Fixed ugly bug that made 1.1.1 practically unusable (thanks Stubbs)
+
+[1.1.3]
+
+  * FEATURE: Added rawResponse to Token, for extracting additional parameters (thanks Dirk McCormick)

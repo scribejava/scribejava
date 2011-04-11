@@ -29,7 +29,7 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
     {
       String token = URLUtils.formURLDecode(matcher.group(1));
       String secret = URLUtils.formURLDecode(matcher.group(2));
-      return new Token(token, secret);
+      return new Token(token, secret, response);
     }
     else
     {
