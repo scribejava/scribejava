@@ -41,3 +41,4 @@
   * FEATURE: Added rawResponse to Token, for extracting additional parameters (thanks Dirk McCormick)
   * FEATURE: Added Dropbox Api
   * FIX: Token responses now work despite of the token/secret order
+  * FEATURE: Added Foursquare OAuth 2.0 Api (thanks Tom Tasche)
