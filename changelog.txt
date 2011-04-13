@@ -39,3 +39,5 @@
 [1.1.3]
 
   * FEATURE: Added rawResponse to Token, for extracting additional parameters (thanks Dirk McCormick)
+  * FEATURE: Added Dropbox Api
+  * FIX: Token responses now work despite of the token/secret order
