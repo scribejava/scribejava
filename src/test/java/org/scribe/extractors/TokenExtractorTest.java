@@ -27,6 +27,15 @@ public class TokenExtractorTest
   }
 
   @Test
+  public void shouldExtractTokenFromInvertedOAuthStandardResponse()
+  {
+    String response = "oauth_token_secret=hh5s93j4hdidpola&oauth_token=hdhd0244k9j7ao03";
+    Token extracted = extractor.extract(response);
+    assertEquals("hh5s93j4hdidpola", extracted.getSecret());
+    assertEquals("hdhd0244k9j7ao03", extracted.getToken());
+  }
+
+  @Test
   public void shouldExtractTokenFromResponseWithCallbackConfirmed()
   {
     String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03&callback_confirmed=true";
