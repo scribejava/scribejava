@@ -15,7 +15,8 @@ import org.scribe.utils.*;
  */
 public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExtractor
 {
-  private static final String TOKEN_REGEX = "oauth_token=(\\S*)&oauth_token_secret=(\\S*?)(&(.*))?";
+  private static final Pattern TOKEN_REGEX = Pattern.compile("oauth_token=([^&]+)");
+  private static final Pattern SECRET_REGEX = Pattern.compile("oauth_token_secret=([^&]+)");
 
   /**
    * {@inheritDoc} 
@@ -23,17 +24,21 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
   public Token extract(String response)
   {
     Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
+    String token = extract(response, TOKEN_REGEX);
+    String secret = extract(response, SECRET_REGEX);
+    return new Token(token, secret, response);
+  }
 
-    Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
-    if (matcher.matches())
+  private String extract(String response, Pattern p)
+  {
+    Matcher matcher = p.matcher(response);
+    if (matcher.find() && matcher.groupCount() >= 1)
     {
-      String token = URLUtils.formURLDecode(matcher.group(1));
-      String secret = URLUtils.formURLDecode(matcher.group(2));
-      return new Token(token, secret);
+      return URLUtils.formURLDecode(matcher.group(1));
     }
     else
     {
-      throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
+      throw new OAuthException("Response body is incorrect. Can't extract token and secret from this: '" + response + "'", null);
     }
   }
 }
