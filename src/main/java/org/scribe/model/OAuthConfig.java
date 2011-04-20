@@ -10,6 +10,7 @@ public class OAuthConfig
   private String apiKey;
   private String apiSecret;
   private String callback;
+  private SignatureType signatureType;
   
   public OAuthConfig(String key, String secret)
   {
@@ -51,5 +52,15 @@ public class OAuthConfig
   public void setCallback(String callback)
   {
     this.callback = callback;
+  }
+
+  public SignatureType getSignatureType()
+  {
+    return signatureType != null ? signatureType : SignatureType.Header;
+  }
+
+  public void setSignatureType(SignatureType type)
+  {
+    this.signatureType = type;
   }
 }

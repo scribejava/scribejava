@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.util.*;
+
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
@@ -110,7 +112,18 @@ public class OAuth10aServiceImpl implements OAuthService
 
   private void addSignature(OAuthRequest request)
   {
-    String oauthHeader = api.getHeaderExtractor().extract(request);
-    request.addHeader(OAuthConstants.HEADER, oauthHeader);
+    switch (config.getSignatureType())
+    {
+      case Header:
+        String oauthHeader = api.getHeaderExtractor().extract(request);
+        request.addHeader(OAuthConstants.HEADER, oauthHeader);
+        break;
+      case QueryString:
+        for (Map.Entry<String, String> entry : request.getOauthParameters().entrySet())
+        {
+          request.addQuerystringParameter(entry.getKey(), entry.getValue());
+        }
+        break;
+    }
   }
 }
