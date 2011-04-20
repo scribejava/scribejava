@@ -42,3 +42,4 @@
   * FEATURE: Added Dropbox Api
   * FIX: Token responses now work despite of the token/secret order
   * FEATURE: Added Foursquare OAuth 2.0 Api (thanks Tom Tasche)
+  * FEATURE: Added support for OAuth1.0a signatures via querystring parameters

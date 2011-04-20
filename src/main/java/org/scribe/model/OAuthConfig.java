@@ -16,12 +16,19 @@ public class OAuthConfig
   {
     this(key,secret,null);
   }
-  
+
+  //Kept for backwards compatibility
   public OAuthConfig(String key, String secret, String callback)
+  {
+    this(key,secret,callback,null);
+  }
+
+  public OAuthConfig(String key, String secret, String callback, SignatureType type)
   {
     this.apiKey = key;
     this.apiSecret = secret;
     this.callback = callback;
+    this.signatureType = type;
   }
 
   public String getApiKey()
