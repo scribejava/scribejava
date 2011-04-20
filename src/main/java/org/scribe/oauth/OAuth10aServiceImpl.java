@@ -38,7 +38,7 @@ public class OAuth10aServiceImpl implements OAuthService
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
     request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
-    addOAuthHeader(request);
+    addSignature(request);
     Response response = request.send();
     return api.getRequestTokenExtractor().extract(response.getBody());
   }
@@ -63,7 +63,7 @@ public class OAuth10aServiceImpl implements OAuthService
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
     addOAuthParams(request, requestToken);
-    addOAuthHeader(request);
+    addSignature(request);
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
@@ -75,7 +75,7 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
     addOAuthParams(request, token);
-    addOAuthHeader(request);
+    addSignature(request);
   }
 
   /**
@@ -108,7 +108,7 @@ public class OAuth10aServiceImpl implements OAuthService
     return api.getSignatureService().getSignature(baseString, config.getApiSecret(), token.getSecret());
   }
 
-  private void addOAuthHeader(OAuthRequest request)
+  private void addSignature(OAuthRequest request)
   {
     String oauthHeader = api.getHeaderExtractor().extract(request);
     request.addHeader(OAuthConstants.HEADER, oauthHeader);
