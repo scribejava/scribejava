@@ -1,7 +1,7 @@
 package org.scribe.builder.api;
 
 import org.scribe.extractors.AccessTokenExtractor;
-import org.scribe.extractors.VkontakteTokenExtractor;
+import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.utils.Preconditions;
 import org.scribe.utils.URLUtils;
@@ -31,6 +31,6 @@ public class VkontakteApi extends DefaultApi20 {
 
   @Override
   public AccessTokenExtractor getAccessTokenExtractor() {
-    return new VkontakteTokenExtractor();
+    return new JsonTokenExtractor();
   }
 }
