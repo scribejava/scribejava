@@ -53,3 +53,4 @@
 
 [1.2.1]
   * FEATURE: Added custom charset support to Request (thanks Eric Genet)
+  * FEATURE: Added support for Vkontakte (thanks dotbg)
