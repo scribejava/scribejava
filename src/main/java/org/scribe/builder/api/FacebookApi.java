@@ -6,6 +6,7 @@ import org.scribe.utils.*;
 public class FacebookApi extends DefaultApi20
 {
   private static final String AUTHORIZE_URL = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s";
+  private static final String AUTHORIZE_URL_WITH_SCOPE = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s&scope=%s";
 
   @Override
   public String getAccessTokenEndpoint()
@@ -17,6 +18,8 @@ public class FacebookApi extends DefaultApi20
   public String getAuthorizationUrl(OAuthConfig config)
   {
     Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Facebook does not support OOB");
+    if(config.getScope() != null)
+       return String.format(AUTHORIZE_URL_WITH_SCOPE, config.getApiKey(), URLUtils.formURLEncode(config.getCallback()),config.getScope());
     return String.format(AUTHORIZE_URL, config.getApiKey(), URLUtils.formURLEncode(config.getCallback()));
   }
 }
