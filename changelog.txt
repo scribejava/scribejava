@@ -47,3 +47,4 @@
 
 [1.2]
   * REFACTOR: Moved scope inside OAuthConfig (breaks backwards compatibility)
+  * FEATURE: Added scopes to Facebook 2.0 Api
