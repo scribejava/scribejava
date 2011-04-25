@@ -17,18 +17,19 @@ import java.util.Scanner;
  */
 public class VkontakteExample {
   private static final String NETWORK_NAME = "Vkontakte.ru";
-  private static final String PROTECTED_RESOURCE_URL = "https://api.vkontakte.ru/method/getUserSettings";
+  private static final String PROTECTED_RESOURCE_URL = "https://api.vkontakte.ru/method/friends.get";
   private static final Token EMPTY_TOKEN = null;
 
   public static void main(String[] args)
   {
     // Replace these with your own api key and secret
-    String clientId = "your app id";
-    String apiSecret = "your api secret";
+    final String clientId = "your app id";
+    final String apiSecret = "your api secret";
     OAuthService service = new ServiceBuilder()
                                   .provider(VkontakteApi.class)
                                   .apiKey(clientId)
                                   .apiSecret(apiSecret)
+                                  .scope("friends,wall,offline") // replace with desired scope
                                   .callback("http://your.site.com/callback")
                                   .build();
     Scanner in = new Scanner(System.in);
