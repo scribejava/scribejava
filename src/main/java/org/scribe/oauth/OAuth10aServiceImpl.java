@@ -12,12 +12,10 @@ import org.scribe.model.*;
  */
 public class OAuth10aServiceImpl implements OAuthService
 {
-  private static final String NO_SCOPE = null;
   private static final String VERSION = "1.0";
 
   private OAuthConfig config;
   private DefaultApi10a api;
-  private String scope;
 
   /**
    * Default constructor
@@ -29,7 +27,6 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     this.api = api;
     this.config = config;
-    this.scope = NO_SCOPE;
   }
 
   /**
@@ -52,7 +49,7 @@ public class OAuth10aServiceImpl implements OAuthService
     request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, config.getApiKey());
     request.addOAuthParameter(OAuthConstants.SIGN_METHOD, api.getSignatureService().getSignatureMethod());
     request.addOAuthParameter(OAuthConstants.VERSION, getVersion());
-    if(scope != NO_SCOPE) request.addOAuthParameter(OAuthConstants.SCOPE, scope);
+    if(config.hasScope()) request.addOAuthParameter(OAuthConstants.SCOPE, config.getScope());
     request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, token));
   }
 
@@ -86,14 +83,6 @@ public class OAuth10aServiceImpl implements OAuthService
   public String getVersion()
   {
     return VERSION;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void addScope(String scope)
-  {
-    this.scope = scope;
   }
 
   /**

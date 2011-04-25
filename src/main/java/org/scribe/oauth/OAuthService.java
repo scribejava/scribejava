@@ -41,13 +41,6 @@ public interface OAuthService
    * @return oauth version as string
    */
   public String getVersion();
-
-  /**
-   * Adds the 'scope' parameter. This is **not** a default OAuth parameter and the setting is optional.
-   * 
-   * @param scope OAuth Api scope (optional)
-   */
-  public void addScope(String scope);
   
   /**
    * Returns the URL where you should redirect your users to authenticate

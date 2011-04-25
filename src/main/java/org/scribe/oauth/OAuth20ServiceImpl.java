@@ -25,14 +25,6 @@ public class OAuth20ServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public void addScope(String scope)
-  {
-    throw new UnsupportedOperationException("OAuth 2 does not use scopes");
-  }
-
-  /**
-   * {@inheritDoc}
-   */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
