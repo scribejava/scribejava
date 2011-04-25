@@ -44,3 +44,7 @@
   * FEATURE: Added Foursquare OAuth 2.0 Api (thanks Tom Tasche)
   * FEATURE: Added support for OAuth1.0a signatures via querystring parameters
   * FEATURE: Added ConstantContact Api (thanks Matthew Laudato)
+
+[1.2]
+  * REFACTOR: Moved scope inside OAuthConfig (breaks backwards compatibility)
+  * FEATURE: Added scopes to Facebook 2.0 Api

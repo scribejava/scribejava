@@ -57,19 +57,17 @@ public class ServiceBuilderTest
     builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").scope("rss-api").build();
     assertEquals(ApiMock.config.getApiKey(), "key");
     assertEquals(ApiMock.config.getApiSecret(), "secret");
-    assertEquals(ApiMock.scope, "rss-api");
+    assertEquals(ApiMock.config.getScope(), "rss-api");
   }
 
   public static class ApiMock implements Api
   {
     public static OAuthConfig config;
-    public static String scope;
     
     @Override
-    public OAuthService createService(OAuthConfig config, String scope)
+    public OAuthService createService(OAuthConfig config)
     {
       ApiMock.config = config;
-      ApiMock.scope = scope;
       return null;
     }
   }
