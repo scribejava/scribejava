@@ -6,9 +6,11 @@ import org.scribe.model.*;
 public class OAuth20ServiceImpl implements OAuthService
 {
   private static final String VERSION = "2.0";
+  private static final String NO_SCOPE = null;
   
   private final DefaultApi20 api;
   private final OAuthConfig config;
+  private String scope;
   
   /**
    * Default constructor
@@ -18,16 +20,17 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config)
   {
-    this.api = api;
-    this.config = config;
+     this.api = api;
+     this.config = config;
   }
 
-  /**
+
+/**
    * {@inheritDoc}
    */
   public void addScope(String scope)
   {
-    throw new UnsupportedOperationException("OAuth 2 does not use scopes");
+    this.scope=scope;
   }
 
   /**
@@ -40,6 +43,8 @@ public class OAuth20ServiceImpl implements OAuthService
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
     request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    if(scope != NO_SCOPE)
+       request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
