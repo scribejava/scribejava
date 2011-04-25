@@ -24,7 +24,7 @@ public class FacebookApi extends DefaultApi20
     // Append scope if present
     if(config.hasScope())
     {
-     return String.format(SCOPED_AUTHORIZE_URL, formURLEncode(config.getCallback()), formURLEncode(config.getScope())); 
+     return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), formURLEncode(config.getCallback()), formURLEncode(config.getScope())); 
     }
     else
     {
