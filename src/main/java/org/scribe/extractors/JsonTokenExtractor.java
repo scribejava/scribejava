@@ -17,7 +17,7 @@ public class JsonTokenExtractor implements AccessTokenExtractor
     Matcher matcher = accessTokenPattern.matcher(response);
     if(matcher.find())
     {
-      return new Token(matcher.group(1), "");
+      return new Token(matcher.group(1), "", response);
     }
     else
     {
