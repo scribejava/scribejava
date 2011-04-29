@@ -11,9 +11,6 @@ import org.scribe.utils.*;
  */
 public class PlaintextSignatureService implements SignatureService
 {
-  private static final String EMPTY_STRING = "";
-  private static final String CARRIAGE_RETURN = "\r\n";
-  private static final String UTF8 = "UTF-8";
   private static final String METHOD = "plaintext";
 
   /**
