@@ -48,3 +48,5 @@
 [1.2]
   * REFACTOR: Moved scope inside OAuthConfig (breaks backwards compatibility)
   * FEATURE: Added scopes to Facebook 2.0 Api
+  * FEATURE: Added Plaintext signature for Yammer
+  * FEATURE: Added Twitter SSL endpoints (use TwitterApi.SSL.class)
