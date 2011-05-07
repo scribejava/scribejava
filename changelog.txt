@@ -50,3 +50,6 @@
   * FEATURE: Added scopes to Facebook 2.0 Api
   * FEATURE: Added Plaintext signature for Yammer
   * FEATURE: Added Twitter SSL endpoints (use TwitterApi.SSL.class)
+
+[1.2.1]
+  * FEATURE: Added custom charset support to Request (thanks Eric Genet)
