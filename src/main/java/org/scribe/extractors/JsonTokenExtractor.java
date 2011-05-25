@@ -8,7 +8,7 @@ import org.scribe.utils.*;
 
 public class JsonTokenExtractor implements AccessTokenExtractor
 {
-  private Pattern accessTokenPattern = Pattern.compile("\"access_token\":\"(\\S*)\"");
+  private Pattern accessTokenPattern = Pattern.compile("\"access_token\":\"(\\S*?)\"");
 
   @Override
   public Token extract(String response)
@@ -17,7 +17,7 @@ public class JsonTokenExtractor implements AccessTokenExtractor
     Matcher matcher = accessTokenPattern.matcher(response);
     if(matcher.find())
     {
-      return new Token(matcher.group(1), "");
+      return new Token(matcher.group(1), "", response);
     }
     else
     {
