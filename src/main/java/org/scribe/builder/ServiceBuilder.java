@@ -140,7 +140,9 @@ public class ServiceBuilder
   
   /**
    * Configures the grant type
-   * @return
+   * 
+   * @param grant type
+   * @return  the {@link ServiceBuilder} instance for method chaining
    */
   public ServiceBuilder grantType(String grantType)
   {
