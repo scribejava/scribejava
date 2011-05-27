@@ -14,6 +14,7 @@ public class OAuthConfigTest
     assertEquals(OAuthConstants.OUT_OF_BAND, config.getCallback());
     assertEquals(SignatureType.Header, config.getSignatureType());
     assertFalse(config.hasScope());
+    assertFalse(config.hasGrantType());
   }
 
   @Test
