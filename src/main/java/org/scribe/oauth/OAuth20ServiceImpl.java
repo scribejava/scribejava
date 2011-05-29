@@ -60,7 +60,7 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public void signRequest(Token accessToken, OAuthRequest request)
   {
-    request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
+    request.addQuerystringParameter(OAuthConstants.TOKEN, accessToken.getToken());
   }
 
   /**

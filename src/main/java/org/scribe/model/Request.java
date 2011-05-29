@@ -63,7 +63,9 @@ class Request
 
   private void createConnection() throws IOException
   {
-    String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
+
+    String effectiveUrl = getVerb().equals( Verb.GET ) ?
+        URLUtils.appendParametersToQueryString(url, querystringParams) : url;
     if (connection == null)
     {
       System.setProperty("http.keepAlive", "false");
@@ -95,6 +97,12 @@ class Request
     conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.getBytes(charset).length));
     conn.setDoOutput(true);
     conn.getOutputStream().write(content.getBytes(charset));
+    if ( getVerb().equals( Verb.POST ) )
+    {
+       OutputStreamWriter wr = new OutputStreamWriter( conn.getOutputStream() );
+       wr.write( URLUtils.formURLEncodeMap( querystringParams ) );
+       wr.flush();
+    }
   }
 
   /**

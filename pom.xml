@@ -4,7 +4,7 @@
   <groupId>org.scribe</groupId>
   <artifactId>scribe</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.0</version>
+  <version>1.2.0-patched</version>
   <name>Scribe OAuth Library</name>
   <description>The best OAuth library out there</description>
   <url>http://github.com/fernandezpablo85/scribe-java</url>
@@ -67,7 +67,7 @@
           <target>1.6</target>
         </configuration>
       </plugin>
-      <plugin>
+      <!--plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <executions>
@@ -79,7 +79,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin-->
     </plugins>
   </build>
 </project>  
