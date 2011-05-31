@@ -1,6 +1,7 @@
 package org.scribe.builder.api;
 
 import org.scribe.model.Token;
+import org.scribe.model.Verb;
 
 public class QqWeiboApi extends DefaultApi10a {
 
@@ -21,6 +22,16 @@ public class QqWeiboApi extends DefaultApi10a {
 	@Override
 	public String getAuthorizationUrl(Token requestToken) {
 		return String.format(AUTHORIZE_URL, requestToken.getToken());
+	}
+
+	@Override
+	public Verb getAccessTokenVerb() {
+		return Verb.GET;
+	}
+
+	@Override
+	public Verb getRequestTokenVerb() {
+		return Verb.GET;
 	}
 
 }

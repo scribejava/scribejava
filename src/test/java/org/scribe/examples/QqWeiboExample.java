@@ -16,8 +16,9 @@ public class QqWeiboExample {
 		String apiKey = "your_key";
 		String apiSecret = "your_secret";
 		OAuthService service = new ServiceBuilder()
-				.provider(QqWeiboApi.class).apiKey(apiKey)
-				.apiSecret(apiSecret)
+				.provider(QqWeiboApi.class)
+				.apiKey(apiKey).apiSecret(apiSecret)
+				.signatureType(SignatureType.QueryString)
 				.callback("null") // it's important, use default way(pass oob) would be wrong
 				.build();
 		Scanner in = new Scanner(System.in);
