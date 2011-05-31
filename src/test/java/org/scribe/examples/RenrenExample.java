@@ -6,6 +6,7 @@ import org.scribe.builder.api.RenrenApi;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
+import org.scribe.model.SignatureType;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
@@ -22,7 +23,7 @@ public class RenrenExample {
 		String apiSecret = "a617e78710454b12aab68576382e8e14";
 		String redirect_url = "http://graph.renren.com/oauth/login_success.html";
 		OAuth20ServiceImpl service = new OAuth20ServiceImpl(new RenrenApi(), 
-				new OAuthConfig(apiKey, apiSecret, redirect_url)); 
+				new OAuthConfig(apiKey, apiSecret, redirect_url, SignatureType.Header, null)); 
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("=== " + NETWORK_NAME + "'s OAuth2.0 Web Server Flow===");

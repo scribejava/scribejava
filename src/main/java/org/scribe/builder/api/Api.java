@@ -21,5 +21,5 @@ public interface Api
    * 
    * @return fully configured {@link OAuthService}
    */
-  OAuthService createService(OAuthConfig config, String scope);
+  OAuthService createService(OAuthConfig config);
 }
