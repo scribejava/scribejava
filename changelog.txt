@@ -31,3 +31,26 @@
   * FEATURE: Overloaded provider() method to support instances as well as classes (thanks dustismo)
   * FIX: White-space parameter bug (thanks Krogoth)
   * FEATURE: OAuth 2.0 now implements server-flow (thanks Diego Silveira)
+
+[1.1.2]
+
+  * FIX: Fixed ugly bug that made 1.1.1 practically unusable (thanks Stubbs)
+
+[1.1.3]
+
+  * FEATURE: Added rawResponse to Token, for extracting additional parameters (thanks Dirk McCormick)
+  * FEATURE: Added Dropbox Api
+  * FIX: Token responses now work despite of the token/secret order
+  * FEATURE: Added Foursquare OAuth 2.0 Api (thanks Tom Tasche)
+  * FEATURE: Added support for OAuth1.0a signatures via querystring parameters
+  * FEATURE: Added ConstantContact Api (thanks Matthew Laudato)
+
+[1.2]
+  * REFACTOR: Moved scope inside OAuthConfig (breaks backwards compatibility)
+  * FEATURE: Added scopes to Facebook 2.0 Api
+  * FEATURE: Added Plaintext signature for Yammer
+  * FEATURE: Added Twitter SSL endpoints (use TwitterApi.SSL.class)
+
+[1.2.1]
+  * FEATURE: Added custom charset support to Request (thanks Eric Genet)
+  * FEATURE: Added support for Vkontakte (thanks dotbg)

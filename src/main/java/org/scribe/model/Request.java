@@ -2,6 +2,7 @@ package org.scribe.model;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +25,7 @@ class Request
   private Map<String, String> headers;
   private String payload = null;
   private HttpURLConnection connection;
+  private String charset;
 
   /**
    * Creates a new Http Request
@@ -64,6 +66,7 @@ class Request
     String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
     if (connection == null)
     {
+      System.setProperty("http.keepAlive", "false");
       connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
     }
   }
@@ -87,9 +90,11 @@ class Request
 
   void addBody(HttpURLConnection conn, String content) throws IOException
   {
-    conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.getBytes().length));
+    if (this.charset == null)
+      this.charset = Charset.defaultCharset().name();
+    conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.getBytes(charset).length));
     conn.setDoOutput(true);
-    conn.getOutputStream().write(content.getBytes());
+    conn.getOutputStream().write(content.getBytes(charset));
   }
 
   /**
@@ -245,7 +250,17 @@ class Request
   {
     this.connection.setReadTimeout((int) unit.toMillis(duration));
   }
-  
+
+  /**
+   * Set the charset of the body of the request
+   *
+   * @param charsetName name of the charset of the request
+   */
+  public void setCharset(String charsetName)
+  {
+    this.charset = charsetName;
+  }
+
   /*
    * We need this in order to stub the connection object for test cases
    */

@@ -7,20 +7,24 @@ package org.scribe.model;
  */
 public class OAuthConfig
 {
-  private String apiKey;
-  private String apiSecret;
-  private String callback;
+  private final String apiKey;
+  private final String apiSecret;
+  private final String callback;
+  private final SignatureType signatureType;
+  private final String scope;
   
   public OAuthConfig(String key, String secret)
   {
-    this(key,secret,null);
+    this(key, secret, null, null, null);
   }
-  
-  public OAuthConfig(String key, String secret, String callback)
+
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope)
   {
     this.apiKey = key;
     this.apiSecret = secret;
-    this.callback = callback;
+    this.callback = callback != null ? callback : OAuthConstants.OUT_OF_BAND;
+    this.signatureType = (type != null) ? type : SignatureType.Header;
+    this.scope = scope;
   }
 
   public String getApiKey()
@@ -28,28 +32,28 @@ public class OAuthConfig
     return apiKey;
   }
 
-  public void setApiKey(String apiKey)
-  {
-    this.apiKey = apiKey;
-  }
-
   public String getApiSecret()
   {
     return apiSecret;
   }
 
-  public void setApiSecret(String apiSecret)
-  {
-    this.apiSecret = apiSecret;
-  }
-
   public String getCallback()
   {
-    return callback != null ? callback : OAuthConstants.OUT_OF_BAND;
+    return callback;
   }
 
-  public void setCallback(String callback)
+  public SignatureType getSignatureType()
   {
-    this.callback = callback;
+    return signatureType;
+  }
+
+  public String getScope()
+  {
+    return scope;
+  }
+
+  public boolean hasScope()
+  {
+    return scope != null;
   }
 }

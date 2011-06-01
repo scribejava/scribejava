@@ -13,6 +13,7 @@ public class Token implements Serializable
 	
   private final String token;
   private final String secret;
+  private final String rawResponse;
 
   /**
    * Default constructor
@@ -22,8 +23,14 @@ public class Token implements Serializable
    */
   public Token(String token, String secret)
   {
+    this(token, secret, null);
+  }
+
+  public Token(String token, String secret, String rawResponse)
+  {
     this.token = token;
     this.secret = secret;
+    this.rawResponse = rawResponse;
   }
 
   public String getToken()
@@ -34,6 +41,15 @@ public class Token implements Serializable
   public String getSecret()
   {
     return secret;
+  }
+
+  public String getRawResponse()
+  {
+    if (rawResponse == null)
+    {
+      throw new IllegalStateException("This token object was not constructed by scribe and does not have a rawResponse");
+    }
+    return rawResponse;
   }
 
   @Override

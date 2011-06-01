@@ -1,5 +1,3 @@
-!http://img411.imageshack.us/img411/2851/scribelogo.png!
-
 h2. Welcome to the home of Scribe, the simple OAuth Java lib!
 
 h1. Why use Scribe?
@@ -63,7 +61,7 @@ You can pull scribe from a maven repository, just add this to your __pom.xml__ f
 @<dependency>@
   @<groupId>org.scribe</groupId>@
   @<artifactId>scribe</artifactId>@
-  @<version>1.1.0</version>@
+  @<version>1.2.0</version>@
 @</dependency>@
 
 h1. Getting started in less than 2 minutes

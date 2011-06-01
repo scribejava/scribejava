@@ -26,7 +26,7 @@ public class TokenExtractor20Impl implements AccessTokenExtractor
     if (matcher.matches())
     {
       String token = URLUtils.formURLDecode(matcher.group(1));
-      return new Token(token, EMPTY_SECRET);
+      return new Token(token, EMPTY_SECRET, response);
     } 
     else
     {
