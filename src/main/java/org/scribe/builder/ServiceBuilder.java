@@ -80,7 +80,7 @@ public class ServiceBuilder
    */
   public ServiceBuilder callback(String callback)
   {
-    Preconditions.checkValidOAuthCallback(callback, "Callback must be a valid URL or 'oob'");
+    // Preconditions.checkValidOAuthCallback(callback, "Callback must be a valid URL or 'oob'");
     this.callback = callback;
     return this;
   }
