@@ -1,18 +1,15 @@
 package org.scribe.oauth;
 
+import java.util.SortedMap;
+import java.util.TreeMap;
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.*;
-import org.scribe.utils.HexStringsConverter;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Map;
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 /**
- * User: elwood
- * Date: 24.03.2011
- * Time: 16:40:30
+ * Odnoklassniki.ru {@link OAuth20ServiceImpl) customization
  */
 public class OdnoklassnikiOAuth20ServiceImpl extends OAuth20ServiceImpl {
 
@@ -69,34 +66,16 @@ public class OdnoklassnikiOAuth20ServiceImpl extends OAuth20ServiceImpl {
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
-    private static MessageDigest messageDigest;
-
-    static {
-        try {
-            messageDigest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    // sig = md5( request_params_composed_string+ md5(access_token + application_secret_key)  )
+    // sig = md5( request_params_composed_string + md5(access_token + application_secret_key)  )
     private String calculateSig(Map<String, String> parametersMap, String accessTokenValue, String apiSecret) {
-        String accessTokenPlusSecretMd5 = HexStringsConverter.toHexString(messageDigest.digest((accessTokenValue + apiSecret).getBytes()));
-        //
-        Object[] keysArray = parametersMap.keySet().toArray();
+        String accessTokenPlusSecretMd5 = md5Hex(accessTokenValue + apiSecret);
         // Sort parameters alphabetically before performing a sign
-        Arrays.sort(keysArray);
-        int length = keysArray.length;
+        SortedMap<String, String> sorted = new TreeMap<String, String>(parametersMap);
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; ++i) {
-            String key = (String) keysArray[i];
-            sb.append(key);
-            sb.append("=");
-            sb.append(parametersMap.get(key));
+        for (Map.Entry<String, String> entry : sorted.entrySet()) {
+            sb.append(entry.getKey()).append("=").append(entry.getValue());
         }
-        //
-        String wholeStringMd5 = HexStringsConverter.toHexString(messageDigest.digest((sb.toString() + accessTokenPlusSecretMd5).getBytes()));
-        return wholeStringMd5;
+        return md5Hex(sb.toString() + accessTokenPlusSecretMd5);
     }
 
     @Override
