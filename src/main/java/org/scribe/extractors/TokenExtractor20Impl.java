@@ -12,8 +12,21 @@ import org.scribe.utils.*;
  */
 public class TokenExtractor20Impl implements AccessTokenExtractor
 {
-  private static final String TOKEN_REGEX = "access_token=(\\S*?)(&(\\S*))?";
   private static final String EMPTY_SECRET = "";
+
+  private final Pattern tokenPattern;
+  private final boolean urlEncoded;
+
+  public TokenExtractor20Impl()
+  {
+    this("access_token=(\\S*?)(&(\\S*))?", true);
+  }
+
+  protected TokenExtractor20Impl(String tokenRegex, boolean urlEncoded)
+  {
+    tokenPattern = Pattern.compile(tokenRegex, Pattern.MULTILINE);
+    this.urlEncoded = urlEncoded;
+  }
 
   /**
    * {@inheritDoc} 
@@ -22,12 +35,16 @@ public class TokenExtractor20Impl implements AccessTokenExtractor
   {
     Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
 
-    Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
+    Matcher matcher = tokenPattern.matcher(response);
     if (matcher.matches())
     {
-      String token = URLUtils.formURLDecode(matcher.group(1));
+      String token = matcher.group(1);
+      if (urlEncoded)
+      {
+        token = URLUtils.formURLDecode(token);
+      }
       return new Token(token, EMPTY_SECRET, response);
-    } 
+    }
     else
     {
       throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
