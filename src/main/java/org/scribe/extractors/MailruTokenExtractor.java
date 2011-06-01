@@ -1,36 +1,15 @@
 package org.scribe.extractors;
 
-import org.scribe.exceptions.OAuthException;
-import org.scribe.model.Token;
-import org.scribe.utils.Preconditions;
-
 /**
- * User: elwood
- * Date: 23.03.2011
- * Time: 11:59:39
+ * {@link AccessTokenExtractor} for Mail.ru OAuth API
+ *
  */
-public class MailruTokenExtractor implements AccessTokenExtractor {
+public class MailruTokenExtractor extends TokenExtractor20Impl
+{
 
-    private final static String EMPTY_SECRET = "";
+  public MailruTokenExtractor()
+  {
+    super("\\{(?:\\s|.)*?\"access_token\"\\s*:\\s*\"([^\"]*)\"(?:\\s|.)*\\}", false);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Token extract(String response) {
-        Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token and uid from an empty string");
-        //
-        String accessTokenMarker = "\"access_token\":\"";
-        int indexOfMarker = response.indexOf(accessTokenMarker);
-        if (-1 == indexOfMarker) {
-            throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
-        }
-        try {
-            String substr = response.substring(indexOfMarker + accessTokenMarker.length());
-            String accessTokenValue = substr.substring(0, substr.indexOf("\""));
-            //
-            return new Token(accessTokenValue, EMPTY_SECRET);
-        } catch (IndexOutOfBoundsException e) {
-            throw new OAuthException("Response body is incorrect. Can't extract a token and uid from this: '" + response + "'", e);
-        }
-    }
 }
