@@ -10,41 +10,50 @@ import org.scribe.utils.Preconditions;
 import org.scribe.utils.URLUtils;
 
 /**
- * User: elwood
- * Date: 24.03.2011
- * Time: 16:25:40
- *
  * Implementation for odnoklassniki.ru
  * http://dev.odnoklassniki.ru/wiki/display/ok/The+OAuth+2.0+Protocol
  */
-public class OdnoklassnikiApi extends DefaultApi20 {
+public class OdnoklassnikiApi extends DefaultApi20
+{
 
-    // Also you can add the scope parameter if need (see documentation for available values of scope).
-    private final static String AUTHORIZE_URL = "http://www.odnoklassniki.ru/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s";
+  private static final String AUTHORIZE_URL = "http://www.odnoklassniki.ru/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s";
+  private static final String SCOPED_AUTHORIZE_URL = String.format("%s&scope=%%s", AUTHORIZE_URL);
 
-    @Override
-    public String getAccessTokenEndpoint() {
-        return "http://api.odnoklassniki.ru/oauth/token.do";
+  @Override
+  public String getAccessTokenEndpoint()
+  {
+    return "http://api.odnoklassniki.ru/oauth/token.do";
+  }
+
+  @Override
+  public Verb getAccessTokenVerb()
+  {
+    return Verb.POST;
+  }
+
+  @Override
+  public String getAuthorizationUrl(OAuthConfig config)
+  {
+    Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Odnoklassniki.ru does not support OOB");
+    if (config.hasScope()) // Appending scope if present
+    {
+      return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), URLUtils.formURLEncode(config.getCallback()), URLUtils.formURLEncode(config.getScope()));
     }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
+    else
+    {
+      return String.format(AUTHORIZE_URL, config.getApiKey(), URLUtils.formURLEncode(config.getCallback()));
     }
+  }
 
-    @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Facebook does not support OOB");
-        return String.format(AUTHORIZE_URL, config.getApiKey(), URLUtils.formURLEncode(config.getCallback()));
-    }
+  @Override
+  public AccessTokenExtractor getAccessTokenExtractor()
+  {
+    return new OdnoklassnikiTokenExtractor();
+  }
 
-    @Override
-    public AccessTokenExtractor getAccessTokenExtractor() {
-        return new OdnoklassnikiTokenExtractor();
-    }
-
-    @Override
-    public OAuthService createService(OAuthConfig config, String scope) {
-        return new OdnoklassnikiOAuth20ServiceImpl(this, config);
-    }
+  @Override
+  public OAuthService createService(OAuthConfig config)
+  {
+    return new OdnoklassnikiOAuth20ServiceImpl(this, config);
+  }
 }
