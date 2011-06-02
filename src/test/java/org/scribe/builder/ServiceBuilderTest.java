@@ -59,6 +59,15 @@ public class ServiceBuilderTest
     assertEquals(ApiMock.config.getApiSecret(), "secret");
     assertEquals(ApiMock.config.getScope(), "rss-api");
   }
+  @Test
+  public void shouldAcceptAGrantType()
+  {
+    builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").grantType("client_credentials").build();
+    assertEquals(ApiMock.config.getApiKey(), "key");
+    assertEquals(ApiMock.config.getApiSecret(), "secret");
+    assertEquals(ApiMock.config.getGrantType(), "client_credentials");
+  }
+  
 
   public static class ApiMock implements Api
   {
