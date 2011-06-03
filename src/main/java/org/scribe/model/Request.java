@@ -27,6 +27,7 @@ class Request
   private HttpURLConnection connection;
   private String charset;
   private byte[] bytePayload = null;
+  private boolean connectionKeepAlive = false;
 
   /**
    * Creates a new Http Request
@@ -67,7 +68,7 @@ class Request
     String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
     if (connection == null)
     {
-      System.setProperty("http.keepAlive", "false");
+      System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
       connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
     }
   }
@@ -300,6 +301,17 @@ class Request
   public void setCharset(String charsetName)
   {
     this.charset = charsetName;
+  }
+
+  /**
+   * Sets wether the underlying Http Connection is persistent or not.
+   *
+   * @see http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html
+   * @param connectionKeepAlive
+   */
+  public void setConnectionKeepAlive(boolean connectionKeepAlive)
+  {
+    this.connectionKeepAlive = connectionKeepAlive;
   }
 
   /*
