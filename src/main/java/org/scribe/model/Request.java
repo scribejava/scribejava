@@ -78,11 +78,13 @@ class Request
   Response doSend() throws IOException
   {
     connection.setRequestMethod(this.verb.name());
-    if (connectTimeout != null) {
-    	connection.setConnectTimeout(connectTimeout.intValue());
+    if (connectTimeout != null) 
+    {
+      connection.setConnectTimeout(connectTimeout.intValue());
     }
-    if (readTimeout != null) {
-    	connection.setReadTimeout(readTimeout.intValue());
+    if (readTimeout != null)
+    {
+      connection.setReadTimeout(readTimeout.intValue());
     }
     addHeaders(connection);
     if (verb.equals(Verb.PUT) || verb.equals(Verb.POST))
@@ -287,7 +289,6 @@ class Request
   public void setConnectTimeout(int duration, TimeUnit unit)
   {
     this.connectTimeout = unit.toMillis(duration);
-    //this.connection.setConnectTimeout((int) unit.toMillis(duration));
   }
 
   /**
@@ -300,7 +301,6 @@ class Request
   public void setReadTimeout(int duration, TimeUnit unit)
   {
     this.readTimeout = unit.toMillis(duration);
-    //this.connection.setReadTimeout((int) unit.toMillis(duration));
   }
 
   /**
