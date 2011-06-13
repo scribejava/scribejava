@@ -138,4 +138,9 @@ public abstract class DefaultApi10a implements Api
   {
     return new OAuth10aServiceImpl(this, config);
   }
+  
+  public OAuthService createHttp4BasedService(OAuthConfig config) {
+	  return new OAuth10aHttp4BasedServiceImpl(this, config);
+  }
+  
 }
