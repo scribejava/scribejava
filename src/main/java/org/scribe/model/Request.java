@@ -28,6 +28,8 @@ class Request
   private String charset;
   private byte[] bytePayload = null;
   private boolean connectionKeepAlive = false;
+  private Long connectTimeout = null;
+  private Long readTimeout = null;
 
   /**
    * Creates a new Http Request
@@ -76,6 +78,14 @@ class Request
   Response doSend() throws IOException
   {
     connection.setRequestMethod(this.verb.name());
+    if (connectTimeout != null) 
+    {
+      connection.setConnectTimeout(connectTimeout.intValue());
+    }
+    if (readTimeout != null)
+    {
+      connection.setReadTimeout(readTimeout.intValue());
+    }
     addHeaders(connection);
     if (verb.equals(Verb.PUT) || verb.equals(Verb.POST))
     {
@@ -278,7 +288,7 @@ class Request
    */
   public void setConnectTimeout(int duration, TimeUnit unit)
   {
-    this.connection.setConnectTimeout((int) unit.toMillis(duration));
+    this.connectTimeout = unit.toMillis(duration);
   }
 
   /**
@@ -290,7 +300,7 @@ class Request
    */
   public void setReadTimeout(int duration, TimeUnit unit)
   {
-    this.connection.setReadTimeout((int) unit.toMillis(duration));
+    this.readTimeout = unit.toMillis(duration);
   }
 
   /**
