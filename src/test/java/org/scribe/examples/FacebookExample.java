@@ -12,6 +12,7 @@ public class FacebookExample
   private static final String NETWORK_NAME = "Facebook";
   private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
   private static final Token EMPTY_TOKEN = null;
+  private static final String STATE = "abc123";
 
   public static void main(String[] args)
   {
@@ -22,6 +23,7 @@ public class FacebookExample
                                   .provider(FacebookApi.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
+                                  .state( STATE )
                                   .callback("http://www.example.com/oauth_callback/")
                                   .build();
     Scanner in = new Scanner(System.in);
@@ -39,7 +41,7 @@ public class FacebookExample
     System.out.print(">>");
     Verifier verifier = new Verifier(in.nextLine());
     System.out.println();
-    
+
     // Trade the Request Token and Verfier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
