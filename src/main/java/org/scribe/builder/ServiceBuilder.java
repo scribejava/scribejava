@@ -147,7 +147,7 @@ public class ServiceBuilder
    */
   public ServiceBuilder state(String state)
   {
-    Preconditions.checkNotNull(state, "Signature type can't be null");
+    Preconditions.checkNotNull(state, "State can't be null");
     this.state = state;
     return this;
   }
