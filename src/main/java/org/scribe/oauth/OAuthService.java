@@ -1,6 +1,10 @@
 package org.scribe.oauth;
 
-import org.scribe.model.*;
+import java.io.IOException;
+
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 
 /**
  * The main Scribe object. 
@@ -11,43 +15,45 @@ import org.scribe.model.*;
  */
 public interface OAuthService
 {
-  /**
-   * Retrieve the request token.
-   * 
-   * @return request token
-   */
-  public Token getRequestToken();
+	/**
+	 * Retrieve the access token
+	 * 
+	 * @param requestToken request token (obtained previously)
+	 * @param verifier verifier code
+	 * @return access token
+	 */
+	public Token getAccessToken(Token requestToken, Verifier verifier);
 
-  /**
-   * Retrieve the access token
-   * 
-   * @param requestToken request token (obtained previously)
-   * @param verifier verifier code
-   * @return access token
-   */
-  public Token getAccessToken(Token requestToken, Verifier verifier);
+	/**
+	 * Returns the URL where you should redirect your users to authenticate
+	 * your application.
+	 * 
+	 * @param requestToken the request token you need to authorize
+	 * @return the URL where you should redirect your users
+	 */
+	public String getAuthorizationUrl(Token requestToken);
+	/**
+	 * Retrieve the request token.
+	 * 
+	 * @return request token
+	 */
+	public Token getRequestToken();
 
-  /**
-   * Signs am OAuth request
-   * 
-   * @param accessToken access token (obtained previously)
-   * @param request request to sign
-   */
-  public void signRequest(Token accessToken, OAuthRequest request);
+	/**
+	 * Returns the OAuth version of the service.
+	 * 
+	 * @return oauth version as string
+	 */
+	public String getVersion();
 
-  /**
-   * Returns the OAuth version of the service.
-   * 
-   * @return oauth version as string
-   */
-  public String getVersion();
-  
-  /**
-   * Returns the URL where you should redirect your users to authenticate
-   * your application.
-   * 
-   * @param requestToken the request token you need to authorize
-   * @return the URL where you should redirect your users
-   */
-  public String getAuthorizationUrl(Token requestToken);
+	public Token refreshToken(Token expiredToken, String sessionHandle)
+	throws IOException;
+
+	/**
+	 * Signs am OAuth request
+	 * 
+	 * @param accessToken access token (obtained previously)
+	 * @param request request to sign
+	 */
+	public void signRequest(Token accessToken, OAuthRequest request);
 }

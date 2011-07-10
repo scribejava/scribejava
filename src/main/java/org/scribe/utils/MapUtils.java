@@ -1,6 +1,10 @@
 package org.scribe.utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utils for {@link Map} manipulation
@@ -9,43 +13,44 @@ import java.util.*;
  */
 public class MapUtils
 {
-  /**
-   * Sorts a Map
-   * 
-   * @param map unsorted map
-   * @return sorted map
-   */
-  public static final Map<String, String> sort(Map<String, String> map)
-  {
-    Preconditions.checkNotNull(map, "Cannot sort a null object.");
+	/**
+	 * Form-urlDecodes and appends all keys from the source {@link Map} to the
+	 * target {@link Map}
+	 *
+	 * @param source Map from where the keys get copied and decoded
+	 * @param target Map where the decoded keys are copied to
+	 */
+	public static void decodeAndAppendEntries(Map<String, String> source, Map<String, String> target)
+	{
 
-    Map<String, String> sorted = new LinkedHashMap<String, String>();
-    for (String key : getSortedKeys(map))
-    {
-      sorted.put(key, map.get(key));
-    }
-    return sorted;
-  }
+		for (String key: source.keySet())
+		{
+			target.put(URLUtils.percentEncode(key), URLUtils.percentEncode(source.get(key)));
+		}
+	}
 
-  private static List<String> getSortedKeys(Map<String, String> map)
-  {
-    List<String> keys = new ArrayList<String>(map.keySet());
-    Collections.sort(keys);
-    return keys;
-  }
+	/**
+	 * Sorts a Map
+	 * 
+	 * @param map unsorted map
+	 * @return sorted map
+	 */
+	public static final Map<String, String> sort(Map<String, String> map)
+	{
+		Preconditions.checkNotNull(map, "Cannot sort a null object.");
 
-  /**
-   * Form-urlDecodes and appends all keys from the source {@link Map} to the
-   * target {@link Map}
-   *
-   * @param source Map from where the keys get copied and decoded
-   * @param target Map where the decoded keys are copied to
-   */
-  public static void decodeAndAppendEntries(Map<String, String> source, Map<String, String> target)
-  {
-    for (String key: source.keySet())
-    {
-      target.put(URLUtils.percentEncode(key), URLUtils.percentEncode(source.get(key)));
-    }
-  }
+		Map<String, String> sorted = new LinkedHashMap<String, String>();
+		for (String key : getSortedKeys(map))
+		{
+			sorted.put(key, map.get(key));
+		}
+		return sorted;
+	}
+
+	private static List<String> getSortedKeys(Map<String, String> map)
+	{
+		List<String> keys = new ArrayList<String>(map.keySet());
+		Collections.sort(keys);
+		return keys;
+	}
 }
