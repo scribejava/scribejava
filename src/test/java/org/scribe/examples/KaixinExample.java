@@ -21,8 +21,8 @@ import org.scribe.oauth.OAuthService;
 
 public class KaixinExample {
 
-	private static String consumerKey = "563893638875a1b71d943932a053ca6b";
-	private static String consumerSecret = "bbc71fb24d72dabdc2f8fb4a275dc5f3";
+	private static String consumerKey = "";
+	private static String consumerSecret = "";
 
 	private static final String NETWORK_NAME = "Kaixin";
 
