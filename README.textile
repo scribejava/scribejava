@@ -80,6 +80,7 @@ Follow me: "@fernandezpablo":http://twitter.com/fernandezpablo
 
 h1. Token Refresh
 
+Email me: foltz.aaron at gmail.com
 Follow me: "@Aaron_Foltz":http://twitter.com/Aaron_Foltz
 
 h2. Use
