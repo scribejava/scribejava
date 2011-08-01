@@ -77,3 +77,26 @@ h1. About me
 Email me: fernandezpablo85 at gmail.com
 
 Follow me: "@fernandezpablo":http://twitter.com/fernandezpablo
+
+h1. Token Refresh
+
+Email me: foltz.aaron at gmail.com
+Follow me: "@Aaron_Foltz":http://twitter.com/Aaron_Foltz
+
+h2. Use
+	
+h3. Gather the full response of the access token
+
+	String fullResponse = accessToken.getRawResponse();
+	logger.debug("[Raw Response] : " + fullResponse);
+
+h3. Strip out the oauth_session_handle
+
+	// Gather the indices of the session handle
+	int startIndex = fullResponse.indexOf("&oauth_session_handle=");
+	int endIndex = fullResponse.indexOf(
+			"&oauth_authorization_expires_in", startIndex);
+
+	String oauthSessionHandle = fullResponse.substring(
+			startIndex + 22, endIndex);
+	logger.debug("[Session handle] :" + oauthSessionHandle);
