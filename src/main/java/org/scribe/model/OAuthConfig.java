@@ -2,7 +2,7 @@ package org.scribe.model;
 
 /**
  * Parameter object that groups OAuth config values
- *
+ * 
  * @author Pablo Fernandez
  */
 public class OAuthConfig
@@ -13,7 +13,7 @@ public class OAuthConfig
   private final SignatureType signatureType;
   private final String scope;
   private final String state;
-
+  
   public OAuthConfig(String key, String secret)
   {
     this(key, secret, null, null, null, null);

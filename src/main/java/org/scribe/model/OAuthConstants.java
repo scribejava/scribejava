@@ -1,4 +1,4 @@
-/*
+/* 
 Copyright 2010 Pablo Fernandez
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@ package org.scribe.model;
 
 /**
  * This class contains OAuth constants, used project-wide
- *
+ * 
  * @author Pablo Fernandez
  */
 public class OAuthConstants
@@ -46,5 +46,5 @@ public class OAuthConstants
   public static final String REDIRECT_URI = "redirect_uri";
   public static final String CODE = "code";
   public static final String STATE = "state";
-
+  
 }

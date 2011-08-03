@@ -41,7 +41,7 @@ public class FacebookExample
     System.out.print(">>");
     Verifier verifier = new Verifier(in.nextLine());
     System.out.println();
-
+    
     // Trade the Request Token and Verfier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
