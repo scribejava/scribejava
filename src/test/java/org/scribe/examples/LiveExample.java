@@ -21,7 +21,7 @@ public class LiveExample
                                   .provider(LiveApi.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
-		                  .scope('wl.basic')
+                                  .scope("wl.basic")
                                   .callback("http://localhost:9000/")
                                   .build();
     Scanner in = new Scanner(System.in);
