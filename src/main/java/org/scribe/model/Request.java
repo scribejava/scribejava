@@ -20,8 +20,8 @@ class Request
 
   private String url;
   private Verb verb;
-  private Map<String, String> querystringParams;
-  private Map<String, String> bodyParams;
+  private List<Param> querystringParams;
+  private List<Param> bodyParams;
   private Map<String, String> headers;
   private String payload = null;
   private HttpURLConnection connection;
@@ -41,8 +41,8 @@ class Request
   {
     this.verb = verb;
     this.url = url;
-    this.querystringParams = new HashMap<String, String>();
-    this.bodyParams = new HashMap<String, String>();
+    this.querystringParams = new ArrayList<Param>();
+    this.bodyParams = new ArrayList<Param>();
     this.headers = new HashMap<String, String>();
   }
 
@@ -126,7 +126,7 @@ class Request
    */
   public void addBodyParameter(String key, String value)
   {
-    this.bodyParams.put(key, value);
+    this.bodyParams.add(new Param(key, value));
   }
 
   /**
@@ -137,7 +137,7 @@ class Request
    */
   public void addQuerystringParameter(String key, String value)
   {
-    this.querystringParams.put(key, value);
+    this.querystringParams.add(new Param(key, value));
   }
 
   /**
@@ -171,14 +171,14 @@ class Request
    * @return a map containing the query string parameters
    * @throws OAuthException if the URL is not valid
    */
-  public Map<String, String> getQueryStringParams()
+  public List<Param> getQueryStringParams()
   {
     try
     {
-      Map<String, String> params = new HashMap<String, String>();
+      List<Param> params = new ArrayList<Param>();
       String queryString = new URL(url).getQuery();
-      params.putAll(URLUtils.queryStringToMap(queryString));
-      params.putAll(this.querystringParams);
+      params.addAll(URLUtils.queryStringToMap(queryString));
+      params.addAll(this.querystringParams);
       return params;
     }
     catch (MalformedURLException mue)
@@ -192,7 +192,7 @@ class Request
    * 
    * @return a map containing the body parameters.
    */
-  public Map<String, String> getBodyParams()
+  public List<Param> getBodyParams()
   {
     return bodyParams;
   }
