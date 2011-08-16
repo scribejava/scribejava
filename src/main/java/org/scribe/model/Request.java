@@ -177,7 +177,7 @@ class Request
     {
       Map<String, String> params = new HashMap<String, String>();
       String queryString = new URL(url).getQuery();
-      params.putAll(URLUtils.queryStringToMap(queryString));
+      params.putAll(MapUtils.queryStringToMap(queryString));
       params.putAll(this.querystringParams);
       return params;
     }
