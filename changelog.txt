@@ -56,3 +56,7 @@
   * FEATURE: Added support for Vkontakte (thanks dotbg)
   * FEATURE: Added Sohu Weibo, Netease Weibo & Sina Weibo Apis (thanks Arthur Wang)
   * FEATURE: Added support for persistent Http Connections (thanks Craig Minton)
+[1.2.2]
+  * FIX: Fixed error while setting connection timeouts
+  * FEATURE: Plurk Api
+  * FEATURE: Windows Live Api
