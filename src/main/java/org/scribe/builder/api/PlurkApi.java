@@ -25,4 +25,15 @@ public class PlurkApi extends DefaultApi10a
   {
     return ACCESS_TOKEN_URL;
   }
+
+  public class Mobile extends PlurkApi
+  {
+    private static final String AUTHORIZATION_URL = "http://www.plurk.com/m/authorize?oauth_token=%s";
+
+    @Override
+    public String getAuthorizationUrl(Token requestToken)
+    {
+      return String.format(AUTHORIZATION_URL, requestToken.getToken());
+    }
+  }
 }
