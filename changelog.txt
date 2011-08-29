@@ -56,3 +56,11 @@
   * FEATURE: Added support for Vkontakte (thanks dotbg)
   * FEATURE: Added Sohu Weibo, Netease Weibo & Sina Weibo Apis (thanks Arthur Wang)
   * FEATURE: Added support for persistent Http Connections (thanks Craig Minton)
+
+[1.2.2]
+  * FIX: Added support for JDK 1.5. Issue #146 (thanks Sripathi Krishnan)
+  * FIX: Invalid character constant error message. Issue #137 (thanks Scott Scoble)
+  * FEATURE: Added a Api class to handle windows live authentication. Issue #135 (thanks Tomas Lin)
+  * FEATURE: Added refresh token feature for Yahoo! API. Issue #134 (thanks Aaron Foltz)
+  * FEATURE: Added support for Plurk API. Issue #130 (thanks Chia-Wei Li)
+  * FIX: Request.setConnectTimeout() and setReadTimeout() throw NPE. Issue #123 (thanks thepizzle)
