@@ -42,6 +42,18 @@ public class URLUtils
     return (map.size() <= 0) ? EMPTY_STRING : doFormUrlEncode(map);
   }
 
+  /**
+   * Turns a map into a form-urlencoded string
+   * 
+   * @param map any map
+   * @return form-url-encoded string
+   */
+  public static String formURLEncodeMultiValuesMap(Map<String, List<String>> map)
+  {
+    Preconditions.checkNotNull(map, "Cannot url-encode a null object");
+    return (map.size() <= 0) ? EMPTY_STRING : doFormUrlEncodeMultiValues(map);
+  }
+
   private static String doFormUrlEncode(Map<String, String> map)
   {
     StringBuffer encodedString = new StringBuffer(map.size() * 20);
@@ -51,6 +63,31 @@ public class URLUtils
       if(map.get(key) != null)
       {
         encodedString.append(PAIR_SEPARATOR).append(formURLEncode(map.get(key)));
+      }
+    }
+    return encodedString.toString().substring(1);
+  }
+
+  private static String doFormUrlEncodeMultiValues(Map<String, List<String>> map)
+  {
+    StringBuffer encodedString = new StringBuffer(map.size() * 20);
+    for (String key : map.keySet())
+    {
+      List<String> values = map.get(key);
+      if (values != null)
+      {
+        for (String value : values)
+        {
+          encodedString.append(PARAM_SEPARATOR).append(formURLEncode(key));
+          if(value != null)
+          {
+            encodedString.append(PAIR_SEPARATOR).append(formURLEncode(value));
+          }
+        }
+      }
+      else
+      {
+        encodedString.append(PARAM_SEPARATOR).append(formURLEncode(key));
       }
     }
     return encodedString.toString().substring(1);
@@ -117,10 +154,10 @@ public class URLUtils
    * @param params any map
    * @return new url with parameters on query string
    */
-  public static String appendParametersToQueryString(String url, Map<String, String> params)
+  public static String appendParametersToQueryString(String url, Map<String, List<String>> params)
   {
     Preconditions.checkNotNull(url, "Cannot append to null URL");
-    String queryString = URLUtils.formURLEncodeMap(params);
+    String queryString = URLUtils.formURLEncodeMultiValuesMap(params);
     if (queryString.equals(EMPTY_STRING))
     {
       return url;
@@ -140,13 +177,16 @@ public class URLUtils
    * @return querystring-like String
    */
   // TODO Move to MapUtils
-  public static String concatSortedPercentEncodedParams(Map<String, String> params)
+  public static String concatSortedPercentEncodedParams(Map<String, List<String>> params)
   {
     StringBuilder result = new StringBuilder();
     for (String key : params.keySet())
     {
-      result.append(key).append(PAIR_SEPARATOR);
-      result.append(params.get(key)).append(PARAM_SEPARATOR);
+      for (String value : params.get(key))
+      {
+        result.append(key).append(PAIR_SEPARATOR);
+        result.append(value).append(PARAM_SEPARATOR);
+      }
     }
     return result.toString().substring(0, result.length() - 1);
   }
@@ -158,9 +198,9 @@ public class URLUtils
    * @return a map with the form-urldecoded parameters
    */
   // TODO Move to MapUtils
-  public static Map<String, String> queryStringToMap(String queryString)
+  public static Map<String, List<String>> queryStringToMap(String queryString)
   {
-    Map<String, String> result = new HashMap<String, String>();
+    Map<String, List<String>> result = new HashMap<String, List<String>>();
     if (queryString != null && queryString.length() > 0)
     {
       for (String param : queryString.split(PARAM_SEPARATOR))
@@ -168,7 +208,13 @@ public class URLUtils
         String pair[] = param.split(PAIR_SEPARATOR);
         String key = formURLDecode(pair[0]);
         String value = pair.length > 1 ? formURLDecode(pair[1]) : EMPTY_STRING;
-        result.put(key, value);
+        List<String> values = result.get(key);
+        if (values == null)
+        {
+          values = new ArrayList<String>();
+        }
+        values.add(value);
+        result.put(key, values);
       }
     }
     return result;

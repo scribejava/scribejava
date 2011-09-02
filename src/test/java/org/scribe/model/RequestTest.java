@@ -36,7 +36,7 @@ public class RequestTest
     assertEquals(2, getRequest.getQueryStringParams().size());
     assertEquals(0, postRequest.getQueryStringParams().size());
     assertTrue(getRequest.getQueryStringParams().containsKey("qsparam"));
-    assertTrue(getRequest.getQueryStringParams().get("qsparam").equals("value"));
+    assertTrue(getRequest.getQueryStringParams().get("qsparam").get(0).equals("value"));
   }
 
   @Test
@@ -78,6 +78,6 @@ public class RequestTest
   @Test
   public void shouldHandleQueryStringSpaceEncodingProperly()
   {
-    assertTrue(getRequest.getQueryStringParams().get("other param").equals("value with spaces"));
+    assertTrue(getRequest.getQueryStringParams().get("other param").get(0).equals("value with spaces"));
   }
 }
