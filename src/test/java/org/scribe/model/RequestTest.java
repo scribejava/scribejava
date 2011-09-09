@@ -3,6 +3,7 @@ package org.scribe.model;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.scribe.utils.Param;
 
 public class RequestTest
 {
@@ -35,8 +36,7 @@ public class RequestTest
   {
     assertEquals(2, getRequest.getQueryStringParams().size());
     assertEquals(0, postRequest.getQueryStringParams().size());
-    assertTrue(getRequest.getQueryStringParams().containsKey("qsparam"));
-    assertTrue(getRequest.getQueryStringParams().get("qsparam").equals("value"));
+    assertTrue(getRequest.getQueryStringParams().contains(new Param("qsparam", "value")));
   }
 
   @Test
@@ -78,6 +78,6 @@ public class RequestTest
   @Test
   public void shouldHandleQueryStringSpaceEncodingProperly()
   {
-    assertTrue(getRequest.getQueryStringParams().get("other param").equals("value with spaces"));
+    assertTrue(getRequest.getQueryStringParams().contains(new Param("other param", "value with spaces")));
   }
 }

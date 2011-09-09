@@ -1,6 +1,7 @@
 package org.scribe.utils;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Utils for {@link Map} manipulation
@@ -15,23 +16,13 @@ public class MapUtils
    * @param map unsorted map
    * @return sorted map
    */
-  public static final Map<String, String> sort(Map<String, String> map)
+  public static final List<Param> sort(Collection<Param> map)
   {
     Preconditions.checkNotNull(map, "Cannot sort a null object.");
 
-    Map<String, String> sorted = new LinkedHashMap<String, String>();
-    for (String key : getSortedKeys(map))
-    {
-      sorted.put(key, map.get(key));
-    }
+    List<Param> sorted = new ArrayList<Param>(map);
+    Collections.sort(sorted);
     return sorted;
-  }
-
-  private static List<String> getSortedKeys(Map<String, String> map)
-  {
-    List<String> keys = new ArrayList<String>(map.keySet());
-    Collections.sort(keys);
-    return keys;
   }
 
   /**
@@ -41,11 +32,11 @@ public class MapUtils
    * @param source Map from where the keys get copied and decoded
    * @param target Map where the decoded keys are copied to
    */
-  public static void decodeAndAppendEntries(Map<String, String> source, Map<String, String> target)
+  public static void decodeAndAppendEntries(List<Param> source, List<Param> target)
   {
-    for (String key: source.keySet())
+    for (Entry<String, String> entry: source)
     {
-      target.put(URLUtils.percentEncode(key), URLUtils.percentEncode(source.get(key)));
+      target.add(new Param(URLUtils.percentEncode(entry.getKey()), URLUtils.percentEncode(entry.getValue())));
     }
   }
 }

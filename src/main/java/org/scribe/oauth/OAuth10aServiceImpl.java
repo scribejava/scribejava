@@ -1,9 +1,8 @@
 package org.scribe.oauth;
 
-import java.util.*;
-
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
+import org.scribe.utils.Param;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
@@ -108,7 +107,7 @@ public class OAuth10aServiceImpl implements OAuthService
         request.addHeader(OAuthConstants.HEADER, oauthHeader);
         break;
       case QueryString:
-        for (Map.Entry<String, String> entry : request.getOauthParameters().entrySet())
+        for (Param entry : request.getOauthParameters())
         {
           request.addQuerystringParameter(entry.getKey(), entry.getValue());
         }

@@ -11,10 +11,10 @@ public class URLUtilsTest
   @Test
   public void shouldPercentEncodeMap()
   {
-    Map<String, String> params = new LinkedHashMap<String, String>();
-    params.put("key", "value");
-    params.put("key with spaces", "value with spaces");
-    params.put("&symbols!", "#!");
+    List<Param> params = new ArrayList<Param>();
+    params.add(new Param("key", "value"));
+    params.add(new Param("key with spaces", "value with spaces"));
+    params.add(new Param("&symbols!", "#!"));
 
     String expected = "key=value&key+with+spaces=value+with+spaces&%26symbols%21=%23%21";
     assertEquals(expected, URLUtils.formURLEncodeMap(params));
@@ -23,7 +23,7 @@ public class URLUtilsTest
   @Test
   public void shouldReturnEmptyStringForEmptyMap()
   {
-    Map<String, String> params = new LinkedHashMap<String, String>();
+    List<Param> params = new ArrayList<Param>();
     String expected = "";
     assertEquals(expected, URLUtils.formURLEncodeMap(params));
   }
@@ -31,9 +31,9 @@ public class URLUtilsTest
   @Test
   public void shouldFormURLEncodeMapWithMissingValues()
   {
-    Map<String, String> params = new LinkedHashMap<String, String>();
-    params.put("key", "value");
-    params.put("key with spaces", null);
+	  List<Param> params = new ArrayList<Param>();
+    params.add(new Param("key", "value"));
+    params.add(new Param("key with spaces", null));
 
     String expected = "key=value&key+with+spaces";
     assertEquals(expected, URLUtils.formURLEncodeMap(params));
@@ -83,7 +83,7 @@ public class URLUtilsTest
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowExceptionIfMapIsNull()
   {
-    Map<String, String> nullMap = null;
+    List<Param> nullMap = null;
     URLUtils.formURLEncodeMap(nullMap);
   }
 
@@ -105,7 +105,7 @@ public class URLUtilsTest
   public void shouldThrowExceptionWhenAppendingNullMapToQuerystring()
   {
     String url = "http://www.example.com";
-    Map<String, String> nullMap = null;
+    List<Param> nullMap = null;
     URLUtils.appendParametersToQueryString(url, nullMap);
   }
 
@@ -113,7 +113,7 @@ public class URLUtilsTest
   public void shouldAppendNothingToQuerystringIfGivenEmptyMap()
   {
     String url = "http://www.example.com";
-    Map<String, String> emptyMap = new HashMap<String, String>();
+    List<Param> emptyMap = new ArrayList<Param>();
     String newUrl = URLUtils.appendParametersToQueryString(url, emptyMap);
     Assert.assertEquals(url, newUrl);
   }
@@ -124,9 +124,9 @@ public class URLUtilsTest
     String url = "http://www.example.com";
     String expectedUrl = "http://www.example.com?param1=value1&param2=value+with+spaces";
 
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("param1", "value1");
-    params.put("param2", "value with spaces");
+    List<Param> params = new ArrayList<Param>();
+    params.add(new Param("param1", "value1"));
+    params.add(new Param("param2", "value with spaces"));
 
     url = URLUtils.appendParametersToQueryString(url, params);
     Assert.assertEquals(url, expectedUrl);
@@ -138,9 +138,9 @@ public class URLUtilsTest
     String url = "http://www.example.com?already=present";
     String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=value+with+spaces";
 
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("param1", "value1");
-    params.put("param2", "value with spaces");
+    List<Param> params = new ArrayList<Param>();
+    params.add(new Param("param1", "value1"));
+    params.add(new Param("param2", "value with spaces"));
 
     url = URLUtils.appendParametersToQueryString(url, params);
     Assert.assertEquals(url, expectedUrl);

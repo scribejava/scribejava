@@ -23,16 +23,16 @@ public class HeaderExtractorImpl implements HeaderExtractor
   public String extract(OAuthRequest request)
   {
     checkPreconditions(request);
-    Map<String, String> parameters = request.getOauthParameters();
+    List<Param> parameters = request.getOauthParameters();
     StringBuffer header = new StringBuffer(parameters.size() * 20);
     header.append(PREAMBLE);
-    for (String key : parameters.keySet())
+    for (Param entry : parameters)
     {
       if(header.length() > PREAMBLE.length())
       { 
         header.append(PARAM_SEPARATOR);
       }
-      header.append(String.format("%s=\"%s\"", key, URLUtils.percentEncode(parameters.get(key))));
+      header.append(String.format("%s=\"%s\"", entry.getKey(), URLUtils.percentEncode(entry.getValue())));
     }
     return header.toString();
   }

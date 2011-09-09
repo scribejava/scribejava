@@ -9,40 +9,38 @@ import org.junit.*;
 public class MapUtilsTest
 {
 
-  private Map<String, String> unsorted;
+  private List<Param> unsorted;
 
   @Before
   public void setup()
   {
-    unsorted = new LinkedHashMap<String, String>();
-    unsorted.put("d", "fourth");
-    unsorted.put("a", "first");
-    unsorted.put("c", "third");
-    unsorted.put("b", "second");
+    unsorted = new ArrayList<Param>();
+    unsorted.add(new Param("d", "fourth"));
+    unsorted.add(new Param("a", "first"));
+    unsorted.add(new Param("c", "third"));
+    unsorted.add(new Param("b", "second"));
   }
 
   @Test
   public void shouldSortMap()
   {
-    Map<String, String> sorted = MapUtils.sort(unsorted);
-    List<String> values = new ArrayList<String>(sorted.values());
-    assertEquals("first", values.get(0));
-    assertEquals("second", values.get(1));
-    assertEquals("third", values.get(2));
-    assertEquals("fourth", values.get(3));
+    List<Param> sorted = MapUtils.sort(unsorted);
+    assertEquals("first", sorted.get(0).getValue());
+    assertEquals("second", sorted.get(1).getValue());
+    assertEquals("third", sorted.get(2).getValue());
+    assertEquals("fourth", sorted.get(3).getValue());
   }
 
   @Test
   public void shouldNotModifyTheOriginalMap()
   {
-    Map<String, String> sorted = MapUtils.sort(unsorted);
+    List<Param> sorted = MapUtils.sort(unsorted);
     assertNotSame(sorted, unsorted);
 
-    List<String> values = new ArrayList<String>(unsorted.values());
-    assertEquals("fourth", values.get(0));
-    assertEquals("first", values.get(1));
-    assertEquals("third", values.get(2));
-    assertEquals("second", values.get(3));
+    assertEquals("first", unsorted.get(0).getValue());
+    assertEquals("second", unsorted.get(1).getValue());
+    assertEquals("third", unsorted.get(2).getValue());
+    assertEquals("fourth", unsorted.get(3).getValue());
   }
 
   @Test(expected = IllegalArgumentException.class)

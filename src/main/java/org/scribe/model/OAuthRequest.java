@@ -2,6 +2,8 @@ package org.scribe.model;
 
 import java.util.*;
 
+import org.scribe.utils.Param;
+
 /**
  * The representation of an OAuth HttpRequest.
  * 
@@ -12,7 +14,7 @@ import java.util.*;
 public class OAuthRequest extends Request
 {
   private static final String OAUTH_PREFIX = "oauth_";
-  private Map<String, String> oauthParameters;
+  private List<Param> oauthParameters;
 
   /**
    * Default constructor.
@@ -23,7 +25,7 @@ public class OAuthRequest extends Request
   public OAuthRequest(Verb verb, String url)
   {
     super(verb, url);
-    this.oauthParameters = new HashMap<String, String>();
+    this.oauthParameters = new ArrayList<Param>();
   }
 
   /**
@@ -36,7 +38,7 @@ public class OAuthRequest extends Request
    */
   public void addOAuthParameter(String key, String value)
   {
-    oauthParameters.put(checkKey(key), value);
+    oauthParameters.add(new Param(checkKey(key), value));
   }
 
   private String checkKey(String key)
@@ -56,7 +58,7 @@ public class OAuthRequest extends Request
    * 
    * @return parameters as map
    */
-  public Map<String, String> getOauthParameters()
+  public List<Param> getOauthParameters()
   {
     return oauthParameters;
   }
