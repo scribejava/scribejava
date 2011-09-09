@@ -12,6 +12,7 @@ public class FacebookExample
   private static final String NETWORK_NAME = "Facebook";
   private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
   private static final Token EMPTY_TOKEN = null;
+  private static final String STATE = "abc123";
 
   public static void main(String[] args)
   {
@@ -22,6 +23,7 @@ public class FacebookExample
                                   .provider(FacebookApi.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
+                                  .state( STATE )
                                   .callback("http://www.example.com/oauth_callback/")
                                   .build();
     Scanner in = new Scanner(System.in);

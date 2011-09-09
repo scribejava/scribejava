@@ -60,6 +60,15 @@ public class ServiceBuilderTest
     assertEquals(ApiMock.config.getScope(), "rss-api");
   }
 
+  @Test
+  public void shouldAcceptAState()
+  {
+    builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").state("abc123").build();
+    assertEquals(ApiMock.config.getApiKey(), "key");
+    assertEquals(ApiMock.config.getApiSecret(), "secret");
+    assertEquals(ApiMock.config.getState(), "abc123");
+  }
+
   public static class ApiMock implements Api
   {
     public static OAuthConfig config;

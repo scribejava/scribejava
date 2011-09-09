@@ -14,12 +14,13 @@ public class OAuthConfigTest
     assertEquals(OAuthConstants.OUT_OF_BAND, config.getCallback());
     assertEquals(SignatureType.Header, config.getSignatureType());
     assertFalse(config.hasScope());
+    assertFalse(config.hasState());
   }
 
   @Test
   public void shouldOverrideDefaultsIfSet()
   {
-    OAuthConfig config = new OAuthConfig("key", "secret", "http://callback", SignatureType.Header, "scope");
+    OAuthConfig config = new OAuthConfig("key", "secret", "http://callback", SignatureType.Header, "scope", "state");
     assertEquals("http://callback", config.getCallback());
     assertEquals("key", config.getApiKey());
     assertEquals("secret", config.getApiSecret());

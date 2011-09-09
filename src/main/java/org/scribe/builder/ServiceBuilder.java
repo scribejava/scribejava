@@ -21,6 +21,7 @@ public class ServiceBuilder
   private Api api;
   private String scope;
   private SignatureType signatureType;
+  private String state;
   
   /**
    * Default constructor
@@ -138,6 +139,19 @@ public class ServiceBuilder
   }
   
   /**
+   * Configures the state
+   *
+   * @param state The OAuth 2.0 state
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder state(String state)
+  {
+    Preconditions.checkNotNull(state, "State can't be null");
+    this.state = state;
+    return this;
+  }
+
+  /**
    * Returns the fully configured {@link OAuthService}
    * 
    * @return fully configured {@link OAuthService}
@@ -147,6 +161,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, state));
   }
 }
