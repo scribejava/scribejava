@@ -21,6 +21,18 @@ public class URLUtilsTest
   }
 
   @Test
+  public void shouldPercentEncodeMultiValuesMap()
+  {
+    Map<String, List<String>> params = new LinkedHashMap<String, List<String>>();
+    params.put("key", Arrays.asList("value1", "value2"));
+    params.put("key with spaces", Arrays.asList("value with spaces", "another value with spaces"));
+    params.put("&symbols!", Arrays.asList("#!"));
+
+    String expected = "key=value1&key=value2&key+with+spaces=value+with+spaces&key+with+spaces=another+value+with+spaces&%26symbols%21=%23%21";
+    assertEquals(expected, URLUtils.formURLEncodeMultiValuesMap(params));
+  }
+
+  @Test
   public void shouldReturnEmptyStringForEmptyMap()
   {
     Map<String, String> params = new LinkedHashMap<String, String>();
@@ -105,7 +117,7 @@ public class URLUtilsTest
   public void shouldThrowExceptionWhenAppendingNullMapToQuerystring()
   {
     String url = "http://www.example.com";
-    Map<String, String> nullMap = null;
+    Map<String, List<String>> nullMap = null;
     URLUtils.appendParametersToQueryString(url, nullMap);
   }
 
@@ -113,7 +125,7 @@ public class URLUtilsTest
   public void shouldAppendNothingToQuerystringIfGivenEmptyMap()
   {
     String url = "http://www.example.com";
-    Map<String, String> emptyMap = new HashMap<String, String>();
+    Map<String, List<String>> emptyMap = new HashMap<String, List<String>>();
     String newUrl = URLUtils.appendParametersToQueryString(url, emptyMap);
     Assert.assertEquals(url, newUrl);
   }
@@ -124,9 +136,9 @@ public class URLUtilsTest
     String url = "http://www.example.com";
     String expectedUrl = "http://www.example.com?param1=value1&param2=value+with+spaces";
 
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("param1", "value1");
-    params.put("param2", "value with spaces");
+    Map<String, List<String>> params = new HashMap<String, List<String>>();
+    params.put("param1", Arrays.asList("value1"));
+    params.put("param2", Arrays.asList("value with spaces"));
 
     url = URLUtils.appendParametersToQueryString(url, params);
     Assert.assertEquals(url, expectedUrl);
@@ -138,9 +150,38 @@ public class URLUtilsTest
     String url = "http://www.example.com?already=present";
     String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=value+with+spaces";
 
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("param1", "value1");
-    params.put("param2", "value with spaces");
+    Map<String, List<String>> params = new HashMap<String, List<String>>();
+    params.put("param1", Arrays.asList("value1"));
+    params.put("param2", Arrays.asList("value with spaces"));
+
+    url = URLUtils.appendParametersToQueryString(url, params);
+    Assert.assertEquals(url, expectedUrl);
+  }
+
+  @Test
+  public void shouldAppendMultiValueParametersToUrlWithQuerystring()
+  {
+    String url = "http://www.example.com?already=present";
+    String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=a&param2=b&param2=c";
+
+    Map<String, List<String>> params = new HashMap<String, List<String>>();
+    params.put("param1", Arrays.asList("value1"));
+    params.put("param2", Arrays.asList("a", "b", "c"));
+
+    url = URLUtils.appendParametersToQueryString(url, params);
+    Assert.assertEquals(url, expectedUrl);
+  }
+
+  @Test
+  public void shouldAppendMultiValueParametersToUrlWithQuerystringWhereParameterExistsInQuerystring()
+  {
+    String url = "http://www.example.com?already=present&param1=exists1&param2=exists2";
+    String expectedUrl = "http://www.example.com?already=present&param1=exists1&param2=exists2"
+        + "&param1=value1&param2=a&param2=b&param2=c";
+
+    Map<String, List<String>> params = new HashMap<String, List<String>>();
+    params.put("param1", Arrays.asList("value1"));
+    params.put("param2", Arrays.asList("a", "b", "c"));
 
     url = URLUtils.appendParametersToQueryString(url, params);
     Assert.assertEquals(url, expectedUrl);

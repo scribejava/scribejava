@@ -20,7 +20,7 @@ class Request
 
   private String url;
   private Verb verb;
-  private Map<String, String> querystringParams;
+  private Map<String, List<String>> querystringParams;
   private Map<String, String> bodyParams;
   private Map<String, String> headers;
   private String payload = null;
@@ -41,7 +41,7 @@ class Request
   {
     this.verb = verb;
     this.url = url;
-    this.querystringParams = new HashMap<String, String>();
+    this.querystringParams = new HashMap<String, List<String>>();
     this.bodyParams = new HashMap<String, String>();
     this.headers = new HashMap<String, String>();
   }
@@ -137,7 +137,13 @@ class Request
    */
   public void addQuerystringParameter(String key, String value)
   {
-    this.querystringParams.put(key, value);
+    List<String> values = this.querystringParams.get(key);
+    if (values == null)
+    {
+      values = new ArrayList<String>();
+    }
+    values.add(value);
+    this.querystringParams.put(key, values);
   }
 
   /**
@@ -171,14 +177,14 @@ class Request
    * @return a map containing the query string parameters
    * @throws OAuthException if the URL is not valid
    */
-  public Map<String, String> getQueryStringParams()
+  public Map<String, List<String>> getQueryStringParams()
   {
     try
     {
-      Map<String, String> params = new HashMap<String, String>();
+      Map<String, List<String>> params = new HashMap<String, List<String>>();
       String queryString = new URL(url).getQuery();
-      params.putAll(URLUtils.queryStringToMap(queryString));
-      params.putAll(this.querystringParams);
+      MapUtils.appendMultiValueEntries(URLUtils.queryStringToMap(queryString), params);
+      MapUtils.appendMultiValueEntries(this.querystringParams, params);
       return params;
     }
     catch (MalformedURLException mue)
