@@ -68,5 +68,13 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     return api.getAuthorizationUrl(config);
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public String getAuthorizationUrl(Token requestToken, String consumerKey)
+  {
+	return api.getAuthorizationUrl(config);
+  }
 
 }

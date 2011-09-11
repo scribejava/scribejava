@@ -50,4 +50,15 @@ public interface OAuthService
    * @return the URL where you should redirect your users
    */
   public String getAuthorizationUrl(Token requestToken);
+  
+  /**
+   * Returns the URL where you should redirect your users to authenticate
+   * your application.
+   * 
+   * @param requestToken the request token you need to authorize
+   * @param consumerKey the key provided to the developer by companies, such as NetFlix
+   * @return the URL where you should redirect your users
+   */
+  public abstract String getAuthorizationUrl(Token requestToken, String consumerKey);
+
 }
