@@ -35,6 +35,11 @@ public class Response
     }
   }
 
+  public Response()
+  {
+
+  }
+
   private String parseBodyContents()
   {
     body = StreamUtils.getStreamContents(getStream());
