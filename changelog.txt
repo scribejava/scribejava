@@ -64,3 +64,8 @@
   * FEATURE: Added refresh token feature for Yahoo! API. Issue #134 (thanks Aaron Foltz)
   * FEATURE: Added support for Plurk API. Issue #130 (thanks Chia-Wei Li)
   * FIX: Request.setConnectTimeout() and setReadTimeout() throw NPE. Issue #123 (thanks thepizzle)
+
+[1.2.3]
+  * FEATURE: Changed LinkedIn & Twitter to authenticate instead of authorize
+  * FEATURE: Added support for Google oAuth 2.0 Api
+  * FIX: Fixed the getAccessToken to accept POST methods
