@@ -96,9 +96,9 @@ public class OAuth10aServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public String getAuthorizationUrl(Token requestToken, String consumerKey)
+  public String getAuthorizationUrl(Token requestToken, Map<String, String> requestKeyWords)
   {
-	    return api.getAuthorizationUrl(requestToken, consumerKey);
+    return api.getAuthorizationUrl(requestToken, requestKeyWords);
   }
   
   private String getSignature(OAuthRequest request, Token token)

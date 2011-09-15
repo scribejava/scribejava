@@ -1,9 +1,12 @@
 package org.scribe.builder.api;
 
+import java.util.Map;
+
 import org.scribe.extractors.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 import org.scribe.services.*;
+import org.scribe.utils.MapUtils;
 
 /**
  * Default implementation of the OAuth protocol, version 1.0a
@@ -134,8 +137,8 @@ public abstract class DefaultApi10a implements Api
    * @param consumerKey the key provided to the developer by companies, such as NetFlix
    * @return the URL where you should redirect your users
    */
-  public String getAuthorizationUrl(Token requestToken, String consumerKey) {
-	  return null;
+  public String getAuthorizationUrl(Token requestToken, Map<String, String> requestKeyWords) {
+    return MapUtils.mapToString(requestKeyWords);
   }
   
   /**

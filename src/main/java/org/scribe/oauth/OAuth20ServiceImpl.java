@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.util.Map;
+
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
@@ -72,9 +74,9 @@ public class OAuth20ServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public String getAuthorizationUrl(Token requestToken, String consumerKey)
+  public String getAuthorizationUrl(Token requestToken, Map<String, String> requestKeyWords)
   {
-	return api.getAuthorizationUrl(config);
+    return api.getAuthorizationUrl(config);
   }
 
 }

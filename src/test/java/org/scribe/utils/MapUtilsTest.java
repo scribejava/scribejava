@@ -45,6 +45,17 @@ public class MapUtilsTest
     assertEquals("second", values.get(3));
   }
 
+  @Test
+  public void shouldBuildString()
+  {
+    String unsortedMap = MapUtils.mapToString(unsorted);
+    assertEquals("d=fourth&a=first&c=third&b=second", unsortedMap);
+    
+    Map<String, String> sorted = MapUtils.sort(unsorted);
+    String sortedMap = MapUtils.mapToString(sorted);
+    assertEquals("a=first&b=second&c=third&d=fourth", sortedMap);
+  }
+  
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowExceptionForNullMap()
   {

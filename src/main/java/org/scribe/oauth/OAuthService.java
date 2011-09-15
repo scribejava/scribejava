@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.util.Map;
+
 import org.scribe.model.*;
 
 /**
@@ -59,6 +61,6 @@ public interface OAuthService
    * @param consumerKey the key provided to the developer by companies, such as NetFlix
    * @return the URL where you should redirect your users
    */
-  public abstract String getAuthorizationUrl(Token requestToken, String consumerKey);
+  public String getAuthorizationUrl(Token requestToken, Map<String, String> requestKeyWords);
 
 }
