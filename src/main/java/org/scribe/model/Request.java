@@ -17,6 +17,7 @@ import org.scribe.utils.*;
 class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
+  private static final String CONTENT_TYPE = "Content-Type";
 
   private String url;
   private Verb verb;
@@ -238,7 +239,13 @@ class Request
   byte[] getByteBodyContents()
   {
     if (bytePayload != null) return bytePayload;
-    String body = (payload != null) ? payload : URLUtils.formURLEncodeMap(bodyParams);
+    String body = payload;
+    if (body == null && !bodyParams.isEmpty()) {
+    	body = URLUtils.formURLEncodeMap(bodyParams);
+    	//add content-type header
+    	if (!this.headers.containsKey(CONTENT_TYPE))
+    		this.addHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
+    }
     try
     {
       return body.getBytes(getCharset());
