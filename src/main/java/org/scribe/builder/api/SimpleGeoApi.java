@@ -5,17 +5,20 @@ import org.scribe.model.Token;
 public class SimpleGeoApi extends DefaultApi10a {
 
 	@Override
-	public String getRequestTokenEndpoint() {
+	public String getRequestTokenEndpoint()
+	{
 		return "";
 	}
 
 	@Override
-	public String getAccessTokenEndpoint() {
+	public String getAccessTokenEndpoint()
+	{
 		return "";
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(Token requestToken)
+	{
 		return "";
 	}
 
