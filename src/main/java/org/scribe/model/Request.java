@@ -244,7 +244,7 @@ class Request
     	body = URLUtils.formURLEncodeMap(bodyParams);
     	//add content-type header
     	if (!this.headers.containsKey(CONTENT_TYPE))
-    		this.addHeader(CONTENT_TYPE, "application/x-www-form-urlencoded");
+    		this.addHeader(CONTENT_TYPE, "application/x-www-form-urlencoded; charset=" + getCharset() + ";");
     }
     try
     {
