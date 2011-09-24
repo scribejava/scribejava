@@ -35,6 +35,15 @@ public class TokenExtractor20Test
     assertEquals("", extracted.getSecret());
   }
 
+  @Test
+  public void shouldExtractTokenFromResponseWithManyParameters()
+  {
+    String response = "access_token=foo1234&other_stuff=yeah_we_have_this_too&number=42";
+    Token extracted = extractor.extract(response);
+    assertEquals("foo1234", extracted.getToken());
+    assertEquals("", extracted.getSecret());
+  }
+
   @Test(expected = OAuthException.class)
   public void shouldThrowExceptionIfTokenIsAbsent()
   {
