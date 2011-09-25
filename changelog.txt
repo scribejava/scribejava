@@ -69,3 +69,4 @@
   * FEATURE: Added default Content-Type header
   * FEATURE: SoundCloud Api
   * FEATURE: Sapo Api
+  * FEATURE: Plurk Mobile Api
