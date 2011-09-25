@@ -28,10 +28,11 @@ public class Response
       code = connection.getResponseCode();
       headers = parseHeaders(connection);
       stream = wasSuccessful() ? connection.getInputStream() : connection.getErrorStream();
-    } catch (UnknownHostException e)
+    }
+    catch (UnknownHostException e)
     {
       code = 404;
-      body = EMPTY;
+      body = Response.EMPTY;
     }
   }
 
