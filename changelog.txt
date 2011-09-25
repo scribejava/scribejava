@@ -68,3 +68,4 @@
 [1.2.3]
   * FEATURE: Added default Content-Type header
   * FEATURE: SoundCloud Api
+  * FEATURE: Sapo Api
