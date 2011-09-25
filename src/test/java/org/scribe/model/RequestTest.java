@@ -6,7 +6,6 @@ import org.junit.*;
 
 public class RequestTest
 {
-
   private Request getRequest;
   private Request postRequest;
   private ConnectionStub connection;
@@ -79,5 +78,43 @@ public class RequestTest
   public void shouldHandleQueryStringSpaceEncodingProperly()
   {
     assertTrue(getRequest.getQueryStringParams().get("other param").equals("value with spaces"));
+  }
+
+  @Test
+  public void shouldAutomaticallyAddContentTypeForPostRequestsWithBytePayload()
+  {
+    postRequest.addPayload("PAYLOAD".getBytes());
+    postRequest.send();
+    assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
+  }
+
+  @Test
+  public void shouldAutomaticallyAddContentTypeForPostRequestsWithStringPayload()
+  {
+    postRequest.addPayload("PAYLOAD");
+    postRequest.send();
+    assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
+  }
+
+  @Test
+  public void shouldAutomaticallyAddContentTypeForPostRequestsWithBodyParameters()
+  {
+    postRequest.send();
+    assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
+  }
+
+  @Test
+  public void shouldBeAbleToOverrideItsContentType()
+  {
+    postRequest.addHeader("Content-Type", "my-content-type");
+    postRequest.send();
+    assertEquals("my-content-type", connection.getHeaders().get("Content-Type"));
+  }
+
+  @Test
+  public void shouldNotAddContentTypeForGetRequests()
+  {
+    getRequest.send();
+    assertFalse(connection.getHeaders().containsKey("Content-Type"));
   }
 }
