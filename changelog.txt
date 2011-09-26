@@ -70,3 +70,4 @@
   * FEATURE: Sapo Api
   * FEATURE: Plurk Mobile Api
   * FEATURE: Kaixin and QWeibo Apis
+  * FEATURE: SimpleGeo Api
