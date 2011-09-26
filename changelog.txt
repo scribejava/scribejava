@@ -67,7 +67,6 @@
 
 [1.2.3]
   * FEATURE: Added default Content-Type header
-  * FEATURE: SoundCloud Api
   * FEATURE: Sapo Api
   * FEATURE: Plurk Mobile Api
   * FEATURE: Kaixin and QWeibo Apis
