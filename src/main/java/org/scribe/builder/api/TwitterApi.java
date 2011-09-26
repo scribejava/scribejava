@@ -40,4 +40,27 @@ public class TwitterApi extends DefaultApi10a
       return "https://" + REQUEST_TOKEN_RESOURCE;
     }
   }
+
+  /**
+   * Twitter 'friendlier' authorization endpoint for OAuth.
+   *
+   * Uses SSL.
+   */
+  public static class Authenticate extends SSL
+  {
+    private static final String AUTHENTICATE_URL = "https://api.twitter.com/oauth/authenticate?oauth_token=%s";
+
+    @Override
+    public String getAuthorizationUrl(Token requestToken)
+    {
+      return String.format(AUTHENTICATE_URL, requestToken.getToken());
+    }
+  }
+
+  /**
+   * Just an alias to the default (SSL) authorization endpoint.
+   *
+   * Need to include this for symmetry with 'Authenticate' only.
+   */
+  public static class Authorize extends SSL{}
 }

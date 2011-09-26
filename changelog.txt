@@ -48,12 +48,26 @@
 [1.2]
   * REFACTOR: Moved scope inside OAuthConfig (breaks backwards compatibility)
   * FEATURE: Added scopes to Facebook 2.0 Api
-<<<<<<< HEAD
   * FEATURE: Added Plaintext signature for Yammer
   * FEATURE: Added Twitter SSL endpoints (use TwitterApi.SSL.class)
 
 [1.2.1]
   * FEATURE: Added custom charset support to Request (thanks Eric Genet)
   * FEATURE: Added support for Vkontakte (thanks dotbg)
-=======
->>>>>>> parent of 97f45d7... bounced version numbers for release
+  * FEATURE: Added Sohu Weibo, Netease Weibo & Sina Weibo Apis (thanks Arthur Wang)
+  * FEATURE: Added support for persistent Http Connections (thanks Craig Minton)
+
+[1.2.2]
+  * FIX: Added support for JDK 1.5. Issue #146 (thanks Sripathi Krishnan)
+  * FIX: Invalid character constant error message. Issue #137 (thanks Scott Scoble)
+  * FEATURE: Added a Api class to handle windows live authentication. Issue #135 (thanks Tomas Lin)
+  * FEATURE: Added refresh token feature for Yahoo! API. Issue #134 (thanks Aaron Foltz)
+  * FEATURE: Added support for Plurk API. Issue #130 (thanks Chia-Wei Li)
+  * FIX: Request.setConnectTimeout() and setReadTimeout() throw NPE. Issue #123 (thanks thepizzle)
+
+[1.2.3]
+  * FEATURE: Added default Content-Type header
+  * FEATURE: Sapo Api
+  * FEATURE: Plurk Mobile Api
+  * FEATURE: Kaixin and QWeibo Apis
+  * FEATURE: SimpleGeo Api
