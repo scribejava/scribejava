@@ -1,8 +1,9 @@
 package org.scribe.builder.api;
 
+import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.model.Token;
 
-public class TwitterApi extends DefaultApi10a
+public class RdioApi extends DefaultApi10a
 {
   private static final String AUTHORIZE_URL = "https://www.rdio.com/oauth/authorize?oauth_token=%s";
   private static final String REQUEST_TOKEN_RESOURCE = "api.rdio.com/oauth/request_token";
@@ -26,7 +27,7 @@ public class TwitterApi extends DefaultApi10a
     return String.format(AUTHORIZE_URL, requestToken.getToken());
   }
 
-  public static class SSL extends TwitterApi
+  public static class SSL extends RdioApi
   {
     @Override
     public String getAccessTokenEndpoint()
