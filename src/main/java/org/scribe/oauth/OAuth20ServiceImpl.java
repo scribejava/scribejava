@@ -28,10 +28,12 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    request.addParameter(OAuthConstants.CODE, verifier.getValue());
+    request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    // Google required OAuth2 parameter
+    request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
     if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
