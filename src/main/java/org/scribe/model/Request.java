@@ -154,6 +154,24 @@ class Request
   }
 
   /**
+   * Add a parameter : as body parameter for POST & PUT request, as query string parameter for GET & DELETE request.
+   * 
+   * @param key the parameter name
+   * @param value the parameter value
+   */
+  public void addParameter(String key, String value)
+  {
+      switch (this.verb) {
+          case POST: case PUT:
+              addBodyParameter(key, value);
+              break;
+          default:
+              addQuerystringParameter(key, value);
+              break;
+      }
+  }
+  
+  /**
    * Add body payload.
    * 
    * This method is used when the HTTP body is not a form-url-encoded string,

@@ -75,6 +75,25 @@ public class RequestTest
   }
 
   @Test
+  public void shouldAllowAddingParametersAfterCreationForGET()
+  {
+    Request request = new Request(Verb.GET, "http://example.com?one=val");
+    request.addParameter("two", "other val");
+    request.addParameter("more", "params");
+    assertEquals(3, request.getQueryStringParams().size());
+  }
+
+  @Test
+  public void shouldAllowAddingParametersAfterCreationForPOST()
+  {
+    assertEquals("param=value&param+with+spaces=value+with+spaces", postRequest.getBodyContents());
+    postRequest.addParameter("two", "other");
+    postRequest.addParameter("other param with spaces", "other value with spaces");
+    assertTrue(postRequest.getBodyContents().contains("two=other"));
+    assertTrue(postRequest.getBodyContents().contains("other+param+with+spaces=other+value+with+spaces"));
+  }
+
+  @Test
   public void shouldHandleQueryStringSpaceEncodingProperly()
   {
     assertTrue(getRequest.getQueryStringParams().get("other param").equals("value with spaces"));
