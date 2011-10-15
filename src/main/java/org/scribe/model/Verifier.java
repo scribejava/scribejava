@@ -10,6 +10,8 @@ import org.scribe.utils.*;
 public class Verifier
 {
 
+  private final static Verifier NONE = new Verifier();
+    
   private final String value;
 
   /**
@@ -22,9 +24,21 @@ public class Verifier
     Preconditions.checkNotNull(value, "Must provide a valid string as verifier");
     this.value = value;
   }
+  
+  private Verifier() {
+      this.value = null;
+  }
 
   public String getValue()
   {
     return value;
+  }
+  
+  public static Verifier none() {
+      return NONE;
+  }
+
+  public boolean isDefined() {
+    return this != NONE;
   }
 }

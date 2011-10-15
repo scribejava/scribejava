@@ -30,7 +30,9 @@ public class OAuth20ServiceImpl implements OAuthService
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+    if ( verifier.isDefined() ) {
+	request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+    }
     final Callback callback = config.getCallback();
     
     if ( callback.addToRequest() ) {
