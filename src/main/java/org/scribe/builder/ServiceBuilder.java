@@ -17,7 +17,7 @@ public class ServiceBuilder
 {
   private String apiKey;
   private String apiSecret;
-  private String callback;
+  private Callback callback;
   private Api api;
   private String scope;
   private SignatureType signatureType;
@@ -27,7 +27,7 @@ public class ServiceBuilder
    */
   public ServiceBuilder()
   {
-    this.callback = OAuthConstants.OUT_OF_BAND;
+    this.callback = Callback.outOfBand();
   }
   
   /**
@@ -80,8 +80,18 @@ public class ServiceBuilder
    */
   public ServiceBuilder callback(String callback)
   {
-    Preconditions.checkValidOAuthCallback(callback, "Callback must be a valid URL or 'oob'");
-    this.callback = callback;
+    this.callback = Callback.from( callback );
+    return this;
+  }
+
+  /**
+   * Removes the callback parameter completely
+   * 
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder noCallback()
+  {
+    this.callback = Callback.none();
     return this;
   }
   

@@ -11,7 +11,7 @@ public class OAuthConfigTest
   public void shouldReturnDefaultValuesIfNotSet()
   {
     OAuthConfig config = new OAuthConfig("key", "secret");
-    assertEquals(OAuthConstants.OUT_OF_BAND, config.getCallback());
+    assertEquals(Callback.outOfBand(), config.getCallback());
     assertEquals(SignatureType.Header, config.getSignatureType());
     assertFalse(config.hasScope());
   }
@@ -19,8 +19,8 @@ public class OAuthConfigTest
   @Test
   public void shouldOverrideDefaultsIfSet()
   {
-    OAuthConfig config = new OAuthConfig("key", "secret", "http://callback", SignatureType.Header, "scope");
-    assertEquals("http://callback", config.getCallback());
+    OAuthConfig config = new OAuthConfig("key", "secret", Callback.from( "http://callback" ), SignatureType.Header, "scope");
+    assertEquals( Callback.from( "http://callback" ), config.getCallback());
     assertEquals("key", config.getApiKey());
     assertEquals("secret", config.getApiSecret());
   }

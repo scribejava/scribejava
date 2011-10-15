@@ -17,8 +17,8 @@ public class Foursquare2Api extends DefaultApi20
   @Override
   public String getAuthorizationUrl(OAuthConfig config)
   {
-    Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Foursquare2 does not support OOB");
-    return String.format(AUTHORIZATION_URL, config.getApiKey(), URLUtils.formURLEncode(config.getCallback()));
+    Preconditions.check(config.getCallback().hasValidUrl(), "Must provide a valid url as callback. Foursquare2 does not support OOB");
+    return String.format(AUTHORIZATION_URL, config.getApiKey(),config.getCallback().makeURLEncodedValue());
   }
 
   @Override
