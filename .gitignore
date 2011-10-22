@@ -5,6 +5,11 @@
 .project
 .settings
 
+# IntelliJ Idea settings
+
+.idea
+scribe.iml
+
 # Binaries
 
 target

@@ -12,7 +12,7 @@ import org.scribe.utils.*;
  */
 public class TokenExtractor20Impl implements AccessTokenExtractor
 {
-  private static final String TOKEN_REGEX = "access_token=(\\S*?)(&(\\S*))?";
+  private static final String TOKEN_REGEX = "access_token=([^&]+)";
   private static final String EMPTY_SECRET = "";
 
   /**
@@ -23,7 +23,7 @@ public class TokenExtractor20Impl implements AccessTokenExtractor
     Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
 
     Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
-    if (matcher.matches())
+    if (matcher.find())
     {
       String token = URLUtils.formURLDecode(matcher.group(1));
       return new Token(token, EMPTY_SECRET, response);

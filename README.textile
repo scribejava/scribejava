@@ -38,6 +38,8 @@ h3. Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
 * Yammer
 
+* Windows Live
+
 * and many more! check the "examples folder":http://github.com/fernandezpablo85/scribe-java/tree/master/src/test/java/org/scribe/examples
 
 h3. Small and modular
@@ -61,7 +63,7 @@ You can pull scribe from a maven repository, just add this to your __pom.xml__ f
 @<dependency>@
   @<groupId>org.scribe</groupId>@
   @<artifactId>scribe</artifactId>@
-  @<version>1.2.1</version>@
+  @<version>1.2.3</version>@
 @</dependency>@
 
 h1. Getting started in less than 2 minutes

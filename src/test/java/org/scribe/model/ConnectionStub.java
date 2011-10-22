@@ -22,6 +22,12 @@ public class ConnectionStub extends HttpURLConnection
     headers.put(key, value);
   }
 
+  @Override
+  public String getRequestProperty(String s)
+  {
+    return headers.get(s);
+  }
+
   public Map<String, String> getHeaders()
   {
     return headers;

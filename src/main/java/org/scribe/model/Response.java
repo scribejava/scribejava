@@ -27,11 +27,12 @@ public class Response
       connection.connect();
       code = connection.getResponseCode();
       headers = parseHeaders(connection);
-      stream = wasSuccessful() ? connection.getInputStream() : connection.getErrorStream();
-    } catch (UnknownHostException e)
+      stream = isSuccessful() ? connection.getInputStream() : connection.getErrorStream();
+    }
+    catch (UnknownHostException e)
     {
       code = 404;
-      body = EMPTY;
+      body = Response.EMPTY;
     }
   }
 
@@ -51,7 +52,7 @@ public class Response
     return headers;
   }
 
-  private boolean wasSuccessful()
+  public boolean isSuccessful()
   {
     return getCode() >= 200 && getCode() < 400;
   }
@@ -100,10 +101,9 @@ public class Response
   /**
    * Obtains a single HTTP Header value, or null if undefined
    * 
-   * @param header
-   *          name
+   * @param name the header name.
    * 
-   * @return header value or null
+   * @return header value or null.
    */
   public String getHeader(String name)
   {

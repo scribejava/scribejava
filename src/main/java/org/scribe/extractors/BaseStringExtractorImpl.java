@@ -36,7 +36,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
     MapUtils.decodeAndAppendEntries(request.getBodyParams(), params);
     MapUtils.decodeAndAppendEntries(request.getOauthParameters(), params);
     params = MapUtils.sort(params);
-    return URLUtils.percentEncode(URLUtils.concatSortedPercentEncodedParams(params));
+    return URLUtils.percentEncode(MapUtils.concatSortedPercentEncodedParams(params));
   }
 
   private void checkPreconditions(OAuthRequest request)

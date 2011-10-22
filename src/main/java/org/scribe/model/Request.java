@@ -17,6 +17,8 @@ import org.scribe.utils.*;
 class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
+  private static final String CONTENT_TYPE = "Content-Type";
+  public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
   private String url;
   private Verb verb;
@@ -59,9 +61,14 @@ class Request
     {
       createConnection();
       return doSend();
-    } catch (IOException ioe)
+    }
+    catch (UnknownHostException uhe)
     {
-      throw new OAuthException("Problems while creating connection", ioe);
+      throw new OAuthException("Could not reach the desired host. Check your network connection.", uhe);
+    }
+    catch (IOException ioe)
+    {
+      throw new OAuthException("Problems while creating connection.", ioe);
     }
   }
 
@@ -103,6 +110,12 @@ class Request
   void addBody(HttpURLConnection conn, byte[] content) throws IOException
   {
     conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
+
+    // Set default content type if none is set.
+    if (conn.getRequestProperty(CONTENT_TYPE) == null)
+    {
+      conn.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+    }
     conn.setDoOutput(true);
     conn.getOutputStream().write(content);
   }
@@ -177,7 +190,7 @@ class Request
     {
       Map<String, String> params = new HashMap<String, String>();
       String queryString = new URL(url).getQuery();
-      params.putAll(URLUtils.queryStringToMap(queryString));
+      params.putAll(MapUtils.queryStringToMap(queryString));
       params.putAll(this.querystringParams);
       return params;
     }

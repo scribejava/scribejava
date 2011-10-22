@@ -4,7 +4,7 @@
   <groupId>org.scribe</groupId>
   <artifactId>scribe</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.1</version>
+  <version>1.2.3</version>
   <name>Scribe OAuth Library</name>
   <description>The best OAuth library out there</description>
   <url>http://github.com/fernandezpablo85/scribe-java</url>
@@ -63,8 +63,8 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.5</source>
+          <target>1.5</target>
         </configuration>
       </plugin>
       <plugin>
