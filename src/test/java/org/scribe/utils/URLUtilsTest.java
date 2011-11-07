@@ -163,4 +163,17 @@ public class URLUtilsTest
 
     Assert.assertEquals(expected, URLUtils.formURLDecode(encoded));
   }
+
+  @Test
+  public void shouldPercentEncodeCorrectlyTwitterCodingExamples()
+  {
+    // These tests are part of the Twitter dev examples here -> https://dev.twitter.com/docs/auth/percent-encoding-parameters
+    String sources[] = {"Ladies + Gentlemen", "An encoded string!", "Dogs, Cats & Mice"};
+    String encoded[] = {"Ladies%20%2B%20Gentlemen", "An%20encoded%20string%21", "Dogs%2C%20Cats%20%26%20Mice"};
+
+    for(int i = 0; i < sources.length; i++)
+    {
+      Assert.assertEquals(encoded[i], URLUtils.percentEncode(sources[i]));
+    }
+  }
 }
