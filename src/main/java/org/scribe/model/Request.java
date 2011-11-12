@@ -3,8 +3,18 @@ package org.scribe.model;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.*;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.scribe.exceptions.*;
 import org.scribe.utils.*;
@@ -51,7 +61,6 @@ class Request
   /**
    * Execute the request and return a {@link Response}
    * 
-   * @return Http Response
    * @throws RuntimeException
    *           if the connection cannot be created.
    */
@@ -72,13 +81,60 @@ class Request
     }
   }
 
+//always verify the host - dont check for certificate
+  final static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+          public boolean verify(String hostname, SSLSession session) {
+                  return true;
+          }
+  };
+
+  /**
+   * Trust every server - dont check for any certificate
+   */
+  private static void trustAllHosts() {
+          // Create a trust manager that does not validate certificate chains
+          TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+                  public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                          return new java.security.cert.X509Certificate[] {};
+                  }
+
+                  public void checkClientTrusted(X509Certificate[] chain,
+                                  String authType) throws CertificateException {
+                  }
+
+                  public void checkServerTrusted(X509Certificate[] chain,
+                                  String authType) throws CertificateException {
+                  }
+          } };
+
+          // Install the all-trusting trust manager
+          try {
+                  SSLContext sc = SSLContext.getInstance("TLS");
+                  sc.init(null, trustAllCerts, new java.security.SecureRandom());
+                  HttpsURLConnection
+                                  .setDefaultSSLSocketFactory(sc.getSocketFactory());
+          } catch (Exception e) {
+                  e.printStackTrace();
+          }
+  }
+  
   private void createConnection() throws IOException
   {
     String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
     if (connection == null)
     {
       System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
+      //connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
+      
+      URL url = new URL(effectiveUrl);
+      if (url.getProtocol().toLowerCase().equals("https")) {
+          trustAllHosts();
+              HttpsURLConnection https = (HttpsURLConnection) url.openConnection();
+              https.setHostnameVerifier(DO_NOT_VERIFY);
+              connection = https;
+      } else {
+              connection = (HttpURLConnection) url.openConnection();
+      }
     }
   }
 
