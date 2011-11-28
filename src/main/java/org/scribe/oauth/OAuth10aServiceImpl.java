@@ -65,7 +65,7 @@ public class OAuth10aServiceImpl implements OAuthService
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     if ( verifier.isDefined() ) {
-	request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
+        request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
     }
     addOAuthParams(request, requestToken);
     addSignature(request);

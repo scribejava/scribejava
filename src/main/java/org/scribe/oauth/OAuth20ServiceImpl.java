@@ -31,12 +31,12 @@ public class OAuth20ServiceImpl implements OAuthService
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     if ( verifier.isDefined() ) {
-	request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+      request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
     }
     final Callback callback = config.getCallback();
     
     if ( callback.addToRequest() ) {
-	request.addOAuthParameter(OAuthConstants.REDIRECT_URI, callback.getCallbackValue() );
+      request.addOAuthParameter(OAuthConstants.REDIRECT_URI, callback.getCallbackValue() );
     }
     if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
     Response response = request.send();

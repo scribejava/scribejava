@@ -39,43 +39,41 @@ public class Callback {
     }
 
     public String makeURLEncodedValue() {
-	return  URLUtils.formURLEncode(callbackValue);
+        return URLUtils.formURLEncode(callbackValue);
     }
     
     public boolean addToRequest() {
-	return this != NONE && this.callbackValue != null;
+        return this != NONE && this.callbackValue != null;
     }
 
     public boolean hasValidUrl() {
-	return this != NONE && this != OUT_OF_BAND;
+        return this != NONE && this != OUT_OF_BAND;
     }
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result
-		+ ((callbackValue == null) ? 0 : callbackValue.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+            + ((callbackValue == null) ? 0 : callbackValue.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	Callback other = (Callback) obj;
-	if (callbackValue == null) {
-	    if (other.callbackValue != null)
-		return false;
-	} else if (!callbackValue.equals(other.callbackValue))
-	    return false;
-	return true;
-    }
-    
-    
+        if (this == obj)
+          return true;
+        if (obj == null)
+          return false;
+        if (getClass() != obj.getClass())
+          return false;
+        Callback other = (Callback) obj;
+        if (callbackValue == null) {
+          if (other.callbackValue != null)
+          return false;
+        } else if (!callbackValue.equals(other.callbackValue))
+          return false;
+        return true;
+     }
     
 }
