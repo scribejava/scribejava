@@ -23,7 +23,7 @@ public class ServiceBuilderTest
     builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").build();
     assertEquals(ApiMock.config.getApiKey(), "key");
     assertEquals(ApiMock.config.getApiSecret(), "secret");
-    assertEquals(ApiMock.config.getCallback(), OAuthConstants.OUT_OF_BAND);
+    assertEquals(ApiMock.config.getCallback(), Callback.outOfBand());
     assertEquals(ApiMock.config.getSignatureType(), SignatureType.Header);
   }
 
@@ -33,7 +33,7 @@ public class ServiceBuilderTest
     builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").callback("http://example.com").build();
     assertEquals(ApiMock.config.getApiKey(), "key");
     assertEquals(ApiMock.config.getApiSecret(), "secret");
-    assertEquals(ApiMock.config.getCallback(), "http://example.com");
+    assertEquals( ApiMock.config.getCallback(), Callback.from( "http://example.com" ) );
   }
 
   @Test

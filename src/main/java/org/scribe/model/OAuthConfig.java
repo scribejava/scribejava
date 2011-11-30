@@ -9,7 +9,7 @@ public class OAuthConfig
 {
   private final String apiKey;
   private final String apiSecret;
-  private final String callback;
+  private final Callback callback;
   private final SignatureType signatureType;
   private final String scope;
   
@@ -18,11 +18,11 @@ public class OAuthConfig
     this(key, secret, null, null, null);
   }
 
-  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope)
+  public OAuthConfig(String key, String secret, Callback callback, SignatureType type, String scope)
   {
     this.apiKey = key;
     this.apiSecret = secret;
-    this.callback = callback != null ? callback : OAuthConstants.OUT_OF_BAND;
+    this.callback = callback != null ? callback : Callback.outOfBand();
     this.signatureType = (type != null) ? type : SignatureType.Header;
     this.scope = scope;
   }
@@ -37,7 +37,7 @@ public class OAuthConfig
     return apiSecret;
   }
 
-  public String getCallback()
+  public Callback getCallback()
   {
     return callback;
   }

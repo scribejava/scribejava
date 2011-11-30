@@ -23,15 +23,15 @@ public class LiveApi extends DefaultApi20
 	@Override
 	public String getAuthorizationUrl(OAuthConfig config)
 	{
-		Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Live does not support OOB");
+	   Preconditions.check(config.getCallback().hasValidUrl(), "Must provide a valid url as callback. Live does not support OOB");
 
 		// Append scope if present
 		if (config.hasScope())
 		{
-			return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), formURLEncode(config.getCallback()), formURLEncode(config.getScope()));
+			return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), config.getCallback().makeURLEncodedValue(), formURLEncode(config.getScope()));
 		} else
 		{
-			return String.format(AUTHORIZE_URL, config.getApiKey(), formURLEncode(config.getCallback()));
+			return String.format(AUTHORIZE_URL, config.getApiKey(), config.getCallback().makeURLEncodedValue());
 		}
 	}
 
