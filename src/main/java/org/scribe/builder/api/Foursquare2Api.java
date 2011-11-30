@@ -11,7 +11,7 @@ public class Foursquare2Api extends DefaultApi20
   @Override
   public String getAccessTokenEndpoint()
   {
-    return "https://foursquare.com/oauth2/access_token?grant_type=authorization_code";
+    return "https://foursquare.com/oauth2/access_token";
   }
 
   @Override

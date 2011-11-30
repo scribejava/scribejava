@@ -21,6 +21,7 @@ public class ServiceBuilder
   private Api api;
   private String scope;
   private SignatureType signatureType;
+  private String grantType;
   
   /**
    * Default constructor
@@ -28,6 +29,7 @@ public class ServiceBuilder
   public ServiceBuilder()
   {
     this.callback = OAuthConstants.OUT_OF_BAND;
+    this.grantType = OAuthConstants.AUTHORIZATION_CODE;
   }
   
   /**
@@ -123,6 +125,19 @@ public class ServiceBuilder
     this.scope = scope;
     return this;
   }
+  
+  /**
+   * Configures the OAuth grant type. This is only necessary in some APIs (like Google's).
+   * 
+   * @param scope The OAuth grant type
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder grantType(String grantType)
+  {
+	  Preconditions.checkEmptyString(grantType, "Invalid OAuth grant type");
+	  this.grantType = grantType;
+	  return this;
+  }
 
   /**
    * Configures the signature type, choose between header, querystring, etc. Defaults to Header
@@ -147,6 +162,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, grantType));
   }
 }
