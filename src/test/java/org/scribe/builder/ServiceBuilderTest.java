@@ -48,7 +48,7 @@ public class ServiceBuilderTest
   @Test(expected=IllegalArgumentException.class)
   public void shouldNotAcceptAnInvalidUrlAsCallback()
   {
-    builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").callback("example.com").build(); 
+    builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").callback("example.com").build();
   }
 
   @Test
@@ -64,7 +64,6 @@ public class ServiceBuilderTest
   {
     public static OAuthConfig config;
     
-    @Override
     public OAuthService createService(OAuthConfig config)
     {
       ApiMock.config = config;

@@ -12,19 +12,21 @@ public class OAuthConfig
   private final String callback;
   private final SignatureType signatureType;
   private final String scope;
+  private final String grantType;
   
   public OAuthConfig(String key, String secret)
   {
-    this(key, secret, null, null, null);
+    this(key, secret, null, null, null, null);
   }
 
-  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope)
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, String grantType)
   {
     this.apiKey = key;
     this.apiSecret = secret;
     this.callback = callback != null ? callback : OAuthConstants.OUT_OF_BAND;
     this.signatureType = (type != null) ? type : SignatureType.Header;
     this.scope = scope;
+    this.grantType = grantType != null ? grantType : OAuthConstants.AUTHORIZATION_CODE;
   }
 
   public String getApiKey()
@@ -50,6 +52,11 @@ public class OAuthConfig
   public String getScope()
   {
     return scope;
+  }
+  
+  public String getGrantType()
+  {
+	  return grantType;
   }
 
   public boolean hasScope()

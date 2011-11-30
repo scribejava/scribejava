@@ -71,3 +71,9 @@
   * FEATURE: Plurk Mobile Api
   * FEATURE: Kaixin and QWeibo Apis
   * FEATURE: SimpleGeo Api
+
+[1.2.4]
+  * FEATURE: Added Google OAuth2 Api with Example
+  * FIX: Added grant type parameter
+  * FIX: Invalid regex in JsonTokenExtractor - didn't handle spaces before :
+  * FIX: Adding access token parameters to body rather than query string for POST
