@@ -37,10 +37,10 @@ public class MapUtilsTest
     List<Param> sorted = MapUtils.sort(unsorted);
     assertNotSame(sorted, unsorted);
 
-    assertEquals("first", unsorted.get(0).getValue());
-    assertEquals("second", unsorted.get(1).getValue());
+    assertEquals("fourth", unsorted.get(0).getValue());
+    assertEquals("first", unsorted.get(1).getValue());
     assertEquals("third", unsorted.get(2).getValue());
-    assertEquals("fourth", unsorted.get(3).getValue());
+    assertEquals("second", unsorted.get(3).getValue());
   }
 
   @Test(expected = IllegalArgumentException.class)
