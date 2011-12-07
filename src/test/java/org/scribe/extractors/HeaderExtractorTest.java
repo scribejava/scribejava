@@ -23,10 +23,13 @@ public class HeaderExtractorTest
   @Test
   public void shouldExtractStandardHeader()
   {
-    String expected = "OAuth oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\", " + "oauth_signature=\"OAuth-Signature\", "
-        + "oauth_consumer_key=\"AS%23%24%5E%2A%40%26\", " + "oauth_timestamp=\"123456\"";
     String header = extractor.extract(request);
-    assertEquals(expected, header);
+      
+    assertTrue(header.startsWith("OAuth "));
+    assertTrue(header.contains("oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\""));
+    assertTrue(header.contains("oauth_signature=\"OAuth-Signature\""));
+    assertTrue(header.contains("oauth_consumer_key=\"AS%23%24%5E%2A%40%26\""));
+    assertTrue(header.contains("oauth_timestamp=\"123456\""));
   }
 
   @Test(expected = IllegalArgumentException.class)

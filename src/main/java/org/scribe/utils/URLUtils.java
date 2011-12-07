@@ -147,7 +147,7 @@ public class URLUtils
     for (Entry<String, String> entry : params)
     {
       result.append(entry.getKey()).append(PAIR_SEPARATOR);
-      result.append(entry.getKey()).append(PARAM_SEPARATOR);
+      result.append(entry.getValue()).append(PARAM_SEPARATOR);
     }
     return result.toString().substring(0, result.length() - 1);
   }
