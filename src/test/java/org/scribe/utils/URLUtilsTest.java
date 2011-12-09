@@ -5,38 +5,39 @@ import static org.junit.Assert.*;
 import java.util.*;
 
 import org.junit.*;
+import static java.util.Collections.*;
 
 public class URLUtilsTest
 {
   @Test
   public void shouldPercentEncodeMap()
   {
-    Map<String, String> params = new LinkedHashMap<String, String>();
-    params.put("key", "value");
-    params.put("key with spaces", "value with spaces");
-    params.put("&symbols!", "#!");
+    Map<String, List<String>> params = new LinkedHashMap<String, List<String>>();
+    params.put("key", singletonList("value"));
+    params.put("key with spaces", singletonList("value with spaces"));
+    params.put("&symbols!", singletonList("#!"));
 
     String expected = "key=value&key+with+spaces=value+with+spaces&%26symbols%21=%23%21";
-    assertEquals(expected, URLUtils.formURLEncodeMap(params));
+    assertEquals(expected, URLUtils.formURLEncodeMultiValuedMap(params));
   }
 
   @Test
   public void shouldReturnEmptyStringForEmptyMap()
   {
-    Map<String, String> params = new LinkedHashMap<String, String>();
+    Map<String, List<String>> params = new LinkedHashMap<String, List<String>>();
     String expected = "";
-    assertEquals(expected, URLUtils.formURLEncodeMap(params));
+    assertEquals(expected, URLUtils.formURLEncodeMultiValuedMap(params));
   }
 
   @Test
   public void shouldFormURLEncodeMapWithMissingValues()
   {
-    Map<String, String> params = new LinkedHashMap<String, String>();
-    params.put("key", "value");
-    params.put("key with spaces", null);
+    Map<String, List<String>> params = new LinkedHashMap<String, List<String>>();
+    params.put("key", singletonList("value"));
+    params.put("key with spaces", singletonList((String)null));
 
     String expected = "key=value&key+with+spaces";
-    assertEquals(expected, URLUtils.formURLEncodeMap(params));
+    assertEquals(expected, URLUtils.formURLEncodeMultiValuedMap(params));
   }
 
   @Test
@@ -83,8 +84,8 @@ public class URLUtilsTest
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowExceptionIfMapIsNull()
   {
-    Map<String, String> nullMap = null;
-    URLUtils.formURLEncodeMap(nullMap);
+    Map<String, List<String>> nullMap = null;
+    URLUtils.formURLEncodeMultiValuedMap(nullMap);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -105,7 +106,7 @@ public class URLUtilsTest
   public void shouldThrowExceptionWhenAppendingNullMapToQuerystring()
   {
     String url = "http://www.example.com";
-    Map<String, String> nullMap = null;
+    Map<String, List<String>> nullMap = null;
     URLUtils.appendParametersToQueryString(url, nullMap);
   }
 
@@ -113,7 +114,7 @@ public class URLUtilsTest
   public void shouldAppendNothingToQuerystringIfGivenEmptyMap()
   {
     String url = "http://www.example.com";
-    Map<String, String> emptyMap = new HashMap<String, String>();
+    Map<String, List<String>> emptyMap = new HashMap<String, List<String>>();
     String newUrl = URLUtils.appendParametersToQueryString(url, emptyMap);
     Assert.assertEquals(url, newUrl);
   }
@@ -124,9 +125,9 @@ public class URLUtilsTest
     String url = "http://www.example.com";
     String expectedUrl = "http://www.example.com?param1=value1&param2=value+with+spaces";
 
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("param1", "value1");
-    params.put("param2", "value with spaces");
+    Map<String, List<String>> params = new HashMap<String, List<String>>();
+    params.put("param1", singletonList("value1"));
+    params.put("param2", singletonList("value with spaces"));
 
     url = URLUtils.appendParametersToQueryString(url, params);
     Assert.assertEquals(url, expectedUrl);
@@ -138,9 +139,9 @@ public class URLUtilsTest
     String url = "http://www.example.com?already=present";
     String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=value+with+spaces";
 
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("param1", "value1");
-    params.put("param2", "value with spaces");
+    Map<String, List<String>> params = new HashMap<String, List<String>>();
+    params.put("param1", singletonList("value1"));
+    params.put("param2", singletonList("value with spaces"));
 
     url = URLUtils.appendParametersToQueryString(url, params);
     Assert.assertEquals(url, expectedUrl);

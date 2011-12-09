@@ -20,7 +20,7 @@ class Request
 
   private String url;
   private Verb verb;
-  private Map<String, String> querystringParams;
+  private Map<String, List<String>> querystringParams;
   private Map<String, String> bodyParams;
   private Map<String, String> headers;
   private String payload = null;
@@ -39,7 +39,7 @@ class Request
   {
     this.verb = verb;
     this.url = url;
-    this.querystringParams = new HashMap<String, String>();
+    this.querystringParams = new HashMap<String, List<String>>();
     this.bodyParams = new HashMap<String, String>();
     this.headers = new HashMap<String, String>();
   }
@@ -127,7 +127,11 @@ class Request
    */
   public void addQuerystringParameter(String key, String value)
   {
-    this.querystringParams.put(key, value);
+    if (!this.querystringParams.containsKey(key)) 
+    {
+      this.querystringParams.put(key, new ArrayList<String>());
+    }
+    this.querystringParams.get(key).add(value);
   }
 
   /**
@@ -161,11 +165,11 @@ class Request
    * @return a map containing the query string parameters
    * @throws OAuthException if the URL is not valid
    */
-  public Map<String, String> getQueryStringParams()
+  public Map<String, List<String>> getQueryStringParams()
   {
     try
     {
-      Map<String, String> params = new HashMap<String, String>();
+      Map<String, List<String>> params = new HashMap<String, List<String>>();
       String queryString = new URL(url).getQuery();
       params.putAll(URLUtils.queryStringToMap(queryString));
       params.putAll(this.querystringParams);
