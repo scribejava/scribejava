@@ -4,7 +4,7 @@
   <groupId>org.scribe</groupId>
   <artifactId>scribe</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.3</version>
+  <version>1.3.0</version>
   <name>Scribe OAuth Library</name>
   <description>The best OAuth library out there</description>
   <url>http://github.com/fernandezpablo85/scribe-java</url>
