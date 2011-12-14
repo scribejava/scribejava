@@ -1,11 +1,16 @@
 package org.scribe.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.scribe.utils.URLUtils;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * @author: Pablo Fernandez
@@ -58,5 +63,34 @@ public class ParameterListTest
 
     url = params.appendTo(url);
     Assert.assertEquals(url, expectedUrl);
+  }
+
+  @Test
+  public void shouldProperlySortParameters()
+  {
+    params.add("param1", "v1");
+    params.add("param6", "v2");
+    params.add("a_param", "v3");
+    params.add("param2", "v4");
+    Assert.assertEquals("a_param=v3&param1=v1&param2=v4&param6=v2", params.sort().asFormUrlEncodedString());
+  }
+
+  @Test
+  public void shouldProperlySortParametersWithTheSameName()
+  {
+    params.add("param1", "v1");
+    params.add("param6", "v2");
+    params.add("a_param", "v3");
+    params.add("param2", "v4");
+    Assert.assertEquals("a_param=v3&param1=v1&param2=v4&param6=v2", params.sort().asFormUrlEncodedString());
+  }
+
+  @Test
+  public void shouldNotModifyTheOriginalParameterList()
+  {
+    params.add("param1", "v1");
+    params.add("param6", "v2");
+
+    assertNotSame(params, params.sort());
   }
 }

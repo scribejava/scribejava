@@ -35,8 +35,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
     params.addAll(request.getQueryStringParams());
     params.addAll(request.getBodyParams());
     params.addAll(new ParameterList(request.getOauthParameters()));
-    params.sort();
-    return params.asOauthBaseString();
+    return params.sort().asOauthBaseString();
   }
 
   private void checkPreconditions(OAuthRequest request)

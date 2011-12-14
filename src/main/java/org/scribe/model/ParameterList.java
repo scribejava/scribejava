@@ -26,7 +26,12 @@ public class ParameterList
   {
     params = new ArrayList<Parameter>();
   }
-  
+
+  ParameterList(List<Parameter> params)
+  {
+    this.params = new ArrayList<Parameter>(params);
+  }
+
   public ParameterList(Map<String, String> map)
   {
     this();
@@ -110,8 +115,10 @@ public class ParameterList
     return params.size();
   }
 
-  public void sort()
+  public ParameterList sort()
   {
-    Collections.sort(params);
+    ParameterList sorted = new ParameterList(params);
+    Collections.sort(sorted.params);
+    return sorted;
   }
 }
