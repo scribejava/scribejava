@@ -7,7 +7,6 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.scribe.exceptions.*;
-import org.scribe.utils.*;
 
 /**
  * Represents an HTTP Request object
@@ -22,8 +21,8 @@ class Request
 
   private String url;
   private Verb verb;
-  private Map<String, String> querystringParams;
-  private Map<String, String> bodyParams;
+  private ParameterList querystringParams;
+  private ParameterList bodyParams;
   private Map<String, String> headers;
   private String payload = null;
   private HttpURLConnection connection;
@@ -43,8 +42,8 @@ class Request
   {
     this.verb = verb;
     this.url = url;
-    this.querystringParams = new HashMap<String, String>();
-    this.bodyParams = new HashMap<String, String>();
+    this.querystringParams = new ParameterList();
+    this.bodyParams = new ParameterList();
     this.headers = new HashMap<String, String>();
   }
 
@@ -74,7 +73,7 @@ class Request
 
   private void createConnection() throws IOException
   {
-    String effectiveUrl = URLUtils.appendParametersToQueryString(url, querystringParams);
+    String effectiveUrl = querystringParams.appendTo(url);
     if (connection == null)
     {
       System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
@@ -139,7 +138,7 @@ class Request
    */
   public void addBodyParameter(String key, String value)
   {
-    this.bodyParams.put(key, value);
+    this.bodyParams.add(key, value);
   }
 
   /**
@@ -150,7 +149,7 @@ class Request
    */
   public void addQuerystringParameter(String key, String value)
   {
-    this.querystringParams.put(key, value);
+    this.querystringParams.add(key, value);
   }
 
   /**
@@ -179,20 +178,20 @@ class Request
   }
 
   /**
-   * Get a {@link Map} of the query string parameters.
+   * Get a {@link ParameterList} with the query string parameters.
    * 
-   * @return a map containing the query string parameters
-   * @throws OAuthException if the URL is not valid
+   * @return a {@link ParameterList} containing the query string parameters.
+   * @throws OAuthException if the request URL is not valid.
    */
-  public Map<String, String> getQueryStringParams()
+  public ParameterList getQueryStringParams()
   {
     try
     {
-      Map<String, String> params = new HashMap<String, String>();
+      ParameterList result = new ParameterList();
       String queryString = new URL(url).getQuery();
-      params.putAll(MapUtils.queryStringToMap(queryString));
-      params.putAll(this.querystringParams);
-      return params;
+      result.addQuerystring(queryString);
+      result.addAll(querystringParams);
+      return result;
     }
     catch (MalformedURLException mue)
     {
@@ -201,11 +200,11 @@ class Request
   }
 
   /**
-   * Obtains a {@link Map} of the body parameters.
+   * Obtains a {@link ParameterList} of the body parameters.
    * 
-   * @return a map containing the body parameters.
+   * @return a {@link ParameterList}containing the body parameters.
    */
-  public Map<String, String> getBodyParams()
+  public ParameterList getBodyParams()
   {
     return bodyParams;
   }
@@ -251,7 +250,7 @@ class Request
   byte[] getByteBodyContents()
   {
     if (bytePayload != null) return bytePayload;
-    String body = (payload != null) ? payload : URLUtils.formURLEncodeMap(bodyParams);
+    String body = (payload != null) ? payload : bodyParams.asFormUrlEncodedString();
     try
     {
       return body.getBytes(getCharset());
@@ -327,7 +326,7 @@ class Request
   }
 
   /**
-   * Sets wether the underlying Http Connection is persistent or not.
+   * Sets whether the underlying Http Connection is persistent or not.
    *
    * @see http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html
    * @param connectionKeepAlive

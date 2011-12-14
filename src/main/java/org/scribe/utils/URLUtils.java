@@ -110,29 +110,6 @@ public class URLUtils
     }
   }
 
-  /**
-   * Append given parameters to the query string of the url
-   *
-   * @param url the url to append parameters to
-   * @param params any map
-   * @return new url with parameters on query string
-   */
-  public static String appendParametersToQueryString(String url, Map<String, String> params)
-  {
-    Preconditions.checkNotNull(url, "Cannot append to null URL");
-    String queryString = URLUtils.formURLEncodeMap(params);
-    if (queryString.equals(EMPTY_STRING))
-    {
-      return url;
-    }
-    else
-    {
-      url += url.indexOf(QUERY_STRING_SEPARATOR) != -1 ? PARAM_SEPARATOR : QUERY_STRING_SEPARATOR;
-      url += queryString;
-      return url;
-    }
-  }
-
   private static final class EncodingRule
   {
     private final String ch;

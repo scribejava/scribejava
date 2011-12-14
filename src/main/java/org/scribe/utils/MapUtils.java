@@ -69,26 +69,4 @@ public class MapUtils
     }
     return result.toString().substring(0, result.length() - 1);
   }
-
-  /**
-   * Parses and form-urldecodes a querystring-like string into a map
-   *
-   * @param queryString querystring-like String
-   * @return a map with the form-urldecoded parameters
-   */
-  public static Map<String, String> queryStringToMap(String queryString)
-  {
-    Map<String, String> result = new HashMap<String, String>();
-    if (queryString != null && queryString.length() > 0)
-    {
-      for (String param : queryString.split(PARAM_SEPARATOR))
-      {
-        String pair[] = param.split(PAIR_SEPARATOR);
-        String key = URLUtils.formURLDecode(pair[0]);
-        String value = pair.length > 1 ? URLUtils.formURLDecode(pair[1]) : EMPTY_STRING;
-        result.put(key, value);
-      }
-    }
-    return result;
-  }
 }
