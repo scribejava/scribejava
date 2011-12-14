@@ -73,12 +73,22 @@ class Request
 
   private void createConnection() throws IOException
   {
-    String effectiveUrl = querystringParams.appendTo(url);
+    String completeUrl = getCompleteUrl();
     if (connection == null)
     {
       System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(effectiveUrl).openConnection();
+      connection = (HttpURLConnection) new URL(completeUrl).openConnection();
     }
+  }
+
+  /**
+   * Returns the complete url (host + resource + encoded querystring parameters).
+   *
+   * @return the complete url.
+   */
+  public String getCompleteUrl()
+  {
+    return querystringParams.appendTo(url);
   }
 
   Response doSend() throws IOException

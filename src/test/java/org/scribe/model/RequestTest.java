@@ -73,6 +73,15 @@ public class RequestTest
     assertEquals(3, request.getQueryStringParams().size());
   }
 
+   @Test
+  public void shouldReturnTheCompleteUrl()
+  {
+    Request request = new Request(Verb.GET, "http://example.com?one=val");
+    request.addQuerystringParameter("two", "other val");
+    request.addQuerystringParameter("more", "params");
+    assertEquals("http://example.com?one=val&two=other%20val&more=params", request.getCompleteUrl());
+  }
+
   @Test
   public void shouldHandleQueryStringSpaceEncodingProperly()
   {
