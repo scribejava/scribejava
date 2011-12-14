@@ -1,13 +1,8 @@
 package org.scribe.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.scribe.utils.URLUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -81,8 +76,8 @@ public class ParameterListTest
     params.add("param1", "v1");
     params.add("param6", "v2");
     params.add("a_param", "v3");
-    params.add("param2", "v4");
-    Assert.assertEquals("a_param=v3&param1=v1&param2=v4&param6=v2", params.sort().asFormUrlEncodedString());
+    params.add("param1", "v4");
+    Assert.assertEquals("a_param=v3&param1=v1&param1=v4&param6=v2", params.sort().asFormUrlEncodedString());
   }
 
   @Test

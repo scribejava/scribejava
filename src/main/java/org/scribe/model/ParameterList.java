@@ -1,14 +1,13 @@
 package org.scribe.model;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
-import org.scribe.utils.URLUtils;
 
 /**
  * @author: Pablo Fernandez
@@ -98,8 +97,8 @@ public class ParameterList
       for (String param : queryString.split(PARAM_SEPARATOR))
       {
         String pair[] = param.split(PAIR_SEPARATOR);
-        String key = URLUtils.formURLDecode(pair[0]);
-        String value = pair.length > 1 ? URLUtils.formURLDecode(pair[1]) : EMPTY_STRING;
+        String key = OAuthEncoder.decode(pair[0]);
+        String value = pair.length > 1 ? OAuthEncoder.decode(pair[1]) : EMPTY_STRING;
         params.add(new Parameter(key, value));
       }
     }

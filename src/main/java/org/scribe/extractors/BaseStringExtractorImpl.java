@@ -1,7 +1,5 @@
 package org.scribe.extractors;
 
-import java.util.*;
-
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
@@ -23,8 +21,8 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
   public String extract(OAuthRequest request)
   {
     checkPreconditions(request);
-    String verb = URLUtils.percentEncode(request.getVerb().name());
-    String url = URLUtils.percentEncode(request.getSanitizedUrl());
+    String verb = OAuthEncoder.encode(request.getVerb().name());
+    String url = OAuthEncoder.encode(request.getSanitizedUrl());
     String params = getSortedAndEncodedParams(request);
     return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
   }

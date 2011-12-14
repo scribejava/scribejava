@@ -1,12 +1,8 @@
 package org.scribe.builder.api;
 
 import org.scribe.extractors.*;
-
 import org.scribe.model.*;
-
 import org.scribe.utils.*;
-
-import static org.scribe.utils.URLUtils.*;
 
 public class LiveApi extends DefaultApi20
 {
@@ -28,10 +24,11 @@ public class LiveApi extends DefaultApi20
 		// Append scope if present
 		if (config.hasScope())
 		{
-			return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), formURLEncode(config.getCallback()), formURLEncode(config.getScope()));
-		} else
+			return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
+		}
+    else
 		{
-			return String.format(AUTHORIZE_URL, config.getApiKey(), formURLEncode(config.getCallback()));
+			return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
 		}
 	}
 

@@ -25,7 +25,7 @@ public class TokenExtractor20Impl implements AccessTokenExtractor
     Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
     if (matcher.find())
     {
-      String token = URLUtils.formURLDecode(matcher.group(1));
+      String token = OAuthEncoder.decode(matcher.group(1));
       return new Token(token, EMPTY_SECRET, response);
     } 
     else

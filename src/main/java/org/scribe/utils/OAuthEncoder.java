@@ -1,12 +1,10 @@
 package org.scribe.utils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-import org.scribe.exceptions.OAuthException;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.regex.*;
+import org.scribe.exceptions.*;
 
 /**
  * @author: Pablo Fernandez
@@ -52,6 +50,13 @@ public class OAuthEncoder
   public static String decode(String encoded)
   {
     Preconditions.checkNotNull(encoded, "Cannot decode null object");
-    return encoded;
+    try
+    {
+      return URLDecoder.decode(encoded, CHARSET);
+    }
+    catch(UnsupportedEncodingException uee)
+    {
+      throw new OAuthException("Charset not found while decoding string: " + CHARSET, uee);
+    }
   }
 }
