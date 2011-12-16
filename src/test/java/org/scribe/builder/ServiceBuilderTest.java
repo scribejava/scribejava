@@ -63,8 +63,7 @@ public class ServiceBuilderTest
   public static class ApiMock implements Api
   {
     public static OAuthConfig config;
-    
-    @Override
+
     public OAuthService createService(OAuthConfig config)
     {
       ApiMock.config = config;
