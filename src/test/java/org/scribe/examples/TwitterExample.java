@@ -2,10 +2,14 @@ package org.scribe.examples;
 
 import java.util.Scanner;
 
-import org.scribe.builder.*;
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
-import org.scribe.oauth.*;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.TwitterApi;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verb;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 
 public class TwitterExample
 {
@@ -15,8 +19,8 @@ public class TwitterExample
   {
     OAuthService service = new ServiceBuilder()
                                 .provider(TwitterApi.class)
-                                .apiKey("6icbcAXyZx67r8uTAUM5Qw")
-                                .apiSecret("SCCAdUUc6LXxiazxH3N0QfpNUvlUy84mZ2XZKiv39s")
+.apiKey("8gPIaOAxdcHiCITArsZmVw")
+                .apiSecret("PGhp4SFGzKez1Ltjtpez0MsA897qKqGTueS1Lw77k0")
                                 .build();
     Scanner in = new Scanner(System.in);
 
