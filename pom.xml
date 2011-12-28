@@ -28,6 +28,13 @@
       <email>diegossilveira@gmail.com</email>
       <timezone>-3</timezone>
     </developer>
+    <developer>
+      <id>ezgraphs</id>
+      <name>C S</name>
+      <email>ezgraphs@gmail.com</email>
+      <timezone>-3</timezone>
+    </developer>
+
   </developers>
 
   <licenses>
@@ -56,17 +63,43 @@
       <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
+	
+	 <!-- Handle JSON using library rather than regexpOAuth20aServiceImpl -->
+	 <dependency>
+		<groupId>com.google.code.gson</groupId>
+		<artifactId>gson</artifactId>
+		<version>1.7.1</version>
+		<scope>compile</scope>
+	 </dependency>
+
     
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
+
+  <build>  
+   <plugins>  
+		<plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+			  <artifactId>exec-maven-plugin</artifactId>
+			  <version>1.2.1</version>
+	        <configuration>
+	          <executable>java</executable>
+	          <arguments>
+	            <argument>-classpath</argument>
+					<classpath />
+	            <argument>org.scribe.examples.GooglePlusExample</argument>	
+	          </arguments>
+	        </configuration>
+	      </plugin>
+
+  
+			<plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
         </configuration>
       </plugin>
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
@@ -80,6 +113,7 @@
           </execution>
         </executions>
       </plugin>
+-->
     </plugins>
   </build>
 </project>  
