@@ -14,6 +14,19 @@ public class FacebookApi extends DefaultApi20
   {
     return "https://graph.facebook.com/oauth/access_token";
   }
+  
+  /* Modified from client_credentials to null, because no session ID was 
+   * received in the access_token, so https://graph.facebook.com/me gives back 
+   * an OAuthException: "An active access token must be used to query 
+   * information about the current user."
+   * 
+   * If you want to use this API for App Login, please override this method to 
+   * return "client_credentials". 
+   */
+  @Override
+  public String getGrantType() {
+	return null;
+  }
 
   @Override
   public String getAuthorizationUrl(OAuthConfig config)
