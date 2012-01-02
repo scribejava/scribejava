@@ -1,8 +1,5 @@
 package org.scribe.model;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import org.scribe.exceptions.OAuthException;
 import org.scribe.utils.OAuthEncoder;
 
 /**
@@ -10,8 +7,6 @@ import org.scribe.utils.OAuthEncoder;
  */
 public class Parameter implements Comparable<Parameter>
 {
-  private static final String UTF = "UTF8";
-
   private final String key;
   private final String value;
 
