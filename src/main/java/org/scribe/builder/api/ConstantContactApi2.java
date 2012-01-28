@@ -1,7 +1,7 @@
 package org.scribe.builder.api;
 
 import org.scribe.model.OAuthConfig;
-import org.scribe.utils.URLUtils;
+import org.scribe.utils.OAuthEncoder;
 
 public class ConstantContactApi2 extends DefaultApi20 {
 	
@@ -16,7 +16,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
 	@Override
 	public String getAuthorizationUrl(OAuthConfig config) {
 
-		return String.format(AUTHORIZE_URL, config.getApiKey(), URLUtils.formURLEncode(config.getCallback()));
+		return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
 	}
 
 }
