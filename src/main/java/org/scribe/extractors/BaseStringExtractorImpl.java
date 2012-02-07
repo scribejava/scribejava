@@ -1,7 +1,5 @@
 package org.scribe.extractors;
 
-import java.util.*;
-
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
@@ -23,20 +21,19 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
   public String extract(OAuthRequest request)
   {
     checkPreconditions(request);
-    String verb = URLUtils.percentEncode(request.getVerb().name());
-    String url = URLUtils.percentEncode(request.getSanitizedUrl());
+    String verb = OAuthEncoder.encode(request.getVerb().name());
+    String url = OAuthEncoder.encode(request.getSanitizedUrl());
     String params = getSortedAndEncodedParams(request);
     return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
   }
 
   private String getSortedAndEncodedParams(OAuthRequest request)
   {
-    Map<String, String> params = new HashMap<String, String>();
-    MapUtils.decodeAndAppendEntries(request.getQueryStringParams(), params);
-    MapUtils.decodeAndAppendEntries(request.getBodyParams(), params);
-    MapUtils.decodeAndAppendEntries(request.getOauthParameters(), params);
-    params = MapUtils.sort(params);
-    return URLUtils.percentEncode(MapUtils.concatSortedPercentEncodedParams(params));
+    ParameterList params = new ParameterList();
+    params.addAll(request.getQueryStringParams());
+    params.addAll(request.getBodyParams());
+    params.addAll(new ParameterList(request.getOauthParameters()));
+    return params.sort().asOauthBaseString();
   }
 
   private void checkPreconditions(OAuthRequest request)

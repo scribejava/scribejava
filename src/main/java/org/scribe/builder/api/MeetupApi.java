@@ -9,7 +9,7 @@ import org.scribe.model.Token;
 public class MeetupApi extends DefaultApi10a
 {
 	private static final String AUTHORIZE_URL = "http://www.meetup.com/authenticate?oauth_token=%s";
-	
+
 	@Override
 	public String getRequestTokenEndpoint()
 	{

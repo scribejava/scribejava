@@ -63,7 +63,7 @@ You can pull scribe from a maven repository, just add this to your __pom.xml__ f
 @<dependency>@
   @<groupId>org.scribe</groupId>@
   @<artifactId>scribe</artifactId>@
-  @<version>1.2.3</version>@
+  @<version>1.3.0</version>@
 @</dependency>@
 
 h1. Getting started in less than 2 minutes
@@ -71,6 +71,12 @@ h1. Getting started in less than 2 minutes
 Check the "Getting Started":http://wiki.github.com/fernandezpablo85/scribe-java/getting-started page and start rocking!
 
 h1. Please Read the "FAQ":http://wiki.github.com/fernandezpablo85/scribe-java/faq before creating an issue :)
+
+h1. Questions?
+
+Feel free to drop me an email, but there's already a "StackOvferflow":http://stackoverflow.com tag for "scribe":http://stackoverflow.com/questions/tagged/scribe you should use. I'm subscribed to it so I'll pick the question immediately.
+
+Note that it really helps to run scribe on "debug mode":https://github.com/fernandezpablo85/scribe-java/wiki/debug-mode (since 1.3.0), to get additional info. To do this simply call the @.debug()@ method on the @ServiceBuilder@.
 
 h1. About me
 

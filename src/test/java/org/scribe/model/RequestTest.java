@@ -34,8 +34,7 @@ public class RequestTest
   {
     assertEquals(2, getRequest.getQueryStringParams().size());
     assertEquals(0, postRequest.getQueryStringParams().size());
-    assertTrue(getRequest.getQueryStringParams().containsKey("qsparam"));
-    assertTrue(getRequest.getQueryStringParams().get("qsparam").equals("value"));
+    assertTrue(getRequest.getQueryStringParams().contains(new Parameter("qsparam", "value")));
   }
 
   @Test
@@ -51,7 +50,7 @@ public class RequestTest
   @Test
   public void shouldSetBodyParamsAndAddContentLength()
   {
-    assertEquals("param=value&param+with+spaces=value+with+spaces", postRequest.getBodyContents());
+    assertEquals("param=value&param%20with%20spaces=value%20with%20spaces", postRequest.getBodyContents());
     postRequest.send();
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
   }
@@ -74,10 +73,19 @@ public class RequestTest
     assertEquals(3, request.getQueryStringParams().size());
   }
 
+   @Test
+  public void shouldReturnTheCompleteUrl()
+  {
+    Request request = new Request(Verb.GET, "http://example.com?one=val");
+    request.addQuerystringParameter("two", "other val");
+    request.addQuerystringParameter("more", "params");
+    assertEquals("http://example.com?one=val&two=other%20val&more=params", request.getCompleteUrl());
+  }
+
   @Test
   public void shouldHandleQueryStringSpaceEncodingProperly()
   {
-    assertTrue(getRequest.getQueryStringParams().get("other param").equals("value with spaces"));
+    assertTrue(getRequest.getQueryStringParams().contains(new Parameter("other param","value with spaces")));
   }
 
   @Test

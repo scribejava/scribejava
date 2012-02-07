@@ -9,7 +9,7 @@ import org.scribe.oauth.*;
 
 public class TwitterExample
 {
-  private static final String PROTECTED_RESOURCE_URL = "http://api.twitter.com/1/account/verify_credentials.xml";
+  private static final String PROTECTED_RESOURCE_URL = "https://api.twitter.com/1/statuses/update.json";
   
   public static void main(String[] args)
   {
@@ -45,7 +45,8 @@ public class TwitterExample
 
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");
-    OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+    OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
+    request.addBodyParameter("status", "this is sparta! *");
     service.signRequest(accessToken, request);
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");

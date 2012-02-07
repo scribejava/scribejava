@@ -34,7 +34,7 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
     Matcher matcher = p.matcher(response);
     if (matcher.find() && matcher.groupCount() >= 1)
     {
-      return URLUtils.formURLDecode(matcher.group(1));
+      return OAuthEncoder.decode(matcher.group(1));
     }
     else
     {
