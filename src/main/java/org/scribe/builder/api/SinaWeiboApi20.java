@@ -1,12 +1,25 @@
 package org.scribe.builder.api;
 
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.Verb;
 
 import static org.scribe.utils.OAuthEncoder.encode;
 
 public class SinaWeiboApi20 extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
+
+    @Override
+    public Verb getAccessTokenVerb() {
+        return Verb.POST;
+    }
+
+    @Override
+    public AccessTokenExtractor getAccessTokenExtractor() {
+        return new JsonTokenExtractor();
+    }
 
     @Override
     public String getAccessTokenEndpoint() {
