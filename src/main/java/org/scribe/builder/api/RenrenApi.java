@@ -1,5 +1,7 @@
 package org.scribe.builder.api;
 
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
 
 import static org.scribe.utils.OAuthEncoder.encode;
@@ -10,6 +12,11 @@ import static org.scribe.utils.OAuthEncoder.encode;
 public class RenrenApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://graph.renren.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
+
+    @Override
+    public AccessTokenExtractor getAccessTokenExtractor() {
+        return new JsonTokenExtractor();
+    }
 
     @Override
     public String getAccessTokenEndpoint() {
