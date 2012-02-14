@@ -76,6 +76,31 @@ public class ServiceBuilder
 	  return this;
   }
 
+/** Configures the oauth properties
+   * 
+   * @param propertyResource name of the propertyResource
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder propertiesResource(String propertyResource) throws IOException 
+  {
+	Properties properties = new Properties();
+    properties.load(ServiceBuilder.class.getClassLoader().getResourceAsStream(propertyResource));
+    return properties(properties);
+  }
+
+  /** Configures the oauth properties
+   * 
+   * @param property oauth properties
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder properties(Properties properties) 
+  {
+	return apiKey(properties.getProperty(OAuthConstants.CLIENT_ID))
+		.apiSecret(properties.getProperty(OAuthConstants.CLIENT_SECRET))
+        .callback(properties.getProperty(OAuthConstants.CALLBACK))
+        .scope(properties.getProperty(OAuthConstants.SCOPE));
+  }
+
   /**
    * Adds an OAuth callback url
    * 
