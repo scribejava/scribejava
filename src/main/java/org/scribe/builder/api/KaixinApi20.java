@@ -34,7 +34,8 @@ public class KaixinApi20 extends DefaultApi20
     if (config.hasScope())
     {
       return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
-    } else
+    }
+    else
     {
       return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
