@@ -4,8 +4,7 @@ import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
-
-import java.util.Scanner;
+import java.util.*;
 
 public class SinaWeibo2Example
 {

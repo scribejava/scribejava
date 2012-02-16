@@ -4,7 +4,6 @@ import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
-
 import java.util.*;
 
 public class Kaixin20Example
