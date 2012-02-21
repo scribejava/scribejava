@@ -1,7 +1,5 @@
 package org.scribe.model;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,14 +61,7 @@ public class ParameterList
 
   public String asOauthBaseString()
   {
-    try
-    {
-      return URLEncoder.encode(asFormUrlEncodedString(), "UTF8");
-    }
-    catch (UnsupportedEncodingException uee)
-    {
-     throw new RuntimeException();
-    }
+    return OAuthEncoder.encode(asFormUrlEncodedString());
   }
 
   public String asFormUrlEncodedString()
