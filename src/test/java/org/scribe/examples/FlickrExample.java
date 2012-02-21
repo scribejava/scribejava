@@ -16,8 +16,7 @@ public class FlickrExample
     // Replace these with your own api key and secret
     String apiKey = "your_app_id";
     String apiSecret = "your_api_secret";
-    OAuthService service = new ServiceBuilder().provider(FlickrApi.class)
-        .apiKey(apiKey).apiSecret(apiSecret).build();
+    OAuthService service = new ServiceBuilder().provider(FlickrApi.class).apiKey(apiKey).apiSecret(apiSecret).build();
     Scanner in = new Scanner(System.in);
 
     System.out.println("=== Flickr's OAuth Workflow ===");
@@ -41,8 +40,7 @@ public class FlickrExample
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
-    System.out.println("(if your curious it looks like this: " + accessToken
-        + " )");
+    System.out.println("(if your curious it looks like this: " + accessToken + " )");
     System.out.println();
 
     // Now let's go and ask for a protected resource!
@@ -56,7 +54,6 @@ public class FlickrExample
     System.out.println(response.getBody());
 
     System.out.println();
-    System.out
-        .println("Thats it man! Go and build something awesome with Scribe! :)");
+    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
   }
 }
