@@ -14,16 +14,7 @@ import org.scribe.oauth.OAuthService;
 public class MeetupExample
 {
 	  private static final String PROTECTED_RESOURCE_URL = "http://api.meetup.com/2/member/self";
-	  
-	  public static void main(String[] args)
-	  {
-		if(args.length != 2) {
-			throw new IllegalArgumentException("usage: MeetupExample <consumer_key> <consumer_secret>. Create a new consumer by visiting http://www.meetup.com/meetup_api/oauth_consumers/create/");
-		}
-	    OAuthService service = new ServiceBuilder()
-	                                .provider(MeetupApi.class)
-	                                .apiKey(args[0])
-	                                .apiSecret(args[1])
+
 	  public static void main(String[] args)
 	  {
 	    OAuthService service = new ServiceBuilder()
