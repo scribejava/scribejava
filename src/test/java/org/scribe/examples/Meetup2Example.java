@@ -11,13 +11,16 @@ import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
-public class Meetup2Example {
+public class Meetup2Example
+{
 	private static final String PROTECTED_RESOURCE_URL = "https://api.meetup.com/2/member/self?access_token=";
 	private static final Token EMPTY_TOKEN = null;
 
 	public static void main(String[] args)
 	{
 		// Replace these with your own api key and secret
+		// http://www.meetup.com/meetup_api/oauth_consumers/
+		// you consumer must have a redirect uri matching the call back used below
 	    String apiKey = "bq5tu6bbvaj423uu4m61ja5k3v";
 	    String apiSecret = "qgnnrniferpeneq1oapneca7c2";
 	    OAuthService service = new ServiceBuilder()
@@ -43,7 +46,7 @@ public class Meetup2Example {
 	    Verifier verifier = new Verifier(in.nextLine());
 	    System.out.println();
 	    
-	    // Trade the Request Token and Verfier for the Access Token
+	    // Trade the Request Token and Verifier for the Access Token
 	    System.out.println("Trading the Request Token for an Access Token...");
 	    Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
 	    System.out.println("Got the Access Token!");
@@ -62,6 +65,5 @@ public class Meetup2Example {
 
 	    System.out.println();
 	    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-
 	  }
 }
