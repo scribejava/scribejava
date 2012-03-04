@@ -1,8 +1,10 @@
 package org.scribe.model;
 
+import java.io.OutputStream;
+
 /**
  * Parameter object that groups OAuth config values
- * 
+ *
  * @author Pablo Fernandez
  */
 public class OAuthConfig
@@ -13,23 +15,20 @@ public class OAuthConfig
   private final SignatureType signatureType;
   private final String scope;
   private final String grantType;
-  
-  public OAuthConfig(String key, String secret)
+  private final OutputStream debugStream;
+
+  public OAuthConfig(String key, String secret )
   {
-    this(key, secret, null, null, null);
+    this(key, secret, null, null, null, null);
   }
 
-  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope)
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream)
   {
-    this.apiKey = key;
-    this.apiSecret = secret;
-    this.callback = callback != null ? callback : OAuthConstants.OUT_OF_BAND;
-    this.signatureType = (type != null) ? type : SignatureType.Header;
-    this.scope = scope;
-    this.grantType = null;
+    this(key, secret, callback, type, scope, stream, null);
   }
 
-  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, String grantType)
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream,
+                     String grantType)
   {
     this.apiKey = key;
     this.apiSecret = secret;
@@ -37,6 +36,7 @@ public class OAuthConfig
     this.signatureType = (type != null) ? type : SignatureType.Header;
     this.scope = scope;
     this.grantType = grantType;
+    this.debugStream = stream;
   }
 
   public String getApiKey()
@@ -63,19 +63,35 @@ public class OAuthConfig
   {
     return scope;
   }
-  
+
   public String getGrantType()
   {
-    return grantType; 
+    return grantType;
   }
 
   public boolean hasScope()
   {
     return scope != null;
   }
-  
+
   public boolean hasGrantType()
   {
-    return grantType != null;	  
+    return grantType != null;
+  }
+
+  public void log(String message)
+  {
+    if (debugStream != null)
+    {
+      message = message + "\n";
+      try
+      {
+        debugStream.write(message.getBytes("UTF8"));
+      }
+      catch (Exception e)
+      {
+        // do nothing.
+      }
+    }
   }
 }

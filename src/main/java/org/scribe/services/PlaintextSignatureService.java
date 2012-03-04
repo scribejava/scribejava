@@ -21,7 +21,7 @@ public class PlaintextSignatureService implements SignatureService
     try
     {
       Preconditions.checkEmptyString(apiSecret, "Api secret cant be null or empty string");
-      return URLUtils.percentEncode(apiSecret) + '&' + URLUtils.percentEncode(tokenSecret);
+      return OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret);
     }
     catch (Exception e)
     {

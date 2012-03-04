@@ -41,7 +41,7 @@ public class BaseStringExtractorTest
     OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com");
     extractor.extract(request);
   }
-  
+
   @Test
   public void shouldProperlyEncodeSpaces()
   {

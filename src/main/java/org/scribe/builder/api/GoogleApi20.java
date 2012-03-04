@@ -5,7 +5,6 @@ import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.Verb;
-import org.scribe.utils.URLUtils;
 
 public class GoogleApi20
     extends DefaultApi20

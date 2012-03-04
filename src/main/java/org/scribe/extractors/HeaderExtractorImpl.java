@@ -32,7 +32,7 @@ public class HeaderExtractorImpl implements HeaderExtractor
       { 
         header.append(PARAM_SEPARATOR);
       }
-      header.append(String.format("%s=\"%s\"", key, URLUtils.percentEncode(parameters.get(key))));
+      header.append(String.format("%s=\"%s\"", key, OAuthEncoder.encode(parameters.get(key))));
     }
     return header.toString();
   }
