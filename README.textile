@@ -78,6 +78,12 @@ Feel free to drop me an email, but there's already a "StackOvferflow":http://sta
 
 Note that it really helps to run scribe on "debug mode":https://github.com/fernandezpablo85/scribe-java/wiki/debug-mode (since 1.3.0), to get additional info. To do this simply call the @.debug()@ method on the @ServiceBuilder@.
 
+h1. Forks
+
+Looking for a scribe variation? check the "Fork List":https://github.com/fernandezpablo85/scribe-java/wiki/Forks
+
+If you have a useful fork that should be listed there please contact me (see About me).
+
 h1. About me
 
 "LinkedIn profile":http://www.linkedin.com/in/fernandezpablo85
