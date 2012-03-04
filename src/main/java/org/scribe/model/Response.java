@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.scribe.exceptions.*;
 import org.scribe.utils.*;
 
 /**
@@ -31,8 +32,7 @@ public class Response
     }
     catch (UnknownHostException e)
     {
-      code = 404;
-      body = Response.EMPTY;
+      throw new OAuthException("The IP address of a host could not be determined.", e);
     }
   }
 
