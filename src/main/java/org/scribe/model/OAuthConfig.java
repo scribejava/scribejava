@@ -72,7 +72,7 @@ public class OAuthConfig
       }
       catch (Exception e)
       {
-        // do nothing.
+        throw new RuntimeException("there were problems while writting to the debug stream", e);
       }
     }
   }
