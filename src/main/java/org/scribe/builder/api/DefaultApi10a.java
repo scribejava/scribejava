@@ -23,7 +23,9 @@ import org.scribe.services.*;
  */
 public abstract class DefaultApi10a implements Api
 {
-  /**
+  private static final long serialVersionUID = -3234502019570234880L;
+
+/**
    * Returns the access token extractor.
    * 
    * @return access token extractor

@@ -5,6 +5,8 @@ import org.scribe.model.*;
 
 public class OAuth20ServiceImpl implements OAuthService
 {
+  private static final long serialVersionUID = 2394405347932454500L;
+
   private static final String VERSION = "2.0";
   
   private final DefaultApi20 api;
