@@ -13,6 +13,9 @@ import org.scribe.utils.*;
  */
 public class OAuth10aServiceImpl implements OAuthService
 {
+
+  private static final long serialVersionUID = 8034949250412540195L;
+
   private static final String VERSION = "1.0";
 
   private OAuthConfig config;

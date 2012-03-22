@@ -7,8 +7,10 @@ import java.io.*;
  * 
  * @author Pablo Fernandez
  */
-public class OAuthConfig
+public class OAuthConfig implements Serializable 
 {
+  private static final long serialVersionUID = 225358604407162581L;
+  
   private final String apiKey;
   private final String apiSecret;
   private final String callback;

@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.io.Serializable;
+
 import org.scribe.model.*;
 
 /**
@@ -9,7 +11,7 @@ import org.scribe.model.*;
  * 
  * @author Pablo Fernandez
  */
-public interface OAuthService
+public interface OAuthService extends Serializable
 {
   /**
    * Retrieve the request token.

@@ -1,5 +1,7 @@
 package org.scribe.builder.api;
 
+import java.io.Serializable;
+
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -9,7 +11,7 @@ import org.scribe.oauth.*;
  * @author Pablo Fernandez
  *
  */
-public interface Api
+public interface Api extends Serializable
 {  
   /**
    * Creates an {@link OAuthService}
