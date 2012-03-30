@@ -4,11 +4,7 @@ import java.util.Scanner;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Px500Api;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
-import org.scribe.model.Verifier;
+import org.scribe.model.*;
 import org.scribe.oauth.OAuthService;
 
 public class Px500Example
