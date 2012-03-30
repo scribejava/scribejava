@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.*;
 
 public class Px500Api extends DefaultApi10a
 {

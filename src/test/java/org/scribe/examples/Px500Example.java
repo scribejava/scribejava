@@ -2,10 +2,10 @@ package org.scribe.examples;
 
 import java.util.Scanner;
 
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.Px500Api;
+import org.scribe.builder.*;
+import org.scribe.builder.api.*;
 import org.scribe.model.*;
-import org.scribe.oauth.OAuthService;
+import org.scribe.oauth.*;
 
 public class Px500Example
 {
