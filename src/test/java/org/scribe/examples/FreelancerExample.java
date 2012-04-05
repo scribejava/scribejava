@@ -37,8 +37,7 @@ public class FreelancerExample
     System.out.println("Fetching the Request Token...");
     Token requestToken = service.getRequestToken();
     System.out.println("Got the Request Token!");
-    System.out.println("(if your curious it looks like this: " + requestToken
-        + " )");
+    System.out.println("(if your curious it looks like this: " + requestToken + " )");
     System.out.println();
 
     System.out.println("Now go and authorize Scribe here:");
@@ -52,8 +51,7 @@ public class FreelancerExample
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
-    System.out.println("(if your curious it looks like this: " + accessToken
-        + " )");
+    System.out.println("(if your curious it looks like this: " + accessToken + " )");
     System.out.println();
 
     // Now let's go and ask for a protected resource!
@@ -68,7 +66,6 @@ public class FreelancerExample
     System.out.println(response.getBody());
 
     System.out.println();
-    System.out
-        .println("Thats it man! Go and build something awesome with Scribe! :)");
+    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
   }
 }
