@@ -13,10 +13,13 @@ public class TwitterExample
   
   public static void main(String[] args)
   {
+    // Replace these with your own api key and secret
+    String apiKey = "your_app_id";
+    String apiSecret = "your_api_secret";
     OAuthService service = new ServiceBuilder()
                                 .provider(TwitterApi.class)
-                                .apiKey("6icbcAXyZx67r8uTAUM5Qw")
-                                .apiSecret("SCCAdUUc6LXxiazxH3N0QfpNUvlUy84mZ2XZKiv39s")
+                                .apiKey(apiKey)
+                                .apiSecret(apiSecret)
                                 .build();
     Scanner in = new Scanner(System.in);
 

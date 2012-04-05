@@ -17,10 +17,13 @@ public class MeetupExample
 
 	  public static void main(String[] args)
 	  {
+	    // Replace these with your own api key and secret
+	    String apiKey = "your_app_id";
+	    String apiSecret = "your_api_secret";
 	    OAuthService service = new ServiceBuilder()
 	                                .provider(MeetupApi.class)
-	                                .apiKey("j1khkp0dus323ftve0sdcv6ffe")
-	                                .apiSecret("6s6gt6q59gvfjtsvgcmht62gq4")
+	                                .apiKey(apiKey)
+	                                .apiSecret(apiSecret)
 	                                .build();
 	    Scanner in = new Scanner(System.in);
 

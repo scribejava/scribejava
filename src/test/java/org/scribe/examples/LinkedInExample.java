@@ -13,10 +13,13 @@ public class LinkedInExample
   
   public static void main(String[] args)
   {
+    // Replace these with your own api key and secret
+    String apiKey = "your_app_id";
+    String apiSecret = "your_api_secret";
     OAuthService service = new ServiceBuilder()
                                 .provider(LinkedInApi.class)
-                                .apiKey("CiEgwWDkA5BFpNrc0RfGyVuSlOh4tig5kOTZ9q97qcXNrFl7zqk-Ts7DqRGaKDCV")
-                                .apiSecret("dhho4dfoCmiQXrkw4yslork5XWLFnPSuMR-8gscPVjY4jqFFHPYWJKgpFl4uLTM6")
+                                .apiKey(apiKey)
+                                .apiSecret(apiSecret)
                                 .build();
     Scanner in = new Scanner(System.in);
     
