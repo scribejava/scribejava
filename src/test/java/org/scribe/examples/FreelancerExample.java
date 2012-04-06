@@ -1,16 +1,10 @@
 package org.scribe.examples;
 
-import java.util.Scanner;
-
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.FreelancerAPI;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.SignatureType;
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
-import org.scribe.model.Verifier;
-import org.scribe.oauth.OAuthService;
+import java.util.*;
+import org.scribe.builder.*;
+import org.scribe.builder.api.*;
+import org.scribe.model.*;
+import org.scribe.oauth.*;
 
 public class FreelancerExample
 {
