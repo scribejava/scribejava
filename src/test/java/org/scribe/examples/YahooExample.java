@@ -13,10 +13,13 @@ public class YahooExample
 
   public static void main(String[] args)
   {
+    // Replace these with your own api key and secret
+    String apiKey = "your_app_id";
+    String apiSecret = "your_api_secret";
     OAuthService service = new ServiceBuilder()
                                 .provider(YahooApi.class)
-                                .apiKey("dj0yJmk9TXZDWVpNVVdGaVFmJmQ9WVdrOWMweHZXbkZLTkhVbWNHbzlNVEl5TWprd05qUTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wMw--")
-                                .apiSecret("262be559f92a2be20c4c039419018f2b48cdfce9")
+                                .apiKey(apiKey)
+                                .apiSecret(apiSecret)
                                 .build();
     Scanner in = new Scanner(System.in);
 
