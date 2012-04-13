@@ -18,7 +18,8 @@ public class FacebookApi extends DefaultApi20
   @Override
   public String getAuthorizationUrl(OAuthConfig config)
   {
-    Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Facebook does not support OOB");
+    //Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Facebook does not support OOB");
+    //URL Callback check is limiting facebook authentication possibilities - removes oob support!
 
     // Append scope if present
     if(config.hasScope())
