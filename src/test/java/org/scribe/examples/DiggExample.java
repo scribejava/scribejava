@@ -1,17 +1,19 @@
 package org.scribe.examples;
 
-import java.util.Scanner;
+import java.util.*;
 
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.DiggApi;
+import org.scribe.builder.*;
+import org.scribe.builder.api.*;
 import org.scribe.model.*;
-import org.scribe.oauth.OAuthService;
+import org.scribe.oauth.*;
 
-public class DiggExample {
+public class DiggExample 
+{
   private static final String NETWORK_NAME = "Digg";
   private static final String PROTECTED_RESOURCE_URL = "http://services.digg.com/2.0/comment.digg";
 
-  public static void main(String[] args) {
+  public static void main(String[] args) 
+  {
     // Replace these with your own api key and secret
     String apiKey = "myKey";
     String apiSecret = "mySecret";
