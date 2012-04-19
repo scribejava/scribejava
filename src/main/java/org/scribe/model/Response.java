@@ -14,13 +14,15 @@ import org.scribe.utils.*;
  */
 public class Response
 {
-  private static final String EMPTY = "";
+  protected int code;
+  protected String body;
+  protected InputStream stream;
+  protected Map<String, String> headers;
 
-  private int code;
-  private String body;
-  private InputStream stream;
-  private Map<String, String> headers;
-
+  protected Response() {
+      // default no-arg constructor to support alternative implementations
+  }
+  
   Response(HttpURLConnection connection) throws IOException
   {
     try
@@ -36,13 +38,13 @@ public class Response
     }
   }
 
-  private String parseBodyContents()
+  protected String parseBodyContents()
   {
     body = StreamUtils.getStreamContents(getStream());
     return body;
   }
 
-  private Map<String, String> parseHeaders(HttpURLConnection conn)
+  protected Map<String, String> parseHeaders(HttpURLConnection conn)
   {
     Map<String, String> headers = new HashMap<String, String>();
     for (String key : conn.getHeaderFields().keySet())

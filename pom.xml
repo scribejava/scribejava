@@ -50,6 +50,14 @@
       <version>1.4</version>
     </dependency>
     
+    <!-- If available, will be used for HTTP communication by Scribe -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.1.3</version>
+      <optional>true</optional>
+    </dependency>
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
