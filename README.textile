@@ -1,5 +1,7 @@
 h2. Welcome to the home of Scribe, the simple OAuth Java lib!
 
+!https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master(travis-ci-status)!
+
 h1. Why use Scribe?
 
 h3. Dead Simple 
@@ -74,9 +76,15 @@ h1. Please Read the "FAQ":http://wiki.github.com/fernandezpablo85/scribe-java/fa
 
 h1. Questions?
 
-Feel free to drop me an email, but there's already a "StackOvferflow":http://stackoverflow.com tag for "scribe":http://stackoverflow.com/questions/tagged/scribe you should use. I'm subscribed to it so I'll pick the question immediately.
+Feel free to drop me an email, but there's already a "StackOverflow":http://stackoverflow.com tag for "scribe":http://stackoverflow.com/questions/tagged/scribe you should use. I'm subscribed to it so I'll pick the question immediately.
 
 Note that it really helps to run scribe on "debug mode":https://github.com/fernandezpablo85/scribe-java/wiki/debug-mode (since 1.3.0), to get additional info. To do this simply call the @.debug()@ method on the @ServiceBuilder@.
+
+h1. Forks
+
+Looking for a scribe variation? check the "Fork List":https://github.com/fernandezpablo85/scribe-java/wiki/Forks
+
+If you have a useful fork that should be listed there please contact me (see About me).
 
 h1. About me
 

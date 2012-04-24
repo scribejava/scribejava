@@ -79,3 +79,6 @@
 [1.3.1]
   * FEATURE: Meetup.com Api
   * FEATURE: NetProspex Api
+  * FEATURE: Kaixin2, SinaWeibo2 and Renren Apis
+  * FEATURE: ImgUr Api
+  * FEATURE: Freelancer Api (thanks Juan Palacios!)
