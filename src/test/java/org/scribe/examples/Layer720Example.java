@@ -1,32 +1,34 @@
 package org.scribe.examples;
 
-import java.util.*;
+import java.util.Scanner;
 
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
-public class FacebookExample
+public class Layer720Example
 {
-  private static final String NETWORK_NAME = "Facebook";
-  private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
+  private static final String PROTECTED_RESOURCE_URL = "https://cdryden-pc.l7tech.local:9443/oauth/v2/protectedapi";
   private static final Token EMPTY_TOKEN = null;
 
   public static void main(String[] args)
   {
+    System.setProperty("java.net.useSystemProxies", "true");
     // Replace these with your own api key and secret
-    String apiKey = "176485059104124";
-    String apiSecret = "d4bf79483019b152bbefeb294ebd3436";
+    String apiKey = "54f0c455-4d80-421f-82ca-9194df24859d";
+    String apiSecret = "a0f2742f-31c7-436f-9802-b7015b8fd8e6";
     OAuthService service = new ServiceBuilder()
-                                  .provider(FacebookApi.class)
+                                  .provider(Layer7Api20.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
-                                  .callback("http://cdryden-pc.l7tech.local/")
+                                  .callback("http://cdryden-pc.l7tech.local")
+                                  .scope("oob")
+                                  .debug()
                                   .build();
     Scanner in = new Scanner(System.in);
 
-    System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
+    System.out.println("=== Layer 7's OAuth 2.0 Workflow ===");
     System.out.println();
 
     // Obtain the Authorization URL
@@ -40,7 +42,7 @@ public class FacebookExample
     Verifier verifier = new Verifier(in.nextLine());
     System.out.println();
     
-    // Trade the Request Token and Verfier for the Access Token
+    // Trade the Request Token and Verifier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
     System.out.println("Got the Access Token!");
@@ -59,6 +61,4 @@ public class FacebookExample
 
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-
-  }
-}
+}}
