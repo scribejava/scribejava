@@ -37,4 +37,10 @@ public class LiveApi extends DefaultApi20
 	{
 		return new JsonTokenExtractor();
 	}
+
+  @Override
+  public String getRefreshTokenParameterName()
+  {
+    return "refresh_token";
+  }
 }

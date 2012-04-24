@@ -50,6 +50,5 @@ public class OAuthConstants
   public static final String AUTHORIZATION_CODE = "authorization_code";
   public static final String RESOURCE_OWNER_PASSWORD_CREDENTIALS = "password";
   public static final String CLIENT_CREDENTIALS = "client_credentials";
-  public static final String REFRESH_TOKEN = "refresh_token";
   
 }

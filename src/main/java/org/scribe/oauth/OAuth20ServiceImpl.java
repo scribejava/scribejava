@@ -40,6 +40,28 @@ public class OAuth20ServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
+  public Token refreshAccessToken(Token accessToken)
+  {
+
+    String accessTokenEndpoint = api.getAccessTokenEndpoint();
+    if (accessTokenEndpoint.contains("?grant_type="))
+    {
+      // handle the ugly case where the grant_type parameter is already hardcoded in the constant url
+      accessTokenEndpoint = accessTokenEndpoint.substring(0, accessTokenEndpoint.indexOf("?"));
+    }
+    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), accessTokenEndpoint);
+    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, api.getRefreshTokenParameterName());
+    request.addQuerystringParameter(api.getRefreshTokenParameterName(), accessToken.getToken());
+    Response response = request.send();
+    return api.getAccessTokenExtractor().extract(response.getBody());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
   public Token getRequestToken()
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
