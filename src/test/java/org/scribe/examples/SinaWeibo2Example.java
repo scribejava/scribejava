@@ -15,8 +15,8 @@ public class SinaWeibo2Example
   public static void main(String[] args)
   {
     // Replace these with your own api key and secret
-    String apiKey = "342348223";
-    String apiSecret = "cfdf672e166a4bc954c0e33f03cf0d1b";
+    String apiKey = "your_api_key";
+    String apiSecret = "your_api_secret";
     OAuthService service = new ServiceBuilder()
         .provider(SinaWeiboApi20.class)
         .apiKey(apiKey)
