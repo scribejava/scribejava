@@ -1,5 +1,7 @@
 package org.scribe.model;
 
+import java.util.HashMap;
+
 import org.apache.http.Header;
 import org.apache.http.HeaderIterator;
 import org.apache.http.HttpResponse;
@@ -16,6 +18,7 @@ public class HttpClientResponse extends Response {
     
     public HttpClientResponse(HttpResponse response) {
         this.code = response.getStatusLine().getStatusCode();
+        this.headers = new HashMap<String, String>();
         for (HeaderIterator iter = response.headerIterator(); iter.hasNext(); ) {
             Header header = iter.nextHeader();
             headers.put(header.getName(), header.getValue());
