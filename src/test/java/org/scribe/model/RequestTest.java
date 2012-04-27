@@ -14,12 +14,16 @@ public class RequestTest
   public void setup() throws Exception
   {
     connection = new ConnectionStub();
+    Request.setHttpStrategy(new URLConnectionStrategyStub(connection));
     postRequest = new Request(Verb.POST, "http://example.com");
     postRequest.addBodyParameter("param", "value");
     postRequest.addBodyParameter("param with spaces", "value with spaces");
-    postRequest.setConnection(connection);
     getRequest = new Request(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces");
-    getRequest.setConnection(connection);
+  }
+  
+  @After
+  public void tearDown() {
+    Request.setHttpStrategy(new URLConnectionStrategy());
   }
 
   @Test
