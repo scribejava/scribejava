@@ -43,16 +43,25 @@ public class PreconditionsTest
     Preconditions.checkValidUrl(null, ERROR_MSG);
   }
   
+  @Test
   public void shouldAllowValidUrls()
   {
     Preconditions.checkValidUrl("http://www.example.com", ERROR_MSG);
   }
   
+  @Test
   public void shouldAllowSSLUrls()
   {
     Preconditions.checkValidUrl("https://www.example.com", ERROR_MSG);
   }
+
+  @Test
+  public void shouldAllowSpecialCharsInScheme() 
+  {
+    Preconditions.checkValidUrl("custom+9.3-1://www.example.com", ERROR_MSG);
+  }
   
+  @Test
   public void shouldAllowNonStandarProtocolsForAndroid()
   {
     Preconditions.checkValidUrl("x-url-custom://www.example.com", ERROR_MSG);
@@ -64,6 +73,13 @@ public class PreconditionsTest
     Preconditions.checkValidUrl("$weird*://www.example.com", ERROR_MSG);
   }
   
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldNotAllowUnderscoreInScheme()
+  {
+    Preconditions.checkValidUrl("http_custom://www.example.com", ERROR_MSG);
+  }
+  
+  @Test
   public void shouldAllowOutOfBandAsValidCallbackValue()
   {
     Preconditions.checkValidOAuthCallback("oob", ERROR_MSG);
