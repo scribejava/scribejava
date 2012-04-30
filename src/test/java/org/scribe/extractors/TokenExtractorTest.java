@@ -43,6 +43,15 @@ public class TokenExtractorTest
     assertEquals("hh5s93j4hdidpola", extracted.getToken());
     assertEquals("hdhd0244k9j7ao03", extracted.getSecret());
   }
+  
+  @Test
+  public void shouldExtractTokenWithEmptySecret() 
+  {
+    String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=";
+    Token extracted = extractor.extract(response);
+    assertEquals("hh5s93j4hdidpola", extracted.getToken());
+    assertEquals("", extracted.getSecret());
+  }
 
   @Test(expected = OAuthException.class)
   public void shouldThrowExceptionIfTokenIsAbsent()
