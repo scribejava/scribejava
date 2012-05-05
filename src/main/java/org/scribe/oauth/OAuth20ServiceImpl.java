@@ -28,11 +28,24 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    if (api.getAccessTokenParametersVerb() == Verb.GET)
+    {
+      request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+      request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+      request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+      request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+      if (config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+      if (api.isGrantTypeRequired()) request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
+    }
+    else
+    {
+      request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+      request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+      request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+      request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+      if (config.hasScope()) request.addBodyParameter(OAuthConstants.SCOPE, config.getScope());
+      if (api.isGrantTypeRequired()) request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
+    }
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
