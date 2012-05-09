@@ -82,3 +82,7 @@
   * FEATURE: Kaixin2, SinaWeibo2 and Renren Apis
   * FEATURE: ImgUr Api
   * FEATURE: Freelancer Api (thanks Juan Palacios!)
+  * FIX: Allow digits in url schemes
+  * FEATURE: Specific exception for connection problems (OAuthConnectionException)
+  * FIX: Dropbox Api and Evernote Api updated to their latests versions
+  * FIX: Digg and Skyrock Apis
