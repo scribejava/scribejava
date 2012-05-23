@@ -32,6 +32,7 @@ public class HttpClientStrategy implements HttpStrategy {
             addHeaders(request, httpRequest);
             if ("POST".equals(verb) || "PUT".equals(verb)) {
                 ByteArrayEntity entity = new ByteArrayEntity(request.getByteBodyContents());
+                entity.setContentType(Request.DEFAULT_CONTENT_TYPE);
                 ((HttpEntityEnclosingRequest) httpRequest).setEntity(entity);
             }
             HttpResponse httpResponse = httpClient.execute(httpRequest);
