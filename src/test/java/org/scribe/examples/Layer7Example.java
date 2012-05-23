@@ -9,15 +9,14 @@ import java.util.Scanner;
 
 public class Layer7Example
 {
-  private static final String PROTECTED_RESOURCE_URI = "https://cdryden-pc.l7tech.local:8443/protected/bingproxy";
+  private static final String PROTECTED_RESOURCE_URI = "http://preview.layer7tech.com:8080/protected/resource";
 
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
-        .provider(Layer7Api.SSL.class)
-        .apiKey("acf89db2-994e-427b-ac2c-88e6101f9433")
-        .apiSecret("74d5e0db-cd8b-4d8e-a989-95a0746c3343")
-        .debug()
+        .provider(Layer7Api.class)
+        .apiKey("Consumer")
+        .apiSecret("Secret")
         .build();
     Scanner in = new Scanner(System.in);
 
@@ -37,7 +36,7 @@ public class Layer7Example
     Verifier verifier = new Verifier(in.nextLine());
     System.out.println();
 
-    // Trade the Request Token and Verfier for the Access Token
+    // Trade the Request Token and Verifier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
@@ -47,7 +46,6 @@ public class Layer7Example
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");
     OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URI);
-    request.addQuerystringParameter("Query", "Layer 7 Oauth");
     service.signRequest(accessToken, request);
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");
