@@ -9,23 +9,23 @@ import org.scribe.oauth.*;
 
 public class Layer720Example
 {
-  private static final String PROTECTED_RESOURCE_URL = "https://cdryden-pc.l7tech.local:9443/oauth/v2/protectedapi";
+  private static final String PROTECTED_RESOURCE_URL = "https://preview.layer7tech.com:8447/oauth/v2/protectedapi";
   private static final Token EMPTY_TOKEN = null;
 
   public static void main(String[] args)
   {
     System.setProperty("java.net.useSystemProxies", "true");
     // Replace these with your own api key and secret
-    String apiKey = "54f0c455-4d80-421f-82ca-9194df24859d";
-    String apiSecret = "a0f2742f-31c7-436f-9802-b7015b8fd8e6";
+    String apiKey = "Consumer";
+    String apiSecret = "Secret";
     OAuthService service = new ServiceBuilder()
-                                  .provider(Layer7Api20.class)
-                                  .apiKey(apiKey)
-                                  .apiSecret(apiSecret)
-                                  .callback("http://cdryden-pc.l7tech.local")
-                                  .scope("oob")
-                                  .debug()
-                                  .build();
+        .provider(Layer7Api20.class)
+        .apiKey(apiKey)
+        .apiSecret(apiSecret)
+        .callback("oob")
+        .scope("oob")
+        .debug()
+        .build();
     Scanner in = new Scanner(System.in);
 
     System.out.println("=== Layer 7's OAuth 2.0 Workflow ===");
@@ -41,7 +41,7 @@ public class Layer720Example
     System.out.print(">>");
     Verifier verifier = new Verifier(in.nextLine());
     System.out.println();
-    
+
     // Trade the Request Token and Verifier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
@@ -61,4 +61,5 @@ public class Layer720Example
 
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-}}
+  }
+}

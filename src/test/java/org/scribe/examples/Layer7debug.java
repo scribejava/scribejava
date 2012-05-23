@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Layer7debug
 {
-  private static final String PROTECTED_RESOURCE_URI = "https://cdryden-pc.l7tech.local:8443/protected/bingproxy";
+  private static final String PROTECTED_RESOURCE_URI = "https://cdryden-pc.l7tech.local:8443/protected/resource";
 
   public static void main(String[] args)
   {

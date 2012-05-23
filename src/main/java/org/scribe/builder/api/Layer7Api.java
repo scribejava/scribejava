@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.*;
 
 public class Layer7Api extends DefaultApi10a
 {
@@ -33,8 +33,6 @@ public class Layer7Api extends DefaultApi10a
   
   public static class SSL extends Layer7Api
   {
-
-    
     @Override
     public String getAccessTokenEndpoint()
     {
