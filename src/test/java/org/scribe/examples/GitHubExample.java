@@ -1,43 +1,37 @@
 package org.scribe.examples;
 
-import java.util.Scanner;
+import java.util.*;
 
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.GitHubApi;
-
-
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
-import org.scribe.model.Verifier;
-import org.scribe.oauth.OAuthService;
+import org.scribe.builder.*;
+import org.scribe.builder.api.*;
+import org.scribe.model.*;
+import org.scribe.oauth.*;
 
 
 /**
- * Hello world!
+ * GitHub API Example using Scrible-Java
  *
  */
 public class GitHubExample 
-{
-	private static final Token EMPTY_TOKEN = null;
-    public static void main( String[] args )
+{	
+    public static void main(String[] args )
     {
     	try
 		{
 			// Replace these with your own api key and secret
 		    String apiKey = "You GitHub client id";
 		    String apiSecret = "You Git client secret";
-		    OAuthService service = new ServiceBuilder().provider(GitHubApi.class)
-		        .apiKey(apiKey)
-		        .apiSecret(apiSecret)
-		        .callback("You github's redirect uri")
-		        .build();
+		    OAuthService service = new ServiceBuilder()
+		    								.provider(GitHubApi.class)
+		    								.apiKey(apiKey)
+		    								.apiSecret(apiSecret)
+		    								.callback("You github's redirect uri")
+		    								.build();
 		    Scanner in = new Scanner(System.in);
 		    
 		    // Obtain the Authorization URL
 		    System.out.println("Fetching the Authorization URL...");
-		    String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+		    String authorizationUrl = service.getAuthorizationUrl(null);
 		    System.out.println("Got the Authorization URL!");
 		    System.out.println("Now go and authorize Scribe here:");
 		    System.out.println(authorizationUrl);
@@ -51,7 +45,7 @@ public class GitHubExample
 
 		    // Trade the Request Token and Verifier for the Access Token
 		    System.out.println("Trading the Request Token for an Access Token...");		    
-		    Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+		    Token accessToken = service.getAccessToken(null, verifier);
 		    System.out.println("Got the Access Token!");
 		    System.out.println("(if your curious it looks like this: " + accessToken + " )");
 		    System.out.println();

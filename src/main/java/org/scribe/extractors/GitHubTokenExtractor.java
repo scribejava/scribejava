@@ -1,16 +1,16 @@
 package org.scribe.extractors;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
-import org.scribe.exceptions.OAuthException;
-import org.scribe.model.Token;
-import org.scribe.utils.Preconditions;
+import org.scribe.exceptions.*;
+import org.scribe.model.*;
+import org.scribe.utils.*;
 
 public class GitHubTokenExtractor implements AccessTokenExtractor
 {
 	
 	private Pattern accessTokenPattern = Pattern.compile("access_token=([^&]+)");
+	
 	public Token extract(String response)
 	{
 		Preconditions.checkEmptyString(response, "Cannot extract a token from a null or empty String");

@@ -1,15 +1,16 @@
 package org.scribe.builder.api;
 
+import org.scribe.extractors.*;
 
-import org.scribe.builder.api.DefaultApi20;
-import org.scribe.extractors.GitHubTokenExtractor;
-import org.scribe.model.OAuthConfig;
-import org.scribe.model.Verb;
-import org.scribe.utils.OAuthEncoder;
+import org.scribe.model.*;
 
-public class GitHubApi extends DefaultApi20 {
+import org.scribe.utils.*;
+
+public class GitHubApi extends DefaultApi20 
+{
 
 	private static final String AUTHORIZE_URL = "https://github.com/login/oauth/authorize?client_id=%s";
+	
 	private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 	
 	
