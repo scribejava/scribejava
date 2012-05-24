@@ -8,8 +8,6 @@ public class Layer7Api20 extends DefaultApi20
 {
   private final static String AUTHORIZE_URL = "https://preview.layer7tech.com:8447/auth/oauth/v2/authorize?response_type=code";
 
-  private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
-
   @Override
   public String getAccessTokenEndpoint()
   {
@@ -45,6 +43,7 @@ public class Layer7Api20 extends DefaultApi20
     {
       authUrl.append("&redirect_uri=").append(OAuthEncoder.encode(config.getCallback()));
     }
+    
     authUrl.append("&client_id=").append(OAuthEncoder.encode(config.getApiKey()));
     return authUrl.toString();
   }
