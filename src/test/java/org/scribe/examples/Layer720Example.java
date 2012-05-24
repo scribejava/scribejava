@@ -24,7 +24,6 @@ public class Layer720Example
         .apiSecret(apiSecret)
         .callback("oob")
         .scope("oob")
-        .debug()
         .build();
     Scanner in = new Scanner(System.in);
 
