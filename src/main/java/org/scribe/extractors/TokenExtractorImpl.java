@@ -16,7 +16,7 @@ import org.scribe.utils.*;
 public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExtractor
 {
   private static final Pattern TOKEN_REGEX = Pattern.compile("oauth_token=([^&]+)");
-  private static final Pattern SECRET_REGEX = Pattern.compile("oauth_token_secret=([^&]+)");
+  private static final Pattern SECRET_REGEX = Pattern.compile("oauth_token_secret=([^&]*)");
 
   /**
    * {@inheritDoc} 

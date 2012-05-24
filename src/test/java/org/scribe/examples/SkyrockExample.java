@@ -1,47 +1,44 @@
 package org.scribe.examples;
 
+import java.util.Scanner;
+
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
-import java.util.*;
 
-public class SinaWeibo2Example
+public class SkyrockExample
 {
-  private static final String NETWORK_NAME = "SinaWeibo";
-  private static final String PROTECTED_RESOURCE_URL = "https://api.weibo.com/2/account/get_uid.json";
-  private static final Token EMPTY_TOKEN = null;
-
+  private static final String PROTECTED_RESOURCE_URL = "https://api.skyrock.com/v2/user/get.json";
+  
   public static void main(String[] args)
   {
-    // Replace these with your own api key and secret
-    String apiKey = "your_api_key";
-    String apiSecret = "your_api_secret";
     OAuthService service = new ServiceBuilder()
-        .provider(SinaWeiboApi20.class)
-        .apiKey(apiKey)
-        .apiSecret(apiSecret)
-        .callback("http://www.dajie.com/oauth/sina")
-        .build();
+                                .provider(SkyrockApi.class)
+                                .apiKey("your-api-key")
+                                .apiSecret("your-api-secret")
+                                .build();
     Scanner in = new Scanner(System.in);
 
-    System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
+    System.out.println("=== Skyrock's OAuth Workflow ===");
+    System.out.println();
+    
+    // Obtain the Request Token
+    System.out.println("Fetching the Request Token...");
+    Token requestToken = service.getRequestToken();
+    System.out.println("Got the Request Token!");
     System.out.println();
 
-    // Obtain the Authorization URL
-    System.out.println("Fetching the Authorization URL...");
-    String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-    System.out.println("Got the Authorization URL!");
     System.out.println("Now go and authorize Scribe here:");
-    System.out.println(authorizationUrl);
-    System.out.println("And paste the authorization code here");
+    System.out.println(service.getAuthorizationUrl(requestToken));
+    System.out.println("And paste the verifier here");
     System.out.print(">>");
     Verifier verifier = new Verifier(in.nextLine());
     System.out.println();
 
-    // Trade the Request Token and Verifier for the Access Token
+    // Trade the Request Token and Verfier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
-    Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+    Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
     System.out.println("(if your curious it looks like this: " + accessToken + " )");
     System.out.println();
@@ -58,6 +55,7 @@ public class SinaWeibo2Example
 
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-
+    
   }
+
 }

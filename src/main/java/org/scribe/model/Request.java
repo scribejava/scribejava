@@ -61,13 +61,9 @@ class Request
       createConnection();
       return doSend();
     }
-    catch (UnknownHostException uhe)
+    catch (Exception e)
     {
-      throw new OAuthException("Could not reach the desired host. Check your network connection.", uhe);
-    }
-    catch (IOException ioe)
-    {
-      throw new OAuthException("Problems while creating connection.", ioe);
+      throw new OAuthConnectionException(e);
     }
   }
 
