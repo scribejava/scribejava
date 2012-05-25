@@ -9,7 +9,7 @@ import org.scribe.oauth.*;
 
 public class Layer720Example
 {
-  private static final String PROTECTED_RESOURCE_URL = "https://preview.layer7tech.com:8447/oauth/v2/protectedapi";
+  private static final String PROTECTED_RESOURCE_URL = "http://preview.layer7tech.com:8080/oauth/v2/protectedapi";
   private static final Token EMPTY_TOKEN = null;
 
   public static void main(String[] args)
@@ -22,7 +22,7 @@ public class Layer720Example
         .provider(Layer7Api20.class)
         .apiKey(apiKey)
         .apiSecret(apiSecret)
-        .callback("oob")
+        .callback("http://preview.layer7tech.com:8080/oauth/v2/redirect")
         .scope("oob")
         .build();
     Scanner in = new Scanner(System.in);
@@ -34,7 +34,7 @@ public class Layer720Example
     System.out.println("Fetching the Authorization URL...");
     String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
     System.out.println("Got the Authorization URL!");
-    System.out.println("Now go and authorize Scribe here:");
+    System.out.println("Now go and authorize Scribe here (Log in as 'User1'/'Passw0rd'):");
     System.out.println(authorizationUrl);
     System.out.println("And paste the authorization code here");
     System.out.print(">>");
