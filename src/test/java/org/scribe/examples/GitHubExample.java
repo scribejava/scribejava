@@ -57,7 +57,6 @@ public class GitHubExample
 	    System.out.println(response.getBody());
 
 	    System.out.println();
-	    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-			
+	    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");			
     }
 }
