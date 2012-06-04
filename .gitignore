@@ -9,9 +9,7 @@
 
 .idea
 scribe.iml
-scribe-java.*
-scribe.eml
 
 # Binaries
-bin/*
+
 target
