@@ -7,8 +7,12 @@ import java.io.*;
  *  
  * @author Pablo Fernandez
  */
-public class StreamUtils
+public final class StreamUtils
 {
+  /** private constructor for utility class */
+  private StreamUtils() {
+  }
+
   /**
    * Returns the stream contents as an UTF-8 encoded string
    * 

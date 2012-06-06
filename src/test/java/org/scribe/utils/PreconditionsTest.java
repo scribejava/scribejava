@@ -80,6 +80,12 @@ public class PreconditionsTest
   }
   
   @Test
+  public void testNonOob()
+  {
+    Preconditions.checkValidOAuthCallback("http://test.com/oauth", ERROR_MSG);
+  }
+
+  @Test
   public void shouldAllowOutOfBandAsValidCallbackValue()
   {
     Preconditions.checkValidOAuthCallback("oob", ERROR_MSG);

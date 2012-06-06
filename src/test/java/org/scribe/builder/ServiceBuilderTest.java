@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 import org.scribe.builder.api.*;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -45,6 +46,24 @@ public class ServiceBuilderTest
     assertEquals(ApiMock.config.getSignatureType(), SignatureType.QueryString);
   }
 
+  @Test(expected=OAuthException.class)
+  public void testProviderError()
+  {
+    builder.provider(ApiMockFail.class);
+  }
+
+  @Test
+  public void testDebug()
+  {
+    builder.debug();
+  }
+
+  @Test
+  public void testProvider()
+  {
+    builder.provider(new ApiMock());
+  }
+
   @Test(expected=IllegalArgumentException.class)
   public void shouldNotAcceptNullAsCallback()
   {
@@ -67,6 +86,18 @@ public class ServiceBuilderTest
     public OAuthService createService(OAuthConfig config)
     {
       ApiMock.config = config;
+      return null;
+    }
+  }
+
+  public static class ApiMockFail implements Api
+  {
+    public ApiMockFail() {
+      throw new RuntimeException("fail");
+    }
+
+    public OAuthService createService(OAuthConfig config)
+    {
       return null;
     }
   }

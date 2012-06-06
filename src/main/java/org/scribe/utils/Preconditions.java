@@ -9,12 +9,17 @@ import org.scribe.model.OAuthConstants;
  * 
  * @author Pablo Fernandez
  */
-public class Preconditions
+public final class Preconditions
 {
+
   private static final String DEFAULT_MESSAGE = "Received an invalid parameter";
-  
+
   // scheme = alpha *( alpha | digit | "+" | "-" | "." )
   private static final Pattern URL_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9+.-]*://\\S+");
+
+  /** private constructor for utility class */
+  private Preconditions() {
+  }
 
   /**
    * Checks that an object is not null.

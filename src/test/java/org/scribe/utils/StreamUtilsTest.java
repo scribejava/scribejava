@@ -1,6 +1,7 @@
 package org.scribe.utils;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
@@ -18,7 +19,18 @@ public class StreamUtilsTest
     String decoded = StreamUtils.getStreamContents(is);
     assertEquals("expected", decoded);
   }
-  
+
+  @Test(expected=IllegalStateException.class)
+  public void testWithInvalidInputStream()
+  {
+    StreamUtils.getStreamContents(new InputStream() {
+      @Override
+      public int read() throws IOException {
+        throw new IOException("fail");
+      }
+    });
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void shouldFailForNullParameter()
   {

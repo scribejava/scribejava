@@ -3,6 +3,7 @@ package org.scribe.extractors;
 import static org.junit.Assert.*;
 
 import org.junit.*;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.*;
 
 public class JsonTokenExtractorTest
@@ -15,6 +16,12 @@ public class JsonTokenExtractorTest
   {
     Token token = extractor.extract(response);
     assertEquals(token.getToken(), "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X");
+  }
+
+  @Test(expected=OAuthException.class)
+  public void shouldThrowExceptionIfForNoMatch()
+  {
+    extractor.extract("These Are Not The Droids You're Looking For");
   }
 
   @Test(expected=IllegalArgumentException.class)

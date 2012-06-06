@@ -53,6 +53,8 @@ public class TimestampServiceImpl implements TimestampService
    */
   static class Timer
   {
+    static Random random = new Random();
+
     Long getMilis()
     {
       return System.currentTimeMillis();
@@ -60,7 +62,7 @@ public class TimestampServiceImpl implements TimestampService
 
     Integer getRandomInteger()
     {
-      return new Random().nextInt();
+      return random.nextInt();
     }
   }
 
