@@ -14,7 +14,7 @@ public class Layer7Example
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
-        .provider(Layer7Api.SSL.class)
+        .provider(Layer7Api.class)
         .apiKey("Consumer")
         .apiSecret("Secret")
         .build();

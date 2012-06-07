@@ -1,106 +1,79 @@
 package org.scribe.builder.api;
 
-import java.io.IOException;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 
+import org.scribe.exceptions.*;
 import org.scribe.model.*;
 
+/**
+ * Supports the Layer 7 OAuth Toolkit's OAuth 1.0 implementation. The server can be set by 
+ * adding the properties oauth1.hostname, oauth1.port, and oauth1.method to 'layer7.properties'
+ * EG: 
+ *  oauth1.hostname=preview.layer7tech.com 
+ *  oauth1.port=8447 
+ *  oauth1.method=https 
+ * 
+ * The values given above are used by default. The file 'layer7.properties' must be in the classpath
+ * 
+ */
 public class Layer7Api extends DefaultApi10a
 {
-  private static final String HOST = "preview.layer7tech.com";
-  private static final String PROTOCOL = "http";
-  private static final String PORT = "8080";
-  private static final String PROTOCOL_SSL = "https";
-  private static final String PORT_SSL = "8447";
   private static final String AUTHORIZE_URL = "%s://%s:%s/auth/oauth/v1/authorize?oauth_token=%s";
   private static final String REQUEST_TOKEN_RESOURCE = "%s://%s:%s/auth/oauth/v1/request";
   private static final String ACCESS_TOKEN_RESOURCE = "%s://%s:%s/auth/oauth/v1/token";
-  
+
+  private static String host, method, port;
+
   @Override
   public String getAccessTokenEndpoint()
   {
-    return String.format(ACCESS_TOKEN_RESOURCE, PROTOCOL, HOST, PORT);
+    setHostname();
+    return String.format(ACCESS_TOKEN_RESOURCE, method, host, port);
   }
 
   @Override
   public String getAuthorizationUrl(Token token)
   {
-    return String.format(AUTHORIZE_URL, PROTOCOL_SSL, HOST, PORT_SSL, token.getToken());
+    setHostname();
+    return String.format(AUTHORIZE_URL, method, host, port, token.getToken());
   }
 
   @Override
   public String getRequestTokenEndpoint()
   {
-    return String.format(REQUEST_TOKEN_RESOURCE, PROTOCOL, HOST, PORT);
+    setHostname();
+    return String.format(REQUEST_TOKEN_RESOURCE, method, host, port);
   }
-  
-  public static class SSL extends Layer7Api
+
+  /*
+   * Loads the host, port, and method from the properties file the first time this method is run.
+   */
+  private void setHostname()
   {
-    @Override
-    public String getAccessTokenEndpoint()
+    if (null == host || null == port || null == method)
     {
-      return String.format(ACCESS_TOKEN_RESOURCE, PROTOCOL_SSL, HOST, PORT_SSL);
-    }
-
-    @Override
-    public String getAuthorizationUrl(Token token)
-    {
-      return String.format(AUTHORIZE_URL, PROTOCOL_SSL, HOST, PORT_SSL, token.getToken());
-    }
-
-    @Override
-    public String getRequestTokenEndpoint()
-    {
-      return String.format(REQUEST_TOKEN_RESOURCE, PROTOCOL_SSL, HOST, PORT_SSL);
+      Properties prop = loadProperties();
+      host = prop.getProperty("oauth1.hostname", "preview.layer7tech.com");
+      port = prop.getProperty("oauth1.port", "8447");
+      method = prop.getProperty("oauth1.method", "https");
     }
   }
-  
-  public static class Custom extends Layer7Api
+
+  protected static Properties loadProperties()
   {
-    private final Properties prop = new Properties();
-    private String host, method, port;
-    
-    /*
-     * Loads the host, port, and method from the properties file 
-     * the first time this method is run. 
-     */
-    private void readProperties()
+    final Properties prop = new Properties();
+    try
     {
-      if (null == host || null == port || null == method)
-      {
-          try
-          {
-            prop.load(Layer7Api20.class.getResourceAsStream("layer7.properties"));
-          }
-          catch (IOException e)
-          {
-            e.printStackTrace();
-          }
-          host = prop.getProperty("oauth1.hostname", "preview.layer7tech.com");
-          port = prop.getProperty("oauth1.ssl.port", "8447");
-          method = prop.getProperty("oauth.method", "https");
-      }
+      final InputStream propertiesStream = Layer7Api.class.getResourceAsStream("/layer7.properties");
+      if (propertiesStream != null)
+        prop.load(propertiesStream);
     }
-    
-    @Override
-    public String getAccessTokenEndpoint()
+    catch (IOException e)
     {
-      readProperties();
-      return String.format(ACCESS_TOKEN_RESOURCE, method, host, port);
+      throw new OAuthException("Error while reading properties file", e);
     }
-
-    @Override
-    public String getAuthorizationUrl(Token token)
-    {
-      readProperties();
-      return String.format(AUTHORIZE_URL, method, host, port, token.getToken());
-    }
-
-    @Override
-    public String getRequestTokenEndpoint()
-    {
-      readProperties();
-      return String.format(REQUEST_TOKEN_RESOURCE, method, host, port);
-    }
+    return prop;
   }
+
 }

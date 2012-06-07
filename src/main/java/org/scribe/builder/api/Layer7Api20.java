@@ -1,20 +1,32 @@
 package org.scribe.builder.api;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.util.*;
 
 import org.scribe.extractors.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
 
+/**
+ * Supports the Layer 7 OAuth Toolkit's OAuth 2.0 implementation. The Authorization Server can be set by 
+ * creating a 'layer7.properties' file and setting the properties oauth2.authz.hostname, 
+ * oauth2.authz.port, and oauth2.authz.method.
+ * EG: 
+ *  oauth2.authz.hostname=preview.layer7tech.com 
+ *  oauth2.authz.port=8447 
+ *  oauth2.authz.method=https 
+ * 
+ * The values given above are used by default. The file 'layer7.properties' must be in the classpath
+ */
 public class Layer7Api20 extends DefaultApi20
 {
-  private final Properties prop = new Properties();
-  private String host;
-  private String port;
-  private String method;
-  private final static String AUTHORIZE_URL = "%s://%s:%s/auth/oauth/v2/authorize?response_type=code";
+  private static final String DEFAULT_METHOD = "https";
+  private static final String DEFAULT_PORT = "8447";
+  private static final String DEFAULT_HOST = "preview.layer7tech.com";
+  private static final String AUTHORIZE_URL = "%s://%s:%s/auth/oauth/v2/authorize?response_type=code";
+
+  private static String host;
+  private static String port;
+  private static String method;
 
   @Override
   public String getAccessTokenEndpoint()
@@ -24,24 +36,16 @@ public class Layer7Api20 extends DefaultApi20
   }
 
   /*
-   * Loads the host, port, and method from the properties file 
-   * the first time this method is run. 
+   * Loads the host, port, and method from the properties file the first time this method is run.
    */
   private void readProperties()
   {
     if (null == host || null == port || null == method)
     {
-        try
-        {
-          prop.load(Layer7Api20.class.getResourceAsStream("layer7.properties"));
-        }
-        catch (IOException e)
-        {
-          e.printStackTrace();
-        }
-        host = prop.getProperty("oauth2.authz.hostname", "preview.layer7tech.com");
-        port = prop.getProperty("oauth2.authz.port", "8447");
-        method = prop.getProperty("oauth2.authz.method", "https");
+      Properties prop = Layer7Api.loadProperties();
+      host = prop.getProperty("oauth2.authz.hostname", Layer7Api20.DEFAULT_HOST);
+      port = prop.getProperty("oauth2.authz.port", Layer7Api20.DEFAULT_PORT);
+      method = prop.getProperty("oauth2.authz.method", Layer7Api20.DEFAULT_METHOD);
     }
   }
 
@@ -75,7 +79,7 @@ public class Layer7Api20 extends DefaultApi20
     {
       authUrl.append("&redirect_uri=").append(OAuthEncoder.encode(config.getCallback()));
     }
-    
+
     authUrl.append("&client_id=").append(OAuthEncoder.encode(config.getApiKey()));
     return authUrl.toString();
   }
