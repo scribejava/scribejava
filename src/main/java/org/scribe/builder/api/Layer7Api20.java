@@ -31,22 +31,8 @@ public class Layer7Api20 extends DefaultApi20
   @Override
   public String getAccessTokenEndpoint()
   {
-    readProperties();
+    setHostname();
     return String.format("%s://%s:%s/auth/oauth/v2/token?grant_type=authorization_code", method, host, port);
-  }
-
-  /*
-   * Loads the host, port, and method from the properties file the first time this method is run.
-   */
-  private void readProperties()
-  {
-    if (null == host || null == port || null == method)
-    {
-      Properties prop = Layer7Api.loadProperties();
-      host = prop.getProperty("oauth2.authz.hostname", Layer7Api20.DEFAULT_HOST);
-      port = prop.getProperty("oauth2.authz.port", Layer7Api20.DEFAULT_PORT);
-      method = prop.getProperty("oauth2.authz.method", Layer7Api20.DEFAULT_METHOD);
-    }
   }
 
   @Override
@@ -64,7 +50,7 @@ public class Layer7Api20 extends DefaultApi20
   @Override
   public String getAuthorizationUrl(OAuthConfig config)
   {
-    readProperties();
+    setHostname();
     StringBuilder authUrl = new StringBuilder();
     authUrl.append(String.format(AUTHORIZE_URL, method, host, port));
 
@@ -83,4 +69,19 @@ public class Layer7Api20 extends DefaultApi20
     authUrl.append("&client_id=").append(OAuthEncoder.encode(config.getApiKey()));
     return authUrl.toString();
   }
+
+  /*
+   * sets the host, port, and method from a properties file the first time this method is run.
+   */
+  private void setHostname()
+  {
+    if (null == host || null == port || null == method)
+    {
+      Properties prop = Layer7Api.loadProperties();
+      host = prop.getProperty("oauth2.authz.hostname", Layer7Api20.DEFAULT_HOST);
+      port = prop.getProperty("oauth2.authz.port", Layer7Api20.DEFAULT_PORT);
+      method = prop.getProperty("oauth2.authz.method", Layer7Api20.DEFAULT_METHOD);
+    }
+  }
+  
 }
