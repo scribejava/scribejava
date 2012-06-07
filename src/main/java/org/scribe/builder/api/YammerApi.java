@@ -5,7 +5,7 @@ import org.scribe.services.*;
 
 public class YammerApi extends DefaultApi10a
 {
-  private static final String AUTHORIZATION_URL = "'https://www.yammer.com/oauth/authorize?oauth_token=%s'";
+  private static final String AUTHORIZATION_URL = "https://www.yammer.com/oauth/authorize?oauth_token=%s";
 
   @Override
   public String getRequestTokenEndpoint()
