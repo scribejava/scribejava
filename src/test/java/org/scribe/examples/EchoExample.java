@@ -1,11 +1,10 @@
 package org.scribe.examples;
 
+import java.util.*;
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
-
-import java.util.*;
 
 /**
  * @author Alexander M. Petrovsky <askjuise@gmail.com>
@@ -21,8 +20,9 @@ public class EchoExample
     final String key = "your key";
     final String secret = "your secret";
 
+    // In 2-legged model, oauth_token must be empty
     Token token = new Token("", "");
-    OAuthService service = new ServiceBuilder().apiKey(key).apiSecret(secret).provider(ECHOApi.class).build();
+    OAuthService service = new ServiceBuilder().apiKey(key).apiSecret(secret).provider(EchoApi.class).build();
 
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");

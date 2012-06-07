@@ -1,23 +1,25 @@
 package org.scribe.builder.api;
 
 import org.scribe.model.*;
-import org.scribe.builder.api.DefaultApi10a;
 
-
-public class EchoApi extends DefaultApi10a {
+public class EchoApi extends DefaultApi10a
+{
   @Override
-  public String getAccessTokenEndpoint() {
-    return null;
+  public String getAccessTokenEndpoint()
+  {
+    throw new OAuthException("Echo API only supports 2-legged OAuth calls");
   }
 
   @Override
-  public String getAuthorizationUrl(Token requestToken) {
-    return null;
+  public String getAuthorizationUrl(Token requestToken)
+  {
+    throw new OAuthException("Echo API only supports 2-legged OAuth calls");
   }
 
   @Override
-  public String getRequestTokenEndpoint() {
-    return null;
+  public String getRequestTokenEndpoint()
+  {
+    throw new OAuthException("Echo API only supports 2-legged OAuth calls");
   }
 }
 
