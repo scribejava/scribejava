@@ -14,7 +14,7 @@ public class Layer7Example
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
-        .provider(Layer7Api.class)
+        .provider(Layer7Api.SSL.class)
         .apiKey("Consumer")
         .apiSecret("Secret")
         .build();
@@ -54,5 +54,6 @@ public class Layer7Example
 
     System.out.println();
     System.out.println("Thats it man! Go and build something awesome with Scribe and Layer 7's OAuth Toolkit! :)");
+    
   }
 }
