@@ -9,6 +9,8 @@ import org.scribe.oauth.*;
 
 public class Px500Example
 {
+
+  private static final String NETWORK_NAME = "500px";
   private static final String PROTECTED_RESOURCE_URL = "https://api.500px.com/v1/";
   
   public static void main(String[] args)
@@ -20,7 +22,7 @@ public class Px500Example
                                 .build();
     Scanner in = new Scanner(System.in);
 
-    System.out.println("=== 500Px's OAuth Workflow ===");
+    System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
     System.out.println();
     
     // Obtain the Request Token
