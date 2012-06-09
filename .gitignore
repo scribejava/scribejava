@@ -1,15 +1,4 @@
-
-# Eclipse specific settings
-
-.classpath
-.project
-.settings
-
-# IntelliJ Idea settings
-
-.idea
-scribe.iml
-
-# Binaries
-
+.*
+bin
+classes
 target
