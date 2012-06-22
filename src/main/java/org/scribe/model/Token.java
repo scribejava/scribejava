@@ -57,4 +57,22 @@ public class Token implements Serializable
   {
     return String.format("Token[%s , %s]", token, secret);
   }
+
+  /**
+   * Returns true if the token is empty (token = "", secret = "")
+   */
+  public boolean isEmpty()
+  {
+    return "".equals(this.token) && "".equals(this.secret);
+  }
+
+  /**
+   * Factory method that returns an empty token (token = "", secret = "").
+   *
+   * Useful for two legged OAuth.
+   */
+  public static Token empty()
+  {
+    return new Token("","");
+  }
 }
