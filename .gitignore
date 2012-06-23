@@ -1,4 +1,5 @@
 .*
+*.iml
 bin
 classes
 target
