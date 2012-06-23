@@ -13,6 +13,7 @@ Extra features include:
 * "Echo API by juise":https://github.com/juise/scribe-java
 * "Vimeo Example by stevebot":https://github.com/stevebot/scribe-java
 * "GitHub API by yosaku01":https://github.com/yosaku01/scribe-java
+* "Trello API by hwartig":https://github.com/hwartig/scribe-java
 
 And "here's the maven repository":http://stackmagic.github.com/maven-repo/maven2
 
