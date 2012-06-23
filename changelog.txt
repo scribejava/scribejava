@@ -86,3 +86,4 @@
   * FEATURE: Specific exception for connection problems (OAuthConnectionException)
   * FIX: Dropbox Api and Evernote Api updated to their latests versions
   * FIX: Digg and Skyrock Apis
+  * FEATURE: Trello.com Api
