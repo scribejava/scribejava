@@ -1,6 +1,5 @@
 package org.scribe.examples;
 
-import java.util.*;
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;

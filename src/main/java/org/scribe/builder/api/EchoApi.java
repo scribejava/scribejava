@@ -1,6 +1,7 @@
 package org.scribe.builder.api;
 
 import org.scribe.model.*;
+import org.scribe.exceptions.*;
 
 public class EchoApi extends DefaultApi10a
 {

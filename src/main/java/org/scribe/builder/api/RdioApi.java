@@ -1,6 +1,5 @@
 package org.scribe.builder.api;
 
-import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
 public class RdioApi extends DefaultApi10a
