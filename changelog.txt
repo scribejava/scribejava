@@ -100,3 +100,7 @@
 
 [1.4.1.stackmagic]
   * FEATURE: Trello
+
+[1.4.2.stackmagic]
+  * FEATURE: EventBrite Example
+
