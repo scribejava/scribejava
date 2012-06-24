@@ -71,5 +71,10 @@ public class EventBriteApi extends DefaultApi20
 			Response response = request.send();
 			return api.getAccessTokenExtractor().extract(response.getBody());
 		}
+		
+		public void signRequest(Token accessToken, OAuthRequest request)
+	    {
+			request.addHeader("Authorization","Bearer "+accessToken.getToken());
+	    }
 	}
 }
