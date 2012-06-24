@@ -1,8 +1,10 @@
 h2. Scribe Fork with extra features
 
-So this is a little fork of the scribe api (original readme below). I've merged some of the pending pull requests and put it on my own little maven repo so everyone can just include the dependency and be happy.
+p. Build Status: !https://secure.travis-ci.org/stackmagic/scribe-java.png?branch=master!
 
-Extra features include:
+p. So this is a little fork of the scribe api (original readme below). I've merged some of the pending pull requests and put it on my own little maven repo so everyone can just include the dependency and be happy.
+
+p. Extra features include:
 
 * "Event Brite API by skela":https://github.com/skela/scribe-java
 * "Drop Box API URL Update by Markush2010":https://github.com/Markush2010/scribe-java
@@ -16,7 +18,7 @@ Extra features include:
 * "Trello API by hwartig":https://github.com/hwartig/scribe-java
 * And last but not least: "Bitly API by yours truly, stackmagic":https://github.com/stackmagic/scribe-java
 
-And "here's the maven repository":http://stackmagic.github.com/maven-repo/maven2
+p. And "here's the maven repository":http://stackmagic.github.com/maven-repo/maven2
 
 h2. Welcome to the home of Scribe, the simple OAuth Java lib!
 
