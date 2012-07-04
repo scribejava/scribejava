@@ -141,6 +141,8 @@ class Request
    * 
    * @param key the parameter name
    * @param value the parameter value
+   * 
+   * @deprecated Use addQuerystringParameter instead
    */
   public void addBodyParameter(String key, String value)
   {
@@ -256,7 +258,7 @@ class Request
   byte[] getByteBodyContents()
   {
     if (bytePayload != null) return bytePayload;
-    String body = (payload != null) ? payload : bodyParams.asFormUrlEncodedString();
+    String body = (payload != null) ? payload : querystringParams.asFormUrlEncodedString();
     try
     {
       return body.getBytes(getCharset());

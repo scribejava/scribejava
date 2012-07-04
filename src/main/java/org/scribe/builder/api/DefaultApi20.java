@@ -58,6 +58,12 @@ public abstract class DefaultApi20 implements Api
    * @return the URL where you should redirect your users
    */
   public abstract String getAuthorizationUrl(OAuthConfig config);
+  
+  /**
+   * Returns the grant_type parameter value for access token requests.
+   * @return the grant_type parameter placed in access token request
+   */
+  public abstract String getGrantType();
 
   /**
    * {@inheritDoc}

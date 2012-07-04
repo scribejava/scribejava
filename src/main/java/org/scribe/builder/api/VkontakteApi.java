@@ -18,6 +18,11 @@ public class VkontakteApi extends DefaultApi20
   {
     return "https://api.vkontakte.ru/oauth/access_token";
   }
+  
+  @Override
+	public String getGrantType() {
+		return "client_credentials";
+	}
 
   @Override
   public String getAuthorizationUrl(OAuthConfig config)

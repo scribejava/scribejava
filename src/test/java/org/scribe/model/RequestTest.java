@@ -15,8 +15,8 @@ public class RequestTest
   {
     connection = new ConnectionStub();
     postRequest = new Request(Verb.POST, "http://example.com");
-    postRequest.addBodyParameter("param", "value");
-    postRequest.addBodyParameter("param with spaces", "value with spaces");
+    postRequest.addQuerystringParameter("param", "value");
+    postRequest.addQuerystringParameter("param with spaces", "value with spaces");
     postRequest.setConnection(connection);
     getRequest = new Request(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces");
     getRequest.setConnection(connection);
@@ -33,7 +33,7 @@ public class RequestTest
   public void shouldGetQueryStringParameters()
   {
     assertEquals(2, getRequest.getQueryStringParams().size());
-    assertEquals(0, postRequest.getQueryStringParams().size());
+    assertEquals(2, postRequest.getQueryStringParams().size());
     assertTrue(getRequest.getQueryStringParams().contains(new Parameter("qsparam", "value")));
   }
 
