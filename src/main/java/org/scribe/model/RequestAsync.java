@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderIterator;
@@ -239,6 +240,36 @@ public class RequestAsync extends RequestBase
     }
 
     entityRequest.setEntity(entity);
+  }
+
+  /**
+   * Connection keep alive is not configurable on an asynchronous request. Keep 
+   * alive is always used.
+   */
+  @Override
+  public void setConnectionKeepAlive(boolean connectionKeepAlive)
+  {
+    throw new OAuthException("Connection keep alive is not configurable on an asynchronous request.  Keep alive is always used.");
+  }
+
+  /**
+   * Connection timeout is not configurable on an asynchronous request.  Set 
+   * the org.scribe.async.connect.timeout system property (ms).
+   */
+  @Override
+  public void setConnectTimeout(int duration, TimeUnit unit)
+  {
+    throw new OAuthException("Connection timeout is not configurable on an asynchronous request.  Set the org.scribe.async.connect.timeout system property (ms).");
+  }
+
+  /**
+   * Read timeout is not configurable on an asynchronous request.  Set the 
+   * org.scribe.async.socket.timeout system property (ms).
+   */
+  @Override
+  public void setReadTimeout(int duration, TimeUnit unit)
+  {
+    throw new OAuthException("Read timeout is not configurable on an asynchronous request.  Set the org.scribe.async.socket.timeout system property (ms).");
   }
 
   /**
