@@ -25,12 +25,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * Represents an asynchronous HTTP Request object.
  * 
- * Because this implementation uses an HTTP request pool, timeouts are controlled at a global level, rather than per-request. The following JVM system properties control the behavior of the pool:
+ * Because this implementation uses an HTTP request pool, timeouts are controlled at a global level, rather than per-request.
+ * <p>
+ * The following JVM system properties control the behavior of the pool:
  * <ul>
  * <li>org.scribe.async.socket.timeout - overall socket idle (keep-alive) timeout in milliseconds, default is 30 seconds</li>
  * <li>org.scribe.async.connect.timeout - socket connect timeout in milliseconds, default is 30 seconds</li>
  * <li>org.scribe.async.socket.buffer - socket buffer size in bytes, default is 8Kb (8192 bytes)</li>
  * <li>org.scribe.async.tcp.nodelay - true to use TCP_NODELAY, false to disable, default is true
+ * <li>org.scribe.async.max.inflight.route - maximum number of in-flight requests per route (unique URL, minus query string), default is 500</li>
+ * <li>org.scribe.async.max.inflight.total - maximum number of total in-flight requests (across all providers), default is 500</li>
  * </ul>
  * 
  * @author Brett Wooldridge
@@ -67,8 +71,8 @@ public class RequestAsync extends RequestBase
     // Create HTTP connection pool
     pool = new BasicNIOConnPool(ioReactor, params);
     // Limit total number of connections to just two
-    pool.setDefaultMaxPerRoute(2);
-    pool.setMaxTotal(2);
+    pool.setDefaultMaxPerRoute(Integer.getInteger("org.scribe.async.max.inflight.route", 500));
+    pool.setMaxTotal(Integer.getInteger("org.scribe.async.max.inflight.total", 500));
 
     // Run the I/O reactor in a separate thread
     Thread t = new Thread(new Runnable()
