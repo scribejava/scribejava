@@ -1,17 +1,24 @@
 package org.scribe.oauth;
 
-import java.util.*;
+import java.util.Map;
 
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
-import org.scribe.utils.*;
+import org.scribe.builder.api.DefaultApi10a;
+import org.scribe.exceptions.OAuthException;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.ResponseCallback;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
+import org.scribe.utils.MapUtils;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
  *
  * @author Pablo Fernandez
  */
-public class OAuth10aServiceImpl implements OAuthService
+public class OAuth10aServiceImpl implements OAuthService, OAuthServiceAsync
 {
   private static final String VERSION = "1.0";
 
@@ -52,6 +59,39 @@ public class OAuth10aServiceImpl implements OAuthService
     return api.getRequestTokenExtractor().extract(body);
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  public void getRequestToken(final RequestTokenCallback callBack)
+  {
+    config.log("obtaining request token from " + api.getRequestTokenEndpoint());
+    OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), true);
+
+    config.log("setting oauth_callback to " + config.getCallback());
+    request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
+    addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
+    appendSignature(request);
+
+    config.log("sending request...");
+    ResponseCallback responseCallback = new ResponseCallback() {
+      public void onResponse(Response response)
+      {
+        String body = response.getBody();
+
+        config.log("response status code: " + response.getCode());
+        config.log("response body: " + body);
+        Token token = api.getRequestTokenExtractor().extract(body);
+        callBack.onRequestToken(token);
+      }
+      public void onError(OAuthException authException)
+      {
+        callBack.onError(authException);
+      }
+    };
+
+    request.sendAsync(responseCallback);
+  }
+
   private void addOAuthParams(OAuthRequest request, Token token)
   {
     request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
@@ -80,6 +120,35 @@ public class OAuth10aServiceImpl implements OAuthService
     appendSignature(request);
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void getAccessToken(Token requestToken, Verifier verifier, final AccessTokenCallback callBack)
+  {
+    config.log("obtaining access token from " + api.getAccessTokenEndpoint());
+    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), true);
+    request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
+    request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
+
+    config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
+    addOAuthParams(request, requestToken);
+    appendSignature(request);
+
+    ResponseCallback responseCallback = new ResponseCallback() {
+      public void onResponse(Response response)
+      {
+        Token token = api.getAccessTokenExtractor().extract(response.getBody());
+        callBack.onAccessToken(token);
+      }
+      public void onError(OAuthException authException)
+      {
+        callBack.onError(authException);
+      }
+    };
+
+    request.sendAsync(responseCallback);
   }
 
   /**

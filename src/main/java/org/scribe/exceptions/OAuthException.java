@@ -8,7 +8,6 @@ package org.scribe.exceptions;
  */
 public class OAuthException extends RuntimeException
 {
-
   /**
    * Default constructor 
    * @param message message explaining what went wrong
@@ -27,6 +26,16 @@ public class OAuthException extends RuntimeException
   public OAuthException(String message)
   {
     super(message, null);
+  }
+
+  /**
+   * Exception constructor.  Used to simply wrap an exception.
+   *
+   * @param e original exception
+   */
+  public OAuthException(Exception e)
+  {
+    super(e);
   }
 
   private static final long serialVersionUID = 1L;
