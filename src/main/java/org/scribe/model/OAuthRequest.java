@@ -68,13 +68,20 @@ public class OAuthRequest implements Request
   {
     if (isApacheAsyncAvailable())
     {
-      try
+      if (async)
       {
-        request = (Request) asyncConstructor.newInstance(verb, url);
+        try
+        {
+          request = (Request) asyncConstructor.newInstance(verb, url);
+        }
+        catch (Exception e)
+        {
+          throw new OAuthException("Failure creating asynchronous request", e);
+        }
       }
-      catch (Exception e)
+      else
       {
-        throw new OAuthException("Failure creating asynchronous request", e);
+        request = new RequestSync(verb, url);
       }
     }
     else
