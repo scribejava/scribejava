@@ -1,11 +1,10 @@
 package org.scribe.model;
 
-import java.lang.reflect.Constructor;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import org.scribe.exceptions.OAuthException;
+
+import java.lang.reflect.Constructor;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The representation of an OAuth HttpRequest.

@@ -1,14 +1,12 @@
 package org.scribe.model;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import org.scribe.exceptions.OAuthException;
+
+import java.io.UnsupportedEncodingException;
+import java.net.*;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Base class for HTTP Requests.

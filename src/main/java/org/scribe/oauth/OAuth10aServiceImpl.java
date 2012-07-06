@@ -1,17 +1,11 @@
 package org.scribe.oauth;
 
-import java.util.Map;
-
 import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.exceptions.OAuthException;
-import org.scribe.model.OAuthConfig;
-import org.scribe.model.OAuthConstants;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.ResponseCallback;
-import org.scribe.model.Token;
-import org.scribe.model.Verifier;
+import org.scribe.model.*;
 import org.scribe.utils.MapUtils;
+
+import java.util.Map;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}

@@ -3,74 +3,42 @@
  */
 package org.scribe.model;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InterruptedIOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.http.Header;
-import org.apache.http.HeaderIterator;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
+import org.apache.http.*;
 import org.apache.http.concurrent.FutureCallback;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.ContentType;
+import org.apache.http.entity.*;
 import org.apache.http.impl.DefaultConnectionReuseStrategy;
 import org.apache.http.impl.nio.DefaultHttpClientIODispatch;
 import org.apache.http.impl.nio.pool.BasicNIOConnPool;
-import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
-import org.apache.http.impl.nio.reactor.IOReactorConfig;
-import org.apache.http.message.BasicHttpEntityEnclosingRequest;
-import org.apache.http.message.BasicHttpRequest;
-import org.apache.http.nio.protocol.BasicAsyncRequestProducer;
-import org.apache.http.nio.protocol.BasicAsyncResponseConsumer;
-import org.apache.http.nio.protocol.HttpAsyncRequestExecutor;
-import org.apache.http.nio.protocol.HttpAsyncRequester;
-import org.apache.http.nio.reactor.ConnectingIOReactor;
-import org.apache.http.nio.reactor.IOEventDispatch;
-import org.apache.http.nio.reactor.IOReactorException;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpProcessor;
-import org.apache.http.protocol.ImmutableHttpProcessor;
-import org.apache.http.protocol.RequestConnControl;
-import org.apache.http.protocol.RequestContent;
-import org.apache.http.protocol.RequestExpectContinue;
-import org.apache.http.protocol.RequestTargetHost;
-import org.apache.http.protocol.RequestUserAgent;
-import org.scribe.exceptions.OAuthConnectionException;
-import org.scribe.exceptions.OAuthException;
+import org.apache.http.impl.nio.reactor.*;
+import org.apache.http.message.*;
+import org.apache.http.nio.protocol.*;
+import org.apache.http.nio.reactor.*;
+import org.apache.http.params.*;
+import org.apache.http.protocol.*;
+import org.scribe.exceptions.*;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents an asynchronous HTTP Request object.
  * 
- * Because this implementation uses an HTTP request pool, timeouts are controlled
- * at a global level, rather than per-request.  The following JVM system properties
- * control the behavior of the pool:
+ * Because this implementation uses an HTTP request pool, timeouts are controlled at a global level, rather than per-request. The following JVM system properties control the behavior of the pool:
  * <ul>
- *   <li>org.scribe.async.socket.timeout - overall socket idle (keep-alive) timeout in milliseconds, default is 30 seconds</li>
- *   <li>org.scribe.async.connect.timeout - socket connect timeout in milliseconds, default is 30 seconds</li>
- *   <li>org.scribe.async.socket.buffer - socket buffer size in bytes, default is 8Kb (8192 bytes)</li>
- *   <li>org.scribe.async.tcp.nodelay - true to use TCP_NODELAY, false to disable, default is true
+ * <li>org.scribe.async.socket.timeout - overall socket idle (keep-alive) timeout in milliseconds, default is 30 seconds</li>
+ * <li>org.scribe.async.connect.timeout - socket connect timeout in milliseconds, default is 30 seconds</li>
+ * <li>org.scribe.async.socket.buffer - socket buffer size in bytes, default is 8Kb (8192 bytes)</li>
+ * <li>org.scribe.async.tcp.nodelay - true to use TCP_NODELAY, false to disable, default is true
  * </ul>
+ * 
  * @author Brett Wooldridge
  */
 public class RequestAsync extends RequestBase
 {
   private static HttpAsyncRequester requester;
+
   private static BasicNIOConnPool pool;
 
   static
@@ -132,13 +100,15 @@ public class RequestAsync extends RequestBase
     t.start();
 
     // Create HTTP protocol processing chain
-    HttpProcessor httpproc = new ImmutableHttpProcessor(new HttpRequestInterceptor[] {
+    HttpProcessor httpproc = new ImmutableHttpProcessor(new HttpRequestInterceptor[]
+    {
         // Use standard client-side protocol interceptors
         new RequestContent(),
         new RequestTargetHost(),
         new RequestConnControl(),
         new RequestUserAgent(),
-        new RequestExpectContinue() });
+        new RequestExpectContinue()
+    });
 
     // Create HTTP requester
     requester = new HttpAsyncRequester(httpproc, new DefaultConnectionReuseStrategy(), params);
@@ -195,7 +165,7 @@ public class RequestAsync extends RequestBase
     addHeaders(request);
 
     HttpHost target = new HttpHost(connectUrl.getHost(), port, connectUrl.getProtocol());
-    
+
     BasicAsyncRequestProducer asyncRequestProducer = new BasicAsyncRequestProducer(target, request);
     BasicAsyncResponseConsumer asyncResponseConsumer = new BasicAsyncResponseConsumer();
     BasicHttpContext httpContext = new BasicHttpContext();
@@ -207,7 +177,7 @@ public class RequestAsync extends RequestBase
 
   /**
    * Set the request headers.
-   *
+   * 
    * @param request the request object
    */
   private void addHeaders(HttpRequest request)
@@ -220,13 +190,13 @@ public class RequestAsync extends RequestBase
 
   /**
    * Add the body content to the request.
-   *
+   * 
    * @param request the request object
    * @param content an array of bytes representing the content to PUT or POST
    */
   void addBody(HttpRequest request, byte[] content)
   {
-    HttpEntityEnclosingRequest entityRequest = (HttpEntityEnclosingRequest) request;
+    HttpEntityEnclosingRequest entityRequest = (HttpEntityEnclosingRequest)request;
 
     HttpEntity entity;
     if (entityRequest.getFirstHeader(CONTENT_TYPE) == null)
@@ -243,8 +213,7 @@ public class RequestAsync extends RequestBase
   }
 
   /**
-   * Connection keep alive is not configurable on an asynchronous request. Keep 
-   * alive is always used.
+   * Connection keep alive is not configurable on an asynchronous request. Keep alive is always used.
    */
   @Override
   public void setConnectionKeepAlive(boolean connectionKeepAlive)
@@ -253,8 +222,7 @@ public class RequestAsync extends RequestBase
   }
 
   /**
-   * Connection timeout is not configurable on an asynchronous request.  Set 
-   * the org.scribe.async.connect.timeout system property (ms).
+   * Connection timeout is not configurable on an asynchronous request. Set the org.scribe.async.connect.timeout system property (ms).
    */
   @Override
   public void setConnectTimeout(int duration, TimeUnit unit)
@@ -263,8 +231,7 @@ public class RequestAsync extends RequestBase
   }
 
   /**
-   * Read timeout is not configurable on an asynchronous request.  Set the 
-   * org.scribe.async.socket.timeout system property (ms).
+   * Read timeout is not configurable on an asynchronous request. Set the org.scribe.async.socket.timeout system property (ms).
    */
   @Override
   public void setReadTimeout(int duration, TimeUnit unit)
@@ -274,7 +241,7 @@ public class RequestAsync extends RequestBase
 
   /**
    * Private class to handle the HttpResponse callback.
-   *
+   * 
    */
   private class RequestAsyncFuture implements FutureCallback<HttpResponse>
   {
@@ -297,7 +264,7 @@ public class RequestAsync extends RequestBase
 
       StatusLine statusLine = response.getStatusLine();
       int statusCode = statusLine.getStatusCode();
-      
+
       InputStream stream;
       if (statusCode >= 200 && statusCode < 400)
       {

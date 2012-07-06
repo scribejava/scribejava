@@ -1,9 +1,7 @@
 package org.scribe.oauth;
 
 import org.scribe.exceptions.OAuthException;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Token;
-import org.scribe.model.Verifier;
+import org.scribe.model.*;
 
 /**
  * An asynchronous version of the Scribe service.

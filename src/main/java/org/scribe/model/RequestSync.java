@@ -1,11 +1,9 @@
 package org.scribe.model;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.scribe.exceptions.*;
 
-import org.scribe.exceptions.OAuthConnectionException;
-import org.scribe.exceptions.OAuthException;
+import java.io.IOException;
+import java.net.*;
 
 /**
  * Represents an HTTP Request object
