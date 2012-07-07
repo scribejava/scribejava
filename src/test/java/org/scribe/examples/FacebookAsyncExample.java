@@ -46,7 +46,7 @@ public class FacebookAsyncExample
 
     // Trade the Request Token and Verfier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
-    service.getAccessToken(EMPTY_TOKEN, verifier, new OAuthServiceAsync.AccessTokenCallback()
+    service.getAccessToken(EMPTY_TOKEN, verifier, new OAuthServiceAsync.AsyncTokenCallback()
     {
       public void onAccessToken(Token accessToken)
       {
@@ -71,6 +71,10 @@ public class FacebookAsyncExample
       {
         authException.printStackTrace();
         countDownLatch.countDown();
+      }
+
+      public void onRequestToken(Token requestToken)
+      {
       }
     });
 

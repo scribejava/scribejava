@@ -16,7 +16,7 @@ public interface OAuthServiceAsync
   /**
    * Callback interface for getRequestToken() method.
    */
-  public interface RequestTokenCallback
+  public interface AsyncTokenCallback
   {
     /**
      * Called when the request Token is available.
@@ -25,19 +25,6 @@ public interface OAuthServiceAsync
      */
     public void onRequestToken(Token requestToken);
 
-    /**
-     * Called when there is an error handling the request.
-     *
-     * @param authException the exception that occurred during handling
-     */
-    public void onError(OAuthException authException);
-  }
-
-  /**
-   * Callback interface for getAccessToken() method.
-   */
-  public interface AccessTokenCallback
-  {
     /**
      * Called when the access Token is available.
      *
@@ -59,7 +46,7 @@ public interface OAuthServiceAsync
    *
    * @param callBack an implementation of RequestTokenCallback to be invoked with the Token
    */
-  public void getRequestToken(RequestTokenCallback callBack);
+  public void getRequestToken(AsyncTokenCallback callBack);
 
   /**
    * Start the request to retrieve the access token.  The provided callback will be called with the Token
@@ -69,7 +56,7 @@ public interface OAuthServiceAsync
    * @param verifier verifier code
    * @param callBack  an implementation of AccessTokenCallback to be invoked with the Token
    */
-  public void getAccessToken(Token requestToken, Verifier verifier, AccessTokenCallback callBack);
+  public void getAccessToken(Token requestToken, Verifier verifier, AsyncTokenCallback callBack);
 
   /**
    * Signs am OAuth request

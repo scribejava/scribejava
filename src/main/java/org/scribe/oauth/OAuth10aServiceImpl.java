@@ -56,7 +56,7 @@ public class OAuth10aServiceImpl implements OAuthService, OAuthServiceAsync
   /**
    * {@inheritDoc}
    */
-  public void getRequestToken(final RequestTokenCallback callBack)
+  public void getRequestToken(final AsyncTokenCallback callBack)
   {
     config.log("obtaining request token from " + api.getRequestTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), true);
@@ -119,7 +119,7 @@ public class OAuth10aServiceImpl implements OAuthService, OAuthServiceAsync
   /**
    * {@inheritDoc}
    */
-  public void getAccessToken(Token requestToken, Verifier verifier, final AccessTokenCallback callBack)
+  public void getAccessToken(Token requestToken, Verifier verifier, final AsyncTokenCallback callBack)
   {
     config.log("obtaining access token from " + api.getAccessTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), true);
