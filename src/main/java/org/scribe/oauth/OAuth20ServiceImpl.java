@@ -41,7 +41,7 @@ public class OAuth20ServiceImpl implements OAuthService, OAuthServiceAsync
   /**
    * {@inheritDoc}
    */
-  public void getAccessToken(Token requestToken, Verifier verifier, final AccessTokenCallback callBack)
+  public void getAccessToken(Token requestToken, Verifier verifier, final AsyncTokenCallback callBack)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), true);
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
@@ -76,7 +76,7 @@ public class OAuth20ServiceImpl implements OAuthService, OAuthServiceAsync
   /**
    * {@inheritDoc}
    */
-  public void getRequestToken(RequestTokenCallback callBack)
+  public void getRequestToken(AsyncTokenCallback callBack)
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }

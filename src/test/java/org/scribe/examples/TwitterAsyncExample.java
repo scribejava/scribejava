@@ -1,13 +1,13 @@
 package org.scribe.examples;
 
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
-
-import org.scribe.builder.*;
-import org.scribe.builder.api.*;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.TwitterApi;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.*;
-import org.scribe.oauth.*;
+import org.scribe.oauth.OAuthServiceAsync;
+
+import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 public class TwitterAsyncExample
 {
@@ -27,7 +27,7 @@ public class TwitterAsyncExample
     final CountDownLatch countDownLatch = new CountDownLatch(1);
 
     // Obtain the Request Token
-    service.getRequestToken(new OAuthServiceAsync.RequestTokenCallback()
+    service.getRequestToken(new OAuthServiceAsync.AsyncTokenCallback()
     {
       public void onRequestToken(final Token requestToken)
       {
@@ -45,35 +45,28 @@ public class TwitterAsyncExample
         
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        service.getAccessToken(requestToken, verifier, new OAuthServiceAsync.AccessTokenCallback()
-        {
-          public void onAccessToken(Token accessToken)
-          {
-            System.out.println("Got the Access Token!");
-            System.out.println("(if your curious it looks like this: " + accessToken + " )");
-            System.out.println();
-
-            // Now let's go and ask for a protected resource!
-            System.out.println("Now we're going to access a protected resource...");
-            OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
-            request.addBodyParameter("status", "this is sparta! *");
-            service.signRequest(accessToken, request);
-            Response response = request.send();
-            System.out.println("Got it! Lets see what we found...");
-            System.out.println();
-            System.out.println(response.getBody());
-
-            countDownLatch.countDown();
-          }
-          
-          public void onError(OAuthException authException)
-          {
-            authException.printStackTrace();
-            countDownLatch.countDown();
-          }
-        });
+        service.getAccessToken(requestToken, verifier, this);
       }
-      
+
+      public void onAccessToken(Token accessToken)
+      {
+        System.out.println("Got the Access Token!");
+        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println();
+
+        // Now let's go and ask for a protected resource!
+        System.out.println("Now we're going to access a protected resource...");
+        OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
+        request.addBodyParameter("status", "this is sparta! *");
+        service.signRequest(accessToken, request);
+        Response response = request.send();
+        System.out.println("Got it! Lets see what we found...");
+        System.out.println();
+        System.out.println(response.getBody());
+
+        countDownLatch.countDown();
+      }
+          
       public void onError(OAuthException authException)
       {
         authException.printStackTrace();
