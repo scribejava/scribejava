@@ -1,13 +1,13 @@
 package org.scribe.examples;
 
-import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
-
-import org.scribe.builder.*;
-import org.scribe.builder.api.*;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.TwitterApi;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.*;
-import org.scribe.oauth.*;
+import org.scribe.oauth.OAuthServiceAsync;
+
+import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 
 public class TwitterAsyncExample
 {
@@ -47,7 +47,7 @@ public class TwitterAsyncExample
         System.out.println("Trading the Request Token for an Access Token...");
         service.getAccessToken(requestToken, verifier, this);
       }
-      
+
       public void onAccessToken(Token accessToken)
       {
         System.out.println("Got the Access Token!");
@@ -66,7 +66,7 @@ public class TwitterAsyncExample
 
         countDownLatch.countDown();
       }
-      
+          
       public void onError(OAuthException authException)
       {
         authException.printStackTrace();

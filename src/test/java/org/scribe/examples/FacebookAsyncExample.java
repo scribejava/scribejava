@@ -75,6 +75,7 @@ public class FacebookAsyncExample
 
       public void onRequestToken(Token requestToken)
       {
+        // unused
       }
     });
 

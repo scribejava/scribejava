@@ -31,7 +31,7 @@ public interface OAuthServiceAsync
      * @param accessToken the access token
      */
     public void onAccessToken(Token accessToken);
-
+    
     /**
      * Called when there is an error handling the request.
      *
