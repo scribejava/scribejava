@@ -7,9 +7,9 @@ import org.scribe.model.*;
 import org.scribe.utils.*;
 
 /**
- * OAuth 1.0a implementation of {@link OAuthService}
+ * OAuth 1.0 implementation of {@link OAuthService}
  *
- * @author Pablo Fernandez
+ * @author Pablo Fernandez (copy of OAuth 1.0a), patched by Martin Vlcek (API 1.0)
  */
 public class OAuth10ServiceImpl implements OAuthService
 {
@@ -21,8 +21,8 @@ public class OAuth10ServiceImpl implements OAuthService
   /**
    * Default constructor
    *
-   * @param api OAuth1.0a api information
-   * @param config OAuth 1.0a configuration param object
+   * @param api OAuth1.0 api information
+   * @param config OAuth 1.0 configuration param object
    */
   public OAuth10ServiceImpl(DefaultApi10 api, OAuthConfig config)
   {

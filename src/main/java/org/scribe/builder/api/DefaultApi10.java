@@ -6,19 +6,19 @@ import org.scribe.oauth.*;
 import org.scribe.services.*;
 
 /**
- * Default implementation of the OAuth protocol, version 1.0a
+ * Default implementation of the OAuth protocol, version 1.0
  * 
  * This class is meant to be extended by concrete implementations of the API,
  * providing the endpoints and endpoint-http-verbs.
  * 
- * If your Api adheres to the 1.0a protocol correctly, you just need to extend 
+ * If your Api adheres to the 1.0 protocol correctly, you just need to extend 
  * this class and define the getters for your endpoints.
  * 
  * If your Api does something a bit different, you can override the different 
  * extractors or services, in order to fine-tune the process. Please read the 
  * javadocs of the interfaces to get an idea of what to do.
  * 
- * @author Pablo Fernandez
+ * @author Pablo Fernandez (copy of OAuth 1.0a), patched by Martin Vlcek (OAuth 1.0)
  *
  */
 public abstract class DefaultApi10 implements Api
