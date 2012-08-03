@@ -38,7 +38,12 @@ public class OAuth20ServiceImpl implements OAuthService {
         request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
         request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
         request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-        request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.GRANT_TYPE_AUTHORIZATION_CODE);
+        if (config.hasScope()) {
+          request.addBodyParameter(OAuthConstants.SCOPE, config.getScope());
+        }
+        if (config.hasGrantType()) {
+          request.addBodyParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+        }
         break;
       case GET:
       default:
@@ -48,6 +53,9 @@ public class OAuth20ServiceImpl implements OAuthService {
         request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
         if (config.hasScope()) {
           request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+        }
+        if (config.hasGrantType()) {
+          request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
         }
     }
     Response response = request.send();
@@ -70,16 +78,16 @@ public class OAuth20ServiceImpl implements OAuthService {
         request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
         // request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-        request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
-        request.addBodyParameter(OAuthConstants.REFRESH_TOKEN, accessToken.getToken());
+        request.addBodyParameter(OAuthConstants.GRANT_TYPE, api.getRefreshTokenParameterName());
+        request.addBodyParameter(api.getRefreshTokenParameterName(), accessToken.getToken());
         break;
       case GET:
       default:
         request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
         request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-        request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
-        request.addQuerystringParameter(OAuthConstants.REFRESH_TOKEN, accessToken.getToken());
+        request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, api.getRefreshTokenParameterName());
+        request.addQuerystringParameter(api.getRefreshTokenParameterName(), accessToken.getToken());
     }
 
     Response response = request.send();

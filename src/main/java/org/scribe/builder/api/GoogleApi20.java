@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.utils.OAuthEncoder;
@@ -58,7 +59,7 @@ public class GoogleApi20 extends DefaultApi20 {
     }
     // Access type added to manage offline mode with refresh token
     if (config.hasAccessType()) {
-      authorizationUrl += "&access_type=" + config.getAccessType();
+      authorizationUrl += "&" + OAuthConstants.ACCESS_TYPE + "=" + config.getAccessType();
     }
     return authorizationUrl;
   }
@@ -68,4 +69,8 @@ public class GoogleApi20 extends DefaultApi20 {
     return Verb.POST;
   }
 
+  @Override
+  public String getRefreshTokenParameterName() {
+    return OAuthConstants.REFRESH_TOKEN;
+  }
 }
