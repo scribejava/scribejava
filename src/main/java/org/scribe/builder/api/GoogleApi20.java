@@ -1,10 +1,15 @@
 package org.scribe.builder.api;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.scribe.exceptions.OAuthException;
 import org.scribe.extractors.AccessTokenExtractor;
-import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.utils.OAuthEncoder;
+import org.scribe.utils.Preconditions;
 
 /**
  * OAuth 2.0 API for Google.
@@ -23,8 +28,22 @@ public class GoogleApi20 extends DefaultApi20 {
 
   @Override
   public AccessTokenExtractor getAccessTokenExtractor() {
-    // possible regex: "\"access_token\" : \"([^&\"]+)\""
-    return new JsonTokenExtractor();
+    return new AccessTokenExtractor() {
+
+      private Pattern accessTokenPattern = Pattern.compile("\"access_token\" : \"([^&\"]+)\"");
+
+      public Token extract(String response) {
+        Preconditions.checkEmptyString(response, "Cannot extract a token from a null or empty String");
+
+        Matcher matcher = accessTokenPattern.matcher(response);
+        if (matcher.find()) {
+          String token = OAuthEncoder.decode(matcher.group(1));
+          return new Token(token, "", response);
+        } else {
+          throw new OAuthException("Cannot extract an acces token. Response was: " + response);
+        }
+      }
+    };
   }
 
   @Override
