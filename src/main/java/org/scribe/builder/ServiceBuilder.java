@@ -127,7 +127,7 @@ public class ServiceBuilder {
   }
 
   /**
-   * Configures the grant type
+   * Configures the OAuth grant type.
    * 
    * @param grantType
    *          The OAuth grant type
@@ -147,7 +147,7 @@ public class ServiceBuilder {
    * @return the {@link ServiceBuilder} instance for method chaining
    */
   public ServiceBuilder accessType(String accessType) {
-    Preconditions.checkEmptyString(scope, "Invalid OAuth Access Type");
+    Preconditions.checkEmptyString(accessType, "Invalid OAuth Access Type");
     this.accessType = accessType;
     return this;
   }
