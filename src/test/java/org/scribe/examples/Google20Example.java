@@ -44,10 +44,8 @@ public class Google20Example
       startLocalServer();
     
       // Replace these with your own api key and secret
-      String apiKey = "186177184139.apps.googleusercontent.com";
-      String apiSecret = "uVehkfuKPtzhO5VAXU-VEDVa";
-      //String apiKey = "your api key";
-      //String apiSecret = "your api secret";
+      String apiKey = "your api key";
+      String apiSecret = "your api secret";
       OAuthService service = new ServiceBuilder()
                                     .provider(GoogleApi20.class)
                                     .apiKey(apiKey)
