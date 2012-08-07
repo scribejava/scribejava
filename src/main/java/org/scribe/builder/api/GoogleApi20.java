@@ -31,7 +31,7 @@ public class GoogleApi20 extends DefaultApi20 {
   public AccessTokenExtractor getAccessTokenExtractor() {
     return new AccessTokenExtractor() {
 
-      private Pattern accessTokenPattern = Pattern.compile("\"access_token\" : \"([^&\"]+)\"");
+      private Pattern accessTokenPattern = Pattern.compile("\"access_token\"\\s*:\\s*\"([^&\"]+)\"");
 
       public Token extract(String response) {
         Preconditions.checkEmptyString(response, "Cannot extract a token from a null or empty String");
