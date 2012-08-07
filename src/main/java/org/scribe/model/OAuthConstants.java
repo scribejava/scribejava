@@ -17,7 +17,8 @@ package org.scribe.model;
  * 
  * @author Pablo Fernandez
  */
-public class OAuthConstants {
+public class OAuthConstants
+{
   public static final String TIMESTAMP = "oauth_timestamp";
   public static final String SIGN_METHOD = "oauth_signature_method";
   public static final String SIGNATURE = "oauth_signature";
@@ -35,7 +36,7 @@ public class OAuthConstants {
   public static final Token EMPTY_TOKEN = new Token("", "");
   public static final String SCOPE = "scope";
 
-  // OAuth 2.0
+  //OAuth 2.0
   public static final String ACCESS_TOKEN = "access_token";
   public static final String CLIENT_ID = "client_id";
   public static final String CLIENT_SECRET = "client_secret";
