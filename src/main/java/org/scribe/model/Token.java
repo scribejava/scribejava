@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 /**
  * Represents an OAuth token (either request or access token) and its secret
- * 
+ *
  * @author Pablo Fernandez
  */
 public class Token implements Serializable
 {
   private static final long serialVersionUID = 715000866082812683L;
-	
+
   private final String token;
   private final String secret;
   private final String rawResponse;
 
   /**
    * Default constructor
-   * 
+   *
    * @param token token value
    * @param secret token secret
    */
@@ -73,6 +73,30 @@ public class Token implements Serializable
    */
   public static Token empty()
   {
-    return new Token("","");
+    return new Token("", "");
+  }
+
+  @Override
+  public boolean equals(Object o)
+  {
+    if (this == o) {return true;}
+    if (o == null || getClass() != o.getClass()) {return false;}
+
+    Token that = (Token) o;
+
+    if (rawResponse != null ? !rawResponse.equals(that.rawResponse) : that.rawResponse != null) {return false;}
+    if (secret != null ? !secret.equals(that.secret) : that.secret != null) {return false;}
+    if (token != null ? !token.equals(that.token) : that.token != null) {return false;}
+
+    return true;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    int result = token != null ? token.hashCode() : 0;
+    result = 31 * result + (secret != null ? secret.hashCode() : 0);
+    result = 31 * result + (rawResponse != null ? rawResponse.hashCode() : 0);
+    return result;
   }
 }
