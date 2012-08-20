@@ -1,25 +1,26 @@
 package org.scribe.model;
 
-import java.io.Serializable;
+import java.io.*;
+import org.scribe.utils.*;
 
 /**
  * Represents an OAuth token (either request or access token) and its secret
- * 
+ *
  * @author Pablo Fernandez
  */
 public class Token implements Serializable
 {
   private static final long serialVersionUID = 715000866082812683L;
-	
+
   private final String token;
   private final String secret;
   private final String rawResponse;
 
   /**
    * Default constructor
-   * 
-   * @param token token value
-   * @param secret token secret
+   *
+   * @param token token value. Can't be null.
+   * @param secret token secret. Can't be null.
    */
   public Token(String token, String secret)
   {
@@ -28,6 +29,9 @@ public class Token implements Serializable
 
   public Token(String token, String secret, String rawResponse)
   {
+    Preconditions.checkNotNull(token, "Token can't be null");
+    Preconditions.checkNotNull(secret, "Secret can't be null");
+
     this.token = token;
     this.secret = secret;
     this.rawResponse = rawResponse;
@@ -73,6 +77,22 @@ public class Token implements Serializable
    */
   public static Token empty()
   {
-    return new Token("","");
+    return new Token("", "");
+  }
+
+  @Override
+  public boolean equals(Object o)
+  {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Token that = (Token) o;
+    return token.equals(that.token) && secret.equals(that.secret);
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return 31 * token.hashCode() + secret.hashCode();
   }
 }
