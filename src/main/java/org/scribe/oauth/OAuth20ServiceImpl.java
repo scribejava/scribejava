@@ -1,9 +1,10 @@
 package org.scribe.oauth;
 
 import org.scribe.builder.api.*;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.*;
 
-public class OAuth20ServiceImpl implements OAuthService
+public class OAuth20ServiceImpl implements OAuthService, OAuthServiceAsync
 {
   private static final String VERSION = "2.0";
   
@@ -40,7 +41,42 @@ public class OAuth20ServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
+  public void getAccessToken(Token requestToken, Verifier verifier, final AsyncTokenCallback callBack)
+  {
+    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), true);
+    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+
+    ResponseCallback responseCallback = new ResponseCallback() {
+      public void onResponse(Response response)
+      {
+        Token token = api.getAccessTokenExtractor().extract(response.getBody());
+        callBack.onAccessToken(token);
+      }
+      public void onError(OAuthException authException)
+      {
+        callBack.onError(authException);
+      }
+    };
+
+    request.sendAsync(responseCallback);
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
   public Token getRequestToken()
+  {
+    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void getRequestToken(AsyncTokenCallback callBack)
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
@@ -68,5 +104,4 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     return api.getAuthorizationUrl(config);
   }
-
 }

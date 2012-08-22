@@ -14,8 +14,6 @@ import org.scribe.utils.*;
  */
 public class Response
 {
-  private static final String EMPTY = "";
-
   private int code;
   private String body;
   private InputStream stream;
@@ -34,6 +32,13 @@ public class Response
     {
       throw new OAuthException("The IP address of a host could not be determined.", e);
     }
+  }
+
+  Response(int code, Map<String, String> headers, InputStream stream)
+  {
+    this.code = code;
+    this.headers = headers;
+    this.stream = stream;
   }
 
   private String parseBodyContents()
@@ -73,7 +78,7 @@ public class Response
    * 
    * @return input stream / error stream
    */
-  public InputStream getStream()
+  private InputStream getStream()
   {
     return stream;
   }

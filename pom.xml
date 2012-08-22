@@ -49,6 +49,13 @@
       <artifactId>commons-codec</artifactId>
       <version>1.4</version>
     </dependency>
+
+  <dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpcore-nio</artifactId>
+    <version>4.2.1</version>
+    <scope>compile</scope>
+  </dependency>
     
     <dependency>
       <groupId>junit</groupId>

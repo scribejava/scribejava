@@ -166,4 +166,14 @@ public class ServiceBuilder
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
     return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
   }
+
+  /**
+   * Returns the fully configured asynchronous {@link OAuthServiceAsync}
+   * 
+   * @return fully configured {@link OAuthServiceAsync}
+   */
+  public OAuthServiceAsync buildAsync()
+  {
+    return (OAuthServiceAsync) build();
+  }
 }
