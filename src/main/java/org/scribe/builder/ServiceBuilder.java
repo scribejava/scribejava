@@ -23,6 +23,7 @@ public class ServiceBuilder
   private String scope;
   private String grantType;
   private String accessType;
+  private String approvalPrompt;
   private SignatureType signatureType;
   private OutputStream debugStream;
   
@@ -155,6 +156,19 @@ public class ServiceBuilder
     this.accessType = accessType;
     return this;
   }
+  
+  /**
+   * Configures if the user should be re-prompted for consent. This is only necessary in some APIs (like Google's).
+   * 
+   * @param approvalPrompt
+   *          The OAuth approval prompt
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder approvalPrompt(String approvalPrompt) {
+    Preconditions.checkEmptyString(approvalPrompt, "Invalid OAuth Approval Prompt");
+    this.approvalPrompt = approvalPrompt;
+    return this;
+  }
 
   /**
    * Configures the signature type, choose between header, querystring, etc. Defaults to Header
@@ -192,6 +206,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, grantType, accessType, debugStream));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, grantType, accessType, approvalPrompt, debugStream));
   }
 }

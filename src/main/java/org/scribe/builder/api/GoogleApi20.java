@@ -61,6 +61,10 @@ public class GoogleApi20 extends DefaultApi20 {
     if (config.hasAccessType()) {
       authorizationUrl += "&" + OAuthConstants.ACCESS_TYPE + "=" + config.getAccessType();
     }
+    // Approval prompt added to manage if the user should be re-prompted for consent
+    if (config.hasApprovalPrompt()) {
+      authorizationUrl += "&" + OAuthConstants.APPROVAL_PROMPT + "=" + config.getApprovalPrompt();
+    }
     return authorizationUrl;
   }
 

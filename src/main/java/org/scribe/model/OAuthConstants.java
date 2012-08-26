@@ -36,13 +36,14 @@ public class OAuthConstants
   public static final Token EMPTY_TOKEN = new Token("", "");
   public static final String SCOPE = "scope";
 
-  //OAuth 2.0
+  // OAuth 2.0
   public static final String ACCESS_TOKEN = "access_token";
   public static final String CLIENT_ID = "client_id";
   public static final String CLIENT_SECRET = "client_secret";
   public static final String REDIRECT_URI = "redirect_uri";
   public static final String CODE = "code";
   public static final String ACCESS_TYPE = "access_type";
+  public static final String APPROVAL_PROMPT = "approval_prompt";
   public static final String GRANT_TYPE = "grant_type";
   public static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
   public static final String REFRESH_TOKEN = "refresh_token";
