@@ -2,6 +2,10 @@ h2. Welcome to the home of Scribe, the simple OAuth Java lib!
 
 !https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master(travis-ci-status)!
 
+
+h2. IMPORTANT: Do not email me or raise an issue *without* "reading the FAQ first":http://wiki.github.com/fernandezpablo85/scribe-java/faq. Please. Pretty please. Pretty please with sugar on top. Thanks
+
+
 h1. Why use Scribe?
 
 h3. Dead Simple 
@@ -71,8 +75,6 @@ You can pull scribe from a maven repository, just add this to your __pom.xml__ f
 h1. Getting started in less than 2 minutes
 
 Check the "Getting Started":http://wiki.github.com/fernandezpablo85/scribe-java/getting-started page and start rocking!
-
-h1. Please Read the "FAQ":http://wiki.github.com/fernandezpablo85/scribe-java/faq before creating an issue :)
 
 h1. Questions?
 

@@ -28,6 +28,19 @@ public interface OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier);
 
   /**
+   * Refresh the access token to extend its expiration date.
+   * 
+   * <p/>
+   * For the token in parameter, Facebook needs the access_token, while Google or Live needs the refresh_token (which can be found only in the
+   * {@link org.scribe.model.Token#getRawResponse()} returned by {@link #getAccessToken(org.scribe.model.Token, org.scribe.model.Verifier)}).
+   * 
+   * @param accessToken
+   *          access or refresh token, depending on the OAuth provider
+   * @return fresh access token
+   */
+  public Token refreshAccessToken(Token accessToken);
+
+  /**
    * Signs am OAuth request
    * 
    * @param accessToken access token (obtained previously)

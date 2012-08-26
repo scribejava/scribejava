@@ -67,4 +67,12 @@ public abstract class DefaultApi20 implements Api
     return new OAuth20ServiceImpl(this, config);
   }
 
+  /**
+   * @return the parameter needed to refresh a access token.
+   */
+  public String getRefreshTokenParameterName()
+  {
+    throw new UnsupportedOperationException("Refresh token is not implemented for " + getClass().getSimpleName());
+  }
+
 }
