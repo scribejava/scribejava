@@ -13,6 +13,8 @@ import org.scribe.model.Verifier;
 public class NKOAuthServiceImpl implements OAuthService {
 
     private static final String VERSION = "1.0";
+    private static String GRANT_TYPE = "grant_type";
+    private static String AUTHORIZATION_CODE = "authorization_code";
 
     private final OAuthConfig config;
     private final NkApi api;
@@ -30,12 +32,14 @@ public class NKOAuthServiceImpl implements OAuthService {
 
     public Token getAccessToken(Token requestToken, Verifier verifier) {
         OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-        request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-        request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-        request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-        request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-        if (config.hasScope())
-            request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+        request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+        request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+        request.addBodyParameter(GRANT_TYPE, AUTHORIZATION_CODE);
+        if (config.hasScope()) {
+            request.addBodyParameter(OAuthConstants.SCOPE, config.getScope());
+        }
         Response response = request.send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
