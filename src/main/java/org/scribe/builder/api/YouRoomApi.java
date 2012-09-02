@@ -10,19 +10,19 @@ public class YouRoomApi extends DefaultApi10a
 	  
 	@Override
 	public String getAccessTokenEndpoint()
-  {
+  	{
 		return ACCESS_TOKEN_RESOURCE; 
 	}
 	
 	@Override
 	public String getRequestTokenEndpoint() 
-  {
+  	{
 		return REQUEST_TOKEN_RESOURCE;
 	}
 
 	@Override
 	public String getAuthorizationUrl(Token requestToken) 
-  {
+  	{
 		return String.format(AUTHORIZE_URL, requestToken.getToken());
 	}
 }
