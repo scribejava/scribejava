@@ -1,30 +1,51 @@
 package org.scribe.examples;
 
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.TrelloApi;
+import org.scribe.model.*;
+import org.scribe.oauth.OAuthService;
+
 import java.util.Scanner;
 
-import org.scribe.builder.*;
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
-import org.scribe.oauth.*;
-
-public class Px500Example
+/**
+ * Shows you how to use scribe with trello.com .
+ *
+ * @author Harald Wartig <hwartig@googlemail.com>
+ */
+public class TrelloExample
 {
+  private static final String PROTECTED_RESOURCE_URL = "https://api.trello.com/1/members/me/boards";
 
-  private static final String NETWORK_NAME = "500px";
-  private static final String PROTECTED_RESOURCE_URL = "https://api.500px.com/v1/";
-  
   public static void main(String[] args)
   {
-    OAuthService service = new ServiceBuilder()
-                                .provider(Px500Api.class)
-                                .apiKey("your-api-key")
-                                .apiSecret("your-api-secret")
-                                .build();
+    // Replace these with your own api key and secret
+    String apiKey = "";
+    String apiSecret = "";
+
     Scanner in = new Scanner(System.in);
 
-    System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
+    if (apiKey.isEmpty() || apiSecret.isEmpty()) {
+      System.out.println("=== Setup ===");
+      System.out.println();
+
+      System.out.println("We need your apiKey:");
+      System.out.print(">>");
+      apiKey = in.nextLine();
+
+      System.out.println(".. and your apiSecret too:");
+      System.out.print(">>");
+      apiSecret = in.nextLine();
+    }
+
+    OAuthService service = new ServiceBuilder()
+                                .provider(TrelloApi.class)
+                                .apiKey(apiKey)
+                                .apiSecret(apiSecret)
+                                .build();
+
+    System.out.println("=== Trello's OAuth Workflow ===");
     System.out.println();
-    
+
     // Obtain the Request Token
     System.out.println("Fetching the Request Token...");
     Token requestToken = service.getRequestToken();
@@ -38,7 +59,7 @@ public class Px500Example
     Verifier verifier = new Verifier(in.nextLine());
     System.out.println();
 
-    // Trade the Request Token and Verfier for the Access Token
+    // Trade the Request Token and Verifier for the Access Token
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
@@ -50,13 +71,11 @@ public class Px500Example
     OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
     service.signRequest(accessToken, request);
     Response response = request.send();
-    System.out.println("Got it! Lets see what we found...");
+    System.out.println("Got it! Lets take a look at your board list...");
     System.out.println();
     System.out.println(response.getBody());
 
     System.out.println();
-    System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
-    
+    System.out.println("Go and build something awesome with Scribe & trello.com :)");
   }
-
 }

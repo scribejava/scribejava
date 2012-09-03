@@ -1,11 +1,28 @@
 package org.scribe.utils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.*;
 
 public class PreconditionsTest
 {
 
   private static final String ERROR_MSG = "";
+
+  /**
+   * the last bit to reach 100% coverage
+   * @throws InvocationTargetException on error
+   * @throws IllegalAccessException on error
+   * @throws InstantiationException on error
+   * @throws IllegalArgumentException on error
+   */
+  @Test
+  public void ctorCoverage() throws IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    Constructor<?> ctor = Preconditions.class.getDeclaredConstructors()[0];
+    ctor.setAccessible(true);
+    ctor.newInstance((Object[]) null);
+  }
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowExceptionForNullObjects()
@@ -79,6 +96,12 @@ public class PreconditionsTest
     Preconditions.checkValidUrl("http_custom://www.example.com", ERROR_MSG);
   }
   
+  @Test
+  public void testNonOob()
+  {
+    Preconditions.checkValidOAuthCallback("http://test.com/oauth", ERROR_MSG);
+  }
+
   @Test
   public void shouldAllowOutOfBandAsValidCallbackValue()
   {

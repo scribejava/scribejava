@@ -9,10 +9,14 @@ import org.scribe.exceptions.*;
 /**
  * @author: Pablo Fernandez
  */
-public class OAuthEncoder
+public final class OAuthEncoder
 {
   private static String CHARSET = "UTF-8";
   private static final Map<String, String> ENCODING_RULES;
+
+  /** private constructor for utility class */
+  private OAuthEncoder() {
+  }
 
   static
   {

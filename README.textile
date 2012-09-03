@@ -1,3 +1,25 @@
+h2. Scribe Fork with extra features
+
+p. Build Status: !https://secure.travis-ci.org/stackmagic/scribe-java.png?branch=master!
+
+p. So this is a little fork of the scribe api (original readme below). I've merged some of the pending pull requests and put it on my own little maven repo so everyone can just include the dependency and be happy.
+
+p. Extra features include:
+
+* "Event Brite API by skela":https://github.com/skela/scribe-java
+* "Drop Box API URL Update by Markush2010":https://github.com/Markush2010/scribe-java
+* "Constant Contact API by matthewdlaudato":https://github.com/matthewdlaudato/scribe-java
+* "XING API by kongo09":https://github.com/kongo09/scribe-java
+* "Rdio API by cvil":https://github.com/cvil/scribe-java
+* "FitBit API by apakulov":https://github.com/apakulov/scribe-java
+* "Echo API by juise":https://github.com/juise/scribe-java
+* "Vimeo Example by stevebot":https://github.com/stevebot/scribe-java
+* "GitHub API by yosaku01":https://github.com/yosaku01/scribe-java
+* "Trello API by hwartig":https://github.com/hwartig/scribe-java
+* And last but not least: "Bitly API by yours truly, stackmagic":https://github.com/stackmagic/scribe-java
+
+p. And "here's the maven repository":http://stackmagic.github.com/maven-repo/maven2
+
 h2. Welcome to the home of Scribe, the simple OAuth Java lib!
 
 !https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master(travis-ci-status)!

@@ -5,8 +5,12 @@ import java.util.Map;
 /**
  * @author: Pablo Fernandez
  */
-public class MapUtils
+public final class MapUtils
 {
+  /** private constructor for utility class */
+  private MapUtils() {
+  }
+
   public static <K,V> String toString(Map<K,V> map)
   {
     if (map == null) return "";

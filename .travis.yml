@@ -1,5 +1,8 @@
-# kickstart travis.
 language: java
-
-# need to override travis 'install' since it will try gpg sign and fail.
-install: mvn clean package -DskipTests=true
+jdk:
+  - openjdk6
+  - openjdk7
+  - oraclejdk7
+branches:
+  only:
+    - master

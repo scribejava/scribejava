@@ -86,3 +86,21 @@
   * FEATURE: Specific exception for connection problems (OAuthConnectionException)
   * FIX: Dropbox Api and Evernote Api updated to their latests versions
   * FIX: Digg and Skyrock Apis
+
+[1.4.0.stackmagic]
+  * FEATURE: EventBrite
+  * FIX: DropBox new URLS
+  * FEATURE: Constant Contact
+  * FEATURE: XING
+  * FEATURE: Rdio
+  * FEATURE: FitBit
+  * FEATURE: Echo
+  * FEATURE: Vimeo Example
+  * FEATURE: GitHub
+
+[1.4.1.stackmagic]
+  * FEATURE: Trello
+
+[1.4.2.stackmagic]
+  * FEATURE: EventBrite Example
+
