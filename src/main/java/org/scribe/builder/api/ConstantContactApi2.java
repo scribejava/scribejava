@@ -45,7 +45,8 @@ public class ConstantContactApi2 extends DefaultApi20
         {
           String token = OAuthEncoder.decode(matcher.group(1));
           return new Token(token, "", response);
-        } else
+        } 
+        else
         {
           throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
         }
