@@ -1,13 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2012 Arieh 'Vainolo' Bibliowicz
- * You can use this code for educational purposes. For any other uses
- * please contact me: vainolo@gmail.com
- *******************************************************************************/
 package org.scribe.builder.api;
 
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 
+/**
+ * @author Arieh "Vainolo" Bibliowicz
+ * @see http://apidocs.mendeley.com/home/authentication
+ */
 public class MendeleyApi extends DefaultApi10a {
 
   private static final String AUTHORIZATION_URL = "http://api.mendeley.com/oauth/authorize?oauth_token=%s";
