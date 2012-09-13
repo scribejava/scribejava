@@ -6,32 +6,38 @@ import org.scribe.model.*;
  * @author Arieh "Vainolo" Bibliowicz
  * @see http://apidocs.mendeley.com/home/authentication
  */
-public class MendeleyApi extends DefaultApi10a {
+public class MendeleyApi extends DefaultApi10a 
+{
 
   private static final String AUTHORIZATION_URL = "http://api.mendeley.com/oauth/authorize?oauth_token=%s";
 
   @Override
-  public String getRequestTokenEndpoint() {
+  public String getRequestTokenEndpoint() 
+  {
     return "http://api.mendeley.com/oauth/request_token/";
   }
 
   @Override
-  public String getAccessTokenEndpoint() {
+  public String getAccessTokenEndpoint()  
+  {
     return "http://api.mendeley.com/oauth/access_token/";
   }
 
   @Override
-  public String getAuthorizationUrl(Token requestToken) {
+  public String getAuthorizationUrl(Token requestToken) 
+  {
     return String.format(AUTHORIZATION_URL, requestToken.getToken());
   }
 
   @Override
-  public Verb getAccessTokenVerb() {
+  public Verb getAccessTokenVerb() 
+  {
     return Verb.GET;
   }
 
   @Override
-  public Verb getRequestTokenVerb() {
+  public Verb getRequestTokenVerb() 
+  {
     return Verb.GET;
   }
 }
