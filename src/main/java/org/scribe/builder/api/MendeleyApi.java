@@ -1,7 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
+import org.scribe.model.*;
 
 /**
  * @author Arieh "Vainolo" Bibliowicz
