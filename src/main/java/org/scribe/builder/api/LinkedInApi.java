@@ -4,7 +4,7 @@ import org.scribe.model.*;
 
 public class LinkedInApi extends DefaultApi10a
 {
-  private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authorize?oauth_token=%s";
+  private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
 
   @Override
   public String getAccessTokenEndpoint()
