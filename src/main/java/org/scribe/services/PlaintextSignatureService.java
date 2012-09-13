@@ -11,7 +11,7 @@ import org.scribe.utils.*;
  */
 public class PlaintextSignatureService implements SignatureService
 {
-  private static final String METHOD = "plaintext";
+  private static final String METHOD = "PLAINTEXT";
 
   /**
    * {@inheritDoc}
