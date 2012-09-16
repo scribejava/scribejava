@@ -1,15 +1,10 @@
-
-# Eclipse specific settings
-
-.classpath
-.project
-.settings
+# Hidden files (Eclipse settings included)
+.*
 
 # IntelliJ Idea settings
-
-.idea
-scribe.iml
+*.iml
 
 # Binaries
-
 target
+*.class
+*.jar

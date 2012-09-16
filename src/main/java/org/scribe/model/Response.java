@@ -1,11 +1,11 @@
 package org.scribe.model;
 
+import org.scribe.exceptions.OAuthException;
+import org.scribe.utils.StreamUtils;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
-import org.scribe.exceptions.*;
-import org.scribe.utils.*;
 
 /**
  * Represents an HTTP Response.
@@ -14,11 +14,12 @@ import org.scribe.utils.*;
  */
 public class Response
 {
-  private static final String EMPTY = "";
-
   private int code;
+
   private String body;
+
   private InputStream stream;
+
   private Map<String, String> headers;
 
   Response(HttpURLConnection connection) throws IOException
@@ -68,8 +69,7 @@ public class Response
   }
 
   /**
-   * Obtains the meaningful stream of the HttpUrlConnection, either inputStream
-   * or errorInputStream, depending on the status code
+   * Obtains the meaningful stream of the HttpUrlConnection, either inputStream or errorInputStream, depending on the status code
    * 
    * @return input stream / error stream
    */
