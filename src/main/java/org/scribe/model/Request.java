@@ -78,7 +78,7 @@ class Request
       {
         connection.setRequestProperty("Connection", "keep-alive");
       }
-      if (proxyHost != null)
+      if (proxyHost != null && proxyHost.length() > 0)
       {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
         connection = (HttpURLConnection) new URL(completeUrl).openConnection(proxy);
