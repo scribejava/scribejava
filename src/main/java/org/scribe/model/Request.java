@@ -31,6 +31,8 @@ class Request
   private boolean connectionKeepAlive = false;
   private Long connectTimeout = null;
   private Long readTimeout = null;
+  private String proxyHost = null;
+  private int proxyPort = 8080;
 
   /**
    * Creates a new Http Request
@@ -72,8 +74,19 @@ class Request
     String completeUrl = getCompleteUrl();
     if (connection == null)
     {
-      System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      if (connectionKeepAlive)
+      {
+        connection.setRequestProperty("Connection", "keep-alive");
+      }
+      if (proxyHost != null)
+      {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
+        connection = (HttpURLConnection) new URL(completeUrl).openConnection(proxy);
+      }
+      else
+      {
+        connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      }
     }
   }
 
@@ -340,6 +353,26 @@ class Request
   public void setConnectionKeepAlive(boolean connectionKeepAlive)
   {
     this.connectionKeepAlive = connectionKeepAlive;
+  }
+
+  /**
+   * Sets the proxy host.
+   *
+   * @param proxyHost
+   */
+  public void setProxyHost(String proxyHost)
+  {
+    this.proxyHost = proxyHost;
+  }
+  
+  /**
+   * Sets the proxy port.
+   *
+   * @param proxyPort
+   */
+  public void setProxyPort(int proxyPort)
+  {
+    this.proxyPort = proxyPort;
   }
 
   /*
