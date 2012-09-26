@@ -4,10 +4,10 @@
   <groupId>org.scribe</groupId>
   <artifactId>scribe</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.4</version>
+  <version>1.2.3</version>
   <name>Scribe OAuth Library</name>
   <description>The best OAuth library out there</description>
-  <url>http://github.com/ragnor/scribe-java</url>
+  <url>http://github.com/fernandezpablo85/scribe-java</url>
 
   <parent>
     <groupId>org.sonatype.oss</groupId>
@@ -38,9 +38,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:http://github.com/ragnor/scribe-java.git</connection>
-    <developerConnection>scm:http://github.com/ragnor/scribe-java.git</developerConnection>
-    <url>http://github.com/ragnor/scribe-java.git</url>
+    <connection>scm:http://github.com/fernandezpablo85/scribe-java.git</connection>
+    <developerConnection>scm:http://github.com/fernandezpablo85/scribe-java.git</developerConnection>
+    <url>http://github.com/fernandezpablo85/scribe-java.git</url>
   </scm>
 
   <dependencies>
