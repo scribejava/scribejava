@@ -71,3 +71,6 @@
   * FEATURE: Plurk Mobile Api
   * FEATURE: Kaixin and QWeibo Apis
   * FEATURE: SimpleGeo Api
+  
+[1.2.4]
+  * FEATURE: Nk Api

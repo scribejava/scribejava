@@ -21,14 +21,14 @@ public class NkApi implements Api {
 
     private static final String AUTHORIZE_URL = "https://ssl.3pp.nk.pl/oauth2/login?client_id=%s&response_type=code&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
-    private static final String accessTokenEndpoint = "http://nk.pl/oauth2/token?grant_type=authorization_code";
+    private static final String ACCESS_TOKEN_ENDPOINT = "https://nk.pl/oauth2/token";
 
     public String getAccessTokenEndpoint() {
-        return accessTokenEndpoint;
+        return ACCESS_TOKEN_ENDPOINT;
     }
 
     public Verb getAccessTokenVerb() {
-        return Verb.GET;
+        return Verb.POST;
     }
 
     public String getAuthorizationUrl(OAuthConfig config) {
