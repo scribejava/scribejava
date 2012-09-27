@@ -7,13 +7,13 @@ import org.scribe.utils.*;
 public class LiveApi extends DefaultApi20
 {
 
-	private static final String AUTHORIZE_URL = "https://oauth.live.com/authorize?client_id=%s&redirect_uri=%s&response_type=code";
+	private static final String AUTHORIZE_URL = "https://login.live.com/oauth20_authorize.srf?client_id=%s&redirect_uri=%s&response_type=code";
 	private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
 	@Override
 	public String getAccessTokenEndpoint()
 	{
-		return "https://oauth.live.com/token?grant_type=authorization_code";
+		return "https://login.live.com/oauth20_token.srf?grant_type=authorization_code";
 	}
 
 	@Override
