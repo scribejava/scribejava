@@ -92,3 +92,6 @@
   * FEATURE: RSA-SHA1 Signatures.
   * FEATURE: equals & hashcode on Token object.
   * FEATURE: ConstantContact Api
+
+[1.3.3]
+  * FEATURE: accessToken and requestToken timeouts default to 2 seconds and can be specified.
