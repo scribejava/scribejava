@@ -5,6 +5,7 @@ import java.util.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
@@ -33,7 +34,7 @@ public class OAuth10aServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public Token getRequestToken()
+  public Token getRequestToken(int timeout, TimeUnit unit)
   {
     config.log("obtaining request token from " + api.getRequestTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
@@ -44,12 +45,18 @@ public class OAuth10aServiceImpl implements OAuthService
     appendSignature(request);
 
     config.log("sending request...");
+    request.setReadTimeout(timeout, unit);
     Response response = request.send();
     String body = response.getBody();
 
     config.log("response status code: " + response.getCode());
     config.log("response body: " + body);
     return api.getRequestTokenExtractor().extract(body);
+  }
+
+  public Token getRequestToken()
+  {
+    return getRequestToken(2, TimeUnit.SECONDS);
   }
 
   private void addOAuthParams(OAuthRequest request, Token token)
@@ -68,7 +75,7 @@ public class OAuth10aServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public Token getAccessToken(Token requestToken, Verifier verifier)
+  public Token getAccessToken(Token requestToken, Verifier verifier, int timeout, TimeUnit unit)
   {
     config.log("obtaining access token from " + api.getAccessTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
@@ -78,8 +85,14 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
     addOAuthParams(request, requestToken);
     appendSignature(request);
+    request.setReadTimeout(timeout, unit);
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
+  }
+
+  public Token getAccessToken(Token requestToken, Verifier verifier)
+  {
+    return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS);
   }
 
   /**
