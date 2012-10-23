@@ -34,7 +34,6 @@ public class ConstantContactApi2 extends DefaultApi20
     return new AccessTokenExtractor()
     {
 
-      @Override
       public Token extract(String response)
       {
         Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
