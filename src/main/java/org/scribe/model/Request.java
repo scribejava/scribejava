@@ -13,10 +13,13 @@ import org.scribe.exceptions.*;
  * 
  * @author Pablo Fernandez
  */
-class Request
+public class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
   private static final String CONTENT_TYPE = "Content-Type";
+  private static RequestTuner NOOP = new RequestTuner() {
+    @Override public void tune(Request _){}
+  };
   public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
   private String url;
@@ -54,17 +57,22 @@ class Request
    * @throws RuntimeException
    *           if the connection cannot be created.
    */
-  public Response send()
+  public Response send(RequestTuner tuner)
   {
     try
     {
       createConnection();
-      return doSend();
+      return doSend(tuner);
     }
     catch (Exception e)
     {
       throw new OAuthConnectionException(e);
     }
+  }
+
+  public Response send()
+  {
+    return send(NOOP);
   }
 
   private void createConnection() throws IOException
@@ -87,7 +95,7 @@ class Request
     return querystringParams.appendTo(url);
   }
 
-  Response doSend() throws IOException
+  Response doSend(RequestTuner tuner) throws IOException
   {
     connection.setRequestMethod(this.verb.name());
     if (connectTimeout != null) 
@@ -103,6 +111,7 @@ class Request
     {
       addBody(connection, getByteBodyContents());
     }
+    tuner.tune(this);
     return new Response(connection);
   }
 

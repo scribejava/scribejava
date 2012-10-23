@@ -36,6 +36,16 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getRequestToken(int timeout, TimeUnit unit)
   {
+    return getRequestToken(new TimeoutTuner(timeout, unit));
+  }
+
+  public Token getRequestToken()
+  {
+    return getRequestToken(2, TimeUnit.SECONDS);
+  }
+
+  public Token getRequestToken(RequestTuner tuner)
+  {
     config.log("obtaining request token from " + api.getRequestTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
 
@@ -45,18 +55,12 @@ public class OAuth10aServiceImpl implements OAuthService
     appendSignature(request);
 
     config.log("sending request...");
-    request.setReadTimeout(timeout, unit);
-    Response response = request.send();
+    Response response = request.send(tuner);
     String body = response.getBody();
 
     config.log("response status code: " + response.getCode());
     config.log("response body: " + body);
     return api.getRequestTokenExtractor().extract(body);
-  }
-
-  public Token getRequestToken()
-  {
-    return getRequestToken(2, TimeUnit.SECONDS);
   }
 
   private void addOAuthParams(OAuthRequest request, Token token)
@@ -77,6 +81,16 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier, int timeout, TimeUnit unit)
   {
+    return getAccessToken(requestToken, verifier, new TimeoutTuner(timeout, unit));
+  }
+
+  public Token getAccessToken(Token requestToken, Verifier verifier)
+  {
+    return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS);
+  }
+
+  public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner tuner)
+  {
     config.log("obtaining access token from " + api.getAccessTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
@@ -85,14 +99,8 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
     addOAuthParams(request, requestToken);
     appendSignature(request);
-    request.setReadTimeout(timeout, unit);
-    Response response = request.send();
+    Response response = request.send(tuner);
     return api.getAccessTokenExtractor().extract(response.getBody());
-  }
-
-  public Token getAccessToken(Token requestToken, Verifier verifier)
-  {
-    return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS);
   }
 
   /**
@@ -157,6 +165,24 @@ public class OAuth10aServiceImpl implements OAuthService
           request.addQuerystringParameter(entry.getKey(), entry.getValue());
         }
         break;
+    }
+  }
+
+  private static class TimeoutTuner extends RequestTuner
+  {
+    private final int duration;
+    private final TimeUnit unit;
+
+    public TimeoutTuner(int duration, TimeUnit unit)
+    {
+      this.duration = duration;
+      this.unit = unit;
+    }
+
+    @Override
+    public void tune(Request request)
+    {
+      request.setReadTimeout(duration, unit);
     }
   }
 }
