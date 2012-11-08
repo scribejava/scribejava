@@ -45,9 +45,11 @@ public class Response
   private Map<String, String> parseHeaders(HttpURLConnection conn)
   {
     Map<String, String> headers = new HashMap<String, String>();
-    for (String key : conn.getHeaderFields().keySet())
+    for (Map.Entry<String, List<String>> entry : conn.getHeaderFields().entrySet())
     {
-      headers.put(key, conn.getHeaderFields().get(key).get(0));
+	  if(entry.getValue() != null) {
+        headers.put(entry.getKey(), entry.getValue().get(0));
+	  }
     }
     return headers;
   }
