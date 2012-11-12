@@ -150,8 +150,6 @@ public class Request {
 		if (conn.getRequestProperty(CONTENT_TYPE) == null) {
 			conn.setRequestProperty(CONTENT_TYPE, this.getContentType());
 		}
-		System.out.println("Content-Type: " + conn.getRequestProperty(CONTENT_TYPE));
-		System.out.println("Content: " + new String(content));
 		conn.setDoOutput(true);
 		conn.getOutputStream().write(content);
 	}
