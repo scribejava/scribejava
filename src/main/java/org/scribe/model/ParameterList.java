@@ -84,7 +84,7 @@ public class ParameterList
 		}
 		StringBuilder builder = new StringBuilder();
 		for (Parameter p : params) {
-			if (p.usedInBaseString()) {
+			if (p.isUsedInBaseString()) {
 				builder.append('&').append(p.asUrlEncodedPair());
 			}
 		}

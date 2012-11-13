@@ -8,6 +8,9 @@ import org.scribe.utils.OAuthEncoder;
 public class Parameter implements Comparable<Parameter>
 {
   public static final String DISPOSITION_FORM_DATA = "form-data";
+  public static final String DISPOSITION_ATTACHMENT = "attachment";
+  public static final String DISPOSITION_INLINE = "inline";
+  
   public static final String SEQUENCE_NEW_LINE = "\r\n";
 	
   private final String key;
@@ -20,17 +23,25 @@ public class Parameter implements Comparable<Parameter>
     this.value = value;
   }
 
-  protected String getKey() {
+  /*protected String getKey() {
 	return key;
   }
 
   protected String getValue() {
 	return value;
+  }*/
+
+  public String getValue() {
+	return value;
   }
 
-  public String asUrlEncodedPair()
+  public String getKey() {
+	return key;
+  }
+
+public String asUrlEncodedPair()
   {
-    return OAuthEncoder.encode(key).concat("=").concat(OAuthEncoder.encode(value));
+    return OAuthEncoder.encode(getKey()).concat("=").concat(OAuthEncoder.encode(getValue()));
   }
   
   /**
@@ -79,7 +90,7 @@ public class Parameter implements Comparable<Parameter>
    * the base string which is generated.
    * @return Whether or not to include this parameter in the base string.
    */
-  public boolean usedInBaseString() {
+  public boolean isUsedInBaseString() {
 	return true;
   }
 	
@@ -90,18 +101,18 @@ public class Parameter implements Comparable<Parameter>
     if(!(other instanceof Parameter)) return false;
     
     Parameter otherParam = (Parameter) other;
-    return otherParam.key.equals(key) && otherParam.value.equals(value);
+    return otherParam.getKey().equals(getKey()) && otherParam.getValue().equals(getValue());
   }
 
   public int hashCode()
   {
-    return key.hashCode() + value.hashCode();
+    return getKey().hashCode() + getValue().hashCode();
   }
 
   public int compareTo(Parameter parameter)
   {
-    int keyDiff = key.compareTo(parameter.key);
+    int keyDiff = getKey().compareTo(parameter.getKey());
 
-    return keyDiff != 0 ? keyDiff : value.compareTo(parameter.value);
+    return keyDiff != 0 ? keyDiff : getValue().compareTo(parameter.getValue());
   }
 }

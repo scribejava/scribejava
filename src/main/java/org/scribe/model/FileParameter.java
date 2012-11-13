@@ -18,7 +18,7 @@ public class FileParameter extends Parameter {
 	public static final String DEFAULT_MIME_TYPE = "application/octet-stream";
 	
 	private String mimeType;
-	private File srcFile;
+	private final File srcFile;
 
 	public FileParameter(final String key, final File file) {
 		super(key, (String) null);
@@ -29,32 +29,38 @@ public class FileParameter extends Parameter {
 	 * @see org.scribe.model.Parameter#getValue()
 	 */
 	@Override
-	protected String getValue() {
-		String value = super.getValue();
-		FileInputStream fInStr = null;;
+	public String getValue() {
+		String value = "";
 		try {
-			// Load the file to a stream
-			fInStr = new FileInputStream(srcFile);
-			//Creat a byte buffer the size of the file
-			byte readBuf[] = new byte[(int) fInStr.getChannel().size()];
-			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-			int readCnt = fInStr.read(readBuf);
-			while (0 < readCnt) {
-				bout.write(readBuf, 0, readCnt);
-				readCnt = fInStr.read(readBuf);
-			}
-			fInStr.close();
-			byte[] byteArray = bout.toByteArray();
-			value = new String(byteArray);
-			bout.close();
-		} catch (Throwable error) {
-		} finally {
-			if( fInStr != null ) {
+			//Ensure a valid file is specified.
+			if( this.srcFile != null 
+					&& this.srcFile.exists() ) {			
+				FileInputStream fInStr = null;
 				try {
+					// Load the file to a stream
+					fInStr = new FileInputStream(srcFile);
+					//Creat a byte buffer the size of the file
+					byte readBuf[] = new byte[(int) fInStr.getChannel().size()];
+					ByteArrayOutputStream bout = new ByteArrayOutputStream();
+					int readCnt = fInStr.read(readBuf);
+					while (0 < readCnt) {
+						bout.write(readBuf, 0, readCnt);
+						readCnt = fInStr.read(readBuf);
+					}
 					fInStr.close();
-				} catch (Throwable e) {	}
+					byte[] byteArray = bout.toByteArray();
+					value = new String(byteArray);
+					bout.close();
+				} catch (Throwable error) {
+				} finally {
+					if( fInStr != null ) {
+						try {
+							fInStr.close();
+						} catch (Throwable e) {	}
+					}
+				}
 			}
-		}
+		} catch (Exception e) { }
 		return value;
 	}
 
@@ -73,6 +79,7 @@ public class FileParameter extends Parameter {
 	 */
 	public String getMimeType() {
 		if( this.mimeType == null ) {
+			//TODO Attempt to get the MIME-Type based on the file
 			this.mimeType = DEFAULT_MIME_TYPE;
 		}
 		return mimeType;
@@ -91,7 +98,7 @@ public class FileParameter extends Parameter {
 	 * @see org.scribe.model.Parameter#usedInBaseString()
 	 */
 	@Override
-	public boolean usedInBaseString() {
+	public boolean isUsedInBaseString() {
 		return false;
 	}
 	/**
@@ -106,6 +113,7 @@ public class FileParameter extends Parameter {
 		strBldr.append( String.format("filename=\"%1$s\"", this.getFileName()));
 		strBldr.append( SEQUENCE_NEW_LINE );
 		strBldr.append( String.format("Content-Type: %1$s", this.getMimeType()) );
+		strBldr.append( SEQUENCE_NEW_LINE );
 		strBldr.append( SEQUENCE_NEW_LINE );
 		strBldr.append( this.getValue() );
 		strBldr.append( SEQUENCE_NEW_LINE );
