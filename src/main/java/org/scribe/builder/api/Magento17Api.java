@@ -3,12 +3,14 @@ package org.scribe.builder.api;
 import org.scribe.model.Token;
 
 /**
- * OAuth access to the Meetup.com API.
- * For more information visit http://www.meetup.com/api
+ * OAuth access to the Magento Store REST API.
+ * For more information visit http://www.magentocommerce.com/wiki/doc/webservices-api/introduction_to_rest_api
  */
 public class Magento17Api extends DefaultApi10a
 {
-	private static final String BASE_URL = "http://ec2-107-22-49-30.compute-1.amazonaws.com/magento/index.php/";
+	// NOTE as there is no central service for Magento, this does not suit Builder pattern. Must map to your store
+	private final String BASE_URL = "http://magentohostname/magento/index.php/";
+
 
 	@Override
 	public String getRequestTokenEndpoint() {
