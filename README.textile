@@ -68,6 +68,10 @@ You can pull scribe from a maven repository, just add this to your __pom.xml__ f
   @<version>1.3.2</version>@
 @</dependency>@
 
+h3. Pull it from Gradle
+
+@org.scribe:scribe:1.3.0@
+
 h1. Getting started in less than 2 minutes
 
 Check the "Getting Started":http://wiki.github.com/fernandezpablo85/scribe-java/getting-started page and start rocking!
