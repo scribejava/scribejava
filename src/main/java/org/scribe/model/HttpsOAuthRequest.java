@@ -26,9 +26,8 @@ public class HttpsOAuthRequest extends OAuthRequest {
      * @param url  resource URL
      * @param keyStoreFilePath path to keystore file containing the trusted certificate needed in order to establish the ssl connection.
      * @param createNewSSLSocketFactory flag indicating if a new SSLSocketFactory should be created for this request.
-     *                                  If set to false, a new SSLSocketFactory will be created on the first HttpsOAuthRequest created and all subsequent
-     *                                  requests will use the same SSLSocketFactory. If set to true, a new SSLSocketFactory will always be created for every
-     *                                  new HttpsOAuthRequest.
+     *                                  If set to false, the new https connection will reuse a previously created SSLSocketFactory, if it exists (if it doesn't exist, a new one will be created).
+     *                                  If set to true, a new SSLSocketFactory will be created for the new https connection.
      */
     public HttpsOAuthRequest(Verb verb, String url, String keyStoreFilePath, boolean createNewSSLSocketFactory) {
         super(verb, url);
