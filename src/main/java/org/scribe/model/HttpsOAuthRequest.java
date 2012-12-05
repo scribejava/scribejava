@@ -36,6 +36,7 @@ public class HttpsOAuthRequest extends OAuthRequest {
         this.createNewSSLSocketFactory = createNewSSLSocketFactory;
     }
 
+    @Override
     void createConnection() throws IOException {
         String completeUrl = getCompleteUrl();
         if (getConnection() == null) {
