@@ -75,7 +75,7 @@ public class Request
     return send(NOOP);
   }
 
-  private void createConnection() throws IOException
+  void createConnection() throws IOException
   {
     String completeUrl = getCompleteUrl();
     if (connection == null)
@@ -351,15 +351,23 @@ public class Request
     this.connectionKeepAlive = connectionKeepAlive;
   }
 
-  /*
-   * We need this in order to stub the connection object for test cases
-   */
+    boolean isConnectionKeepAlive() {
+        return connectionKeepAlive;
+    }
+
+    /*
+    * We need this in order to stub the connection object for test cases
+    */
   void setConnection(HttpURLConnection connection)
   {
     this.connection = connection;
   }
 
-  @Override
+    HttpURLConnection getConnection() {
+        return connection;
+    }
+
+    @Override
   public String toString()
   {
     return String.format("@Request(%s %s)", getVerb(), getUrl());
