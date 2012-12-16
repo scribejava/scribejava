@@ -95,3 +95,4 @@
 
 [1.3.3]
   * FEATURE: accessToken and requestToken timeouts default to 2 seconds and can be specified.
+  * FEATURE: New Apis.
