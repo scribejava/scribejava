@@ -90,6 +90,4 @@ h1. About me
 
 "LinkedIn profile":http://www.linkedin.com/in/fernandezpablo85
 
-Email me: fernandezpablo85 at gmail.com
-
 Follow me: "@fernandezpablo":http://twitter.com/fernandezpablo
