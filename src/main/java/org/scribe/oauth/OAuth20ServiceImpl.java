@@ -3,6 +3,8 @@ package org.scribe.oauth;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
+import java.util.AbstractMap;
+
 public class OAuth20ServiceImpl implements OAuthService
 {
   private static final String VERSION = "2.0";
@@ -45,7 +47,13 @@ public class OAuth20ServiceImpl implements OAuthService
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
 
-  /**
+    public Token getAccessToken(Token requestToken, Verifier verifier, AbstractMap.SimpleEntry<String, String>... additionalParameters) {
+        if (additionalParameters!=null)
+            throw new RuntimeException("Specifying additional parameters is not implemented for oauth2");
+        return getAccessToken(requestToken, verifier);
+    }
+
+    /**
    * {@inheritDoc}
    */
   public String getVersion()
