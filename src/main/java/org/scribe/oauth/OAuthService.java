@@ -2,6 +2,8 @@ package org.scribe.oauth;
 
 import org.scribe.model.*;
 
+import java.util.AbstractMap;
+
 /**
  * The main Scribe object. 
  * 
@@ -17,6 +19,15 @@ public interface OAuthService
    * @return request token
    */
   public Token getRequestToken();
+  /**
+   * Retrieve the access token
+   *
+   * @param requestToken request token (obtained previously)
+   * @param verifier verifier code
+   * @param additionalParameters more parameters to append to the querystring
+   * @return access token
+   */
+  public Token getAccessToken(Token requestToken, Verifier verifier, AbstractMap.SimpleEntry<String,String>... additionalParameters);
 
   /**
    * Retrieve the access token

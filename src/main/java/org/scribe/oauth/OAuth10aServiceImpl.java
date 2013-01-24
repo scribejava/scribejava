@@ -81,7 +81,17 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier, int timeout, TimeUnit unit)
   {
-    return getAccessToken(requestToken, verifier, new TimeoutTuner(timeout, unit));
+    return getAccessToken(requestToken, verifier, new TimeoutTuner(timeout, unit), null);
+  }
+
+  public Token getAccessToken(Token requestToken, Verifier verifier, int timeout, TimeUnit unit, AbstractMap.SimpleEntry<String,String>... additionalParams )
+  {
+    return getAccessToken(requestToken, verifier, new TimeoutTuner(timeout, unit), additionalParams);
+  }
+
+  public Token getAccessToken(Token requestToken, Verifier verifier, AbstractMap.SimpleEntry<String,String>... additionalParams)
+  {
+    return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS, additionalParams);
   }
 
   public Token getAccessToken(Token requestToken, Verifier verifier)
@@ -89,10 +99,15 @@ public class OAuth10aServiceImpl implements OAuthService
     return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS);
   }
 
-  public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner tuner)
+  public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner tuner, AbstractMap.SimpleEntry<String,String>... additionalParams)
   {
     config.log("obtaining access token from " + api.getAccessTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    if (additionalParams!=null) {
+        for (AbstractMap.SimpleEntry<String,String> additionalParam : additionalParams) {
+            request.addQuerystringParameter(additionalParam.getKey(), additionalParam.getValue());
+        }
+    }
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
 
