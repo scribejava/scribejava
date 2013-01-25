@@ -22,6 +22,7 @@ public class ServiceBuilder
   private Api api;
   private String scope;
   private SignatureType signatureType;
+  private String grantType;
   private OutputStream debugStream;
   
   /**
@@ -141,6 +142,20 @@ public class ServiceBuilder
     return this;
   }
 
+  
+  /**
+   * Configures the OAuth grant type . This is only necessary in some APIs (like Salesforce's).
+   *
+   * @param String - OAuth grant type
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder grantType(String type)
+  {
+    Preconditions.checkEmptyString(type, "Invalid grant type");
+    this.grantType = type;
+    return this;
+  }
+  
   public ServiceBuilder debugStream(OutputStream stream)
   {
     Preconditions.checkNotNull(stream, "debug stream can't be null");
@@ -164,6 +179,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, grantType, debugStream));
   }
 }
