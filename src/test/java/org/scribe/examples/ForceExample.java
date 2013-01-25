@@ -3,7 +3,7 @@ package org.scribe.examples;
 import java.util.Scanner;
 
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.SalesforceSandboxApi;
+import org.scribe.builder.api.ForceApi;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -11,7 +11,7 @@ import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
-public class SalesforceExample
+public class ForceExample
 {
   private static final String NETWORK_NAME = "Salesforce";
   private static final Token EMPTY_TOKEN = null;
@@ -22,9 +22,10 @@ public class SalesforceExample
     final String apiKey = "your_app_id";
     final String apiSecret = "your_api_secret";
     OAuthService service = new ServiceBuilder()
-                                  .provider(SalesforceSandboxApi.class)
+                                  .provider(ForceApi.Sandbox.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
+                                  .grantType( ForceApi.TYPE )
                                   .callback("http://www.example.com/oauth_callback/")
                                   .build();
     Scanner in = new Scanner(System.in);
