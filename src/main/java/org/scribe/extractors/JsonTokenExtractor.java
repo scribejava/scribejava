@@ -1,14 +1,15 @@
 package org.scribe.extractors;
 
-import java.util.regex.*;
+import org.scribe.exceptions.OAuthException;
+import org.scribe.model.Token;
+import org.scribe.utils.Preconditions;
 
-import org.scribe.exceptions.*;
-import org.scribe.model.*;
-import org.scribe.utils.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JsonTokenExtractor implements AccessTokenExtractor
 {
-  private Pattern accessTokenPattern = Pattern.compile("\"access_token\":\\s*\"(\\S*?)\"");
+  private Pattern accessTokenPattern = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
 
   public Token extract(String response)
   {

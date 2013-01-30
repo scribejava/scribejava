@@ -6,13 +6,13 @@ import org.scribe.model.*;
 public class OAuth20ServiceImpl implements OAuthService
 {
   private static final String VERSION = "2.0";
-  
+
   private final DefaultApi20 api;
   private final OAuthConfig config;
-  
+
   /**
    * Default constructor
-   * 
+   *
    * @param api OAuth2.0 api information
    * @param config OAuth 2.0 configuration param object
    */
@@ -28,11 +28,22 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    //Ugly hack to support Google OAuth 2.0 without changing all the other APIs
+    // Google OAuth 2.0 requires POST with parameters added to the body
+    // Also "grant_type" is not optional
+    if (api instanceof GoogleOAuth2Api) {
+      request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+      request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+      request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+      request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+      request.addBodyParameter(OAuthConstants.GRANT_TYPE, "authorization_code");
+    } else {
+      request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+      request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+      request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+      request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+      if (config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    }
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
