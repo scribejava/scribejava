@@ -5,6 +5,23 @@ import org.scribe.model.*;
 public class LinkedInApi extends DefaultApi10a
 {
   private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
+  
+  private static String permissions = "";
+  
+  public static void addScopePermision(String permission)
+  {          
+      if(!permissions.contains(permission))
+      {
+          if(permissions != "")
+              permissions += "+";
+            permissions += permission;
+      }
+  }
+  
+  public static void clearScopePermisions()
+  {
+      permissions = "";
+  }
 
   @Override
   public String getAccessTokenEndpoint()
@@ -14,8 +31,8 @@ public class LinkedInApi extends DefaultApi10a
 
   @Override
   public String getRequestTokenEndpoint()
-  {
-    return "https://api.linkedin.com/uas/oauth/requestToken";
+  { 
+    return "https://api.linkedin.com/uas/oauth/requestToken?scope=" + permissions;
   }
   
   @Override
