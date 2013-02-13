@@ -49,19 +49,20 @@
       <artifactId>commons-codec</artifactId>
       <version>1.4</version>
     </dependency>
-    
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
-    
+
   </dependencies>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
@@ -70,6 +71,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.4</version>
         <executions>
           <execution>
             <id>sign-artifacts</id>
@@ -80,6 +82,23 @@
           </execution>
         </executions>
       </plugin>
+        <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.5.2</version>
+        <executions>
+          <execution>
+            <id>failing-on-high</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <threshold>Low</threshold>
+            </configuration>
+          </execution>
+        </executions>
+        </plugin>
     </plugins>
   </build>
 </project>  

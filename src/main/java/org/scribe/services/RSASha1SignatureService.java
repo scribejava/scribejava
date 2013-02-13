@@ -11,6 +11,7 @@ public class RSASha1SignatureService implements SignatureService
 {
   private static final String METHOD = "RSA-SHA1";
   private static final String RSA_SHA1 = "SHA1withRSA";
+  private static final String UTF8 = "UTF-8";
 
   private PrivateKey privateKey;
 
@@ -28,8 +29,8 @@ public class RSASha1SignatureService implements SignatureService
     {
       Signature signature = Signature.getInstance(RSA_SHA1);
       signature.initSign(privateKey);
-      signature.update(baseString.getBytes());
-      return new String(Base64.encodeBase64(signature.sign(), false));
+      signature.update(baseString.getBytes(UTF8));
+      return new String(Base64.encodeBase64(signature.sign(), false), UTF8);
     }
     catch (Exception e)
     {

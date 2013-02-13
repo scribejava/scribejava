@@ -26,13 +26,13 @@ public class HeaderExtractorImpl implements HeaderExtractor
     Map<String, String> parameters = request.getOauthParameters();
     StringBuffer header = new StringBuffer(parameters.size() * 20);
     header.append(PREAMBLE);
-    for (String key : parameters.keySet())
+    for (Map.Entry<String, String> entry : parameters.entrySet())
     {
       if(header.length() > PREAMBLE.length())
       { 
         header.append(PARAM_SEPARATOR);
       }
-      header.append(String.format("%s=\"%s\"", key, OAuthEncoder.encode(parameters.get(key))));
+      header.append(String.format("%s=\"%s\"", entry.getKey(), OAuthEncoder.encode(entry.getValue())));
     }
     return header.toString();
   }

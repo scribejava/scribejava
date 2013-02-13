@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.charset.*;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import org.scribe.exceptions.*;
 
@@ -189,7 +189,7 @@ public class Request
    */
   public void addPayload(byte[] payload)
   {
-    this.bytePayload = payload;
+    this.bytePayload = payload.clone();
   }
 
   /**
