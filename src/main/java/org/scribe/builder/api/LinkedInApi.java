@@ -29,7 +29,7 @@ public class LinkedInApi extends DefaultApi10a
   @Override
   public String getRequestTokenEndpoint()
   {
-    return scopes.isEmpty() ? REQUEST_TOKEN_URL : REQUEST_TOKEN_URL + "?scopes=" + scopesAsString();
+    return scopes.isEmpty() ? REQUEST_TOKEN_URL : REQUEST_TOKEN_URL + "?scope=" + scopesAsString();
   }
 
   private String scopesAsString()
