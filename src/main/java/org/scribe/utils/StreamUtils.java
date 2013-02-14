@@ -9,6 +9,8 @@ import java.io.*;
  */
 public class StreamUtils
 {
+  private StreamUtils(){}
+
   /**
    * Returns the stream contents as an UTF-8 encoded string
    * 
