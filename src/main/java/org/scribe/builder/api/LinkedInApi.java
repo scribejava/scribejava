@@ -12,7 +12,7 @@ public class LinkedInApi extends DefaultApi10a
 
   public LinkedInApi()
   {
-    scopes = Collections.EMPTY_SET;
+    scopes = Collections.emptySet();
   }
 
   public LinkedInApi(Set<String> scopes)
