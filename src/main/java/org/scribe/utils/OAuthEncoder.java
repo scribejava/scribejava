@@ -23,6 +23,8 @@ public class OAuthEncoder
     ENCODING_RULES = Collections.unmodifiableMap(rules);
   }
 
+  private OAuthEncoder(){}
+
   public static String encode(String plain)
   {
     Preconditions.checkNotNull(plain, "Cannot encode null object");

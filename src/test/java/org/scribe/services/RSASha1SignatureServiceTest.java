@@ -3,7 +3,8 @@ package org.scribe.services;
 import static org.junit.Assert.*;
 
 import org.junit.*;
-import org.apache.commons.codec.binary.*;
+
+import javax.xml.bind.DatatypeConverter;
 import java.security.*;
 import java.security.spec.*;
 
@@ -55,7 +56,7 @@ public class RSASha1SignatureServiceTest
     try
     {
       KeyFactory fac = KeyFactory.getInstance("RSA");
-      PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(str.getBytes()));
+      PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(DatatypeConverter.parseBase64Binary(str));
       return fac.generatePrivate(privKeySpec);
     }
     catch (Exception e)
