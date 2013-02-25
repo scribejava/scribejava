@@ -23,14 +23,6 @@ public class Parameter implements Comparable<Parameter>
     this.value = value;
   }
 
-  /*protected String getKey() {
-	return key;
-  }
-
-  protected String getValue() {
-	return value;
-  }*/
-
   public String getValue() {
 	return value;
   }
