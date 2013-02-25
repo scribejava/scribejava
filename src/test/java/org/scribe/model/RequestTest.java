@@ -36,6 +36,17 @@ public class RequestTest
     assertEquals(0, postRequest.getQueryStringParams().size());
     assertTrue(getRequest.getQueryStringParams().contains(new Parameter("qsparam", "value")));
   }
+  
+  @Test
+  public void shouldBeDefaultContentType() {
+	  assertEquals(Request.DEFAULT_CONTENT_TYPE, postRequest.getContentType());
+  }
+
+  @Test
+  public void shouldBeMultiPartContentType() {
+	  postRequest.setContentType(Request.DEFAULT_CONTENT_TYPE);
+	  assertTrue(postRequest.getContentType().startsWith(Request.DEFAULT_CONTENT_TYPE));
+  }
 
   @Test
   public void shouldAddRequestHeaders()

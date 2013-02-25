@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
@@ -16,6 +18,8 @@ public class ParameterList
   private static final String PARAM_SEPARATOR = "&";
   private static final String PAIR_SEPARATOR = "=";
   private static final String EMPTY_STRING = "";
+
+  private static String boundary;
 
   private final List<Parameter> params;
 
@@ -40,7 +44,21 @@ public class ParameterList
   
   public void add(String key, String value)
   {
-    params.add(new Parameter(key, value));
+	  this.add(new Parameter(key, value));
+  }
+
+  /**
+   * Adds a new parameter to the content of this list.
+   * 
+   * @param newParam
+   *            The new parameter to be added.
+   */
+  public void add(Parameter newParam) {
+	// If the new parameter is valid
+	if (newParam != null) {
+		// Add it to the list.
+		params.add(newParam);
+	}
   }
 
   public String appendTo(String url)
@@ -61,7 +79,18 @@ public class ParameterList
 
   public String asOauthBaseString()
   {
-    return OAuthEncoder.encode(asFormUrlEncodedString());
+		if (params.size() == 0) {
+			return EMPTY_STRING;
+		}
+		StringBuilder builder = new StringBuilder();
+		for (Parameter p : params) {
+			if (p.isUsedInBaseString()) {
+				builder.append('&').append(p.asUrlEncodedPair());
+			}
+		}
+		// Remove the first &
+		builder.delete(0, 1);
+		return OAuthEncoder.encode(builder.toString());
   }
 
   public String asFormUrlEncodedString()
@@ -74,6 +103,48 @@ public class ParameterList
       builder.append('&').append(p.asUrlEncodedPair());
     }
     return builder.toString().substring(1);
+  }
+
+  /**
+   * Encodes the content of this list according to the  
+   * @return
+   */
+  public String asMultiPartEncodedString() {
+	  if (params.size() == 0) {
+		  return EMPTY_STRING;
+	  }	
+	  final String paramSep = new StringBuilder("--").append(getBoundary()).append(Parameter.SEQUENCE_NEW_LINE).toString();
+	  StringBuilder builder = new StringBuilder();
+	  builder.append(paramSep);
+	  //Add the parameters
+	  for (Parameter p : params) {
+		//Add the encoded string.
+		builder.append( p.asMultiPartEncodedString() );
+		//Add the boundrary.
+		builder.append(paramSep);
+	  }
+	  builder.append(Parameter.SEQUENCE_NEW_LINE);
+	  builder.append("--");
+	  builder.append( getBoundary() );
+	  builder.append( "--" );
+	  builder.append(Parameter.SEQUENCE_NEW_LINE);
+	  return builder.toString();	
+  }
+	
+  /**
+   * Gets the boundary to be used when building the body of the request.
+   * 
+   * @return The boundary to be used in the body of multi-part requests.
+   */
+  public static String getBoundary() {
+	if (boundary == null) {
+		final int radix = 36;
+		final Random randGen = new Random();
+		final StringBuilder strBldr = new StringBuilder();
+		strBldr.append(Long.toString(randGen.nextLong(), radix));
+			boundary = strBldr.toString();
+	}
+	return boundary;
   }
 
   public void addAll(ParameterList other)

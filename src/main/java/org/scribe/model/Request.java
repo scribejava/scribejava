@@ -21,7 +21,8 @@ public class Request
     @Override public void tune(Request _){}
   };
   public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
-
+  public static final String CONTENT_TYPE_MULTIPART = "multipart/form-data";
+  
   private String url;
   private Verb verb;
   private ParameterList querystringParams;
@@ -34,7 +35,8 @@ public class Request
   private boolean connectionKeepAlive = false;
   private Long connectTimeout = null;
   private Long readTimeout = null;
-
+  private String contentType;
+  
   /**
    * Creates a new Http Request
    * 
@@ -50,6 +52,37 @@ public class Request
     this.headers = new HashMap<String, String>();
   }
 
+  /**
+   * Gets the content type which should be set on the connection.
+   * 
+   * @return The content type to be indicated on the connection.
+   */
+  public String getContentType() {
+	final StringBuilder contType = new StringBuilder();
+	// If no content type is set.
+	if (contentType == null) {
+		// Set the content type
+		this.contentType = DEFAULT_CONTENT_TYPE;
+	}
+	contType.append(this.contentType);
+	if (CONTENT_TYPE_MULTIPART.equals(this.contentType)) {
+		// Append the boundary
+		contType.append("; boundary=");
+		contType.append(ParameterList.getBoundary());
+	}
+	return contType.toString();
+  }
+
+  /**
+   * Sets the content type to be set on the connection.
+   * 
+   * @param newConType
+   *            The new content type to be set.
+   */
+  public void setContentType(String newConType) {
+	this.contentType = newConType;
+  }
+	
   /**
    * Execute the request and return a {@link Response}
    * 
@@ -128,7 +161,7 @@ public class Request
     // Set default content type if none is set.
     if (conn.getRequestProperty(CONTENT_TYPE) == null)
     {
-      conn.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+    	conn.setRequestProperty(CONTENT_TYPE, this.getContentType());
     }
     conn.setDoOutput(true);
     conn.getOutputStream().write(content);
@@ -156,6 +189,18 @@ public class Request
     this.bodyParams.add(key, value);
   }
 
+	/**
+	 * Add a file Parameter (for POST/ PUT Requests)
+	 * 
+	 * @param key
+	 *            the parameter name
+	 * @param value
+	 *            the parameter value
+	 */
+	public void addFile(final String key, final File file) {
+		this.bodyParams.add(new FileParameter(key, file));
+	}
+	
   /**
    * Add a QueryString parameter
    *
@@ -264,8 +309,20 @@ public class Request
 
   byte[] getByteBodyContents()
   {
-    if (bytePayload != null) return bytePayload;
-    String body = (payload != null) ? payload : bodyParams.asFormUrlEncodedString();
+    if (bytePayload != null) {
+    	return bytePayload;
+    }
+    
+	final String body; 
+	//TODO Use a properly structured logic block
+	if(payload != null) {
+		body = payload;
+	} else if( this.getContentType().startsWith(CONTENT_TYPE_MULTIPART) ){//It is to use multipart encoding
+		body = bodyParams.asMultiPartEncodedString();
+	}else {//It is to use URL encoding
+		body = bodyParams.asFormUrlEncodedString();
+	}
+	
     try
     {
       return body.getBytes(getCharset());
