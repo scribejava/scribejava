@@ -30,4 +30,10 @@ public class FacebookApi extends DefaultApi20
       return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
   }
+
+  @Override
+  public String getRefreshTokenParameterName()
+  {
+    return "fb_exchange_token";
+  }
 }
