@@ -42,6 +42,28 @@ public abstract class DefaultApi20 implements Api
   {
     return Verb.GET;
   }
+
+  /**
+   * Returns accept media type which can be used to specify certain media type which is acceptable for the response.
+   * Optional parameter.
+   *
+   * @return accept media type
+   */
+  public String getAcceptMediaType()
+  {
+    return null;
+  }
+
+
+  /**
+   * Returns true if accept media type is set
+   *
+   * @return true if accept media type is set
+   */
+  public boolean hasAcceptHeader() {
+      return getAcceptMediaType() != null;
+  }
+
 	
   /**
    * Returns the URL that receives the access token requests.

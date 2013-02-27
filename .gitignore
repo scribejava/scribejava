@@ -9,6 +9,8 @@
 
 .idea
 scribe.iml
+scribe.ipr
+scribe.iws
 
 # Binaries
 
