@@ -165,6 +165,8 @@ public class OAuth10aServiceImpl implements OAuthService
           request.addQuerystringParameter(entry.getKey(), entry.getValue());
         }
         break;
+      default:
+        throw new UnsupportedOperationException("SignatureType not supported: " + config.getSignatureType());
     }
   }
 
