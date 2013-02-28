@@ -16,6 +16,7 @@ public class HeaderExtractorImpl implements HeaderExtractor
 {
   private static final String PARAM_SEPARATOR = ", ";
   private static final String PREAMBLE = "OAuth ";
+  public static final int ESTIMATED_PARAM_LENGTH = 20;
 
   /**
    * {@inheritDoc}
@@ -24,15 +25,15 @@ public class HeaderExtractorImpl implements HeaderExtractor
   {
     checkPreconditions(request);
     Map<String, String> parameters = request.getOauthParameters();
-    StringBuffer header = new StringBuffer(parameters.size() * 20);
+    StringBuilder header = new StringBuilder(parameters.size() * ESTIMATED_PARAM_LENGTH);
     header.append(PREAMBLE);
-    for (String key : parameters.keySet())
+    for (Map.Entry<String, String> entry : parameters.entrySet())
     {
       if(header.length() > PREAMBLE.length())
       { 
         header.append(PARAM_SEPARATOR);
       }
-      header.append(String.format("%s=\"%s\"", key, OAuthEncoder.encode(parameters.get(key))));
+      header.append(String.format("%s=\"%s\"", entry.getKey(), OAuthEncoder.encode(entry.getValue())));
     }
     return header.toString();
   }

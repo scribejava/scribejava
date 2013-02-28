@@ -16,6 +16,8 @@ public class Preconditions
   // scheme = alpha *( alpha | digit | "+" | "-" | "." )
   private static final Pattern URL_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9+.-]*://\\S+");
 
+  private Preconditions(){}
+
   /**
    * Checks that an object is not null.
    * 

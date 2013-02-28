@@ -85,4 +85,14 @@
   * FIX: Allow digits in url schemes
   * FEATURE: Specific exception for connection problems (OAuthConnectionException)
   * FIX: Dropbox Api and Evernote Api updated to their latests versions
-  * FIX: Digg and Skyrock Apis
+  * FEATURE: Digg and Skyrock Apis
+
+[1.3.2]
+  * FIX: Don't include oauth_token in 2legged calls.
+  * FEATURE: RSA-SHA1 Signatures.
+  * FEATURE: equals & hashcode on Token object.
+  * FEATURE: ConstantContact Api
+
+[1.3.3]
+  * FEATURE: accessToken and requestToken timeouts default to 2 seconds and can be specified.
+  * FEATURE: New Apis.

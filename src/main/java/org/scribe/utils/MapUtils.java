@@ -7,6 +7,8 @@ import java.util.Map;
  */
 public class MapUtils
 {
+  private MapUtils(){}
+
   public static <K,V> String toString(Map<K,V> map)
   {
     if (map == null) return "";

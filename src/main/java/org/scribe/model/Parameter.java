@@ -1,9 +1,6 @@
 package org.scribe.model;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import org.scribe.exceptions.OAuthException;
-import org.scribe.utils.OAuthEncoder;
+import org.scribe.utils.*;
 
 /**
  * @author: Pablo Fernandez
