@@ -3,9 +3,6 @@ package org.scribe.services;
 import org.scribe.exceptions.*;
 import java.security.*;
 
-// implementation of base64 encoding lives here.
-import javax.xml.bind.DatatypeConverter;
-
 /**
  * A signature service that uses the RSA-SHA1 algorithm.
  */
@@ -42,7 +39,7 @@ public class RSASha1SignatureService implements SignatureService
 
   private String bytesToBase64String(Signature signature) throws SignatureException
   {
-    return DatatypeConverter.printBase64Binary(signature.sign());
+    return Base64Encoder.getInstance().encode(signature.sign());
   }
 
   /**

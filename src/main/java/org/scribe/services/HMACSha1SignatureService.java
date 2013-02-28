@@ -6,9 +6,6 @@ import javax.crypto.spec.*;
 import org.scribe.exceptions.*;
 import org.scribe.utils.*;
 
-// implementation of base64 encoding lives here.
-import javax.xml.bind.DatatypeConverter;
-
 /**
  * HMAC-SHA1 implementation of {@SignatureService}
  * 
@@ -51,7 +48,7 @@ public class HMACSha1SignatureService implements SignatureService
 
   private String bytesToBase64String(byte[] bytes)
   {
-    return DatatypeConverter.printBase64Binary(bytes);
+    return Base64Encoder.getInstance().encode(bytes);
   }
 
   /**
