@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
+import org.scribe.services.*;
 import org.scribe.utils.*;
 import java.util.concurrent.TimeUnit;
 
@@ -139,6 +140,7 @@ public class OAuth10aServiceImpl implements OAuthService
   private String getSignature(OAuthRequest request, Token token)
   {
     config.log("generating signature...");
+    config.log("using base64 encoder: " + Base64Encoder.type());
     String baseString = api.getBaseStringExtractor().extract(request);
     String signature = api.getSignatureService().getSignature(baseString, config.getApiSecret(), token.getSecret());
 
