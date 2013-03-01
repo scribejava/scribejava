@@ -17,6 +17,7 @@ public class Response
   private static final String EMPTY = "";
 
   private int code;
+  private String message;
   private String body;
   private InputStream stream;
   private Map<String, String> headers;
@@ -27,6 +28,7 @@ public class Response
     {
       connection.connect();
       code = connection.getResponseCode();
+      message = connection.getResponseMessage();
       headers = parseHeaders(connection);
       stream = isSuccessful() ? connection.getInputStream() : connection.getErrorStream();
     }
@@ -86,6 +88,17 @@ public class Response
   public int getCode()
   {
     return code;
+  }
+  
+  /**
+   * Obtains the HTTP status message.
+   * Returns <code>null</code> if the message can not be discerned from the response (not valid HTTP)
+   * 
+   * @return the status message
+   */
+  public String getMessage() 
+  {
+    return message;
   }
 
   /**
