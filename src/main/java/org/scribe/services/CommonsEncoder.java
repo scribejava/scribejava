@@ -13,7 +13,7 @@ public class CommonsEncoder extends Base64Encoder
   {
     try
     {
-      return new String(Base64.encodeBase64(bytes), "UTF-8");
+      return new String(encodeBase64(bytes), "UTF-8");
     }
     catch (UnsupportedEncodingException e)
     {
