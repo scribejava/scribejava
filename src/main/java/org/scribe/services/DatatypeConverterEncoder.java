@@ -1,15 +1,19 @@
 package org.scribe.services;
 
-import javax.xml.bind.*;
-
 public class DatatypeConverterEncoder extends Base64Encoder
 {
   @Override
   public String encode(byte[] bytes)
   {
-    return DatatypeConverter.printBase64Binary(bytes);
+	return Base64Encoder.getInstance().encode(bytes);    
   }
 
+  @Override
+  public byte[] encodeBase64(byte[] bytes)
+  {
+    return Base64Encoder.getInstance().encodeBase64(bytes);    
+  }
+  
   @Override
   public String getType()
   {

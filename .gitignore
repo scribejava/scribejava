@@ -10,6 +10,9 @@
 .idea
 scribe.iml
 
+# Mac 
+.DS_Store
+
 # Binaries
 
 target

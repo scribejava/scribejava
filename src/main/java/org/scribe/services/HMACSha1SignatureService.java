@@ -43,14 +43,19 @@ public class HMACSha1SignatureService implements SignatureService
     Mac mac = Mac.getInstance(HMAC_SHA1);
     mac.init(key);
     byte[] bytes = mac.doFinal(toSign.getBytes(UTF8));
-    return bytesToBase64String(bytes).replace(CARRIAGE_RETURN, EMPTY_STRING);
+    return new String(encodeBase64(bytes), UTF8).replace(CARRIAGE_RETURN, EMPTY_STRING);
   }
-
+  
   private String bytesToBase64String(byte[] bytes)
   {
     return Base64Encoder.getInstance().encode(bytes);
   }
 
+  private byte[] encodeBase64(byte[] bytes)
+  {
+    return Base64Encoder.getInstance().encodeBase64(bytes);
+  }
+  
   /**
    * {@inheritDoc}
    */

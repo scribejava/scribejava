@@ -32,5 +32,7 @@ public abstract class Base64Encoder
 
   public abstract String encode(byte[] bytes);
 
+  public abstract byte[] encodeBase64(byte[] bytes);
+  
   public abstract String getType();
 }
