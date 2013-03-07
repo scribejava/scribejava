@@ -19,7 +19,7 @@ public class OAuthEncoder
     Map<String, String> rules = new HashMap<String, String>();
     rules.put("*", "%2A");
     rules.put("+", "%20");
-    rules.put("%7E", "~");
+    rules.put("~", "%7E");
     ENCODING_RULES = Collections.unmodifiableMap(rules);
   }
 
