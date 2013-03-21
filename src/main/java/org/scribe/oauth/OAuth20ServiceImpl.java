@@ -5,7 +5,7 @@ import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verifier;
 
 public class OAuth20ServiceImpl implements OAuthService {
@@ -30,7 +30,7 @@ public class OAuth20ServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Token getAccessToken(Token requestToken, Verifier verifier) {
+	public OAuthToken getAccessToken(OAuthToken requestToken, Verifier verifier) {
 		OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(),
 				api.getAccessTokenEndpoint());
 		request.addQuerystringParameter(OAuthConstants.CLIENT_ID,
@@ -51,7 +51,7 @@ public class OAuth20ServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Token getRequestToken() {
+	public OAuthToken getRequestToken() {
 		throw new UnsupportedOperationException(
 				"Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
 	}
@@ -66,7 +66,7 @@ public class OAuth20ServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void signRequest(Token accessToken, OAuthRequest request) {
+	public void signRequest(OAuthToken accessToken, OAuthRequest request) {
 		request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN,
 				accessToken.getToken());
 	}
@@ -74,7 +74,7 @@ public class OAuth20ServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return api.getAuthorizationUrl(config);
 	}
 

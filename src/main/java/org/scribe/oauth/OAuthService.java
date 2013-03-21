@@ -1,7 +1,7 @@
 package org.scribe.oauth;
 
 import org.scribe.model.OAuthRequest;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verifier;
 
 /**
@@ -18,7 +18,7 @@ public interface OAuthService {
 	 * 
 	 * @return request token
 	 */
-	public Token getRequestToken();
+	public OAuthToken getRequestToken();
 
 	/**
 	 * Retrieve the access token
@@ -29,7 +29,7 @@ public interface OAuthService {
 	 *            verifier code
 	 * @return access token
 	 */
-	public Token getAccessToken(Token requestToken, Verifier verifier);
+	public OAuthToken getAccessToken(OAuthToken requestToken, Verifier verifier);
 
 	/**
 	 * Signs am OAuth request
@@ -39,7 +39,7 @@ public interface OAuthService {
 	 * @param request
 	 *            request to sign
 	 */
-	public void signRequest(Token accessToken, OAuthRequest request);
+	public void signRequest(OAuthToken accessToken, OAuthRequest request);
 
 	/**
 	 * Returns the OAuth version of the service.
@@ -56,5 +56,5 @@ public interface OAuthService {
 	 *            the request token you need to authorize
 	 * @return the URL where you should redirect your users
 	 */
-	public String getAuthorizationUrl(Token requestToken);
+	public String getAuthorizationUrl(OAuthToken requestToken);
 }

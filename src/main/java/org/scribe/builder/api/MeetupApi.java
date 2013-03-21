@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 /**
  * OAuth access to the Meetup.com API. For more information visit
@@ -20,7 +20,7 @@ public class MeetupApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(AUTHORIZE_URL, requestToken.getToken());
 	}
 }

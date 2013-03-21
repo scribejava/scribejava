@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 public class EvernoteApi extends DefaultApi10a {
 	private static final String AUTHORIZATION_URL = "https://www.evernote.com/OAuth.action?oauth_token=%s";
@@ -16,7 +16,7 @@ public class EvernoteApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(AUTHORIZATION_URL, requestToken.getToken());
 	}
 
@@ -34,7 +34,7 @@ public class EvernoteApi extends DefaultApi10a {
 		}
 
 		@Override
-		public String getAuthorizationUrl(Token requestToken) {
+		public String getAuthorizationUrl(OAuthToken requestToken) {
 			return String.format(SANDBOX_URL + "/OAuth.action?oauth_token=%s",
 					requestToken.getToken());
 		}

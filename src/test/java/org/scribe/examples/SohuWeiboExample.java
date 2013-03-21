@@ -6,7 +6,7 @@ import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.SohuWeiboApi;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
@@ -29,7 +29,7 @@ public class SohuWeiboExample {
 
 		// Grab a request token.
 		System.out.println("Fetching request token.");
-		Token requestToken = service.getRequestToken();
+		OAuthToken requestToken = service.getRequestToken();
 		System.out.println("Got it ... ");
 		System.out.println(requestToken.getToken());
 
@@ -46,7 +46,7 @@ public class SohuWeiboExample {
 
 		// Trade the Request Token and Verfier for the Access Token
 		System.out.println("Trading the Request Token for an Access Token...");
-		Token accessToken = service.getAccessToken(requestToken, verifier);
+		OAuthToken accessToken = service.getAccessToken(requestToken, verifier);
 		System.out.println("Got the Access Token!");
 		System.out.println("(if your curious it looks like this: "
 				+ accessToken + " )");

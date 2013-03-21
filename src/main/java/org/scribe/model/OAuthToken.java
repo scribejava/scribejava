@@ -9,12 +9,17 @@ import org.scribe.utils.Preconditions;
  * 
  * @author Pablo Fernandez
  */
-public class Token implements Serializable {
+public class OAuthToken implements Serializable {
 	private static final long serialVersionUID = 715000866082812683L;
 
 	private final String token;
-	private final String secret;
+	private final String secret; // oauth 1.0: secret, oauth 2.0 refresh token
+	private final long expiresAt;
 	private final String rawResponse;
+
+	// public OAuthToken(String rawResponse) {
+	// this.rawResponse = rawResponse;
+	// }
 
 	/**
 	 * Default constructor
@@ -24,16 +29,21 @@ public class Token implements Serializable {
 	 * @param secret
 	 *            token secret. Can't be null.
 	 */
-	public Token(String token, String secret) {
+	public OAuthToken(String token, String secret) {
 		this(token, secret, null);
 	}
 
-	public Token(String token, String secret, String rawResponse) {
+	public OAuthToken(String token, String secret, String rawResponse) {
+		this(token, secret, 0L, rawResponse);
+	}
+
+	public OAuthToken(String token, String secret, long expiresAt,
+			String rawResponse) {
 		Preconditions.checkNotNull(token, "Token can't be null");
 		Preconditions.checkNotNull(secret, "Secret can't be null");
-
 		this.token = token;
 		this.secret = secret;
+		this.expiresAt = expiresAt;
 		this.rawResponse = rawResponse;
 	}
 
@@ -43,6 +53,10 @@ public class Token implements Serializable {
 
 	public String getSecret() {
 		return secret;
+	}
+
+	public long getExpiresAt() {
+		return expiresAt;
 	}
 
 	public String getRawResponse() {
@@ -70,23 +84,41 @@ public class Token implements Serializable {
 	 * 
 	 * Useful for two legged OAuth.
 	 */
-	public static Token empty() {
-		return new Token("", "");
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-
-		Token that = (Token) o;
-		return token.equals(that.token) && secret.equals(that.secret);
+	public static OAuthToken empty() {
+		return new OAuthToken("", "");
 	}
 
 	@Override
 	public int hashCode() {
-		return 31 * token.hashCode() + secret.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (expiresAt ^ (expiresAt >>> 32));
+		result = prime * result + ((secret == null) ? 0 : secret.hashCode());
+		result = prime * result + ((token == null) ? 0 : token.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OAuthToken other = (OAuthToken) obj;
+		if (expiresAt != other.expiresAt)
+			return false;
+		if (secret == null) {
+			if (other.secret != null)
+				return false;
+		} else if (!secret.equals(other.secret))
+			return false;
+		if (token == null) {
+			if (other.token != null)
+				return false;
+		} else if (!token.equals(other.token))
+			return false;
+		return true;
 	}
 }

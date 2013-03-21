@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.scribe.exceptions.OAuthException;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
@@ -27,13 +27,13 @@ public class TokenExtractorImpl implements RequestTokenExtractor,
 	/**
 	 * {@inheritDoc}
 	 */
-	public Token extract(String response) {
+	public OAuthToken extract(String response) {
 		Preconditions
 				.checkEmptyString(response,
 						"Response body is incorrect. Can't extract a token from an empty string");
 		String token = extract(response, TOKEN_REGEX);
 		String secret = extract(response, SECRET_REGEX);
-		return new Token(token, secret, response);
+		return new OAuthToken(token, secret, response);
 	}
 
 	private String extract(String response, Pattern p) {

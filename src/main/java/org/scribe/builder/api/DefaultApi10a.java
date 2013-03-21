@@ -8,7 +8,7 @@ import org.scribe.extractors.HeaderExtractorImpl;
 import org.scribe.extractors.RequestTokenExtractor;
 import org.scribe.extractors.TokenExtractorImpl;
 import org.scribe.model.OAuthConfig;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuth10aServiceImpl;
 import org.scribe.oauth.OAuthService;
@@ -128,7 +128,7 @@ public abstract class DefaultApi10a implements Api {
 	 *            the request token you need to authorize
 	 * @return the URL where you should redirect your users
 	 */
-	public abstract String getAuthorizationUrl(Token requestToken);
+	public abstract String getAuthorizationUrl(OAuthToken requestToken);
 
 	/**
 	 * Returns the {@link OAuthService} for this Api

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 public class LinkedInApi extends DefaultApi10a {
 	private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
@@ -41,7 +41,7 @@ public class LinkedInApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(AUTHORIZE_URL, requestToken.getToken());
 	}
 

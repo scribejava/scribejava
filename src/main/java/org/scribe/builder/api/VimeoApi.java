@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 public class VimeoApi extends DefaultApi10a {
 	private static final String AUTHORIZATION_URL = "http://vimeo.com/oauth/authorize?oauth_token=%s";
@@ -16,7 +16,7 @@ public class VimeoApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(AUTHORIZATION_URL, requestToken.getToken());
 	}
 }

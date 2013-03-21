@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.scribe.exceptions.OAuthException;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 public class TokenExtractor20Test {
 
@@ -19,7 +19,7 @@ public class TokenExtractor20Test {
 	@Test
 	public void shouldExtractTokenFromOAuthStandardResponse() {
 		String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
-		Token extracted = extractor.extract(response);
+		OAuthToken extracted = extractor.extract(response);
 		assertEquals(
 				"166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE",
 				extracted.getToken());
@@ -29,7 +29,7 @@ public class TokenExtractor20Test {
 	@Test
 	public void shouldExtractTokenFromResponseWithExpiresParam() {
 		String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE&expires=5108";
-		Token extracted = extractor.extract(response);
+		OAuthToken extracted = extractor.extract(response);
 		assertEquals(
 				"166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE",
 				extracted.getToken());
@@ -39,7 +39,7 @@ public class TokenExtractor20Test {
 	@Test
 	public void shouldExtractTokenFromResponseWithManyParameters() {
 		String response = "access_token=foo1234&other_stuff=yeah_we_have_this_too&number=42";
-		Token extracted = extractor.extract(response);
+		OAuthToken extracted = extractor.extract(response);
 		assertEquals("foo1234", extracted.getToken());
 		assertEquals("", extracted.getSecret());
 	}

@@ -6,7 +6,7 @@ import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Px500Api;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
@@ -24,7 +24,7 @@ public class Px500Example {
 
 		// Obtain the Request Token
 		System.out.println("Fetching the Request Token...");
-		Token requestToken = service.getRequestToken();
+		OAuthToken requestToken = service.getRequestToken();
 		System.out.println("Got the Request Token!");
 		System.out.println();
 
@@ -37,7 +37,7 @@ public class Px500Example {
 
 		// Trade the Request Token and Verfier for the Access Token
 		System.out.println("Trading the Request Token for an Access Token...");
-		Token accessToken = service.getAccessToken(requestToken, verifier);
+		OAuthToken accessToken = service.getAccessToken(requestToken, verifier);
 		System.out.println("Got the Access Token!");
 		System.out.println("(if your curious it looks like this: "
 				+ accessToken + " )");

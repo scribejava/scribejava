@@ -10,7 +10,7 @@ import org.scribe.model.OAuthRequest;
 import org.scribe.model.Request;
 import org.scribe.model.RequestTuner;
 import org.scribe.model.Response;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verifier;
 import org.scribe.services.Base64Encoder;
 import org.scribe.utils.MapUtils;
@@ -42,15 +42,15 @@ public class OAuth10aServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Token getRequestToken(int timeout, TimeUnit unit) {
+	public OAuthToken getRequestToken(int timeout, TimeUnit unit) {
 		return getRequestToken(new TimeoutTuner(timeout, unit));
 	}
 
-	public Token getRequestToken() {
+	public OAuthToken getRequestToken() {
 		return getRequestToken(2, TimeUnit.SECONDS);
 	}
 
-	public Token getRequestToken(RequestTuner tuner) {
+	public OAuthToken getRequestToken(RequestTuner tuner) {
 		config.log("obtaining request token from "
 				+ api.getRequestTokenEndpoint());
 		OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(),
@@ -70,7 +70,7 @@ public class OAuth10aServiceImpl implements OAuthService {
 		return api.getRequestTokenExtractor().extract(body);
 	}
 
-	private void addOAuthParams(OAuthRequest request, Token token) {
+	private void addOAuthParams(OAuthRequest request, OAuthToken token) {
 		request.addOAuthParameter(OAuthConstants.TIMESTAMP, api
 				.getTimestampService().getTimestampInSeconds());
 		request.addOAuthParameter(OAuthConstants.NONCE, api
@@ -92,17 +92,17 @@ public class OAuth10aServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Token getAccessToken(Token requestToken, Verifier verifier,
+	public OAuthToken getAccessToken(OAuthToken requestToken, Verifier verifier,
 			int timeout, TimeUnit unit) {
 		return getAccessToken(requestToken, verifier, new TimeoutTuner(timeout,
 				unit));
 	}
 
-	public Token getAccessToken(Token requestToken, Verifier verifier) {
+	public OAuthToken getAccessToken(OAuthToken requestToken, Verifier verifier) {
 		return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS);
 	}
 
-	public Token getAccessToken(Token requestToken, Verifier verifier,
+	public OAuthToken getAccessToken(OAuthToken requestToken, Verifier verifier,
 			RequestTuner tuner) {
 		config.log("obtaining access token from "
 				+ api.getAccessTokenEndpoint());
@@ -122,7 +122,7 @@ public class OAuth10aServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void signRequest(Token token, OAuthRequest request) {
+	public void signRequest(OAuthToken token, OAuthRequest request) {
 		config.log("signing request: " + request.getCompleteUrl());
 
 		// Do not append the token if empty. This is for two legged OAuth calls.
@@ -144,11 +144,11 @@ public class OAuth10aServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return api.getAuthorizationUrl(requestToken);
 	}
 
-	private String getSignature(OAuthRequest request, Token token) {
+	private String getSignature(OAuthRequest request, OAuthToken token) {
 		config.log("generating signature...");
 		config.log("using base64 encoder: " + Base64Encoder.type());
 		String baseString = api.getBaseStringExtractor().extract(request);

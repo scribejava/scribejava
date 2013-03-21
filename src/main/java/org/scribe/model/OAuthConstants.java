@@ -38,7 +38,7 @@ public class OAuthConstants {
 	public static final String OUT_OF_BAND = "oob";
 	public static final String VERIFIER = "oauth_verifier";
 	public static final String HEADER = "Authorization";
-	public static final Token EMPTY_TOKEN = new Token("", "");
+	public static final OAuthToken EMPTY_TOKEN = new OAuthToken("", "");
 	public static final String SCOPE = "scope";
 
 	// OAuth 2.0

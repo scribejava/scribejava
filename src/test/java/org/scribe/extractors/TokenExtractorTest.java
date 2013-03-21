@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.scribe.exceptions.OAuthException;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 public class TokenExtractorTest {
 
@@ -19,7 +19,7 @@ public class TokenExtractorTest {
 	@Test
 	public void shouldExtractTokenFromOAuthStandardResponse() {
 		String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03";
-		Token extracted = extractor.extract(response);
+		OAuthToken extracted = extractor.extract(response);
 		assertEquals("hh5s93j4hdidpola", extracted.getToken());
 		assertEquals("hdhd0244k9j7ao03", extracted.getSecret());
 	}
@@ -27,7 +27,7 @@ public class TokenExtractorTest {
 	@Test
 	public void shouldExtractTokenFromInvertedOAuthStandardResponse() {
 		String response = "oauth_token_secret=hh5s93j4hdidpola&oauth_token=hdhd0244k9j7ao03";
-		Token extracted = extractor.extract(response);
+		OAuthToken extracted = extractor.extract(response);
 		assertEquals("hh5s93j4hdidpola", extracted.getSecret());
 		assertEquals("hdhd0244k9j7ao03", extracted.getToken());
 	}
@@ -35,7 +35,7 @@ public class TokenExtractorTest {
 	@Test
 	public void shouldExtractTokenFromResponseWithCallbackConfirmed() {
 		String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03&callback_confirmed=true";
-		Token extracted = extractor.extract(response);
+		OAuthToken extracted = extractor.extract(response);
 		assertEquals("hh5s93j4hdidpola", extracted.getToken());
 		assertEquals("hdhd0244k9j7ao03", extracted.getSecret());
 	}
@@ -43,7 +43,7 @@ public class TokenExtractorTest {
 	@Test
 	public void shouldExtractTokenWithEmptySecret() {
 		String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=";
-		Token extracted = extractor.extract(response);
+		OAuthToken extracted = extractor.extract(response);
 		assertEquals("hh5s93j4hdidpola", extracted.getToken());
 		assertEquals("", extracted.getSecret());
 	}

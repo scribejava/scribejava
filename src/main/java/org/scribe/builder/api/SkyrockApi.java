@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 /**
  * OAuth API for Skyrock.
@@ -25,7 +25,7 @@ public class SkyrockApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(API_ENDPOINT + AUTHORIZE_URL,
 				requestToken.getToken());
 	}

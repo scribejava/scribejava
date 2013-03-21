@@ -6,7 +6,7 @@ import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.ViadeoApi;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
@@ -14,7 +14,7 @@ import org.scribe.oauth.OAuthService;
 public class ViadeoExample {
 	private static final String NETWORK_NAME = "Viadeo";
 	private static final String PROTECTED_RESOURCE_URL = "https://api.viadeo.com/me?user_detail=full";
-	private static final Token EMPTY_TOKEN = null;
+	private static final OAuthToken EMPTY_TOKEN = null;
 
 	public static void main(String[] args) {
 		// Replace these with your own api key and secret
@@ -41,7 +41,7 @@ public class ViadeoExample {
 
 		// Trade the Request Token and Verfier for the Access Token
 		System.out.println("Trading the Request Token for an Access Token...");
-		Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+		OAuthToken accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
 		System.out.println("Got the Access Token!");
 		System.out.println("(if your curious it looks like this: "
 				+ accessToken + " )");

@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 
 public class LoveFilmApi extends DefaultApi10a {
 	private static final String REQUEST_TOKEN_URL = "http://openapi.lovefilm.com/oauth/request_token";
@@ -18,7 +18,7 @@ public class LoveFilmApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(AUTHORIZE_URL, requestToken.getToken());
 	}
 }

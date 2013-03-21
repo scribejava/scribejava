@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.services.PlaintextSignatureService;
 import org.scribe.services.SignatureService;
 
@@ -19,7 +19,7 @@ public class UbuntuOneApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(AUTHORIZATION_URL, requestToken.getToken());
 	}
 

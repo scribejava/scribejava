@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verb;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
@@ -34,7 +34,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
 	public AccessTokenExtractor getAccessTokenExtractor() {
 		return new AccessTokenExtractor() {
 
-			public Token extract(String response) {
+			public OAuthToken extract(String response) {
 				Preconditions
 						.checkEmptyString(response,
 								"Response body is incorrect. Can't extract a token from an empty string");
@@ -43,7 +43,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
 				Matcher matcher = Pattern.compile(regex).matcher(response);
 				if (matcher.find()) {
 					String token = OAuthEncoder.decode(matcher.group(1));
-					return new Token(token, "", response);
+					return new OAuthToken(token, "", response);
 				} else {
 					throw new OAuthException(
 							"Response body is incorrect. Can't extract a token from this: '"

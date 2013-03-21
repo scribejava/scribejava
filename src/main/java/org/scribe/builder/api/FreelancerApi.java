@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Verb;
 
 public class FreelancerApi extends DefaultApi10a {
@@ -27,7 +27,7 @@ public class FreelancerApi extends DefaultApi10a {
 	}
 
 	@Override
-	public String getAuthorizationUrl(Token requestToken) {
+	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return String.format(AUTHORIZATION_URL, requestToken.getToken());
 	}
 
@@ -45,7 +45,7 @@ public class FreelancerApi extends DefaultApi10a {
 		}
 
 		@Override
-		public String getAuthorizationUrl(Token requestToken) {
+		public String getAuthorizationUrl(OAuthToken requestToken) {
 			return String.format(SANDBOX_AUTHORIZATION_URL + "?oauth_token=%s",
 					requestToken.getToken());
 		}
