@@ -1,57 +1,53 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-public class LinkedInApi extends DefaultApi10a
-{
-  private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
-  private static final String REQUEST_TOKEN_URL = "https://api.linkedin.com/uas/oauth/requestToken";
+import org.scribe.model.Token;
 
-  private final Set<String> scopes;
+public class LinkedInApi extends DefaultApi10a {
+	private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
+	private static final String REQUEST_TOKEN_URL = "https://api.linkedin.com/uas/oauth/requestToken";
 
-  public LinkedInApi()
-  {
-    scopes = Collections.emptySet();
-  }
+	private final Set<String> scopes;
 
-  public LinkedInApi(Set<String> scopes)
-  {
-    this.scopes = Collections.unmodifiableSet(scopes);
-  }
+	public LinkedInApi() {
+		scopes = Collections.emptySet();
+	}
 
-  @Override
-  public String getAccessTokenEndpoint()
-  {
-    return "https://api.linkedin.com/uas/oauth/accessToken";
-  }
+	public LinkedInApi(Set<String> scopes) {
+		this.scopes = Collections.unmodifiableSet(scopes);
+	}
 
-  @Override
-  public String getRequestTokenEndpoint()
-  {
-    return scopes.isEmpty() ? REQUEST_TOKEN_URL : REQUEST_TOKEN_URL + "?scope=" + scopesAsString();
-  }
+	@Override
+	public String getAccessTokenEndpoint() {
+		return "https://api.linkedin.com/uas/oauth/accessToken";
+	}
 
-  private String scopesAsString()
-  {
-    StringBuilder builder = new StringBuilder();
-    for(String scope : scopes)
-    {
-      builder.append("+" + scope);
-    }
-    return builder.substring(1);
-  }
+	@Override
+	public String getRequestTokenEndpoint() {
+		return scopes.isEmpty() ? REQUEST_TOKEN_URL : REQUEST_TOKEN_URL
+				+ "?scope=" + scopesAsString();
+	}
 
-  @Override
-  public String getAuthorizationUrl(Token requestToken)
-  {
-    return String.format(AUTHORIZE_URL, requestToken.getToken());
-  }
+	private String scopesAsString() {
+		StringBuilder builder = new StringBuilder();
+		for (String scope : scopes) {
+			builder.append("+" + scope);
+		}
+		return builder.substring(1);
+	}
 
-  public static LinkedInApi withScopes(String... scopes)
-  {
-    Set<String> scopeSet = new HashSet<String>(Arrays.asList(scopes));
-    return new LinkedInApi(scopeSet);
-  }
-  
+	@Override
+	public String getAuthorizationUrl(Token requestToken) {
+		return String.format(AUTHORIZE_URL, requestToken.getToken());
+	}
+
+	public static LinkedInApi withScopes(String... scopes) {
+		Set<String> scopeSet = new HashSet<String>(Arrays.asList(scopes));
+		return new LinkedInApi(scopeSet);
+	}
+
 }

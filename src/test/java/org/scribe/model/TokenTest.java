@@ -1,44 +1,41 @@
 package org.scribe.model;
 
-import static junit.framework.Assert.*;
-import org.junit.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
 
-public class TokenTest
-{
-  @Test
-  public void shouldTestEqualityBasedOnTokenAndSecret() throws Exception
-  {
-    Token expected = new Token("access","secret");
-    Token actual = new Token("access","secret");
+import org.junit.Test;
 
-    assertEquals(expected, actual);
-    assertEquals(actual, actual);
-  }
+public class TokenTest {
+	@Test
+	public void shouldTestEqualityBasedOnTokenAndSecret() throws Exception {
+		Token expected = new Token("access", "secret");
+		Token actual = new Token("access", "secret");
 
-  @Test
-  public void shouldNotDependOnRawString() throws Exception
-  {
-    Token expected = new Token("access","secret", "raw_string");
-    Token actual = new Token("access","secret", "different_raw_string");
+		assertEquals(expected, actual);
+		assertEquals(actual, actual);
+	}
 
-    assertEquals(expected, actual);
-  }
+	@Test
+	public void shouldNotDependOnRawString() throws Exception {
+		Token expected = new Token("access", "secret", "raw_string");
+		Token actual = new Token("access", "secret", "different_raw_string");
 
-  @Test
-  public void shouldReturnSameHashCodeForEqualObjects() throws Exception
-  {
-    Token expected = new Token("access","secret");
-    Token actual = new Token("access","secret");
+		assertEquals(expected, actual);
+	}
 
-    assertEquals(expected.hashCode(), actual.hashCode());
-  }
+	@Test
+	public void shouldReturnSameHashCodeForEqualObjects() throws Exception {
+		Token expected = new Token("access", "secret");
+		Token actual = new Token("access", "secret");
 
-  @Test
-  public void shouldNotBeEqualToNullOrOtherObjects() throws Exception
-  {
-    Token expected = new Token("access","secret","response");
+		assertEquals(expected.hashCode(), actual.hashCode());
+	}
 
-    assertNotSame(expected, null);
-    assertNotSame(expected, new Object());
-  }
+	@Test
+	public void shouldNotBeEqualToNullOrOtherObjects() throws Exception {
+		Token expected = new Token("access", "secret", "response");
+
+		assertNotSame(expected, null);
+		assertNotSame(expected, new Object());
+	}
 }
