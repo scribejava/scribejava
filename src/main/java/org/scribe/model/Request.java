@@ -34,6 +34,7 @@ public class Request
   private boolean connectionKeepAlive = false;
   private Long connectTimeout = null;
   private Long readTimeout = null;
+  private Proxy proxy;
 
   /**
    * Creates a new Http Request
@@ -81,7 +82,14 @@ public class Request
     if (connection == null)
     {
       System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      if(proxy!=null)
+      {
+    	  connection = (HttpURLConnection) new URL(completeUrl).openConnection(proxy);
+      }
+      else
+      {
+    	  connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      }
     }
   }
 
@@ -357,6 +365,14 @@ public class Request
   void setConnection(HttpURLConnection connection)
   {
     this.connection = connection;
+  }
+  
+  public void setProxy(Proxy proxy){
+	  this.proxy=proxy;
+  }
+  
+  public Proxy getProxy(){
+	  return this.proxy;
   }
 
   @Override
