@@ -5,6 +5,7 @@ import java.security.Signature;
 import java.security.SignatureException;
 
 import org.scribe.exceptions.OAuthSignatureException;
+import org.scribe.utils.Base64;
 
 /**
  * A signature service that uses the RSA-SHA1 algorithm.
@@ -37,7 +38,7 @@ public class RSASha1SignatureService implements SignatureService {
 
 	private String bytesToBase64String(Signature signature)
 			throws SignatureException {
-		return Base64Encoder.getInstance().encode(signature.sign());
+		return Base64.encodeBytes(signature.sign());
 	}
 
 	/**

@@ -4,6 +4,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.scribe.exceptions.OAuthSignatureException;
+import org.scribe.utils.Base64;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
@@ -48,7 +49,7 @@ public class HMACSha1SignatureService implements SignatureService {
 	}
 
 	private String bytesToBase64String(byte[] bytes) {
-		return Base64Encoder.getInstance().encode(bytes);
+		return Base64.encodeBytes(bytes);
 	}
 
 	/**

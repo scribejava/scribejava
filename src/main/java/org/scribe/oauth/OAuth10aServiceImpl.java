@@ -7,12 +7,11 @@ import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
+import org.scribe.model.OAuthToken;
 import org.scribe.model.Request;
 import org.scribe.model.RequestTuner;
 import org.scribe.model.Response;
-import org.scribe.model.OAuthToken;
 import org.scribe.model.Verifier;
-import org.scribe.services.Base64Encoder;
 import org.scribe.utils.MapUtils;
 
 /**
@@ -150,7 +149,6 @@ public class OAuth10aServiceImpl implements OAuthService {
 
 	private String getSignature(OAuthRequest request, OAuthToken token) {
 		config.log("generating signature...");
-		config.log("using base64 encoder: " + Base64Encoder.type());
 		String baseString = api.getBaseStringExtractor().extract(request);
 		String signature = api.getSignatureService().getSignature(baseString,
 				config.getApiSecret(), token.getSecret());
