@@ -22,7 +22,7 @@ public class DoubanApi20 extends DefaultApi20
   @Override
   public AccessTokenExtractor getAccessTokenExtractor()
   {
-    return new JsonTokenExtractor();
+    return new DoubanTokenExtractor();
   }
 
   @Override

@@ -6,8 +6,10 @@ import org.scribe.utils.Preconditions;
 
 /**
  * Represents an OAuth token (either request or access token) and its secret
+ * extended by mcxiaoke ,add expiresAt, uid, userName fields
  * 
  * @author Pablo Fernandez
+ * @author mcxiaoke
  */
 public class OAuthToken implements Serializable {
 	private static final long serialVersionUID = 715000866082812683L;
@@ -15,6 +17,8 @@ public class OAuthToken implements Serializable {
 	private final String token;
 	private final String secret; // oauth 1.0: secret, oauth 2.0 refresh token
 	private final long expiresAt;
+	private long uid;
+	private String userName;
 	private final String rawResponse;
 
 	// public OAuthToken(String rawResponse) {
@@ -33,17 +37,37 @@ public class OAuthToken implements Serializable {
 		this(token, secret, null);
 	}
 
+	public OAuthToken(String token, String secret, long expiresAt) {
+		this(token, secret, expiresAt, 0L, null, null);
+	}
+
+	public OAuthToken(String token, String secret, long expiresAt, long uid) {
+		this(token, secret, expiresAt, uid, null, null);
+	}
+
 	public OAuthToken(String token, String secret, String rawResponse) {
 		this(token, secret, 0L, rawResponse);
 	}
 
 	public OAuthToken(String token, String secret, long expiresAt,
 			String rawResponse) {
+		this(token, secret, expiresAt, 0L, null, rawResponse);
+	}
+
+	public OAuthToken(String token, String secret, long expiresAt, long uid,
+			String rawResponse) {
+		this(token, secret, expiresAt, uid, null, rawResponse);
+	}
+
+	public OAuthToken(String token, String secret, long expiresAt, long uid,
+			String userName, String rawResponse) {
 		Preconditions.checkNotNull(token, "Token can't be null");
 		Preconditions.checkNotNull(secret, "Secret can't be null");
 		this.token = token;
 		this.secret = secret;
 		this.expiresAt = expiresAt;
+		this.uid = uid;
+		this.userName = userName;
 		this.rawResponse = rawResponse;
 	}
 
@@ -57,6 +81,22 @@ public class OAuthToken implements Serializable {
 
 	public long getExpiresAt() {
 		return expiresAt;
+	}
+
+	public long getUid() {
+		return uid;
+	}
+
+	public void setUid(long uid) {
+		this.uid = uid;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getRawResponse() {
