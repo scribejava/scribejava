@@ -1,5 +1,5 @@
 package org.scribe.model;
 
 public enum SignatureType {
-	Header, QueryString
+	HeaderBear, HeaderOAuth, HeaderMac, QueryString
 }

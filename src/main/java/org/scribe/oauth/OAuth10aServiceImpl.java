@@ -91,8 +91,8 @@ public class OAuth10aServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public OAuthToken getAccessToken(OAuthToken requestToken, Verifier verifier,
-			int timeout, TimeUnit unit) {
+	public OAuthToken getAccessToken(OAuthToken requestToken,
+			Verifier verifier, int timeout, TimeUnit unit) {
 		return getAccessToken(requestToken, verifier, new TimeoutTuner(timeout,
 				unit));
 	}
@@ -101,8 +101,8 @@ public class OAuth10aServiceImpl implements OAuthService {
 		return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS);
 	}
 
-	public OAuthToken getAccessToken(OAuthToken requestToken, Verifier verifier,
-			RequestTuner tuner) {
+	public OAuthToken getAccessToken(OAuthToken requestToken,
+			Verifier verifier, RequestTuner tuner) {
 		config.log("obtaining access token from "
 				+ api.getAccessTokenEndpoint());
 		OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(),
@@ -160,7 +160,8 @@ public class OAuth10aServiceImpl implements OAuthService {
 
 	private void appendSignature(OAuthRequest request) {
 		switch (config.getSignatureType()) {
-		case Header:
+		case HeaderBear:
+		case HeaderOAuth:
 			config.log("using Http Header signature");
 
 			String oauthHeader = api.getHeaderExtractor().extract(request);

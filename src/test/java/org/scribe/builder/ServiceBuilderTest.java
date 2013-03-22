@@ -25,7 +25,7 @@ public class ServiceBuilderTest {
 		assertEquals(ApiMock.config.getApiKey(), "key");
 		assertEquals(ApiMock.config.getApiSecret(), "secret");
 		assertEquals(ApiMock.config.getCallback(), OAuthConstants.OUT_OF_BAND);
-		assertEquals(ApiMock.config.getSignatureType(), SignatureType.Header);
+		assertEquals(ApiMock.config.getSignatureType(), SignatureType.HeaderBear);
 	}
 
 	@Test

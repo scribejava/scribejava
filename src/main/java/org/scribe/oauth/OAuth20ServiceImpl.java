@@ -4,12 +4,15 @@ import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
 import org.scribe.model.OAuthToken;
+import org.scribe.model.Response;
 import org.scribe.model.Verifier;
 
 public class OAuth20ServiceImpl implements OAuthService {
 	private static final String VERSION = "2.0";
+	private static final String BEARER = "Bearer ";// douban
+	private static final String OAUTH = "OAuth2 "; // sina
+	private static final String MAC="MAC "; // renren
 
 	private final DefaultApi20 api;
 	private final OAuthConfig config;
@@ -66,9 +69,30 @@ public class OAuth20ServiceImpl implements OAuthService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void signRequest(OAuthToken accessToken, OAuthRequest request) {
-		request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN,
-				accessToken.getToken());
+	public void signRequest(OAuthToken token, OAuthRequest request) {
+		config.log("signing request: " + request.getCompleteUrl());
+		config.log("setting token to: " + token);
+		if (!token.isEmpty()) {
+			switch (config.getSignatureType()) {
+			case HeaderBear:
+				config.log("using Http Header Bearer signature");
+				request.addHeader(OAuthConstants.HEADER,
+						BEARER + token.getToken());
+				break;
+			case HeaderOAuth:
+				config.log("using Http Header OAuth2 signature");
+				request.addHeader(OAuthConstants.HEADER,
+						OAUTH + token.getToken());
+			case QueryString:
+				config.log("using Querystring signature");
+				request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN,
+						token.getToken());
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 
 	/**
