@@ -1,8 +1,6 @@
 package org.scribe.builder.api;
 
 import org.scribe.extractors.AccessTokenExtractor;
-import org.scribe.extractors.HeaderExtractor;
-import org.scribe.extractors.HeaderExtractorImpl;
 import org.scribe.extractors.TokenExtractor20Impl;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.Verb;
@@ -50,7 +48,7 @@ public abstract class DefaultApi20 implements Api {
 	 * 
 	 * @return access token URL
 	 */
-	public abstract String getAccessTokenEndpoint();
+	public abstract String getAccessTokenEndpoint(OAuthConfig config);
 
 	/**
 	 * Returns the URL where you should redirect your users to authenticate your

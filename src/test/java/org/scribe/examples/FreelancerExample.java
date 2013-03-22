@@ -22,7 +22,7 @@ public class FreelancerExample {
 	public static void main(String[] args) {
 		OAuthService service = new ServiceBuilder()
 				.provider(FreelancerApi.Sandbox.class)
-				.signatureType(SignatureType.QueryString)
+				.signatureType(SignatureType.QUERY_STRING)
 				.apiKey("7f5a168a0bfdbd15b4a9ea2a969661c731cdea56")
 				.apiSecret("7bb8961b94873802f1c5344f671a518e087f5785")
 				.scope(SCOPE).build();

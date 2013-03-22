@@ -12,17 +12,19 @@ import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
 public class ConstantContactApi2 extends DefaultApi20 {
-	private static final String AUTHORIZE_URL = "https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize?client_id=%s&response_type=code&redirect_uri=%s";
+	private static final String AUTHORIZE_URL = "https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize?client_id=%s&response_type=%s&redirect_uri=%s";
 
 	@Override
-	public String getAccessTokenEndpoint() {
-		return "https://oauth2.constantcontact.com/oauth2/oauth/token?grant_type=authorization_code";
+	public String getAccessTokenEndpoint(OAuthConfig config) {
+		return "https://oauth2.constantcontact.com/oauth2/oauth/token?grant_type=authorization_code"
+				+ config.getGrantType().getTypeValue();
 	}
 
 	@Override
 	public String getAuthorizationUrl(OAuthConfig config) {
-		return String.format(AUTHORIZE_URL, config.getApiKey(),
-				OAuthEncoder.encode(config.getCallback()));
+		return String.format(AUTHORIZE_URL, config.getApiKey(), config
+				.getResponseType().getTypeValue(), OAuthEncoder.encode(config
+				.getCallback()));
 	}
 
 	@Override

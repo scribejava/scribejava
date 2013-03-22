@@ -11,12 +11,12 @@ import org.scribe.utils.Preconditions;
  * @since 20.4.2011
  */
 public class VkontakteApi extends DefaultApi20 {
-	private static final String AUTHORIZE_URL = "https://oauth.vk.com/authorize?client_id=%s&redirect_uri=%s&response_type=code";
+	private static final String AUTHORIZE_URL = "https://oauth.vk.com/authorize?client_id=%s&redirect_uri=%s&response_type=%s";
 	private static final String SCOPED_AUTHORIZE_URL = String.format(
 			"%s&scope=%%s", AUTHORIZE_URL);
 
 	@Override
-	public String getAccessTokenEndpoint() {
+	public String getAccessTokenEndpoint(OAuthConfig config) {
 		return "https://api.vkontakte.ru/oauth/access_token";
 	}
 
@@ -28,11 +28,13 @@ public class VkontakteApi extends DefaultApi20 {
 		if (config.hasScope())// Appending scope if present
 		{
 			return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(),
-					OAuthEncoder.encode(config.getCallback()),
-					OAuthEncoder.encode(config.getScope()));
+					OAuthEncoder.encode(config.getCallback()), config
+							.getResponseType().getTypeValue(), OAuthEncoder
+							.encode(config.getScope()));
 		} else {
 			return String.format(AUTHORIZE_URL, config.getApiKey(),
-					OAuthEncoder.encode(config.getCallback()));
+					OAuthEncoder.encode(config.getCallback()), config
+							.getResponseType().getTypeValue());
 		}
 	}
 

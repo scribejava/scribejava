@@ -11,19 +11,24 @@ public class OAuthConfig {
 	private final String apiKey;
 	private final String apiSecret;
 	private final String callback;
+	private final GrantType grantType;
+	private final ResponseType responseType;
 	private final SignatureType signatureType;
 	private final String scope;
 	private final OutputStream debugStream;
 
 	public OAuthConfig(String key, String secret) {
-		this(key, secret, null, null, null, null);
+		this(key, secret, null, null, null, null, null, null);
 	}
 
 	public OAuthConfig(String key, String secret, String callback,
-			SignatureType type, String scope, OutputStream stream) {
+			GrantType grantType, ResponseType responseType, SignatureType type,
+			String scope, OutputStream stream) {
 		this.apiKey = key;
 		this.apiSecret = secret;
 		this.callback = callback;
+		this.grantType = grantType;
+		this.responseType = responseType;
 		this.signatureType = type;
 		this.scope = scope;
 		this.debugStream = stream;
@@ -39,6 +44,14 @@ public class OAuthConfig {
 
 	public String getCallback() {
 		return callback;
+	}
+
+	public GrantType getGrantType() {
+		return grantType;
+	}
+
+	public ResponseType getResponseType() {
+		return responseType;
 	}
 
 	public SignatureType getSignatureType() {
@@ -64,5 +77,26 @@ public class OAuthConfig {
 						e);
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OAuthConfig [apiKey=");
+		builder.append(apiKey);
+		builder.append(", apiSecret=");
+		builder.append(apiSecret);
+		builder.append(", callback=");
+		builder.append(callback);
+		builder.append(", grantType=");
+		builder.append(grantType);
+		builder.append(", responseType=");
+		builder.append(responseType);
+		builder.append(", signatureType=");
+		builder.append(signatureType);
+		builder.append(", scope=");
+		builder.append(scope);
+		builder.append("]");
+		return builder.toString();
 	}
 }

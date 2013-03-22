@@ -4,8 +4,10 @@ import java.io.OutputStream;
 
 import org.scribe.builder.api.Api;
 import org.scribe.exceptions.OAuthException;
+import org.scribe.model.GrantType;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
+import org.scribe.model.ResponseType;
 import org.scribe.model.SignatureType;
 import org.scribe.oauth.OAuthService;
 import org.scribe.utils.Preconditions;
@@ -23,6 +25,8 @@ public class ServiceBuilder {
 	private String callback;
 	private Api api;
 	private String scope;
+	private GrantType grantType;
+	private ResponseType responseType;
 	private SignatureType signatureType;
 	private OutputStream debugStream;
 
@@ -31,7 +35,9 @@ public class ServiceBuilder {
 	 */
 	public ServiceBuilder() {
 		this.callback = OAuthConstants.OUT_OF_BAND;
-		this.signatureType = SignatureType.HeaderBear;
+		this.grantType = GrantType.AUTHORIZATION_CODE;
+		this.responseType = ResponseType.CODE;
+		this.signatureType = SignatureType.QUERY_STRING;
 		this.debugStream = null;
 	}
 
@@ -128,6 +134,18 @@ public class ServiceBuilder {
 		return this;
 	}
 
+	public ServiceBuilder grantType(GrantType type) {
+		Preconditions.checkNotNull(type, "Grant Type can't be null");
+		this.grantType = type;
+		return this;
+	}
+
+	public ServiceBuilder responseType(ResponseType type) {
+		Preconditions.checkNotNull(type, "Response Type can't be null");
+		this.responseType = type;
+		return this;
+	}
+
 	/**
 	 * Configures the signature type, choose between header, querystring, etc.
 	 * Defaults to Header
@@ -165,6 +183,6 @@ public class ServiceBuilder {
 		Preconditions.checkEmptyString(apiSecret,
 				"You must provide an api secret");
 		return api.createService(new OAuthConfig(apiKey, apiSecret, callback,
-				signatureType, scope, debugStream));
+				grantType, responseType, signatureType, scope, debugStream));
 	}
 }

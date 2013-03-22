@@ -4,9 +4,11 @@ import java.util.Scanner;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.DoubanApi20;
+import org.scribe.model.GrantType;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.OAuthToken;
 import org.scribe.model.Response;
+import org.scribe.model.ResponseType;
 import org.scribe.model.SignatureType;
 import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
@@ -21,10 +23,13 @@ public class DoubanExample {
 		// Replace these with your own api key and secret
 		String apiKey = "05307422ce6d70180f915c686b485048";
 		String apiSecret = "767dfeba2658f8ba";
-		OAuthService service = new ServiceBuilder().signatureType(SignatureType.HeaderBear)
-				.provider(DoubanApi20.class).apiKey(apiKey)
-				.apiSecret(apiSecret)
-				.callback("http://www.baidu.com/").scope("shuo_basic_r,shuo_basic_w,douban_basic_common").build();
+		OAuthService service = new ServiceBuilder()
+				.signatureType(SignatureType.HEADER_BEARER)
+				.grantType(GrantType.AUTHORIZATION_CODE)
+				.responseType(ResponseType.CODE).provider(DoubanApi20.class)
+				.apiKey(apiKey).apiSecret(apiSecret)
+				.callback("http://www.baidu.com/")
+				.scope("shuo_basic_r,shuo_basic_w,douban_basic_common").build();
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

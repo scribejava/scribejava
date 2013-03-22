@@ -5,8 +5,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.scribe.builder.api.Api;
+import org.scribe.model.GrantType;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
+import org.scribe.model.ResponseType;
 import org.scribe.model.SignatureType;
 import org.scribe.oauth.OAuthService;
 
@@ -25,7 +27,11 @@ public class ServiceBuilderTest {
 		assertEquals(ApiMock.config.getApiKey(), "key");
 		assertEquals(ApiMock.config.getApiSecret(), "secret");
 		assertEquals(ApiMock.config.getCallback(), OAuthConstants.OUT_OF_BAND);
-		assertEquals(ApiMock.config.getSignatureType(), SignatureType.HeaderBear);
+		assertEquals(ApiMock.config.getGrantType(),
+				GrantType.AUTHORIZATION_CODE);
+		assertEquals(ApiMock.config.getResponseType(), ResponseType.CODE);
+		assertEquals(ApiMock.config.getSignatureType(),
+				SignatureType.QUERY_STRING);
 	}
 
 	@Test
@@ -38,13 +44,31 @@ public class ServiceBuilderTest {
 	}
 
 	@Test
+	public void shouldAcceptAGrantTypeType() {
+		builder.provider(ApiMock.class).apiKey("key").apiSecret("secret")
+				.grantType(GrantType.REFRESH_TOKEN).build();
+		assertEquals(ApiMock.config.getApiKey(), "key");
+		assertEquals(ApiMock.config.getApiSecret(), "secret");
+		assertEquals(ApiMock.config.getGrantType(), GrantType.REFRESH_TOKEN);
+	}
+
+	@Test
+	public void shouldAcceptAResponseType() {
+		builder.provider(ApiMock.class).apiKey("key").apiSecret("secret")
+				.responseType(ResponseType.TOKEN).build();
+		assertEquals(ApiMock.config.getApiKey(), "key");
+		assertEquals(ApiMock.config.getApiSecret(), "secret");
+		assertEquals(ApiMock.config.getResponseType(), ResponseType.TOKEN);
+	}
+
+	@Test
 	public void shouldAcceptASignatureType() {
 		builder.provider(ApiMock.class).apiKey("key").apiSecret("secret")
-				.signatureType(SignatureType.QueryString).build();
+				.signatureType(SignatureType.QUERY_STRING).build();
 		assertEquals(ApiMock.config.getApiKey(), "key");
 		assertEquals(ApiMock.config.getApiSecret(), "secret");
 		assertEquals(ApiMock.config.getSignatureType(),
-				SignatureType.QueryString);
+				SignatureType.QUERY_STRING);
 	}
 
 	@Test(expected = IllegalArgumentException.class)

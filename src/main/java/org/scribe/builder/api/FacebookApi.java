@@ -10,7 +10,7 @@ public class FacebookApi extends DefaultApi20 {
 			+ "&scope=%s";
 
 	@Override
-	public String getAccessTokenEndpoint() {
+	public String getAccessTokenEndpoint(OAuthConfig config) {
 		return "https://graph.facebook.com/oauth/access_token";
 	}
 

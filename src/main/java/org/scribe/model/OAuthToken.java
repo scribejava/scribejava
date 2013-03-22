@@ -14,16 +14,44 @@ import org.scribe.utils.Preconditions;
 public class OAuthToken implements Serializable {
 	private static final long serialVersionUID = 715000866082812683L;
 
-	private final String token;
-	private final String secret; // oauth 1.0: secret, oauth 2.0 refresh token
-	private final long expiresAt;
+	/**
+	 * Factory method that returns an empty token (token = "", secret = "").
+	 * 
+	 * Useful for two legged OAuth.
+	 */
+	public static OAuthToken EMPTY() {
+		return new OAuthToken("", "");
+	}
+
+	private String token;
+	private String secret; // oauth 1.0: secret, oauth 2.0 refresh token
+	private long expiresAt;
 	private long uid;
 	private String userName;
-	private final String rawResponse;
+	private String rawResponse;
 
-	// public OAuthToken(String rawResponse) {
-	// this.rawResponse = rawResponse;
-	// }
+	public OAuthToken(OAuthToken token) {
+		this(token.getToken(), token.getSecret(), token.getExpiresAt(), token
+				.getUid(), token.getUserName(), token.getRawResponse());
+	}
+
+	public void update(OAuthToken token) {
+		if (token != null && !token.isEmpty()) {
+			this.token = token.getToken();
+			this.secret = token.getSecret();
+			this.expiresAt = token.getExpiresAt();
+			this.uid = token.getUid();
+			this.userName = token.getUserName();
+			this.rawResponse = token.getRawResponse();
+		}
+	}
+
+	public void update(String token, String secret) {
+		if (isNotEmpty(token) && isNotEmpty(secret)) {
+			this.token = token;
+			this.secret = secret;
+		}
+	}
 
 	/**
 	 * Default constructor
@@ -45,15 +73,6 @@ public class OAuthToken implements Serializable {
 		this(token, secret, expiresAt, uid, null, null);
 	}
 
-	public OAuthToken(String token, String secret, String rawResponse) {
-		this(token, secret, 0L, rawResponse);
-	}
-
-	public OAuthToken(String token, String secret, long expiresAt,
-			String rawResponse) {
-		this(token, secret, expiresAt, 0L, null, rawResponse);
-	}
-
 	public OAuthToken(String token, String secret, long expiresAt, long uid,
 			String rawResponse) {
 		this(token, secret, expiresAt, uid, null, rawResponse);
@@ -71,16 +90,37 @@ public class OAuthToken implements Serializable {
 		this.rawResponse = rawResponse;
 	}
 
+	public OAuthToken(String token, String secret, long expiresAt,
+			String rawResponse) {
+		this(token, secret, expiresAt, 0L, null, rawResponse);
+	}
+
+	public OAuthToken(String token, String secret, String rawResponse) {
+		this(token, secret, 0L, rawResponse);
+	}
+
 	public String getToken() {
 		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public String getSecret() {
 		return secret;
 	}
 
+	public void setSecret(String secret) {
+		this.secret = secret;
+	}
+
 	public long getExpiresAt() {
 		return expiresAt;
+	}
+
+	public void setExpiresAt(long expiresAt) {
+		this.expiresAt = expiresAt;
 	}
 
 	public long getUid() {
@@ -100,16 +140,11 @@ public class OAuthToken implements Serializable {
 	}
 
 	public String getRawResponse() {
-		if (rawResponse == null) {
-			throw new IllegalStateException(
-					"This token object was not constructed by scribe and does not have a rawResponse");
-		}
 		return rawResponse;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("Token[%s , %s]", token, secret);
+	public void setRawResponse(String rawResponse) {
+		this.rawResponse = rawResponse;
 	}
 
 	/**
@@ -119,20 +154,18 @@ public class OAuthToken implements Serializable {
 		return "".equals(this.token) && "".equals(this.secret);
 	}
 
-	/**
-	 * Factory method that returns an empty token (token = "", secret = "").
-	 * 
-	 * Useful for two legged OAuth.
-	 */
-	public static OAuthToken empty() {
-		return new OAuthToken("", "");
+	private static boolean isNotEmpty(String text) {
+		return text != null && text.length() > 0;
+	}
+
+	private static boolean isNullOrEmpty(String text) {
+		return text == null && text.length() == 0;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (expiresAt ^ (expiresAt >>> 32));
 		result = prime * result + ((secret == null) ? 0 : secret.hashCode());
 		result = prime * result + ((token == null) ? 0 : token.hashCode());
 		return result;
@@ -147,8 +180,6 @@ public class OAuthToken implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		OAuthToken other = (OAuthToken) obj;
-		if (expiresAt != other.expiresAt)
-			return false;
 		if (secret == null) {
 			if (other.secret != null)
 				return false;
@@ -161,4 +192,24 @@ public class OAuthToken implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OAuthToken [token=");
+		builder.append(token);
+		builder.append(", secret=");
+		builder.append(secret);
+		builder.append(", expiresAt=");
+		builder.append(expiresAt);
+		builder.append(", uid=");
+		builder.append(uid);
+		builder.append(", userName=");
+		builder.append(userName);
+		builder.append(", rawResponse=");
+		builder.append(rawResponse);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
