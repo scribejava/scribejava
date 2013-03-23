@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.net.Proxy;
+
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.GrantType;
 import org.scribe.model.OAuthConfig;
@@ -18,6 +20,7 @@ public class OAuth20ServiceImpl implements OAuthService {
 
 	private final DefaultApi20 api;
 	private final OAuthConfig config;
+	private java.net.Proxy proxy;
 
 	/**
 	 * Default constructor
@@ -75,8 +78,17 @@ public class OAuth20ServiceImpl implements OAuthService {
 		if (config.hasScope())
 			request.addQuerystringParameter(OAuthConstants.SCOPE,
 					config.getScope());
+		
+		config.log("setting proxy to " + proxy);
+		if(proxy!=null){
+			request.setProxy(proxy);
+		}
+		config.log("sending request...");
 		Response response = request.send();
-		return api.getAccessTokenExtractor().extract(response.getBody());
+		String body = response.getBody();
+		config.log("response status code: " + response.getCode());
+		config.log("response body: " + body);
+		return api.getAccessTokenExtractor().extract(body);
 	}
 
 	/**
@@ -130,6 +142,11 @@ public class OAuth20ServiceImpl implements OAuthService {
 	 */
 	public String getAuthorizationUrl(OAuthToken requestToken) {
 		return api.getAuthorizationUrl(config);
+	}
+
+	@Override
+	public void setProxy(Proxy proxy) {
+		this.proxy=proxy;
 	}
 
 }

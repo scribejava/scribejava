@@ -1,5 +1,6 @@
 package org.scribe.oauth;
 
+import java.net.Proxy;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +25,7 @@ public class OAuth10aServiceImpl implements OAuthService {
 
 	private OAuthConfig config;
 	private DefaultApi10a api;
+	private java.net.Proxy proxy;
 
 	/**
 	 * Default constructor
@@ -59,11 +61,14 @@ public class OAuth10aServiceImpl implements OAuthService {
 		request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
 		addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
 		appendSignature(request);
-
+		
+		config.log("setting proxy to " + proxy);
+		if(proxy!=null){
+			request.setProxy(proxy);
+		}
 		config.log("sending request...");
 		Response response = request.send(tuner);
 		String body = response.getBody();
-
 		config.log("response status code: " + response.getCode());
 		config.log("response body: " + body);
 		return api.getRequestTokenExtractor().extract(body);
@@ -114,8 +119,16 @@ public class OAuth10aServiceImpl implements OAuthService {
 				+ verifier);
 		addOAuthParams(request, requestToken);
 		appendSignature(request);
+		config.log("setting proxy to " + proxy);
+		if(proxy!=null){
+			request.setProxy(proxy);
+		}
+		config.log("sending request...");
 		Response response = request.send(tuner);
-		return api.getAccessTokenExtractor().extract(response.getBody());
+		String body = response.getBody();
+		config.log("response status code: " + response.getCode());
+		config.log("response body: " + body);
+		return api.getAccessTokenExtractor().extract(body);
 	}
 
 	/**
@@ -192,5 +205,10 @@ public class OAuth10aServiceImpl implements OAuthService {
 		public void tune(Request request) {
 			request.setReadTimeout(duration, unit);
 		}
+	}
+
+	@Override
+	public void setProxy(Proxy proxy) {
+		this.proxy=proxy;
 	}
 }

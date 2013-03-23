@@ -57,4 +57,6 @@ public interface OAuthService {
 	 * @return the URL where you should redirect your users
 	 */
 	public String getAuthorizationUrl(OAuthToken requestToken);
+	
+	public void setProxy(java.net.Proxy proxy);
 }

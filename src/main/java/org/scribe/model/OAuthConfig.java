@@ -11,10 +11,10 @@ public class OAuthConfig {
 	private final String apiKey;
 	private final String apiSecret;
 	private final String callback;
+	private final String scope;
 	private final GrantType grantType;
 	private final ResponseType responseType;
 	private final SignatureType signatureType;
-	private final String scope;
 	private final OutputStream debugStream;
 
 	public OAuthConfig(String key, String secret) {
