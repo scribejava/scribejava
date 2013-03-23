@@ -173,21 +173,21 @@ public class OAuth10aServiceImpl implements OAuthService {
 
 	private void appendSignature(OAuthRequest request) {
 		switch (config.getSignatureType()) {
-		case HEADER_BEARER:
-		case HEADER_OAUTH:
-			config.log("using Http Header signature");
-
-			String oauthHeader = api.getHeaderExtractor().extract(request);
-			request.addHeader(OAuthConstants.HEADER, oauthHeader);
-			break;
 		case QUERY_STRING:
 			config.log("using Querystring signature");
-
 			for (Map.Entry<String, String> entry : request.getOauthParameters()
 					.entrySet()) {
 				request.addQuerystringParameter(entry.getKey(),
 						entry.getValue());
 			}
+			break;
+		case HEADER_BEARER:
+		case HEADER_OAUTH:
+		case HEADER_MAC:
+		default:
+			config.log("using Http Header signature");
+			String oauthHeader = api.getHeaderExtractor().extract(request);
+			request.addHeader(OAuthConstants.HEADER, oauthHeader);
 			break;
 		}
 	}
