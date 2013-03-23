@@ -61,9 +61,9 @@ public class OAuth10aServiceImpl implements OAuthService {
 		request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
 		addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
 		appendSignature(request);
-		
+
 		config.log("setting proxy to " + proxy);
-		if(proxy!=null){
+		if (proxy != null) {
 			request.setProxy(proxy);
 		}
 		config.log("sending request...");
@@ -120,7 +120,7 @@ public class OAuth10aServiceImpl implements OAuthService {
 		addOAuthParams(request, requestToken);
 		appendSignature(request);
 		config.log("setting proxy to " + proxy);
-		if(proxy!=null){
+		if (proxy != null) {
 			request.setProxy(proxy);
 		}
 		config.log("sending request...");
@@ -209,6 +209,6 @@ public class OAuth10aServiceImpl implements OAuthService {
 
 	@Override
 	public void setProxy(Proxy proxy) {
-		this.proxy=proxy;
+		this.proxy = proxy;
 	}
 }

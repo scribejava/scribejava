@@ -1,9 +1,5 @@
 package org.scribe.examples;
 
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.net.SocketAddress;
 import java.util.Scanner;
 
 import org.scribe.builder.ServiceBuilder;
@@ -34,10 +30,10 @@ public class DoubanExample {
 				.apiKey(apiKey).apiSecret(apiSecret)
 				.callback("http://www.baidu.com/")
 				.scope("shuo_basic_r,shuo_basic_w,douban_basic_common").build();
-		
-//		SocketAddress address=new InetSocketAddress("127.0.0.1", 1080);
-//		Proxy proxy=new Proxy(Proxy.Type.SOCKS, address);
-//		service.setProxy(proxy);
+
+		// SocketAddress address=new InetSocketAddress("127.0.0.1", 1080);
+		// Proxy proxy=new Proxy(Proxy.Type.SOCKS, address);
+		// service.setProxy(proxy);
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

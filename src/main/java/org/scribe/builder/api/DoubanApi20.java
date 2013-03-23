@@ -1,9 +1,10 @@
 package org.scribe.builder.api;
 
-import org.scribe.builder.api.DefaultApi20;
-import org.scribe.extractors.*;
-import org.scribe.model.*;
-import org.scribe.utils.*;
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.DoubanTokenExtractor;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.Verb;
+import org.scribe.utils.OAuthEncoder;
 
 /**
  * Douban OAuth 2.0 api.

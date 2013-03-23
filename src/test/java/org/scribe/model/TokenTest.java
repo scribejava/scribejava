@@ -18,7 +18,8 @@ public class TokenTest {
 	@Test
 	public void shouldNotDependOnRawString() throws Exception {
 		OAuthToken expected = new OAuthToken("access", "secret", "raw_string");
-		OAuthToken actual = new OAuthToken("access", "secret", "different_raw_string");
+		OAuthToken actual = new OAuthToken("access", "secret",
+				"different_raw_string");
 
 		assertEquals(expected, actual);
 	}

@@ -78,9 +78,9 @@ public class OAuth20ServiceImpl implements OAuthService {
 		if (config.hasScope())
 			request.addQuerystringParameter(OAuthConstants.SCOPE,
 					config.getScope());
-		
+
 		config.log("setting proxy to " + proxy);
-		if(proxy!=null){
+		if (proxy != null) {
 			request.setProxy(proxy);
 		}
 		config.log("sending request...");
@@ -146,7 +146,7 @@ public class OAuth20ServiceImpl implements OAuthService {
 
 	@Override
 	public void setProxy(Proxy proxy) {
-		this.proxy=proxy;
+		this.proxy = proxy;
 	}
 
 }
