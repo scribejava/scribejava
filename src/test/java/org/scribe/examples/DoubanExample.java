@@ -21,15 +21,18 @@ public class DoubanExample {
 
 	public static void main(String[] args) {
 		// Replace these with your own api key and secret
-		String apiKey = "05307422ce6d70180f915c686b485048";
-		String apiSecret = "767dfeba2658f8ba";
+		String apiKey = "06fd45e1d2ad245a14f7d1a578076d0e";
+		String apiSecret = "b29538157b254bd1";
 		OAuthService service = new ServiceBuilder()
 				.signatureType(SignatureType.HEADER_BEARER)
 				.grantType(GrantType.AUTHORIZATION_CODE)
-				.responseType(ResponseType.CODE).provider(DoubanApi20.class)
-				.apiKey(apiKey).apiSecret(apiSecret)
-				.callback("http://www.baidu.com/")
-				.scope("shuo_basic_r,shuo_basic_w,douban_basic_common").build();
+				.responseType(ResponseType.CODE)
+				.provider(DoubanApi20.class)
+				.apiKey(apiKey)
+				.apiSecret(apiSecret)
+				.callback("http://www.baidu.com")
+				.scope("shuo_basic_r,shuo_basic_w,community_basic_online,event_basic_r,douban_basic_common,music_basic_r,movie_basic,book_basic_r,community_basic_photo,community_basic_note,community_basic_user")
+				.build();
 
 		// SocketAddress address=new InetSocketAddress("127.0.0.1", 1080);
 		// Proxy proxy=new Proxy(Proxy.Type.SOCKS, address);
