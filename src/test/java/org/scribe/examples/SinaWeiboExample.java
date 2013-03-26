@@ -1,27 +1,27 @@
 package org.scribe.examples;
 
-import java.util.*;
+import java.util.Scanner;
 
-import org.scribe.builder.*;
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
-import org.scribe.oauth.*;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.SinaWeiboApi;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.OAuthToken;
+import org.scribe.model.Response;
+import org.scribe.model.Verb;
+import org.scribe.model.Verifier;
+import org.scribe.oauth.OAuthService;
 
-public class SinaWeiboExample
-{
+public class SinaWeiboExample {
 	private static final String NETWORK_NAME = "SinaWeibo";
 	private static final String PROTECTED_RESOURCE_URL = "http://api.t.sina.com.cn/account/verify_credentials.json";
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		// Replace these with your own api key and secret
 		String apiKey = "your key";
 		String apiSecret = "your secret";
 		OAuthService service = new ServiceBuilder()
-				                        .provider(SinaWeiboApi.class)
-				                        .apiKey(apiKey)
-				                        .apiSecret(apiSecret)
-				                        .build();
+				.provider(SinaWeiboApi.class).apiKey(apiKey)
+				.apiSecret(apiSecret).build();
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
@@ -29,7 +29,7 @@ public class SinaWeiboExample
 
 		// Grab a request token.
 		System.out.println("Fetching request token.");
-		Token requestToken = service.getRequestToken();
+		OAuthToken requestToken = service.getRequestToken();
 		System.out.println("Got it ... ");
 		System.out.println(requestToken.getToken());
 
@@ -46,7 +46,7 @@ public class SinaWeiboExample
 
 		// Trade the Request Token and Verfier for the Access Token
 		System.out.println("Trading the Request Token for an Access Token...");
-		Token accessToken = service.getAccessToken(requestToken, verifier);
+		OAuthToken accessToken = service.getAccessToken(requestToken, verifier);
 		System.out.println("Got the Access Token!");
 		System.out.println("(if your curious it looks like this: "
 				+ accessToken + " )");
@@ -54,7 +54,8 @@ public class SinaWeiboExample
 
 		// Now let's go and ask for a protected resource!
 		System.out.println("Now we're going to access a protected resource...");
-		OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+		OAuthRequest request = new OAuthRequest(Verb.GET,
+				PROTECTED_RESOURCE_URL);
 		service.signRequest(accessToken, request);
 		Response response = request.send();
 		System.out.println("Got it! Lets see what we found...");
@@ -63,6 +64,7 @@ public class SinaWeiboExample
 		System.out.println(response.getBody());
 
 		System.out.println();
-		System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
+		System.out
+				.println("Thats it man! Go and build something awesome with Scribe! :)");
 	}
 }

@@ -5,7 +5,6 @@ package org.scribe.model;
  * 
  * @author Pablo Fernandez
  */
-public enum Verb
-{
-  GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE, PATCH
+public enum Verb {
+	GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE, PATCH
 }
