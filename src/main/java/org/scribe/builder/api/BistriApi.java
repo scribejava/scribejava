@@ -1,40 +1,44 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.Token;
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.JsonTokenExtractor;
+import org.scribe.model.OAuthConfig;
 import org.scribe.model.Verb;
+import org.scribe.utils.OAuthEncoder;
 
 public class BistriApi
-    extends DefaultApi10a
+    extends DefaultApi20
 {
-    private static final String AUTHORIZATION_URL = "http://localhost:8080/oauth/authorize?oauth_token=%s";
-
-    @Override
-    public String getRequestTokenEndpoint()
-    {
-        return "http://localhost:8080/oauth/request_token";
-    }
+    private static final String AUTHORIZATION_URL =
+        "http://dev.bistri.com/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
 
     @Override
     public String getAccessTokenEndpoint()
     {
-        return "http://localhost:8080/oauth/access_token";
+        return "http://dev.bistri.com/oauth/access_token?grant_type=authorization_code";
+    }
+
+    @Override
+    public String getAuthorizationUrl( OAuthConfig config )
+    {
+        return String.format( AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode( config.getCallback() ) );
     }
 
     @Override
     public Verb getAccessTokenVerb()
     {
-        return Verb.GET;
+        return Verb.POST;
     }
 
     @Override
-    public Verb getRequestTokenVerb()
+    public AccessTokenExtractor getAccessTokenExtractor()
     {
-        return Verb.GET;
+        return new JsonTokenExtractor();
     }
 
     @Override
-    public String getAuthorizationUrl( Token requestToken )
+    public String getRefreshTokenParameterName()
     {
-        return String.format( AUTHORIZATION_URL, requestToken.getToken() );
+        return "refresh_token";
     }
 }
