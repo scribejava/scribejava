@@ -2,6 +2,7 @@ package org.scribe.oauth;
 
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.*;
+import org.scribe.model.Verb;
 
 public class OAuth20ServiceImpl implements OAuthService
 {
@@ -28,12 +29,25 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if (config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
-    if (config.hasGrantType()) request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+
+      if (api.getAccessTokenVerb().equals(Verb.POST))
+      {
+        request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+        request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+        if (config.hasScope()) request.addBodyParameter(OAuthConstants.SCOPE, config.getScope());
+        if (config.hasGrantType()) request.addBodyParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+      }
+      else
+      {
+        request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+        request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+        if (config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+        if (config.hasGrantType()) request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+      }
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
@@ -51,11 +65,23 @@ public class OAuth20ServiceImpl implements OAuthService
       accessTokenEndpoint = accessTokenEndpoint.substring(0, accessTokenEndpoint.indexOf("?"));
     }
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), accessTokenEndpoint);
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, api.getRefreshTokenParameterName());
-    request.addQuerystringParameter(api.getRefreshTokenParameterName(), accessToken.getToken());
+    if (api.getAccessTokenVerb().equals(Verb.POST))
+    {
+       request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+       request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+       request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+       request.addBodyParameter(OAuthConstants.GRANT_TYPE, api.getRefreshTokenParameterName());
+       request.addBodyParameter(api.getRefreshTokenParameterName(), accessToken.getToken());
+    }
+    else
+    {
+       request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+       request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+       request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+       request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, api.getRefreshTokenParameterName());
+       request.addQuerystringParameter(api.getRefreshTokenParameterName(), accessToken.getToken());
+    }
+
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
