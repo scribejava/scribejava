@@ -11,9 +11,9 @@ public class AsanaExample
 {
   private static final String NETWORK_NAME = "Asana";
   private static final String PROTECTED_RESOURCE_URL = "https://app.asana.com/api/1.0/users/me";
-  private static final String API_KEY = "5004741363816";
-  private static final String API_SECRET = "3877a6874c9e5c2dd9694d0d5d177435";
-  private static final String CALLBACK = "http://robertin.com.ar/";
+  private static final String API_KEY = "your_api_key";
+  private static final String API_SECRET = "your_api_secret";
+  private static final String CALLBACK = "your_callback";
   private static final Token EMPTY_TOKEN = null;
   
   public static void main(String[] args)
