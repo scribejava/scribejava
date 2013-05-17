@@ -1,6 +1,8 @@
 package org.scribe.oauth;
 
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
@@ -41,8 +43,8 @@ public class OAuth20ServiceImpl implements OAuthService
     	Map<String,String> additional=api.getAdditionalAccessTokenParameters();
     	if(additional!=null)
     	{
-    		for (String key:additional.keySet()) {
-				request.addBodyParameter(key, additional.get(key));
+    		for (Entry<String,String> val:additional.entrySet()) {
+				request.addBodyParameter(val.getKey(), val.getValue());
 			}
     	}
     }
@@ -56,8 +58,8 @@ public class OAuth20ServiceImpl implements OAuthService
     	Map<String,String> additional=api.getAdditionalAccessTokenParameters();
     	if(additional!=null)
     	{
-    		for (String key:additional.keySet()) {
-    			request.addQuerystringParameter(key, additional.get(key));
+    		for (Entry<String,String> val:additional.entrySet()) {
+    			request.addQuerystringParameter(val.getKey(), val.getValue());
     		}
     	}
     }
