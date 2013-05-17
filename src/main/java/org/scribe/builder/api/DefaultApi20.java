@@ -1,5 +1,7 @@
 package org.scribe.builder.api;
 
+import java.util.Map;
+
 import org.scribe.extractors.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
@@ -65,6 +67,14 @@ public abstract class DefaultApi20 implements Api
   public OAuthService createService(OAuthConfig config)
   {
     return new OAuth20ServiceImpl(this, config);
+  }
+/**
+ * Returns a Map of any additional Paramteres for the 
+ * @return
+ */
+  public  Map<String,String> getAdditionalAccessTokenParameters()
+  {
+	  return null;
   }
 
 }

@@ -93,6 +93,36 @@
           </execution>
         </executions>
         </plugin>
+        <plugin>
+   <groupId>org.eclipse.m2e</groupId>
+   <artifactId>lifecycle-mapping</artifactId>
+   <version>1.0.0</version>
+   <configuration>
+      <lifecycleMappingMetadata>
+         <pluginExecutions>
+            <pluginExecution>
+               <pluginExecutionFilter>
+                  <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                  <artifactId>android-maven-plugin</artifactId>
+                  <versionRange>[3.5.0,)</versionRange>
+                  <goals>                                                               
+                     <goal>generate-sources</goal>      
+                     <goal>proguard</goal>
+                     <goal>emma</goal>
+                     <goal>dex</goal>
+                     <goal>apk</goal>
+                     <goal>internal-pre-integration-test</goal>
+                     <goal>internal-integration-test</goal>                                          
+                  </goals>
+               </pluginExecutionFilter>
+               <action>
+                  <execute />
+               </action>
+            </pluginExecution>
+         </pluginExecutions>
+      </lifecycleMappingMetadata>
+   </configuration>
+</plugin>
     </plugins>
   </build>
 </project>  
