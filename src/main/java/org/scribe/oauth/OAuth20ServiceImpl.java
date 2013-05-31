@@ -2,7 +2,6 @@ package org.scribe.oauth;
 
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.*;
-import org.scribe.model.Verb;
 
 public class OAuth20ServiceImpl implements OAuthService
 {
@@ -10,6 +9,7 @@ public class OAuth20ServiceImpl implements OAuthService
 
   private final DefaultApi20 api;
   private final OAuthConfig config;
+  private Token refreshToken = null;
 
   /**
    * Default constructor
@@ -49,15 +49,22 @@ public class OAuth20ServiceImpl implements OAuthService
         if (config.hasGrantType()) request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
       }
     Response response = request.send();
+    this.refreshToken = api.getRefreshTokenExtractor().extract(response.getBody());
     return api.getAccessTokenExtractor().extract(response.getBody());
+  }
+
+  /**
+   * {@inheritDoc}}
+   */
+  public Token getRefreshToken() {
+      return this.refreshToken;
   }
 
   /**
    * {@inheritDoc}
    */
   public Token refreshAccessToken(Token accessToken)
-  {
-
+  {      
     String accessTokenEndpoint = api.getAccessTokenEndpoint();
     if (accessTokenEndpoint.contains("?grant_type="))
     {
@@ -81,8 +88,8 @@ public class OAuth20ServiceImpl implements OAuthService
        request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, api.getRefreshTokenParameterName());
        request.addQuerystringParameter(api.getRefreshTokenParameterName(), accessToken.getToken());
     }
-
     Response response = request.send();
+    this.refreshToken = api.getRefreshTokenExtractor().extract(response.getBody());
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
 
@@ -117,5 +124,4 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     return api.getAuthorizationUrl(config);
   }
-
 }

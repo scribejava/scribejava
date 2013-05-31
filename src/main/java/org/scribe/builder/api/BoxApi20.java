@@ -2,6 +2,8 @@ package org.scribe.builder.api;
 
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.extractors.JsonTokenExtractor;
+import org.scribe.extractors.RefreshTokenExtractor;
+import org.scribe.extractors.RefreshTokenExtractor20Impl;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.Verb;
@@ -35,11 +37,22 @@ public class BoxApi20
     {
         return new JsonTokenExtractor();
     }
-
+    
+    @Override
+    public RefreshTokenExtractor getRefreshTokenExtractor()
+    {
+        return new RefreshTokenExtractor20Impl();
+    } 
+    
     @Override
     public String getTokenParameterName()
     {
-        /* google OAuth2.0 specs needs oauth_token parameter name instead of access_token */
-        return OAuthConstants.TOKEN;
+        return OAuthConstants.ACCESS_TOKEN;
+    }
+    
+    @Override
+    public String getRefreshTokenParameterName()
+    {
+        return OAuthConstants.REFRESH_TOKEN;
     }
 }

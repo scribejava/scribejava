@@ -39,6 +39,16 @@ public abstract class DefaultApi20
     }
 
     /**
+     * Returns the refresh token extractor.
+     *
+     * @return refresh token extractor
+     */
+    public RefreshTokenExtractor getRefreshTokenExtractor()
+    {
+        throw new UnsupportedOperationException("Refresh token is not implemented for "+getClass().getSimpleName());
+    }    
+    
+    /**
      * Returns the verb for the access token endpoint (defaults to GET)
      *
      * @return access token endpoint verb

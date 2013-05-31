@@ -93,6 +93,13 @@ public class OAuth10aServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
+  public Token getRefreshToken() {
+      throw new UnsupportedOperationException("Refresh token is not supported in Scribe OAuth 1.0");
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
   public void signRequest(Token token, OAuthRequest request)
   {
     config.log("signing request: " + request.getCompleteUrl());
@@ -150,4 +157,5 @@ public class OAuth10aServiceImpl implements OAuthService
         break;
     }
   }
+
 }

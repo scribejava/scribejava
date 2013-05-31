@@ -26,6 +26,15 @@ public interface OAuthService
    * @return access token
    */
   public Token getAccessToken(Token requestToken, Verifier verifier);
+  
+  /**
+   * Retrieve the refresh token
+   * Normally a refresh token will be provided after getting the access token 
+   * the first time
+   * 
+   * @return refresh token
+   */
+  public Token getRefreshToken();
 
   /**
    * Refresh the access token to extend its expiration date.

@@ -20,10 +20,10 @@ public class Box2Example {
 
     public static void main( String[] args )
     {
-        // Replace these with your own api key, secret and callback
-        String apiKey = "clientId";
-        String apiSecret = "clientSecret";
-        String callback = "http://localhost:8080/jenkins/configure";
+        // Replace these with your own api key, secret and callbagck
+        String apiKey = "apikey";
+        String apiSecret = "apisecret";
+        String callback = "http://localhost:8080";
 
         OAuthService service =
             new ServiceBuilder().provider( BoxApi20.class ).apiKey( apiKey ).apiSecret( apiSecret ).callback(
@@ -45,6 +45,10 @@ public class Box2Example {
         System.out.println( "Got the access Token!" );
         System.out.println( "(if your curious it looks like this: " + accessToken + " )" );
         System.out.println();
+        
+        Token refreshToken = service.getRefreshToken();
+        System.out.println( "Refresh token: " + refreshToken );
+        System.out.println();
 
         
         // Now let's go and ask for a protected resource!
@@ -60,7 +64,11 @@ public class Box2Example {
         System.out.println();
         System.out.println( "Thats it man! Go and build something awesome with Scribe! :)" );
         
-       
-
+        System.out.println();
+        System.out.println( "Trying to refresh a new access token" );
+        Token newAccessToken = service.refreshAccessToken(refreshToken);
+        System.out.println( "New access token: " + newAccessToken );
+        System.out.println( "New refresh token: " + service.getRefreshToken());
+        System.out.println();
     }
 }
