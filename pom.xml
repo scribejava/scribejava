@@ -8,11 +8,11 @@
   <name>Scribe OAuth Library</name>
   <description>The best OAuth library out there</description>
 
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>5</version>
-  </parent>
+    <parent>
+        <groupId>ru.headhunter.commons</groupId>
+        <artifactId>common-pom</artifactId>
+        <version>1.23</version>
+    </parent>
 
   <licenses>
     <license>
