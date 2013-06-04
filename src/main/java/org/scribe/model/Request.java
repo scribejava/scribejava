@@ -155,6 +155,18 @@ public class Request
   {
     this.bodyParams.add(key, value);
   }
+  
+  /**
+   * Add two HTTP Header to the Request
+   * 
+   * @param key the header name
+   * @param value the header value
+   * @param key2 the header name
+   * @param value2 the header value
+   */
+   public void addTwoBodyParameter(String key, String value, String key2, String value2){
+     this.bodyParams.add(key, value, "&", key2, value2);
+   }
 
   /**
    * Add a QueryString parameter
