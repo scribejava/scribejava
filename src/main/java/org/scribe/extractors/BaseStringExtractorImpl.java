@@ -18,7 +18,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
   /**
    * {@inheritDoc}
    */
-  public String extract(OAuthRequest request)
+  public String extract(OAuthBaseRequest request)
   {
     checkPreconditions(request);
     String verb = OAuthEncoder.encode(request.getVerb().name());
@@ -27,7 +27,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
     return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
   }
 
-  private String getSortedAndEncodedParams(OAuthRequest request)
+  private String getSortedAndEncodedParams(OAuthBaseRequest request)
   {
     ParameterList params = new ParameterList();
     params.addAll(request.getQueryStringParams());
@@ -36,7 +36,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
     return params.sort().asOauthBaseString();
   }
 
-  private void checkPreconditions(OAuthRequest request)
+  private void checkPreconditions(OAuthBaseRequest request)
   {
     Preconditions.checkNotNull(request, "Cannot extract base string from null object");
 

@@ -12,8 +12,8 @@ public interface HeaderExtractor
   /**
    * Generates an OAuth 'Authorization' Http header to include in requests as the signature.
    * 
-   * @param request the OAuthRequest to inspect and generate the header
+   * @param request the OAuthBaseRequest to inspect and generate the header
    * @return the Http header value
    */
-  String extract(OAuthRequest request);
+  String extract(OAuthBaseRequest request);
 }
