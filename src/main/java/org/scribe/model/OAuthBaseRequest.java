@@ -71,6 +71,4 @@ public interface OAuthBaseRequest {
      * @return a {@link ParameterList}containing the body parameters.
      */
     public ParameterList getBodyParams();
-
-    public String toString();
 }
