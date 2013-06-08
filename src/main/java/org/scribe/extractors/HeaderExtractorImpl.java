@@ -21,7 +21,7 @@ public class HeaderExtractorImpl implements HeaderExtractor
   /**
    * {@inheritDoc}
    */
-  public String extract(OAuthRequest request)
+  public String extract(OAuthBaseRequest request)
   {
     checkPreconditions(request);
     Map<String, String> parameters = request.getOauthParameters();
@@ -38,7 +38,7 @@ public class HeaderExtractorImpl implements HeaderExtractor
     return header.toString();
   }
 
-  private void checkPreconditions(OAuthRequest request)
+  private void checkPreconditions(OAuthBaseRequest request)
   {
     Preconditions.checkNotNull(request, "Cannot extract a header from a null object");
 

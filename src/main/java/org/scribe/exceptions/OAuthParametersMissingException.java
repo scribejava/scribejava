@@ -17,9 +17,9 @@ public class OAuthParametersMissingException extends OAuthException
   /**
    * Default constructor.
    * 
-   * @param request OAuthRequest that caused the error
+   * @param request OAuthBaseRequest that caused the error
    */
-  public OAuthParametersMissingException(OAuthRequest request)
+  public OAuthParametersMissingException(OAuthBaseRequest request)
   {
     super(String.format(MSG, request));
   }

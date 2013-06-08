@@ -33,7 +33,7 @@ public interface OAuthService
    * @param accessToken access token (obtained previously)
    * @param request request to sign
    */
-  public void signRequest(Token accessToken, OAuthRequest request);
+  public void signRequest(Token accessToken, OAuthBaseRequest request);
 
   /**
    * Returns the OAuth version of the service.

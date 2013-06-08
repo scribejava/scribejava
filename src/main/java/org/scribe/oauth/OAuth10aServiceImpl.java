@@ -64,7 +64,7 @@ public class OAuth10aServiceImpl implements OAuthService
     return api.getRequestTokenExtractor().extract(body);
   }
 
-  private void addOAuthParams(OAuthRequest request, Token token)
+  private void addOAuthParams(OAuthBaseRequest request, Token token)
   {
     request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
     request.addOAuthParameter(OAuthConstants.NONCE, api.getTimestampService().getNonce());
@@ -107,7 +107,7 @@ public class OAuth10aServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public void signRequest(Token token, OAuthRequest request)
+  public void signRequest(Token token, OAuthBaseRequest request)
   {
     config.log("signing request: " + request.getCompleteUrl());
 
@@ -137,7 +137,7 @@ public class OAuth10aServiceImpl implements OAuthService
     return api.getAuthorizationUrl(requestToken);
   }
 
-  private String getSignature(OAuthRequest request, Token token)
+  private String getSignature(OAuthBaseRequest request, Token token)
   {
     config.log("generating signature...");
     config.log("using base64 encoder: " + Base64Encoder.type());
@@ -149,7 +149,7 @@ public class OAuth10aServiceImpl implements OAuthService
     return signature;
   }
 
-  private void appendSignature(OAuthRequest request)
+  private void appendSignature(OAuthBaseRequest request)
   {
     switch (config.getSignatureType())
     {

@@ -9,7 +9,7 @@ import java.util.*;
  * 
  * @author Pablo Fernandez
  */
-public class OAuthRequest extends Request
+public class OAuthRequest extends Request implements OAuthBaseRequest
 {
   private static final String OAUTH_PREFIX = "oauth_";
   private Map<String, String> oauthParameters;
