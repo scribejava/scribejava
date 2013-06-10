@@ -2,6 +2,7 @@ package org.scribe.oauth;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.codec.CharEncoding;
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 import org.scribe.builder.api.DefaultApi20;
@@ -32,6 +33,12 @@ public class OdnoklassnikiServiceImpl extends OAuth20ServiceImpl {
     request.addQuerystringParameter("grant_type", "authorization_code");
     if (config.hasScope()) {
       request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    }
+    if (config.getConnectTimeout() != null) {
+      request.setConnectTimeout(config.getConnectTimeout(), TimeUnit.MILLISECONDS);
+    }
+    if (config.getReadTimeout() != null) {
+      request.setReadTimeout(config.getReadTimeout(), TimeUnit.MILLISECONDS);
     }
     final Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());

@@ -1,6 +1,6 @@
 package org.scribe.model;
 
-import java.io.*;
+import java.io.OutputStream;
 
 /**
  * Parameter object that groups OAuth config values
@@ -14,18 +14,24 @@ public class OAuthConfig {
   private final SignatureType signatureType;
   private final String scope;
   private final OutputStream debugStream;
+  private final Integer connectTimeout;
+  private final Integer readTimeout;
 
   public OAuthConfig(String key, String secret) {
-    this(key, secret, null, null, null, null);
+    this(key, secret, null, null, null, null, null, null);
   }
 
-  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream) {
+  public OAuthConfig(
+      String key, String secret, String callback, SignatureType type, String scope, OutputStream stream, Integer connectTimeout,
+      Integer readTimeout) {
     this.apiKey = key;
     this.apiSecret = secret;
     this.callback = callback;
     this.signatureType = type;
     this.scope = scope;
     this.debugStream = stream;
+    this.connectTimeout = connectTimeout;
+    this.readTimeout = readTimeout;
   }
 
   public String getApiKey() {
@@ -50,6 +56,14 @@ public class OAuthConfig {
 
   public boolean hasScope() {
     return scope != null;
+  }
+
+  public Integer getConnectTimeout() {
+    return connectTimeout;
+  }
+
+  public Integer getReadTimeout() {
+    return readTimeout;
   }
 
   public void log(String message) {

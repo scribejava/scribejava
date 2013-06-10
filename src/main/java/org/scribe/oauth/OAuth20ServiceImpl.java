@@ -1,7 +1,13 @@
 package org.scribe.oauth;
 
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
+import java.util.concurrent.TimeUnit;
+import org.scribe.builder.api.DefaultApi20;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 
 public class OAuth20ServiceImpl implements OAuthService {
   private static final String VERSION = "2.0";
@@ -29,6 +35,12 @@ public class OAuth20ServiceImpl implements OAuthService {
     request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
     if (config.hasScope()) {
       request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    }
+    if (config.getConnectTimeout() != null) {
+      request.setConnectTimeout(config.getConnectTimeout(), TimeUnit.MILLISECONDS);
+    }
+    if (config.getReadTimeout() != null) {
+      request.setReadTimeout(config.getReadTimeout(), TimeUnit.MILLISECONDS);
     }
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());

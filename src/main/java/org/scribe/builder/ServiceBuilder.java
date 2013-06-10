@@ -1,11 +1,13 @@
 package org.scribe.builder;
 
-import java.io.*;
-import org.scribe.builder.api.*;
-import org.scribe.exceptions.*;
-import org.scribe.model.*;
-import org.scribe.oauth.*;
-import org.scribe.utils.*;
+import java.io.OutputStream;
+import org.scribe.builder.api.Api;
+import org.scribe.exceptions.OAuthException;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.SignatureType;
+import org.scribe.oauth.OAuthService;
+import org.scribe.utils.Preconditions;
 
 /**
  * Implementation of the Builder pattern, with a fluent interface that creates a {@link OAuthService}
@@ -20,6 +22,8 @@ public class ServiceBuilder {
   private String scope;
   private SignatureType signatureType;
   private OutputStream debugStream;
+  private Integer connectTimeout;
+  private Integer readTimeout;
 
   /** Default constructor */
   public ServiceBuilder() {
@@ -135,6 +139,18 @@ public class ServiceBuilder {
     return this;
   }
 
+  public ServiceBuilder connectTimeout(Integer connectTimeout) {
+    Preconditions.checkNotNull(connectTimeout, "Connection timeout can't be null");
+    this.connectTimeout = connectTimeout;
+    return this;
+  }
+
+  public ServiceBuilder readTimeout(Integer readTimeout) {
+    Preconditions.checkNotNull(readTimeout, "Read timeout can't be null");
+    this.readTimeout = readTimeout;
+    return this;
+  }
+
   public ServiceBuilder debug() {
     this.debugStream(System.out);
     return this;
@@ -149,6 +165,6 @@ public class ServiceBuilder {
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, connectTimeout, readTimeout));
   }
 }
