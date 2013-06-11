@@ -1,5 +1,9 @@
 package org.scribe.oauth;
 
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
@@ -28,11 +32,37 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    
+    if(api.getAccessTokenVerb()==Verb.POST || api.getAccessTokenVerb()==Verb.PUT)
+    {
+    	request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    	request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    	request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+    	request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    	if(config.hasScope()) request.addBodyParameter(OAuthConstants.SCOPE, config.getScope());
+    	Map<String,String> additional=api.getAdditionalAccessTokenParameters();
+    	if(additional!=null)
+    	{
+    		for (Entry<String,String> val:additional.entrySet()) {
+				request.addBodyParameter(val.getKey(), val.getValue());
+			}
+    	}
+    }
+    else
+    {
+    	request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    	request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    	request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+    	request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    	if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    	Map<String,String> additional=api.getAdditionalAccessTokenParameters();
+    	if(additional!=null)
+    	{
+    		for (Entry<String,String> val:additional.entrySet()) {
+    			request.addQuerystringParameter(val.getKey(), val.getValue());
+    		}
+    	}
+    }
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
