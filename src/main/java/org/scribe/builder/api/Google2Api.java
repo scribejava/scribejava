@@ -78,7 +78,7 @@ public class Google2Api extends DefaultApi20 {
         return new GoogleOAuth2Service(this, config);
     }
 
-    private class GoogleOAuth2Service extends OAuth20ServiceImpl {
+    private static class GoogleOAuth2Service extends OAuth20ServiceImpl {
 
         private static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
         private static final String GRANT_TYPE = "grant_type";
