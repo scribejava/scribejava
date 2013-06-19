@@ -21,11 +21,14 @@ public class Google2Example
     public static void main(String[] args)
     {
         // Put your own API key here.
-        // String apiKey = "407408718192.apps.googleusercontent.com";
+        // String apiKey = "407408718192.apps.googleusercontent.com"; // Demo
         String apiKey = "800271916124.apps.googleusercontent.com";
+        // String apiKey = "800271916124-5d34la28dceuvqdou7ofrp72cprh0j03.apps.googleusercontent.com";
         String apiSecret = "";
-        // String callbackUrl = "https://developers.google.com/oauthplayground";
+        // String apiSecret = "f4wCFUy3vqSFOokFPzhL_fO9";
+        // String callbackUrl = "https://developers.google.com/oauthplayground"; // Demo
         String callbackUrl = "http://localhost/";
+        // String callbackUrl = "http://relayme.tinywebgears.com/oauth2callback";
 
         OAuthService service = new ServiceBuilder().provider(Google2Api.class).apiKey(apiKey).apiSecret(apiSecret)
                 .callback(callbackUrl).scope(SCOPE).offline(true).build();
