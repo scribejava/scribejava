@@ -110,7 +110,8 @@ public class ServiceBuilder
    */
   public ServiceBuilder apiSecret(String apiSecret)
   {
-    Preconditions.checkEmptyString(apiSecret, "Invalid Api secret");
+    // TODO HA: Commented out
+    //Preconditions.checkEmptyString(apiSecret, "Invalid Api secret");
     this.apiSecret = apiSecret;
     return this;
   }
@@ -163,7 +164,8 @@ public class ServiceBuilder
   {
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
-    Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
+    // TODO HA: Commented out
+    // Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
     return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
   }
 }
