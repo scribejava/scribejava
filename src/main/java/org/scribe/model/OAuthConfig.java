@@ -15,6 +15,7 @@ public class OAuthConfig
   private final SignatureType signatureType;
   private final String scope;
   private final OutputStream debugStream;
+  private final boolean offline;
   
   public OAuthConfig(String key, String secret)
   {
@@ -23,12 +24,18 @@ public class OAuthConfig
 
   public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream)
   {
+      this(key, secret, callback, type, scope, stream, true);
+  }
+
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream, boolean offline)
+  {
     this.apiKey = key;
     this.apiSecret = secret;
     this.callback = callback;
     this.signatureType = type;
     this.scope = scope;
     this.debugStream = stream;
+    this.offline = offline;
   }
 
   public String getApiKey()
@@ -61,6 +68,11 @@ public class OAuthConfig
     return scope != null;
   }
 
+  public boolean isOffline()
+  {
+      return offline;
+  }
+  
   public void log(String message)
   {
     if (debugStream != null)

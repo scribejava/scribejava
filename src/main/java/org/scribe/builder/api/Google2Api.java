@@ -20,14 +20,16 @@ import org.scribe.utils.Preconditions;
 /**
  * Google OAuth2.0
  * Released under the same license as scribe (MIT License)
+ * @author houman001
+ * This code borrows from and modifies changes made by @yincrash
  * @author yincrash
  *
  */
-// TODO HA: Google OAuth 2 API
 public class Google2Api extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
+    private static final String SUFFIX_OFFLINE = "&access_type=offline";
 
     @Override
     public String getAccessTokenEndpoint() {
@@ -63,11 +65,13 @@ public class Google2Api extends DefaultApi20 {
     public String getAuthorizationUrl(OAuthConfig config) {
         // Append scope if present
         if (config.hasScope()) {
-            return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(),
+            String format = config.isOffline() ? SCOPED_AUTHORIZE_URL + SUFFIX_OFFLINE : SCOPED_AUTHORIZE_URL;
+            return String.format(format, config.getApiKey(),
                     OAuthEncoder.encode(config.getCallback()),
                     OAuthEncoder.encode(config.getScope()));
         } else {
-            return String.format(AUTHORIZE_URL, config.getApiKey(),
+            String format = config.isOffline() ? AUTHORIZE_URL + SUFFIX_OFFLINE : AUTHORIZE_URL;
+            return String.format(format, config.getApiKey(),
                     OAuthEncoder.encode(config.getCallback()));
         }
     }
@@ -84,8 +88,6 @@ public class Google2Api extends DefaultApi20 {
 
     private static class GoogleOAuth2Service extends OAuth20ServiceImpl {
 
-        private static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
-        private static final String GRANT_TYPE = "grant_type";
         private DefaultApi20 api;
         private OAuthConfig config;
 
@@ -101,17 +103,22 @@ public class Google2Api extends DefaultApi20 {
             switch (api.getAccessTokenVerb()) {
                 case POST:
                     request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-                    // TODO HA: API Secret is optional
+                    // API Secret is optional
                     if (config.getApiSecret() != null && config.getApiSecret().length() > 0)
                         request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-                    request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
-                    request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-                    request.addBodyParameter(GRANT_TYPE, GRANT_TYPE_AUTHORIZATION_CODE);
+                    if (requestToken == null) {
+                        request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+                        request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+                        request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.GRANT_TYPE_AUTHORIZATION_CODE);
+                    } else {
+                        request.addBodyParameter(OAuthConstants.REFRESH_TOKEN, requestToken.getSecret());
+                        request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.GRANT_TYPE_REFRESH_CODE);
+                    }
                     break;
                 case GET:
                 default:
                     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-                    // TODO HA: API Secret is optional
+                    // API Secret is optional
                     if (config.getApiSecret() != null && config.getApiSecret().length() > 0)
                         request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
                     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());

@@ -29,7 +29,7 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    // TODO HA: API Secret is optional
+    // API Secret is optional
     if (config.getApiSecret() != null && config.getApiSecret().length() > 0)
           request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());

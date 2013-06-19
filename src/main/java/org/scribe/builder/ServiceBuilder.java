@@ -23,6 +23,7 @@ public class ServiceBuilder
   private String scope;
   private SignatureType signatureType;
   private OutputStream debugStream;
+  private boolean offline = false;
   
   /**
    * Default constructor
@@ -110,7 +111,7 @@ public class ServiceBuilder
    */
   public ServiceBuilder apiSecret(String apiSecret)
   {
-    // TODO HA: Commented out
+    // API secret is optional
     //Preconditions.checkEmptyString(apiSecret, "Invalid Api secret");
     this.apiSecret = apiSecret;
     return this;
@@ -155,6 +156,12 @@ public class ServiceBuilder
     return this;
   }
   
+  public ServiceBuilder offline(boolean offline)
+  {
+    this.offline = offline;
+    return this;
+  }
+
   /**
    * Returns the fully configured {@link OAuthService}
    * 
@@ -164,8 +171,8 @@ public class ServiceBuilder
   {
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
-    // TODO HA: Commented out
+    // API secret is optional
     // Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, offline));
   }
 }
