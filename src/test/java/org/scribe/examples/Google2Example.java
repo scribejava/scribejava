@@ -21,13 +21,14 @@ public class Google2Example
     public static void main(String[] args)
     {
         // Put your own API key here.
-        String apiKey = "407408718192.apps.googleusercontent.com";
+        // String apiKey = "407408718192.apps.googleusercontent.com";
+        String apiKey = "800271916124.apps.googleusercontent.com";
         String apiSecret = "";
-        String callbackUrl = "https://developers.google.com/oauthplayground";
-        // String callbackUrl = "http://localhost/";
+        // String callbackUrl = "https://developers.google.com/oauthplayground";
+        String callbackUrl = "http://localhost/";
 
         OAuthService service = new ServiceBuilder().provider(Google2Api.class).apiKey(apiKey).apiSecret(apiSecret)
-                .callback(callbackUrl).scope(SCOPE).build();
+                .callback(callbackUrl).scope(SCOPE).offline(true).build();
         Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
@@ -51,10 +52,17 @@ public class Google2Example
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();
 
+        // Trade the Refresh Token for a new Access Token
+        System.out.println("Trading the Refresh Token for a new Access Token...");
+        Token newAccessToken = service.getAccessToken(accessToken, verifier);
+        System.out.println("Got the Access Token!");
+        System.out.println("(if your curious it looks like this: " + newAccessToken + " )");
+        System.out.println();
+
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-        service.signRequest(accessToken, request);
+        service.signRequest(newAccessToken, request);
         Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
         System.out.println();

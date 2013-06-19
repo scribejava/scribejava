@@ -47,5 +47,8 @@ public class OAuthConstants
   public static final String CLIENT_SECRET = "client_secret";
   public static final String REDIRECT_URI = "redirect_uri";
   public static final String CODE = "code";
-  
+  public static final String REFRESH_TOKEN = "refresh_token";
+  public static final String GRANT_TYPE = "grant_type";
+  public static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
+  public static final String GRANT_TYPE_REFRESH_CODE = "refresh_code";
 }
