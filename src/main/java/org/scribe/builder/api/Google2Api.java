@@ -45,7 +45,11 @@ public class Google2Api extends DefaultApi20 {
                 if (matcher.find())
                 {
                     String token = OAuthEncoder.decode(matcher.group(1));
-                    return new Token(token, "", response);
+                    String refreshToken = "";
+                    Matcher refreshMatcher = Pattern.compile("\"refresh_token\" : \"([^&\"]+)\"").matcher(response);
+                    if (refreshMatcher.find())
+                    	refreshToken = OAuthEncoder.decode(refreshMatcher.group(1));
+                    return new Token(token, refreshToken, response);
                 }
                 else
                 {
