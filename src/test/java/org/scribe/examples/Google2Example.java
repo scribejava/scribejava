@@ -24,9 +24,9 @@ public class Google2Example
         boolean startOver = true;
 
         // TODO: Put your own API key, secret, and callback URL here.
-        String apiKey = "407408718192.apps.googleusercontent.com";
-        String apiSecret = "";
-        String callbackUrl = "https://developers.google.com/oauthplayground";
+        String apiKey = "CLIENT_ID";
+        String apiSecret = "CLIENT_SECRET";
+        String callbackUrl = "REDIRECT_URL";
 
         OAuthService service = new ServiceBuilder().provider(Google2Api.class).apiKey(apiKey).apiSecret(apiSecret)
                 .callback(callbackUrl).scope(SCOPE).offline(true).build();

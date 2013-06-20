@@ -1,5 +1,6 @@
 package org.scribe.builder.api;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,7 +52,15 @@ public class Google2Api extends DefaultApi20 {
                     Matcher refreshMatcher = Pattern.compile("\"refresh_token\" : \"([^&\"]+)\"").matcher(response);
                     if (refreshMatcher.find())
                     	refreshToken = OAuthEncoder.decode(refreshMatcher.group(1));
-                    return new Token(token, refreshToken, response);
+                    Token result = new Token(token, refreshToken, response);
+                    Matcher expiryMatcher = Pattern.compile("\"expires_in\" : ([^,&\"]+)").matcher(response);
+                    if (expiryMatcher.find())
+                    {
+                        int lifeTime = Integer.parseInt(OAuthEncoder.decode(expiryMatcher.group(1)));
+                        Date expiry = new Date(System.currentTimeMillis() + lifeTime * 1000);
+                        result.setExpiry(expiry);
+                    }
+                    return result;
                 }
                 else
                 {

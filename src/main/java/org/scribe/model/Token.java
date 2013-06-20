@@ -1,6 +1,8 @@
 package org.scribe.model;
 
 import java.io.*;
+import java.util.Date;
+
 import org.scribe.utils.*;
 
 /**
@@ -15,6 +17,7 @@ public class Token implements Serializable
   private final String token;
   private final String secret;
   private final String rawResponse;
+  private Date expiry;
 
   /**
    * Default constructor
@@ -56,9 +59,21 @@ public class Token implements Serializable
     return rawResponse;
   }
 
+  public Date getExpiry()
+  {
+    return expiry;
+  }
+
+  public void setExpiry(Date expiry)
+  {
+    this.expiry = expiry;
+  }
+
   @Override
   public String toString()
   {
+    if (expiry != null)
+      return String.format("Token[%s , %s], expires in %d seconds", token, secret, expiry.getTime() - System.currentTimeMillis());
     return String.format("Token[%s , %s]", token, secret);
   }
 
