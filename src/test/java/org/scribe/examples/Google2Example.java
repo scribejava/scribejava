@@ -20,19 +20,12 @@ public class Google2Example
 
     public static void main(String[] args)
     {
-        Token accessToken = null;
-        Verifier verifier = null;
         boolean refresh = true;
+        boolean startOver = true;
 
-        // Put your own API key here.
-        // String apiKey = "407408718192.apps.googleusercontent.com"; // Demo
-        String apiKey = "800271916124.apps.googleusercontent.com";
-        // String apiKey = "800271916124-5d34la28dceuvqdou7ofrp72cprh0j03.apps.googleusercontent.com";
+        String apiKey = "407408718192.apps.googleusercontent.com";
         String apiSecret = "";
-        // String apiSecret = "f4wCFUy3vqSFOokFPzhL_fO9";
-        // String callbackUrl = "https://developers.google.com/oauthplayground"; // Demo
-        String callbackUrl = "http://localhost/";
-        // String callbackUrl = "http://relayme.tinywebgears.com/oauth2callback";
+        String callbackUrl = "https://developers.google.com/oauthplayground";
 
         OAuthService service = new ServiceBuilder().provider(Google2Api.class).apiKey(apiKey).apiSecret(apiSecret)
                 .callback(callbackUrl).scope(SCOPE).offline(true).build();
@@ -41,12 +34,11 @@ public class Google2Example
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
 
-        if (refresh)
-        {
-            accessToken = new Token("ya29.AHES6ZSxvPdXzZIHEVvA2OjeNwlYLM2FyC16U2R10MkKuIpvuAmZQg",
-                    "1/UstOOW3JTfI_TbfRscwVVdAhguTNoSHSRcFXNOy4ZEQ");
-        }
-        else
+        Verifier verifier = null;
+        // TODO: Put your own token information here, if you don't want to start over the whole process.
+        Token accessToken = new Token("ACCESS_TOKEN", "REFRESH_TOKEN");
+
+        if (startOver)
         {
             // Obtain the Authorization URL
             System.out.println("Fetching the Authorization URL...");
@@ -67,19 +59,22 @@ public class Google2Example
             System.out.println();
         }
 
-        try
+        if (refresh)
         {
-            // Trade the Refresh Token for a new Access Token
-            System.out.println("Trading the Refresh Token for a new Access Token...");
-            Token newAccessToken = service.getAccessToken(accessToken, verifier);
-            System.out.println("Got the Access Token!");
-            System.out.println("(if your curious it looks like this: " + newAccessToken + " )");
-            System.out.println();
-            accessToken = newAccessToken;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+            try
+            {
+                // Trade the Refresh Token for a new Access Token
+                System.out.println("Trading the Refresh Token for a new Access Token...");
+                Token newAccessToken = service.getAccessToken(accessToken, verifier);
+                System.out.println("Got the Access Token!");
+                System.out.println("(if your curious it looks like this: " + newAccessToken + " )");
+                System.out.println();
+                accessToken = newAccessToken;
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
         // Now let's go and ask for a protected resource!

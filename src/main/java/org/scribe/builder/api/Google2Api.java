@@ -112,7 +112,7 @@ public class Google2Api extends DefaultApi20 {
                         request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.GRANT_TYPE_AUTHORIZATION_CODE);
                     } else {
                         request.addBodyParameter(OAuthConstants.REFRESH_TOKEN, requestToken.getSecret());
-                        request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.GRANT_TYPE_REFRESH_CODE);
+                        request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.GRANT_TYPE_REFRESH_TOKEN);
                     }
                     break;
                 case GET:
