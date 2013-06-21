@@ -17,7 +17,7 @@ public class Token implements Serializable
   private final String token;
   private final String secret;
   private final String rawResponse;
-  private Date expiry;
+  private final Date expiry;
 
   /**
    * Default constructor
@@ -32,11 +32,17 @@ public class Token implements Serializable
 
   public Token(String token, String secret, String rawResponse)
   {
+    this(token, secret, null, rawResponse);
+  }
+
+  public Token(String token, String secret, Date expiry, String rawResponse)
+  {
     Preconditions.checkNotNull(token, "Token can't be null");
     Preconditions.checkNotNull(secret, "Secret can't be null");
 
     this.token = token;
     this.secret = secret;
+    this.expiry = (expiry == null) ? null : new Date(expiry.getTime());
     this.rawResponse = rawResponse;
   }
 
@@ -61,12 +67,7 @@ public class Token implements Serializable
 
   public Date getExpiry()
   {
-    return expiry;
-  }
-
-  public void setExpiry(Date expiry)
-  {
-    this.expiry = expiry;
+    return new Date(expiry.getTime());
   }
 
   @Override
@@ -102,7 +103,8 @@ public class Token implements Serializable
     if (o == null || getClass() != o.getClass()) return false;
 
     Token that = (Token) o;
-    return token.equals(that.token) && secret.equals(that.secret);
+    boolean expiryEquals = (expiry == that.expiry) || (expiry != null && expiry.equals(that.expiry));
+    return token.equals(that.token) && secret.equals(that.secret) && expiryEquals;
   }
 
   @Override
