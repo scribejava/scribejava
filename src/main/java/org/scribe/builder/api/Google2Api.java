@@ -52,14 +52,14 @@ public class Google2Api extends DefaultApi20 {
                     Matcher refreshMatcher = Pattern.compile("\"refresh_token\" : \"([^&\"]+)\"").matcher(response);
                     if (refreshMatcher.find())
                     	refreshToken = OAuthEncoder.decode(refreshMatcher.group(1));
-                    Token result = new Token(token, refreshToken, response);
+                    Date expiry = null;
                     Matcher expiryMatcher = Pattern.compile("\"expires_in\" : ([^,&\"]+)").matcher(response);
                     if (expiryMatcher.find())
                     {
                         int lifeTime = Integer.parseInt(OAuthEncoder.decode(expiryMatcher.group(1)));
-                        Date expiry = new Date(System.currentTimeMillis() + lifeTime * 1000);
-                        result.setExpiry(expiry);
+                        expiry = new Date(System.currentTimeMillis() + lifeTime * 1000);
                     }
+                    Token result = new Token(token, refreshToken, expiry, response);
                     return result;
                 }
                 else
