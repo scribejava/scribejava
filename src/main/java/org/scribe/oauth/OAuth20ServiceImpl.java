@@ -28,6 +28,11 @@ public class OAuth20ServiceImpl implements OAuthService {
 
   /** {@inheritDoc} */
   public Token getAccessToken(Token requestToken, Verifier verifier) {
+    Response response = createAccessTokenRequest(verifier).send();
+    return api.getAccessTokenExtractor().extract(response.getBody());
+  }
+
+  protected OAuthRequest createAccessTokenRequest(final Verifier verifier) {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
@@ -42,8 +47,7 @@ public class OAuth20ServiceImpl implements OAuthService {
     if (config.getReadTimeout() != null) {
       request.setReadTimeout(config.getReadTimeout(), TimeUnit.MILLISECONDS);
     }
-    Response response = request.send();
-    return api.getAccessTokenExtractor().extract(response.getBody());
+    return request;
   }
 
   /** {@inheritDoc} */
@@ -64,5 +68,13 @@ public class OAuth20ServiceImpl implements OAuthService {
   /** {@inheritDoc} */
   public String getAuthorizationUrl(Token requestToken) {
     return api.getAuthorizationUrl(config);
+  }
+
+  protected OAuthConfig getConfig() {
+    return config;
+  }
+
+  public DefaultApi20 getApi() {
+    return api;
   }
 }
