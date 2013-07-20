@@ -17,9 +17,6 @@ public class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
   private static final String CONTENT_TYPE = "Content-Type";
-  private static RequestTuner NOOP = new RequestTuner() {
-    @Override public void tune(Request _){}
-  };
   public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
   private String url;
@@ -58,7 +55,7 @@ public class Request
    * @throws RuntimeException
    *           if the connection cannot be created.
    */
-  public Response send(RequestTuner tuner)
+  public Response send(RequestTuner... tuner)
   {
     try
     {
@@ -69,11 +66,6 @@ public class Request
     {
       throw new OAuthConnectionException(e);
     }
-  }
-
-  public Response send()
-  {
-    return send(NOOP);
   }
 
   private void createConnection() throws IOException
@@ -97,8 +89,12 @@ public class Request
     return querystringParams.appendTo(url);
   }
 
-  Response doSend(RequestTuner tuner) throws IOException
+  Response doSend(RequestTuner... tuner) throws IOException
   {
+    for (RequestTuner t: tuner)
+    {
+      t.tune(this);
+    }
     connection.setRequestMethod(this.verb.name());
     if (connectTimeout != null) 
     {
@@ -113,7 +109,6 @@ public class Request
     {
       addBody(connection, getByteBodyContents());
     }
-    tuner.tune(this);
     return new Response(connection);
   }
 

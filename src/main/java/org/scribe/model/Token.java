@@ -1,6 +1,8 @@
 package org.scribe.model;
 
 import java.io.*;
+import java.util.Date;
+
 import org.scribe.utils.*;
 
 /**
@@ -15,6 +17,7 @@ public class Token implements Serializable
   private final String token;
   private final String secret;
   private final String rawResponse;
+  private final Date expiresWhen;
 
   /**
    * Default constructor
@@ -24,10 +27,15 @@ public class Token implements Serializable
    */
   public Token(String token, String secret)
   {
-    this(token, secret, null);
+    this(token, secret, null, null);
   }
 
   public Token(String token, String secret, String rawResponse)
+  {
+    this(token, secret, rawResponse, null);
+  }
+
+  public Token(String token, String secret, String rawResponse, Date expiresWhen)
   {
     Preconditions.checkNotNull(token, "Token can't be null");
     Preconditions.checkNotNull(secret, "Secret can't be null");
@@ -35,6 +43,7 @@ public class Token implements Serializable
     this.token = token;
     this.secret = secret;
     this.rawResponse = rawResponse;
+    this.expiresWhen = expiresWhen == null ? null : (Date) expiresWhen.clone();
   }
 
   public String getToken()
@@ -45,6 +54,11 @@ public class Token implements Serializable
   public String getSecret()
   {
     return secret;
+  }
+
+  public Date getExpiresWhen()
+  {
+    return expiresWhen == null ? null : (Date) expiresWhen.clone();
   }
 
   public String getRawResponse()
@@ -59,7 +73,7 @@ public class Token implements Serializable
   @Override
   public String toString()
   {
-    return String.format("Token[%s , %s]", token, secret);
+    return String.format("Token[%s , %s, %tc]", token, secret, expiresWhen);
   }
 
   /**
