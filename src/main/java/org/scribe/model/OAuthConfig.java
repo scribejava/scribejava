@@ -1,10 +1,12 @@
 package org.scribe.model;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.io.*;
 
 /**
  * Parameter object that groups OAuth config values
- * 
+ *
  * @author Pablo Fernandez
  */
 public class OAuthConfig
@@ -15,7 +17,8 @@ public class OAuthConfig
   private final SignatureType signatureType;
   private final String scope;
   private final OutputStream debugStream;
-  
+  private final String state;
+
   public OAuthConfig(String key, String secret)
   {
     this(key, secret, null, null, null, null);
@@ -23,12 +26,29 @@ public class OAuthConfig
 
   public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream)
   {
+    this(key, secret, callback, type, scope, stream, RandomStringUtils.randomAlphanumeric(32));
+  }
+
+  /**
+   * Constructor
+   *
+   * @param key Api key
+   * @param secret Api Secret
+   * @param callback OAuth callback (either URL or 'oob')
+   * @param type Type of the OAuth signature
+   * @param scope OAuth scope (optional)
+   * @param stream An output stream used for debugging
+   * @param state Optional state, a hard to guess string to use against XSS attacks. Some providers such as LinkedInApi2- support it.
+   */
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream, String state)
+  {
     this.apiKey = key;
     this.apiSecret = secret;
     this.callback = callback;
     this.signatureType = type;
     this.scope = scope;
     this.debugStream = stream;
+    this.state = state;
   }
 
   public String getApiKey()
@@ -54,6 +74,11 @@ public class OAuthConfig
   public String getScope()
   {
     return scope;
+  }
+
+  public String getState()
+  {
+    return state;
   }
 
   public boolean hasScope()
