@@ -3,13 +3,17 @@ package org.scribe.oauth;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
+import java.util.concurrent.TimeUnit;
+
 public class OAuth20ServiceImpl implements OAuthService
 {
   private static final String VERSION = "2.0";
   
   private final DefaultApi20 api;
   private final OAuthConfig config;
-  
+  private RequestTuner[] serviceTuners;
+  private RequestTuner defaultTuner;
+
   /**
    * Default constructor
    * 
@@ -18,14 +22,28 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config)
   {
+    this(api, config, new TimeoutTuner(2, TimeUnit.SECONDS));
+  }
+
+  /**
+   * Default constructor
+   *
+   * @param api OAuth2.0 api information
+   * @param config OAuth 2.0 configuration param object
+   */
+  public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config, RequestTuner defaultTuner, RequestTuner... serviceTuner)
+  {
     this.api = api;
     this.config = config;
+    this.serviceTuners = serviceTuner;
+    this.defaultTuner = defaultTuner;
   }
 
   /**
    * {@inheritDoc}
    */
-  public Token getAccessToken(Token requestToken, Verifier verifier)
+  @Override
+  public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner... tuner)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
@@ -33,14 +51,15 @@ public class OAuth20ServiceImpl implements OAuthService
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
     request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
     if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
-    Response response = request.send();
+    Response response = request.send(RequestTuner.append(serviceTuners, tuner, defaultTuner));
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
 
   /**
    * {@inheritDoc}
    */
-  public Token getRequestToken()
+  @Override
+  public Token getRequestToken(RequestTuner... tuner)
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
