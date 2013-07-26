@@ -33,13 +33,16 @@ public class OAuth20ServiceImpl implements OAuthService {
   }
 
   protected OAuthRequest createAccessTokenRequest(final Verifier verifier) {
-    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    request.addParameter(OAuthConstants.CODE, verifier.getValue());
+    request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
     if (config.hasScope()) {
-      request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+      request.addParameter(OAuthConstants.SCOPE, config.getScope());
+    }
+    if (config.hasGrantType()) {
+      request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
     }
     if (config.getConnectTimeout() != null) {
       request.setConnectTimeout(config.getConnectTimeout(), TimeUnit.MILLISECONDS);

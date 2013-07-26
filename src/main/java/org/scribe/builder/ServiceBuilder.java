@@ -20,6 +20,7 @@ public class ServiceBuilder {
   private String callback;
   private Api api;
   private String scope;
+  private String grantType;
   private SignatureType signatureType;
   private OutputStream debugStream;
   private Integer connectTimeout;
@@ -151,6 +152,12 @@ public class ServiceBuilder {
     return this;
   }
 
+  public ServiceBuilder grantType(String grantType) {
+    Preconditions.checkEmptyString(grantType, "Invalid OAuth grantType");
+    this.grantType = grantType;
+    return this;
+  }
+
   public ServiceBuilder debug() {
     this.debugStream(System.out);
     return this;
@@ -165,6 +172,6 @@ public class ServiceBuilder {
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, connectTimeout, readTimeout));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, connectTimeout, readTimeout, grantType));
   }
 }

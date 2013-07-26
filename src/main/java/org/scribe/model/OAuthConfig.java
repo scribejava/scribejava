@@ -13,17 +13,18 @@ public class OAuthConfig {
   private final String callback;
   private final SignatureType signatureType;
   private final String scope;
+  private final String grantType;
   private final OutputStream debugStream;
   private final Integer connectTimeout;
   private final Integer readTimeout;
 
   public OAuthConfig(String key, String secret) {
-    this(key, secret, null, null, null, null, null, null);
+    this(key, secret, null, null, null, null, null, null, null);
   }
 
   public OAuthConfig(
-      String key, String secret, String callback, SignatureType type, String scope, OutputStream stream, Integer connectTimeout,
-      Integer readTimeout) {
+      String key, String secret, String callback, SignatureType type, String scope, OutputStream stream, Integer connectTimeout, Integer readTimeout,
+      String grantType) {
     this.apiKey = key;
     this.apiSecret = secret;
     this.callback = callback;
@@ -32,6 +33,7 @@ public class OAuthConfig {
     this.debugStream = stream;
     this.connectTimeout = connectTimeout;
     this.readTimeout = readTimeout;
+    this.grantType = grantType;
   }
 
   public String getApiKey() {
@@ -56,6 +58,14 @@ public class OAuthConfig {
 
   public boolean hasScope() {
     return scope != null;
+  }
+
+  public String getGrantType() {
+    return grantType;
+  }
+
+  public boolean hasGrantType() {
+    return grantType != null;
   }
 
   public Integer getConnectTimeout() {

@@ -6,21 +6,12 @@ import org.apache.commons.codec.CharEncoding;
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.OAuthConfig;
-import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
-import org.scribe.model.Verifier;
 
 public class OdnoklassnikiServiceImpl extends OAuth20ServiceImpl {
   public OdnoklassnikiServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
     super(api, config);
-  }
-
-  @Override
-  protected OAuthRequest createAccessTokenRequest(final Verifier verifier) {
-    final OAuthRequest request = super.createAccessTokenRequest(verifier);
-    request.addQuerystringParameter(OAuthConstants.GRANT_TYPE, "authorization_code");
-    return request;
   }
 
   @Override

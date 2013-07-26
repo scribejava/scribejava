@@ -4,8 +4,6 @@ import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.Verb;
-import org.scribe.oauth.MailruServiceImpl;
-import org.scribe.oauth.OAuthService;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
@@ -32,11 +30,6 @@ public class MailruApi extends DefaultApi20 {
     } else {
       return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
-  }
-
-  @Override
-  public OAuthService createService(OAuthConfig config) {
-    return new MailruServiceImpl(this, config);
   }
 
   @Override

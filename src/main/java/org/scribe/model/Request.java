@@ -1,11 +1,16 @@
 package org.scribe.model;
 
-import java.io.*;
-import java.net.*;
-import java.nio.charset.*;
-import java.util.*;
-import java.util.concurrent.*;
-import org.scribe.exceptions.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.scribe.exceptions.OAuthConnectionException;
+import org.scribe.exceptions.OAuthException;
 
 /**
  * Represents an HTTP Request object
@@ -23,11 +28,11 @@ public class Request {
 
   public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
-  private String url;
-  private Verb verb;
-  private ParameterList querystringParams;
-  private ParameterList bodyParams;
-  private Map<String, String> headers;
+  private final String url;
+  private final Verb verb;
+  private final ParameterList querystringParams;
+  private final ParameterList bodyParams;
+  private final Map<String, String> headers;
   private String payload = null;
   private HttpURLConnection connection;
   private String charset;
@@ -96,7 +101,7 @@ public class Request {
       connection.setReadTimeout(readTimeout.intValue());
     }
     addHeaders(connection);
-    if (verb.equals(Verb.PUT) || verb.equals(Verb.POST)) {
+    if (hasBodyContent()) {
       addBody(connection, getByteBodyContents());
     }
     tuner.tune(this);
@@ -148,6 +153,18 @@ public class Request {
    */
   public void addQuerystringParameter(String key, String value) {
     this.querystringParams.add(key, value);
+  }
+
+  public void addParameter(String key, String value) {
+    if (hasBodyContent()) {
+      bodyParams.add(key, value);
+    } else {
+      querystringParams.add(key, value);
+    }
+  }
+
+  protected boolean hasBodyContent() {
+    return verb.equals(Verb.PUT) || verb.equals(Verb.POST);
   }
 
   /**
