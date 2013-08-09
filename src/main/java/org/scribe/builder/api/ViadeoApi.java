@@ -1,11 +1,11 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.tokenExtractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
-import org.scribe.extractors.JsonTokenExtractor;
+import org.scribe.extractors.tokenExtractors.JsonTokenExtractor;
 
 public class ViadeoApi extends DefaultApi20
 {

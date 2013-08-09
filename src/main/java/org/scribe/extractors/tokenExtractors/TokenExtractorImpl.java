@@ -1,4 +1,4 @@
-package org.scribe.extractors;
+package org.scribe.extractors.tokenExtractors;
 
 import java.util.regex.*;
 

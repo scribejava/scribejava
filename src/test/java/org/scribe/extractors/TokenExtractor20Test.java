@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 import org.scribe.exceptions.*;
+import org.scribe.extractors.tokenExtractors.TokenExtractor20Impl;
 import org.scribe.model.*;
 
 public class TokenExtractor20Test

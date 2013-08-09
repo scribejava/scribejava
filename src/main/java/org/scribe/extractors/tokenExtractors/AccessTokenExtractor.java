@@ -1,4 +1,4 @@
-package org.scribe.extractors;
+package org.scribe.extractors.tokenExtractors;
 
 import org.scribe.model.*;
 
@@ -7,10 +7,10 @@ import org.scribe.model.*;
  * 
  * @author Pablo Fernandez
  */
-public interface RequestTokenExtractor
+public interface AccessTokenExtractor
 {
   /**
-   * Extracts the request token from the contents of an Http Response
+   * Extracts the access token from the contents of an Http Response
    *  
    * @param response the contents of the response
    * @return OAuth access token
