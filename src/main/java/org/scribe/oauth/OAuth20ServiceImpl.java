@@ -3,6 +3,10 @@ package org.scribe.oauth;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
+/**
+ * @author Aleksey Leshko
+ */
+
 public class OAuth20ServiceImpl implements OAuthService
 {
   private static final String VERSION = "2.0";
@@ -33,7 +37,9 @@ public class OAuth20ServiceImpl implements OAuthService
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
     request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
     if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
-    Response response = request.send();
+		request.addQueryStringParameterAll(api.getParameterList());
+
+		Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
 

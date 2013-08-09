@@ -12,6 +12,7 @@ import org.scribe.exceptions.*;
  * Represents an HTTP Request object
  * 
  * @author Pablo Fernandez
+ * @author Aleksey Leshko
  */
 public class Request
 {
@@ -168,6 +169,11 @@ public class Request
   {
     this.querystringParams.add(key, value);
   }
+
+	public void addQueryStringParameterAll(ParameterList parameterList)
+	{
+		this.querystringParams.addAll(parameterList);
+	}
 
   /**
    * Add body payload.
