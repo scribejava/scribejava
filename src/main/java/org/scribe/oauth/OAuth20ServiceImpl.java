@@ -32,11 +32,11 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+    request.addQueryStringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    request.addQueryStringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    request.addQueryStringParameter(OAuthConstants.CODE, verifier.getValue());
+    request.addQueryStringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    if(config.hasScope()) request.addQueryStringParameter(OAuthConstants.SCOPE, config.getScope());
 		request.addQueryStringParameterAll(api.getParameterList());
 
 		Response response = request.send();
@@ -64,7 +64,7 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public void signRequest(Token accessToken, OAuthRequest request)
   {
-    request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
+    request.addQueryStringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
   }
 
   /**

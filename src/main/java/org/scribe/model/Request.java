@@ -14,6 +14,7 @@ import org.scribe.exceptions.*;
  * @author Pablo Fernandez
  * @author Aleksey Leshko
  */
+
 public class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
@@ -25,7 +26,7 @@ public class Request
 
   private String url;
   private Verb verb;
-  private ParameterList querystringParams;
+  private ParameterList queryStringParams;
   private ParameterList bodyParams;
   private Map<String, String> headers;
   private String payload = null;
@@ -47,7 +48,7 @@ public class Request
   {
     this.verb = verb;
     this.url = url;
-    this.querystringParams = new ParameterList();
+    this.queryStringParams = new ParameterList();
     this.bodyParams = new ParameterList();
     this.headers = new HashMap<String, String>();
   }
@@ -95,7 +96,7 @@ public class Request
    */
   public String getCompleteUrl()
   {
-    return querystringParams.appendTo(url);
+    return queryStringParams.appendTo(url);
   }
 
   Response doSend(RequestTuner tuner) throws IOException
@@ -165,14 +166,14 @@ public class Request
    * @param key the parameter name
    * @param value the parameter value
    */
-  public void addQuerystringParameter(String key, String value)
+  public void addQueryStringParameter(String key, String value)
   {
-    this.querystringParams.add(key, value);
+    this.queryStringParams.add(key, value);
   }
 
 	public void addQueryStringParameterAll(ParameterList parameterList)
 	{
-		this.querystringParams.addAll(parameterList);
+		this.queryStringParams.addAll(parameterList);
 	}
 
   /**
@@ -213,7 +214,7 @@ public class Request
       ParameterList result = new ParameterList();
       String queryString = new URL(url).getQuery();
       result.addQuerystring(queryString);
-      result.addAll(querystringParams);
+      result.addAll(queryStringParams);
       return result;
     }
     catch (MalformedURLException mue)
@@ -273,6 +274,11 @@ public class Request
   byte[] getByteBodyContents()
   {
     if (bytePayload != null) return bytePayload;
+
+		ParameterList result = new ParameterList();
+		result.addAll(bodyParams);
+		result.addAll(queryStringParams);
+
     String body = (payload != null) ? payload : bodyParams.asFormUrlEncodedString();
     try
     {

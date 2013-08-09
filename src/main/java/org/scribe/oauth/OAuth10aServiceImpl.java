@@ -164,7 +164,7 @@ public class OAuth10aServiceImpl implements OAuthService
 
         for (Map.Entry<String, String> entry : request.getOauthParameters().entrySet())
         {
-          request.addQuerystringParameter(entry.getKey(), entry.getValue());
+          request.addQueryStringParameter(entry.getKey(), entry.getValue());
         }
         break;
     }
