@@ -18,6 +18,14 @@ public class JsonTokenExtractorTest
     assertEquals(token.getToken(), "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X");
   }
 
+	@Test
+	public void shouldParseResponseWithSpaces()
+	{
+		response = "'{ \"access_token\" : \"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X\"}'";
+		Token token = extractor.extract(response);
+		assertEquals(token.getToken(), "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X");
+	}
+
   @Test(expected=IllegalArgumentException.class)
   public void shouldThrowExceptionIfForNullParameters()
   {
