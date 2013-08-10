@@ -1,9 +1,8 @@
-package org.scribe.extractors.tokenExtractors;
+package org.scribe.extractors;
 
 import java.util.regex.*;
 
 import org.scribe.exceptions.*;
-import org.scribe.extractors.tokenExtractors.AccessTokenExtractor;
 import org.scribe.model.*;
 import org.scribe.utils.*;
 

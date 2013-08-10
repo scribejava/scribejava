@@ -2,7 +2,7 @@ package org.scribe.builder.api;
 
 import static org.junit.Assert.*;
 import org.junit.*;
-import org.scribe.extractors.tokenExtractors.JsonTokenExtractor;
+import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.*;
 
 /**

@@ -1,7 +1,7 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.tokenExtractors.AccessTokenExtractor;
-import org.scribe.extractors.tokenExtractors.TokenExtractor20Impl;
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.TokenExtractor20Impl;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 

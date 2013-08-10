@@ -4,8 +4,8 @@ import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.Verb;
 import org.scribe.model.ParameterList;
-import org.scribe.extractors.tokenExtractors.JsonTokenExtractor;
-import org.scribe.extractors.tokenExtractors.AccessTokenExtractor;
+import org.scribe.extractors.JsonTokenExtractor;
+import org.scribe.extractors.AccessTokenExtractor;
 
 /**
  * @author Aleksey Leshko

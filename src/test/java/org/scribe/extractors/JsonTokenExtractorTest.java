@@ -3,7 +3,6 @@ package org.scribe.extractors;
 import static org.junit.Assert.*;
 
 import org.junit.*;
-import org.scribe.extractors.tokenExtractors.JsonTokenExtractor;
 import org.scribe.model.*;
 
 public class JsonTokenExtractorTest
