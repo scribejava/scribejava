@@ -279,7 +279,7 @@ public class Request
 		result.addAll(bodyParams);
 		result.addAll(queryStringParams);
 
-    String body = (payload != null) ? payload : bodyParams.asFormUrlEncodedString();
+    String body = (payload != null) ? payload : result.asFormUrlEncodedString();
     try
     {
       return body.getBytes(getCharset());
