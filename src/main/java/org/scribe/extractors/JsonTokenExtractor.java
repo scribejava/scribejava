@@ -6,9 +6,13 @@ import org.scribe.exceptions.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
 
+/**
+ * @author Aleksey Leshko
+ */
+
 public class JsonTokenExtractor implements AccessTokenExtractor
 {
-  private Pattern accessTokenPattern = Pattern.compile("\"access_token\":\\s*\"(\\S*?)\"");
+  private Pattern accessTokenPattern = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
 
   public Token extract(String response)
   {

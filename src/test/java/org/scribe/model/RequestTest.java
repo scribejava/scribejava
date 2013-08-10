@@ -68,19 +68,34 @@ public class RequestTest
   public void shouldAllowAddingQuerystringParametersAfterCreation()
   {
     Request request = new Request(Verb.GET, "http://example.com?one=val");
-    request.addQuerystringParameter("two", "other val");
-    request.addQuerystringParameter("more", "params");
+    request.addQueryStringParameter("two", "other val");
+    request.addQueryStringParameter("more", "params");
     assertEquals(3, request.getQueryStringParams().size());
   }
 
-   @Test
+  @Test
   public void shouldReturnTheCompleteUrl()
   {
     Request request = new Request(Verb.GET, "http://example.com?one=val");
-    request.addQuerystringParameter("two", "other val");
-    request.addQuerystringParameter("more", "params");
+    request.addQueryStringParameter("two", "other val");
+    request.addQueryStringParameter("more", "params");
     assertEquals("http://example.com?one=val&two=other%20val&more=params", request.getCompleteUrl());
   }
+
+	@Test
+	public void shouldAddAllParameters()
+	{
+		Request request = new Request(Verb.GET, "http://example.com");
+
+		assertEquals(0, request.getQueryStringParams().size());
+		ParameterList parameterList = new ParameterList();
+		int count = 5;
+		for (int i = 0; i < count; i++) {
+			parameterList.add("key:" + i, "value:" + i);
+		}
+		request.addQueryStringParameterAll(parameterList);
+		assertEquals(count, request.getQueryStringParams().size());
+	}
 
   @Test
   public void shouldHandleQueryStringSpaceEncodingProperly()

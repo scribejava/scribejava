@@ -9,6 +9,7 @@
 
 .idea
 scribe.iml
+*.iml
 
 # Binaries
 

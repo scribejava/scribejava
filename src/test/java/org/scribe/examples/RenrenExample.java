@@ -60,7 +60,7 @@ public class RenrenExample
     List<String> sigString = new ArrayList<String>(parameters.size() + 1);
     for (Map.Entry<String, String> entry : parameters.entrySet())
     {
-      request.addQuerystringParameter(entry.getKey(), entry.getValue());
+      request.addQueryStringParameter(entry.getKey(), entry.getValue());
       sigString.add(String.format("%s=%s", entry.getKey(), entry.getValue()));
     }
     sigString.add(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getToken()));
@@ -72,7 +72,7 @@ public class RenrenExample
     }
     b.append(apiSecret);
     System.out.println("Sig string: " + b.toString());
-    request.addQuerystringParameter("sig", md5(b.toString()));
+    request.addQueryStringParameter("sig", md5(b.toString()));
     service.signRequest(accessToken, request);
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");

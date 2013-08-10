@@ -1,6 +1,7 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.*;
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.TokenExtractor20Impl;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -18,6 +19,7 @@ import org.scribe.oauth.*;
  * javadocs of the interfaces to get an idea of what to do.
  *
  * @author Diego Silveira
+ * @author Aleksey Leshko
  *
  */
 public abstract class DefaultApi20 implements Api
@@ -67,4 +69,8 @@ public abstract class DefaultApi20 implements Api
     return new OAuth20ServiceImpl(this, config);
   }
 
+	public ParameterList getParameterList()
+	{
+		return new ParameterList();
+	}
 }
