@@ -17,14 +17,14 @@ public class RedditExample {
 	
 	public static void main(String[] args) {
 		// Replace these with your own api key and secret
-		String apiKey = "QkLVfwQPQ-8v1A";
-		String apiSecret = "-tNL7x9tB6m1wa7wH5Dmjtp7nnc";
+		String apiKey = "your-key";
+		String apiSecret = "your-secret";
 
 		//For sufficiently random + secure 'state' strings http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string
 		SecureRandom random = new SecureRandom();
 		BigInteger randomInt = new BigInteger(128, random);
 		
-		OAuthConfig config = new OAuthConfig(apiKey, apiSecret, "http://com.cd.reddit-super-sleuth", null, "identity", null);		
+		OAuthConfig config = new OAuthConfig(apiKey, apiSecret, "your-callback", null, "identity", null);		
 		
 		RedditApi service = new RedditApi(true, randomInt.toString(32));
 		
