@@ -9,10 +9,11 @@ import org.scribe.oauth.*;
 
 public class TwitterExample
 {
-  private static final String PROTECTED_RESOURCE_URL = "https://api.twitter.com/1/statuses/update.json";
+  private static final String PROTECTED_RESOURCE_URL = "http://api.twitter.com/1.1/account/verify_credentials.json";
   
   public static void main(String[] args)
   {
+    // If you choose to use a callback, "oauth_verifier" will be the return value by Twitter (request param)
     OAuthService service = new ServiceBuilder()
                                 .provider(TwitterApi.class)
                                 .apiKey("6icbcAXyZx67r8uTAUM5Qw")
