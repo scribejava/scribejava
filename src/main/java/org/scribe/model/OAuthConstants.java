@@ -52,4 +52,8 @@ public class OAuthConstants
   public static final String GRANT_TYPE = "grant_type";
   public static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
   public static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
+  public static final String ACCESS_TYPE = "access_type";
+  public static final String ACCESS_TYPE_OFFLINE = "offline";
+  public static final String APPROVAL_PROMPT = "approval_prompt";
+  public static final String APPROVAL_PROMPT_FORCE = "force";
 }
