@@ -74,7 +74,7 @@ public class Token implements Serializable
   public String toString()
   {
     if (expiry != null)
-      return String.format("Token[%s , %s], expires in %d seconds", token, secret, expiry.getTime() - System.currentTimeMillis());
+      return String.format("Token[%s , %s], expires in %d milliseconds", token, secret, expiry.getTime() - System.currentTimeMillis());
     return String.format("Token[%s , %s]", token, secret);
   }
 
