@@ -30,7 +30,9 @@ public class Google2Api extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
-    private static final String SUFFIX_OFFLINE = "&" + OAuthConstants.ACCESS_TYPE + "=" + OAuthConstants.ACCESS_TYPE_OFFLINE;
+    private static final String SUFFIX_OFFLINE = "&" + OAuthConstants.ACCESS_TYPE + "=" + OAuthConstants.ACCESS_TYPE_OFFLINE
+            + "&" + OAuthConstants.APPROVAL_PROMPT + "=" + OAuthConstants.APPROVAL_PROMPT_FORCE;
+
 
     @Override
     public String getAccessTokenEndpoint() {
