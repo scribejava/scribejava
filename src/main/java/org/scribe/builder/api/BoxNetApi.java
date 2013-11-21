@@ -44,7 +44,7 @@ public class BoxNetApi extends DefaultApi20 {
 		return new BoxNetOAuth20ServiceImpl(this, config);
 	}
 	
-	public class BoxNetOAuth20ServiceImpl extends OAuth20ServiceImpl {
+	public static class BoxNetOAuth20ServiceImpl extends OAuth20ServiceImpl {
 		  
 		  private final DefaultApi20 api;
 		  private final OAuthConfig config;
