@@ -46,7 +46,7 @@ public class TwitterExample
 
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");
-    OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
+    OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
     request.addBodyParameter("status", "this is sparta! *");
     service.signRequest(accessToken, request);
     Response response = request.send();
