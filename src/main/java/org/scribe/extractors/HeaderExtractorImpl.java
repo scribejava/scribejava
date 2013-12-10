@@ -35,6 +35,13 @@ public class HeaderExtractorImpl implements HeaderExtractor
       }
       header.append(String.format("%s=\"%s\"", entry.getKey(), OAuthEncoder.encode(entry.getValue())));
     }
+    
+    if (request.getRealm() != null && !request.getRealm().isEmpty())
+    {
+      header.append(PARAM_SEPARATOR);
+      header.append(String.format("%s=\"%s\"", OAuthConstants.REALM, request.getRealm()));
+    }
+        
     return header.toString();
   }
 
