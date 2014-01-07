@@ -52,7 +52,11 @@ Scribe's code is small (about 1k LOC) and simple to understand. No smart-ass or 
 
 h3. Android-Ready
 
-Works out of the box with android(TM) applications.
+Works out of the box with android(TM) applications. Just include the following in your _build.gradle_ file:
+
+@dependencies {@
+  @compile 'org.scribe:scribe:1.3.5'@
+@}@
 
 h3. Stable & bulletproof
 
