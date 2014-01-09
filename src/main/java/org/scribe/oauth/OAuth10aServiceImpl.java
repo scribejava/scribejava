@@ -100,8 +100,14 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
     addOAuthParams(request, requestToken);
     appendSignature(request);
+    
+    config.log("sending request...");
     Response response = request.send(tuner);
-    return api.getAccessTokenExtractor().extract(response.getBody());
+    String body = response.getBody();
+    
+    config.log("response status code: " + response.getCode());
+    config.log("response body: " + body);
+    return api.getAccessTokenExtractor().extract(body);
   }
 
   /**
