@@ -11,13 +11,13 @@ public class TwitterApi extends DefaultApi10a
   @Override
   public String getAccessTokenEndpoint()
   {
-    return "http://" + ACCESS_TOKEN_RESOURCE;
+    return "https://" + ACCESS_TOKEN_RESOURCE;
   }
 
   @Override
   public String getRequestTokenEndpoint()
   {
-    return "http://" + REQUEST_TOKEN_RESOURCE;
+    return "https://" + REQUEST_TOKEN_RESOURCE;
   }
 
   @Override
