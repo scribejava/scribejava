@@ -32,6 +32,7 @@ public class OAuthConstants
   public static final String CALLBACK = "oauth_callback";
   public static final String VERSION = "oauth_version";
   public static final String NONCE = "oauth_nonce";
+  public static final String REALM = "realm";
   public static final String PARAM_PREFIX = "oauth_";
   public static final String TOKEN = "oauth_token";
   public static final String TOKEN_SECRET = "oauth_token_secret";
