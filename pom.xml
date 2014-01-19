@@ -15,6 +15,10 @@
     <version>5</version>
   </parent>
 
+  <properties>
+    <github.global.server>github</github.global.server>
+  </properties>
+
   <developers>
     <developer>
       <id>fernandezpablo85</id>
@@ -36,6 +40,14 @@
     <developerConnection>scm:http://github.com/fernandezpablo85/scribe-java.git</developerConnection>
     <url>http://github.com/fernandezpablo85/scribe-java.git</url>
   </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>Temporary Staging Repository</name>
+      <url>file://${project.build.directory}/mvn-repo</url>
+    </repository>
+  </distributionManagement>
 
   <dependencies>
     <dependency>
@@ -63,19 +75,27 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.4</version>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.9</version>
+        <configuration>
+          <message>Maven artifacts for ${project.version}</message>
+          <noJekyll>true</noJekyll>
+          <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+          <branch>refs/heads/mvn-repo</branch>
+          <includes><include>**/*</include></includes>
+          <repositoryName>scribe-java</repositoryName>
+          <repositoryOwner>fernandezpablo85</repositoryOwner>
+        </configuration>
         <executions>
           <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
             <goals>
-              <goal>sign</goal>
+              <goal>site</goal>
             </goals>
+            <phase>deploy</phase>
           </execution>
         </executions>
-      </plugin>
+        </plugin>
         <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
@@ -95,4 +115,4 @@
         </plugin>
     </plugins>
   </build>
-</project>  
+</project>
