@@ -46,7 +46,7 @@ Hit Scribe as hard and with many threads as you like.
 
 * Windows Live
 
-* and many more! check the "examples folder":http://github.com/fernandezpablo85/scribe-java/tree/master/src/test/java/org/scribe/examples
+* and many more! check the [examples folder](http://github.com/fernandezpablo85/scribe-java/tree/master/src/test/java/org/scribe/examples)
 
 ### Small and modular
 
