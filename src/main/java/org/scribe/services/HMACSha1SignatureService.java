@@ -7,7 +7,7 @@ import org.scribe.exceptions.*;
 import org.scribe.utils.*;
 
 /**
- * HMAC-SHA1 implementation of {@SignatureService}
+ * HMAC-SHA1 implementation of {@link SignatureService}
  * 
  * @author Pablo Fernandez
  *
@@ -48,7 +48,7 @@ public class HMACSha1SignatureService implements SignatureService
 
   private String bytesToBase64String(byte[] bytes)
   {
-    return Base64Encoder.getInstance().encode(bytes);
+    return Base64EncoderDecoder.encodeBytes(bytes);
   }
 
   /**
