@@ -39,7 +39,7 @@ public class RSASha1SignatureService implements SignatureService
 
   private String bytesToBase64String(Signature signature) throws SignatureException
   {
-    return Base64Encoder.getInstance().encode(signature.sign());
+    return Base64EncoderDecoder.encodeBytes(signature.sign());
   }
 
   /**
