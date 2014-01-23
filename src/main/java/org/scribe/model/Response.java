@@ -123,4 +123,10 @@ public class Response
     return headers.get(name);
   }
 
+	@Override
+	public String toString() {
+		return "Response [code=" + code + ", message=" + message + ", body=" + body
+				+ ", stream=" + stream + ", headers=" + headers + "]";
+	}
+
 }
