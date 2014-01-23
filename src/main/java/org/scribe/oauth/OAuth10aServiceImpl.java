@@ -57,11 +57,18 @@ public class OAuth10aServiceImpl implements OAuthService
 
     config.log("sending request...");
     Response response = request.send(tuner);
-    String body = response.getBody();
-
-    config.log("response status code: " + response.getCode());
-    config.log("response body: " + body);
-    return api.getRequestTokenExtractor().extract(body);
+    String body = null;
+    
+    try{
+        config.log("response status code: " + response.getCode());
+    	body = response.getBody();
+        config.log("response body: " + body);
+        return api.getRequestTokenExtractor().extract(body);
+    }catch(Exception e){
+    	config.log("response : " + response.toString());
+    	throw new IllegalStateException("Twitter returned an error response ", e);
+    }
+    
   }
 
   private void addOAuthParams(OAuthRequest request, Token token)
