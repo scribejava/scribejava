@@ -66,7 +66,7 @@ public class OAuth10aServiceImpl implements OAuthService
         return api.getRequestTokenExtractor().extract(body);
     }catch(Exception e){
     	config.log("response : " + response.toString());
-    	throw new IllegalStateException("Twitter returned an error response ", e);
+    	throw new IllegalStateException("The Third-party returned an error response ", e);
     }
     
   }
