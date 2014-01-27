@@ -63,6 +63,7 @@ public class Request
     try
     {
       createConnection();
+      configureConnection(connection);
       return doSend(tuner);
     }
     catch (Exception e)
@@ -380,6 +381,16 @@ public class Request
   void setConnection(HttpURLConnection connection)
   {
     this.connection = connection;
+  }
+
+  /**
+   * Used to configure HttpURLConnection before it's used.
+   * This method is meant to be overridden by subclasses.
+   *
+   * @param connection  connection to configure
+   */
+  protected void configureConnection(HttpURLConnection connection) {
+    // by default, doing nothing.
   }
 
   @Override
