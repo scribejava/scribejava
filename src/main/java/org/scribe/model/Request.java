@@ -35,6 +35,7 @@ public class Request
   private boolean followRedirects = true;
   private Long connectTimeout = null;
   private Long readTimeout = null;
+  private String contentType = null;
 
   /**
    * Creates a new Http Request
@@ -130,7 +131,11 @@ public class Request
     // Set default content type if none is set.
     if (conn.getRequestProperty(CONTENT_TYPE) == null)
     {
-      conn.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+      if(this.contentType != null) {
+        conn.setRequestProperty(CONTENT_TYPE, this.contentType);
+      } else {
+        conn.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+      }
     }
     conn.setDoOutput(true);
     conn.getOutputStream().write(content);
@@ -380,6 +385,22 @@ public class Request
   void setConnection(HttpURLConnection connection)
   {
     this.connection = connection;
+  }
+
+  /**
+   * Sets the content type that will be used with the connection
+   */
+  void setContentType(String contentType)
+  {
+    this.contentType = contentType;
+  }
+
+  /**
+   * Get the content type set for the connection
+   */
+  String getContentType()
+  {
+    return this.contentType;
   }
 
   @Override
