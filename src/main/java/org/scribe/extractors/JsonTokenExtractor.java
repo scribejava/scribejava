@@ -20,7 +20,7 @@ public class JsonTokenExtractor implements AccessTokenExtractor
     }
     else
     {
-      throw new OAuthException("Cannot extract an acces token. Response was: " + response);
+      throw new OAuthException("Cannot extract an access token. Response was: " + response);
     }
   }
 
