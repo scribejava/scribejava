@@ -29,7 +29,7 @@ public class TwitterApi extends DefaultApi10a
   /**
    * Twitter 'friendlier' authorization endpoint for OAuth.
    */
-  public static class Authenticate
+  public static class Authenticate extends TwitterApi
   {
     private static final String AUTHENTICATE_URL = "https://api.twitter.com/oauth/authenticate?oauth_token=%s";
 
