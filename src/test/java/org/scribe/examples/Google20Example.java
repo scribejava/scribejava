@@ -2,7 +2,7 @@ package org.scribe.examples;
 
 import java.util.Scanner;
 import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.LinkedInApi20;
+import org.scribe.builder.api.GoogleApi20;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -10,22 +10,19 @@ import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuth20ServiceImpl;
 
-public class LinkedIn20Example {
-  private static final String NETWORK_NAME = "LinkedIn";
-  private static final String PROTECTED_RESOURCE_URL = "https://api.linkedin.com/v1/people/~:(%s)";
+public class Google20Example {
+  private static final String NETWORK_NAME = "G+";
+  private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
   private static final String STATE_PARAM_NAME = "state";
   private static final Token EMPTY_TOKEN = null;
 
   public static void main(String[] args) {
     // Replace these with your own api key and secret
-    final String clientId = "your client id";
-    final String apiSecret = "your api secret";
+    final String clientId = "api key";
+    final String apiSecret = "api secret";
     final OAuth20ServiceImpl service =
-      (OAuth20ServiceImpl) new ServiceBuilder().provider(LinkedInApi20.class).apiKey(clientId).apiSecret(apiSecret)
-      .scope("r_fullprofile,r_emailaddress,r_contactinfo") // replace with desired scope
-      .grantType("authorization_code")
-      .callback("http://example.com/callback")
-      .build();
+      (OAuth20ServiceImpl) new ServiceBuilder().provider(GoogleApi20.class).apiKey(clientId).apiSecret(apiSecret).scope("profile") // replace with desired scope
+      .grantType("authorization_code").callback("http://example.com/callback").build();
     Scanner in = new Scanner(System.in);
 
     System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
@@ -58,8 +55,6 @@ public class LinkedIn20Example {
       System.out.println();
 
       final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, query));
-      request.addHeader("x-li-format", "json");
-      request.addHeader("Accept-Language", "ru-RU");
       service.signRequest(accessToken, request);
       final Response response = request.send();
       System.out.println();

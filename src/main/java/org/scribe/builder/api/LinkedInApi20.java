@@ -1,7 +1,5 @@
 package org.scribe.builder.api;
 
-import java.security.SecureRandom;
-import java.util.Random;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
@@ -12,12 +10,9 @@ import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
 public class LinkedInApi20 extends DefaultApi20 {
-  private static final String AUTHORIZE_URL =
-    "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%s&redirect_uri=%s&state=%s";
+  private static final String AUTHORIZE_URL = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%s&redirect_uri=%s";
 
   private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
-
-  private static final Random RAND = new SecureRandom();
 
   @Override
   public Verb getAccessTokenVerb() {
@@ -35,10 +30,9 @@ public class LinkedInApi20 extends DefaultApi20 {
 
     if (config.hasScope()) {
       return String.format(
-        SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), Long.toString(RAND.nextLong()),
-        OAuthEncoder.encode(config.getScope()));
+        SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
     } else {
-      return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), Long.toString(RAND.nextLong()));
+      return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
   }
 
