@@ -38,6 +38,7 @@ public class Request {
   private String charset;
   private byte[] bytePayload = null;
   private boolean connectionKeepAlive = false;
+  private boolean followRedirects = true;
   private Long connectTimeout = null;
   private Long readTimeout = null;
 
@@ -80,6 +81,7 @@ public class Request {
     if (connection == null) {
       System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
       connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      connection.setInstanceFollowRedirects(followRedirects);
     }
   }
 
@@ -324,6 +326,19 @@ public class Request {
    */
   public void setConnectionKeepAlive(boolean connectionKeepAlive) {
     this.connectionKeepAlive = connectionKeepAlive;
+  }
+
+  /**
+   * Sets whether the underlying Http Connection follows redirects or not.
+   *
+   * Defaults to true (follow redirects)
+   *
+   * @see http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)
+   * @param followRedirects
+   */
+  public void setFollowRedirects(boolean followRedirects)
+  {
+    this.followRedirects = followRedirects;
   }
 
   /*
