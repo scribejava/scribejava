@@ -15,7 +15,7 @@ public class TwitterExample
   {
     // If you choose to use a callback, "oauth_verifier" will be the return value by Twitter (request param)
     OAuthService service = new ServiceBuilder()
-                                .provider(TwitterApi.class)
+                                .provider(TwitterApi.SSL.class)
                                 .apiKey("6icbcAXyZx67r8uTAUM5Qw")
                                 .apiSecret("SCCAdUUc6LXxiazxH3N0QfpNUvlUy84mZ2XZKiv39s")
                                 .build();
