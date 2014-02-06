@@ -10,6 +10,9 @@
 .idea
 scribe.iml
 
+# Netbeans settings
+nb-configuration.xml
+
 # Binaries
 
 target
