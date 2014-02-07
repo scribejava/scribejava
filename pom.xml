@@ -46,6 +46,7 @@
           <encoding>UTF-8</encoding>
           <source>1.7</source>
           <target>1.7</target>
+          <showDeprecation>true</showDeprecation>
         </configuration>
       </plugin>
       <plugin>
@@ -85,6 +86,19 @@
         <configuration>
           <encoding>UTF-8</encoding>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
