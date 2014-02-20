@@ -9,6 +9,7 @@
 
 # Netbeans settings
 nb-configuration.xml
+nbproject
 
 # Binaries
 target
