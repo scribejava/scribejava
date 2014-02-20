@@ -6,12 +6,13 @@
   <packaging>jar</packaging>
   <version>2.0-SNAPSHOT</version>
   <name>SubScribe OAuth Library</name>
-  <description>The best OAuth library out there. Originaly forked from Scribe (http://github.com/fernandezpablo85/scribe-java)</description>
-  
+  <description>The best OAuth library out there. Originaly forked from Scribe (https://github.com/fernandezpablo85/scribe-java)</description>
+  <url>https://github.com/hhru/subscribe</url>
+
   <licenses>
     <license>
       <name>MIT</name>
-      <url>http://github.com/hhru/scribe-java/blob/master/LICENSE.txt</url>
+      <url>https://github.com/hhru/subscribe/blob/master/LICENSE.txt</url>
     </license>
   </licenses>
 
