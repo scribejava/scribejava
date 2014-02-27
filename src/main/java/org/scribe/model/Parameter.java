@@ -1,9 +1,9 @@
 package org.scribe.model;
 
-import org.scribe.utils.*;
+import org.scribe.utils.OAuthEncoder;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class Parameter implements Comparable<Parameter> {
 
@@ -12,7 +12,7 @@ public class Parameter implements Comparable<Parameter> {
     private final String key;
     private final String value;
 
-    public Parameter(String key, String value) {
+    public Parameter(final String key, final String value) {
         this.key = key;
         this.value = value;
     }
@@ -21,7 +21,8 @@ public class Parameter implements Comparable<Parameter> {
         return OAuthEncoder.encode(key).concat("=").concat(OAuthEncoder.encode(value));
     }
 
-    public boolean equals(Object other) {
+    @Override
+    public boolean equals(final Object other) {
         if (other == null) {
             return false;
         }
@@ -32,17 +33,27 @@ public class Parameter implements Comparable<Parameter> {
             return false;
         }
 
-        Parameter otherParam = (Parameter) other;
-        return otherParam.key.equals(key) && otherParam.value.equals(value);
+        final Parameter otherParam = (Parameter) other;
+        return otherParam.getKey().equals(key) && otherParam.getValue().equals(value);
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
     public int hashCode() {
         return key.hashCode() + value.hashCode();
     }
 
-    public int compareTo(Parameter parameter) {
-        int keyDiff = key.compareTo(parameter.key);
+    @Override
+    public int compareTo(final Parameter parameter) {
+        final int keyDiff = key.compareTo(parameter.getKey());
 
-        return keyDiff != 0 ? keyDiff : value.compareTo(parameter.value);
+        return keyDiff == 0 ? value.compareTo(parameter.getValue()) : keyDiff;
     }
 }

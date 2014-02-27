@@ -21,9 +21,9 @@ public class Request {
 
     private static final String CONTENT_LENGTH = "Content-Length";
     private static final String CONTENT_TYPE = "Content-Type";
-    private static RequestTuner NOOP = new RequestTuner() {
+    private static final RequestTuner NOOP = new RequestTuner() {
         @Override
-        public void tune(Request _) {
+        public void tune(final Request request) {
         }
     };
 
@@ -34,14 +34,14 @@ public class Request {
     private final ParameterList querystringParams;
     private final ParameterList bodyParams;
     private final Map<String, String> headers;
-    private String payload = null;
+    private String payload;
     private HttpURLConnection connection;
     private String charset;
-    private byte[] bytePayload = null;
-    private boolean connectionKeepAlive = false;
+    private byte[] bytePayload;
+    private boolean connectionKeepAlive;
     private boolean followRedirects = true;
-    private Long connectTimeout = null;
-    private Long readTimeout = null;
+    private Long connectTimeout;
+    private Long readTimeout;
 
     /**
      * Creates a new Http Request
@@ -49,22 +49,23 @@ public class Request {
      * @param verb Http Verb (GET, POST, etc)
      * @param url url with optional querystring parameters.
      */
-    public Request(Verb verb, String url) {
+    public Request(final Verb verb, final String url) {
         this.verb = verb;
         this.url = url;
         this.querystringParams = new ParameterList();
         this.bodyParams = new ParameterList();
-        this.headers = new HashMap<String, String>();
+        this.headers = new HashMap<>();
     }
 
     /**
      * Execute the request and return a {@link Response}
      *
+     * @param tuner
      * @return Http Response
      *
      * @throws RuntimeException if the connection cannot be created.
      */
-    public Response send(RequestTuner tuner) {
+    public Response send(final RequestTuner tuner) {
         try {
             createConnection();
             return doSend(tuner);
@@ -78,7 +79,7 @@ public class Request {
     }
 
     private void createConnection() throws IOException {
-        String completeUrl = getCompleteUrl();
+        final String completeUrl = getCompleteUrl();
         if (connection == null) {
             System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
             connection = (HttpURLConnection) new URL(completeUrl).openConnection();
@@ -95,7 +96,7 @@ public class Request {
         return querystringParams.appendTo(url);
     }
 
-    Response doSend(RequestTuner tuner) throws IOException {
+    Response doSend(final RequestTuner tuner) throws IOException {
         connection.setRequestMethod(this.verb.name());
         if (connectTimeout != null) {
             connection.setConnectTimeout(connectTimeout.intValue());
@@ -111,13 +112,13 @@ public class Request {
         return new Response(connection);
     }
 
-    void addHeaders(HttpURLConnection conn) {
-        for (String key : headers.keySet()) {
+    void addHeaders(final HttpURLConnection conn) {
+        for (final String key : headers.keySet()) {
             conn.setRequestProperty(key, headers.get(key));
         }
     }
 
-    void addBody(HttpURLConnection conn, byte[] content) throws IOException {
+    void addBody(final HttpURLConnection conn, final byte[] content) throws IOException {
         conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
 
         // Set default content type if none is set.
@@ -134,7 +135,7 @@ public class Request {
      * @param key the header name
      * @param value the header value
      */
-    public void addHeader(String key, String value) {
+    public void addHeader(final String key, final String value) {
         this.headers.put(key, value);
     }
 
@@ -144,7 +145,7 @@ public class Request {
      * @param key the parameter name
      * @param value the parameter value
      */
-    public void addBodyParameter(String key, String value) {
+    public void addBodyParameter(final String key, final String value) {
         this.bodyParams.add(key, value);
     }
 
@@ -154,11 +155,11 @@ public class Request {
      * @param key the parameter name
      * @param value the parameter value
      */
-    public void addQuerystringParameter(String key, String value) {
+    public void addQuerystringParameter(final String key, final String value) {
         this.querystringParams.add(key, value);
     }
 
-    public void addParameter(String key, String value) {
+    public void addParameter(final String key, final String value) {
         if (hasBodyContent()) {
             bodyParams.add(key, value);
         } else {
@@ -176,7 +177,7 @@ public class Request {
      *
      * @param payload the body of the request
      */
-    public void addPayload(String payload) {
+    public void addPayload(final String payload) {
         this.payload = payload;
     }
 
@@ -185,7 +186,7 @@ public class Request {
      *
      * @param payload
      */
-    public void addPayload(byte[] payload) {
+    public void addPayload(final byte[] payload) {
         this.bytePayload = payload.clone();
     }
 
@@ -198,8 +199,8 @@ public class Request {
      */
     public ParameterList getQueryStringParams() {
         try {
-            ParameterList result = new ParameterList();
-            String queryString = new URL(url).getQuery();
+            final ParameterList result = new ParameterList();
+            final String queryString = new URL(url).getQuery();
             result.addQuerystring(queryString);
             result.addAll(querystringParams);
             return result;
@@ -254,7 +255,7 @@ public class Request {
         if (bytePayload != null) {
             return bytePayload;
         }
-        String body = (payload != null) ? payload : bodyParams.asFormUrlEncodedString();
+        final String body = (payload == null) ? bodyParams.asFormUrlEncodedString() : payload;
         try {
             return body.getBytes(getCharset());
         } catch (UnsupportedEncodingException uee) {
@@ -295,7 +296,7 @@ public class Request {
      * @param duration duration of the timeout
      * @param unit unit of time (milliseconds, seconds, etc)
      */
-    public void setConnectTimeout(int duration, TimeUnit unit) {
+    public void setConnectTimeout(final int duration, final TimeUnit unit) {
         this.connectTimeout = unit.toMillis(duration);
     }
 
@@ -305,7 +306,7 @@ public class Request {
      * @param duration duration of the timeout
      * @param unit unit of time (milliseconds, seconds, etc)
      */
-    public void setReadTimeout(int duration, TimeUnit unit) {
+    public void setReadTimeout(final int duration, final TimeUnit unit) {
         this.readTimeout = unit.toMillis(duration);
     }
 
@@ -314,7 +315,7 @@ public class Request {
      *
      * @param charsetName name of the charset of the request
      */
-    public void setCharset(String charsetName) {
+    public void setCharset(final String charsetName) {
         this.charset = charsetName;
     }
 
@@ -323,9 +324,10 @@ public class Request {
      *
      * @param connectionKeepAlive
      *
-     * @see http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html
+     * @see <a
+     * href="http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html">http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html</a>
      */
-    public void setConnectionKeepAlive(boolean connectionKeepAlive) {
+    public void setConnectionKeepAlive(final boolean connectionKeepAlive) {
         this.connectionKeepAlive = connectionKeepAlive;
     }
 
@@ -334,17 +336,18 @@ public class Request {
      *
      * Defaults to true (follow redirects)
      *
-     * @see http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)
+     * @see <a
+     * href="http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)">http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)</a>
      * @param followRedirects
      */
-    public void setFollowRedirects(boolean followRedirects) {
+    public void setFollowRedirects(final boolean followRedirects) {
         this.followRedirects = followRedirects;
     }
 
     /*
      * We need this in order to stub the connection object for test cases
      */
-    void setConnection(HttpURLConnection connection) {
+    void setConnection(final HttpURLConnection connection) {
         this.connection = connection;
     }
 

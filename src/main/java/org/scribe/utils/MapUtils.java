@@ -3,14 +3,11 @@ package org.scribe.utils;
 import java.util.Map;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
-public class MapUtils {
+public abstract class MapUtils {
 
-    private MapUtils() {
-    }
-
-    public static <K, V> String toString(Map<K, V> map) {
+    public static <K, V> String toString(final Map<K, V> map) {
         if (map == null) {
             return "";
         }
@@ -18,8 +15,8 @@ public class MapUtils {
             return "{}";
         }
 
-        StringBuilder result = new StringBuilder();
-        for (Map.Entry<K, V> entry : map.entrySet()) {
+        final StringBuilder result = new StringBuilder();
+        for (final Map.Entry<K, V> entry : map.entrySet()) {
             result.append(String.format(", %s -> %s ", entry.getKey().toString(), entry.getValue().toString()));
         }
         return "{" + result.substring(1) + "}";

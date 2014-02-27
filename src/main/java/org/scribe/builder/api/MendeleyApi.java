@@ -1,10 +1,11 @@
 package org.scribe.builder.api;
 
-import org.scribe.model.*;
+import org.scribe.model.Token;
+import org.scribe.model.Verb;
 
 /**
  * @author Arieh "Vainolo" Bibliowicz
- * @see http://apidocs.mendeley.com/home/authentication
+ * @see <a href="http://apidocs.mendeley.com/home/authentication">http://apidocs.mendeley.com/home/authentication</a>
  */
 public class MendeleyApi extends DefaultApi10a {
 
@@ -21,7 +22,7 @@ public class MendeleyApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 

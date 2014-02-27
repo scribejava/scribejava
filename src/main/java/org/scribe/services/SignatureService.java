@@ -17,12 +17,7 @@ public interface SignatureService {
      *
      * @return signature
      */
-    public String getSignature(String baseString, String apiSecret, String tokenSecret);
+    String getSignature(String baseString, String apiSecret, String tokenSecret);
 
-    /**
-     * Returns the signature method/algorithm
-     *
-     * @return
-     */
-    public String getSignatureMethod();
+    String getSignatureMethod();
 }

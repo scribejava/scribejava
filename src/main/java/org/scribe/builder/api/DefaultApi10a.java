@@ -1,9 +1,21 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.*;
-import org.scribe.model.*;
-import org.scribe.oauth.*;
-import org.scribe.services.*;
+import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.BaseStringExtractor;
+import org.scribe.extractors.BaseStringExtractorImpl;
+import org.scribe.extractors.HeaderExtractor;
+import org.scribe.extractors.HeaderExtractorImpl;
+import org.scribe.extractors.RequestTokenExtractor;
+import org.scribe.extractors.TokenExtractorImpl;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.Token;
+import org.scribe.model.Verb;
+import org.scribe.oauth.OAuth10aServiceImpl;
+import org.scribe.oauth.OAuthService;
+import org.scribe.services.HMACSha1SignatureService;
+import org.scribe.services.SignatureService;
+import org.scribe.services.TimestampService;
+import org.scribe.services.TimestampServiceImpl;
 
 /**
  * Default implementation of the OAuth protocol, version 1.0a
@@ -116,15 +128,8 @@ public abstract class DefaultApi10a implements Api {
      */
     public abstract String getAuthorizationUrl(Token requestToken);
 
-    /**
-     * Returns the {@link OAuthService} for this Api
-     *
-     * @param apiKey Key
-     * @param apiSecret Api Secret
-     * @param callback OAuth callback (either URL or 'oob')
-     * @param scope OAuth scope (optional)
-     */
-    public OAuthService createService(OAuthConfig config) {
+    @Override
+    public OAuthService createService(final OAuthConfig config) {
         return new OAuth10aServiceImpl(this, config);
     }
 }

@@ -1,12 +1,11 @@
 package org.scribe.services;
 
-import org.scribe.exceptions.*;
-import org.scribe.utils.*;
+import org.scribe.exceptions.OAuthSignatureException;
+import org.scribe.utils.OAuthEncoder;
+import org.scribe.utils.Preconditions;
 
 /**
- * plaintext implementation of {
- *
- * @SignatureService}
+ * plaintext implementation of {@link SignatureService}
  *
  * @author Pablo Fernandez
  *
@@ -18,6 +17,7 @@ public class PlaintextSignatureService implements SignatureService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getSignature(String baseString, String apiSecret, String tokenSecret) {
         try {
             Preconditions.checkEmptyString(apiSecret, "Api secret cant be null or empty string");
@@ -30,6 +30,7 @@ public class PlaintextSignatureService implements SignatureService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getSignatureMethod() {
         return METHOD;
     }

@@ -33,7 +33,6 @@ public class ServiceBuilder {
     public ServiceBuilder() {
         this.callback = OAuthConstants.OUT_OF_BAND;
         this.signatureType = SignatureType.Header;
-        this.debugStream = null;
     }
 
     /**
@@ -43,12 +42,12 @@ public class ServiceBuilder {
      *
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder provider(Class<? extends Api> apiClass) {
+    public ServiceBuilder provider(final Class<? extends Api> apiClass) {
         this.api = createApi(apiClass);
         return this;
     }
 
-    private Api createApi(Class<? extends Api> apiClass) {
+    private Api createApi(final Class<? extends Api> apiClass) {
         Preconditions.checkNotNull(apiClass, "Api class cannot be null");
         Api api;
         try {
@@ -66,7 +65,7 @@ public class ServiceBuilder {
      *
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder provider(Api api) {
+    public ServiceBuilder provider(final Api api) {
         Preconditions.checkNotNull(api, "Api cannot be null");
         this.api = api;
         return this;
@@ -79,7 +78,7 @@ public class ServiceBuilder {
      *
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder callback(String callback) {
+    public ServiceBuilder callback(final String callback) {
         Preconditions.checkNotNull(callback, "Callback can't be null");
         this.callback = callback;
         return this;
@@ -92,7 +91,7 @@ public class ServiceBuilder {
      *
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder apiKey(String apiKey) {
+    public ServiceBuilder apiKey(final String apiKey) {
         Preconditions.checkEmptyString(apiKey, "Invalid Api key");
         this.apiKey = apiKey;
         return this;
@@ -105,7 +104,7 @@ public class ServiceBuilder {
      *
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder apiSecret(String apiSecret) {
+    public ServiceBuilder apiSecret(final String apiSecret) {
         Preconditions.checkEmptyString(apiSecret, "Invalid Api secret");
         this.apiSecret = apiSecret;
         return this;
@@ -118,7 +117,7 @@ public class ServiceBuilder {
      *
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder scope(String scope) {
+    public ServiceBuilder scope(final String scope) {
         Preconditions.checkEmptyString(scope, "Invalid OAuth scope");
         this.scope = scope;
         return this;
@@ -127,35 +126,34 @@ public class ServiceBuilder {
     /**
      * Configures the signature type, choose between header, querystring, etc. Defaults to Header
      *
-     * @param scope The OAuth scope
-     *
+     * @param type
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder signatureType(SignatureType type) {
+    public ServiceBuilder signatureType(final SignatureType type) {
         Preconditions.checkNotNull(type, "Signature type can't be null");
         this.signatureType = type;
         return this;
     }
 
-    public ServiceBuilder debugStream(OutputStream stream) {
+    public ServiceBuilder debugStream(final OutputStream stream) {
         Preconditions.checkNotNull(stream, "debug stream can't be null");
         this.debugStream = stream;
         return this;
     }
 
-    public ServiceBuilder connectTimeout(Integer connectTimeout) {
+    public ServiceBuilder connectTimeout(final Integer connectTimeout) {
         Preconditions.checkNotNull(connectTimeout, "Connection timeout can't be null");
         this.connectTimeout = connectTimeout;
         return this;
     }
 
-    public ServiceBuilder readTimeout(Integer readTimeout) {
+    public ServiceBuilder readTimeout(final Integer readTimeout) {
         Preconditions.checkNotNull(readTimeout, "Read timeout can't be null");
         this.readTimeout = readTimeout;
         return this;
     }
 
-    public ServiceBuilder grantType(String grantType) {
+    public ServiceBuilder grantType(final String grantType) {
         Preconditions.checkEmptyString(grantType, "Invalid OAuth grantType");
         this.grantType = grantType;
         return this;

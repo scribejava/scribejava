@@ -3,7 +3,7 @@ package org.scribe.builder.api;
 import org.scribe.model.Token;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class SimpleGeoApi extends DefaultApi10a {
 
@@ -20,7 +20,7 @@ public class SimpleGeoApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return ENDPOINT;
     }
 }

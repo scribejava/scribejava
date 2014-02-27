@@ -1,15 +1,16 @@
 package org.scribe.services;
 
-import javax.crypto.*;
-import javax.crypto.spec.*;
-
-import org.scribe.exceptions.*;
-import org.scribe.utils.*;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.scribe.exceptions.OAuthSignatureException;
+import org.scribe.utils.OAuthEncoder;
+import org.scribe.utils.Preconditions;
 
 /**
- * HMAC-SHA1 implementation of {
- *
- * @SignatureService}
+ * HMAC-SHA1 implementation of {@link SignatureService}
  *
  * @author Pablo Fernandez
  *
@@ -25,31 +26,34 @@ public class HMACSha1SignatureService implements SignatureService {
     /**
      * {@inheritDoc}
      */
-    public String getSignature(String baseString, String apiSecret, String tokenSecret) {
+    @Override
+    public String getSignature(final String baseString, final String apiSecret, final String tokenSecret) {
         try {
             Preconditions.checkEmptyString(baseString, "Base string cant be null or empty string");
             Preconditions.checkEmptyString(apiSecret, "Api secret cant be null or empty string");
             return doSign(baseString, OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret));
-        } catch (Exception e) {
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException | RuntimeException e) {
             throw new OAuthSignatureException(baseString, e);
         }
     }
 
-    private String doSign(String toSign, String keyString) throws Exception {
-        SecretKeySpec key = new SecretKeySpec((keyString).getBytes(UTF8), HMAC_SHA1);
-        Mac mac = Mac.getInstance(HMAC_SHA1);
+    private String doSign(final String toSign, final String keyString) throws UnsupportedEncodingException,
+            NoSuchAlgorithmException, InvalidKeyException {
+        final SecretKeySpec key = new SecretKeySpec(keyString.getBytes(UTF8), HMAC_SHA1);
+        final Mac mac = Mac.getInstance(HMAC_SHA1);
         mac.init(key);
-        byte[] bytes = mac.doFinal(toSign.getBytes(UTF8));
+        final byte[] bytes = mac.doFinal(toSign.getBytes(UTF8));
         return bytesToBase64String(bytes).replace(CARRIAGE_RETURN, EMPTY_STRING);
     }
 
-    private String bytesToBase64String(byte[] bytes) {
+    private String bytesToBase64String(final byte[] bytes) {
         return Base64Encoder.getInstance().encode(bytes);
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getSignatureMethod() {
         return METHOD;
     }

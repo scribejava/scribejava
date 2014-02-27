@@ -8,7 +8,7 @@ import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class ParameterList {
 
@@ -20,31 +20,31 @@ public class ParameterList {
     private final List<Parameter> params;
 
     public ParameterList() {
-        params = new ArrayList<Parameter>();
+        params = new ArrayList<>();
     }
 
-    ParameterList(List<Parameter> params) {
-        this.params = new ArrayList<Parameter>(params);
+    ParameterList(final List<Parameter> params) {
+        this.params = new ArrayList<>(params);
     }
 
-    public ParameterList(Map<String, String> map) {
+    public ParameterList(final Map<String, String> map) {
         this();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
+        for (final Map.Entry<String, String> entry : map.entrySet()) {
             params.add(new Parameter(entry.getKey(), entry.getValue()));
         }
     }
 
-    public void add(String key, String value) {
+    public void add(final String key, final String value) {
         params.add(new Parameter(key, value));
     }
 
     public String appendTo(String url) {
         Preconditions.checkNotNull(url, "Cannot append to null URL");
-        String queryString = asFormUrlEncodedString();
+        final String queryString = asFormUrlEncodedString();
         if (queryString.equals(EMPTY_STRING)) {
             return url;
         } else {
-            url += url.indexOf(QUERY_STRING_SEPARATOR) != -1 ? PARAM_SEPARATOR : QUERY_STRING_SEPARATOR;
+            url += url.indexOf(QUERY_STRING_SEPARATOR) == -1 ? QUERY_STRING_SEPARATOR : PARAM_SEPARATOR;
             url += queryString;
             return url;
         }
@@ -55,33 +55,33 @@ public class ParameterList {
     }
 
     public String asFormUrlEncodedString() {
-        if (params.size() == 0) {
+        if (params.isEmpty()) {
             return EMPTY_STRING;
         }
 
-        StringBuilder builder = new StringBuilder();
-        for (Parameter p : params) {
+        final StringBuilder builder = new StringBuilder();
+        for (final Parameter p : params) {
             builder.append('&').append(p.asUrlEncodedPair());
         }
         return builder.toString().substring(1);
     }
 
-    public void addAll(ParameterList other) {
-        params.addAll(other.params);
+    public void addAll(final ParameterList other) {
+        params.addAll(other.getParams());
     }
 
-    public void addQuerystring(String queryString) {
+    public void addQuerystring(final String queryString) {
         if (queryString != null && queryString.length() > 0) {
-            for (String param : queryString.split(PARAM_SEPARATOR)) {
-                String pair[] = param.split(PAIR_SEPARATOR);
-                String key = OAuthEncoder.decode(pair[0]);
-                String value = pair.length > 1 ? OAuthEncoder.decode(pair[1]) : EMPTY_STRING;
+            for (final String param : queryString.split(PARAM_SEPARATOR)) {
+                final String pair[] = param.split(PAIR_SEPARATOR);
+                final String key = OAuthEncoder.decode(pair[0]);
+                final String value = pair.length > 1 ? OAuthEncoder.decode(pair[1]) : EMPTY_STRING;
                 params.add(new Parameter(key, value));
             }
         }
     }
 
-    public boolean contains(Parameter param) {
+    public boolean contains(final Parameter param) {
         return params.contains(param);
     }
 
@@ -89,9 +89,13 @@ public class ParameterList {
         return params.size();
     }
 
+    public List<Parameter> getParams() {
+        return params;
+    }
+
     public ParameterList sort() {
-        ParameterList sorted = new ParameterList(params);
-        Collections.sort(sorted.params);
+        final ParameterList sorted = new ParameterList(params);
+        Collections.sort(sorted.getParams());
         return sorted;
     }
 }
