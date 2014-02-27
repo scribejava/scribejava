@@ -5,25 +5,22 @@ import org.scribe.model.Token;
 /**
  * @author: Pablo Fernandez
  */
-public class SimpleGeoApi extends DefaultApi10a
-{
-  private static final String ENDPOINT = "these are not used since SimpleGeo uses 2 legged OAuth";
+public class SimpleGeoApi extends DefaultApi10a {
 
-	@Override
-	public String getRequestTokenEndpoint()
-	{
-		return ENDPOINT;
-	}
+    private static final String ENDPOINT = "these are not used since SimpleGeo uses 2 legged OAuth";
 
-	@Override
-	public String getAccessTokenEndpoint()
-	{
-		return ENDPOINT;
-	}
+    @Override
+    public String getRequestTokenEndpoint() {
+        return ENDPOINT;
+    }
 
-	@Override
-	public String getAuthorizationUrl(Token requestToken)
-	{
-		return ENDPOINT;
-	}
+    @Override
+    public String getAccessTokenEndpoint() {
+        return ENDPOINT;
+    }
+
+    @Override
+    public String getAuthorizationUrl(Token requestToken) {
+        return ENDPOINT;
+    }
 }
