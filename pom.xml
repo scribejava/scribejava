@@ -9,6 +9,12 @@
     <description>The best OAuth library out there. Originaly forked from Scribe (https://github.com/fernandezpablo85/scribe-java)</description>
     <url>https://github.com/hhru/subscribe</url>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
     <licenses>
         <license>
             <name>MIT</name>
@@ -168,17 +174,4 @@
             </build>
         </profile>
     </profiles>
-
-    <distributionManagement>
-        <repository>
-            <id>hh</id>
-            <name>hh releases repository</name>
-            <url>dav:http://m2.hh.ru/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>hh-snapshots</id>
-            <name>hh snapshots repository</name>
-            <url>dav:http://m2.hh.ru/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>  
