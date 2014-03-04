@@ -23,11 +23,8 @@ You can pull scribe from my maven repository, just add these to your __pom.xml__
 <dependency>
   <groupId>ru.hh.oauth.subscribe</groupId>
   <artifactId>subscribe</artifactId>
-  <version>2.0</version>
 </dependency>
 ```
-
-**Note!**: We're currently working on adding SubScribe to Central repo of maven
 
 # About Us
 
