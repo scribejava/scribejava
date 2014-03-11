@@ -27,13 +27,21 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
+      return getAccessToken(requestToken, verifier, null);
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner tuner)
+  {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
     request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
     if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
-    Response response = request.send();
+    Response response = request.send(tuner);
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
 
@@ -41,6 +49,14 @@ public class OAuth20ServiceImpl implements OAuthService
    * {@inheritDoc}
    */
   public Token getRequestToken()
+  {
+    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public Token getRequestToken(RequestTuner tuner)
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }

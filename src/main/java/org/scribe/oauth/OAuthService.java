@@ -17,6 +17,14 @@ public interface OAuthService
    * @return request token
    */
   public Token getRequestToken();
+  
+  /**
+   * Retrieve the request token.
+   * 
+   * @param tuner the tuner of the request
+   * @return request token
+   */
+  public Token getRequestToken(RequestTuner tuner);
 
   /**
    * Retrieve the access token
@@ -26,6 +34,16 @@ public interface OAuthService
    * @return access token
    */
   public Token getAccessToken(Token requestToken, Verifier verifier);
+  
+  /**
+   * Retrieve the access token
+   * 
+   * @param requestToken request token (obtained previously)
+   * @param verifier verifier code
+   * @param tuner the tuner of the request
+   * @return access token
+   */
+  public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner tuner);
 
   /**
    * Signs am OAuth request
