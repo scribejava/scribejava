@@ -1,11 +1,11 @@
 package org.scribe.builder.api;
 
 import org.scribe.extractors.AccessTokenExtractor;
-import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.Verb;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
+import ru.hh.oauth.subscribe.api.google.GoogleJsonTokenExtractor;
 
 public class GoogleApi20 extends DefaultApi20 {
 
@@ -23,7 +23,7 @@ public class GoogleApi20 extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(),
                 "Must provide a valid url as callback. Google+ does not support OOB");
         return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.
@@ -32,6 +32,6 @@ public class GoogleApi20 extends DefaultApi20 {
 
     @Override
     public AccessTokenExtractor getAccessTokenExtractor() {
-        return new JsonTokenExtractor();
+        return new GoogleJsonTokenExtractor();
     }
 }
