@@ -37,7 +37,7 @@ public class LinkedIn20Example {
         final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN) + '&' + STATE_PARAM_NAME
                 + "=some_params";
         System.out.println("Got the Authorization URL!");
-        System.out.println("Now go and authorize Scribe here:");
+        System.out.println("Now go and authorize SubScribe here:");
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");

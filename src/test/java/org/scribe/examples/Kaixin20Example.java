@@ -35,7 +35,7 @@ public class Kaixin20Example {
         System.out.println("Fetching the Authorization URL...");
         String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
         System.out.println("Got the Authorization URL!");
-        System.out.println("Now go and authorize Scribe here:");
+        System.out.println("Now go and authorize SubScribe here:");
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
@@ -60,7 +60,7 @@ public class Kaixin20Example {
         System.out.println(response.getBody());
 
         System.out.println();
-        System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
+        System.out.println("Thats it man! Go and build something awesome with SubScribe! :)");
 
     }
 }

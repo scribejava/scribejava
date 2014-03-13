@@ -30,7 +30,7 @@ public class ImgUrExample {
         System.out.println("Got the Request Token!");
         System.out.println();
 
-        System.out.println("Now go and authorize Scribe here:");
+        System.out.println("Now go and authorize SubScribe here:");
         String authorizationUrl = service.getAuthorizationUrl(requestToken);
         System.out.println(authorizationUrl);
         System.out.println("And paste the verifier here");
@@ -55,6 +55,6 @@ public class ImgUrExample {
         System.out.println(response.getBody());
 
         System.out.println();
-        System.out.println("Thats it man! Go and build something awesome with Scribe! :)");
+        System.out.println("Thats it man! Go and build something awesome with SubScribe! :)");
     }
 }

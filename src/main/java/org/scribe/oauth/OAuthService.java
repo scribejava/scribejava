@@ -5,7 +5,7 @@ import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 
 /**
- * The main Scribe object.
+ * The main SubScribe object.
  *
  * A facade responsible for the retrieval of request and access tokens and for the signing of HTTP requests.
  *
