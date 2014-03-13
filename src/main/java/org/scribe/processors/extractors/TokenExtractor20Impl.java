@@ -1,4 +1,4 @@
-package org.scribe.extractors;
+package org.scribe.processors.extractors;
 
 import java.util.regex.*;
 
@@ -10,7 +10,7 @@ import org.scribe.utils.*;
  * Default implementation of {@AccessTokenExtractor}. Conforms to OAuth 2.0
  *
  */
-public class TokenExtractor20Impl implements AccessTokenExtractor
+public class TokenExtractor20Impl implements TokenExtractor
 {
   private static final String TOKEN_REGEX = "access_token=([^&]+)";
   private static final String EMPTY_SECRET = "";

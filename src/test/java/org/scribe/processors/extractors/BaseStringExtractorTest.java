@@ -1,16 +1,18 @@
-package org.scribe.extractors;
+package org.scribe.processors.extractors;
 
 import static org.junit.Assert.*;
 
 import org.junit.*;
 import org.scribe.exceptions.*;
+import org.scribe.http.OAuthRequest;
 import org.scribe.model.*;
+import org.scribe.processors.resolvers.BaseStringResolverImpl;
 import org.scribe.test.helpers.*;
 
 public class BaseStringExtractorTest
 {
 
-  private BaseStringExtractorImpl extractor;
+  private BaseStringResolverImpl extractor;
   private OAuthRequest request;
   private OAuthRequest requestPort80;
   private OAuthRequest requestPort80_2;
@@ -27,7 +29,7 @@ public class BaseStringExtractorTest
     requestPort8080 = ObjectMother.createSampleOAuthRequestPort8080();
     requestPort443 = ObjectMother.createSampleOAuthRequestPort443();
     requestPort443_2 = ObjectMother.createSampleOAuthRequestPort443_2();
-    extractor = new BaseStringExtractorImpl();
+    extractor = new BaseStringResolverImpl();
   }
 
   @Test

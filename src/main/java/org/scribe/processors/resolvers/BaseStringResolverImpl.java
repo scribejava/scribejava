@@ -1,16 +1,17 @@
-package org.scribe.extractors;
+package org.scribe.processors.resolvers;
 
 import org.scribe.exceptions.*;
-import org.scribe.model.*;
+import org.scribe.http.OAuthRequest;
+import org.scribe.model.ParameterList;
 import org.scribe.utils.*;
 
 /**
- * Default implementation of {@link BaseStringExtractor}. Conforms to OAuth 1.0a
+ * Default implementation of {@link Resolver}. Conforms to OAuth 1.0a
  * 
  * @author Pablo Fernandez
  *
  */
-public class BaseStringExtractorImpl implements BaseStringExtractor
+public class BaseStringResolverImpl implements Resolver
 {
 
   private static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";

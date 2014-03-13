@@ -1,4 +1,4 @@
-package org.scribe.model;
+package org.scribe.http;
 
 import java.io.*;
 import java.net.*;
@@ -7,6 +7,8 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.scribe.exceptions.*;
+import org.scribe.model.ParameterList;
+import org.scribe.model.Verb;
 
 /**
  * Represents an HTTP Request object

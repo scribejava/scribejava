@@ -1,8 +1,11 @@
-package org.scribe.model;
+package org.scribe.http;
 
 import static org.junit.Assert.*;
 
 import org.junit.*;
+
+import org.scribe.model.Parameter;
+import org.scribe.model.Verb;
 
 public class RequestTest
 {

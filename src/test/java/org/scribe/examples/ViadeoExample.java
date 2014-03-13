@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
+import org.scribe.http.OAuthRequest;
+import org.scribe.http.Response;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 

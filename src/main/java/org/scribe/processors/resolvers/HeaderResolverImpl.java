@@ -1,18 +1,19 @@
-package org.scribe.extractors;
+package org.scribe.processors.resolvers;
 
 import java.util.*;
 
 import org.scribe.exceptions.*;
+import org.scribe.http.OAuthRequest;
 import org.scribe.model.*;
 import org.scribe.utils.*;
 
 /**
- * Default implementation of {@link HeaderExtractor}. Conforms to OAuth 1.0a
+ * Default implementation of {@link org.scribe.processors.resolvers.Resolver}.
  * 
  * @author Pablo Fernandez
  *
  */
-public class HeaderExtractorImpl implements HeaderExtractor
+public class HeaderResolverImpl implements Resolver
 {
   private static final String PARAM_SEPARATOR = ", ";
   private static final String PREAMBLE = "OAuth ";

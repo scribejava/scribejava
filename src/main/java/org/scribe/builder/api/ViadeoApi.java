@@ -2,19 +2,17 @@ package org.scribe.builder.api;
 
 import org.scribe.builder.AuthUrlBuilder;
 import org.scribe.builder.authUrl.DefaultAuthUrlBuilder;
-import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
-import org.scribe.utils.OAuthEncoder;
-import org.scribe.utils.Preconditions;
 
-import org.scribe.extractors.JsonTokenExtractor;
+import org.scribe.processors.extractors.JsonTokenExtractor;
+import org.scribe.processors.extractors.TokenExtractor;
 
 public class ViadeoApi extends DefaultApi20 {
   private static final String AUTHORIZE_URL = "https://secure.viadeo.com/oauth-provider/authorize2";
 
   @Override
-  public AccessTokenExtractor getAccessTokenExtractor() {
+  public TokenExtractor getAccessTokenExtractor() {
     return new JsonTokenExtractor();
   }
   

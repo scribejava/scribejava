@@ -1,23 +1,25 @@
-package org.scribe.extractors;
+package org.scribe.processors.extractors;
 
 import static org.junit.Assert.*;
 
 import org.junit.*;
 import org.scribe.exceptions.*;
+import org.scribe.http.OAuthRequest;
 import org.scribe.model.*;
+import org.scribe.processors.resolvers.HeaderResolverImpl;
 import org.scribe.test.helpers.*;
 
 public class HeaderExtractorTest
 {
 
-  private HeaderExtractorImpl extractor;
+  private HeaderResolverImpl extractor;
   private OAuthRequest request;
 
   @Before
   public void setup()
   {
     request = ObjectMother.createSampleOAuthRequest();
-    extractor = new HeaderExtractorImpl();
+    extractor = new HeaderResolverImpl();
   }
 
   @Test

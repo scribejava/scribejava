@@ -1,5 +1,6 @@
 package org.scribe.oauth;
 
+import org.scribe.http.OAuthRequest;
 import org.scribe.model.*;
 
 /**

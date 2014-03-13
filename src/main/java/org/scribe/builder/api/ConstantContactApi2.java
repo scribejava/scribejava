@@ -5,8 +5,8 @@ import java.util.regex.*;
 import org.scribe.builder.AuthUrlBuilder;
 import org.scribe.builder.authUrl.DefaultAuthUrlBuilder;
 import org.scribe.exceptions.*;
-import org.scribe.extractors.*;
 import org.scribe.model.*;
+import org.scribe.processors.extractors.TokenExtractor;
 import org.scribe.utils.*;
 
 public class ConstantContactApi2 extends DefaultApi20 {
@@ -37,8 +37,8 @@ public class ConstantContactApi2 extends DefaultApi20 {
   }
 
   @Override
-  public AccessTokenExtractor getAccessTokenExtractor() {
-    return new AccessTokenExtractor() {
+  public TokenExtractor getAccessTokenExtractor() {
+    return new TokenExtractor() {
 
       public Token extract(final String response) {
         Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");

@@ -2,7 +2,7 @@ package org.scribe.builder.api;
 
 import org.scribe.builder.AuthUrlBuilder;
 import org.scribe.builder.authUrl.DefaultAuthUrlBuilder;
-import org.scribe.extractors.*;
+import org.scribe.processors.extractors.*;
 import org.scribe.model.*;
 
 public class LiveApi extends DefaultApi20 {
@@ -28,7 +28,7 @@ public class LiveApi extends DefaultApi20 {
 	}
 
 	@Override
-	public AccessTokenExtractor getAccessTokenExtractor()
+	public TokenExtractor getAccessTokenExtractor()
 	{
 		return new JsonTokenExtractor();
 	}

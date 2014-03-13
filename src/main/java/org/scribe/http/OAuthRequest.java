@@ -1,6 +1,9 @@
-package org.scribe.model;
+package org.scribe.http;
 
 import java.util.*;
+
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.Verb;
 
 /**
  * The representation of an OAuth HttpRequest.

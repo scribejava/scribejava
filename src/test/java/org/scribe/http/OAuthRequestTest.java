@@ -1,8 +1,12 @@
-package org.scribe.model;
+package org.scribe.http;
 
 import static org.junit.Assert.*;
 
 import org.junit.*;
+
+import org.scribe.http.OAuthRequest;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.Verb;
 
 public class OAuthRequestTest
 {

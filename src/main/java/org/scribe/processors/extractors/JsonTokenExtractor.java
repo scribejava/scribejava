@@ -1,4 +1,4 @@
-package org.scribe.extractors;
+package org.scribe.processors.extractors;
 
 import java.util.regex.*;
 
@@ -6,7 +6,7 @@ import org.scribe.exceptions.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
 
-public class JsonTokenExtractor implements AccessTokenExtractor
+public class JsonTokenExtractor implements TokenExtractor
 {
   private Pattern accessTokenPattern = Pattern.compile("\"access_token\":\\s*\"(\\S*?)\"");
 

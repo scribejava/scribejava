@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.*;
+import org.scribe.processors.extractors.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -28,7 +28,7 @@ public abstract class DefaultApi20 implements Api
    * 
    * @return access token extractor
    */
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
     return new TokenExtractor20Impl();
   }

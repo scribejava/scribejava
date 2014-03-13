@@ -1,4 +1,4 @@
-package org.scribe.model;
+package org.scribe.http;
 
 import java.io.*;
 import java.net.*;

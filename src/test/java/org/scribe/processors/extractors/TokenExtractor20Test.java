@@ -1,4 +1,4 @@
-package org.scribe.extractors;
+package org.scribe.processors.extractors;
 
 import static org.junit.Assert.*;
 
