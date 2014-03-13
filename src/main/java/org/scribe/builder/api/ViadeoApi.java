@@ -4,6 +4,7 @@ import org.scribe.builder.AuthUrlBuilder;
 import org.scribe.builder.authUrl.DefaultAuthUrlBuilder;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
@@ -31,7 +32,7 @@ public class ViadeoApi extends DefaultApi20 {
               .setRedirectUrl(config.getCallback())
               .setScope(config.getScope())
               .setState(state)
-              .setResponseType("code");
+              .setResponseType(OAuthConstants.CODE);
       return builder.build();
   }
 }

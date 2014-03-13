@@ -37,7 +37,7 @@ public class SinaWeiboApi20 extends DefaultApi20 {
               .setRedirectUrl(config.getCallback())
               .setScope(config.getScope())
               .setState(state)
-              .setResponseType("code");
+              .setResponseType(OAuthConstants.CODE);
       return builder.build();
   }
 }
