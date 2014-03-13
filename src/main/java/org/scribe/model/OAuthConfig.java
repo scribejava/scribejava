@@ -1,5 +1,6 @@
 package org.scribe.model;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -18,15 +19,15 @@ public class OAuthConfig {
     private final OutputStream debugStream;
     private final Integer connectTimeout;
     private final Integer readTimeout;
+    private String state;
 
-    public OAuthConfig(String key, String secret) {
+    public OAuthConfig(final String key, final String secret) {
         this(key, secret, null, null, null, null, null, null, null);
     }
 
-    public OAuthConfig(
-            String key, String secret, String callback, SignatureType type, String scope, OutputStream stream,
-            Integer connectTimeout, Integer readTimeout,
-            String grantType) {
+    public OAuthConfig(final String key, final String secret, final String callback, final SignatureType type,
+            final String scope, final OutputStream stream, final Integer connectTimeout, final Integer readTimeout,
+            final String grantType) {
         this.apiKey = key;
         this.apiSecret = secret;
         this.callback = callback;
@@ -80,12 +81,26 @@ public class OAuthConfig {
 
     public void log(String message) {
         if (debugStream != null) {
-            message = message + "\n";
+            message += '\n';
             try {
                 debugStream.write(message.getBytes("UTF8"));
-            } catch (Exception e) {
+            } catch (IOException | RuntimeException e) {
                 throw new RuntimeException("there were problems while writting to the debug stream", e);
             }
         }
     }
+
+    /**
+     * Sets optional value used by some provider implementations that is exchanged with provider to avoid CSRF attacks.
+     *
+     * @param state some secret key that client side shall never receive
+     */
+    public void setState(final String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
 }

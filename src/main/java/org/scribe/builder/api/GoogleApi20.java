@@ -11,6 +11,7 @@ public class GoogleApi20 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
             = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
+    private static final String PARAM_STATE = "state";
 
     @Override
     public Verb getAccessTokenVerb() {
@@ -26,8 +27,14 @@ public class GoogleApi20 extends DefaultApi20 {
     public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(),
                 "Must provide a valid url as callback. Google+ does not support OOB");
-        return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.
-                encode(config.getScope()));
+        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(
+                config.getCallback()), OAuthEncoder.encode(config.getScope())));
+
+        final String state = config.getState();
+        if (state != null) {
+            sb.append('&').append(PARAM_STATE).append('=').append(OAuthEncoder.encode(state));
+        }
+        return sb.toString();
     }
 
     @Override
