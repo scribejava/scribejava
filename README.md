@@ -5,8 +5,6 @@ the project has discontinued oauth2 support. This project aims to pick up where 
 and does not support oauth1 or oauth1a and has no intetion of doing so in the future.
 
 
-![travis ci](https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master)
-
 # Why use Scribe?
 
 ### Dead Simple
