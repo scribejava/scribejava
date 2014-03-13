@@ -1,29 +1,33 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.*;
+import org.scribe.builder.AuthUrlBuilder;
+import org.scribe.builder.authUrl.DefaultAuthUrlBuilder;
+import org.scribe.processors.extractors.*;
 import org.scribe.model.*;
-import org.scribe.utils.*;
 
-public class Foursquare2Api extends DefaultApi20
-{
-  private static final String AUTHORIZATION_URL = "https://foursquare.com/oauth2/authenticate?client_id=%s&response_type=code&redirect_uri=%s";
+public class Foursquare2Api extends DefaultApi20 {
+  private static final String AUTHORIZATION_URL = "https://foursquare.com/oauth2/authenticate";
 
   @Override
-  public String getAccessTokenEndpoint()
-  {
+  public String getAccessTokenEndpoint() {
     return "https://foursquare.com/oauth2/access_token?grant_type=authorization_code";
   }
 
   @Override
-  public String getAuthorizationUrl(OAuthConfig config)
-  {
-    Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Foursquare2 does not support OOB");
-    return String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+  public String getAuthorizationUrl(final OAuthConfig config, final String state) {
+      AuthUrlBuilder builder = new DefaultAuthUrlBuilder();
+
+      builder.setEndpoint(AUTHORIZATION_URL)
+              .setClientId(config.getApiKey())
+              .setRedirectUrl(config.getCallback())
+              .setScope(config.getScope())
+              .setState(state)
+              .setResponseType(OAuthConstants.CODE);
+    return builder.build();
   }
 
   @Override
-  public AccessTokenExtractor getAccessTokenExtractor()
-  {
+  public TokenExtractor getAccessTokenExtractor() {
     return new JsonTokenExtractor();
   }
 }

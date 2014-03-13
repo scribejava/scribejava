@@ -1,6 +1,8 @@
 package org.scribe.oauth;
 
 import org.scribe.builder.api.*;
+import org.scribe.http.OAuthRequest;
+import org.scribe.http.Response;
 import org.scribe.model.*;
 
 public class OAuth20ServiceImpl implements OAuthService
@@ -28,21 +30,37 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+
+    switch (api.getAccessTokenEncoding())
+    {
+      case QUERY:
+        encodeInUrl(verifier, request);
+        break;
+      case FORM:
+        encodeInBody(verifier, request);
+        break;
+      default:
+        throw new UnsupportedOperationException("Unsupported operation, please select a valid encoding");
+    }
+
     Response response = request.send();
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public Token getRequestToken()
-  {
-    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
+  private void encodeInBody(Verifier verifier, OAuthRequest request) {
+    request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+    request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+    request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+    request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+    if(config.hasScope()) request.addBodyParameter(OAuthConstants.SCOPE, config.getScope());
+  }
+
+  private void encodeInUrl(Verifier verifier, OAuthRequest request) {
+      request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+      request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+      request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+      request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+      if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
   }
 
   /**
@@ -64,9 +82,16 @@ public class OAuth20ServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public String getAuthorizationUrl(Token requestToken)
+  public String getAuthorizationUrl() {
+    return getAuthorizationUrl(null);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public String getAuthorizationUrl(String requestToken)
   {
-    return api.getAuthorizationUrl(config);
+    return api.getAuthorizationUrl(config, requestToken);
   }
 
 }

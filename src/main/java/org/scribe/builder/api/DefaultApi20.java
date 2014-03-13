@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.*;
+import org.scribe.processors.extractors.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -28,7 +28,7 @@ public abstract class DefaultApi20 implements Api
    * 
    * @return access token extractor
    */
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
     return new TokenExtractor20Impl();
   }
@@ -42,6 +42,13 @@ public abstract class DefaultApi20 implements Api
   {
     return Verb.GET;
   }
+
+  /**
+   * Returns the encoding for the access token request (defaults to QUERY)
+   *
+   * @return access token encoding type
+   */
+  public Encoding getAccessTokenEncoding() { return Encoding.QUERY; }
 	
   /**
    * Returns the URL that receives the access token requests.
@@ -55,9 +62,10 @@ public abstract class DefaultApi20 implements Api
    * your application.
    *
    * @param config OAuth 2.0 configuration param object
+   * @param stateToken optional state token for protecting against csrf attacks
    * @return the URL where you should redirect your users
    */
-  public abstract String getAuthorizationUrl(OAuthConfig config);
+  public abstract String getAuthorizationUrl(OAuthConfig config, String stateToken);
 
   /**
    * {@inheritDoc}

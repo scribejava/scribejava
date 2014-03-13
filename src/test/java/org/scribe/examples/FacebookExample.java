@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.scribe.builder.*;
 import org.scribe.builder.api.*;
+import org.scribe.http.OAuthRequest;
+import org.scribe.http.Response;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -12,6 +14,7 @@ public class FacebookExample
   private static final String NETWORK_NAME = "Facebook";
   private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
   private static final Token EMPTY_TOKEN = null;
+    private static final String CSRF_TOKEN = "1234";
 
   public static void main(String[] args)
   {
@@ -31,7 +34,7 @@ public class FacebookExample
 
     // Obtain the Authorization URL
     System.out.println("Fetching the Authorization URL...");
-    String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+    String authorizationUrl = service.getAuthorizationUrl(CSRF_TOKEN);
     System.out.println("Got the Authorization URL!");
     System.out.println("Now go and authorize Scribe here:");
     System.out.println(authorizationUrl);

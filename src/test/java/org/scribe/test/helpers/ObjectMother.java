@@ -1,5 +1,6 @@
 package org.scribe.test.helpers;
 
+import org.scribe.http.OAuthRequest;
 import org.scribe.model.*;
 
 public class ObjectMother

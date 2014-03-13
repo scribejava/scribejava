@@ -1,6 +1,6 @@
 package org.scribe.exceptions;
 
-import org.scribe.model.*;
+import org.scribe.http.OAuthRequest;
 
 /**
  * Specialized exception that represents a missing OAuth parameter. 
