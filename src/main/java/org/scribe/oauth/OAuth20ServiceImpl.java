@@ -61,14 +61,6 @@ public class OAuth20ServiceImpl implements OAuthService
       if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
   }
 
-    /**
-   * {@inheritDoc}
-   */
-  public Token getRequestToken()
-  {
-    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
-  }
-
   /**
    * {@inheritDoc}
    */
@@ -88,9 +80,16 @@ public class OAuth20ServiceImpl implements OAuthService
   /**
    * {@inheritDoc}
    */
-  public String getAuthorizationUrl(Token requestToken)
+  public String getAuthorizationUrl() {
+    return getAuthorizationUrl(null);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public String getAuthorizationUrl(String requestToken)
   {
-    return api.getAuthorizationUrl(config);
+    return api.getAuthorizationUrl(config, requestToken);
   }
 
 }

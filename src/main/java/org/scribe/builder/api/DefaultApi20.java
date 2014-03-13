@@ -62,9 +62,10 @@ public abstract class DefaultApi20 implements Api
    * your application.
    *
    * @param config OAuth 2.0 configuration param object
+   * @param stateToken optional state token for protecting against csrf attacks
    * @return the URL where you should redirect your users
    */
-  public abstract String getAuthorizationUrl(OAuthConfig config);
+  public abstract String getAuthorizationUrl(OAuthConfig config, String stateToken);
 
   /**
    * {@inheritDoc}

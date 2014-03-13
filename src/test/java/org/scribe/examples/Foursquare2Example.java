@@ -11,6 +11,7 @@ public class Foursquare2Example
 {
   private static final String PROTECTED_RESOURCE_URL = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
   private static final Token EMPTY_TOKEN = null;
+    private static final String CSRF_TOKEN = "1234";
 
   public static void main(String[] args)
   {
@@ -30,7 +31,7 @@ public class Foursquare2Example
 
     // Obtain the Authorization URL
     System.out.println("Fetching the Authorization URL...");
-    String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+    String authorizationUrl = service.getAuthorizationUrl(CSRF_TOKEN);
     System.out.println("Got the Authorization URL!");
     System.out.println("Now go and authorize Scribe here:");
     System.out.println(authorizationUrl);
