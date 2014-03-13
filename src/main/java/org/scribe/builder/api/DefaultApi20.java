@@ -42,6 +42,13 @@ public abstract class DefaultApi20 implements Api
   {
     return Verb.GET;
   }
+
+  /**
+   * Returns the encoding for the access token request (defaults to QUERY)
+   *
+   * @return access token encoding type
+   */
+  public Encoding getAccessTokenEncoding() { return Encoding.QUERY; }
 	
   /**
    * Returns the URL that receives the access token requests.
