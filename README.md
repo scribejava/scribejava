@@ -84,7 +84,7 @@ You can pull scribe from my maven repository, just add these to your __pom.xml__
 <dependency>
   <groupId>org.scribe</groupId>
   <artifactId>scribe</artifactId>
-  <version>1.3.5</version>
+  <version>1.3.6</version>
 </dependency>
 ```
 
