@@ -21,7 +21,7 @@ public class JsonTokenExtractor implements AccessTokenExtractor {
         if (matcher.find()) {
             return matcher.group(1);
         } else {
-            throw new OAuthException("Cannot extract an acces token. Response was: " + response);
+            throw new OAuthException("Cannot extract an access token. Response was: " + response);
         }
     }
 }
