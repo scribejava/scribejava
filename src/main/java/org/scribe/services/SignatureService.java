@@ -22,7 +22,7 @@ public interface SignatureService
   /**
    * Returns the signature method/algorithm
    * 
-   * @return
+   * @return signature method/algorithm
    */
   public String getSignatureMethod();
 }

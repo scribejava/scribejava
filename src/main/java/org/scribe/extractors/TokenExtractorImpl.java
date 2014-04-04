@@ -7,7 +7,7 @@ import org.scribe.model.*;
 import org.scribe.utils.*;
 
 /**
- * Default implementation of {@RequestTokenExtractor} and {@AccessTokenExtractor}. Conforms to OAuth 1.0a
+ * Default implementation of {@link RequestTokenExtractor} and {@link AccessTokenExtractor}. Conforms to OAuth 1.0a
  *
  * The process for extracting access and request tokens is similar so this class can do both things.
  * 

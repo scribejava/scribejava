@@ -8,7 +8,7 @@ import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class ParameterList
 {

@@ -7,8 +7,7 @@ import org.scribe.model.*;
 import org.scribe.utils.*;
 
 /**
- * Default implementation of {@AccessTokenExtractor}. Conforms to OAuth 2.0
- *
+ * Default implementation of {@link AccessTokenExtractor}. Conforms to OAuth 2.0
  */
 public class TokenExtractor20Impl implements AccessTokenExtractor
 {

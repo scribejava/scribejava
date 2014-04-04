@@ -1,7 +1,7 @@
 package org.scribe.exceptions;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class OAuthConnectionException extends OAuthException
 {

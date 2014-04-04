@@ -7,7 +7,7 @@ import org.scribe.exceptions.*;
 import org.scribe.utils.*;
 
 /**
- * HMAC-SHA1 implementation of {@SignatureService}
+ * HMAC-SHA1 implementation of {@link SignatureService}
  * 
  * @author Pablo Fernandez
  *
