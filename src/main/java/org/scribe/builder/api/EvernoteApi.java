@@ -5,74 +5,51 @@ import org.scribe.model.Token;
 /**
  * OAuth API for Evernote
  *
- * @author Pablo Fernandez
  * @author Norbert Potocki
  */
 public class EvernoteApi extends DefaultApi10a
 {
-  private static final String AUTHORIZATION_URL = "https://www.evernote.com/OAuth.action?oauth_token=%s";
+  protected String serviceUrl() {
+    return "https://www.evernote.com";
+  }
 
   @Override
   public String getRequestTokenEndpoint()
   {
-    return "https://www.evernote.com/oauth";
+    return serviceUrl() + "/oauth";
   }
 
   @Override
   public String getAccessTokenEndpoint()
   {
-    return "https://www.evernote.com/oauth";
+    return serviceUrl() + "/oauth";
   }
 
   @Override
   public String getAuthorizationUrl(Token requestToken)
   {
-    return String.format(AUTHORIZATION_URL, requestToken.getToken());
+    return String.format(serviceUrl() + "/OAuth.action?oauth_token=%s", requestToken.getToken());
   }
 
+  /**
+   * Sandbox endpoint
+   */
   public static class Sandbox extends EvernoteApi
   {
-    private static final String SANDBOX_URL = "https://sandbox.evernote.com";
-
     @Override
-    public String getRequestTokenEndpoint()
-    {
-      return SANDBOX_URL + "/oauth";
-    }
-
-    @Override
-    public String getAccessTokenEndpoint()
-    {
-      return SANDBOX_URL + "/oauth";
-    }
-
-    @Override
-    public String getAuthorizationUrl(Token requestToken)
-    {
-      return String.format(SANDBOX_URL + "/OAuth.action?oauth_token=%s", requestToken.getToken());
+    protected String serviceUrl() {
+      return "https://sandbox.evernote.com";
     }
   }
 
+  /**
+   * Yinxiang Biji endpoint
+   */
   public static class Yinxiang extends EvernoteApi
   {
-    private static final String SANDBOX_URL = "https://app.yinxiang.com";
-
     @Override
-    public String getRequestTokenEndpoint()
-    {
-      return SANDBOX_URL + "/oauth";
-    }
-
-    @Override
-    public String getAccessTokenEndpoint()
-    {
-      return SANDBOX_URL + "/oauth";
-    }
-
-    @Override
-    public String getAuthorizationUrl(Token requestToken)
-    {
-      return String.format(SANDBOX_URL + "/OAuth.action?oauth_token=%s", requestToken.getToken());
+    protected String serviceUrl() {
+      return "https://app.yinxiang.com";
     }
   }
 }
