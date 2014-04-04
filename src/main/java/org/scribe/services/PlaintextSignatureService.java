@@ -4,7 +4,7 @@ import org.scribe.exceptions.*;
 import org.scribe.utils.*;
 
 /**
- * plaintext implementation of {@SignatureService}
+ * plaintext implementation of {@link SignatureService}
  *
  * @author Pablo Fernandez
  *

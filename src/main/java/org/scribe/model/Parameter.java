@@ -3,7 +3,7 @@ package org.scribe.model;
 import org.scribe.utils.*;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class Parameter implements Comparable<Parameter>
 {

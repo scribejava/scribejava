@@ -3,7 +3,7 @@ package org.scribe.utils;
 import java.util.Map;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class MapUtils
 {

@@ -7,7 +7,7 @@ import java.util.regex.*;
 import org.scribe.exceptions.*;
 
 /**
- * @author: Pablo Fernandez
+ * @author Pablo Fernandez
  */
 public class OAuthEncoder
 {
