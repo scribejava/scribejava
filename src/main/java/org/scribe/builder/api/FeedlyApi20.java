@@ -1,4 +1,4 @@
-package org.scribe.examples;
+package org.scribe.builder.api;
 
 
 import org.scribe.builder.api.DefaultApi20;

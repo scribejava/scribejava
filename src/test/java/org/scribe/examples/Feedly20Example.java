@@ -5,6 +5,7 @@ import java.util.*;
 import org.scribe.builder.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
+import org.scribe.builder.api.FeedlyApi20;
 
 public class Feedly20Example
 {
