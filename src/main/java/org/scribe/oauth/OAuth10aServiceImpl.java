@@ -56,7 +56,7 @@ public class OAuth10aServiceImpl implements OAuthService
     appendSignature(request);
 
     config.log("sending request...");
-    Response response = request.send(tuner);
+    Response response = request.send(api.getRequestSender(), tuner);
     String body = response.getBody();
 
     config.log("response status code: " + response.getCode());
@@ -102,7 +102,7 @@ public class OAuth10aServiceImpl implements OAuthService
     appendSignature(request);
     
     config.log("sending request...");
-    Response response = request.send(tuner);
+    Response response = request.send(api.getRequestSender(), tuner);
     String body = response.getBody();
     
     config.log("response status code: " + response.getCode());

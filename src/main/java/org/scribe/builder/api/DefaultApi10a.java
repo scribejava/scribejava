@@ -138,4 +138,9 @@ public abstract class DefaultApi10a implements Api
   {
     return new OAuth10aServiceImpl(this, config);
   }
+
+  public RequestSender getRequestSender()
+  {
+    return UrlConnectionRequestSender.INSTANCE;
+  }
 }
