@@ -1,6 +1,8 @@
 package org.scribe.model;
 
 import java.io.*;
+import java.util.Date;
+
 import org.scribe.utils.*;
 
 /**
@@ -15,6 +17,7 @@ public class Token implements Serializable
   private final String token;
   private final String secret;
   private final String rawResponse;
+  private final Date expiry;
 
   /**
    * Default constructor
@@ -29,11 +32,17 @@ public class Token implements Serializable
 
   public Token(String token, String secret, String rawResponse)
   {
+    this(token, secret, null, rawResponse);
+  }
+
+  public Token(String token, String secret, Date expiry, String rawResponse)
+  {
     Preconditions.checkNotNull(token, "Token can't be null");
     Preconditions.checkNotNull(secret, "Secret can't be null");
 
     this.token = token;
     this.secret = secret;
+    this.expiry = (expiry == null) ? null : new Date(expiry.getTime());
     this.rawResponse = rawResponse;
   }
 
@@ -56,9 +65,16 @@ public class Token implements Serializable
     return rawResponse;
   }
 
+  public Date getExpiry()
+  {
+    return new Date(expiry.getTime());
+  }
+
   @Override
   public String toString()
   {
+    if (expiry != null)
+      return String.format("Token[%s , %s], expires in %d milliseconds", token, secret, expiry.getTime() - System.currentTimeMillis());
     return String.format("Token[%s , %s]", token, secret);
   }
 
@@ -87,7 +103,8 @@ public class Token implements Serializable
     if (o == null || getClass() != o.getClass()) return false;
 
     Token that = (Token) o;
-    return token.equals(that.token) && secret.equals(that.secret);
+    boolean expiryEquals = (expiry == that.expiry) || (expiry != null && expiry.equals(that.expiry));
+    return token.equals(that.token) && secret.equals(that.secret) && expiryEquals;
   }
 
   @Override
