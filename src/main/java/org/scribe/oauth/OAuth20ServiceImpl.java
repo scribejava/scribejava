@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.net.Proxy;
+
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 
@@ -9,6 +11,8 @@ public class OAuth20ServiceImpl implements OAuthService
   
   private final DefaultApi20 api;
   private final OAuthConfig config;
+  
+  private Proxy proxy = null;
   
   /**
    * Default constructor
@@ -21,6 +25,14 @@ public class OAuth20ServiceImpl implements OAuthService
     this.api = api;
     this.config = config;
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public void setProxy(Proxy proxy)
+  {
+      this.proxy = proxy;
+  }
 
   /**
    * {@inheritDoc}
@@ -28,6 +40,13 @@ public class OAuth20ServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    
+    // check for proxy, use if available
+    if (proxy != null)
+    {
+        request.setProxy(proxy);
+    }
+    
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());

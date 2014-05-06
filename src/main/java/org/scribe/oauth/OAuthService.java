@@ -1,6 +1,7 @@
 package org.scribe.oauth;
 
 import org.scribe.model.*;
+import java.net.Proxy;
 
 /**
  * The main Scribe object. 
@@ -11,6 +12,13 @@ import org.scribe.model.*;
  */
 public interface OAuthService
 {
+  /**
+   * Set optional proxy
+   * 
+   * @param proxy a configured Proxy object
+   */
+  public void setProxy(Proxy proxy);
+    
   /**
    * Retrieve the request token.
    * 

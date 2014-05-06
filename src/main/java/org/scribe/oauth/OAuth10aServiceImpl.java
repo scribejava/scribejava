@@ -1,5 +1,8 @@
 package org.scribe.oauth;
 
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
 import java.util.*;
 
 import org.scribe.builder.api.*;
@@ -19,6 +22,8 @@ public class OAuth10aServiceImpl implements OAuthService
 
   private OAuthConfig config;
   private DefaultApi10a api;
+  
+  private Proxy proxy = null;
 
   /**
    * Default constructor
@@ -30,6 +35,14 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     this.api = api;
     this.config = config;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public void setProxy(Proxy proxy)
+  {
+      this.proxy = proxy;
   }
 
   /**
@@ -50,6 +63,12 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("obtaining request token from " + api.getRequestTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
 
+    // check for proxy, use if available
+    if (proxy != null)
+    {
+        request.setProxy(proxy);
+    }
+    
     config.log("setting oauth_callback to " + config.getCallback());
     request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
@@ -94,6 +113,13 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     config.log("obtaining access token from " + api.getAccessTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    
+    // check for proxy, use if available
+    if (proxy != null)
+    {
+        request.setProxy(proxy);
+    }
+    
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
 
