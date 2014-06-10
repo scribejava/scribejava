@@ -21,13 +21,13 @@ public class VkontakteExample {
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(String[] args) {
-        // Replace these with your own api key and secret
-        final String clientId = "your app id";
-        final String apiSecret = "your api secret";
+        // Replace these with your client id and secret
+        final String clientId = "your client id";
+        final String clientSecret = "your client secret";
         OAuthService service = new ServiceBuilder()
                 .provider(VkontakteApi.class)
                 .apiKey(clientId)
-                .apiSecret(apiSecret)
+                .apiSecret(clientSecret)
                 .scope("friends,wall,offline") // replace with desired scope
                 .callback("http://your.site.com/callback")
                 .build();

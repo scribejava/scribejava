@@ -1,6 +1,7 @@
 package org.scribe.examples;
 
 import java.util.Scanner;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.LinkedInApi20;
 import org.scribe.model.OAuthRequest;
@@ -18,11 +19,11 @@ public class LinkedIn20Example {
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(String[] args) {
-        // Replace these with your own api key and secret
+        // Replace these with your client id and secret
         final String clientId = "your client id";
-        final String apiSecret = "your api secret";
+        final String clientSecret = "your client secret";
         final OAuth20ServiceImpl service = (OAuth20ServiceImpl) new ServiceBuilder().provider(LinkedInApi20.class).
-                apiKey(clientId).apiSecret(apiSecret)
+                apiKey(clientId).apiSecret(clientSecret)
                 .scope("r_fullprofile,r_emailaddress,r_contactinfo") // replace with desired scope
                 .grantType("authorization_code")
                 .callback("http://example.com/callback")

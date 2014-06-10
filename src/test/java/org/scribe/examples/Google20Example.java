@@ -2,6 +2,7 @@ package org.scribe.examples;
 
 import java.util.Random;
 import java.util.Scanner;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.GoogleApi20;
 import org.scribe.model.OAuthRequest;
@@ -18,14 +19,14 @@ public abstract class Google20Example {
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(final String[] args) {
-        // Replace these with your own api key and secret
-        final String clientId = "api key";
-        final String apiSecret = "api secret";
+        // Replace these with your client id and secret
+        final String clientId = "your client id";
+        final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20ServiceImpl service = (OAuth20ServiceImpl) new ServiceBuilder()
                 .provider(GoogleApi20.class)
                 .apiKey(clientId)
-                .apiSecret(apiSecret)
+                .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
                 .grantType("authorization_code")
                 .state(secretState)

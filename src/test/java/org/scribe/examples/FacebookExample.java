@@ -2,6 +2,7 @@ package org.scribe.examples;
 
 import java.util.Random;
 import java.util.Scanner;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.FacebookApi;
 import org.scribe.model.OAuthRequest;
@@ -18,14 +19,14 @@ public abstract class FacebookExample {
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(final String[] args) {
-        // Replace these with your own api key and secret
-        final String apiKey = "your_app_id";
-        final String apiSecret = "your_api_secret";
+        // Replace these with your client id and secret
+        final String clientId = "your client id";
+        final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuthService service = new ServiceBuilder()
                 .provider(FacebookApi.class)
-                .apiKey(apiKey)
-                .apiSecret(apiSecret)
+                .apiKey(clientId)
+                .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
                 .build();
