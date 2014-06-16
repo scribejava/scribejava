@@ -1,3 +1,10 @@
+[2.1]
+
+ * add OpenID id_token parsing from response to GoogleAPI 2.0
+ * add optional OAuth 'state' request parameter
+ * Add hh api support
+ * fix Mailru API
+
 [2.0]
 
  * New release. First release. Formalizations of new project.

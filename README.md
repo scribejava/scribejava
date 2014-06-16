@@ -23,6 +23,7 @@ You can pull scribe from my maven repository, just add these to your __pom.xml__
 <dependency>
   <groupId>ru.hh.oauth.subscribe</groupId>
   <artifactId>subscribe</artifactId>
+  <version>2.1</version>
 </dependency>
 ```
 
