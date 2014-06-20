@@ -16,10 +16,14 @@ public class LinkedInExampleWithScopes {
             = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
 
     public static void main(String[] args) {
+     //  Replace these with your client id and secret
+        final String clientId = "your client id"; 
+        final String clientSecret = "your client id"; 
+        
         OAuthService service = new ServiceBuilder()
                 .provider(LinkedInApi.withScopes("foo", "bar", "baz"))
-                .apiKey("CiEgwWDkA5BFpNrc0RfGyVuSlOh4tig5kOTZ9q97qcXNrFl7zqk-Ts7DqRGaKDCV")
-                .apiSecret("dhho4dfoCmiQXrkw4yslork5XWLFnPSuMR-8gscPVjY4jqFFHPYWJKgpFl4uLTM6")
+                .apiKey(clientId)
+                .apiSecret(clientSecret)
                 .build();
         Scanner in = new Scanner(System.in);
 
