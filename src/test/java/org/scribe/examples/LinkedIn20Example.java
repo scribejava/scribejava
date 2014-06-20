@@ -15,7 +15,6 @@ public class LinkedIn20Example {
 
     private static final String NETWORK_NAME = "LinkedIn";
     private static final String PROTECTED_RESOURCE_URL = "https://api.linkedin.com/v1/people/~:(%s)";
-    private static final String STATE_PARAM_NAME = "state";
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(String[] args) {
@@ -27,6 +26,7 @@ public class LinkedIn20Example {
                 .scope("r_fullprofile,r_emailaddress,r_contactinfo") // replace with desired scope
                 .grantType("authorization_code")
                 .callback("http://example.com/callback")
+                .state("some_params")
                 .build();
         Scanner in = new Scanner(System.in);
 
@@ -35,8 +35,7 @@ public class LinkedIn20Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN) + '&' + STATE_PARAM_NAME
-                + "=some_params";
+        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize SubScribe here:");
         System.out.println(authorizationUrl);
