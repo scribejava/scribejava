@@ -9,12 +9,12 @@ import java.util.*;
 
 public class FlickrExample
 {
-  private static final String PROTECTED_RESOURCE_URL = "http://api.flickr.com/services/rest/";
+  private static final String PROTECTED_RESOURCE_URL = "https://api.flickr.com/services/rest/";
 
   public static void main(String[] args)
   {
     // Replace these with your own api key and secret
-    String apiKey = "your_app_id";
+    String apiKey = "your_api_key";
     String apiSecret = "your_api_secret";
     OAuthService service = new ServiceBuilder().provider(FlickrApi.class).apiKey(apiKey).apiSecret(apiSecret).build();
     Scanner in = new Scanner(System.in);
@@ -41,6 +41,7 @@ public class FlickrExample
     Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
     System.out.println("(if your curious it looks like this: " + accessToken + " )");
+    System.out.println("(you can get the username, full name, and nsid by parsing the rawResponse: " + accessToken.getRawResponse() + ")");
     System.out.println();
 
     // Now let's go and ask for a protected resource!
