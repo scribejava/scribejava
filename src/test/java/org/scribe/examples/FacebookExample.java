@@ -15,7 +15,7 @@ import org.scribe.oauth.OAuthService;
 public abstract class FacebookExample {
 
     private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.0/me";
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(final String[] args) {

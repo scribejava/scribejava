@@ -6,13 +6,13 @@ import org.scribe.utils.Preconditions;
 
 public class FacebookApi extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s";
+    private static final String AUTHORIZE_URL = "https://www.facebook.com/v2.0/dialog/oauth?client_id=%s&redirect_uri=%s";
     private static final String PARAM_SCOPE = "scope";
     private static final String PARAM_STATE = "state";
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://graph.facebook.com/oauth/access_token";
+        return "https://graph.facebook.com/v2.0/oauth/access_token";
     }
 
     @Override
