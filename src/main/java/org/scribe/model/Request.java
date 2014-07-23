@@ -233,7 +233,13 @@ public class Request {
      * @return the OAuth-sanitized URL
      */
     public String getSanitizedUrl() {
-        return url.replaceAll("\\?.*", "").replace("\\:\\d{4}", "");
+        if (url.startsWith("http://") && (url.endsWith(":80") || url.contains(":80/"))) {
+            return url.replaceAll("\\?.*", "").replaceAll(":80", "");
+        } else if (url.startsWith("https://") && (url.endsWith(":443") || url.contains(":443/"))) {
+            return url.replaceAll("\\?.*", "").replaceAll(":443", "");
+        } else {
+            return url.replaceAll("\\?.*", "");
+        }
     }
 
     /**

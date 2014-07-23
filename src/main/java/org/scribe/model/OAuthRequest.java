@@ -15,6 +15,8 @@ public class OAuthRequest extends Request {
     private static final String OAUTH_PREFIX = "oauth_";
     private Map<String, String> oauthParameters;
 
+    private String realm;
+
     /**
      * Default constructor.
      *
@@ -54,6 +56,14 @@ public class OAuthRequest extends Request {
      */
     public Map<String, String> getOauthParameters() {
         return oauthParameters;
+    }
+
+    public void setRealm(String realm) {
+        this.realm = realm;
+    }
+
+    public String getRealm() {
+        return realm;
     }
 
     @Override

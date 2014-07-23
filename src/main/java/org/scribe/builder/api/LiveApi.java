@@ -14,7 +14,7 @@ public class LiveApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://oauth.live.com/token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
+        return "https://login.live.com/oauth20_token.srf?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
     }
 
     @Override

@@ -15,7 +15,7 @@ public class FlickrApi extends DefaultApi10a {
      */
     @Override
     public String getAccessTokenEndpoint() {
-        return "http://www.flickr.com/services/oauth/access_token";
+        return "https://www.flickr.com/services/oauth/access_token";
     }
 
     /**
@@ -23,7 +23,7 @@ public class FlickrApi extends DefaultApi10a {
      */
     @Override
     public String getAuthorizationUrl(Token requestToken) {
-        return "http://www.flickr.com/services/oauth/authorize?oauth_token=" + requestToken.getToken();
+        return "https://www.flickr.com/services/oauth/authorize?oauth_token=" + requestToken.getToken();
     }
 
     /**
@@ -31,6 +31,6 @@ public class FlickrApi extends DefaultApi10a {
      */
     @Override
     public String getRequestTokenEndpoint() {
-        return "http://www.flickr.com/services/oauth/request_token";
+        return "https://www.flickr.com/services/oauth/request_token";
     }
 }

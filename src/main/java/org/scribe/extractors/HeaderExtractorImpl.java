@@ -2,6 +2,7 @@ package org.scribe.extractors;
 
 import java.util.Map;
 import org.scribe.exceptions.OAuthParametersMissingException;
+import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
@@ -32,6 +33,12 @@ public class HeaderExtractorImpl implements HeaderExtractor {
             }
             header.append(String.format("%s=\"%s\"", entry.getKey(), OAuthEncoder.encode(entry.getValue())));
         }
+
+        if (request.getRealm() != null && !request.getRealm().isEmpty()) {
+            header.append(PARAM_SEPARATOR);
+            header.append(String.format("%s=\"%s\"", OAuthConstants.REALM, request.getRealm()));
+        }
+
         return header.toString();
     }
 
