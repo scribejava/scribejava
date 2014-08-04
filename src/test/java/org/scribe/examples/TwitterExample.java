@@ -15,7 +15,7 @@ public class TwitterExample
   {
     // If you choose to use a callback, "oauth_verifier" will be the return value by Twitter (request param)
     OAuthService service = new ServiceBuilder()
-                                .provider(TwitterApi.class)
+                                .provider(TwitterApi.SSL.class) //reason add SSL: //https://github.com/donbeave/grails-spring-security-oauth-twitter/issues/2
                                 .apiKey("6icbcAXyZx67r8uTAUM5Qw")
                                 .apiSecret("SCCAdUUc6LXxiazxH3N0QfpNUvlUy84mZ2XZKiv39s")
                                 .build();
@@ -47,7 +47,7 @@ public class TwitterExample
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");
     OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-    request.addBodyParameter("status", "this is sparta! *");
+    // request.addBodyParameter("status", "this is sparta! *"); //reason comment this line: //https://github.com/fernandezpablo85/scribe-java/issues/439 //https://dev.twitter.com/discussions/11494
     service.signRequest(accessToken, request);
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");
