@@ -24,7 +24,6 @@ public class MailruExample {
                 .provider(MailruApi.class)
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
-                .grantType("authorization_code")
                 .callback("http://www.example.com/oauth_callback/")
                 .build();
 

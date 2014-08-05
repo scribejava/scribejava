@@ -28,7 +28,6 @@ public abstract class Google20Example {
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
-                .grantType("authorization_code")
                 .state(secretState)
                 .callback("http://example.com/callback")
                 .build();

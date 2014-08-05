@@ -3,9 +3,11 @@ package org.scribe.builder.api;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.Verb;
+import org.scribe.oauth.OAuthService;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 import ru.hh.oauth.subscribe.api.google.GoogleJsonTokenExtractor;
+import ru.hh.oauth.subscribe.service.GoogleOAuthServiceImpl;
 
 public class GoogleApi20 extends DefaultApi20 {
 
@@ -41,4 +43,10 @@ public class GoogleApi20 extends DefaultApi20 {
     public AccessTokenExtractor getAccessTokenExtractor() {
         return new GoogleJsonTokenExtractor();
     }
+
+    @Override
+    public OAuthService createService(OAuthConfig config) {
+        return new GoogleOAuthServiceImpl(this, config);
+    }
+
 }

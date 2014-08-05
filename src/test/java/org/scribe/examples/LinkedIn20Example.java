@@ -24,7 +24,6 @@ public class LinkedIn20Example {
         final OAuth20ServiceImpl service = (OAuth20ServiceImpl) new ServiceBuilder().provider(LinkedInApi20.class).
                 apiKey(clientId).apiSecret(clientSecret)
                 .scope("r_fullprofile,r_emailaddress,r_contactinfo") // replace with desired scope
-                .grantType("authorization_code")
                 .callback("http://example.com/callback")
                 .state("some_params")
                 .build();
