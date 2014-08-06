@@ -1,13 +1,16 @@
 package ru.hh.oauth.subscribe.examples;
 
 import java.util.Scanner;
+
 import org.scribe.builder.ServiceBuilder;
+import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
+
 import ru.hh.oauth.subscribe.api.TutByApi;
 
 public class TutByExample {
@@ -24,7 +27,7 @@ public class TutByExample {
                 .provider(TutByApi.class)
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
-                .grantType("authorization_code")
+                .grantType(OAuthConstants.AUTHORIZATION_CODE)
                 .callback("http://www.example.com/oauth_callback/")
                 .build();
         final Scanner in = new Scanner(System.in, "UTF-8");

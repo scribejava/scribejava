@@ -2,7 +2,6 @@ package org.scribe.examples;
 
 import java.util.Random;
 import java.util.Scanner;
-
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.GoogleApi20;
 import org.scribe.model.OAuthRequest;

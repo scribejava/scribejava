@@ -3,6 +3,7 @@ package org.scribe.builder.api;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
@@ -18,7 +19,7 @@ public class ViadeoApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://secure.viadeo.com/oauth-provider/access_token2?grant_type=authorization_code";
+        return "https://secure.viadeo.com/oauth-provider/access_token2?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
     }
 
     @Override

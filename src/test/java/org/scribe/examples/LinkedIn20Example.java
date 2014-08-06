@@ -1,7 +1,6 @@
 package org.scribe.examples;
 
 import java.util.Scanner;
-
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.LinkedInApi20;
 import org.scribe.model.OAuthRequest;

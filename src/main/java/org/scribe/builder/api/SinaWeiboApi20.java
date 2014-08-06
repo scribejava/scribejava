@@ -3,6 +3,7 @@ package org.scribe.builder.api;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
 import org.scribe.model.Verb;
 import org.scribe.utils.OAuthEncoder;
 
@@ -26,7 +27,7 @@ public class SinaWeiboApi20 extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://api.weibo.com/oauth2/access_token?grant_type=authorization_code";
+        return "https://api.weibo.com/oauth2/access_token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
     }
 
     @Override

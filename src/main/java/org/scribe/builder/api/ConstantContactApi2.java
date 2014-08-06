@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.utils.OAuthEncoder;
@@ -17,7 +18,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://oauth2.constantcontact.com/oauth2/oauth/token?grant_type=authorization_code";
+        return "https://oauth2.constantcontact.com/oauth2/oauth/token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
     }
 
     @Override

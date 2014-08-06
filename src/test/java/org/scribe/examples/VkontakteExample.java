@@ -17,7 +17,7 @@ import org.scribe.oauth.OAuthService;
 public class VkontakteExample {
 
     private static final String NETWORK_NAME = "Vkontakte.ru";
-    private static final String PROTECTED_RESOURCE_URL = "https://api.vkontakte.ru/method/friends.get";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/friends.get";
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(String[] args) {
