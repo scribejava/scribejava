@@ -1,6 +1,10 @@
 package org.scribe.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.scribe.services.ConnectionFactory;
+import org.scribe.services.DefaultConnectionFactory;
 
 /**
  * The representation of an OAuth HttpRequest.
@@ -23,7 +27,19 @@ public class OAuthRequest extends Request
    */
   public OAuthRequest(Verb verb, String url)
   {
-    super(verb, url);
+    this(verb, url, new DefaultConnectionFactory());
+  }
+
+  /**
+   * Creates a new OAuthRequest with custom {@link ConnectionFactory}
+   * 
+   * @param verb Http verb/method
+   * @param url resource URL
+   * @param connectionFactory Responsible for creating HTTP connections
+   */
+  public OAuthRequest(Verb verb, String url, ConnectionFactory connectionFactory)
+  {
+    super(verb, url, connectionFactory);
     this.oauthParameters = new HashMap<String, String>();
   }
 

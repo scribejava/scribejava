@@ -1,12 +1,21 @@
 package org.scribe.oauth;
 
-import java.util.*;
-
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
-import org.scribe.services.*;
-import org.scribe.utils.*;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import org.scribe.builder.api.DefaultApi10a;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Request;
+import org.scribe.model.RequestTuner;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
+import org.scribe.services.Base64Encoder;
+import org.scribe.services.DefaultRequestFactory;
+import org.scribe.services.RequestFactory;
+import org.scribe.utils.MapUtils;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
@@ -19,6 +28,7 @@ public class OAuth10aServiceImpl implements OAuthService
 
   private OAuthConfig config;
   private DefaultApi10a api;
+  protected final RequestFactory requestFactory;
 
   /**
    * Default constructor
@@ -28,10 +38,23 @@ public class OAuth10aServiceImpl implements OAuthService
    */
   public OAuth10aServiceImpl(DefaultApi10a api, OAuthConfig config)
   {
-    this.api = api;
-    this.config = config;
+    this(api, config, new DefaultRequestFactory());
   }
 
+  /**
+   * Creates a new OAuth10aServiceImpl with custom {@link RequestFactory}
+   *
+   * @param api OAuth1.0a api information
+   * @param config OAuth 1.0a configuration param object
+   * @param requestFactory Responsible for creating {@link OAuthRequest}s
+   */
+  public OAuth10aServiceImpl(DefaultApi10a api, OAuthConfig config, RequestFactory requestFactory)
+  {
+    this.api = api;
+    this.config = config;
+    this.requestFactory = requestFactory;
+  }
+  
   /**
    * {@inheritDoc}
    */
@@ -48,7 +71,7 @@ public class OAuth10aServiceImpl implements OAuthService
   public Token getRequestToken(RequestTuner tuner)
   {
     config.log("obtaining request token from " + api.getRequestTokenEndpoint());
-    OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
+    OAuthRequest request = requestFactory.createRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
 
     config.log("setting oauth_callback to " + config.getCallback());
     request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
@@ -93,7 +116,7 @@ public class OAuth10aServiceImpl implements OAuthService
   public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner tuner)
   {
     config.log("obtaining access token from " + api.getAccessTokenEndpoint());
-    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    OAuthRequest request = requestFactory.createRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
 
