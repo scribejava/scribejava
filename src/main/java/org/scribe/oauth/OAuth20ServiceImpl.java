@@ -44,6 +44,14 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public Token getRequestToken(RequestTuner tuner)
+  {
+    throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
+  }
 
   /**
    * {@inheritDoc}

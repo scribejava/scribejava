@@ -18,6 +18,8 @@ public interface OAuthService
    */
   public Token getRequestToken();
 
+  public Token getRequestToken(RequestTuner tuner);
+  
   /**
    * Retrieve the access token
    * 
