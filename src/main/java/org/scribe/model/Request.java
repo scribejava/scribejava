@@ -172,8 +172,8 @@ public class Request {
     }
 
     /**
-     * Add body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing.
-     * Like for example XML. Note: The contents are not part of the OAuth signature
+     * Add body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing. Like for example XML. Note: The
+     * contents are not part of the OAuth signature
      *
      * @param payload the body of the request
      */
