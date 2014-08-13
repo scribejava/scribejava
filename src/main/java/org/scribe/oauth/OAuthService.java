@@ -29,6 +29,8 @@ public interface OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier);
 
+  public Token getAccessToken(Token requestToken, Verifier verifier,RequestTuner tuner);
+
   /**
    * Signs am OAuth request
    * 

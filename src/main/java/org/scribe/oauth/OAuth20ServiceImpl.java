@@ -9,7 +9,9 @@ public class OAuth20ServiceImpl implements OAuthService
   
   private final DefaultApi20 api;
   private final OAuthConfig config;
-  
+  private static RequestTuner NOOP = new RequestTuner() {
+	    @Override public void tune(Request _){}
+  };
   /**
    * Default constructor
    * 
@@ -27,16 +29,25 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
+	  return getAccessToken(requestToken,verifier,NOOP);
+  }
+  /**
+   * {@inheritDoc}
+   */
+  public Token getAccessToken(Token requestToken, Verifier verifier, RequestTuner tuner)
+  {
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
     request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
     if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
-    Response response = request.send();
+    Response response = request.send(tuner);
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
-
+  
+  
+  
   /**
    * {@inheritDoc}
    */
