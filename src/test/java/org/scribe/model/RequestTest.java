@@ -5,21 +5,26 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import org.scribe.builder.api.FacebookApi;
+import org.scribe.oauth.OAuth20ServiceImpl;
+import org.scribe.oauth.OAuthService;
 
 public class RequestTest {
 
-    private Request getRequest;
-    private Request postRequest;
+    private OAuthRequest getRequest;
+    private OAuthRequest postRequest;
     private ConnectionStub connection;
+    private OAuthService oAuthService;
 
     @Before
     public void setup() throws Exception {
         connection = new ConnectionStub();
-        postRequest = new Request(Verb.POST, "http://example.com");
+        oAuthService = new OAuth20ServiceImpl(new FacebookApi(), new OAuthConfig("test", "test"));
+        postRequest = new OAuthRequest(Verb.POST, "http://example.com", oAuthService);
         postRequest.addBodyParameter("param", "value");
         postRequest.addBodyParameter("param with spaces", "value with spaces");
         postRequest.setConnection(connection);
-        getRequest = new Request(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces");
+        getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces", oAuthService);
         getRequest.setConnection(connection);
     }
 
@@ -62,7 +67,7 @@ public class RequestTest {
 
     @Test
     public void shouldAllowAddingQuerystringParametersAfterCreation() {
-        Request request = new Request(Verb.GET, "http://example.com?one=val");
+        OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals(3, request.getQueryStringParams().size());
@@ -70,7 +75,7 @@ public class RequestTest {
 
     @Test
     public void shouldReturnTheCompleteUrl() {
-        Request request = new Request(Verb.GET, "http://example.com?one=val");
+        OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals("http://example.com?one=val&two=other%20val&more=params", request.getCompleteUrl());
@@ -85,20 +90,20 @@ public class RequestTest {
     public void shouldAutomaticallyAddContentTypeForPostRequestsWithBytePayload() {
         postRequest.addPayload("PAYLOAD".getBytes());
         postRequest.send();
-        assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
+        assertEquals(OAuthRequest.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
     }
 
     @Test
     public void shouldAutomaticallyAddContentTypeForPostRequestsWithStringPayload() {
         postRequest.addPayload("PAYLOAD");
         postRequest.send();
-        assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
+        assertEquals(OAuthRequest.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
     }
 
     @Test
     public void shouldAutomaticallyAddContentTypeForPostRequestsWithBodyParameters() {
         postRequest.send();
-        assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
+        assertEquals(OAuthRequest.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
     }
 
     @Test

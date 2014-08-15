@@ -3,9 +3,12 @@ package org.scribe.extractors;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.scribe.builder.api.FacebookApi;
 import org.scribe.exceptions.OAuthParametersMissingException;
+import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Verb;
+import org.scribe.oauth.OAuth20ServiceImpl;
 import org.scribe.test.helpers.ObjectMother;
 
 public class BaseStringExtractorTest {
@@ -85,7 +88,8 @@ public class BaseStringExtractorTest {
 
     @Test(expected = OAuthParametersMissingException.class)
     public void shouldThrowExceptionIfRquestHasNoOAuthParameters() {
-        OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com");
+        OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com", new OAuth20ServiceImpl(new FacebookApi(), new OAuthConfig("test",
+                "test")));
         extractor.extract(request);
     }
 

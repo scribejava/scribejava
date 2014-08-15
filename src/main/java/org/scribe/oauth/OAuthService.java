@@ -1,5 +1,6 @@
 package org.scribe.oauth;
 
+import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
@@ -51,4 +52,6 @@ public interface OAuthService {
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl(Token requestToken);
+
+    public OAuthConfig getConfig();
 }

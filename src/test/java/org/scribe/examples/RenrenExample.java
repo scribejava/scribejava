@@ -61,7 +61,7 @@ public class RenrenExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
+        OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL, service);
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("method", "users.getInfo");
         parameters.put("format", "json");

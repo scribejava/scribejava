@@ -3,6 +3,8 @@ package org.scribe.model;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import org.scribe.builder.api.FacebookApi;
+import org.scribe.oauth.OAuth20ServiceImpl;
 
 public class OAuthRequestTest {
 
@@ -10,7 +12,7 @@ public class OAuthRequestTest {
 
     @Before
     public void setup() {
-        request = new OAuthRequest(Verb.GET, "http://example.com");
+        request = new OAuthRequest(Verb.GET, "http://example.com", new OAuth20ServiceImpl(new FacebookApi(), new OAuthConfig("test", "test")));
     }
 
     @Test

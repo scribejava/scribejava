@@ -1,13 +1,10 @@
 package org.scribe.oauth;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
-import org.scribe.model.Request;
-import org.scribe.model.RequestTuner;
 import org.scribe.model.Response;
 import static org.scribe.model.SignatureType.Header;
 import static org.scribe.model.SignatureType.QueryString;
@@ -39,18 +36,9 @@ public class OAuth10aServiceImpl implements OAuthService {
         this.config = config;
     }
 
-    public Token getRequestToken(final int timeout, final TimeUnit unit) {
-        return getRequestToken(new TimeoutTuner(timeout, unit));
-    }
-
-    @Override
     public Token getRequestToken() {
-        return getRequestToken(2, TimeUnit.SECONDS);
-    }
-
-    public Token getRequestToken(final RequestTuner tuner) {
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
-        final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
+        final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), this);
 
         config.log("setting oauth_callback to " + config.getCallback());
         request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
@@ -58,7 +46,7 @@ public class OAuth10aServiceImpl implements OAuthService {
         appendSignature(request);
 
         config.log("sending request...");
-        final Response response = request.send(tuner);
+        final Response response = request.send();
         final String body = response.getBody();
 
         config.log("response status code: " + response.getCode());
@@ -80,25 +68,16 @@ public class OAuth10aServiceImpl implements OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public Token getAccessToken(final Token requestToken, final Verifier verifier, final int timeout, final TimeUnit unit) {
-        return getAccessToken(requestToken, verifier, new TimeoutTuner(timeout, unit));
-    }
-
-    @Override
     public Token getAccessToken(final Token requestToken, final Verifier verifier) {
-        return getAccessToken(requestToken, verifier, 2, TimeUnit.SECONDS);
-    }
-
-    public Token getAccessToken(final Token requestToken, final Verifier verifier, final RequestTuner tuner) {
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
-        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
 
         config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
         addOAuthParams(request, requestToken);
         appendSignature(request);
-        final Response response = request.send(tuner);
+        final Response response = request.send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
@@ -134,6 +113,11 @@ public class OAuth10aServiceImpl implements OAuthService {
         return api.getAuthorizationUrl(requestToken);
     }
 
+    @Override
+    public OAuthConfig getConfig() {
+        return config;
+    }
+
     private String getSignature(final OAuthRequest request, final Token token) {
         config.log("generating signature...");
         config.log("using base64 encoder: " + Base64Encoder.type());
@@ -161,22 +145,6 @@ public class OAuth10aServiceImpl implements OAuthService {
                     request.addQuerystringParameter(entry.getKey(), entry.getValue());
                 }
                 break;
-        }
-    }
-
-    private static class TimeoutTuner extends RequestTuner {
-
-        private final int duration;
-        private final TimeUnit unit;
-
-        public TimeoutTuner(final int duration, final TimeUnit unit) {
-            this.duration = duration;
-            this.unit = unit;
-        }
-
-        @Override
-        public void tune(final Request request) {
-            request.setReadTimeout(duration, unit);
         }
     }
 }

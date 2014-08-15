@@ -36,7 +36,7 @@ public class OAuth20ServiceImpl implements OAuthService {
     }
 
     protected OAuthRequest createAccessTokenRequest(final Verifier verifier) {
-        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
         request.addParameter(OAuthConstants.CODE, verifier.getValue());
@@ -84,7 +84,8 @@ public class OAuth20ServiceImpl implements OAuthService {
         return api.getAuthorizationUrl(config);
     }
 
-    protected OAuthConfig getConfig() {
+    @Override
+    public OAuthConfig getConfig() {
         return config;
     }
 
