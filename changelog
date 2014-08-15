@@ -1,3 +1,23 @@
+[2.3]
+
+ * add state parameter in LinkedInAPI 2.0
+ * update FB Graph API to version 2.0
+ * add tut.by OAuth API
+ * add default parameter grant_type for Google, LinkedIn and Mail.ru
+ * update host for requests in VkontakteExample
+ * add Yinxiang Biji endpoint in EvernoteApi
+ * switch Flickr and Twitter to https
+ * update domain for LiveAPI
+ * add support for the Authorization parameter 'realm'
+ * add TumblrExample
+ * update TwitterExample to v1.1
+ * merge Request class in OAuthRequest. No need in separate Request class.
+     No planned usages of 'clean' http requests.
+ * add required OAuthService parameter in constructor for OAuthRequest,
+     so it can use OAuthConfig always (Default timeouts for all OAuthRequests
+     per OAuthService instance are now possible 'from-the-box').
+ * remove messy RequestTuner. Use OAuthConfig instead of it.
+
 [2.1]
 
  * add OpenID id_token parsing from response to GoogleAPI 2.0
