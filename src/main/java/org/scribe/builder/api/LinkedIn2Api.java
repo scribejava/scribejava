@@ -33,8 +33,4 @@ public class LinkedIn2Api extends DefaultApi20 {
         return new JsonTokenExtractor();
     }
 
-    public static String getAuthorizationUrl() {
-        return AUTHORIZATION_URL;
-    }
-
 }
