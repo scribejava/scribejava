@@ -13,7 +13,7 @@ import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 /**
- * @company: 搜狐
+ * @company: sohu.com
 
  * @author: zhenpengzhang
  
@@ -28,7 +28,7 @@ public class LinkedIn2Example {
     public static final String API_KEY                = "75behd12ztnmus";
     public static final String SECRET                 = "EBono1sp6nfbshXw";
     public static final Token  EMPTY_TOKEN            = null;
-    public static final String CALLBACK_URL           = "http://fatfacesheep.sinaapp.com";
+    public static final String CALLBACK_URL           = "http://127.0.0.1/";
 
     public static void main(String[] args) {
         // Replace these with your own api key and secret
@@ -60,7 +60,9 @@ public class LinkedIn2Example {
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-        service.signRequest(accessToken, request);
+        // Important,LinkedIn OAuth2.0 need oauth2_access_token instead of oauth_access_token ,so signRequest is unnecessary
+        request.addQuerystringParameter("oauth2_access_token", accessToken.getToken());
+        // service.signRequest(accessToken, request);
         Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
