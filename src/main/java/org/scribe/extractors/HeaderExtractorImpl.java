@@ -22,12 +22,13 @@ public class HeaderExtractorImpl implements HeaderExtractor {
     /**
      * {@inheritDoc}
      */
-    public String extract(OAuthRequest request) {
+    @Override
+    public String extract(final OAuthRequest request) {
         checkPreconditions(request);
-        Map<String, String> parameters = request.getOauthParameters();
-        StringBuilder header = new StringBuilder(parameters.size() * ESTIMATED_PARAM_LENGTH);
+        final Map<String, String> parameters = request.getOauthParameters();
+        final StringBuilder header = new StringBuilder(parameters.size() * ESTIMATED_PARAM_LENGTH);
         header.append(PREAMBLE);
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+        for (final Map.Entry<String, String> entry : parameters.entrySet()) {
             if (header.length() > PREAMBLE.length()) {
                 header.append(PARAM_SEPARATOR);
             }
@@ -42,7 +43,7 @@ public class HeaderExtractorImpl implements HeaderExtractor {
         return header.toString();
     }
 
-    private void checkPreconditions(OAuthRequest request) {
+    private void checkPreconditions(final OAuthRequest request) {
         Preconditions.checkNotNull(request, "Cannot extract a header from a null object");
 
         if (request.getOauthParameters() == null || request.getOauthParameters().size() <= 0) {

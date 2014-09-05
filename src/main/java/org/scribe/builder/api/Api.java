@@ -13,7 +13,7 @@ public interface Api {
 
     /**
      *
-     * @param config
+     * @param config config to build the Service from
      * @return fully configured {@link OAuthService}
      */
     OAuthService createService(OAuthConfig config);

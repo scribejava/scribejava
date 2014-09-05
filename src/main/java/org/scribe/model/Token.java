@@ -22,11 +22,11 @@ public class Token implements Serializable {
      * @param token token value. Can't be null.
      * @param secret token secret. Can't be null.
      */
-    public Token(String token, String secret) {
+    public Token(final String token, final String secret) {
         this(token, secret, null);
     }
 
-    public Token(String token, String secret, String rawResponse) {
+    public Token(final String token, final String secret, final String rawResponse) {
         Preconditions.checkNotNull(token, "Token can't be null");
         Preconditions.checkNotNull(secret, "Secret can't be null");
 
@@ -57,23 +57,25 @@ public class Token implements Serializable {
     }
 
     /**
-     * Returns true if the token is empty (token = "", secret = "")
+     * @return true if the token is empty (token = "", secret = "")
      */
     public boolean isEmpty() {
         return "".equals(this.token) && "".equals(this.secret);
     }
 
     /**
-     * Factory method that returns an empty token (token = "", secret = "").
+     * Factory method
      *
      * Useful for two legged OAuth.
+     *
+     * @return empty token (token = "", secret = "")
      */
     public static Token empty() {
         return new Token("", "");
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -81,8 +83,8 @@ public class Token implements Serializable {
             return false;
         }
 
-        Token that = (Token) o;
-        return token.equals(that.token) && secret.equals(that.secret);
+        final Token that = (Token) o;
+        return token.equals(that.getToken()) && secret.equals(that.getSecret());
     }
 
     @Override

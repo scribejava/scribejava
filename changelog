@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * make compilable with OpenJDK8 
+
 [2.3]
 
  * add state parameter in LinkedInAPI 2.0

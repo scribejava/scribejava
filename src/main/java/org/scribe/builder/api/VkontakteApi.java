@@ -7,7 +7,7 @@ import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
 /**
- * @author Boris G. Tsirkin <mail@dotbg.name>
+ * @author Boris G. Tsirkin &lt;mail@dotbg.name&gt;
  * @since 20.4.2011
  */
 public class VkontakteApi extends DefaultApi20 {
@@ -21,7 +21,7 @@ public class VkontakteApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Vkontakte does not support OOB");
         if (config.hasScope()) { // Appending scope if present
             return String.format(

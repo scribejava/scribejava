@@ -53,7 +53,7 @@ public class ServiceBuilder {
         Api api;
         try {
             api = apiClass.newInstance();
-        } catch (Exception e) {
+        } catch (IllegalAccessException | InstantiationException | RuntimeException e) {
             throw new OAuthException("Error while creating the Api object", e);
         }
         return api;
@@ -139,7 +139,7 @@ public class ServiceBuilder {
     /**
      * Configures the signature type, choose between header, querystring, etc. Defaults to Header
      *
-     * @param type
+     * @param type SignatureType
      * @return the {@link ServiceBuilder} instance for method chaining
      */
     public ServiceBuilder signatureType(final SignatureType type) {
@@ -173,7 +173,7 @@ public class ServiceBuilder {
     }
 
     public ServiceBuilder debug() {
-        this.debugStream(System.out);
+        debugStream(System.out);
         return this;
     }
 

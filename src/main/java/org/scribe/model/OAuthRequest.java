@@ -40,7 +40,7 @@ public class OAuthRequest {
     private Long readTimeout;
 
     private static final String OAUTH_PREFIX = "oauth_";
-    private Map<String, String> oauthParameters;
+    private final Map<String, String> oauthParameters;
 
     private String realm;
 
@@ -49,22 +49,23 @@ public class OAuthRequest {
      *
      * @param verb Http verb/method
      * @param url resource URL
+     * @param service OAuthService
      */
-    public OAuthRequest(Verb verb, String url, OAuthService service) {
+    public OAuthRequest(final Verb verb, final String url, final OAuthService service) {
         this.verb = verb;
         this.url = url;
         this.querystringParams = new ParameterList();
         this.bodyParams = new ParameterList();
         this.headers = new HashMap<>();
 
-        this.oauthParameters = new HashMap<String, String>();
+        this.oauthParameters = new HashMap<>();
 
         final OAuthConfig config = service.getConfig();
         if (config.getConnectTimeout() != null) {
-            setConnectTimeout(config.getConnectTimeout(), TimeUnit.MILLISECONDS);
+            connectTimeout = TimeUnit.MILLISECONDS.toMillis(config.getConnectTimeout());
         }
         if (config.getReadTimeout() != null) {
-            setReadTimeout(config.getReadTimeout(), TimeUnit.MILLISECONDS);
+            readTimeout = TimeUnit.MILLISECONDS.toMillis(config.getReadTimeout());
         }
     }
 
@@ -75,11 +76,11 @@ public class OAuthRequest {
      * @param value value of the parameter
      * @throws IllegalArgumentException if the parameter is not an OAuth parameter
      */
-    public void addOAuthParameter(String key, String value) {
+    public void addOAuthParameter(final String key, final String value) {
         oauthParameters.put(checkKey(key), value);
     }
 
-    private String checkKey(String key) {
+    private String checkKey(final String key) {
         if (key.startsWith(OAUTH_PREFIX) || key.equals(OAuthConstants.SCOPE)) {
             return key;
         } else {
@@ -97,7 +98,7 @@ public class OAuthRequest {
         return oauthParameters;
     }
 
-    public void setRealm(String realm) {
+    public void setRealm(final String realm) {
         this.realm = realm;
     }
 
@@ -116,7 +117,7 @@ public class OAuthRequest {
         try {
             createConnection();
             return doSend();
-        } catch (Exception e) {
+        } catch (IOException | RuntimeException e) {
             throw new OAuthConnectionException(e);
         }
     }
@@ -226,7 +227,7 @@ public class OAuthRequest {
     /**
      * Overloaded version for byte arrays
      *
-     * @param payload
+     * @param payload byte[]
      */
     public void addPayload(final byte[] payload) {
         this.bytePayload = payload.clone();
@@ -345,7 +346,7 @@ public class OAuthRequest {
      * @param unit unit of time (milliseconds, seconds, etc)
      */
     public void setConnectTimeout(final int duration, final TimeUnit unit) {
-        this.connectTimeout = unit.toMillis(duration);
+        connectTimeout = unit.toMillis(duration);
     }
 
     /**
@@ -355,7 +356,7 @@ public class OAuthRequest {
      * @param unit unit of time (milliseconds, seconds, etc)
      */
     public void setReadTimeout(final int duration, final TimeUnit unit) {
-        this.readTimeout = unit.toMillis(duration);
+        readTimeout = unit.toMillis(duration);
     }
 
     /**
@@ -364,13 +365,13 @@ public class OAuthRequest {
      * @param charsetName name of the charset of the request
      */
     public void setCharset(final String charsetName) {
-        this.charset = charsetName;
+        charset = charsetName;
     }
 
     /**
      * Sets whether the underlying Http Connection is persistent or not.
      *
-     * @param connectionKeepAlive
+     * @param connectionKeepAlive boolean
      *
      * @see <a
      * href="http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html">http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html</a>
@@ -386,7 +387,7 @@ public class OAuthRequest {
      *
      * @see <a
      * href="http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)">http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)</a>
-     * @param followRedirects
+     * @param followRedirects boolean
      */
     public void setFollowRedirects(final boolean followRedirects) {
         this.followRedirects = followRedirects;
