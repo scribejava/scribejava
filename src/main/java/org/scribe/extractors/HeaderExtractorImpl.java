@@ -3,7 +3,7 @@ package org.scribe.extractors;
 import java.util.Map;
 import org.scribe.exceptions.OAuthParametersMissingException;
 import org.scribe.model.OAuthConstants;
-import org.scribe.model.OAuthRequest;
+import org.scribe.model.AbstractRequest;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
 
@@ -23,7 +23,7 @@ public class HeaderExtractorImpl implements HeaderExtractor {
      * {@inheritDoc}
      */
     @Override
-    public String extract(final OAuthRequest request) {
+    public String extract(final AbstractRequest request) {
         checkPreconditions(request);
         final Map<String, String> parameters = request.getOauthParameters();
         final StringBuilder header = new StringBuilder(parameters.size() * ESTIMATED_PARAM_LENGTH);
@@ -43,7 +43,7 @@ public class HeaderExtractorImpl implements HeaderExtractor {
         return header.toString();
     }
 
-    private void checkPreconditions(final OAuthRequest request) {
+    private void checkPreconditions(final AbstractRequest request) {
         Preconditions.checkNotNull(request, "Cannot extract a header from a null object");
 
         if (request.getOauthParameters() == null || request.getOauthParameters().size() <= 0) {

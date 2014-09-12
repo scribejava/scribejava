@@ -1,9 +1,9 @@
 package ru.hh.oauth.subscribe.service;
 
 import org.scribe.builder.api.DefaultApi20;
+import org.scribe.model.AbstractRequest;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.OAuthConstants;
-import org.scribe.model.OAuthRequest;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuth20ServiceImpl;
 
@@ -14,11 +14,11 @@ public class GoogleOAuthServiceImpl extends OAuth20ServiceImpl {
     }
 
     @Override
-    protected OAuthRequest createAccessTokenRequest(final Verifier verifier) {
-        final OAuthRequest request = super.createAccessTokenRequest(verifier);
+    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, T request) {
+        super.createAccessTokenRequest(verifier, request);
         if (!getConfig().hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");
         }
-        return request;
+        return (T) request;
     }
 }

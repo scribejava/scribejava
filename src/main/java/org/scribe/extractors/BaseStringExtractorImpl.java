@@ -1,7 +1,7 @@
 package org.scribe.extractors;
 
 import org.scribe.exceptions.OAuthParametersMissingException;
-import org.scribe.model.OAuthRequest;
+import org.scribe.model.AbstractRequest;
 import org.scribe.model.ParameterList;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
@@ -19,7 +19,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
     /**
      * {@inheritDoc}
      */
-    public String extract(OAuthRequest request) {
+    public String extract(AbstractRequest request) {
         checkPreconditions(request);
         String verb = OAuthEncoder.encode(request.getVerb().name());
         String url = OAuthEncoder.encode(request.getSanitizedUrl());
@@ -27,7 +27,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
         return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
     }
 
-    private String getSortedAndEncodedParams(OAuthRequest request) {
+    private String getSortedAndEncodedParams(AbstractRequest request) {
         ParameterList params = new ParameterList();
         params.addAll(request.getQueryStringParams());
         params.addAll(request.getBodyParams());
@@ -35,7 +35,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
         return params.sort().asOauthBaseString();
     }
 
-    private void checkPreconditions(OAuthRequest request) {
+    private void checkPreconditions(AbstractRequest request) {
         Preconditions.checkNotNull(request, "Cannot extract base string from a null object");
 
         if (request.getOauthParameters() == null || request.getOauthParameters().size() <= 0) {
