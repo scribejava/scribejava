@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * make compilable with OpenJDK8 
+ * add async functionality
 
 [2.3]
 

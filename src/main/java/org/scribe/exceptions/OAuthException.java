@@ -26,5 +26,14 @@ public class OAuthException extends RuntimeException {
         super(message, null);
     }
 
+    /**
+     * Exception constructor. Used to simply wrap an exception.
+     *
+     * @param e original exception
+     */
+    public OAuthException(Exception e) {
+        super(e);
+    }
+
     private static final long serialVersionUID = 1L;
 }

@@ -9,20 +9,21 @@ import java.util.Map;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.utils.StreamUtils;
 
-/**
- * Represents an HTTP Response.
- *
- * @author Pablo Fernandez
- */
 public class Response {
-
-    private static final String EMPTY = "";
 
     private int code;
     private String message;
     private String body;
     private InputStream stream;
     private Map<String, String> headers;
+
+    public Response(int code, String message, Map<String, String> headers, String body, InputStream stream) {
+        this.code = code;
+        this.headers = headers;
+        this.body = body;
+        this.message = message;
+        this.stream = stream;
+    }
 
     Response(HttpURLConnection connection) throws IOException {
         try {
@@ -67,7 +68,7 @@ public class Response {
      *
      * @return input stream / error stream
      */
-    public InputStream getStream() {
+    private InputStream getStream() {
         return stream;
     }
 
@@ -108,5 +109,4 @@ public class Response {
     public String getHeader(String name) {
         return headers.get(name);
     }
-
 }

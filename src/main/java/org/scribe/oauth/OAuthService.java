@@ -1,7 +1,10 @@
 package org.scribe.oauth;
 
+import com.ning.http.client.AsyncHttpClient;
+import java.util.concurrent.Future;
+import org.scribe.model.AbstractRequest;
+import org.scribe.model.OAuthAsyncRequestCallback;
 import org.scribe.model.OAuthConfig;
-import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 
@@ -21,13 +24,6 @@ public interface OAuthService {
      */
     public Token getRequestToken();
 
-    /**
-     * Retrieve the access token
-     *
-     * @param requestToken request token (obtained previously)
-     * @param verifier verifier code
-     * @return access token
-     */
     public Token getAccessToken(Token requestToken, Verifier verifier);
 
     /**
@@ -36,7 +32,17 @@ public interface OAuthService {
      * @param accessToken access token (obtained previously)
      * @param request request to sign
      */
-    public void signRequest(Token accessToken, OAuthRequest request);
+    public void signRequest(Token accessToken, AbstractRequest request);
+
+    /**
+     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token when it is available.
+     *
+     * @param requestToken request token (obtained previously or null)
+     * @param verifier verifier code
+     * @param callback optional callback
+     * @return Future
+     */
+    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback);
 
     /**
      * Returns the OAuth version of the service.
@@ -54,4 +60,9 @@ public interface OAuthService {
     public String getAuthorizationUrl(Token requestToken);
 
     public OAuthConfig getConfig();
+
+    public AsyncHttpClient getAsyncHttpClient();
+
+    public void closeAsyncClient();
+
 }

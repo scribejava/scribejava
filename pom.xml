@@ -71,6 +71,12 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.ning</groupId>
+            <artifactId>async-http-client</artifactId>
+            <version>1.8.13</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <extensions>
