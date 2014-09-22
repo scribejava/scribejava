@@ -6,7 +6,7 @@ import org.scribe.utils.*;
 
 public class Google20Api extends DefaultApi20
 {
-  private static final String AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/auth&client_id=%s";
+  private static final String AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/auth&client_id=%s&redirect_uri=%s";
   private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
   @Override
