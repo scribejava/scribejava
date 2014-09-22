@@ -22,8 +22,9 @@ public class OAuthRequestTest
     request.addOAuthParameter(OAuthConstants.NONCE, "nonce");
     request.addOAuthParameter(OAuthConstants.TIMESTAMP, "ts");
     request.addOAuthParameter(OAuthConstants.SCOPE, "feeds");
+    request.addOAuthParameter(OAuthConstants.REALM, "some-realm");
 
-    assertEquals(4, request.getOauthParameters().size());
+    assertEquals(5, request.getOauthParameters().size());
   }
 
   @Test(expected = IllegalArgumentException.class)
