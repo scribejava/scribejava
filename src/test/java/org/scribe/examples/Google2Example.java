@@ -3,6 +3,7 @@ package org.scribe.examples;
 import java.util.Scanner;
 
 import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.Google2Api;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
