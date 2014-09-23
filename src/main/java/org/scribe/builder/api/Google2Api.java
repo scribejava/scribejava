@@ -1,4 +1,4 @@
-package uk.org.feedthecoffers.scribe.builder.api;
+package org.scribe.builder.api;
 
 import static org.scribe.utils.OAuthEncoder.encode;
 

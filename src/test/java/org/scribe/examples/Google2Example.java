@@ -10,8 +10,6 @@ import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
-import uk.org.feedthecoffers.scribe.builder.api.Google2Api;
-
 public class Google2Example {
 	private static final String NETWORK_NAME = "Google OAuth2";
 	private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
