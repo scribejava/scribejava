@@ -36,7 +36,7 @@ public class Google2Example {
 				.provider(Google2Api.class)
 				.apiKey(apiKey)
 				.apiSecret(apiSecret)
-				.scope("https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile")
+				.scope("email profile")
 				.callback(callbackUrl).build();
 
 		System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
