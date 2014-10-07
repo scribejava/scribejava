@@ -1,6 +1,5 @@
 package org.scribe.oauth;
 
-import com.ning.http.client.AsyncHttpClient;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -8,7 +7,6 @@ import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.model.AbstractRequest;
 import org.scribe.model.OAuthAsyncRequestCallback;
 import org.scribe.model.OAuthConfig;
-import org.scribe.model.OAuthConfigAsync;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.OAuthRequestAsync;
@@ -23,13 +21,10 @@ import org.scribe.utils.MapUtils;
  *
  * @author Pablo Fernandez
  */
-public class OAuth10aServiceImpl implements OAuthService {
+public class OAuth10aServiceImpl extends OAuthService {
 
     private static final String VERSION = "1.0";
-
-    private final OAuthConfig config;
     private final DefaultApi10a api;
-    private AsyncHttpClient asyncHttpClient;
 
     /**
      * Default constructor
@@ -38,14 +33,12 @@ public class OAuth10aServiceImpl implements OAuthService {
      * @param config OAuth 1.0a configuration param object
      */
     public OAuth10aServiceImpl(final DefaultApi10a api, final OAuthConfig config) {
+        super(config);
         this.api = api;
-        this.config = config;
-        if (config instanceof OAuthConfigAsync) {
-            asyncHttpClient = new AsyncHttpClient(((OAuthConfigAsync) config).getAsyncHttpClientConfig());
-        }
     }
 
     public Token getRequestToken() {
+        final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), this);
 
@@ -64,6 +57,7 @@ public class OAuth10aServiceImpl implements OAuthService {
     }
 
     private void addOAuthParams(final AbstractRequest request, final Token token) {
+        final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
         request.addOAuthParameter(OAuthConstants.NONCE, api.getTimestampService().getNonce());
         request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, config.getApiKey());
@@ -78,6 +72,7 @@ public class OAuth10aServiceImpl implements OAuthService {
     }
 
     public Token getAccessToken(final Token requestToken, final Verifier verifier) {
+        final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
@@ -87,6 +82,7 @@ public class OAuth10aServiceImpl implements OAuthService {
 
     @Override
     public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
+        final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
@@ -99,6 +95,7 @@ public class OAuth10aServiceImpl implements OAuthService {
     }
 
     private void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
+        final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
         config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
@@ -111,6 +108,7 @@ public class OAuth10aServiceImpl implements OAuthService {
      */
     @Override
     public void signRequest(final Token token, final AbstractRequest request) {
+        final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());
 
         // Do not append the token if empty. This is for two legged OAuth calls.
@@ -138,22 +136,8 @@ public class OAuth10aServiceImpl implements OAuthService {
         return api.getAuthorizationUrl(requestToken);
     }
 
-    @Override
-    public OAuthConfig getConfig() {
-        return config;
-    }
-
-    @Override
-    public AsyncHttpClient getAsyncHttpClient() {
-        return asyncHttpClient;
-    }
-
-    @Override
-    public void closeAsyncClient() {
-        asyncHttpClient.close();
-    }
-
     private String getSignature(final AbstractRequest request, final Token token) {
+        final OAuthConfig config = getConfig();
         config.log("generating signature...");
         config.log("using base64 encoder: " + Base64Encoder.type());
         final String baseString = api.getBaseStringExtractor().extract(request);
@@ -166,6 +150,7 @@ public class OAuth10aServiceImpl implements OAuthService {
     }
 
     private void appendSignature(final AbstractRequest request) {
+        final OAuthConfig config = getConfig();
         switch (config.getSignatureType()) {
             case Header:
                 config.log("using Http Header signature");

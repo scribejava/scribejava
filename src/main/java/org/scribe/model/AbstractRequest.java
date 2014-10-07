@@ -28,7 +28,7 @@ public abstract class AbstractRequest {
     private final Map<String, String> headers = new HashMap<>();
     private boolean connectionKeepAlive;
     private boolean followRedirects = true;
-    private OAuthConfig config;
+    private OAuthService service;
 
     private String payload;
     private String charset;
@@ -47,7 +47,7 @@ public abstract class AbstractRequest {
     public AbstractRequest(final Verb verb, final String url, final OAuthService service) {
         this.verb = verb;
         this.url = url;
-        config = service.getConfig();
+        this.service = service;
     }
 
     /**
@@ -281,10 +281,6 @@ public abstract class AbstractRequest {
         this.followRedirects = followRedirects;
     }
 
-    public OAuthConfig getConfig() {
-        return config;
-    }
-
     public boolean isConnectionKeepAlive() {
         return connectionKeepAlive;
     }
@@ -293,4 +289,7 @@ public abstract class AbstractRequest {
         return followRedirects;
     }
 
+    public OAuthService getService() {
+        return service;
+    }
 }

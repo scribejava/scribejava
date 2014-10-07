@@ -1,13 +1,11 @@
 package org.scribe.oauth;
 
-import com.ning.http.client.AsyncHttpClient;
 import java.io.IOException;
 import java.util.concurrent.Future;
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.model.AbstractRequest;
 import org.scribe.model.OAuthAsyncRequestCallback;
 import org.scribe.model.OAuthConfig;
-import org.scribe.model.OAuthConfigAsync;
 import org.scribe.model.OAuthConstants;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.OAuthRequestAsync;
@@ -15,13 +13,10 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 
-public class OAuth20ServiceImpl implements OAuthService {
+public class OAuth20ServiceImpl extends OAuthService {
 
     private static final String VERSION = "2.0";
-
     private final DefaultApi20 api;
-    private final OAuthConfig config;
-    private AsyncHttpClient asyncHttpClient = null;
 
     /**
      * Default constructor
@@ -30,11 +25,8 @@ public class OAuth20ServiceImpl implements OAuthService {
      * @param config OAuth 2.0 configuration param object
      */
     public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config) {
+        super(config);
         this.api = api;
-        this.config = config;
-        if (config instanceof OAuthConfigAsync) {
-            asyncHttpClient = new AsyncHttpClient(((OAuthConfigAsync) config).getAsyncHttpClientConfig());
-        }
     }
 
     /**
@@ -58,6 +50,7 @@ public class OAuth20ServiceImpl implements OAuthService {
     }
 
     protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, T request) {
+        final OAuthConfig config = getConfig();
         request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
         request.addParameter(OAuthConstants.CODE, verifier.getValue());
@@ -96,25 +89,7 @@ public class OAuth20ServiceImpl implements OAuthService {
      * {@inheritDoc}
      */
     public String getAuthorizationUrl(Token requestToken) {
-        return api.getAuthorizationUrl(config);
+        return api.getAuthorizationUrl(getConfig());
     }
 
-    @Override
-    public OAuthConfig getConfig() {
-        return config;
-    }
-
-    @Override
-    public AsyncHttpClient getAsyncHttpClient() {
-        return asyncHttpClient;
-    }
-
-    @Override
-    public void closeAsyncClient() {
-        asyncHttpClient.close();
-    }
-
-    public DefaultApi20 getApi() {
-        return api;
-    }
 }
