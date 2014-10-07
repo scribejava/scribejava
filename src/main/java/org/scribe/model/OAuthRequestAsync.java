@@ -9,11 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 import org.scribe.exceptions.OAuthConnectionException;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.oauth.OAuthService;
+import ru.hh.oauth.subscribe.model.ForceTypeOfHttpRequest;
+import ru.hh.oauth.subscribe.model.SubScribeConfig;
 
 public class OAuthRequestAsync extends AbstractRequest {
 
     private AsyncHttpClient asyncHttpClient;
+    OAuthService service;
+    
     public static final ResponseConverter<Response> RESPONSE_CONVERTER = new ResponseConverter<Response>() {
         @Override
         public Response convert(com.ning.http.client.Response response) throws IOException {
@@ -34,10 +39,17 @@ public class OAuthRequestAsync extends AbstractRequest {
     public OAuthRequestAsync(Verb verb, String url, OAuthService service) {
         super(verb, url, service);
         asyncHttpClient = service.getAsyncHttpClient();
+        this.service = service;
     }
 
     public <T> Future<T> sendAsync(final OAuthAsyncRequestCallback<T> callback, final ResponseConverter<T> converter) {
-
+        if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS.equals(SubScribeConfig.getForceTypeRequest())) {
+            service.closeAsyncClient();
+            throw new OAuthException("Cannot use async operations, only sync");
+        }
+        if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS.equals(SubScribeConfig.getForceTypeRequest())) {
+            getConfig().log("Cannot use async operations, only sync");
+        }
         final String completeUrl = getCompleteUrl();
         final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
         switch (getVerb()) {

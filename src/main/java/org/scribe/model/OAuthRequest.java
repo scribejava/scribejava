@@ -5,7 +5,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 import org.scribe.exceptions.OAuthConnectionException;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.oauth.OAuthService;
+import ru.hh.oauth.subscribe.model.ForceTypeOfHttpRequest;
+import ru.hh.oauth.subscribe.model.SubScribeConfig;
 
 public class OAuthRequest extends AbstractRequest {
 
@@ -23,6 +26,12 @@ public class OAuthRequest extends AbstractRequest {
      * @throws RuntimeException if the connection cannot be created.
      */
     public Response send() {
+        if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS.equals(SubScribeConfig.getForceTypeRequest())) {
+            throw new OAuthException("Cannot use sync operations, only async");
+        }
+        if (ForceTypeOfHttpRequest.PREFER_ASYNC_ONLY_HTTP_REQUESTS.equals(SubScribeConfig.getForceTypeRequest())) {
+            getConfig().log("Cannot use sync operations, only async");
+        }
         try {
             createConnection();
             return doSend();

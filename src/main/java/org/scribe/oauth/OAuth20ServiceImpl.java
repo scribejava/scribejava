@@ -111,7 +111,9 @@ public class OAuth20ServiceImpl implements OAuthService {
 
     @Override
     public void closeAsyncClient() {
-        asyncHttpClient.close();
+        if (asyncHttpClient != null) {
+            asyncHttpClient.close();   
+        }
     }
 
     public DefaultApi20 getApi() {

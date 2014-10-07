@@ -150,7 +150,9 @@ public class OAuth10aServiceImpl implements OAuthService {
 
     @Override
     public void closeAsyncClient() {
-        asyncHttpClient.close();
+        if (asyncHttpClient != null) {
+            asyncHttpClient.close();
+        }
     }
 
     private String getSignature(final AbstractRequest request, final Token token) {

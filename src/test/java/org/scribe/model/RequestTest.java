@@ -3,11 +3,20 @@ package org.scribe.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.scribe.builder.api.FacebookApi;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.oauth.OAuth20ServiceImpl;
 import org.scribe.oauth.OAuthService;
+import ru.hh.oauth.subscribe.model.ForceTypeOfHttpRequest;
+import ru.hh.oauth.subscribe.model.SubScribeConfig;
+
+import java.util.concurrent.ExecutionException;
 
 public class RequestTest {
 
@@ -15,6 +24,7 @@ public class RequestTest {
     private OAuthRequest postRequest;
     private ConnectionStub connection;
     private OAuthService oAuthService;
+    
 
     @Before
     public void setup() throws Exception {
@@ -118,4 +128,5 @@ public class RequestTest {
         getRequest.send();
         assertFalse(connection.getHeaders().containsKey("Content-Type"));
     }
+
 }

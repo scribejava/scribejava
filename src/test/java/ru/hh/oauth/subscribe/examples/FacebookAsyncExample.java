@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.Scanner;
 import org.scribe.builder.ServiceBuilderAsync;
 import org.scribe.builder.api.FacebookApi;
+import ru.hh.oauth.subscribe.model.ForceTypeOfHttpRequest;
+import ru.hh.oauth.subscribe.model.SubScribeConfig;
 import org.scribe.model.OAuthRequestAsync;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
@@ -23,6 +25,7 @@ public class FacebookAsyncExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
+        SubScribeConfig.setForceTypeRequest(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
         final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
                 .setMaximumConnectionsTotal(5)
                 .setRequestTimeoutInMs(10000)
