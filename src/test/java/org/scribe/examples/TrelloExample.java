@@ -12,12 +12,14 @@ public class TrelloExample
   private static final String API_KEY = "your_api_key";
   private static final String API_SECRET = "your_api_secret";
   private static final String PROTECTED_RESOURCE_URL = "https://trello.com/1/members/me";
+  private static final String CALLBACK = "your_callback_url"; // you have to assign it here, otherwise the trello won't be redirect to the callback url
   public static void main(String[] args)
   {
     OAuthService service = new ServiceBuilder()
                                 .provider(TrelloApi.class)
                                 .apiKey(API_KEY)
                                 .apiSecret(API_SECRET)
+																.callback(CALLBACK)
                                 .build();
     Scanner in = new Scanner(System.in);
     
