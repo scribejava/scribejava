@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * make compilable with OpenJDK8 
  * add async functionality
+ * add GitHub API
 
 [2.3]
 

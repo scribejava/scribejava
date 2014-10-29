@@ -2,6 +2,7 @@ package org.scribe.builder.api;
 
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 import org.scribe.utils.OAuthEncoder;
@@ -13,7 +14,6 @@ public class GoogleApi20 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
             = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
-    private static final String PARAM_STATE = "state";
 
     @Override
     public Verb getAccessTokenVerb() {
@@ -34,7 +34,7 @@ public class GoogleApi20 extends DefaultApi20 {
 
         final String state = config.getState();
         if (state != null) {
-            sb.append('&').append(PARAM_STATE).append('=').append(OAuthEncoder.encode(state));
+            sb.append('&').append(OAuthConstants.STATE).append('=').append(OAuthEncoder.encode(state));
         }
         return sb.toString();
     }
