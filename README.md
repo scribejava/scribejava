@@ -11,8 +11,8 @@ in this lib, one time, instead of N programmers will do the same things on their
 
 ### So, while Scribe is going to be "a library that makes OAuth request signing dead simple.", SubScribe is going to be "a library that makes OAuth requests to any OAuth Provider dead simple."
 
-### For the moment SubScribe additionally supports Odnoklassniki, Mail.ru,  LinkedIn2.0, Google2.0..
-For the full list check the [examples folder](https://github.com/hhru/subscribe/tree/master/src/test/java/org/scribe/examples)
+### For the moment SubScribe additionally supports Odnoklassniki, Mail.ru, LinkedIn2.0, Google2.0, GitHub etc...
+For the full list check the [examples folder](https://github.com/hhru/subscribe/tree/master/apis/src/main/java/ru/hh/oauth/subscribe/apis)
 
 # Pull it from Maven!
 
@@ -21,9 +21,9 @@ You can pull scribe from my maven repository, just add these to your __pom.xml__
 ```xml
 <!-- dependency -->
 <dependency>
-  <groupId>ru.hh.oauth.subscribe</groupId>
-  <artifactId>subscribe</artifactId>
-  <version>2.3</version>
+    <groupId>ru.hh.oauth.subscribe</groupId>
+    <artifactId>subscribe</artifactId>
+    <version>3.0</version>
 </dependency>
 ```
 

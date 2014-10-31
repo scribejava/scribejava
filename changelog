@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[3.0]
  * make compilable with OpenJDK8 
  * add async functionality
  * add GitHub API
