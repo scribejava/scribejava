@@ -2,6 +2,7 @@
  * make compilable with OpenJDK8 
  * add async functionality
  * add GitHub API
+ * split on two maven modules (+repackaging)
 
 [2.3]
 

@@ -1,0 +1,31 @@
+package ru.hh.oauth.subscribe.core.model;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import ru.hh.oauth.subscribe.core.oauth.OAuth20ServiceImpl;
+
+public class OAuthRequestTest {
+
+    private OAuthRequest request;
+
+    @Before
+    public void setup() {
+        request = new OAuthRequest(Verb.GET, "http://example.com", new OAuth20ServiceImpl(null, new OAuthConfig("test", "test")));
+    }
+
+    @Test
+    public void shouldAddOAuthParamters() {
+        request.addOAuthParameter(OAuthConstants.TOKEN, "token");
+        request.addOAuthParameter(OAuthConstants.NONCE, "nonce");
+        request.addOAuthParameter(OAuthConstants.TIMESTAMP, "ts");
+        request.addOAuthParameter(OAuthConstants.SCOPE, "feeds");
+
+        assertEquals(4, request.getOauthParameters().size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowExceptionIfParameterIsNotOAuth() {
+        request.addOAuthParameter("otherParam", "value");
+    }
+}

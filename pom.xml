@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.hh.oauth.subscribe</groupId>
     <artifactId>subscribe</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <version>2.4-SNAPSHOT</version>
     <name>SubScribe OAuth Library</name>
     <description>The best OAuth library out there. Originaly forked from Scribe (https://github.com/fernandezpablo85/scribe-java)</description>
@@ -13,6 +13,11 @@
         <artifactId>oss-parent</artifactId>
         <version>9</version>
     </parent>
+
+    <modules>
+        <module>core</module>
+        <module>apis</module>
+    </modules>
 
     <licenses>
         <license>
@@ -37,7 +42,7 @@
             <roles>
                 <role>all</role>
             </roles>
-            <timezone>+4</timezone>
+            <timezone>+3</timezone>
             <properties>
                 <jabber>kullfar@jabber.ru</jabber>
                 <secondEmail>kullfar@gmail.com</secondEmail>
@@ -53,7 +58,18 @@
             <roles>
                 <role>all</role>
             </roles>
-            <timezone>+4</timezone>
+            <timezone>+3</timezone>
+        </developer>
+        <developer>
+            <id>igaranina</id>
+            <name>Irina Garanina</name>
+            <email>i.garanina@hh.ru</email>
+            <organization>hh.ru</organization>
+            <organizationUrl>http://hh.ru</organizationUrl>
+            <roles>
+                <role>all</role>
+            </roles>
+            <timezone>+3</timezone>
         </developer>
     </developers>
 
@@ -89,7 +105,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.2</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>1.7</source>
