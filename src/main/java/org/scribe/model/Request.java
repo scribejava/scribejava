@@ -31,7 +31,6 @@ public class Request
   private HttpURLConnection connection;
   private String charset;
   private byte[] bytePayload = null;
-  private boolean connectionKeepAlive = false;
   private boolean followRedirects = true;
   private Long connectTimeout = null;
   private Long readTimeout = null;
@@ -81,7 +80,6 @@ public class Request
     String completeUrl = getCompleteUrl();
     if (connection == null)
     {
-      System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
       connection = (HttpURLConnection) new URL(completeUrl).openConnection();
       connection.setInstanceFollowRedirects(followRedirects);
     }
@@ -348,17 +346,6 @@ public class Request
   public void setCharset(String charsetName)
   {
     this.charset = charsetName;
-  }
-
-  /**
-   * Sets whether the underlying Http Connection is persistent or not.
-   *
-   * @see http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html
-   * @param connectionKeepAlive
-   */
-  public void setConnectionKeepAlive(boolean connectionKeepAlive)
-  {
-    this.connectionKeepAlive = connectionKeepAlive;
   }
 
   /**
