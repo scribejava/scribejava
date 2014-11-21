@@ -351,9 +351,8 @@ public class Request
   /**
    * Sets whether the underlying Http Connection is persistent or not.
    *
-   * @deprecated since 1.3.7 - does nothing. Prior implementation did not just modify keep-alive for the underlying
-   *             connection of this {@code Request}, but implicitly for <b>all</b> Http connections of the JVM instance.
-   *             New default is <b>not</b> to modify JVM default behaviour and leave Http connection keep-alive enabled.
+   * @deprecated does nothing - JVM default is left untouched.
+   *             Set {@code http.keepAlive} system property to {@code false} for pre-deprecation behavior.
    *
    * @see http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html
    * @param connectionKeepAlive
