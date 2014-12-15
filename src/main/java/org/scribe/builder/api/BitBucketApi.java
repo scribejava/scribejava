@@ -7,7 +7,7 @@ public class BitBucketApi extends DefaultApi10a{
 	// the following will help you find the docs for bitbucket oauth
 	// https://confluence.atlassian.com/display/BITBUCKET/OAuth+on+Bitbucket
 	
-	private static final String AUTHORIZE_URL = "https://bitbucket.org/api/1.0/oauth/authenticate?oauth_token=%s";
+	private static final String AUTHORIZE_URL = "https://bitbucket.org/!api/1.0/oauth/authenticate?oauth_token=%s";
 	
 	@Override
 	public String getAccessTokenEndpoint() {
