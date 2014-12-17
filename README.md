@@ -16,13 +16,23 @@ For the full list check the [examples folder](https://github.com/hhru/subscribe/
 
 # Pull it from Maven!
 
-You can pull scribe from my maven repository, just add these to your __pom.xml__ file:
+You can pull scribe from the central maven repository, just add these to your __pom.xml__ file:
 
 ```xml
 <!-- dependency -->
 <dependency>
     <groupId>ru.hh.oauth.subscribe</groupId>
-    <artifactId>subscribe</artifactId>
+    <artifactId>apis</artifactId>
+    <version>3.0</version>
+</dependency>
+```
+
+And in case you need just core classes (that's it, without any external API (FB, VK, GitHub, Google etc) specific code), you could pull just 'core' artifact.
+```xml
+<!-- dependency -->
+<dependency>
+    <groupId>ru.hh.oauth.subscribe</groupId>
+    <artifactId>core</artifactId>
     <version>3.0</version>
 </dependency>
 ```
