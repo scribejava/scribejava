@@ -17,7 +17,7 @@ public class Response {
     private InputStream stream;
     private Map<String, String> headers;
 
-    public Response(int code, String message, Map<String, String> headers, String body, InputStream stream) {
+    public Response(final int code, final String message, final Map<String, String> headers, final String body, final InputStream stream) {
         this.code = code;
         this.headers = headers;
         this.body = body;
@@ -25,7 +25,7 @@ public class Response {
         this.stream = stream;
     }
 
-    Response(HttpURLConnection connection) throws IOException {
+    Response(final HttpURLConnection connection) throws IOException {
         try {
             connection.connect();
             code = connection.getResponseCode();
@@ -42,15 +42,15 @@ public class Response {
         return body;
     }
 
-    private Map<String, String> parseHeaders(HttpURLConnection conn) {
-        Map<String, String> headers = new HashMap<String, String>();
-        for (String key : conn.getHeaderFields().keySet()) {
+    private Map<String, String> parseHeaders(final HttpURLConnection conn) {
+        final Map<String, String> headers = new HashMap<>();
+        for (final String key : conn.getHeaderFields().keySet()) {
             headers.put(key, conn.getHeaderFields().get(key).get(0));
         }
         return headers;
     }
 
-    public boolean isSuccessful() {
+    public final boolean isSuccessful() {
         return getCode() >= 200 && getCode() < 400;
     }
 
@@ -60,7 +60,7 @@ public class Response {
      * @return response body
      */
     public String getBody() {
-        return body != null ? body : parseBodyContents();
+        return body == null ? parseBodyContents() : body;
     }
 
     /**
@@ -77,7 +77,7 @@ public class Response {
      *
      * @return the status code
      */
-    public int getCode() {
+    public final int getCode() {
         return code;
     }
 
@@ -106,7 +106,7 @@ public class Response {
      *
      * @return header value or null.
      */
-    public String getHeader(String name) {
+    public String getHeader(final String name) {
         return headers.get(name);
     }
 }

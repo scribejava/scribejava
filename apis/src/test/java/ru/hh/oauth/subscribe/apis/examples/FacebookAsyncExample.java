@@ -3,35 +3,36 @@ package ru.hh.oauth.subscribe.apis.examples;
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.util.Random;
 import java.util.Scanner;
-import ru.hh.oauth.subscribe.core.builder.ServiceBuilderAsync;
+import java.util.concurrent.ExecutionException;
 import ru.hh.oauth.subscribe.apis.FacebookApi;
+import ru.hh.oauth.subscribe.core.builder.ServiceBuilderAsync;
 import ru.hh.oauth.subscribe.core.model.ForceTypeOfHttpRequest;
-import ru.hh.oauth.subscribe.core.model.SubScribeConfig;
 import ru.hh.oauth.subscribe.core.model.OAuthRequestAsync;
 import ru.hh.oauth.subscribe.core.model.Response;
+import ru.hh.oauth.subscribe.core.model.SubScribeConfig;
 import ru.hh.oauth.subscribe.core.model.Token;
 import ru.hh.oauth.subscribe.core.model.Verb;
 import ru.hh.oauth.subscribe.core.model.Verifier;
 import ru.hh.oauth.subscribe.core.oauth.OAuthService;
 
-public class FacebookAsyncExample {
+public abstract class FacebookAsyncExample {
 
     private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.0/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.2/me";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String... args) throws InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         SubScribeConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
         final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
-                .setMaximumConnectionsTotal(5)
-                .setRequestTimeoutInMs(10000)
-                .setAllowPoolingConnection(false)
-                .setIdleConnectionInPoolTimeoutInMs(1000)
-                .setIdleConnectionTimeoutInMs(1000)
+                .setMaxConnections(5)
+                .setRequestTimeout(10000)
+                .setAllowPoolingConnections(false)
+                .setPooledConnectionIdleTimeout(1000)
+                .setReadTimeout(1000)
                 .build();
 
         final OAuthService service = new ServiceBuilderAsync()

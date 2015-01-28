@@ -2,8 +2,8 @@ package ru.hh.oauth.subscribe.apis.examples;
 
 import java.util.Random;
 import java.util.Scanner;
-import ru.hh.oauth.subscribe.core.builder.ServiceBuilder;
 import ru.hh.oauth.subscribe.apis.FacebookApi;
+import ru.hh.oauth.subscribe.core.builder.ServiceBuilder;
 import ru.hh.oauth.subscribe.core.model.OAuthRequest;
 import ru.hh.oauth.subscribe.core.model.Response;
 import ru.hh.oauth.subscribe.core.model.Token;
@@ -14,10 +14,10 @@ import ru.hh.oauth.subscribe.core.oauth.OAuthService;
 public abstract class FacebookExample {
 
     private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.0/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.2/me";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String[] args) {
+    public static void main(final String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";

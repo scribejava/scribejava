@@ -2,6 +2,8 @@ package ru.hh.oauth.subscribe.apis.examples;
 
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+import ru.hh.oauth.subscribe.apis.MailruApi;
 import ru.hh.oauth.subscribe.core.builder.ServiceBuilderAsync;
 import ru.hh.oauth.subscribe.core.model.OAuthRequestAsync;
 import ru.hh.oauth.subscribe.core.model.Response;
@@ -9,28 +11,27 @@ import ru.hh.oauth.subscribe.core.model.Token;
 import ru.hh.oauth.subscribe.core.model.Verb;
 import ru.hh.oauth.subscribe.core.model.Verifier;
 import ru.hh.oauth.subscribe.core.oauth.OAuthService;
-import ru.hh.oauth.subscribe.apis.MailruApi;
 
-public class MailruAsyncExample {
+public abstract class MailruAsyncExample {
 
     private static final String NETWORK_NAME = "Mail.ru";
     private static final String PROTECTED_RESOURCE_URL = "http://www.appsmail.ru/platform/api?method=users.getInfo&secure=1";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String... args) throws InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
 
         final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
-                .setMaximumConnectionsTotal(5)
-                .setRequestTimeoutInMs(10000)
-                .setAllowPoolingConnection(false)
-                .setIdleConnectionInPoolTimeoutInMs(1000)
-                .setIdleConnectionTimeoutInMs(1000)
+                .setMaxConnections(5)
+                .setRequestTimeout(10000)
+                .setAllowPoolingConnections(false)
+                .setPooledConnectionIdleTimeout(1000)
+                .setReadTimeout(1000)
                 .build();
 
-        OAuthService service = new ServiceBuilderAsync()
+        final OAuthService service = new ServiceBuilderAsync()
                 .provider(MailruApi.class)
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
@@ -38,7 +39,7 @@ public class MailruAsyncExample {
                 .asyncHttpClientConfig(clientConfig)
                 .build();
 
-        Scanner in = new Scanner(System.in);
+        final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s Async OAuth Workflow ===");
         System.out.println();
@@ -62,9 +63,9 @@ public class MailruAsyncExample {
         System.out.println();
 
         System.out.println("Now we're going to access a protected resource...");
-        OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, PROTECTED_RESOURCE_URL, service);
         service.signRequest(accessToken, request);
-        Response response = request.sendAsync(null).get();
+        final Response response = request.sendAsync(null).get();
 
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
