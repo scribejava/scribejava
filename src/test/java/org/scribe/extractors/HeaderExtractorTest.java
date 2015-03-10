@@ -6,6 +6,8 @@ import org.junit.*;
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
 import org.scribe.test.helpers.*;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class HeaderExtractorTest
 {
@@ -23,10 +25,12 @@ public class HeaderExtractorTest
   @Test
   public void shouldExtractStandardHeader()
   {
-    String expected = "OAuth oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\", " + "oauth_signature=\"OAuth-Signature\", "
-        + "oauth_consumer_key=\"AS%23%24%5E%2A%40%26\", " + "oauth_timestamp=\"123456\"";
     String header = extractor.extract(request);
-    assertEquals(expected, header);
+
+    assertThat(header, containsString("oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\""));
+    assertThat(header, containsString("oauth_signature=\"OAuth-Signature\""));
+    assertThat(header, containsString("oauth_consumer_key=\"AS%23%24%5E%2A%40%26\""));
+    assertThat(header, containsString("oauth_timestamp=\"123456\""));
   }
 
   @Test(expected = IllegalArgumentException.class)
