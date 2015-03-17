@@ -5,7 +5,7 @@
     <parent>
         <groupId>ru.hh.oauth.subscribe</groupId>
         <artifactId>subscribe</artifactId>
-        <version>3.1-SNAPSHOT</version>
+        <version>3.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
