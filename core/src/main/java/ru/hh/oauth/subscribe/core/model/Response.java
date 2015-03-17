@@ -109,4 +109,14 @@ public class Response {
     public String getHeader(final String name) {
         return headers.get(name);
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+            "code=" + code +
+            ", message='" + message + '\'' +
+            ", body='" + body + '\'' +
+            ", headers=" + headers +
+            '}';
+    }
 }
