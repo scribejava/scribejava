@@ -11,6 +11,7 @@ public class TrelloExample
 {
   private static final String API_KEY = "your_api_key";
   private static final String API_SECRET = "your_api_secret";
+  private static final String CALLBACK = "your_site";
   private static final String PROTECTED_RESOURCE_URL = "https://trello.com/1/members/me";
   public static void main(String[] args)
   {
@@ -18,9 +19,10 @@ public class TrelloExample
                                 .provider(TrelloApi.class)
                                 .apiKey(API_KEY)
                                 .apiSecret(API_SECRET)
+                                .callback(CALLBACK)
                                 .build();
     Scanner in = new Scanner(System.in);
-    
+
     System.out.println("=== Trello's OAuth Workflow ===");
     System.out.println();
 
