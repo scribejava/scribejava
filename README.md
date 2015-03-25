@@ -1,6 +1,7 @@
-# Welcome to the home of Scribe, the simple OAuth Java lib!
+# Welcome to the home of Scribe, the simple OAuth Java lib! 
 
 ![travis ci](https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master)
+[![codecov.io](https://codecov.io/github/fernandezpablo85/scribe-java/coverage.svg?branch=master)](https://codecov.io/github/fernandezpablo85/scribe-java?branch=master)
 
 ### Before submitting a pull request [please read this](https://github.com/fernandezpablo85/scribe-java/wiki/Scribe-scope-revised)
 

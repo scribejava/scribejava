@@ -41,13 +41,12 @@ public class TwitterExample
     System.out.println("Trading the Request Token for an Access Token...");
     Token accessToken = service.getAccessToken(requestToken, verifier);
     System.out.println("Got the Access Token!");
-    System.out.println("(if your curious it looks like this: " + accessToken + " )");
+    System.out.println("(if you're curious, it looks like this: " + accessToken + " )");
     System.out.println();
 
     // Now let's go and ask for a protected resource!
     System.out.println("Now we're going to access a protected resource...");
     OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-    request.addBodyParameter("status", "this is sparta! *");
     service.signRequest(accessToken, request);
     Response response = request.send();
     System.out.println("Got it! Lets see what we found...");
