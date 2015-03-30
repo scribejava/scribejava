@@ -1,6 +1,8 @@
 package org.scribe.oauth;
 
 import java.net.Proxy;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
@@ -63,6 +65,18 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
   }
+  
+  // method not implemented for oauth 2
+  public Map<String, String> getRequestParameters()
+  {
+    return new HashMap<String, String>();
+  }
+  
+  // method not implemented for oauth 2
+  public Map<String, String> getAccessParameters(Token requestToken, Verifier verifier)
+  {
+    return new HashMap<String, String>();
+  }
 
   /**
    * {@inheritDoc}
@@ -78,6 +92,11 @@ public class OAuth20ServiceImpl implements OAuthService
   public void signRequest(Token accessToken, OAuthRequest request)
   {
     request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
+  }
+  
+  // method not implemented for oauth 2
+  public Map<String, String> getSignedParameters(Token token, Verb verb, String url) {
+    return new HashMap<String, String>();
   }
 
   /**
