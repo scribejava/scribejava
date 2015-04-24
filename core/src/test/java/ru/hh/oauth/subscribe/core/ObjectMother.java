@@ -28,7 +28,7 @@ public class ObjectMother {
         return request;
     }
 
-    public static OAuthRequest createSampleOAuthRequestPort80_2() {
+    public static OAuthRequest createSampleOAuthRequestPort80v2() {
         OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com:80/test", new OAuth20ServiceImpl(null, new OAuthConfig(
                 "test", "test")));
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, "123456");
@@ -58,7 +58,7 @@ public class ObjectMother {
         return request;
     }
 
-    public static OAuthRequest createSampleOAuthRequestPort443_2() {
+    public static OAuthRequest createSampleOAuthRequestPort443v2() {
         OAuthRequest request = new OAuthRequest(Verb.GET, "https://example.com:443/test", new OAuth20ServiceImpl(null, new OAuthConfig(
                 "test", "test")));
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, "123456");

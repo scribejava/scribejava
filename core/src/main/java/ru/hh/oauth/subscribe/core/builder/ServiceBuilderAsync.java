@@ -8,6 +8,7 @@ import ru.hh.oauth.subscribe.core.utils.Preconditions;
 public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAsync> {
 
     private AsyncHttpClientConfig asyncHttpClientConfig;
+    private String asyncHttpProviderClassName;
 
     public ServiceBuilderAsync asyncHttpClientConfig(final AsyncHttpClientConfig asyncHttpClientConfig) {
         Preconditions.checkNotNull(asyncHttpClientConfig, "asyncHttpClientConfig can't be null");
@@ -26,7 +27,13 @@ public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAs
         final OAuthConfigAsync configAsync = new OAuthConfigAsync(getApiKey(), getApiSecret(), getCallback(), getSignatureType(), getScope(),
                 getGrantType(), getDebugStream(), asyncHttpClientConfig);
         configAsync.setState(getState());
+        configAsync.setAsyncHttpProviderClassName(asyncHttpProviderClassName);
 
         return getApi().createService(configAsync);
+    }
+
+    public ServiceBuilderAsync asyncHttpProviderClassName(final String asyncHttpProviderClassName) {
+        this.asyncHttpProviderClassName = asyncHttpProviderClassName;
+        return this;
     }
 }

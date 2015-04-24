@@ -3,31 +3,31 @@ package ru.hh.oauth.subscribe.core.extractors;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+import ru.hh.oauth.subscribe.core.ObjectMother;
 import ru.hh.oauth.subscribe.core.exceptions.OAuthParametersMissingException;
 import ru.hh.oauth.subscribe.core.model.OAuthConfig;
 import ru.hh.oauth.subscribe.core.model.OAuthRequest;
 import ru.hh.oauth.subscribe.core.model.Verb;
 import ru.hh.oauth.subscribe.core.oauth.OAuth20ServiceImpl;
-import ru.hh.oauth.subscribe.core.ObjectMother;
 
 public class BaseStringExtractorTest {
 
     private BaseStringExtractorImpl extractor;
     private OAuthRequest request;
     private OAuthRequest requestPort80;
-    private OAuthRequest requestPort80_2;
+    private OAuthRequest requestPort80v2;
     private OAuthRequest requestPort8080;
     private OAuthRequest requestPort443;
-    private OAuthRequest requestPort443_2;
+    private OAuthRequest requestPort443v2;
 
     @Before
     public void setup() {
         request = ObjectMother.createSampleOAuthRequest();
         requestPort80 = ObjectMother.createSampleOAuthRequestPort80();
-        requestPort80_2 = ObjectMother.createSampleOAuthRequestPort80_2();
+        requestPort80v2 = ObjectMother.createSampleOAuthRequestPort80v2();
         requestPort8080 = ObjectMother.createSampleOAuthRequestPort8080();
         requestPort443 = ObjectMother.createSampleOAuthRequestPort443();
-        requestPort443_2 = ObjectMother.createSampleOAuthRequestPort443_2();
+        requestPort443v2 = ObjectMother.createSampleOAuthRequestPort443v2();
         extractor = new BaseStringExtractorImpl();
     }
 
@@ -48,10 +48,10 @@ public class BaseStringExtractorTest {
     }
 
     @Test
-    public void shouldExcludePort80_2() {
+    public void shouldExcludePort80v2() {
         String expected
                 = "GET&http%3A%2F%2Fexample.com%2Ftest&oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback%26oauth_consumer_key%3DAS%2523%2524%255E%252A%2540%2526%26oauth_signature%3DOAuth-Signature%26oauth_timestamp%3D123456";
-        String baseString = extractor.extract(requestPort80_2);
+        String baseString = extractor.extract(requestPort80v2);
         assertEquals(expected, baseString);
     }
 
@@ -72,10 +72,10 @@ public class BaseStringExtractorTest {
     }
 
     @Test
-    public void shouldExcludePort443_2() {
+    public void shouldExcludePort443v2() {
         String expected
                 = "GET&https%3A%2F%2Fexample.com%2Ftest&oauth_callback%3Dhttp%253A%252F%252Fexample%252Fcallback%26oauth_consumer_key%3DAS%2523%2524%255E%252A%2540%2526%26oauth_signature%3DOAuth-Signature%26oauth_timestamp%3D123456";
-        String baseString = extractor.extract(requestPort443_2);
+        String baseString = extractor.extract(requestPort443v2);
         assertEquals(expected, baseString);
     }
 

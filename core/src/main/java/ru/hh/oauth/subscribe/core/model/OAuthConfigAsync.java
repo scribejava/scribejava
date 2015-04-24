@@ -6,6 +6,7 @@ import java.io.OutputStream;
 public class OAuthConfigAsync extends OAuthConfig {
 
     private AsyncHttpClientConfig asyncHttpClientConfig;
+    private String asyncHttpProviderClassName;
 
     public OAuthConfigAsync(final String key, final String secret) {
         super(key, secret);
@@ -19,5 +20,13 @@ public class OAuthConfigAsync extends OAuthConfig {
 
     public AsyncHttpClientConfig getAsyncHttpClientConfig() {
         return asyncHttpClientConfig;
+    }
+
+    public void setAsyncHttpProviderClassName(final String asyncHttpProviderClassName) {
+        this.asyncHttpProviderClassName = asyncHttpProviderClassName;
+    }
+
+    public String getAsyncHttpProviderClassName() {
+        return asyncHttpProviderClassName;
     }
 }

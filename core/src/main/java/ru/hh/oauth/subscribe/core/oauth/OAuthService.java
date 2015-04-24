@@ -2,16 +2,15 @@ package ru.hh.oauth.subscribe.core.oauth;
 
 import com.ning.http.client.AsyncHttpClient;
 import java.util.concurrent.Future;
-
 import ru.hh.oauth.subscribe.core.exceptions.OAuthException;
 import ru.hh.oauth.subscribe.core.model.AbstractRequest;
+import ru.hh.oauth.subscribe.core.model.ForceTypeOfHttpRequest;
 import ru.hh.oauth.subscribe.core.model.OAuthAsyncRequestCallback;
 import ru.hh.oauth.subscribe.core.model.OAuthConfig;
 import ru.hh.oauth.subscribe.core.model.OAuthConfigAsync;
+import ru.hh.oauth.subscribe.core.model.SubScribeConfig;
 import ru.hh.oauth.subscribe.core.model.Token;
 import ru.hh.oauth.subscribe.core.model.Verifier;
-import ru.hh.oauth.subscribe.core.model.ForceTypeOfHttpRequest;
-import ru.hh.oauth.subscribe.core.model.SubScribeConfig;
 
 /**
  * The main SubScribe object.
@@ -25,7 +24,7 @@ public abstract class OAuthService {
     private final OAuthConfig config;
     private AsyncHttpClient asyncHttpClient;
 
-    public OAuthService(OAuthConfig config) {
+    public OAuthService(final OAuthConfig config) {
         this.config = config;
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = SubScribeConfig.getForceTypeOfHttpRequests();
         if (config instanceof OAuthConfigAsync) {
@@ -35,7 +34,11 @@ public abstract class OAuthService {
             if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 config.log("Cannot use async operations, only sync");
             }
-            asyncHttpClient = new AsyncHttpClient(((OAuthConfigAsync) config).getAsyncHttpClientConfig());
+            final OAuthConfigAsync asyncConfig = ((OAuthConfigAsync) config);
+            final String asyncHttpProviderClassName = asyncConfig.getAsyncHttpProviderClassName();
+
+            asyncHttpClient = asyncHttpProviderClassName == null ? new AsyncHttpClient(asyncConfig.getAsyncHttpClientConfig())
+                    : new AsyncHttpClient(asyncHttpProviderClassName, asyncConfig.getAsyncHttpClientConfig());
         } else {
             if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 throw new OAuthException("Cannot use sync operations, only async");

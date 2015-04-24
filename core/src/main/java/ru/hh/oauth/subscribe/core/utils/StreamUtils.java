@@ -10,10 +10,7 @@ import java.io.Reader;
  *
  * @author Pablo Fernandez
  */
-public class StreamUtils {
-
-    private StreamUtils() {
-    }
+public abstract class StreamUtils {
 
     /**
      * Returns the stream contents as an UTF-8 encoded string
