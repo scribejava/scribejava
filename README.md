@@ -22,7 +22,7 @@ You can pull scribe from the central maven repository, just add these to your __
 <dependency>
     <groupId>ru.hh.oauth.subscribe</groupId>
     <artifactId>apis</artifactId>
-    <version>3.1</version>
+    <version>3.2</version>
 </dependency>
 ```
 
@@ -31,7 +31,7 @@ And in case you need just core classes (that's it, without any external API (FB,
 <dependency>
     <groupId>ru.hh.oauth.subscribe</groupId>
     <artifactId>core</artifactId>
-    <version>3.1</version>
+    <version>3.2</version>
 </dependency>
 ```
 

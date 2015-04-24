@@ -1,3 +1,6 @@
+[3.2]
+ * add possibility to set non-default httpProvider Class Name for ning async http client
+
 [3.1]
  * update FaceBook API version from 2.0 to 2.2
  * update ning dependency for async functionality
