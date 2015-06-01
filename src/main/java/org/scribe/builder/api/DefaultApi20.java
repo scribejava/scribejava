@@ -67,4 +67,24 @@ public abstract class DefaultApi20 implements Api
     return new OAuth20ServiceImpl(this, config);
   }
 
+  public boolean includeScope() {
+    return true;
+  }
+
+  public boolean includeGrantType() {
+    return false;
+  }
+
+  public SignatureType getSignatureType() {
+    return SignatureType.QueryString;
+  }
+
+  public String formatSignatureRequestToken(String token) {
+    return token;
+  }
+
+  public String getSignatureRequestKey() {
+    return OAuthConstants.ACCESS_TOKEN;
+  }
+
 }
