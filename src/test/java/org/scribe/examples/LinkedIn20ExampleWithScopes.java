@@ -23,7 +23,6 @@ public class LinkedIn20ExampleWithScopes
         .apiKey("777qp50wsrnbes")
         .apiSecret("KRTIgIYdJIWB5I6z")
         .scope("r_basicprofile")
-        .signatureType(SignatureType.Header)
         .state(state)
         .callback("http://127.0.0.1")
         .build();
