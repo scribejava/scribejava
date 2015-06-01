@@ -148,7 +148,7 @@ public class ServiceBuilder
   /**
    * Configures the signature type, choose between header, querystring, etc. Defaults to Header
    *
-   * @param type The OAuth scope
+   * @param type The signature request type
    * @return the {@link ServiceBuilder} instance for method chaining
    */
   public ServiceBuilder signatureType(SignatureType type)
