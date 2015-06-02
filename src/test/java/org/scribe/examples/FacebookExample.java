@@ -25,7 +25,7 @@ public class FacebookExample
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
                                   .state(state)
-                                  .callback("http://localhost:8080/jornadauezo/")
+                                  .callback("http://www.example.com/oauth_callback/")
                                   .build();
     Scanner in = new Scanner(System.in);
 
