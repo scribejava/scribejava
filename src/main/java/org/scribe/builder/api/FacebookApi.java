@@ -20,14 +20,20 @@ public class FacebookApi extends DefaultApi20
   {
     Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Facebook does not support OOB");
 
-    // Append scope if present
+    String url = null;
     if(config.hasScope())
     {
-     return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
+     url = String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
     }
     else
     {
-      return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+     url = String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
+    
+    if(config.hasState()) {
+    	url = new StringBuilder(url).append("&state=").append(config.getState()).toString();
+    }
+    
+    return url;
   }
 }
