@@ -10,8 +10,8 @@
     </parent>
     
     <groupId>ru.hh.oauth.subscribe</groupId>
-    <artifactId>core</artifactId>
-    <name>SubScribe Core</name>
+    <artifactId>subscribe-apis</artifactId>
+    <name>SubScribe APIs</name>
     <packaging>jar</packaging>
 
     <build>
@@ -34,4 +34,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.hh.oauth.subscribe</groupId>
+            <artifactId>core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

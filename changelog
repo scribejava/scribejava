@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * upgrade ning async http client 1.9.20 -> 1.9.26
  * add possibility to use ProxyServer per-request (async only)
+ * rename maven modules, add "subscribe-" prefix
 
 [3.2]
  * add possibility to set non-default httpProvider Class Name for ning async http client

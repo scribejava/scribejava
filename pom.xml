@@ -15,8 +15,8 @@
     </parent>
 
     <modules>
-        <module>core</module>
-        <module>apis</module>
+        <module>subscribe-core</module>
+        <module>subscribe-apis</module>
     </modules>
 
     <licenses>
