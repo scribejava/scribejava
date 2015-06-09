@@ -1,5 +1,5 @@
 # Welcome to the home of SubScribe, the complete OAuth Java lib!
-Originally forked from Scribe (https://github.com/fernandezpablo85/scribe-java), backported changes up to a7235c84f4c09a5952aa382944897533b20f3ce6 (version 1.3.7)
+Originally forked from Scribe (https://github.com/fernandezpablo85/scribe-java), backported changes up to a041f626bf959da1da0d5a95eeba37da12c92487 (version 1.3.7)
 
 ## Main reasons of fork here:
 1. https://github.com/fernandezpablo85/scribe-java/wiki/Scribe-scope-revised
