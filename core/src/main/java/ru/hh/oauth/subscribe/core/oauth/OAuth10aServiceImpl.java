@@ -1,5 +1,6 @@
 package ru.hh.oauth.subscribe.core.oauth;
 
+import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -37,6 +38,7 @@ public class OAuth10aServiceImpl extends OAuthService {
         this.api = api;
     }
 
+    @Override
     public Token getRequestToken() {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
@@ -71,6 +73,7 @@ public class OAuth10aServiceImpl extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
+    @Override
     public Token getAccessToken(final Token requestToken, final Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
@@ -81,20 +84,26 @@ public class OAuth10aServiceImpl extends OAuthService {
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
+    public Future<Token> getAccessTokenAsync(final Token requestToken, final Verifier verifier, final OAuthAsyncRequestCallback<Token> callback) {
+        return getAccessTokenAsync(requestToken, verifier, callback, null);
+    }
+
+    @Override
+    public Future<Token> getAccessTokenAsync(final Token requestToken, final Verifier verifier, final OAuthAsyncRequestCallback<Token> callback,
+            final ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
             @Override
-            public Token convert(com.ning.http.client.Response response) throws IOException {
-                return api.getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            public Token convert(final com.ning.http.client.Response response) throws IOException {
+                return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
-        });
+        }, proxyServer);
     }
 
-    private void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
+    private void prepareAccessTokenRequest(final AbstractRequest request, final Token requestToken, final Verifier verifier) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
@@ -166,5 +175,9 @@ public class OAuth10aServiceImpl extends OAuthService {
                 }
                 break;
         }
+    }
+
+    public DefaultApi10a getApi() {
+        return api;
     }
 }

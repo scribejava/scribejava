@@ -3,6 +3,7 @@ package ru.hh.oauth.subscribe.core.model;
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.FluentCaseInsensitiveStringsMap;
+import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,10 @@ public class OAuthRequestAsync extends AbstractRequest {
     }
 
     public <T> Future<T> sendAsync(final OAuthAsyncRequestCallback<T> callback, final ResponseConverter<T> converter) {
+        return sendAsync(callback, converter, null);
+    }
+
+    public <T> Future<T> sendAsync(final OAuthAsyncRequestCallback<T> callback, final ResponseConverter<T> converter, final ProxyServer proxyServer) {
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = SubScribeConfig.getForceTypeOfHttpRequests();
         if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
             throw new OAuthException("Cannot use async operations, only sync");
@@ -54,6 +59,9 @@ public class OAuthRequestAsync extends AbstractRequest {
                 break;
             default:
                 throw new IllegalArgumentException("message build error: unknown verb type");
+        }
+        if (proxyServer != null) {
+            boundRequestBuilder.setProxyServer(proxyServer);
         }
         return boundRequestBuilder.execute(new OAuthAsyncCompletionHandler<>(callback, converter));
     }
@@ -86,7 +94,11 @@ public class OAuthRequestAsync extends AbstractRequest {
     };
 
     public Future<Response> sendAsync(final OAuthAsyncRequestCallback<Response> callback) {
-        return sendAsync(callback, RESPONSE_CONVERTER);
+        return sendAsync(callback, RESPONSE_CONVERTER, null);
+    }
+
+    public Future<Response> sendAsync(final OAuthAsyncRequestCallback<Response> callback, final ProxyServer proxyServer) {
+        return sendAsync(callback, RESPONSE_CONVERTER, proxyServer);
     }
 
     public interface ResponseConverter<T> {

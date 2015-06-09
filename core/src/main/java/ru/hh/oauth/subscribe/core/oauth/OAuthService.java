@@ -1,6 +1,7 @@
 package ru.hh.oauth.subscribe.core.oauth;
 
 import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.ProxyServer;
 import java.util.concurrent.Future;
 import ru.hh.oauth.subscribe.core.exceptions.OAuthException;
 import ru.hh.oauth.subscribe.core.model.AbstractRequest;
@@ -87,6 +88,9 @@ public abstract class OAuthService {
      * @return Future
      */
     public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback);
+
+    public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
+            ProxyServer proxyServer);
 
     /**
      * Returns the OAuth version of the service.

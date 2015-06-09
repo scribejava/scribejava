@@ -1,5 +1,6 @@
 package ru.hh.oauth.subscribe.core.oauth;
 
+import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.util.concurrent.Future;
 import ru.hh.oauth.subscribe.core.builder.api.DefaultApi20;
@@ -24,32 +25,38 @@ public class OAuth20ServiceImpl extends OAuthService {
      * @param api OAuth2.0 api information
      * @param config OAuth 2.0 configuration param object
      */
-    public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config) {
+    public OAuth20ServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
         super(config);
         this.api = api;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public Token getAccessToken(Token requestToken, Verifier verifier) {
-        Response response = createAccessTokenRequest(verifier, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
+    @Override
+    public Token getAccessToken(final Token requestToken, final Verifier verifier) {
+        final Response response = createAccessTokenRequest(verifier, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
+                send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, final OAuthAsyncRequestCallback<Token> callback) {
-        OAuthRequestAsync request = createAccessTokenRequest(verifier, new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(),
+    public Future<Token> getAccessTokenAsync(final Token requestToken, final Verifier verifier, final OAuthAsyncRequestCallback<Token> callback) {
+        return getAccessTokenAsync(requestToken, verifier, callback, null);
+    }
+
+    @Override
+    public Future<Token> getAccessTokenAsync(final Token requestToken, final Verifier verifier, final OAuthAsyncRequestCallback<Token> callback,
+            final ProxyServer proxyServer) {
+        final OAuthRequestAsync request = createAccessTokenRequest(verifier, new OAuthRequestAsync(api.getAccessTokenVerb(), api.
+                getAccessTokenEndpoint(),
                 this));
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
             @Override
-            public Token convert(com.ning.http.client.Response response) throws IOException {
-                return api.getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            public Token convert(final com.ning.http.client.Response response) throws IOException {
+                return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
-        });
+        }, proxyServer);
     }
 
-    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, T request) {
+    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, final T request) {
         final OAuthConfig config = getConfig();
         request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
@@ -67,6 +74,7 @@ public class OAuth20ServiceImpl extends OAuthService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public Token getRequestToken() {
         throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
     }
@@ -74,6 +82,7 @@ public class OAuth20ServiceImpl extends OAuthService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getVersion() {
         return VERSION;
     }
@@ -81,15 +90,20 @@ public class OAuth20ServiceImpl extends OAuthService {
     /**
      * {@inheritDoc}
      */
-    public void signRequest(Token accessToken, AbstractRequest request) {
+    @Override
+    public void signRequest(final Token accessToken, final AbstractRequest request) {
         request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
     }
 
     /**
      * {@inheritDoc}
      */
-    public String getAuthorizationUrl(Token requestToken) {
+    @Override
+    public String getAuthorizationUrl(final Token requestToken) {
         return api.getAuthorizationUrl(getConfig());
     }
 
+    public DefaultApi20 getApi() {
+        return api;
+    }
 }
