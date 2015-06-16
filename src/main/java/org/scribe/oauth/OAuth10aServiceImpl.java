@@ -163,7 +163,7 @@ public class OAuth10aServiceImpl implements OAuthService
         config.log("using Http Header signature");
 
         String oauthHeader = api.getHeaderExtractor().extract(request);
-        request.addHeader(OAuthConstants.HEADER, oauthHeader);
+        request.addHeader(OAuthConstants.AUTHORIZATION_HEADER, oauthHeader);
         break;
       case QueryString:
         config.log("using Querystring signature");

@@ -24,6 +24,7 @@ public class OAuthConstants
 {
   private OAuthConstants(){}
 
+  public static final Token EMPTY_TOKEN = new Token("", "");
   public static final String TIMESTAMP = "oauth_timestamp";
   public static final String SIGN_METHOD = "oauth_signature_method";
   public static final String SIGNATURE = "oauth_signature";
@@ -38,8 +39,7 @@ public class OAuthConstants
   public static final String TOKEN_SECRET = "oauth_token_secret";
   public static final String OUT_OF_BAND = "oob";
   public static final String VERIFIER = "oauth_verifier";
-  public static final String HEADER = "Authorization";
-  public static final Token EMPTY_TOKEN = new Token("", "");
+  public static final String AUTHORIZATION_HEADER = "Authorization";
   public static final String SCOPE = "scope";
 
   //OAuth 2.0
@@ -48,5 +48,9 @@ public class OAuthConstants
   public static final String CLIENT_SECRET = "client_secret";
   public static final String REDIRECT_URI = "redirect_uri";
   public static final String CODE = "code";
-  
+
+  public static final String GRANT_TYPE = "grant_type";
+  public static final String AUTHORIZATION_CODE = "authorization_code";
+  public static final String BEARER = "Bearer";
+
 }

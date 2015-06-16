@@ -21,6 +21,7 @@ public class ServiceBuilder
   private String callback;
   private Api api;
   private String scope;
+  private String state;
   private SignatureType signatureType;
   private OutputStream debugStream;
   
@@ -129,9 +130,25 @@ public class ServiceBuilder
   }
 
   /**
+   * Configures the OAuth state. This is only necessary in some APIs (like LinkedIn).
+   *
+   * A unique string value of your choice that is hard to guess. Used to prevent CSRF.
+   * e.g. state=DCEeFWf45A53sdfKef424
+   *
+   * @param state The OAuth state
+   * @return the {@link ServiceBuilder} instance for method chaining
+   */
+  public ServiceBuilder state(String state)
+  {
+    Preconditions.checkEmptyString(state, "Invalid OAuth state");
+    this.state = state;
+    return this;
+  }
+
+  /**
    * Configures the signature type, choose between header, querystring, etc. Defaults to Header
    *
-   * @param scope The OAuth scope
+   * @param type The signature request type
    * @return the {@link ServiceBuilder} instance for method chaining
    */
   public ServiceBuilder signatureType(SignatureType type)
@@ -164,6 +181,6 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
+    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, state, debugStream));
   }
 }

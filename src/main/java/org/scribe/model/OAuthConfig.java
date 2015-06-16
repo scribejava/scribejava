@@ -15,19 +15,27 @@ public class OAuthConfig
   private final SignatureType signatureType;
   private final String scope;
   private final OutputStream debugStream;
-  
+  private final String state;
+
   public OAuthConfig(String key, String secret)
   {
-    this(key, secret, null, null, null, null);
+    this(key, secret, null, null, null, null, null);
   }
 
+
   public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, OutputStream stream)
+  {
+    this(key, secret, callback, type, scope, null, stream);
+  }
+
+  public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope, String state, OutputStream stream)
   {
     this.apiKey = key;
     this.apiSecret = secret;
     this.callback = callback;
     this.signatureType = type;
     this.scope = scope;
+    this.state = state;
     this.debugStream = stream;
   }
 
@@ -54,6 +62,10 @@ public class OAuthConfig
   public String getScope()
   {
     return scope;
+  }
+
+  public String getState() {
+    return state;
   }
 
   public boolean hasScope()
