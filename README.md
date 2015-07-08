@@ -80,11 +80,13 @@ You can pull scribe from my maven repository, just add these to your __pom.xml__
 </repositories>
 
 <!-- dependency -->
-<dependency>
-  <groupId>org.scribe</groupId>
-  <artifactId>scribe</artifactId>
-  <version>1.3.6</version>
-</dependency>
+  <dependencies>
+      <dependency>
+          <groupId>org.scribe</groupId>
+          <artifactId>scribe</artifactId>
+          <version>1.3.6</version>
+      </dependency>
+  </dependencies>
 ```
 
 ## Getting started in less than 2 minutes
