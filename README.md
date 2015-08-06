@@ -1,4 +1,4 @@
-# Welcome to the home of Scribe, the simple OAuth Java lib! 
+# Welcome to the home of Scribe, the simple OAuth Java lib!
 
 ![travis ci](https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master)
 [![codecov.io](https://codecov.io/github/fernandezpablo85/scribe-java/coverage.svg?branch=master)](https://codecov.io/github/fernandezpablo85/scribe-java?branch=master)
@@ -90,6 +90,8 @@ You can pull scribe from my maven repository, just add these to your __pom.xml__
 ## Getting started in less than 2 minutes
 
 Check the [Getting Started](http://wiki.github.com/fernandezpablo85/scribe-java/getting-started) page and start rocking! Please Read the [FAQ](http://wiki.github.com/fernandezpablo85/scribe-java/faq) before creating an issue :)
+
+Also, remember to read the [fantastic tutorial](http://akoskm.github.io/2015/07/31/twitter-sign-in-for-web-apps.html) that [@akoskm](https://twitter.com/akoskm) wrote to easily integrate a server side app with an API (twitter in this case).
 
 ## Questions?
 
