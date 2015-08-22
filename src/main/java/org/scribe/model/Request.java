@@ -35,6 +35,8 @@ public class Request
   private boolean followRedirects = true;
   private Long connectTimeout = null;
   private Long readTimeout = null;
+  
+  private Proxy proxy = null;
 
   /**
    * Creates a new Http Request
@@ -49,6 +51,11 @@ public class Request
     this.querystringParams = new ParameterList();
     this.bodyParams = new ParameterList();
     this.headers = new HashMap<String, String>();
+  }
+  
+  public void setProxy(Proxy proxy)
+  {
+      this.proxy = proxy;
   }
 
   /**
@@ -82,7 +89,17 @@ public class Request
     if (connection == null)
     {
       System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      
+      // check for proxy, use if available
+      if (proxy == null)
+      {
+          connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      }
+      else
+      {
+          connection = (HttpURLConnection) new URL(completeUrl).openConnection(proxy);
+      }
+      
       connection.setInstanceFollowRedirects(followRedirects);
     }
   }

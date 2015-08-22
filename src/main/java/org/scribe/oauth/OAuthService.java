@@ -2,6 +2,9 @@ package org.scribe.oauth;
 
 import org.scribe.model.*;
 
+import java.net.Proxy;
+import java.util.Map;
+
 /**
  * The main Scribe object. 
  * 
@@ -12,11 +15,21 @@ import org.scribe.model.*;
 public interface OAuthService
 {
   /**
+   * Set optional proxy
+   * 
+   * @param proxy a configured Proxy object
+   */
+  public void setProxy(Proxy proxy);
+    
+  /**
    * Retrieve the request token.
    * 
    * @return request token
    */
   public Token getRequestToken();
+  
+  // method added to extract request parameters for assembling a request manually
+  public Map<String, String> getRequestParameters();
 
   /**
    * Retrieve the access token
@@ -26,6 +39,9 @@ public interface OAuthService
    * @return access token
    */
   public Token getAccessToken(Token requestToken, Verifier verifier);
+  
+  // method added to extract request parameters for assembling a request manually
+  public Map<String, String> getAccessParameters(Token requestToken, Verifier verifier);
 
   /**
    * Signs am OAuth request
@@ -35,6 +51,9 @@ public interface OAuthService
    */
   public void signRequest(Token accessToken, OAuthRequest request);
 
+  //method added to extract request parameters for assembling a request manually
+  public Map<String, String> getSignedParameters(Token token, Verb verb, String url);
+  
   /**
    * Returns the OAuth version of the service.
    * 

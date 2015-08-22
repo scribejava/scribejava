@@ -1,5 +1,8 @@
 package org.scribe.oauth;
 
+import java.net.HttpURLConnection;
+import java.net.Proxy;
+import java.net.URL;
 import java.util.*;
 
 import org.scribe.builder.api.*;
@@ -19,6 +22,8 @@ public class OAuth10aServiceImpl implements OAuthService
 
   private OAuthConfig config;
   private DefaultApi10a api;
+  
+  private Proxy proxy = null;
 
   /**
    * Default constructor
@@ -30,6 +35,14 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     this.api = api;
     this.config = config;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  public void setProxy(Proxy proxy)
+  {
+      this.proxy = proxy;
   }
 
   /**
@@ -50,6 +63,12 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("obtaining request token from " + api.getRequestTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
 
+    // check for proxy, use if available
+    if (proxy != null)
+    {
+        request.setProxy(proxy);
+    } 
+    
     config.log("setting oauth_callback to " + config.getCallback());
     request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
     addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
@@ -62,6 +81,28 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("response status code: " + response.getCode());
     config.log("response body: " + body);
     return api.getRequestTokenExtractor().extract(body);
+  }
+  
+  // method added to extract request parameters for assembling a request manually
+  public Map<String, String> getRequestParameters()
+  {
+    RequestTuner tuner = new TimeoutTuner(2, TimeUnit.SECONDS);
+      
+    config.log("obtaining request token from " + api.getRequestTokenEndpoint());
+    OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
+
+    // check for proxy, use if available
+    if (proxy != null)
+    {
+        request.setProxy(proxy);
+    } 
+    
+    config.log("setting oauth_callback to " + config.getCallback());
+    request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
+    addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
+    appendSignature(request);
+
+    return request.getOauthParameters();
   }
 
   private void addOAuthParams(OAuthRequest request, Token token)
@@ -94,6 +135,13 @@ public class OAuth10aServiceImpl implements OAuthService
   {
     config.log("obtaining access token from " + api.getAccessTokenEndpoint());
     OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    
+    // check for proxy, use if available
+    if (proxy != null)
+    {
+        request.setProxy(proxy);
+    }
+    
     request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
     request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
 
@@ -108,6 +156,30 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("response status code: " + response.getCode());
     config.log("response body: " + body);
     return api.getAccessTokenExtractor().extract(body);
+  }
+  
+  // method added to extract request parameters for assembling a request manually
+  public Map<String, String> getAccessParameters(Token requestToken, Verifier verifier)
+  {
+    RequestTuner tuner = new TimeoutTuner(2, TimeUnit.SECONDS);
+      
+    config.log("obtaining access token from " + api.getAccessTokenEndpoint());
+    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    
+    // check for proxy, use if available
+    if (proxy != null)
+    {
+        request.setProxy(proxy);
+    }
+    
+    request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
+    request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
+
+    config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
+    addOAuthParams(request, requestToken);
+    appendSignature(request);
+    
+    return request.getOauthParameters();
   }
 
   /**
@@ -125,6 +197,24 @@ public class OAuth10aServiceImpl implements OAuthService
     config.log("setting token to: " + token);
     addOAuthParams(request, token);
     appendSignature(request);
+  }
+  
+  //method added to extract request parameters for assembling a request manually
+  public Map<String, String> getSignedParameters(Token token, Verb verb, String url)
+  {
+    // dummy request to attach parameters too
+    OAuthRequest request = new OAuthRequest(verb, url);
+
+    // Do not append the token if empty. This is for two legged OAuth calls.
+    if (!token.isEmpty())
+    {
+      request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
+    }
+    config.log("setting token to: " + token);
+    addOAuthParams(request, token);
+    appendSignature(request);
+   
+    return request.getOauthParameters();
   }
 
   /**
