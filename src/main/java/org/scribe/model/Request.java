@@ -31,7 +31,6 @@ public class Request
   private HttpURLConnection connection;
   private String charset;
   private byte[] bytePayload = null;
-  private boolean connectionKeepAlive = false;
   private boolean followRedirects = true;
   private Long connectTimeout = null;
   private Long readTimeout = null;
@@ -81,7 +80,6 @@ public class Request
     String completeUrl = getCompleteUrl();
     if (connection == null)
     {
-      System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
       connection = (HttpURLConnection) new URL(completeUrl).openConnection();
       connection.setInstanceFollowRedirects(followRedirects);
     }
@@ -353,13 +351,15 @@ public class Request
   /**
    * Sets whether the underlying Http Connection is persistent or not.
    *
+   * @deprecated does nothing - JVM default is left untouched.
+   *             Set {@code http.keepAlive} system property to {@code false} for pre-deprecation behavior.
+   *
    * @see http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html
    * @param connectionKeepAlive
    */
+  @Deprecated
   public void setConnectionKeepAlive(boolean connectionKeepAlive)
-  {
-    this.connectionKeepAlive = connectionKeepAlive;
-  }
+  {}
 
   /**
    * Sets whether the underlying Http Connection follows redirects or not.
