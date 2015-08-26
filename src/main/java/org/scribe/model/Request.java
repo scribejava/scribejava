@@ -108,12 +108,12 @@ public class Request
     {
       connection.setReadTimeout(readTimeout.intValue());
     }
+    tuner.tune(this);
     addHeaders(connection);
     if (verb.equals(Verb.PUT) || verb.equals(Verb.POST))
     {
       addBody(connection, getByteBodyContents());
     }
-    tuner.tune(this);
     return new Response(connection);
   }
 
