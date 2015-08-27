@@ -85,7 +85,7 @@ public class ServiceBuilder
   public ServiceBuilder callback(String callback)
   {
     Preconditions.checkNotNull(callback, "Callback can't be null");
-    this.callback = callback;
+    this.callback = callback.trim();
     return this;
   }
   

@@ -73,7 +73,7 @@ public class Preconditions
   
   private static boolean isUrl(String url)
   {
-    return URL_PATTERN.matcher(url).matches();
+    return URL_PATTERN.matcher(url.trim()).matches();
   }
   
   private static void check(boolean requirements, String error)

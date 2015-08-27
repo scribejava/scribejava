@@ -48,6 +48,12 @@ public class PreconditionsTest
   {
     Preconditions.checkValidUrl("http://www.example.com", ERROR_MSG);
   }
+
+  @Test
+  public void shouldAllowUrlsWithWhitespaceAround()
+  {
+    Preconditions.checkValidUrl("  http://www.example.com ", ERROR_MSG);
+  }
   
   @Test
   public void shouldAllowSSLUrls()

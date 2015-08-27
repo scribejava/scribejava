@@ -37,6 +37,15 @@ public class ServiceBuilderTest
   }
 
   @Test
+  public void shouldTrimCallbackUrl()
+  {
+    builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").callback("  http://example.com ").build();
+    assertEquals(ApiMock.config.getApiKey(), "key");
+    assertEquals(ApiMock.config.getApiSecret(), "secret");
+    assertEquals(ApiMock.config.getCallback(), "http://example.com");
+  }
+
+  @Test
   public void shouldAcceptASignatureType()
   {
     builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").signatureType(SignatureType.QueryString).build();
