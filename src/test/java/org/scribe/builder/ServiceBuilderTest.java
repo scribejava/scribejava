@@ -35,6 +35,15 @@ public class ServiceBuilderTest
     assertEquals(ApiMock.config.getApiSecret(), "secret");
     assertEquals(ApiMock.config.getCallback(), "http://example.com");
   }
+  
+  @Test
+  public void shouldReturnStateParamInCallbackUrl() { 
+	  builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").callback("http://example.com").state("state").build();
+	  assertEquals(ApiMock.config.getApiKey(), "key");
+	  assertEquals(ApiMock.config.getApiSecret(), "secret");
+	  assertEquals(ApiMock.config.getState(), "state");
+	  assertEquals(ApiMock.config.getCallback(), "http://example.com");
+  }
 
   @Test
   public void shouldAcceptASignatureType()

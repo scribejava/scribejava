@@ -18,10 +18,13 @@ public class FacebookExample
     // Replace these with your own api key and secret
     String apiKey = "your_app_id";
     String apiSecret = "your_api_secret";
+    String state = "your_state";
+	  
     OAuthService service = new ServiceBuilder()
                                   .provider(FacebookApi.class)
                                   .apiKey(apiKey)
                                   .apiSecret(apiSecret)
+                                  .state(state)
                                   .callback("http://www.example.com/oauth_callback/")
                                   .build();
     Scanner in = new Scanner(System.in);

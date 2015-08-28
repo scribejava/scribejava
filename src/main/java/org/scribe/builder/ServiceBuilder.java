@@ -1,6 +1,7 @@
 package org.scribe.builder;
 
 import java.io.*;
+
 import org.scribe.builder.api.*;
 import org.scribe.exceptions.*;
 import org.scribe.model.*;
@@ -21,6 +22,7 @@ public class ServiceBuilder
   private String callback;
   private Api api;
   private String scope;
+  private String state;
   private SignatureType signatureType;
   private OutputStream debugStream;
   
@@ -154,6 +156,12 @@ public class ServiceBuilder
     return this;
   }
   
+  public ServiceBuilder state(String state) {
+	  Preconditions.checkEmptyString(state, "Invalid state");
+	  this.state = state;
+	  return this;	
+  }
+  
   /**
    * Returns the fully configured {@link OAuthService}
    * 
@@ -164,6 +172,12 @@ public class ServiceBuilder
     Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
     Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
+    
+    OAuthConfig config = new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream);
+    if(state != null)
+    	config.setState(state);
+    
+    return api.createService(config);
   }
+
 }

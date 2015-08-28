@@ -12,6 +12,7 @@ public class OAuthConfig
   private final String apiKey;
   private final String apiSecret;
   private final String callback;
+  private String state;
   private final SignatureType signatureType;
   private final String scope;
   private final OutputStream debugStream;
@@ -30,7 +31,15 @@ public class OAuthConfig
     this.scope = scope;
     this.debugStream = stream;
   }
-
+  
+  public String getState() {
+	return state;
+  }
+  
+  public void setState(String state) {
+	this.state = state;
+  }
+  
   public String getApiKey()
   {
     return apiKey;
@@ -59,6 +68,10 @@ public class OAuthConfig
   public boolean hasScope()
   {
     return scope != null;
+  }
+  
+  public boolean hasState() {
+	  return state != null;
   }
 
   public void log(String message)
