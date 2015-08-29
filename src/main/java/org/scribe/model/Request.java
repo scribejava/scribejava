@@ -15,9 +15,9 @@ import org.scribe.exceptions.*;
  */
 public class Request
 {
-  private static final String CONTENT_LENGTH = "Content-Length";
-  private static final String CONTENT_TYPE = "Content-Type";
-  private static RequestTuner NOOP = new RequestTuner() {
+  public static final String CONTENT_LENGTH = "Content-Length";
+  public static final String CONTENT_TYPE = "Content-Type";
+  static RequestTuner NOOP = new RequestTuner() {
     @Override public void tune(Request _){}
   };
   public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
@@ -28,7 +28,6 @@ public class Request
   private ParameterList bodyParams;
   private Map<String, String> headers;
   private String payload = null;
-  private HttpURLConnection connection;
   private String charset;
   private byte[] bytePayload = null;
   private boolean connectionKeepAlive = false;
@@ -58,12 +57,11 @@ public class Request
    * @throws RuntimeException
    *           if the connection cannot be created.
    */
-  public Response send(RequestTuner tuner)
+  public Response send(RequestSender sender, RequestTuner tuner)
   {
     try
     {
-      createConnection();
-      return doSend(tuner);
+      return sender.send(this, tuner);
     }
     catch (Exception e)
     {
@@ -71,20 +69,21 @@ public class Request
     }
   }
 
+  /**
+   * Execute the request and return a {@link Response}
+   * 
+   * @return Http Response
+   * @throws RuntimeException
+   *           if the connection cannot be created.
+   */
+  public Response send(RequestTuner tuner)
+  {
+    return send(UrlConnectionRequestSender.INSTANCE, tuner);
+  }
+
   public Response send()
   {
     return send(NOOP);
-  }
-
-  private void createConnection() throws IOException
-  {
-    String completeUrl = getCompleteUrl();
-    if (connection == null)
-    {
-      System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(completeUrl).openConnection();
-      connection.setInstanceFollowRedirects(followRedirects);
-    }
   }
 
   /**
@@ -95,45 +94,6 @@ public class Request
   public String getCompleteUrl()
   {
     return querystringParams.appendTo(url);
-  }
-
-  Response doSend(RequestTuner tuner) throws IOException
-  {
-    connection.setRequestMethod(this.verb.name());
-    if (connectTimeout != null) 
-    {
-      connection.setConnectTimeout(connectTimeout.intValue());
-    }
-    if (readTimeout != null)
-    {
-      connection.setReadTimeout(readTimeout.intValue());
-    }
-    addHeaders(connection);
-    if (verb.equals(Verb.PUT) || verb.equals(Verb.POST))
-    {
-      addBody(connection, getByteBodyContents());
-    }
-    tuner.tune(this);
-    return new Response(connection);
-  }
-
-  void addHeaders(HttpURLConnection conn)
-  {
-    for (String key : headers.keySet())
-      conn.setRequestProperty(key, headers.get(key));
-  }
-
-  void addBody(HttpURLConnection conn, byte[] content) throws IOException
-  {
-    conn.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
-
-    // Set default content type if none is set.
-    if (conn.getRequestProperty(CONTENT_TYPE) == null)
-    {
-      conn.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-    }
-    conn.setDoOutput(true);
-    conn.getOutputStream().write(content);
   }
 
   /**
@@ -374,17 +334,29 @@ public class Request
     this.followRedirects = followRedirects;
   }
 
-  /*
-   * We need this in order to stub the connection object for test cases
-   */
-  void setConnection(HttpURLConnection connection)
-  {
-    this.connection = connection;
-  }
-
   @Override
   public String toString()
   {
     return String.format("@Request(%s %s)", getVerb(), getUrl());
+  }
+
+  public boolean isConnectionKeepAlive()
+  {
+    return connectionKeepAlive;
+  }
+
+  public boolean isFollowRedirects()
+  {
+    return followRedirects;
+  }
+
+  public Long getReadTimeout()
+  {
+    return readTimeout;
+  }
+
+  public Long getConnectTimeout()
+  {
+    return connectTimeout;
   }
 }

@@ -11,6 +11,7 @@ public class ResponseTest
 
   private Response response;
   private ConnectionStub connection;
+  private UrlConnectionRequestSenderStub sender;
 
   @Before
   public void setup() throws Exception
@@ -18,7 +19,8 @@ public class ResponseTest
     connection = new ConnectionStub();
     connection.addResponseHeader("one", "one");
     connection.addResponseHeader("two", "two");
-    response = new Response(connection);
+    sender = new UrlConnectionRequestSenderStub(connection);
+    response = sender.getResponse(connection);
   }
 
   @Test
@@ -47,7 +49,7 @@ public class ResponseTest
   @Test
   public void shouldHandleAConnectionWithErrors() throws Exception
   {
-    Response errResponse = new Response(new FaultyConnection());
+    Response errResponse = sender.getResponse(new FaultyConnection());
     assertEquals(400, errResponse.getCode());
     assertEquals("errors", errResponse.getBody());
   }

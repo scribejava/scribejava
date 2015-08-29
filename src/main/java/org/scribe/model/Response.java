@@ -1,11 +1,10 @@
 package org.scribe.model;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
 
-import org.scribe.exceptions.*;
-import org.scribe.utils.*;
+import org.scribe.utils.StreamUtils;
 
 /**
  * Represents an HTTP Response.
@@ -14,44 +13,24 @@ import org.scribe.utils.*;
  */
 public class Response
 {
-  private static final String EMPTY = "";
-
   private int code;
   private String message;
   private String body;
   private InputStream stream;
   private Map<String, String> headers;
 
-  Response(HttpURLConnection connection) throws IOException
+  Response(int code, String message, InputStream stream, Map<String, String> headers) throws IOException
   {
-    try
-    {
-      connection.connect();
-      code = connection.getResponseCode();
-      message = connection.getResponseMessage();
-      headers = parseHeaders(connection);
-      stream = isSuccessful() ? connection.getInputStream() : connection.getErrorStream();
-    }
-    catch (UnknownHostException e)
-    {
-      throw new OAuthException("The IP address of a host could not be determined.", e);
-    }
+    this.code = code;
+    this.message = message;
+    this.stream = stream;
+    this.headers = headers;
   }
 
   private String parseBodyContents()
   {
     body = StreamUtils.getStreamContents(getStream());
     return body;
-  }
-
-  private Map<String, String> parseHeaders(HttpURLConnection conn)
-  {
-    Map<String, String> headers = new HashMap<String, String>();
-    for (String key : conn.getHeaderFields().keySet())
-    {
-      headers.put(key, conn.getHeaderFields().get(key).get(0));
-    }
-    return headers;
   }
 
   public boolean isSuccessful()
