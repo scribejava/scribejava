@@ -1,5 +1,7 @@
 # Welcome to the home of Scribe, the simple OAuth Java lib!
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fernandezpablo85/scribe-java?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![travis ci](https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master)
 [![codecov.io](https://codecov.io/github/fernandezpablo85/scribe-java/coverage.svg?branch=master)](https://codecov.io/github/fernandezpablo85/scribe-java?branch=master)
 
