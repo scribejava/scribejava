@@ -1,7 +1,14 @@
 package org.scribe.oauth;
 
-import org.scribe.builder.api.*;
-import org.scribe.model.*;
+import org.scribe.builder.api.DefaultApi20;
+import org.scribe.model.OAuthConfig;
+import org.scribe.model.OAuthConstants;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
+import org.scribe.services.DefaultRequestFactory;
+import org.scribe.services.RequestFactory;
 
 public class OAuth20ServiceImpl implements OAuthService
 {
@@ -9,6 +16,7 @@ public class OAuth20ServiceImpl implements OAuthService
   
   private final DefaultApi20 api;
   private final OAuthConfig config;
+  protected final RequestFactory requestFactory;
   
   /**
    * Default constructor
@@ -18,8 +26,21 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config)
   {
+    this(api, config, new DefaultRequestFactory());
+  }
+
+  /**
+   * Creates a new OAuth20ServiceImpl with custom {@link RequestFactory}
+   *
+   * @param api OAuth2.0 api information
+   * @param config OAuth 2.0 configuration param object
+   * @param requestFactory Responsible for creating {@link OAuthRequest}s
+   */
+  public OAuth20ServiceImpl(DefaultApi20 api, OAuthConfig config, RequestFactory requestFactory)
+  {
     this.api = api;
     this.config = config;
+    this.requestFactory = requestFactory;
   }
 
   /**
@@ -27,7 +48,7 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
-    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+    OAuthRequest request = requestFactory.createRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
     request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
     request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
     request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());

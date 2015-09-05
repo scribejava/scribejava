@@ -1,12 +1,19 @@
 package org.scribe.model;
 
-import java.io.*;
-import java.net.*;
-import java.nio.charset.*;
-import java.util.*;
-import java.util.concurrent.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import org.scribe.exceptions.*;
+import org.scribe.exceptions.OAuthConnectionException;
+import org.scribe.exceptions.OAuthException;
+import org.scribe.services.ConnectionFactory;
+import org.scribe.services.DefaultConnectionFactory;
 
 /**
  * Represents an HTTP Request object
@@ -35,6 +42,7 @@ public class Request
   private boolean followRedirects = true;
   private Long connectTimeout = null;
   private Long readTimeout = null;
+  private ConnectionFactory connectionFactory;
 
   /**
    * Creates a new Http Request
@@ -44,11 +52,24 @@ public class Request
    */
   public Request(Verb verb, String url)
   {
+    this(verb, url, new DefaultConnectionFactory());
+  }
+
+  /**
+   * Creates a new Http Request with custom {@link ConnectionFactory}
+   * 
+   * @param verb Http Verb (GET, POST, etc)
+   * @param url url with optional querystring parameters.
+   * @param connectionFactory Responsible for creating HTTP connections
+   */
+  public Request(Verb verb, String url, ConnectionFactory connectionFactory)
+  {
     this.verb = verb;
     this.url = url;
     this.querystringParams = new ParameterList();
     this.bodyParams = new ParameterList();
     this.headers = new HashMap<String, String>();
+    this.connectionFactory = connectionFactory;
   }
 
   /**
@@ -82,7 +103,7 @@ public class Request
     if (connection == null)
     {
       System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+      connection = connectionFactory.createConnection(completeUrl);
       connection.setInstanceFollowRedirects(followRedirects);
     }
   }
