@@ -13,7 +13,7 @@ import org.scribe.utils.*;
 public class BaseStringExtractorImpl implements BaseStringExtractor
 {
 
-  private static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
+  protected static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
 
   /**
    * {@inheritDoc}
@@ -21,13 +21,23 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
   public String extract(OAuthRequest request)
   {
     checkPreconditions(request);
-    String verb = OAuthEncoder.encode(request.getVerb().name());
-    String url = OAuthEncoder.encode(request.getSanitizedUrl());
+    String verb = OAuthEncoder.encode(getVerb(request));
+    String url = OAuthEncoder.encode(getUrl(request));
     String params = getSortedAndEncodedParams(request);
     return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
   }
 
-  private String getSortedAndEncodedParams(OAuthRequest request)
+  protected String getVerb(OAuthRequest request)
+  {
+    return request.getVerb().name();
+  }
+
+  protected String getUrl(OAuthRequest request)
+  {
+    return request.getSanitizedUrl();
+  }
+
+  protected String getSortedAndEncodedParams(OAuthRequest request)
   {
     ParameterList params = new ParameterList();
     params.addAll(request.getQueryStringParams());
@@ -36,7 +46,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor
     return params.sort().asOauthBaseString();
   }
 
-  private void checkPreconditions(OAuthRequest request)
+  protected void checkPreconditions(OAuthRequest request)
   {
     Preconditions.checkNotNull(request, "Cannot extract base string from a null object");
 
