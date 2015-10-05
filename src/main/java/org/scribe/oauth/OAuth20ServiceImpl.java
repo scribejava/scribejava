@@ -1,5 +1,7 @@
 package org.scribe.oauth;
 
+import java.nio.charset.Charset;
+
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.services.Base64Encoder;
@@ -34,7 +36,7 @@ public class OAuth20ServiceImpl implements OAuthService
 	if (verb == Verb.POST || verb == Verb.PUT) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Basic ");
-		stringBuilder.append(Base64Encoder.getInstance().encode((config.getApiKey() + ":" + config.getApiSecret()).getBytes()));
+		stringBuilder.append(Base64Encoder.getInstance().encode((config.getApiKey() + ":" + config.getApiSecret()).getBytes(Charset.forName("UTF-8"))));
 		request.addHeader("Authorization", stringBuilder.toString());
 
 		request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
