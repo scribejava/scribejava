@@ -2,6 +2,7 @@ package org.scribe.oauth;
 
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
+import org.scribe.services.Base64Encoder;
 
 public class OAuth20ServiceImpl implements OAuthService
 {
@@ -27,13 +28,28 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   public Token getAccessToken(Token requestToken, Verifier verifier)
   {
-    OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-    request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-    request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
-    request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-    if(config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
-    Response response = request.send();
+	Verb verb = api.getAccessTokenVerb();
+	OAuthRequest request = new OAuthRequest(verb, api.getAccessTokenEndpoint());
+	Response response;
+	if (verb == Verb.POST || verb == Verb.PUT) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Basic ");
+		stringBuilder.append(Base64Encoder.getInstance().encode((config.getApiKey() + ":" + config.getApiSecret()).getBytes()));
+		request.addHeader("Authorization", stringBuilder.toString());
+
+		request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
+		request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
+		request.addBodyParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+		if (config.hasScope()) request.addBodyParameter(OAuthConstants.SCOPE, config.getScope());
+		response = request.send();
+	} else {
+		request.addQuerystringParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+		request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+		request.addQuerystringParameter(OAuthConstants.CODE, verifier.getValue());
+		request.addQuerystringParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+		if (config.hasScope()) request.addQuerystringParameter(OAuthConstants.SCOPE, config.getScope());
+		response = request.send();
+	}
     return api.getAccessTokenExtractor().extract(response.getBody());
   }
 
