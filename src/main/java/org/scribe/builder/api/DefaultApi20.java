@@ -66,5 +66,31 @@ public abstract class DefaultApi20 implements Api
   {
     return new OAuth20ServiceImpl(this, config);
   }
+  
+  /**
+   * Returns the type of authentication (plain in form or QueryString or Basic in Header)
+   * Default is QueryString for backward compatibility
+   */
+  public ParameterType getClientAuthenticationType(){
+	  return ParameterType.QueryString;
+  }
+
+  /**
+   * Returns the type of paramters (form, QueryString or Header)
+   * Default is QueryString for backward compatibility
+   */
+  public ParameterType getParameterType() {
+	  return ParameterType.QueryString;
+  }
+
+  /**
+   * Allows APIs to handle the request for free param injection
+   * @param the request ready to be sent by the service
+   * @return the request to be sent by the service
+   */
+  public OAuthRequest handleRequest(OAuthRequest request) {
+	  return request;
+  }
+	
 
 }
