@@ -96,3 +96,8 @@
 [1.3.3]
   * FEATURE: accessToken and requestToken timeouts default to 2 seconds and can be specified.
   * FEATURE: New Apis.
+  
+[1.4.0] Forked by the Scenari Team
+  * FEATURE: wider support of Oauth 2
+  * FEATURE: Several way to specialize a given Oauth 2 implementation in the APIs
+  * FEATURE: Twitter SignIn and Google OAuth 2 Apis
