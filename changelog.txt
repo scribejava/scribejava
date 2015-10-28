@@ -99,5 +99,5 @@
   
 [1.4.0] Forked by the Scenari Team
   * FEATURE: wider support of Oauth 2
-  * FEATURE: Several way to specialize a given Oauth 2 implementation in the APIs
+  * FEATURE: Several ways to specialize a given Oauth 2 implementation in the APIs
   * FEATURE: Twitter SignIn and Google OAuth 2 Apis
