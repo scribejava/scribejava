@@ -96,7 +96,7 @@ public abstract class DefaultApi20 implements Api
    * Allow APIs to hack OAuth2 standard (usefull for facebook wich does not respect the standard
    * @return QueryString => the access token is send as a QueryString in the URL
    */
-  public String getSignatureType()
+  public SignatureType getSignatureType()
   {
     return null;
   }
