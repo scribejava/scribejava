@@ -1,110 +1,52 @@
-# Welcome to the home of Scribe, the simple OAuth Java lib!
+# Welcome to the home of Scribe-sc, the simple OAuth Java lib forked by the Scenari Team!
 
-![travis ci](https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master)
-[![codecov.io](https://codecov.io/github/fernandezpablo85/scribe-java/coverage.svg?branch=master)](https://codecov.io/github/fernandezpablo85/scribe-java?branch=master)
+### To understand scribe, please read the master github page (https://github.com/fernandezpablo85/scribe-java)
 
-### Before submitting a pull request [please read this](https://github.com/fernandezpablo85/scribe-java/wiki/Scribe-scope-revised)
+# Why a fork for Scribe ?
 
-# Why use Scribe?
+Basically, because the support of OAuth 2 by Scribe is not as wide as the standard defines it. This fork aims to enhance the Oauth 2 support, especially by letting the API classes interact with the Oauth2 service to specialize the access token request or sign in request.
 
-### Dead Simple
+### What is different in Scribe-sc
 
-Who said OAuth was difficult? Configuring scribe is __so easy your grandma can do it__! check it out:
+In an API class, you can define how the access token request should be signed.
 
 ```java
-OAuthService service = new ServiceBuilder()
-                                  .provider(LinkedInApi.class)
-                                  .apiKey(YOUR_API_KEY)
-                                  .apiSecret(YOUR_API_SECRET)
-                                  .build();
+
+	@Override
+	public ParameterType getClientAuthenticationType() {
+	
+	// ParameterType.Header => the token cliendId:clientSecret is base64 encoded and send as a Basic Auth
+	// ParameterType.QueryString => cliendId and clientSecret are sent as a oauth parameter in the QueryString
+	// ParameterType.PostForm => cliendId and clientSecret are sent as a oauth parameter in a URL encoded form
+	
+		return ParameterType.Header;
+	}
+	//Default is QueryString for backward compatibility
 ```
 
-That **single line** (added newlines for readability) is the only thing you need to configure scribe with LinkedIn's OAuth API for example.
+You can define how the oauth 2 parameters should be sent.
+```java
 
-### Threadsafe
-
-Hit Scribe as hard and with many threads as you like.
-
-### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
-
-* Google
-
-* Facebook
-
-* Yahoo
-
-* LinkedIn
-
-* Twitter
-
-* Foursquare
-
-* Evernote
-
-* Vimeo
-
-* Windows Live
-
-* and many more! check the [examples folder](http://github.com/fernandezpablo85/scribe-java/tree/master/src/test/java/org/scribe/examples)
-
-### Small and modular
-
-Scribe's code is small (about 1k LOC) and simple to understand. No smart-ass or "clever" hacks here.
-
-### Android-Ready
-
-Works out of the box with android(TM) applications.
-
-### Stable & bulletproof
-
-Good test coverage to keep you safe from harm.
-
-When something bad actually happens, Scribe's meaningful error messages will tell you exactly what went wrong, when and where.
-
-### Pull it from Maven!
-
-You can pull scribe from my maven repository, just add these to your __pom.xml__ file:
-
-```xml
-
-<!-- repository -->
-<repositories>
-  <repository>
-    <id>scribe-java-mvn-repo</id>
-    <url>https://raw.github.com/fernandezpablo85/scribe-java/mvn-repo/</url>
-    <snapshots>
-      <enabled>true</enabled>
-      <updatePolicy>always</updatePolicy>
-    </snapshots>
-  </repository>
-</repositories>
-
-<!-- dependency -->
-<dependency>
-  <groupId>org.scribe</groupId>
-  <artifactId>scribe</artifactId>
-  <version>1.3.6</version>
-</dependency>
+	@Override
+	public ParameterType getParameterType() {
+	
+	// ParameterType.Header => the parameters are sent in the header
+	// ParameterType.QueryString => the parameters are sent as a QueryString
+	// ParameterType.PostForm => The parameters are sent in a URL encoded form
+	
+		return ParameterType.Header;
+	}
+	//Default is QueryString for backward compatibility
 ```
 
-## Getting started in less than 2 minutes
+Finally, you can throw the access token request of the service and build your own.
+```java
 
-Check the [Getting Started](http://wiki.github.com/fernandezpablo85/scribe-java/getting-started) page and start rocking! Please Read the [FAQ](http://wiki.github.com/fernandezpablo85/scribe-java/faq) before creating an issue :)
+	@Override
+	public OAuthRequest handleRequest(OAuthRequest request) {
+	//Do what ever you want on the access token request here. The service will not change it. 
+	  return request;
+	}
+```
 
-Also, remember to read the [fantastic tutorial](http://akoskm.github.io/2015/07/31/twitter-sign-in-for-web-apps.html) that [@akoskm](https://twitter.com/akoskm) wrote to easily integrate a server side app with an API (twitter in this case).
 
-## Questions?
-
-Feel free to drop me an email, but there's already a [StackOverflow](http://stackoverflow.com) tag for [scribe](http://stackoverflow.com/questions/tagged/scribe) you should use. I'm subscribed to it so I'll pick the question immediately.
-
-## Forks
-
-Looking for a scribe variation? check the [Fork List](https://github.com/fernandezpablo85/scribe-java/wiki/Forks)
-
-If you have a useful fork that should be listed there please contact me (see About me).
-
-## About me
-
-[LinkedIn profile](http://www.linkedin.com/in/fernandezpablo85)
-
-Follow me: [@fernandezpablo](http://twitter.com/fernandezpablo)
