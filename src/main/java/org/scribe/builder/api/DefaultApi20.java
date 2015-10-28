@@ -76,7 +76,7 @@ public abstract class DefaultApi20 implements Api
   }
 
   /**
-   * Returns the type of paramters (form, QueryString or Header)
+   * Returns the type of parameters (form, QueryString or Header)
    * Default is QueryString for backward compatibility
    */
   public ParameterType getParameterType() {
@@ -90,6 +90,15 @@ public abstract class DefaultApi20 implements Api
    */
   public OAuthRequest handleRequest(OAuthRequest request) {
 	  return request;
+  }
+
+  /**
+   * Allow APIs to hack OAuth2 standard (usefull for facebook wich does not respect the standard
+   * @return QueryString => the access token is send as a QueryString in the URL
+   */
+  public String getSignatureType()
+  {
+    return null;
   }
 	
 
