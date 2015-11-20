@@ -54,7 +54,7 @@ You can user ning async http client out-of-box, just use ServiceBuilderAsync
 
 * GitHub
 
-* and many more! check the [examples folder](http://github.com/scribejava/scribejava/tree/master/src/test/java/com/github/scribejava/apis/examples)
+* and many more! check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
 
 ### Small and modular
 
