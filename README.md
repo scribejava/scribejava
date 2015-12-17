@@ -1,15 +1,10 @@
-# Welcome to the home of Scribe, the simple OAuth Java lib!
+# Welcome to the home of ScribeJava, the simple OAuth Java lib!
 
-![travis ci](https://secure.travis-ci.org/fernandezpablo85/scribe-java.png?branch=master)
-[![codecov.io](https://codecov.io/github/fernandezpablo85/scribe-java/coverage.svg?branch=master)](https://codecov.io/github/fernandezpablo85/scribe-java?branch=master)
-
-### Before submitting a pull request [please read this](https://github.com/fernandezpablo85/scribe-java/wiki/Scribe-scope-revised)
-
-# Why use Scribe?
+# Why use ScribeJava?
 
 ### Dead Simple
 
-Who said OAuth was difficult? Configuring scribe is __so easy your grandma can do it__! check it out:
+Who said OAuth/OAuth2 was difficult? Configuring scribe is __so easy your grandma can do it__! check it out:
 
 ```java
 OAuthService service = new ServiceBuilder()
@@ -23,7 +18,11 @@ That **single line** (added newlines for readability) is the only thing you need
 
 ### Threadsafe
 
-Hit Scribe as hard and with many threads as you like.
+Hit ScribeJava as hard and with many threads as you like.
+
+### Async
+
+You can user ning async http client out-of-box, just use ServiceBuilderAsync
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
@@ -45,11 +44,22 @@ Hit Scribe as hard and with many threads as you like.
 
 * Windows Live
 
-* and many more! check the [examples folder](http://github.com/fernandezpablo85/scribe-java/tree/master/src/test/java/org/scribe/examples)
+* Odnoklassniki
+
+* Mail.ru
+
+* LinkedIn2.0
+
+* Google2.0
+
+* GitHub
+
+* and many more! check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
 
 ### Small and modular
 
-Scribe's code is small (about 1k LOC) and simple to understand. No smart-ass or "clever" hacks here.
+ScribeJava's code is small (about 1k LOC) and simple to understand. No smart-ass or "clever" hacks here.
+You can use only 'core' or 'with apis' maven modules
 
 ### Android-Ready
 
@@ -59,52 +69,41 @@ Works out of the box with android(TM) applications.
 
 Good test coverage to keep you safe from harm.
 
-When something bad actually happens, Scribe's meaningful error messages will tell you exactly what went wrong, when and where.
+When something bad actually happens, ScribeJava's meaningful error messages will tell you exactly what went wrong, when and where.
 
-### Pull it from Maven!
+### Pull it from Maven Central!
 
-You can pull scribe from my maven repository, just add these to your __pom.xml__ file:
+You can pull ScribeJava from the central maven repository, just add these to your __pom.xml__ file:
 
 ```xml
-
-<!-- repository -->
-<repositories>
-  <repository>
-    <id>scribe-java-mvn-repo</id>
-    <url>https://raw.github.com/fernandezpablo85/scribe-java/mvn-repo/</url>
-    <snapshots>
-      <enabled>true</enabled>
-      <updatePolicy>always</updatePolicy>
-    </snapshots>
-  </repository>
-</repositories>
-
-<!-- dependency -->
 <dependency>
-  <groupId>org.scribe</groupId>
-  <artifactId>scribe</artifactId>
-  <version>1.3.6</version>
+    <groupId>com.github.scribejava</groupId>
+    <artifactId>scribejava-apis</artifactId>
+    <version>2.0.1</version>
+</dependency>
+```
+
+And in case you need just core classes (that's it, without any external API (FB, VK, GitHub, Google etc) specific code), you could pull just 'core' artifact.
+```xml
+<dependency>
+    <groupId>com.github.scribejava</groupId>
+    <artifactId>scribejava-core</artifactId>
+    <version>2.0.1</version>
 </dependency>
 ```
 
 ## Getting started in less than 2 minutes
 
-Check the [Getting Started](http://wiki.github.com/fernandezpablo85/scribe-java/getting-started) page and start rocking! Please Read the [FAQ](http://wiki.github.com/fernandezpablo85/scribe-java/faq) before creating an issue :)
+Check the [Getting Started](https://github.com/scribejava/scribejava/wiki/getting-started) page and start rocking! Please Read the [FAQ](https://github.com/scribejava/scribejava/wiki/faq) before creating an issue :)
 
 Also, remember to read the [fantastic tutorial](http://akoskm.github.io/2015/07/31/twitter-sign-in-for-web-apps.html) that [@akoskm](https://twitter.com/akoskm) wrote to easily integrate a server side app with an API (twitter in this case).
 
 ## Questions?
 
-Feel free to drop me an email, but there's already a [StackOverflow](http://stackoverflow.com) tag for [scribe](http://stackoverflow.com/questions/tagged/scribe) you should use. I'm subscribed to it so I'll pick the question immediately.
+Feel free to drop us an email or create issue right here on github.com
 
 ## Forks
 
-Looking for a scribe variation? check the [Fork List](https://github.com/fernandezpablo85/scribe-java/wiki/Forks)
+Looking for a ScribeJava variation? check the [Fork List](https://github.com/scribejava/scribejava/wiki/Forks)
 
-If you have a useful fork that should be listed there please contact me (see About me).
-
-## About me
-
-[LinkedIn profile](http://www.linkedin.com/in/fernandezpablo85)
-
-Follow me: [@fernandezpablo](http://twitter.com/fernandezpablo)
+If you have a useful fork that should be listed there please contact us
