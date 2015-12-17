@@ -17,10 +17,10 @@ public class GoogleToken extends Token {
         super(token, secret, rawResponse);
         this.openIdToken = openIdToken;
     }
-    
+
     public String getOpenIdToken() {
-		return openIdToken;
-	}
+        return openIdToken;
+    }
 
     @Override
     public String toString() {
