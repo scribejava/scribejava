@@ -14,7 +14,7 @@ import com.github.scribejava.core.utils.Preconditions;
  */
 public class BaseStringExtractorImpl implements BaseStringExtractor {
 
-  protected static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
+    protected static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
 
     /**
      * {@inheritDoc}
