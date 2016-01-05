@@ -28,8 +28,6 @@ public class GoogleApi20 extends DefaultApi20 {
 
     @Override
     public String getAuthorizationUrl(final OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(),
-                "Must provide a valid url as callback. Google+ does not support OOB");
         final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(
                 config.getCallback()), OAuthEncoder.encode(config.getScope())));
 
