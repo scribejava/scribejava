@@ -7,9 +7,6 @@ import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
 
 import java.util.Scanner;
 
-/**
- * Created by ahua on 12/22/15.
- */
 public class ProductHunt20Example {
     private static final String NETWORK_NAME = "ProductHunt";
     private static final String PROTECTED_RESOURCE_URL = "https://api.producthunt.com/v1/posts";

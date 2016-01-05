@@ -9,6 +9,7 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.OAuthEncoder;
+import com.github.scribejava.core.utils.Preconditions;
 
 public class ProductHuntApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://api.producthunt.com/v1/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code";
