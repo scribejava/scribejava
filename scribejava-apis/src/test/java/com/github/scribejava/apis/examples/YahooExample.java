@@ -18,8 +18,8 @@ public class YahooExample {
     public static void main(String[] args) {
         OAuthService service = new ServiceBuilder()
                 .provider(YahooApi.class)
-                .apiKey("dj0yJmk9TXZDWVpNVVdGaVFmJmQ9WVdrOWMweHZXbkZLTkhVbWNHbzlNVEl5TWprd05qUTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD0wMw--").
-                apiSecret("262be559f92a2be20c4c039419018f2b48cdfce9")
+                .apiKey("your client id").
+                apiSecret("your client secret")
                 .build();
         Scanner in = new Scanner(System.in);
 

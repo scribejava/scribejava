@@ -17,8 +17,8 @@ public class Foursquare2Example {
 
     public static void main(String[] args) {
         // Replace these with your own api key and secret
-        String apiKey = "FEGFXJUFANVVDHVSNUAMUKTTXCP1AJQD53E33XKJ44YP1S4I";
-        String apiSecret = "AYWKUL5SWPNC0CTQ202QXRUG2NLZYXMRA34ZSDW4AUYBG2RC";
+        String apiKey = "your client id";
+        String apiSecret = "your client secret";
         OAuthService service = new ServiceBuilder()
                 .provider(Foursquare2Api.class)
                 .apiKey(apiKey)
