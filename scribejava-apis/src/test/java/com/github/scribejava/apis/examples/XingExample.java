@@ -17,8 +17,8 @@ public class XingExample {
     public static void main(String[] args) {
         OAuthService service = new ServiceBuilder()
                 .provider(XingApi.class)
-                .apiKey("097ccfd3ef25a1cb6d75")
-                .apiSecret("e43364b2afd5d92f2ec28951a75bd8075f9cc221")
+                .apiKey("your client id")
+                .apiSecret("your client secret")
                 .build();
         Scanner in = new Scanner(System.in);
 

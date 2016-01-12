@@ -17,8 +17,8 @@ public class FoursquareExample {
     public static void main(String[] args) {
         OAuthService service = new ServiceBuilder()
                 .provider(FoursquareApi.class)
-                .apiKey("FEGFXJUFANVVDHVSNUAMUKTTXCP1AJQD53E33XKJ44YP1S4I")
-                .apiSecret("AYWKUL5SWPNC0CTQ202QXRUG2NLZYXMRA34ZSDW4AUYBG2RC")
+                .apiKey("your client id")
+                .apiSecret("your client secret")
                 .build();
         Scanner in = new Scanner(System.in);
 

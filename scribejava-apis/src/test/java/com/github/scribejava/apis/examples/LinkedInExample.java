@@ -18,8 +18,8 @@ public class LinkedInExample {
     public static void main(String[] args) {
         OAuthService service = new ServiceBuilder()
                 .provider(LinkedInApi.class)
-                .apiKey("CiEgwWDkA5BFpNrc0RfGyVuSlOh4tig5kOTZ9q97qcXNrFl7zqk-Ts7DqRGaKDCV")
-                .apiSecret("dhho4dfoCmiQXrkw4yslork5XWLFnPSuMR-8gscPVjY4jqFFHPYWJKgpFl4uLTM6")
+                .apiKey("your client id")
+                .apiSecret("your client secret")
                 .build();
         Scanner in = new Scanner(System.in);
 

@@ -16,8 +16,8 @@ public class TwitterExample {
 
     public static void main(String[] args) {
         OAuthService service = new ServiceBuilder().provider(TwitterApi.class)
-                .apiKey("6icbcAXyZx67r8uTAUM5Qw")
-                .apiSecret("SCCAdUUc6LXxiazxH3N0QfpNUvlUy84mZ2XZKiv39s")
+                .apiKey("your client id")
+                .apiSecret("your client secret")
                 .build();
         Scanner in = new Scanner(System.in);
 

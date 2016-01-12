@@ -17,8 +17,8 @@ public class MeetupExample {
     public static void main(String[] args) {
         OAuthService service = new ServiceBuilder()
                 .provider(MeetupApi.class)
-                .apiKey("j1khkp0dus323ftve0sdcv6ffe")
-                .apiSecret("6s6gt6q59gvfjtsvgcmht62gq4")
+                .apiKey("your client id")
+                .apiSecret("your client secret")
                 .build();
         Scanner in = new Scanner(System.in);
 
