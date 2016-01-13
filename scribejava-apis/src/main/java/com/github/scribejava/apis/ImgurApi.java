@@ -38,7 +38,7 @@ public final class ImgurApi extends DefaultApi20 {
         return new ImgurOAuthServiceImpl(this, config);
     }
 
-    public boolean isOob(final OAuthConfig config) {
+    public static boolean isOob(final OAuthConfig config) {
         return "oob".equals(config.getCallback());
     }
 }
