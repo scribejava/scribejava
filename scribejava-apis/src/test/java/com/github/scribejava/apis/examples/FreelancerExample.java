@@ -4,6 +4,7 @@ import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.FreelancerApi;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.model.Token;
@@ -33,7 +34,7 @@ public abstract class FreelancerExample {
 
         // Obtain the Request Token
         System.out.println("Fetching the Request Token...");
-        final Token requestToken = service.getRequestToken();
+        final RequestToken requestToken = service.getRequestToken();
         System.out.println("Got the Request Token!");
         System.out.println("(if your curious it looks like this: " + requestToken + " )");
         System.out.println();

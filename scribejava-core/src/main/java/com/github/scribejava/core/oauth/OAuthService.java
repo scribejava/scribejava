@@ -3,9 +3,11 @@ package com.github.scribejava.core.oauth;
 import com.ning.http.client.AsyncHttpClient;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConfigAsync;
+import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Token;
 
@@ -65,7 +67,9 @@ public abstract class OAuthService {
      * @param accessToken access token (obtained previously)
      * @param request request to sign
      */
+    @Deprecated
     public abstract void signRequest(Token accessToken, AbstractRequest request);
+    public abstract void signRequest(AccessToken accessToken, AbstractRequest request);
 
     /**
      * Returns the OAuth version of the service.

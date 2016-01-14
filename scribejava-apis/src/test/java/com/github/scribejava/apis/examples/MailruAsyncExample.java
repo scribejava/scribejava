@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import com.github.scribejava.apis.MailruApi;
 import com.github.scribejava.core.builder.ServiceBuilderAsync;
 import com.github.scribejava.core.model.OAuthRequestAsync;
+import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
@@ -56,7 +57,7 @@ public abstract class MailruAsyncExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessTokenAsync(verifier, null).get();
+        final Token accessToken = service.getAccessTokenAsync(verifier, null, null).get();
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

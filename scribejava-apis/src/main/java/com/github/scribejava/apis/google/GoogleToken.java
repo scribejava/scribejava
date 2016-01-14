@@ -1,8 +1,8 @@
 package com.github.scribejava.apis.google;
 
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1AccessToken;
 
-public class GoogleToken extends Token {
+public class GoogleToken extends OAuth1AccessToken {
 
     private static final long serialVersionUID = 5634896204924467956L;
 

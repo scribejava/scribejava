@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
+import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verifier;
@@ -30,13 +33,13 @@ public class OAuth20Service extends OAuthService {
         this.api = api;
     }
 
-    public final Token getAccessToken(Verifier verifier) {
+    public AccessToken getAccessToken(final Verifier verifier) {
         final Response response = createAccessTokenRequest(verifier,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
-    /**
+     /**
      * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
      * when it is available.
      *
@@ -44,19 +47,13 @@ public class OAuth20Service extends OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public final Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
-        return getAccessTokenAsync(verifier, callback, null);
-    }
-
-    public final Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
-            ProxyServer proxyServer) {
+    public Future<AccessToken> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback, ProxyServer proxyServer) {
         final OAuthRequestAsync request = createAccessTokenRequest(verifier,
                 new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
-        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
+        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<AccessToken>() {
             @Override
-            public Token convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor()
-                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            public AccessToken convert(final com.ning.http.client.Response response) throws IOException {
+                return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
         }, proxyServer);
     }
@@ -88,7 +85,17 @@ public class OAuth20Service extends OAuthService {
      * {@inheritDoc}
      */
     @Override
-    public void signRequest(Token accessToken, AbstractRequest request) {
+    public void signRequest(final Token token, final AbstractRequest request) {
+        if (token instanceof OAuth2AccessToken) {
+            signRequest((AccessToken) token, request);
+        } else {
+            throw new IllegalArgumentException("The access token must be an OAuth2AccessToken.");
+        }
+
+    }
+    
+    @Override
+    public void signRequest(final AccessToken accessToken, final AbstractRequest request) {
         request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
     }
 
