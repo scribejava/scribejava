@@ -3,8 +3,8 @@ package com.github.scribejava.core.model;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
- *
- * @author Daniel Tyreus
+ * Represents an OAuth 1 access token
+ * 
  */
 public class OAuth1AccessToken implements AccessToken {
 
@@ -33,6 +33,7 @@ public class OAuth1AccessToken implements AccessToken {
         this.rawResponse = rawResponse;
     }
 
+    @Override
     public String getToken() {
         return token;
     }

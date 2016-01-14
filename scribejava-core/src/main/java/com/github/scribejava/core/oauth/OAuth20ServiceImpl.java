@@ -43,12 +43,22 @@ public class OAuth20ServiceImpl extends OAuthService {
                 send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
-
+    
+    /**
+     * OAuth 1 APIs are not implemented and will throw an UnsupportedOperationException.
+     * 
+     * @return throws exception
+     */
     @Override
     public AccessToken getOAuth1AccessToken(final RequestToken requestToken, final Verifier verifier) {
         throw new UnsupportedOperationException("getOAuth1AccessToken not supported for OAuth 2 APIs");
     }
 
+    /**
+     * OAuth 1 APIs are not implemented and will throw an UnsupportedOperationException.
+     * 
+     * @return throws exception
+     */
     @Override
     public Future<AccessToken> getOAuth1AccessTokenAsync(final RequestToken requestToken, final Verifier verifier, final OAuthAsyncRequestCallback<AccessToken> callback) {
         throw new UnsupportedOperationException("getOAuth1AccessTokenAsync not supported for OAuth 2 APIs");
@@ -65,6 +75,11 @@ public class OAuth20ServiceImpl extends OAuthService {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
+    /**
+     * OAuth 1 APIs are not implemented and will throw an UnsupportedOperationException.
+     * 
+     * @return throws exception
+     */
     @Override
     public Future<AccessToken> getOAuth1AccessTokenAsync(RequestToken requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback, ProxyServer proxyServer) {
         throw new UnsupportedOperationException("getOAuth1AccessTokenAsync not supported for OAuth 2 APIs");
@@ -103,33 +118,21 @@ public class OAuth20ServiceImpl extends OAuthService {
         return request;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public RequestToken getRequestToken() {
         throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getVersion() {
         return VERSION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void signRequest(final AccessToken accessToken, final AbstractRequest request) {
         request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
     }
     
-        /**
-     * {@inheritDoc}
-     */
     @Override
     public void signRequest(final Token accessToken, final AbstractRequest request) {
         if (accessToken instanceof AccessToken) {
@@ -139,20 +142,22 @@ public class OAuth20ServiceImpl extends OAuthService {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public String getAuthorizationUrl(final RequestToken requestToken) {
+    public String getOAuth1AuthorizationUrl(final RequestToken requestToken) {
+        throw new UnsupportedOperationException("OAuth 2 APIs cannot generate an OAuth 1 authorization url. Please use 'getOAuth2AuthorizationUrl'");
+    }
+    
+    @Override
+    public String getOAuth2AuthorizationUrl() {
         return api.getAuthorizationUrl(getConfig());
     }
 
     @Override
     public String getAuthorizationUrl(final Token requestToken) {
-        if (requestToken instanceof RequestToken) {
+        if (requestToken == null) {
             return api.getAuthorizationUrl(getConfig());
         } else {
-            throw new IllegalArgumentException("requestToken must be an instance of RequestToken");
+            throw new IllegalArgumentException("OAuth2 does not require a requestToken to generate an authorization url. See getOAuth2AuthorizationUrl.");
         }
     }
 

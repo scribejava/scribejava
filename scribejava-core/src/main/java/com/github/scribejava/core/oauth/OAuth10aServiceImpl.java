@@ -113,7 +113,12 @@ public class OAuth10aServiceImpl extends OAuthService {
         final Response response = request.send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
-
+    
+    /**
+     * OAuth 2 APIs are not implemented and will throw an UnsupportedOperationException.
+     * 
+     * @return throws exception
+     */
     @Override
     public AccessToken getOAuth2AccessToken(Verifier verifier) {
         throw new UnsupportedOperationException("getOAuth2AccessToken is not supported for OAuth 1 APIs");
@@ -137,12 +142,22 @@ public class OAuth10aServiceImpl extends OAuthService {
             }
         }, proxyServer);
     }
-
+    
+    /**
+     * OAuth 2 APIs are not implemented and will throw an UnsupportedOperationException.
+     * 
+     * @return throws exception
+     */
     @Override
     public Future<AccessToken> getOAuth2AccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback) {
         throw new UnsupportedOperationException("getOAuth2AccessTokenAsync is not supported for OAuth 1 APIs");
     }
 
+    /**
+     * OAuth 2 APIs are not implemented and will throw an UnsupportedOperationException.
+     * 
+     * @return throws exception
+     */
     @Override
     public Future<AccessToken> getOAuth2AccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback, ProxyServer proxyServer) {
         throw new UnsupportedOperationException("getOAuth2AccessTokenAsync is not supported for OAuth 1 APIs");
@@ -157,9 +172,6 @@ public class OAuth10aServiceImpl extends OAuthService {
         appendSignature(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void signRequest(final Token token, final AbstractRequest request) {
         if (token instanceof OAuth1AccessToken) {
@@ -169,7 +181,8 @@ public class OAuth10aServiceImpl extends OAuthService {
         }
 
     }
-
+    
+    @Override
     public void signRequest(final AccessToken token, final AbstractRequest request) {
         final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());
@@ -184,25 +197,33 @@ public class OAuth10aServiceImpl extends OAuthService {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getVersion() {
         return VERSION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getAuthorizationUrl(final Token requestToken) {
-        return api.getAuthorizationUrl(requestToken);
+        if (requestToken instanceof RequestToken) {
+            return getOAuth1AuthorizationUrl((RequestToken)requestToken);
+        } else  {
+            throw new IllegalArgumentException("requestToken must be an instance of RequestToken");
+        }
     }
 
     @Override
-    public String getAuthorizationUrl(final RequestToken requestToken) {
+    public String getOAuth1AuthorizationUrl(final RequestToken requestToken) {
         return api.getAuthorizationUrl(requestToken);
+    }
+
+    /**
+     * OAuth 2 APIs are not implemented and will throw an UnsupportedOperationException.
+     * 
+     * @return throws exception
+     */
+    @Override
+    public String getOAuth2AuthorizationUrl() {
+        throw new UnsupportedOperationException("OAuth 2 authorization urls are not supported for OAuth 1 APIs");
     }
 
     private String getSignature(final AbstractRequest request, String secret) {

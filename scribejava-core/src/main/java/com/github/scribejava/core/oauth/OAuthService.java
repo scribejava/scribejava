@@ -65,46 +65,100 @@ public abstract class OAuthService {
     }
 
     /**
-     * Retrieve the request token.
+     * Retrieve the request token for an OAuth1 API.
      *
      * @return request token
      */
     public abstract RequestToken getRequestToken();
-    @Deprecated
+    
+    /**
+     * Fetches an access token, delegating to either the OAuth1 or OAuth2 versions
+     * of this method. OAuth2 APIs do not require the requestToken parameter, but
+     * this method signature is preserved for reverse compatibility.
+     * 
+     * @see #getOAuth1AccessToken(com.github.scribejava.core.model.RequestToken, com.github.scribejava.core.model.Verifier) 
+     * @see #getOAuth2AccessToken(com.github.scribejava.core.model.Verifier) 
+     * 
+     * @param requestToken OAuth1 request token or null for OAuth 2 APIs
+     * @param verifier verifier code
+     * @return {@link com.github.scribejava.core.model.OAuth1AccessToken} or {@link com.github.scribejava.core.model.OAuth2AccessToken} access token
+     */
     public abstract AccessToken getAccessToken(Token requestToken, Verifier verifier);
+    
+    /**
+     * Retrieves an OAuth1 access token using the previously retrieved requestToken
+     * and the verifier.
+     * 
+     * @param requestToken OAuth1 request token
+     * @param verifier verifier code
+     * @return {@link com.github.scribejava.core.model.OAuth1AccessToken}
+     */
     public abstract AccessToken getOAuth1AccessToken(RequestToken requestToken, Verifier verifier);
+    
+    /**
+     * Retrieves an OAuth2 access token from the verifier.
+     * 
+     * @param verifier verifier code
+     * @return {@link com.github.scribejava.core.model.OAuth2AccessToken}
+     */
     public abstract AccessToken getOAuth2AccessToken(Verifier verifier);
 
     /**
-     * Signs am OAuth request
+     * Signs an OAuth request. Token should be an AccessToken, but this method
+     * signature is preserved for reverse compatibility.
      *
      * @param accessToken access token (obtained previously)
      * @param request request to sign
      */
-    @Deprecated
     public abstract void signRequest(Token accessToken, AbstractRequest request);
+    
+    /**
+     * Signs an OAuth request. 
+     *
+     * @param accessToken access token (obtained previously)
+     * @param request request to sign
+     */
     public abstract void signRequest(AccessToken accessToken, AbstractRequest request);
 
     /**
-     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token when it is available.
+     * Start a request to retrieve the access token. The optionally provided callback will be called with the Token when it is available. 
+     * This method delegates to either the OAuth1 or OAuth2 versions
+     * of this method. OAuth2 APIs do not require the requestToken parameter, but
+     * this method signature is preserved for reverse compatibility.
+     * 
+     * @see #getOAuth1AccessTokenAsync(com.github.scribejava.core.model.RequestToken, com.github.scribejava.core.model.Verifier, com.github.scribejava.core.model.OAuthAsyncRequestCallback) 
+     * @see #getOAuth2AccessTokenAsync(com.github.scribejava.core.model.Verifier, com.github.scribejava.core.model.OAuthAsyncRequestCallback) 
      *
      * @param requestToken request token (obtained previously or null)
      * @param verifier verifier code
      * @param callback optional callback
      * @return Future
      */
-    @Deprecated
     public abstract Future<AccessToken> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback);
-    @Deprecated
     public abstract Future<AccessToken> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback,
             ProxyServer proxyServer);
     
 
+    /**
+     * Start a request to retrieve an OAuth1 access token.
+     * 
+     * @param requestToken OAuth1 request token
+     * @param verifier verifier code
+     * @param callback optional callback
+     * @return 
+     */
     public abstract Future<AccessToken> getOAuth1AccessTokenAsync(RequestToken requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback);
 
     public abstract Future<AccessToken> getOAuth1AccessTokenAsync(RequestToken requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback,
             ProxyServer proxyServer);
     
+    /**
+     * Start a request to retrieve an OAuth2 access token.
+     * 
+     * @param verifier verifier code
+     * @param callback optional callback
+     * @return 
+     */
     public abstract Future<AccessToken> getOAuth2AccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback);
 
     public abstract Future<AccessToken> getOAuth2AccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback,
@@ -118,13 +172,33 @@ public abstract class OAuthService {
     public abstract String getVersion();
 
     /**
-     * Returns the URL where you should redirect your users to authenticate your application.
+     * Returns the URL where you should redirect your users to authenticate your application. Delegates to either
+     * the OAuth1 or OAuth2 versions of this method. OAuth2 APIs do not require a requestToken to generate
+     * an authorization url.
+     * 
+     * @see #getOAuth1AuthorizationUrl(com.github.scribejava.core.model.RequestToken) 
+     * @see #getOAuth2AuthorizationUrl()
      *
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users
      */
-    @Deprecated
     public abstract String getAuthorizationUrl(Token requestToken);
-    public abstract String getAuthorizationUrl(RequestToken requestToken);
+    
+    /**
+     * Returns the URL where you should redirect your users to authenticate your application for
+     * an OAuth1 API.
+     * 
+     * @param requestToken the request token you need to authorize
+     * @return URL string
+     */
+    public abstract String getOAuth1AuthorizationUrl(RequestToken requestToken);
+    
+    /**
+     * Returns the URL where you should redirect your users to authenticate your application for
+     * an OAuth2 API.
+     * 
+     * @return URL string
+     */
+    public abstract String getOAuth2AuthorizationUrl();
 
 }
