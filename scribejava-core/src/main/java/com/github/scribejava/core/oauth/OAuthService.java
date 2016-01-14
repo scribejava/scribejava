@@ -7,7 +7,6 @@ import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConfigAsync;
-import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Token;
 
@@ -62,13 +61,19 @@ public abstract class OAuthService {
     }
 
     /**
-     * Signs am OAuth request
+     * Signs an OAuth request
      *
      * @param accessToken access token (obtained previously)
      * @param request request to sign
      */
-    @Deprecated
     public abstract void signRequest(Token accessToken, AbstractRequest request);
+    
+    /**
+     * Signs an OAuth request. 
+     *
+     * @param accessToken access token (obtained previously)
+     * @param request request to sign
+     */
     public abstract void signRequest(AccessToken accessToken, AbstractRequest request);
 
     /**

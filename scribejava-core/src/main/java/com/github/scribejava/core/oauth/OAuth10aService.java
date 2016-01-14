@@ -125,9 +125,6 @@ public class OAuth10aService extends OAuthService {
         appendSignature(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void signRequest(final Token token, final AbstractRequest request) {
         if (token instanceof OAuth1AccessToken) {
@@ -153,9 +150,6 @@ public class OAuth10aService extends OAuthService {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getVersion() {
         return VERSION;
