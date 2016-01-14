@@ -13,7 +13,7 @@ public class GoogleJsonTokenExtractor extends JsonTokenExtractor {
 
     @Override
     public GoogleToken extract(final String response) {
-        return new GoogleToken(extractAccessToken(response), "", response, extractOpenIdToken(response));
+        return new GoogleToken(extractAccessToken(response), response, extractOpenIdToken(response));
     }
 
     private String extractOpenIdToken(final String response) {

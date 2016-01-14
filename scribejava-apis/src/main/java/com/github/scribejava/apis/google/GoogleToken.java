@@ -1,8 +1,8 @@
 package com.github.scribejava.apis.google;
 
-import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 
-public class GoogleToken extends OAuth1AccessToken {
+public class GoogleToken extends OAuth2AccessToken {
 
     /**
      * Id_token is part of OpenID Connect specification. It can hold user information that you can directly extract without additional request to
@@ -13,8 +13,8 @@ public class GoogleToken extends OAuth1AccessToken {
      */
     private final String openIdToken;
 
-    public GoogleToken(final String token, final String secret, final String rawResponse, final String openIdToken) {
-        super(token, secret, rawResponse);
+    public GoogleToken(final String token, final String rawResponse, final String openIdToken) {
+        super(token, rawResponse);
         this.openIdToken = openIdToken;
     }
 
@@ -24,7 +24,7 @@ public class GoogleToken extends OAuth1AccessToken {
 
     @Override
     public String toString() {
-        return String.format("GoogleToken{'token'='%s', 'secret'='%s', 'openIdToken'='%s']", getToken(), getSecret(),
+        return String.format("GoogleToken{'token'='%s', 'openIdToken'='%s']", getToken(),
                 openIdToken);
     }
 }

@@ -96,6 +96,14 @@ public class OAuth2AccessToken implements AccessToken {
         return true;
     }
 
-    
+    @Override
+    public String toString() {
+        if (rawResponse != null){
+            return rawResponse;
+        }
+        
+        return "OAuth2AccessToken{" + "accessToken=" + accessToken + ", tokenType=" + tokenType + ", refreshToken=" + refreshToken + ", expiresIn=" + expiresIn + '}';
+    }
+
     
 }

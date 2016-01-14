@@ -61,7 +61,7 @@ public class OAuth2JsonAccessTokenExtractor implements AccessTokenExtractor {
             expiresIn = Long.parseLong(expiresInMatcher.group(1));
         } else if (expiresAtMatcher.find()) {
             expiresAt = Long.parseLong(expiresAtMatcher.group(1));
-            expiresIn = System.currentTimeMillis() - expiresAt;
+            expiresIn = expiresAt - System.currentTimeMillis();
         }
         
         if (accessTokenMatcher.find()) {

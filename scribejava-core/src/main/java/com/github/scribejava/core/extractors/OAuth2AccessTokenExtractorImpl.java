@@ -14,12 +14,27 @@ import com.github.scribejava.core.utils.Preconditions;
  *
  */
 public class OAuth2AccessTokenExtractorImpl implements AccessTokenExtractor {
+    
+    private static final String REGEX_GROUP = "=([^&]+)";
 
-    private static final String TOKEN_REGEX = "access_token=([^&]+)";
-    private static final String REFRESH_REGEX = "refresh_token=([^&]+)";
-    private static final String TYPE_REGEX = "token_type=([^&]+)";
-    private static final String EXPIRES_REGEX = "expires_in=([^&]+)";
+    private final String accessTokenKey;
+    private final String refreshTokenKey;
+    private final String expiresInKey;
+    private final String expiresAtKey;
+    private final String tokenTypeKey;
 
+    public OAuth2AccessTokenExtractorImpl(String accessTokenKey, String refreshTokenKey, String expiresInKey, String expiresAtKey, String tokenTypeKey) {
+        this.accessTokenKey = accessTokenKey;
+        this.refreshTokenKey = refreshTokenKey;
+        this.expiresInKey = expiresInKey;
+        this.expiresAtKey = expiresAtKey;
+        this.tokenTypeKey = tokenTypeKey;
+    }
+
+    public OAuth2AccessTokenExtractorImpl() {
+        this("access_token","refresh_token","expires_in","expires","token_type");
+    } 
+    
     /**
      * {@inheritDoc}
      */
@@ -27,10 +42,11 @@ public class OAuth2AccessTokenExtractorImpl implements AccessTokenExtractor {
     public AccessToken extract(final String response) {
         Preconditions.checkEmptyString(response,"Response body is incorrect. Can't extract a token from an empty string");
 
-        final Matcher tokenMatcher = Pattern.compile(TOKEN_REGEX).matcher(response);
-        final Matcher refreshMatcher = Pattern.compile(REFRESH_REGEX).matcher(response);
-        final Matcher typeMatcher = Pattern.compile(TYPE_REGEX).matcher(response);
-        final Matcher expiresMatcher = Pattern.compile(EXPIRES_REGEX).matcher(response);
+        final Matcher tokenMatcher = Pattern.compile(accessTokenKey+REGEX_GROUP).matcher(response);
+        final Matcher refreshMatcher = Pattern.compile(refreshTokenKey+REGEX_GROUP).matcher(response);
+        final Matcher typeMatcher = Pattern.compile(tokenTypeKey+REGEX_GROUP).matcher(response);
+        final Matcher expiresInMatcher = Pattern.compile(expiresInKey+REGEX_GROUP).matcher(response);
+        final Matcher expiresMatcher = Pattern.compile(expiresAtKey+REGEX_GROUP).matcher(response);
         
         String refreshToken = null;
         String tokenType = null;
@@ -44,8 +60,10 @@ public class OAuth2AccessTokenExtractorImpl implements AccessTokenExtractor {
             tokenType = OAuthEncoder.decode(typeMatcher.group(1));
         }
         
-        if (expiresMatcher.find()) {
-            expiresIn = Long.parseLong(OAuthEncoder.decode(expiresMatcher.group(1)));
+        if (expiresInMatcher.find()) {
+            expiresIn = Long.parseLong(OAuthEncoder.decode(expiresInMatcher.group(1)));
+        } else if (expiresMatcher.find()) {
+            expiresIn = Long.parseLong(OAuthEncoder.decode(expiresMatcher.group(1)))-System.currentTimeMillis();
         }
         
         if (tokenMatcher.find()) {

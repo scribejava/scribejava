@@ -6,6 +6,7 @@ import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -40,6 +41,17 @@ public class OAuth20ServiceImpl extends OAuthService {
     @Override
     public AccessToken getOAuth2AccessToken(final Verifier verifier) {
         final Response response = createAccessTokenRequest(verifier, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
+                send();
+        return api.getAccessTokenExtractor().extract(response.getBody());
+    }
+    
+    public AccessToken refreshOAuth2AccessToken(final OAuth2AccessToken refreshToken) {
+        
+        if (refreshToken.getRefreshToken() == null) {
+            throw new IllegalArgumentException("The access token passed in does not contain a refresh token");
+        }
+        
+        final Response response = createRefreshTokenRequest(refreshToken, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
                 send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
@@ -114,6 +126,19 @@ public class OAuth20ServiceImpl extends OAuthService {
         }
         if (config.hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+        }
+        return request;
+    }
+    
+    protected <T extends AbstractRequest> T createRefreshTokenRequest(final OAuth2AccessToken accessToken, final T request) {
+        final OAuthConfig config = getConfig();
+        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        request.addParameter(OAuthConstants.REFRESH_TOKEN, accessToken.getRefreshToken());
+        if (config.hasGrantType()) {
+            request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+        } else {
+            request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
         }
         return request;
     }
