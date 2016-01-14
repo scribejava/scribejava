@@ -12,8 +12,8 @@ public class GoogleJsonTokenExtractor extends JsonTokenExtractor {
     private static final Pattern ID_TOKEN_PATTERN = Pattern.compile("\"id_token\"\\s*:\\s*\"(\\S*?)\"");
 
     @Override
-    public GoogleToken extract(String response) {
-        return new GoogleToken(extractAccessToken(response), "", response, extractOpenIdToken(response));
+    public GoogleToken extract(final String response) {
+        return new GoogleToken(extractAccessToken(response), response, extractOpenIdToken(response));
     }
 
     private String extractOpenIdToken(String response) {

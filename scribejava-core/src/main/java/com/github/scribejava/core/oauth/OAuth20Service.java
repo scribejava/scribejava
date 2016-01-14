@@ -37,6 +37,17 @@ public class OAuth20Service extends OAuthService {
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
+    
+    public AccessToken refreshOAuth2AccessToken(final OAuth2AccessToken refreshToken) {
+        
+        if (refreshToken.getRefreshToken() == null) {
+            throw new IllegalArgumentException("The access token passed in does not contain a refresh token");
+        }
+        
+        final Response response = createRefreshTokenRequest(refreshToken, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
+                send();
+        return api.getAccessTokenExtractor().extract(response.getBody());
+    }
 
      /**
      * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
@@ -68,6 +79,19 @@ public class OAuth20Service extends OAuthService {
         }
         if (config.hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+        }
+        return request;
+    }
+    
+    protected <T extends AbstractRequest> T createRefreshTokenRequest(final OAuth2AccessToken accessToken, final T request) {
+        final OAuthConfig config = getConfig();
+        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        request.addParameter(OAuthConstants.REFRESH_TOKEN, accessToken.getRefreshToken());
+        if (config.hasGrantType()) {
+            request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+        } else {
+            request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
         }
         return request;
     }
