@@ -1,8 +1,8 @@
 package com.github.scribejava.apis.google;
 
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1AccessToken;
 
-public class GoogleToken extends Token {
+public class GoogleToken extends OAuth1AccessToken {
 
     /**
      * Id_token is part of OpenID Connect specification. It can hold user information that you can directly extract without additional request to

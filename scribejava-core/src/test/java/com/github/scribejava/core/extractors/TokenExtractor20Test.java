@@ -8,11 +8,11 @@ import com.github.scribejava.core.model.Token;
 
 public class TokenExtractor20Test {
 
-    private TokenExtractor20Impl extractor;
+    private OAuth2AccessTokenExtractorImpl extractor;
 
     @Before
     public void setup() {
-        extractor = new TokenExtractor20Impl();
+        extractor = new OAuth2AccessTokenExtractorImpl();
     }
 
     @Test
@@ -20,7 +20,6 @@ public class TokenExtractor20Test {
         String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
         Token extracted = extractor.extract(response);
         assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE", extracted.getToken());
-        assertEquals("", extracted.getSecret());
     }
 
     @Test
@@ -28,7 +27,6 @@ public class TokenExtractor20Test {
         String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE&expires=5108";
         Token extracted = extractor.extract(response);
         assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE", extracted.getToken());
-        assertEquals("", extracted.getSecret());
     }
 
     @Test
@@ -36,7 +34,6 @@ public class TokenExtractor20Test {
         String response = "access_token=foo1234&other_stuff=yeah_we_have_this_too&number=42";
         Token extracted = extractor.extract(response);
         assertEquals("foo1234", extracted.getToken());
-        assertEquals("", extracted.getSecret());
     }
 
     @Test(expected = OAuthException.class)

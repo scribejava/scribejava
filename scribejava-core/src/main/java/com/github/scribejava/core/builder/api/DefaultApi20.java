@@ -1,7 +1,7 @@
 package com.github.scribejava.core.builder.api;
 
 import com.github.scribejava.core.extractors.AccessTokenExtractor;
-import com.github.scribejava.core.extractors.TokenExtractor20Impl;
+import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractorImpl;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
@@ -28,7 +28,7 @@ public abstract class DefaultApi20 implements Api {
      * @return access token extractor
      */
     public AccessTokenExtractor getAccessTokenExtractor() {
-        return new TokenExtractor20Impl();
+        return new OAuth2AccessTokenExtractorImpl();
     }
 
     /**

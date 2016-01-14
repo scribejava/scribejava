@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.extractors.AccessTokenExtractor;
+import com.github.scribejava.core.model.AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Token;
@@ -37,14 +39,14 @@ public class ConstantContactApi2 extends DefaultApi20 {
     public AccessTokenExtractor getAccessTokenExtractor() {
         return new AccessTokenExtractor() {
 
-            public Token extract(String response) {
+            public AccessToken extract(String response) {
                 Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
 
                 String regex = "\"access_token\"\\s*:\\s*\"([^&\"]+)\"";
                 Matcher matcher = Pattern.compile(regex).matcher(response);
                 if (matcher.find()) {
                     String token = OAuthEncoder.decode(matcher.group(1));
-                    return new Token(token, "", response);
+                    return new OAuth2AccessToken(token, response);
                 } else {
                     throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
                 }

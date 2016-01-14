@@ -5,10 +5,12 @@ import com.ning.http.client.ProxyServer;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConfigAsync;
+import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verifier;
@@ -67,9 +69,11 @@ public abstract class OAuthService {
      *
      * @return request token
      */
-    public abstract Token getRequestToken();
-
-    public abstract Token getAccessToken(Token requestToken, Verifier verifier);
+    public abstract RequestToken getRequestToken();
+    @Deprecated
+    public abstract AccessToken getAccessToken(Token requestToken, Verifier verifier);
+    public abstract AccessToken getOAuth1AccessToken(RequestToken requestToken, Verifier verifier);
+    public abstract AccessToken getOAuth2AccessToken(Verifier verifier);
 
     /**
      * Signs am OAuth request
@@ -77,7 +81,9 @@ public abstract class OAuthService {
      * @param accessToken access token (obtained previously)
      * @param request request to sign
      */
+    @Deprecated
     public abstract void signRequest(Token accessToken, AbstractRequest request);
+    public abstract void signRequest(AccessToken accessToken, AbstractRequest request);
 
     /**
      * Start the request to retrieve the access token. The optionally provided callback will be called with the Token when it is available.
@@ -87,9 +93,21 @@ public abstract class OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback);
+    @Deprecated
+    public abstract Future<AccessToken> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback);
+    @Deprecated
+    public abstract Future<AccessToken> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback,
+            ProxyServer proxyServer);
+    
 
-    public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
+    public abstract Future<AccessToken> getOAuth1AccessTokenAsync(RequestToken requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback);
+
+    public abstract Future<AccessToken> getOAuth1AccessTokenAsync(RequestToken requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback,
+            ProxyServer proxyServer);
+    
+    public abstract Future<AccessToken> getOAuth2AccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback);
+
+    public abstract Future<AccessToken> getOAuth2AccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback,
             ProxyServer proxyServer);
 
     /**
@@ -105,6 +123,8 @@ public abstract class OAuthService {
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users
      */
+    @Deprecated
     public abstract String getAuthorizationUrl(Token requestToken);
+    public abstract String getAuthorizationUrl(RequestToken requestToken);
 
 }
