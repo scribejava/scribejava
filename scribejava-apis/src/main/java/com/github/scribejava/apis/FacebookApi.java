@@ -72,7 +72,7 @@ public class FacebookApi extends DefaultApi20 {
         }
 
         @Override
-        public AccessToken refreshOAuth2AccessToken(final OAuth2AccessToken refreshToken) {
+        public OAuth2AccessToken refreshOAuth2AccessToken(final OAuth2AccessToken refreshToken) {
 
             final OAuthRequest request = new OAuthRequest(getApi().getAccessTokenVerb(), getApi().getAccessTokenEndpoint(), this);
             final OAuthConfig config = getConfig();
@@ -84,7 +84,7 @@ public class FacebookApi extends DefaultApi20 {
 
             final Response response = request.send();
 
-            return getApi().getAccessTokenExtractor().extract(response.getBody());
+            return (OAuth2AccessToken)getApi().getAccessTokenExtractor().extract(response.getBody());
 
         }
     }

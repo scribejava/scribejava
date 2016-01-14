@@ -8,6 +8,7 @@ import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -80,13 +81,13 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public AccessToken getAccessToken(final RequestToken requestToken, final Verifier verifier) {
+    public OAuth1AccessToken getAccessToken(final RequestToken requestToken, final Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
         final Response response = request.send();
-        return api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth1AccessToken)api.getAccessTokenExtractor().extract(response.getBody());
     }
 
     /**

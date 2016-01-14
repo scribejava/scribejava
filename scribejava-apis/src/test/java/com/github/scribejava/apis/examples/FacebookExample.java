@@ -64,14 +64,14 @@ public abstract class FacebookExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        OAuth2AccessToken accessToken = (OAuth2AccessToken)service.getAccessToken(verifier);
+        OAuth2AccessToken accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println("This token expires in "+accessToken.getExpiresIn()+"s");
         System.out.println();
 
         System.out.println("We're going to get a longer-lived token now");
-        accessToken = (OAuth2AccessToken)service.refreshOAuth2AccessToken(accessToken);
+        accessToken = service.refreshOAuth2AccessToken(accessToken);
         System.out.println("Got the long-lived Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println("This token expires in "+accessToken.getExpiresIn()+"s");

@@ -4,11 +4,9 @@ import java.util.Random;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.GoogleApi20;
-import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -69,14 +67,14 @@ public abstract class Google20Example {
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
 
-        OAuth2AccessToken accessToken = (OAuth2AccessToken)service.getAccessToken(verifier);
+        OAuth2AccessToken accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if you're curious it looks like this: " + accessToken + " )");
         System.out.println("This token will expire in "+accessToken.getExpiresIn()+"ms");
         System.out.println();
         
         System.out.println("Refreshing the Access Token...");
-        accessToken = (OAuth2AccessToken)service.refreshOAuth2AccessToken(accessToken);
+        accessToken = service.refreshOAuth2AccessToken(accessToken);
         System.out.println("Refreshed the Access Token!");
         System.out.println("(if you're curious, the new one looks like this: " + accessToken + " )");
         System.out.println("This token will expire in "+accessToken.getExpiresIn()+"ms");
