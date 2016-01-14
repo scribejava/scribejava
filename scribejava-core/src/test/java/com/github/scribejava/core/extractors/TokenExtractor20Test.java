@@ -1,9 +1,11 @@
 package com.github.scribejava.core.extractors;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Token;
 
 public class TokenExtractor20Test {
@@ -24,9 +26,22 @@ public class TokenExtractor20Test {
 
     @Test
     public void shouldExtractTokenFromResponseWithExpiresParam() {
-        String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE&expires=5108";
+        String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE&expires_in=5108";
         Token extracted = extractor.extract(response);
+        assertTrue(extracted instanceof OAuth2AccessToken);
         assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE", extracted.getToken());
+        assertEquals(5108l, ((OAuth2AccessToken)extracted).getExpiresIn().longValue());
+    }
+    
+    @Test
+    public void shouldExtractTokenFromResponseWithExpiresAndRefreshParam() {
+        String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE&expires_in=5108&token_type=bearer&refresh_token=166942940015970";
+        Token extracted = extractor.extract(response);
+        assertTrue(extracted instanceof OAuth2AccessToken);
+        assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE", extracted.getToken());
+        assertEquals(5108l, ((OAuth2AccessToken)extracted).getExpiresIn().longValue());
+        assertEquals("bearer", ((OAuth2AccessToken)extracted).getTokenType());
+        assertEquals("166942940015970", ((OAuth2AccessToken)extracted).getRefreshToken());
     }
 
     @Test
