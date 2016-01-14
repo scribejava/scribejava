@@ -8,6 +8,7 @@ import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -105,13 +106,13 @@ public class OAuth10aServiceImpl extends OAuthService {
     }
 
     @Override
-    public AccessToken getOAuth1AccessToken(RequestToken requestToken, Verifier verifier) {
+    public OAuth1AccessToken getOAuth1AccessToken(RequestToken requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
         final Response response = request.send();
-        return api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth1AccessToken)api.getAccessTokenExtractor().extract(response.getBody());
     }
     
     /**
@@ -120,7 +121,7 @@ public class OAuth10aServiceImpl extends OAuthService {
      * @return throws exception
      */
     @Override
-    public AccessToken getOAuth2AccessToken(Verifier verifier) {
+    public OAuth2AccessToken getOAuth2AccessToken(Verifier verifier) {
         throw new UnsupportedOperationException("getOAuth2AccessToken is not supported for OAuth 1 APIs");
     }
 

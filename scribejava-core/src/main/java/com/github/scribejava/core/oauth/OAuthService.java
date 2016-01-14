@@ -7,6 +7,8 @@ import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConfigAsync;
@@ -93,7 +95,7 @@ public abstract class OAuthService {
      * @param verifier verifier code
      * @return {@link com.github.scribejava.core.model.OAuth1AccessToken}
      */
-    public abstract AccessToken getOAuth1AccessToken(RequestToken requestToken, Verifier verifier);
+    public abstract OAuth1AccessToken getOAuth1AccessToken(RequestToken requestToken, Verifier verifier);
     
     /**
      * Retrieves an OAuth2 access token from the verifier.
@@ -101,7 +103,7 @@ public abstract class OAuthService {
      * @param verifier verifier code
      * @return {@link com.github.scribejava.core.model.OAuth2AccessToken}
      */
-    public abstract AccessToken getOAuth2AccessToken(Verifier verifier);
+    public abstract OAuth2AccessToken getOAuth2AccessToken(Verifier verifier);
 
     /**
      * Signs an OAuth request. Token should be an AccessToken, but this method

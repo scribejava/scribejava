@@ -32,7 +32,7 @@ public abstract class FacebookExample {
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
-                .callback("http://urlecho.appspot.com/echo")
+                .callback("http://localhost")
                 .build();
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

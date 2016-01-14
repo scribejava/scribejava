@@ -6,6 +6,7 @@ import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
+import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
@@ -39,13 +40,13 @@ public class OAuth20ServiceImpl extends OAuthService {
     }
 
     @Override
-    public AccessToken getOAuth2AccessToken(final Verifier verifier) {
+    public OAuth2AccessToken getOAuth2AccessToken(final Verifier verifier) {
         final Response response = createAccessTokenRequest(verifier, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
                 send();
-        return api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth2AccessToken)api.getAccessTokenExtractor().extract(response.getBody());
     }
     
-    public AccessToken refreshOAuth2AccessToken(final OAuth2AccessToken refreshToken) {
+    public OAuth2AccessToken refreshOAuth2AccessToken(final OAuth2AccessToken refreshToken) {
         
         if (refreshToken.getRefreshToken() == null) {
             throw new IllegalArgumentException("The access token passed in does not contain a refresh token");
@@ -53,7 +54,7 @@ public class OAuth20ServiceImpl extends OAuthService {
         
         final Response response = createRefreshTokenRequest(refreshToken, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
                 send();
-        return api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth2AccessToken)api.getAccessTokenExtractor().extract(response.getBody());
     }
     
     /**
@@ -62,7 +63,7 @@ public class OAuth20ServiceImpl extends OAuthService {
      * @return throws exception
      */
     @Override
-    public AccessToken getOAuth1AccessToken(final RequestToken requestToken, final Verifier verifier) {
+    public OAuth1AccessToken getOAuth1AccessToken(final RequestToken requestToken, final Verifier verifier) {
         throw new UnsupportedOperationException("getOAuth1AccessToken not supported for OAuth 2 APIs");
     }
 
