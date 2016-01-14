@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.scribejava.core.model;
 
 /**
  * https://tools.ietf.org/html/rfc6749#section-4.1.4
  * 
- * @author tyreus
+ * @author Daniel Tyreus
  */
 public class OAuth2AccessToken implements AccessToken {
     
