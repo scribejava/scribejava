@@ -9,9 +9,8 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
-/***
+/**
  * Facebook v2.5 API
- *
  */
 public class FacebookApi extends DefaultApi20 {
 
@@ -22,6 +21,7 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final FacebookApi INSTANCE = new FacebookApi();
     }
 

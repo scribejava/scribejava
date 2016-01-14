@@ -27,6 +27,7 @@ public abstract class FacebookExample {
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
                 .build(FacebookApi.instance());
+
         final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

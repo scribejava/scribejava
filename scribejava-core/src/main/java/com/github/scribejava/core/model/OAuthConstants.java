@@ -20,7 +20,6 @@ public interface OAuthConstants {
     String OUT_OF_BAND = "oob";
     String VERIFIER = "oauth_verifier";
     String HEADER = "Authorization";
-    OAuth1RequestToken EMPTY_TOKEN = new OAuth1RequestToken("", "");
     String SCOPE = "scope";
 
     // OAuth 2.0
@@ -29,6 +28,7 @@ public interface OAuthConstants {
     String CLIENT_SECRET = "client_secret";
     String REDIRECT_URI = "redirect_uri";
     String CODE = "code";
+    String REFRESH_TOKEN = "refresh_token";
     String GRANT_TYPE = "grant_type";
     String AUTHORIZATION_CODE = "authorization_code";
     String STATE = "state";

@@ -3,6 +3,7 @@
  * Support response in gzip.
  * differentiate OAuth1 Access token, OAuth 1 Request Token and OAuth 2 Access token, make them conforms RFCs
  * OAuth 1 APIs can choose whether to pass empty oauth_token param in requests
+ * Support refresh tokens for OAuth2 (very thanks to P. Daniel Tyreus https://github.com/pdtyreus)
 
 [2.2.2]
  * make all APIs to be extentable (have protected constructors, useful for testing)

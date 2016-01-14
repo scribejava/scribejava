@@ -8,7 +8,6 @@ import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
-import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -50,7 +49,7 @@ public class OAuth10aService extends OAuthService {
 
         config.log("setting oauth_callback to " + config.getCallback());
         request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
-        addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
+        addOAuthParams(request, "");
         appendSignature(request);
 
         config.log("sending request...");
@@ -62,7 +61,7 @@ public class OAuth10aService extends OAuthService {
         return api.getRequestTokenExtractor().extract(body);
     }
 
-    private void addOAuthParams(AbstractRequest request, OAuth1Token token) {
+    private void addOAuthParams(AbstractRequest request, String tokenSecret) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
         request.addOAuthParameter(OAuthConstants.NONCE, api.getTimestampService().getNonce());
@@ -72,7 +71,7 @@ public class OAuth10aService extends OAuthService {
         if (config.hasScope()) {
             request.addOAuthParameter(OAuthConstants.SCOPE, config.getScope());
         }
-        request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, token));
+        request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, tokenSecret));
 
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
@@ -87,8 +86,8 @@ public class OAuth10aService extends OAuthService {
     }
 
     /**
-     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
-     * when it is available.
+     * Start the request to retrieve the access token. The optionally provided
+     * callback will be called with the Token when it is available.
      *
      * @param requestToken request token (obtained previously or null)
      * @param verifier verifier code
@@ -122,7 +121,7 @@ public class OAuth10aService extends OAuthService {
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
         config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
-        addOAuthParams(request, requestToken);
+        addOAuthParams(request, requestToken.getTokenSecret());
         appendSignature(request);
     }
 
@@ -134,20 +133,18 @@ public class OAuth10aService extends OAuthService {
             request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
         }
         config.log("setting token to: " + token);
-        addOAuthParams(request, token);
+        addOAuthParams(request, token.getTokenSecret());
         appendSignature(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getVersion() {
         return VERSION;
     }
 
     /**
-     * Returns the URL where you should redirect your users to authenticate your application.
+     * Returns the URL where you should redirect your users to authenticate your
+     * application.
      *
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users
@@ -156,13 +153,12 @@ public class OAuth10aService extends OAuthService {
         return api.getAuthorizationUrl(requestToken);
     }
 
-    private String getSignature(AbstractRequest request, OAuth1Token token) {
+    private String getSignature(AbstractRequest request, String tokenSecret) {
         final OAuthConfig config = getConfig();
         config.log("generating signature...");
         config.log("using base64 encoder: " + Base64Encoder.type());
         final String baseString = api.getBaseStringExtractor().extract(request);
-        final String signature = api.getSignatureService()
-                .getSignature(baseString, config.getApiSecret(), token.getTokenSecret());
+        final String signature = api.getSignatureService().getSignature(baseString, config.getApiSecret(), tokenSecret);
 
         config.log("base string is: " + baseString);
         config.log("signature is: " + signature);

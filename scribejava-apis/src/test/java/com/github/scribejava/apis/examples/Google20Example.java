@@ -10,6 +10,8 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Google20Example {
 
@@ -35,7 +37,13 @@ public abstract class Google20Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        //pass access_type=offline to get refresh token
+        //https://developers.google.com/identity/protocols/OAuth2WebServer#preparing-to-start-the-oauth-20-flow
+        final Map<String, String> additionalParams = new HashMap<>();
+        additionalParams.put("access_type", "offline");
+        //force to reget refresh token (if usera are asked not the first time)
+        additionalParams.put("prompt", "consent");
+        final String authorizationUrl = service.getAuthorizationUrl(additionalParams);
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -58,8 +66,14 @@ public abstract class Google20Example {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(verifier);
+        OAuth2AccessToken accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
+
+        System.out.println("Refreshing the Access Token...");
+        accessToken = service.refreshAccessToken(accessToken.getRefreshToken());
+        System.out.println("Refreshed the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
