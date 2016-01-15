@@ -12,18 +12,17 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class LiveExample {
 
-    private static final String PROTECTED_RESOURCE_URL
-            = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
+    private static final String PROTECTED_RESOURCE_URL = "https://apis.live.net/v5.0/me";
 
     public static void main(String... args) {
         // Replace these with your own api key and secret
-        final String apiKey = "";
-        final String apiSecret = "";
+        final String apiKey = "000000004C17C2F9";
+        final String apiSecret = "1ccBq4SoR2OA-XZodj2nOAYK6dwq5Fap";
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
-                .scope("wl.basic")
-                .callback("http://localhost:9000/")
+                .scope("wl.emails wl.signin")
+                .callback("http://www.example.com/")
                 .build(LiveApi.instance());
         final Scanner in = new Scanner(System.in);
 
@@ -50,8 +49,7 @@ public abstract class LiveExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getToken(),
-                service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
