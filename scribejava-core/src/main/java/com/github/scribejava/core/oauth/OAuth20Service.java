@@ -6,7 +6,7 @@ import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
-import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;

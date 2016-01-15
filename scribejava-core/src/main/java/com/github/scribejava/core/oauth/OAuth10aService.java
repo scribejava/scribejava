@@ -7,7 +7,7 @@ import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
-import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
@@ -81,13 +81,13 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public OAuth1AccessToken getAccessToken(final RequestToken requestToken, final Verifier verifier) {
+    public OAuth1Token getAccessToken(final RequestToken requestToken, final Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
         final Response response = request.send();
-        return (OAuth1AccessToken)api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth1Token)api.getAccessTokenExtractor().extract(response.getBody());
     }
 
     /**
@@ -128,7 +128,7 @@ public class OAuth10aService extends OAuthService {
 
     @Override
     public void signRequest(final Token token, final AbstractRequest request) {
-        if (token instanceof OAuth1AccessToken) {
+        if (token instanceof AccessToken) {
             signRequest((AccessToken) token, request);
         } else {
             throw new IllegalArgumentException("The access token must be an OAuth1AccessToken.");
@@ -146,7 +146,7 @@ public class OAuth10aService extends OAuthService {
             request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
         }
         config.log("setting token to: " + token);
-        addOAuthParams(request, ((OAuth1AccessToken) token).getSecret());
+        addOAuthParams(request, ((OAuth1Token) token).getSecret());
         appendSignature(request);
 
     }

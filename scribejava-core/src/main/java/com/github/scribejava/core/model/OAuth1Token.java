@@ -6,7 +6,7 @@ import com.github.scribejava.core.utils.Preconditions;
  * Represents an OAuth 1 access token
  * 
  */
-public class OAuth1AccessToken implements AccessToken {
+public class OAuth1Token implements AccessToken, RequestToken {
 
     private static final long serialVersionUID = 715000866082812684L;
 
@@ -20,11 +20,11 @@ public class OAuth1AccessToken implements AccessToken {
      * @param token token value. Can't be null.
      * @param secret token secret. Can't be null.
      */
-    public OAuth1AccessToken(final String token, final String secret) {
+    public OAuth1Token(final String token, final String secret) {
         this(token, secret, null);
     }
 
-    public OAuth1AccessToken(final String token, final String secret, final String rawResponse) {
+    public OAuth1Token(final String token, final String secret, final String rawResponse) {
         Preconditions.checkNotNull(token, "Token can't be null");
         Preconditions.checkNotNull(secret, "Secret can't be null");
 
@@ -84,7 +84,7 @@ public class OAuth1AccessToken implements AccessToken {
      * @return empty token (token = "", secret = "")
      */
     public static Token empty() {
-        return new RequestToken("", "");
+        return new OAuth1Token("", "");
     }
 
     @Override
@@ -96,7 +96,7 @@ public class OAuth1AccessToken implements AccessToken {
             return false;
         }
 
-        final RequestToken that = (RequestToken) o;
+        final OAuth1Token that = (OAuth1Token) o;
         return token.equals(that.getToken()) && secret.equals(that.getSecret());
     }
 
