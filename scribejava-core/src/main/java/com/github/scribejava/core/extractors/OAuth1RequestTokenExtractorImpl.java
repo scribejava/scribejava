@@ -1,8 +1,8 @@
 package com.github.scribejava.core.extractors;
 
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.RequestToken;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 import java.util.regex.Matcher;
@@ -26,7 +26,7 @@ public class OAuth1RequestTokenExtractorImpl implements RequestTokenExtractor {
                 "Response body is incorrect. Can't extract a token from an empty string");
         final String token = extract(response, TOKEN_REGEX);
         final String secret = extract(response, SECRET_REGEX);
-        return new RequestToken(token, secret, response);
+        return new OAuth1Token(token, secret, response);
     }
 
     private String extract(final String response, final Pattern p) {

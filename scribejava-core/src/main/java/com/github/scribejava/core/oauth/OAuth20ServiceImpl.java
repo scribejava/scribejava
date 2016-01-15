@@ -6,7 +6,7 @@ import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
-import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
@@ -63,7 +63,7 @@ public class OAuth20ServiceImpl extends OAuthService {
      * @return throws exception
      */
     @Override
-    public OAuth1AccessToken getOAuth1AccessToken(final RequestToken requestToken, final Verifier verifier) {
+    public OAuth1Token getOAuth1AccessToken(final RequestToken requestToken, final Verifier verifier) {
         throw new UnsupportedOperationException("getOAuth1AccessToken not supported for OAuth 2 APIs");
     }
 

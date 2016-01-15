@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.AccessToken;
-import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
@@ -30,7 +30,7 @@ public class OAuth1AccessTokenExtractorImpl implements AccessTokenExtractor {
                 "Response body is incorrect. Can't extract a token from an empty string");
         final String token = extract(response, TOKEN_REGEX);
         final String secret = extract(response, SECRET_REGEX);
-        return new OAuth1AccessToken(token, secret, response);
+        return new OAuth1Token(token, secret, response);
     }
 
     private String extract(final String response, final Pattern p) {

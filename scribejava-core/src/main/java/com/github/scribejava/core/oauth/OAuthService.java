@@ -7,7 +7,7 @@ import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
-import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
@@ -83,7 +83,7 @@ public abstract class OAuthService {
      * 
      * @param requestToken OAuth1 request token or null for OAuth 2 APIs
      * @param verifier verifier code
-     * @return {@link com.github.scribejava.core.model.OAuth1AccessToken} or {@link com.github.scribejava.core.model.OAuth2AccessToken} access token
+     * @return {@link com.github.scribejava.core.model.OAuth1Token} or {@link com.github.scribejava.core.model.OAuth2AccessToken} access token
      */
     public abstract AccessToken getAccessToken(Token requestToken, Verifier verifier);
     
@@ -93,9 +93,9 @@ public abstract class OAuthService {
      * 
      * @param requestToken OAuth1 request token
      * @param verifier verifier code
-     * @return {@link com.github.scribejava.core.model.OAuth1AccessToken}
+     * @return {@link com.github.scribejava.core.model.OAuth1Token}
      */
-    public abstract OAuth1AccessToken getOAuth1AccessToken(RequestToken requestToken, Verifier verifier);
+    public abstract OAuth1Token getOAuth1AccessToken(RequestToken requestToken, Verifier verifier);
     
     /**
      * Retrieves an OAuth2 access token from the verifier.
