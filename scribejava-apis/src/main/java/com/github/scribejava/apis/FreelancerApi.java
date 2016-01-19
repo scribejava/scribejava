@@ -8,6 +8,17 @@ public class FreelancerApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "http://www.freelancer.com/users/api-token/auth.php?oauth_token=%s";
 
+    private FreelancerApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final FreelancerApi INSTANCE = new FreelancerApi();
+    }
+
+    public static FreelancerApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "http://api.freelancer.com/RequestAccessToken/requestAccessToken.xml?";
@@ -29,13 +40,24 @@ public class FreelancerApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 
     public static class Sandbox extends FreelancerApi {
 
         private static final String SANDBOX_AUTHORIZATION_URL = "http://www.sandbox.freelancer.com/users/api-token/auth.php";
+
+        private Sandbox() {
+        }
+
+        private static class InstanceHolder {
+            private static final Sandbox INSTANCE = new Sandbox();
+        }
+
+        public static Sandbox instance() {
+            return InstanceHolder.INSTANCE;
+        }
 
         @Override
         public String getRequestTokenEndpoint() {
@@ -48,7 +70,7 @@ public class FreelancerApi extends DefaultApi10a {
         }
 
         @Override
-        public String getAuthorizationUrl(Token requestToken) {
+        public String getAuthorizationUrl(final Token requestToken) {
             return String.format(SANDBOX_AUTHORIZATION_URL + "?oauth_token=%s", requestToken.getToken());
         }
     }

@@ -16,7 +16,7 @@ import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
 
 public class MailruOAuthServiceImpl extends OAuth20ServiceImpl {
 
-    public MailruOAuthServiceImpl(DefaultApi20 api, OAuthConfig config) {
+    public MailruOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
         super(api, config);
     }
 
@@ -25,20 +25,20 @@ public class MailruOAuthServiceImpl extends OAuth20ServiceImpl {
         // sig = md5(params + secret_key)
         request.addQuerystringParameter("session_key", accessToken.getToken());
         request.addQuerystringParameter("app_id", getConfig().getApiKey());
-        String completeUrl = request.getCompleteUrl();
+        final String completeUrl = request.getCompleteUrl();
 
         try {
             final String clientSecret = getConfig().getApiSecret();
             final int queryIndex = completeUrl.indexOf('?');
             if (queryIndex != -1) {
-                String urlPart = completeUrl.substring(queryIndex + 1);
-                Map<String, String> map = new TreeMap<>();
-                for (String param : urlPart.split("&")) {
-                    String[] parts = param.split("=");
+                final String urlPart = completeUrl.substring(queryIndex + 1);
+                final Map<String, String> map = new TreeMap<>();
+                for (final String param : urlPart.split("&")) {
+                    final String[] parts = param.split("=");
                     map.put(parts[0], (parts.length == 1) ? "" : parts[1]);
                 }
-                StringBuilder urlNew = new StringBuilder();
-                for (Map.Entry<String, String> entry : map.entrySet()) {
+                final StringBuilder urlNew = new StringBuilder();
+                for (final Map.Entry<String, String> entry : map.entrySet()) {
                     urlNew.append(entry.getKey());
                     urlNew.append('=');
                     urlNew.append(entry.getValue());
@@ -52,11 +52,11 @@ public class MailruOAuthServiceImpl extends OAuth20ServiceImpl {
     }
 
     @Override
-    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, T request) {
+    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, final T request) {
         super.createAccessTokenRequest(verifier, request);
         if (!getConfig().hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");
         }
-        return (T) request;
+        return request;
     }
 }

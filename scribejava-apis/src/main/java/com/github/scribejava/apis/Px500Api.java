@@ -7,6 +7,17 @@ public class Px500Api extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "https://api.500px.com/v1/oauth/authorize?oauth_token=%s";
 
+    private Px500Api() {
+    }
+
+    private static class InstanceHolder {
+        private static final Px500Api INSTANCE = new Px500Api();
+    }
+
+    public static Px500Api instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://api.500px.com/v1/oauth/access_token";
@@ -18,7 +29,7 @@ public class Px500Api extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 }

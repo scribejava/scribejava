@@ -9,6 +9,17 @@ public class TumblrApi extends DefaultApi10a {
     private static final String REQUEST_TOKEN_RESOURCE = "http://www.tumblr.com/oauth/request_token";
     private static final String ACCESS_TOKEN_RESOURCE = "http://www.tumblr.com/oauth/access_token";
 
+    private TumblrApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final TumblrApi INSTANCE = new TumblrApi();
+    }
+
+    public static TumblrApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return ACCESS_TOKEN_RESOURCE;
@@ -20,7 +31,7 @@ public class TumblrApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

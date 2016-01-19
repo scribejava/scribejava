@@ -17,13 +17,13 @@ public abstract class Google20Example {
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String[] args) {
+    public static void main(final String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20ServiceImpl service = (OAuth20ServiceImpl) new ServiceBuilder()
-                .provider(GoogleApi20.class)
+                .provider(GoogleApi20.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope

@@ -13,6 +13,17 @@ public class ViadeoApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://secure.viadeo.com/oauth-provider/authorize2?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
+    private ViadeoApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final ViadeoApi INSTANCE = new ViadeoApi();
+    }
+
+    public static ViadeoApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public AccessTokenExtractor getAccessTokenExtractor() {
         return new JsonTokenExtractor();
@@ -24,7 +35,7 @@ public class ViadeoApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Viadeo does not support OOB");
 
         // Append scope if present

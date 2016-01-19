@@ -15,6 +15,17 @@ public class RenrenApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://graph.renren.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
+    private RenrenApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final RenrenApi INSTANCE = new RenrenApi();
+    }
+
+    public static RenrenApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public AccessTokenExtractor getAccessTokenExtractor() {
         return new JsonTokenExtractor();
@@ -26,7 +37,7 @@ public class RenrenApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         // Append scope if present
         if (config.hasScope()) {
             return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.

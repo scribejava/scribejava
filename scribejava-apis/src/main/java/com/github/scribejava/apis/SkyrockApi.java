@@ -16,6 +16,17 @@ public class SkyrockApi extends DefaultApi10a {
     private static final String AUTHORIZE_URL = "/oauth/authorize?oauth_token=%s";
     private static final String ACCESS_TOKEN_RESOURCE = "/oauth/token";
 
+    private SkyrockApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final SkyrockApi INSTANCE = new SkyrockApi();
+    }
+
+    public static SkyrockApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return API_ENDPOINT + ACCESS_TOKEN_RESOURCE;
@@ -27,7 +38,7 @@ public class SkyrockApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(API_ENDPOINT + AUTHORIZE_URL, requestToken.getToken());
     }
 }

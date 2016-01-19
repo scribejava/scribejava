@@ -10,6 +10,17 @@ public class MeetupApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "http://www.meetup.com/authenticate?oauth_token=%s";
 
+    private MeetupApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final MeetupApi INSTANCE = new MeetupApi();
+    }
+
+    public static MeetupApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return "http://api.meetup.com/oauth/request/";
@@ -21,7 +32,7 @@ public class MeetupApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

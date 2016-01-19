@@ -14,6 +14,17 @@ public class PinterestApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://api.pinterest.com/oauth?response_type=code&client_id=%s&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
+    private PinterestApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final PinterestApi INSTANCE = new PinterestApi();
+    }
+
+    public static PinterestApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://api.pinterest.com/v1/oauth/token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
@@ -25,7 +36,7 @@ public class PinterestApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Pinterest does not support OOB");
 
         // Append scope if present

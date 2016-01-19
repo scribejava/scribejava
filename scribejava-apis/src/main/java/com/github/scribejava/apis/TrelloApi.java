@@ -7,6 +7,17 @@ public class TrelloApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "https://trello.com/1/OAuthAuthorizeToken?oauth_token=%s";
 
+    private TrelloApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final TrelloApi INSTANCE = new TrelloApi();
+    }
+
+    public static TrelloApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://trello.com/1/OAuthGetAccessToken";
@@ -18,7 +29,7 @@ public class TrelloApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 

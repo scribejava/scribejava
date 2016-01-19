@@ -7,6 +7,17 @@ public class FoursquareApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "http://foursquare.com/oauth/authorize?oauth_token=%s";
 
+    private FoursquareApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final FoursquareApi INSTANCE = new FoursquareApi();
+    }
+
+    public static FoursquareApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "http://foursquare.com/oauth/access_token";
@@ -18,7 +29,7 @@ public class FoursquareApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 }

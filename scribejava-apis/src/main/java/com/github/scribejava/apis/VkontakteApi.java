@@ -16,6 +16,17 @@ public class VkontakteApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://oauth.vk.com/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = String.format("%s&scope=%%s", AUTHORIZE_URL);
 
+    private VkontakteApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final VkontakteApi INSTANCE = new VkontakteApi();
+    }
+
+    public static VkontakteApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://oauth.vk.com/access_token";

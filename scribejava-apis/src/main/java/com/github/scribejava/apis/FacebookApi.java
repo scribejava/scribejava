@@ -10,6 +10,17 @@ public class FacebookApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "https://www.facebook.com/v2.2/dialog/oauth?client_id=%s&redirect_uri=%s";
 
+    private FacebookApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final FacebookApi INSTANCE = new FacebookApi();
+    }
+
+    public static FacebookApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://graph.facebook.com/v2.2/oauth/access_token";

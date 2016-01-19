@@ -9,6 +9,17 @@ public class SinaWeiboApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "http://api.t.sina.com.cn/oauth/access_token";
     private static final String AUTHORIZE_URL = "http://api.t.sina.com.cn/oauth/authorize?oauth_token=%s";
 
+    private SinaWeiboApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final SinaWeiboApi INSTANCE = new SinaWeiboApi();
+    }
+
+    public static SinaWeiboApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return REQUEST_TOKEN_URL;
@@ -20,7 +31,7 @@ public class SinaWeiboApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

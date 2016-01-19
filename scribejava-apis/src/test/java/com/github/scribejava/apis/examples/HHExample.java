@@ -12,23 +12,23 @@ import com.github.scribejava.core.oauth.OAuthService;
 
 import com.github.scribejava.apis.HHApi;
 
-public class HHExample {
+public abstract class HHExample {
 
     private static final String NETWORK_NAME = "hh.ru";
     private static final String PROTECTED_RESOURCE_URL = "https://api.hh.ru/me";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(String[] args) {
+    public static void main(final String... args) {
         // Replace these with your own client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        OAuthService service = new ServiceBuilder()
-                .provider(HHApi.class)
+        final OAuthService service = new ServiceBuilder()
+                .provider(HHApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://your.site.com/callback")
                 .build();
-        Scanner in = new Scanner(System.in);
+        final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
@@ -52,9 +52,9 @@ public class HHExample {
         System.out.println();
 
         System.out.println("Now we're going to access a protected resource...");
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
         service.signRequest(accessToken, request);
-        Response response = request.send();
+        final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getCode());

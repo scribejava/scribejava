@@ -9,6 +9,17 @@ public class MisoApi extends DefaultApi10a {
     private static final String REQUEST_TOKEN_RESOURCE = "http://gomiso.com/oauth/request_token";
     private static final String ACCESS_TOKEN_RESOURCE = "http://gomiso.com/oauth/access_token";
 
+    private MisoApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final MisoApi INSTANCE = new MisoApi();
+    }
+
+    public static MisoApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return ACCESS_TOKEN_RESOURCE;
@@ -20,7 +31,7 @@ public class MisoApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 

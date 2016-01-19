@@ -11,6 +11,17 @@ import com.github.scribejava.core.model.Token;
  */
 public class FlickrApi extends DefaultApi10a {
 
+    private FlickrApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final FlickrApi INSTANCE = new FlickrApi();
+    }
+
+    public static FlickrApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -23,7 +34,7 @@ public class FlickrApi extends DefaultApi10a {
      * {@inheritDoc}
      */
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return "https://www.flickr.com/services/oauth/authorize?oauth_token=" + requestToken.getToken();
     }
 

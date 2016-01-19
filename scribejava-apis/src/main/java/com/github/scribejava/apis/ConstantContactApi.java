@@ -7,13 +7,24 @@ public class ConstantContactApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "https://oauth.constantcontact.com/ws/oauth/confirm_access?oauth_token=%s";
 
+    private ConstantContactApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final ConstantContactApi INSTANCE = new ConstantContactApi();
+    }
+
+    public static ConstantContactApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://oauth.constantcontact.com/ws/oauth/access_token";
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 

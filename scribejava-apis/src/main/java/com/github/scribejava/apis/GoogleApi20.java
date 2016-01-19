@@ -9,12 +9,22 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.OAuthEncoder;
-import com.github.scribejava.core.utils.Preconditions;
 
 public class GoogleApi20 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
             = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
+
+    private GoogleApi20() {
+    }
+
+    private static class InstanceHolder {
+        private static final GoogleApi20 INSTANCE = new GoogleApi20();
+    }
+
+    public static GoogleApi20 instance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     @Override
     public Verb getAccessTokenVerb() {
@@ -44,7 +54,7 @@ public class GoogleApi20 extends DefaultApi20 {
     }
 
     @Override
-    public OAuthService createService(OAuthConfig config) {
+    public OAuthService createService(final OAuthConfig config) {
         return new GoogleOAuthServiceImpl(this, config);
     }
 

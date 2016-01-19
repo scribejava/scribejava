@@ -8,10 +8,21 @@ import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuthService;
 
-public final class ImgurApi extends DefaultApi20 {
+public class ImgurApi extends DefaultApi20 {
 
     private static final String AUTHORIZATION_URL =
             "https://api.imgur.com/oauth2/authorize?client_id=%s&response_type=%s";
+
+    private ImgurApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final ImgurApi INSTANCE = new ImgurApi();
+    }
+
+    public static ImgurApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     @Override
     public Verb getAccessTokenVerb() {

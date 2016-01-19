@@ -9,6 +9,17 @@ public class AWeberApi extends DefaultApi10a {
     private static final String REQUEST_TOKEN_ENDPOINT = "https://auth.aweber.com/1.0/oauth/request_token";
     private static final String ACCESS_TOKEN_ENDPOINT = "https://auth.aweber.com/1.0/oauth/access_token";
 
+    private AWeberApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final AWeberApi INSTANCE = new AWeberApi();
+    }
+
+    public static AWeberApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return ACCESS_TOKEN_ENDPOINT;
@@ -20,7 +31,7 @@ public class AWeberApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

@@ -29,14 +29,14 @@ public abstract class FacebookAsyncExample {
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
         final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
-                .setRequestTimeout(10000)
+                .setRequestTimeout(10_000)
                 .setAllowPoolingConnections(false)
-                .setPooledConnectionIdleTimeout(1000)
-                .setReadTimeout(1000)
+                .setPooledConnectionIdleTimeout(1_000)
+                .setReadTimeout(1_000)
                 .build();
 
         final OAuthService service = new ServiceBuilderAsync()
-                .provider(FacebookApi.class)
+                .provider(FacebookApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)

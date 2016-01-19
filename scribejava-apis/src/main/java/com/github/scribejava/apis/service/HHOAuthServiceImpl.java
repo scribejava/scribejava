@@ -8,12 +8,12 @@ import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
 
 public class HHOAuthServiceImpl extends OAuth20ServiceImpl {
 
-    public HHOAuthServiceImpl(DefaultApi20 api, OAuthConfig config) {
+    public HHOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
         super(api, config);
     }
 
     @Override
-    public void signRequest(Token accessToken, AbstractRequest request) {
+    public void signRequest(final Token accessToken, final AbstractRequest request) {
         request.addHeader("Authorization", "Bearer " + accessToken.getToken());
     }
 }

@@ -12,13 +12,21 @@ public class LinkedInApi extends DefaultApi10a {
     private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
     private static final String REQUEST_TOKEN_URL = "https://api.linkedin.com/uas/oauth/requestToken";
 
+    private static class InstanceHolder {
+        private static final LinkedInApi INSTANCE = new LinkedInApi();
+    }
+
+    public static LinkedInApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     private final Set<String> scopes;
 
     public LinkedInApi() {
         scopes = Collections.emptySet();
     }
 
-    public LinkedInApi(Set<String> scopes) {
+    public LinkedInApi(final Set<String> scopes) {
         this.scopes = Collections.unmodifiableSet(scopes);
     }
 
@@ -33,20 +41,20 @@ public class LinkedInApi extends DefaultApi10a {
     }
 
     private String scopesAsString() {
-        StringBuilder builder = new StringBuilder();
-        for (String scope : scopes) {
+        final StringBuilder builder = new StringBuilder();
+        for (final String scope : scopes) {
             builder.append("+" + scope);
         }
         return builder.substring(1);
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 
-    public static LinkedInApi withScopes(String... scopes) {
-        Set<String> scopeSet = new HashSet<String>(Arrays.asList(scopes));
+    public static LinkedInApi withScopes(final String... scopes) {
+        final Set<String> scopeSet = new HashSet<>(Arrays.asList(scopes));
         return new LinkedInApi(scopeSet);
     }
 
