@@ -10,6 +10,17 @@ public class NeteaseWeibooApi extends DefaultApi10a {
     private static final String AUTHORIZE_URL = "http://api.t.163.com/oauth/authorize?oauth_token=%s";
     private static final String AUTHENTICATE_URL = "http://api.t.163.com/oauth/authenticate?oauth_token=%s";
 
+    private NeteaseWeibooApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final NeteaseWeibooApi INSTANCE = new NeteaseWeibooApi();
+    }
+
+    public static NeteaseWeibooApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return REQUEST_TOKEN_URL;

@@ -18,6 +18,17 @@ public class LinkedInApi20 extends DefaultApi20 {
 
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
+    private LinkedInApi20() {
+    }
+
+    private static class InstanceHolder {
+        private static final LinkedInApi20 INSTANCE = new LinkedInApi20();
+    }
+
+    public static LinkedInApi20 instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public Verb getAccessTokenVerb() {
         return Verb.GET;

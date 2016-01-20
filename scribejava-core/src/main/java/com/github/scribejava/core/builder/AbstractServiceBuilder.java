@@ -2,7 +2,6 @@ package com.github.scribejava.core.builder;
 
 import java.io.OutputStream;
 import com.github.scribejava.core.builder.api.Api;
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.utils.Preconditions;
@@ -19,25 +18,9 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
     private OutputStream debugStream;
     private String grantType;
 
-    public AbstractServiceBuilder() {
+    AbstractServiceBuilder() {
         this.callback = OAuthConstants.OUT_OF_BAND;
         this.signatureType = SignatureType.Header;
-    }
-
-    /**
-     * Configures the {@link Api}
-     *
-     * @param apiClass the class of one of the existent {@link Api}s on org.scribe.api package
-     * @return the {@link ServiceBuilder} instance for method chaining
-     */
-    public T provider(final Class<? extends Api> apiClass) {
-        Preconditions.checkNotNull(apiClass, "Api class cannot be null");
-        try {
-            api = apiClass.newInstance();
-        } catch (IllegalAccessException | InstantiationException | RuntimeException e) {
-            throw new OAuthException("Error while creating the Api object", e);
-        }
-        return (T) this;
     }
 
     /**

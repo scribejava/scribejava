@@ -10,13 +10,24 @@ public class GitHubApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s";
 
+    private GitHubApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final GitHubApi INSTANCE = new GitHubApi();
+    }
+
+    public static GitHubApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://github.com/login/oauth/access_token";
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. GitHub does not support OOB");
         final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback())));
         if (config.hasScope()) {

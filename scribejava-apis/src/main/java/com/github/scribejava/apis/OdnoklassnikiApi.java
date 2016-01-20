@@ -15,6 +15,17 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "http://www.odnoklassniki.ru/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = String.format("%s&scope=%%s", AUTHORIZE_URL);
 
+    private OdnoklassnikiApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final OdnoklassnikiApi INSTANCE = new OdnoklassnikiApi();
+    }
+
+    public static OdnoklassnikiApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "http://api.odnoklassniki.ru/oauth/token.do";
@@ -26,7 +37,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Odnoklassniki does not support OOB");
         if (config.hasScope()) {
             return String.format(
@@ -37,7 +48,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuthService createService(OAuthConfig config) {
+    public OAuthService createService(final OAuthConfig config) {
         return new OdnoklassnikiServiceImpl(this, config);
     }
 

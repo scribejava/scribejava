@@ -23,7 +23,7 @@ public abstract class FacebookExample {
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuthService service = new ServiceBuilder()
-                .provider(FacebookApi.class)
+                .provider(FacebookApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)

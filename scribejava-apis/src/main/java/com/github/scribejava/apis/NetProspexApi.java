@@ -9,6 +9,17 @@ public class NetProspexApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "https://api.netprospex.com/1.0/oauth/access-token";
     private static final String AUTHORIZE_URL = "https://api.netprospex.com/1.0/oauth/authorize?oauth_token=%s";
 
+    private NetProspexApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final NetProspexApi INSTANCE = new NetProspexApi();
+    }
+
+    public static NetProspexApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return REQUEST_TOKEN_URL;
@@ -20,7 +31,7 @@ public class NetProspexApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

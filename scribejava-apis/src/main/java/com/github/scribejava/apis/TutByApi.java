@@ -14,6 +14,17 @@ public class TutByApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "http://profile.tut.by/auth?client_id=%s&response_type=code&redirect_uri=%s";
 
+    private TutByApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final TutByApi INSTANCE = new TutByApi();
+    }
+
+    public static TutByApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "http://profile.tut.by/getToken";
@@ -25,13 +36,13 @@ public class TutByApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Tut.by does not support OOB");
         return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
 
     @Override
-    public OAuthService createService(OAuthConfig config) {
+    public OAuthService createService(final OAuthConfig config) {
         return new TutByOAuthServiceImpl(this, config);
     }
 

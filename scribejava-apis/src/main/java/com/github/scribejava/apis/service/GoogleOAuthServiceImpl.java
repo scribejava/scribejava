@@ -9,16 +9,16 @@ import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
 
 public class GoogleOAuthServiceImpl extends OAuth20ServiceImpl {
 
-    public GoogleOAuthServiceImpl(DefaultApi20 api, OAuthConfig config) {
+    public GoogleOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
         super(api, config);
     }
 
     @Override
-    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, T request) {
+    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, final T request) {
         super.createAccessTokenRequest(verifier, request);
         if (!getConfig().hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");
         }
-        return (T) request;
+        return request;
     }
 }

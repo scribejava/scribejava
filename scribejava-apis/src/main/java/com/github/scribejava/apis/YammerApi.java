@@ -9,6 +9,17 @@ public class YammerApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "https://www.yammer.com/oauth/authorize?oauth_token=%s";
 
+    private YammerApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final YammerApi INSTANCE = new YammerApi();
+    }
+
+    public static YammerApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return "https://www.yammer.com/oauth/request_token";
@@ -20,7 +31,7 @@ public class YammerApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 
