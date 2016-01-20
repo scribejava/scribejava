@@ -24,12 +24,11 @@ public abstract class TutByExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(TutByApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .grantType(OAuthConstants.AUTHORIZATION_CODE)
                 .callback("http://www.example.com/oauth_callback/")
-                .build();
+                .build(TutByApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

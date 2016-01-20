@@ -6,9 +6,9 @@ import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
-public class LinkedIn20ServiceImpl extends OAuth20ServiceImpl {
+public class LinkedIn20ServiceImpl extends OAuth20Service {
 
     public LinkedIn20ServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
         super(api, config);

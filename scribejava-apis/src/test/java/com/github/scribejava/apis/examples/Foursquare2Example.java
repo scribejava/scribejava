@@ -20,11 +20,10 @@ public abstract class Foursquare2Example {
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(Foursquare2Api.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://localhost:9000/")
-                .build();
+                .build(Foursquare2Api.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Foursquare2's OAuth Workflow ===");

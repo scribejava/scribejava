@@ -6,9 +6,9 @@ import com.github.scribejava.core.extractors.JsonTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuthService;
 
 import com.github.scribejava.apis.service.HHOAuthServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class HHApi extends DefaultApi20 {
 
@@ -47,7 +47,7 @@ public class HHApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuthService createService(final OAuthConfig config) {
+    public OAuth20Service createService(final OAuthConfig config) {
         return new HHOAuthServiceImpl(this, config);
     }
 }

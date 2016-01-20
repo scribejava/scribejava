@@ -6,12 +6,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth.OAuthService;
 
 public class ForceTypeOfHttpRequestTest {
 
-    private ConnectionStub connection;
     private OAuthRequest request;
     private OAuthRequestAsync requestAsync;
     private OAuthService oAuthService;
@@ -20,10 +19,9 @@ public class ForceTypeOfHttpRequestTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Before
-    public void setup() throws Exception {
-        connection = new ConnectionStub();
+    public void setUp() {
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.NONE);
-        oAuthService = new OAuth20ServiceImpl(null, new OAuthConfig("test", "test"));
+        oAuthService = new OAuth20Service(null, new OAuthConfig("test", "test"));
         request = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces", oAuthService);
         requestAsync = new OAuthRequestAsync(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces", oAuthService);
     }

@@ -8,9 +8,9 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Token;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
-public class OdnoklassnikiServiceImpl extends OAuth20ServiceImpl {
+public class OdnoklassnikiServiceImpl extends OAuth20Service {
 
     public OdnoklassnikiServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
         super(api, config);

@@ -23,11 +23,10 @@ public abstract class HHExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(HHApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://your.site.com/callback")
-                .build();
+                .build(HHApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

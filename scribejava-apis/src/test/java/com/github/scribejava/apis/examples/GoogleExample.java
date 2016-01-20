@@ -19,11 +19,10 @@ public abstract class GoogleExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(GoogleApi.instance())
                 .apiKey("anonymous")
                 .apiSecret("anonymous")
                 .scope(SCOPE)
-                .build();
+                .build(GoogleApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

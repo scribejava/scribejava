@@ -7,7 +7,7 @@ import com.github.scribejava.core.extractors.JsonTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -58,7 +58,7 @@ public class LinkedInApi20 extends DefaultApi20 {
     }
 
     @Override
-    public OAuthService createService(final OAuthConfig config) {
+    public OAuth20Service createService(final OAuthConfig config) {
         return new LinkedIn20ServiceImpl(this, config);
     }
 }

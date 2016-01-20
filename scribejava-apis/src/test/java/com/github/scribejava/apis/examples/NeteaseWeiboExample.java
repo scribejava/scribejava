@@ -20,10 +20,9 @@ public abstract class NeteaseWeiboExample {
         final String apiKey = "your key";
         final String apiSecret = "your secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(NeteaseWeibooApi.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
-                .build();
+                .build(NeteaseWeibooApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

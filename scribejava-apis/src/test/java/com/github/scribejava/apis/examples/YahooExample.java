@@ -17,10 +17,9 @@ public abstract class YahooExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(YahooApi.instance())
-                .apiKey("your client id").
-                apiSecret("your client secret")
-                .build();
+                .apiKey("your client id")
+                .apiSecret("your client secret")
+                .build(YahooApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Yahoo's OAuth Workflow ===");

@@ -18,10 +18,9 @@ public abstract class TrelloExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(TrelloApi.instance())
                 .apiKey(API_KEY)
                 .apiSecret(API_SECRET)
-                .build();
+                .build(TrelloApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Trello's OAuth Workflow ===");

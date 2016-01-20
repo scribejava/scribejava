@@ -20,10 +20,9 @@ public abstract class SohuWeiboExample {
         final String apiKey = "your_key";
         final String apiSecret = "your_secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(SohuWeiboApi.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
-                .build();
+                .build(SohuWeiboApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

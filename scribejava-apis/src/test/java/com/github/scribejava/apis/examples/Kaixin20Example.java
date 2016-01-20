@@ -21,11 +21,10 @@ public abstract class Kaixin20Example {
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(KaixinApi20.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://your.domain.com/handle")
-                .build();
+                .build(KaixinApi20.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

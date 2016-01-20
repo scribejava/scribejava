@@ -20,10 +20,9 @@ public abstract class AWeberExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(AWeberApi.instance())
                 .apiKey(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)
-                .build();
+                .build(AWeberApi.instance());
 
         final Scanner in = new Scanner(System.in);
 

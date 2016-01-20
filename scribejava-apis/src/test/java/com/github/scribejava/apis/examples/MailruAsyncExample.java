@@ -32,12 +32,11 @@ public abstract class MailruAsyncExample {
                 .build();
 
         final OAuthService service = new ServiceBuilderAsync()
-                .provider(MailruApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
                 .asyncHttpClientConfig(clientConfig)
-                .build();
+                .build(MailruApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");
 

@@ -30,12 +30,11 @@ public abstract class RenrenExample {
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(RenrenApi.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .scope("status_update publish_feed")
                 .callback("http://your.doman.com/oauth/renren")
-                .build();
+                .build(RenrenApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

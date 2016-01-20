@@ -25,12 +25,11 @@ public abstract class VkontakteExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(VkontakteApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("friends,wall,offline") // replace with desired scope
                 .callback("http://your.site.com/callback")
-                .build();
+                .build(VkontakteApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

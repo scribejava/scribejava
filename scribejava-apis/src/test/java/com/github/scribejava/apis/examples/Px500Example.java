@@ -16,10 +16,9 @@ public abstract class Px500Example {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(Px500Api.instance())
                 .apiKey("your-api-key")
                 .apiSecret("your-api-secret")
-                .build();
+                .build(Px500Api.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== 500Px's OAuth Workflow ===");

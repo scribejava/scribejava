@@ -17,10 +17,9 @@ public abstract class LinkedInExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(LinkedInApi.instance())
                 .apiKey("your client id")
                 .apiSecret("your client secret")
-                .build();
+                .build(LinkedInApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== LinkedIn's OAuth Workflow ===");

@@ -21,11 +21,10 @@ public abstract class SinaWeibo2Example {
         final String apiKey = "your_api_key";
         final String apiSecret = "your_api_secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(SinaWeiboApi20.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://www.dajie.com/oauth/sina")
-                .build();
+                .build(SinaWeiboApi20.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

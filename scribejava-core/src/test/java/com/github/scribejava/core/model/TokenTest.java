@@ -40,8 +40,8 @@ public class TokenTest {
     }
 
     @Test
-    public void shouldReturnUrlParam() throws Exception {
-        Token actual = new Token("acccess", "secret", "user_id=3107154759&screen_name=someuser&empty=&=");
+    public void shouldReturnUrlParam() {
+        final Token actual = new Token("acccess", "secret", "user_id=3107154759&screen_name=someuser&empty=&=");
         assertEquals("someuser", actual.getParameter("screen_name"));
         assertEquals("3107154759", actual.getParameter("user_id"));
         assertEquals(null, actual.getParameter("empty"));

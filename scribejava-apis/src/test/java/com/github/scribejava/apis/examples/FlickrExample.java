@@ -18,8 +18,10 @@ public abstract class FlickrExample {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";
-        final OAuthService service = new ServiceBuilder().provider(FlickrApi.instance()).apiKey(apiKey).apiSecret(apiSecret).
-                build();
+        final OAuthService service = new ServiceBuilder()
+                .apiKey(apiKey)
+                .apiSecret(apiSecret)
+                .build(FlickrApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Flickr's OAuth Workflow ===");

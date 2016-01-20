@@ -21,12 +21,11 @@ public abstract class PinterestExample {
         final String apiKey = "your_app_id";
         final String apiSecret = "your_app_secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(PinterestApi.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .scope("read_public,write_public,read_relationships,write_relationships")
                 .callback("https://localhost:9000/") // Add as valid callback in developer portal
-                .build();
+                .build(PinterestApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Pinterest's OAuth Workflow ===");

@@ -2,7 +2,6 @@ package com.github.scribejava.core.builder;
 
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfigAsync;
-import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
 
 public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAsync> {
@@ -22,14 +21,14 @@ public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAs
         Preconditions.checkNotNull(asyncHttpClientConfig, "You must provide an asyncHttpClientConfig");
     }
 
-    public OAuthService build() {
+    @Override
+    protected OAuthConfigAsync createConfig() {
         checkPreconditions();
         final OAuthConfigAsync configAsync = new OAuthConfigAsync(getApiKey(), getApiSecret(), getCallback(), getSignatureType(), getScope(),
                 getGrantType(), getDebugStream(), asyncHttpClientConfig);
         configAsync.setState(getState());
         configAsync.setAsyncHttpProviderClassName(asyncHttpProviderClassName);
-
-        return getApi().createService(configAsync);
+        return configAsync;
     }
 
     public ServiceBuilderAsync asyncHttpProviderClassName(final String asyncHttpProviderClassName) {

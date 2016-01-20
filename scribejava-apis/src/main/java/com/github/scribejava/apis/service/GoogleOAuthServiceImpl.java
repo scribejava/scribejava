@@ -5,9 +5,9 @@ import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
-public class GoogleOAuthServiceImpl extends OAuth20ServiceImpl {
+public class GoogleOAuthServiceImpl extends OAuth20Service {
 
     public GoogleOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
         super(api, config);

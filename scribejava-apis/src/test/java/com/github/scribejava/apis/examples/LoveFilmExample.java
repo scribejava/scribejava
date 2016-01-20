@@ -19,8 +19,10 @@ public abstract class LoveFilmExample {
         // Replace these with your own api key and secret
         final String apiKey = "your_key";
         final String apiSecret = "your_secret";
-        final OAuthService service = new ServiceBuilder().provider(LoveFilmApi.instance()).apiKey(apiKey).apiSecret(apiSecret).
-                build();
+        final OAuthService service = new ServiceBuilder()
+                .apiKey(apiKey)
+                .apiSecret(apiSecret)
+                .build(LoveFilmApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
