@@ -16,10 +16,9 @@ public abstract class MeetupExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(MeetupApi.instance())
                 .apiKey("your client id")
                 .apiSecret("your client secret")
-                .build();
+                .build(MeetupApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Meetup's OAuth Workflow ===");

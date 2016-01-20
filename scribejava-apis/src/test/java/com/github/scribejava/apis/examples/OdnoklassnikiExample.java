@@ -23,12 +23,12 @@ public abstract class OdnoklassnikiExample {
         final String publicKey = "your api secret";
         final String clientSecret = "your client secret";
 
-        final OAuthService service = new ServiceBuilder().provider(OdnoklassnikiApi.instance())
+        final OAuthService service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("VALUABLE ACCESS")
                 .callback("http://your.site.com/callback")
-                .build();
+                .build(OdnoklassnikiApi.instance());
 
         final Scanner in = new Scanner(System.in);
 

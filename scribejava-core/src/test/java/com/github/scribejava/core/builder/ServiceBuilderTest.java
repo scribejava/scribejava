@@ -3,11 +3,11 @@ package com.github.scribejava.core.builder;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.scribejava.core.builder.api.Api;
+import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class ServiceBuilderTest {
 
@@ -22,7 +22,7 @@ public class ServiceBuilderTest {
 
     @Test
     public void shouldReturnConfigDefaultValues() {
-        builder.provider(api).apiKey("key").apiSecret("secret").build();
+        builder.apiKey("key").apiSecret("secret").build(api);
 
         final OAuthConfig config = api.getConfig();
         assertEquals(config.getApiKey(), "key");
@@ -33,7 +33,7 @@ public class ServiceBuilderTest {
 
     @Test
     public void shouldAcceptValidCallbackUrl() {
-        builder.provider(api).apiKey("key").apiSecret("secret").callback("http://example.com").build();
+        builder.apiKey("key").apiSecret("secret").callback("http://example.com").build(api);
 
         final OAuthConfig config = api.getConfig();
         assertEquals(config.getApiKey(), "key");
@@ -43,7 +43,7 @@ public class ServiceBuilderTest {
 
     @Test
     public void shouldAcceptASignatureType() {
-        builder.provider(api).apiKey("key").apiSecret("secret").signatureType(SignatureType.QueryString).build();
+        builder.apiKey("key").apiSecret("secret").signatureType(SignatureType.QueryString).build(api);
 
         final OAuthConfig config = api.getConfig();
         assertEquals(config.getApiKey(), "key");
@@ -53,12 +53,12 @@ public class ServiceBuilderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotAcceptNullAsCallback() {
-        builder.provider(api).apiKey("key").apiSecret("secret").callback(null).build();
+        builder.apiKey("key").apiSecret("secret").callback(null).build(api);
     }
 
     @Test
     public void shouldAcceptAnScope() {
-        builder.provider(api).apiKey("key").apiSecret("secret").scope("rss-api").build();
+        builder.apiKey("key").apiSecret("secret").scope("rss-api").build(api);
 
         final OAuthConfig config = api.getConfig();
         assertEquals(config.getApiKey(), "key");
@@ -66,7 +66,7 @@ public class ServiceBuilderTest {
         assertEquals(config.getScope(), "rss-api");
     }
 
-    private static class ApiMock implements Api {
+    private static class ApiMock extends DefaultApi20 {
 
         private OAuthConfig config;
 
@@ -79,9 +79,19 @@ public class ServiceBuilderTest {
         }
 
         @Override
-        public OAuthService createService(final OAuthConfig config) {
+        public OAuth20Service createService(final OAuthConfig config) {
             this.config = config;
             return null;
+        }
+
+        @Override
+        public String getAccessTokenEndpoint() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public String getAuthorizationUrl(final OAuthConfig config) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 }

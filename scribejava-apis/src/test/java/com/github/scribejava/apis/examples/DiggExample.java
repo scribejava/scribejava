@@ -19,7 +19,10 @@ public abstract class DiggExample {
         // Replace these with your own api key and secret
         final String apiKey = "myKey";
         final String apiSecret = "mySecret";
-        final OAuthService service = new ServiceBuilder().provider(DiggApi.instance()).apiKey(apiKey).apiSecret(apiSecret).build();
+        final OAuthService service = new ServiceBuilder()
+                .apiKey(apiKey)
+                .apiSecret(apiSecret)
+                .build(DiggApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

@@ -1,14 +1,17 @@
 package com.github.scribejava.core.builder;
 
+import com.github.scribejava.core.builder.api.DefaultApi10a;
+import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.model.OAuthConfig;
 import java.io.OutputStream;
-import com.github.scribejava.core.builder.api.Api;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
+import com.github.scribejava.core.oauth.OAuth10aService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.utils.Preconditions;
 
 abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
 
-    private Api api;
     private String callback;
     private String apiKey;
     private String apiSecret;
@@ -21,18 +24,6 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
     AbstractServiceBuilder() {
         this.callback = OAuthConstants.OUT_OF_BAND;
         this.signatureType = SignatureType.Header;
-    }
-
-    /**
-     * Configures the {@link Api} Overloaded version. Let's you use an instance instead of a class.
-     *
-     * @param api instance of {@link Api}s
-     * @return the {@link ServiceBuilder} instance for method chaining
-     */
-    public T provider(final Api api) {
-        Preconditions.checkNotNull(api, "Api cannot be null");
-        this.api = api;
-        return (T) this;
     }
 
     /**
@@ -125,13 +116,8 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
     }
 
     public void checkPreconditions() {
-        Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
         Preconditions.checkEmptyString(apiKey, "You must provide an api key");
         Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    }
-
-    public Api getApi() {
-        return api;
     }
 
     public String getCallback() {
@@ -164,5 +150,27 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
 
     public String getGrantType() {
         return grantType;
+    }
+
+    protected abstract OAuthConfig createConfig();
+
+    /**
+     * Returns the fully configured {@link OAuth10aService}
+     *
+     * @param api will build Service for this API
+     * @return fully configured {@link OAuth10aService}
+     */
+    public OAuth10aService build(final DefaultApi10a api) {
+        return api.createService(createConfig());
+    }
+
+    /**
+     * Returns the fully configured {@link OAuth20Service}
+     *
+     * @param api will build Service for this API
+     * @return fully configured {@link OAuth20Service}
+     */
+    public OAuth20Service build(final DefaultApi20 api) {
+        return api.createService(createConfig());
     }
 }

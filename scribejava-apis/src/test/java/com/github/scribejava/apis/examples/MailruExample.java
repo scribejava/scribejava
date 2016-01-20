@@ -21,11 +21,10 @@ public abstract class MailruExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(MailruApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
-                .build();
+                .build(MailruApi.instance());
 
         final Scanner in = new Scanner(System.in);
 

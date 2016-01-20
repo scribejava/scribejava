@@ -16,10 +16,9 @@ public abstract class FoursquareExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(FoursquareApi.instance())
                 .apiKey("your client id")
                 .apiSecret("your client secret")
-                .build();
+                .build(FoursquareApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Foursquare's OAuth Workflow ===");

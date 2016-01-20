@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,11 +15,11 @@ import java.util.Map;
 
 public class ConnectionStub extends HttpURLConnection {
 
-    private Map<String, String> headers = new HashMap<String, String>();
-    private Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
+    private final Map<String, String> headers = new HashMap<>();
+    private final Map<String, List<String>> responseHeaders = new HashMap<>();
     private int inputStreamCalled = 0;
 
-    public ConnectionStub() throws Exception {
+    public ConnectionStub() throws MalformedURLException {
         super(new URL("http://example.com"));
     }
 
@@ -67,12 +68,15 @@ public class ConnectionStub extends HttpURLConnection {
         responseHeaders.put(key, Arrays.asList(value));
     }
 
+    @Override
     public void connect() throws IOException {
     }
 
+    @Override
     public void disconnect() {
     }
 
+    @Override
     public boolean usingProxy() {
         return false;
     }

@@ -16,10 +16,9 @@ public abstract class SkyrockExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(SkyrockApi.instance())
                 .apiKey("your-api-key")
                 .apiSecret("your-api-secret")
-                .build();
+                .build(SkyrockApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Skyrock's OAuth Workflow ===");

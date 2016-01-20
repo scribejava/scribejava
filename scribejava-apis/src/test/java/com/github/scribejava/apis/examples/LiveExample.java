@@ -20,12 +20,11 @@ public abstract class LiveExample {
         final String apiKey = "";
         final String apiSecret = "";
         final OAuthService service = new ServiceBuilder()
-                .provider(LiveApi.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .scope("wl.basic")
                 .callback("http://localhost:9000/")
-                .build();
+                .build(LiveApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Windows Live's OAuth Workflow ===");

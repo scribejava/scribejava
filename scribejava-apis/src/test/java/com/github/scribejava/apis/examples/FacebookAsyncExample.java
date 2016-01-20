@@ -36,13 +36,12 @@ public abstract class FacebookAsyncExample {
                 .build();
 
         final OAuthService service = new ServiceBuilderAsync()
-                .provider(FacebookApi.instance())
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
                 .asyncHttpClientConfig(clientConfig)
-                .build();
+                .build(FacebookApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");
 

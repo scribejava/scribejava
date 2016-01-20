@@ -16,10 +16,9 @@ public abstract class XingExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(XingApi.instance())
                 .apiKey("your client id")
                 .apiSecret("your client secret")
-                .build();
+                .build(XingApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Xing's OAuth Workflow ===");

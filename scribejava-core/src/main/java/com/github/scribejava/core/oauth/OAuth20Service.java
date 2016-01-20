@@ -14,7 +14,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verifier;
 
-public class OAuth20ServiceImpl extends OAuthService {
+public class OAuth20Service extends OAuthService {
 
     private static final String VERSION = "2.0";
     private final DefaultApi20 api;
@@ -25,7 +25,7 @@ public class OAuth20ServiceImpl extends OAuthService {
      * @param api OAuth2.0 api information
      * @param config OAuth 2.0 configuration param object
      */
-    public OAuth20ServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
+    public OAuth20Service(final DefaultApi20 api, final OAuthConfig config) {
         super(config);
         this.api = api;
     }

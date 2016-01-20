@@ -21,12 +21,11 @@ public abstract class FreelancerExample {
 
     public static void main(final String... args) {
         final OAuthService service = new ServiceBuilder()
-                .provider(FreelancerApi.Sandbox.instance())
                 .signatureType(SignatureType.QueryString)
                 .apiKey("your client id")
                 .apiSecret("your client secret")
                 .scope(SCOPE)
-                .build();
+                .build(FreelancerApi.Sandbox.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

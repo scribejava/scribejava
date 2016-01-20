@@ -26,16 +26,12 @@ public class ServiceBuilder extends AbstractServiceBuilder<ServiceBuilder> {
         return this;
     }
 
-    /**
-     * Returns the fully configured {@link OAuthService}
-     *
-     * @return fully configured {@link OAuthService}
-     */
-    public OAuthService build() {
+    @Override
+    protected OAuthConfig createConfig() {
         super.checkPreconditions();
         final OAuthConfig config = new OAuthConfig(getApiKey(), getApiSecret(), getCallback(), getSignatureType(), getScope(), getDebugStream(),
                 connectTimeout, readTimeout, getGrantType());
         config.setState(getState());
-        return getApi().createService(config);
+        return config;
     }
 }

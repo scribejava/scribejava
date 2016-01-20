@@ -21,11 +21,10 @@ public abstract class ViadeoExample {
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(ViadeoApi.instance())
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://www.example.com/oauth_callback/")
-                .build();
+                .build(ViadeoApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
