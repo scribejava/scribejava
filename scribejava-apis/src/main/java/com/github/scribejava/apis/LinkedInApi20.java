@@ -7,7 +7,7 @@ import com.github.scribejava.core.extractors.JsonTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -17,6 +17,17 @@ public class LinkedInApi20 extends DefaultApi20 {
             = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%s&redirect_uri=%s&" + OAuthConstants.STATE + "=%s";
 
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
+
+    private LinkedInApi20() {
+    }
+
+    private static class InstanceHolder {
+        private static final LinkedInApi20 INSTANCE = new LinkedInApi20();
+    }
+
+    public static LinkedInApi20 instance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     @Override
     public Verb getAccessTokenVerb() {
@@ -47,7 +58,7 @@ public class LinkedInApi20 extends DefaultApi20 {
     }
 
     @Override
-    public OAuthService createService(final OAuthConfig config) {
+    public OAuth20Service createService(final OAuthConfig config) {
         return new LinkedIn20ServiceImpl(this, config);
     }
 }

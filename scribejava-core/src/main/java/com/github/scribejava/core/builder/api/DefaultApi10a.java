@@ -11,8 +11,7 @@ import com.github.scribejava.core.extractors.OAuth1RequestTokenExtractorImpl;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth10aServiceImpl;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 import com.github.scribejava.core.services.HMACSha1SignatureService;
 import com.github.scribejava.core.services.SignatureService;
 import com.github.scribejava.core.services.TimestampService;
@@ -128,7 +127,7 @@ public abstract class DefaultApi10a implements Api {
     public abstract String getAuthorizationUrl(Token requestToken);
 
     @Override
-    public OAuthService createService(final OAuthConfig config) {
-        return new OAuth10aServiceImpl(this, config);
+    public OAuth10aService createService(final OAuthConfig config) {
+        return new OAuth10aService(this, config);
     }
 }

@@ -4,8 +4,7 @@ import com.github.scribejava.core.extractors.AccessTokenExtractor;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractorImpl;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 /**
  * Default implementation of the OAuth protocol, version 2.0 (draft 11)
@@ -58,8 +57,8 @@ public abstract class DefaultApi20 implements Api {
     /**
      * {@inheritDoc}
      */
-    public OAuthService createService(OAuthConfig config) {
-        return new OAuth20ServiceImpl(this, config);
+    @Override
+    public OAuth20Service createService(final OAuthConfig config) {
+        return new OAuth20Service(this, config);
     }
-
 }

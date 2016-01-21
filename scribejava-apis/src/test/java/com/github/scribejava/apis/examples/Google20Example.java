@@ -4,14 +4,12 @@ import java.util.Random;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.GoogleApi20;
-import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class Google20Example {
 
@@ -31,13 +29,13 @@ public abstract class Google20Example {
         System.out.print(">>");
         final String clientSecret = in.nextLine();
         final String secretState = "state_" + new Random().nextInt(999_999);
-        final OAuth20ServiceImpl service = (OAuth20ServiceImpl) new ServiceBuilder()
-                .provider(GoogleApi20.class)
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
                 .state(secretState)
-                .build();
+                .callback("http://example.com/callback")
+                .build(GoogleApi20.instance());
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");

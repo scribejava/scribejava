@@ -3,66 +3,95 @@ package com.github.scribejava.core.builder;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.scribejava.core.builder.api.Api;
+import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class ServiceBuilderTest {
 
     private ServiceBuilder builder;
+    private ApiMock api;
 
     @Before
-    public void setup() {
+    public void setUp() {
         builder = new ServiceBuilder();
+        api = ApiMock.instance();
     }
 
     @Test
     public void shouldReturnConfigDefaultValues() {
-        builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").build();
-        assertEquals(ApiMock.config.getApiKey(), "key");
-        assertEquals(ApiMock.config.getApiSecret(), "secret");
-        assertEquals(ApiMock.config.getCallback(), OAuthConstants.OUT_OF_BAND);
-        assertEquals(ApiMock.config.getSignatureType(), SignatureType.Header);
+        builder.apiKey("key").apiSecret("secret").build(api);
+
+        final OAuthConfig config = api.getConfig();
+        assertEquals(config.getApiKey(), "key");
+        assertEquals(config.getApiSecret(), "secret");
+        assertEquals(config.getCallback(), OAuthConstants.OUT_OF_BAND);
+        assertEquals(config.getSignatureType(), SignatureType.Header);
     }
 
     @Test
     public void shouldAcceptValidCallbackUrl() {
-        builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").callback("http://example.com").build();
-        assertEquals(ApiMock.config.getApiKey(), "key");
-        assertEquals(ApiMock.config.getApiSecret(), "secret");
-        assertEquals(ApiMock.config.getCallback(), "http://example.com");
+        builder.apiKey("key").apiSecret("secret").callback("http://example.com").build(api);
+
+        final OAuthConfig config = api.getConfig();
+        assertEquals(config.getApiKey(), "key");
+        assertEquals(config.getApiSecret(), "secret");
+        assertEquals(config.getCallback(), "http://example.com");
     }
 
     @Test
     public void shouldAcceptASignatureType() {
-        builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").signatureType(SignatureType.QueryString).build();
-        assertEquals(ApiMock.config.getApiKey(), "key");
-        assertEquals(ApiMock.config.getApiSecret(), "secret");
-        assertEquals(ApiMock.config.getSignatureType(), SignatureType.QueryString);
+        builder.apiKey("key").apiSecret("secret").signatureType(SignatureType.QueryString).build(api);
+
+        final OAuthConfig config = api.getConfig();
+        assertEquals(config.getApiKey(), "key");
+        assertEquals(config.getApiSecret(), "secret");
+        assertEquals(config.getSignatureType(), SignatureType.QueryString);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotAcceptNullAsCallback() {
-        builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").callback(null).build();
+        builder.apiKey("key").apiSecret("secret").callback(null).build(api);
     }
 
     @Test
     public void shouldAcceptAnScope() {
-        builder.provider(ApiMock.class).apiKey("key").apiSecret("secret").scope("rss-api").build();
-        assertEquals(ApiMock.config.getApiKey(), "key");
-        assertEquals(ApiMock.config.getApiSecret(), "secret");
-        assertEquals(ApiMock.config.getScope(), "rss-api");
+        builder.apiKey("key").apiSecret("secret").scope("rss-api").build(api);
+
+        final OAuthConfig config = api.getConfig();
+        assertEquals(config.getApiKey(), "key");
+        assertEquals(config.getApiSecret(), "secret");
+        assertEquals(config.getScope(), "rss-api");
     }
 
-    public static class ApiMock implements Api {
+    private static class ApiMock extends DefaultApi20 {
 
-        public static OAuthConfig config;
+        private OAuthConfig config;
 
-        public OAuthService createService(OAuthConfig config) {
-            ApiMock.config = config;
+        private static ApiMock instance() {
+            return new ApiMock();
+        }
+
+        private OAuthConfig getConfig() {
+            return config;
+        }
+
+        @Override
+        public OAuth20Service createService(final OAuthConfig config) {
+            this.config = config;
             return null;
+        }
+
+        @Override
+        public String getAccessTokenEndpoint() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public String getAuthorizationUrl(final OAuthConfig config) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 }

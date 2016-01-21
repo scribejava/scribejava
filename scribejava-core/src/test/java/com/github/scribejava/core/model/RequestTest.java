@@ -5,8 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth.OAuthService;
+import java.net.MalformedURLException;
 
 public class RequestTest {
 
@@ -16,9 +17,9 @@ public class RequestTest {
     private OAuthService oAuthService;
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws MalformedURLException {
         connection = new ConnectionStub();
-        oAuthService = new OAuth20ServiceImpl(null, new OAuthConfig("test", "test"));
+        oAuthService = new OAuth20Service(null, new OAuthConfig("test", "test"));
         postRequest = new OAuthRequest(Verb.POST, "http://example.com", oAuthService);
         postRequest.addBodyParameter("param", "value");
         postRequest.addBodyParameter("param with spaces", "value with spaces");

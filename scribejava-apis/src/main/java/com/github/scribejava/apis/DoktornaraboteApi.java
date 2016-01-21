@@ -7,7 +7,7 @@ import com.github.scribejava.core.extractors.JsonTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -15,6 +15,17 @@ public class DoktornaraboteApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "http://auth.doktornarabote.ru/OAuth/Authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
     private static final String TOKEN_URL = "http://auth.doktornarabote.ru/OAuth/Token";
+
+    private DoktornaraboteApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final DoktornaraboteApi INSTANCE = new DoktornaraboteApi();
+    }
+
+    public static DoktornaraboteApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     @Override
     public Verb getAccessTokenVerb() {
@@ -27,7 +38,7 @@ public class DoktornaraboteApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(
             config.getCallback(),
             "Must provide a valid url as callback. Doktornarabote does not support OOB");
@@ -53,7 +64,7 @@ public class DoktornaraboteApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuthService createService(OAuthConfig config) {
+    public OAuth20Service createService(final OAuthConfig config) {
         return new DoktornaraboteOAuthServiceImpl(this, config);
     }
 }

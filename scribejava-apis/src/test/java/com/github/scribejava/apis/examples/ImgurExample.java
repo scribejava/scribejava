@@ -1,32 +1,30 @@
 package com.github.scribejava.apis.examples;
 
-import java.util.Scanner;
-
+import com.github.scribejava.apis.ImgurApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth.OAuthService;
 
-import com.github.scribejava.apis.HHApi;
+import java.util.Scanner;
 
-public abstract class HHExample {
+public abstract class ImgurExample {
 
-    private static final String NETWORK_NAME = "hh.ru";
-    private static final String PROTECTED_RESOURCE_URL = "https://api.hh.ru/me";
-    private static final Token EMPTY_TOKEN = null;
+    private static final String NETWORK_NAME = "Imgur";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.imgur.com/3/account/me";
 
     public static void main(final String... args) {
-        // Replace these with your own client id and secret
-        final String clientId = "your client id";
-        final String clientSecret = "your client secret";
-        final OAuthService service = new ServiceBuilder()
-                .apiKey(clientId)
-                .apiSecret(clientSecret)
-                .callback("http://your.site.com/callback")
-                .build(HHApi.instance());
+        // Replace these with your own api key and secret
+        final String apiKey = "your client id";
+        final String apiSecret = "your client secret";
+        final OAuth20Service service = new ServiceBuilder()
+                .apiKey(apiKey)
+                .apiSecret(apiSecret)
+                .build(ImgurApi.instance());
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
@@ -34,7 +32,7 @@ public abstract class HHExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        final String authorizationUrl = service.getOAuth2AuthorizationUrl();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -43,13 +41,14 @@ public abstract class HHExample {
         final Verifier verifier = new Verifier(in.nextLine());
         System.out.println();
 
-        // Trade the Request Token and Verfier for the Access Token
+        // Trade the Request Token and Verifier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+        final Token accessToken = service.getOAuth2AccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();
 
+        // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
         service.signRequest(accessToken, request);

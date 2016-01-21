@@ -9,6 +9,17 @@ public class LoveFilmApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "http://openapi.lovefilm.com/oauth/access_token";
     private static final String AUTHORIZE_URL = "https://www.lovefilm.com/activate?oauth_token=%s";
 
+    private LoveFilmApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final LoveFilmApi INSTANCE = new LoveFilmApi();
+    }
+
+    public static LoveFilmApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return REQUEST_TOKEN_URL;
@@ -20,7 +31,7 @@ public class LoveFilmApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

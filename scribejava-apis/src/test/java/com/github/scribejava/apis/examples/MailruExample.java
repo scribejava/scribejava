@@ -10,24 +10,23 @@ import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.apis.MailruApi;
 
-public class MailruExample {
+public abstract class MailruExample {
 
     private static final String NETWORK_NAME = "Mail.ru";
     private static final String PROTECTED_RESOURCE_URL = "http://www.appsmail.ru/platform/api?method=users.getInfo&secure=1";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(String[] args) {
+    public static void main(final String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        OAuthService service = new ServiceBuilder()
-                .provider(MailruApi.class)
+        final OAuthService service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
-                .build();
+                .build(MailruApi.instance());
 
-        Scanner in = new Scanner(System.in);
+        final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
@@ -51,9 +50,9 @@ public class MailruExample {
         System.out.println();
 
         System.out.println("Now we're going to access a protected resource...");
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
         service.signRequest(accessToken, request);
-        Response response = request.send();
+        final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getCode());

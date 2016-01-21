@@ -12,13 +12,24 @@ public class Foursquare2Api extends DefaultApi20 {
 
     private static final String AUTHORIZATION_URL = "https://foursquare.com/oauth2/authenticate?client_id=%s&response_type=code&redirect_uri=%s";
 
+    private Foursquare2Api() {
+    }
+
+    private static class InstanceHolder {
+        private static final Foursquare2Api INSTANCE = new Foursquare2Api();
+    }
+
+    public static Foursquare2Api instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getAccessTokenEndpoint() {
         return "https://foursquare.com/oauth2/access_token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Foursquare2 does not support OOB");
         return String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }

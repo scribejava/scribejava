@@ -13,23 +13,22 @@ import com.github.scribejava.core.oauth.OAuthService;
 
 import com.github.scribejava.apis.TutByApi;
 
-public class TutByExample {
+public abstract class TutByExample {
 
     private static final String NETWORK_NAME = "Tut.by";
     private static final String PROTECTED_RESOURCE_URL = "http://profile.tut.by/getInfo";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(String[] args) {
+    public static void main(final String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final OAuthService service = new ServiceBuilder()
-                .provider(TutByApi.class)
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .grantType(OAuthConstants.AUTHORIZATION_CODE)
                 .callback("http://www.example.com/oauth_callback/")
-                .build();
+                .build(TutByApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

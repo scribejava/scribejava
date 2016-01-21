@@ -16,6 +16,17 @@ public class SinaWeiboApi20 extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "https://api.weibo.com/oauth2/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
+    private SinaWeiboApi20() {
+    }
+
+    private static class InstanceHolder {
+        private static final SinaWeiboApi20 INSTANCE = new SinaWeiboApi20();
+    }
+
+    public static SinaWeiboApi20 instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public Verb getAccessTokenVerb() {
         return Verb.POST;
@@ -32,7 +43,7 @@ public class SinaWeiboApi20 extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         // Append scope if present
         if (config.hasScope()) {
             return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.

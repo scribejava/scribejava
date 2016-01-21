@@ -10,55 +10,55 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuthService;
 
-public class OdnoklassnikiExample {
+public abstract class OdnoklassnikiExample {
 
     private static final String NETWORK_NAME = "Odnoklassniki.ru";
     private static final String PROTECTED_RESOURCE_URL
             = "http://api.odnoklassniki.ru/api/users/getCurrentUser?application_key=%1$s&format=JSON";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(String[] args) {
+    public static void main(final String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String publicKey = "your api secret";
         final String clientSecret = "your client secret";
 
-        OAuthService service = new ServiceBuilder().provider(OdnoklassnikiApi.class)
+        final OAuthService service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("VALUABLE ACCESS")
                 .callback("http://your.site.com/callback")
-                .build();
+                .build(OdnoklassnikiApi.instance());
 
-        Scanner in = new Scanner(System.in);
+        final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
-        Verifier verifier = new Verifier(in.nextLine());
+        final Verifier verifier = new Verifier(in.nextLine());
         System.out.println();
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
 
-        Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+        final Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, publicKey), service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, publicKey), service);
         service.signRequest(accessToken, request);
-        Response response = request.send();
+        final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getCode());

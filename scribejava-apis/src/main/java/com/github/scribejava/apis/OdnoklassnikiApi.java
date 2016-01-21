@@ -6,7 +6,7 @@ import com.github.scribejava.core.extractors.AccessTokenExtractor;
 import com.github.scribejava.core.extractors.JsonTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -14,6 +14,17 @@ public class OdnoklassnikiApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "http://www.odnoklassniki.ru/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = String.format("%s&scope=%%s", AUTHORIZE_URL);
+
+    private OdnoklassnikiApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final OdnoklassnikiApi INSTANCE = new OdnoklassnikiApi();
+    }
+
+    public static OdnoklassnikiApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     @Override
     public String getAccessTokenEndpoint() {
@@ -26,7 +37,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    public String getAuthorizationUrl(final OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Odnoklassniki does not support OOB");
         if (config.hasScope()) {
             return String.format(
@@ -37,7 +48,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuthService createService(OAuthConfig config) {
+    public OAuth20Service createService(final OAuthConfig config) {
         return new OdnoklassnikiServiceImpl(this, config);
     }
 

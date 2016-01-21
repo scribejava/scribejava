@@ -9,13 +9,24 @@ public class PlurkApi extends DefaultApi10a {
     private static final String AUTHORIZATION_URL = "http://www.plurk.com/OAuth/authorize?oauth_token=%s";
     private static final String ACCESS_TOKEN_URL = "http://www.plurk.com/OAuth/access_token";
 
+    private PlurkApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final PlurkApi INSTANCE = new PlurkApi();
+    }
+
+    public static PlurkApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return REQUEST_TOKEN_URL;
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 
@@ -28,8 +39,19 @@ public class PlurkApi extends DefaultApi10a {
 
         private static final String AUTHORIZATION_URL = "http://www.plurk.com/m/authorize?oauth_token=%s";
 
+        private Mobile() {
+        }
+
+        private static class InstanceHolder {
+            private static final Mobile INSTANCE = new Mobile();
+        }
+
+        public static Mobile instance() {
+            return InstanceHolder.INSTANCE;
+        }
+
         @Override
-        public String getAuthorizationUrl(Token requestToken) {
+        public String getAuthorizationUrl(final Token requestToken) {
             return String.format(AUTHORIZATION_URL, requestToken.getToken());
         }
     }

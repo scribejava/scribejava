@@ -8,25 +8,25 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
-public class LinkedIn20Example {
+public abstract class LinkedIn20Example {
 
     private static final String NETWORK_NAME = "LinkedIn";
     private static final String PROTECTED_RESOURCE_URL = "https://api.linkedin.com/v1/people/~:(%s)";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(String[] args) {
+    public static void main(final String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        final OAuth20ServiceImpl service = (OAuth20ServiceImpl) new ServiceBuilder().provider(LinkedInApi20.class).
-                apiKey(clientId).apiSecret(clientSecret)
+        final OAuth20Service service = new ServiceBuilder()
+                .apiKey(clientId).apiSecret(clientSecret)
                 .scope("r_fullprofile,r_emailaddress,r_contactinfo") // replace with desired scope
                 .callback("http://example.com/callback")
                 .state("some_params")
-                .build();
-        Scanner in = new Scanner(System.in);
+                .build(LinkedInApi20.instance());
+        final Scanner in = new Scanner(System.in);
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
@@ -39,12 +39,12 @@ public class LinkedIn20Example {
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
-        Verifier verifier = new Verifier(in.nextLine());
+        final Verifier verifier = new Verifier(in.nextLine());
         System.out.println();
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+        final Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

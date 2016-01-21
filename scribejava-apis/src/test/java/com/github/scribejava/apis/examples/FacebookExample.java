@@ -9,7 +9,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuth20ServiceImpl;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class FacebookExample {
 
@@ -27,13 +27,12 @@ public abstract class FacebookExample {
         System.out.print(">>");
         final String clientSecret = in.nextLine();
         final String secretState = "state_" + new Random().nextInt(999_999);
-        final OAuth20ServiceImpl service = (OAuth20ServiceImpl)new ServiceBuilder()
-                .provider(FacebookApi.class)
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
-                .callback("http://localhost")
-                .build();
+                .callback("http://www.example.com/oauth_callback/")
+                .build(FacebookApi.instance());
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();

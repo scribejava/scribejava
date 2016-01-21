@@ -9,6 +9,17 @@ public class SohuWeiboApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "http://api.t.sohu.com/oauth/access_token";
     private static final String AUTHORIZE_URL = "http://api.t.sohu.com/oauth/authorize?oauth_token=%s";
 
+    private SohuWeiboApi() {
+    }
+
+    private static class InstanceHolder {
+        private static final SohuWeiboApi INSTANCE = new SohuWeiboApi();
+    }
+
+    public static SohuWeiboApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
     public String getRequestTokenEndpoint() {
         return REQUEST_TOKEN_URL;
@@ -20,7 +31,7 @@ public class SohuWeiboApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(final Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

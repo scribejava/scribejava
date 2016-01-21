@@ -25,19 +25,18 @@ public abstract class MailruAsyncExample {
 
         final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
-                .setRequestTimeout(10000)
+                .setRequestTimeout(10_000)
                 .setAllowPoolingConnections(false)
-                .setPooledConnectionIdleTimeout(1000)
-                .setReadTimeout(1000)
+                .setPooledConnectionIdleTimeout(1_000)
+                .setReadTimeout(1_000)
                 .build();
 
         final OAuthService service = new ServiceBuilderAsync()
-                .provider(MailruApi.class)
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
                 .asyncHttpClientConfig(clientConfig)
-                .build();
+                .build(MailruApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");
 
