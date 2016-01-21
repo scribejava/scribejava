@@ -13,18 +13,12 @@ public class GoogleToken extends OAuth2AccessToken {
      */
     private final String openIdToken;
 
-    public GoogleToken(final String token, final String rawResponse, final String openIdToken) {
-        super(token, rawResponse);
+    public GoogleToken(final String accessToken, final String tokenType, final String refreshToken, final Long expiresIn, String rawResponse, final String openIdToken) {
+        super(accessToken, tokenType, refreshToken, expiresIn, rawResponse);
         this.openIdToken = openIdToken;
     }
 
     public String getOpenIdToken() {
         return openIdToken;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("GoogleToken{'token'='%s', 'openIdToken'='%s']", getToken(),
-                openIdToken);
     }
 }

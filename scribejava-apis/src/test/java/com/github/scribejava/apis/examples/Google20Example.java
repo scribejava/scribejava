@@ -34,7 +34,7 @@ public abstract class Google20Example {
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
                 .state(secretState)
-                .callback("http://example.com/callback")
+                //.callback("http://example.com/callback")
                 .build(GoogleApi20.instance());
 
         // Obtain the Authorization URL
@@ -62,14 +62,14 @@ public abstract class Google20Example {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        OAuth2AccessToken accessToken = (OAuth2AccessToken)service.getOAuth2AccessToken(verifier);
+        OAuth2AccessToken accessToken = service.getOAuth2AccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if you're curious it looks like this: " + accessToken + " )");
         System.out.println("This token will expire in "+accessToken.getExpiresIn()+"ms");
         System.out.println();
         
         System.out.println("Refreshing the Access Token...");
-        accessToken = (OAuth2AccessToken)service.refreshOAuth2AccessToken(accessToken);
+        accessToken = service.refreshOAuth2AccessToken(accessToken);
         System.out.println("Refreshed the Access Token!");
         System.out.println("(if you're curious, the new one looks like this: " + accessToken + " )");
         System.out.println("This token will expire in "+accessToken.getExpiresIn()+"ms");

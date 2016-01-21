@@ -68,9 +68,9 @@ public abstract class FacebookExample {
         System.out.println("This token expires in "+accessToken.getExpiresIn()+"s");
         System.out.println();
 
-        System.out.println("We're going to get a longer-lived token now");
+        System.out.println("We're going to refresh the token now");
         accessToken = (OAuth2AccessToken)service.refreshOAuth2AccessToken(accessToken);
-        System.out.println("Got the long-lived Access Token!");
+        System.out.println("Got the refreshed Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println("This token expires in "+accessToken.getExpiresIn()+"s");
         System.out.println();
