@@ -3,6 +3,8 @@ package com.github.scribejava.core.extractors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.model.AccessToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
@@ -14,7 +16,7 @@ import com.github.scribejava.core.utils.Preconditions;
  *
  * @author Pablo Fernandez
  */
-public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExtractor {
+public class OAuth1AccessTokenExtractorImpl implements AccessTokenExtractor {
 
     private static final Pattern TOKEN_REGEX = Pattern.compile("oauth_token=([^&]+)");
     private static final Pattern SECRET_REGEX = Pattern.compile("oauth_token_secret=([^&]*)");
@@ -23,12 +25,12 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
      * {@inheritDoc}
      */
     @Override
-    public Token extract(final String response) {
+    public AccessToken extract(final String response) {
         Preconditions.checkEmptyString(response,
                 "Response body is incorrect. Can't extract a token from an empty string");
         final String token = extract(response, TOKEN_REGEX);
         final String secret = extract(response, SECRET_REGEX);
-        return new Token(token, secret, response);
+        return new OAuth1Token(token, secret, response);
     }
 
     private String extract(final String response, final Pattern p) {

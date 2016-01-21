@@ -2,6 +2,7 @@ package com.github.scribejava.apis.service;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Token;
@@ -15,7 +16,7 @@ public class LinkedIn20ServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public void signRequest(final Token accessToken, final AbstractRequest request) {
+    public void signRequest(final AccessToken accessToken, final AbstractRequest request) {
         request.addQuerystringParameter("oauth2_access_token", accessToken.getToken());
     }
 

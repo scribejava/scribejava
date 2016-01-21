@@ -7,6 +7,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth.OAuthService;
 
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public abstract class ImgurExample {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";
-        final OAuthService service = new ServiceBuilder()
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .build(ImgurApi.instance());
@@ -31,7 +32,7 @@ public abstract class ImgurExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(Token.empty());
+        final String authorizationUrl = service.getOAuth2AuthorizationUrl();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -42,7 +43,7 @@ public abstract class ImgurExample {
 
         // Trade the Request Token and Verifier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessToken(Token.empty(), verifier);
+        final Token accessToken = service.getOAuth2AccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

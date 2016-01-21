@@ -3,6 +3,7 @@ package com.github.scribejava.apis.service;
 import com.github.scribejava.apis.ImgurApi;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -17,7 +18,7 @@ public class ImgurOAuthServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public Token getAccessToken(final Token requestToken, final Verifier verifier) {
+    public AccessToken getAccessToken(final Token requestToken, final Verifier verifier) {
         final OAuthRequest request = new OAuthRequest(getApi().getAccessTokenVerb(),
                 getApi().getAccessTokenEndpoint(), this);
         request.addBodyParameter(OAuthConstants.CLIENT_ID, getConfig().getApiKey());
