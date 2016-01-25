@@ -5,4 +5,12 @@
 
 <module name="Checker">
     <property name="charset" value="UTF-8"/>
+    <module name="TreeWalker">
+        <module name="AnnotationLocation">
+            <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
+        </module>
+        <module name="AnnotationUseStyle"/>
+        <module name="MissingDeprecated"/>
+        <module name="MissingOverride"/>
+    </module>
 </module>

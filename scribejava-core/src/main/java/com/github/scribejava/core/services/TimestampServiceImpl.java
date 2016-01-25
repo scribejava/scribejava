@@ -21,6 +21,7 @@ public class TimestampServiceImpl implements TimestampService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getNonce() {
         Long ts = getTs();
         return String.valueOf(ts + timer.getRandomInteger());
@@ -29,6 +30,7 @@ public class TimestampServiceImpl implements TimestampService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getTimestampInSeconds() {
         return String.valueOf(getTs());
     }

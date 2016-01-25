@@ -23,6 +23,7 @@ public class RSASha1SignatureService implements SignatureService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getSignature(String baseString, String apiSecret, String tokenSecret) {
         try {
             Signature signature = Signature.getInstance(RSA_SHA1);
@@ -41,6 +42,7 @@ public class RSASha1SignatureService implements SignatureService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getSignatureMethod() {
         return METHOD;
     }
