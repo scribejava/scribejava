@@ -23,5 +23,7 @@
         <module name="HideUtilityClassConstructor"/>
         <module name="OneTopLevelClass"/>
         <module name="VisibilityModifier"/>
+        <module name="CovariantEquals"/>
+        <module name="DeclarationOrder"/>
     </module>
 </module>

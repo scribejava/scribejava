@@ -11,12 +11,12 @@ import com.github.scribejava.core.oauth.OAuthService;
 
 public class ForceTypeOfHttpRequestTest {
 
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     private OAuthRequest request;
     private OAuthRequestAsync requestAsync;
     private OAuthService oAuthService;
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {

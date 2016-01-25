@@ -8,14 +8,6 @@ public class LinkedInApi extends DefaultApi10a {
     private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
     private static final String REQUEST_TOKEN_URL = "https://api.linkedin.com/uas/oauth/requestToken";
 
-    private static class InstanceHolder {
-        private static final LinkedInApi INSTANCE = new LinkedInApi();
-    }
-
-    public static LinkedInApi instance() {
-        return InstanceHolder.INSTANCE;
-    }
-
     private final String scopesAsString;
 
     public LinkedInApi() {
@@ -32,6 +24,15 @@ public class LinkedInApi extends DefaultApi10a {
             }
             scopesAsString = "?scope=" + builder.substring(1);
         }
+    }
+
+    private static class InstanceHolder {
+
+        private static final LinkedInApi INSTANCE = new LinkedInApi();
+    }
+
+    public static LinkedInApi instance() {
+        return InstanceHolder.INSTANCE;
     }
 
     @Override

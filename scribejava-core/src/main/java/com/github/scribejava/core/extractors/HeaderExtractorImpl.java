@@ -15,9 +15,9 @@ import com.github.scribejava.core.utils.Preconditions;
  */
 public class HeaderExtractorImpl implements HeaderExtractor {
 
+    public static final int ESTIMATED_PARAM_LENGTH = 20;
     private static final String PARAM_SEPARATOR = ", ";
     private static final String PREAMBLE = "OAuth ";
-    public static final int ESTIMATED_PARAM_LENGTH = 20;
 
     /**
      * {@inheritDoc}
