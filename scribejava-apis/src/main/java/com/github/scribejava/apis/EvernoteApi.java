@@ -31,7 +31,7 @@ public class EvernoteApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(serviceUrl() + "/OAuth.action?oauth_token=%s", requestToken.getToken());
     }
 

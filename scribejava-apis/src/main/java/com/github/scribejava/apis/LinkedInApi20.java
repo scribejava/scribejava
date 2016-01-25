@@ -40,7 +40,7 @@ public class LinkedInApi20 extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. LinkedIn does not support OOB");
 
         if (config.hasScope()) {
@@ -58,7 +58,7 @@ public class LinkedInApi20 extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new LinkedIn20ServiceImpl(this, config);
     }
 }

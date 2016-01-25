@@ -9,7 +9,7 @@ public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAs
     private AsyncHttpClientConfig asyncHttpClientConfig;
     private String asyncHttpProviderClassName;
 
-    public ServiceBuilderAsync asyncHttpClientConfig(final AsyncHttpClientConfig asyncHttpClientConfig) {
+    public ServiceBuilderAsync asyncHttpClientConfig(AsyncHttpClientConfig asyncHttpClientConfig) {
         Preconditions.checkNotNull(asyncHttpClientConfig, "asyncHttpClientConfig can't be null");
         this.asyncHttpClientConfig = asyncHttpClientConfig;
         return this;
@@ -31,7 +31,7 @@ public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAs
         return configAsync;
     }
 
-    public ServiceBuilderAsync asyncHttpProviderClassName(final String asyncHttpProviderClassName) {
+    public ServiceBuilderAsync asyncHttpProviderClassName(String asyncHttpProviderClassName) {
         this.asyncHttpProviderClassName = asyncHttpProviderClassName;
         return this;
     }

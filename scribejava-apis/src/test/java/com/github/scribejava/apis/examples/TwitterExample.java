@@ -14,7 +14,7 @@ public abstract class TwitterExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.twitter.com/1.1/account/verify_credentials.json";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

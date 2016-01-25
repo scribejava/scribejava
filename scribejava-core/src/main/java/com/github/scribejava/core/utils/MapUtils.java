@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public abstract class MapUtils {
 
-    public static <K, V> String toString(final Map<K, V> map) {
+    public static <K, V> String toString(Map<K, V> map) {
         if (map == null) {
             return "";
         }
@@ -16,7 +16,7 @@ public abstract class MapUtils {
         }
 
         final StringBuilder result = new StringBuilder();
-        for (final Map.Entry<K, V> entry : map.entrySet()) {
+        for (Map.Entry<K, V> entry : map.entrySet()) {
             result.append(String.format(", %s -> %s ", entry.getKey().toString(), entry.getValue().toString()));
         }
         return "{" + result.substring(1) + "}";

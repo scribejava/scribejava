@@ -9,12 +9,12 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class TutByOAuthServiceImpl extends OAuth20Service {
 
-    public TutByOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
+    public TutByOAuthServiceImpl(DefaultApi20 api, OAuthConfig config) {
         super(api, config);
     }
 
     @Override
-    public void signRequest(final Token accessToken, final AbstractRequest request) {
+    public void signRequest(Token accessToken, AbstractRequest request) {
         request.addQuerystringParameter(OAuthConstants.TOKEN, accessToken.getToken());
     }
 

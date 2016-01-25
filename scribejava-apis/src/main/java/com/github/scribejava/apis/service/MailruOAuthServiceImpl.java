@@ -16,12 +16,12 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class MailruOAuthServiceImpl extends OAuth20Service {
 
-    public MailruOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
+    public MailruOAuthServiceImpl(DefaultApi20 api, OAuthConfig config) {
         super(api, config);
     }
 
     @Override
-    public void signRequest(final Token accessToken, final AbstractRequest request) {
+    public void signRequest(Token accessToken, AbstractRequest request) {
         // sig = md5(params + secret_key)
         request.addQuerystringParameter("session_key", accessToken.getToken());
         request.addQuerystringParameter("app_id", getConfig().getApiKey());
@@ -33,12 +33,12 @@ public class MailruOAuthServiceImpl extends OAuth20Service {
             if (queryIndex != -1) {
                 final String urlPart = completeUrl.substring(queryIndex + 1);
                 final Map<String, String> map = new TreeMap<>();
-                for (final String param : urlPart.split("&")) {
+                for (String param : urlPart.split("&")) {
                     final String[] parts = param.split("=");
                     map.put(parts[0], (parts.length == 1) ? "" : parts[1]);
                 }
                 final StringBuilder urlNew = new StringBuilder();
-                for (final Map.Entry<String, String> entry : map.entrySet()) {
+                for (Map.Entry<String, String> entry : map.entrySet()) {
                     urlNew.append(entry.getKey());
                     urlNew.append('=');
                     urlNew.append(entry.getValue());
@@ -52,7 +52,7 @@ public class MailruOAuthServiceImpl extends OAuth20Service {
     }
 
     @Override
-    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, final T request) {
+    protected <T extends AbstractRequest> T createAccessTokenRequest(Verifier verifier, T request) {
         super.createAccessTokenRequest(verifier, request);
         if (!getConfig().hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");

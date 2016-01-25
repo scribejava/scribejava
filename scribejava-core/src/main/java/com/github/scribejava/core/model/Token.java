@@ -22,11 +22,11 @@ public class Token implements Serializable {
      * @param token token value. Can't be null.
      * @param secret token secret. Can't be null.
      */
-    public Token(final String token, final String secret) {
+    public Token(String token, String secret) {
         this(token, secret, null);
     }
 
-    public Token(final String token, final String secret, final String rawResponse) {
+    public Token(String token, String secret, String rawResponse) {
         Preconditions.checkNotNull(token, "Token can't be null");
         Preconditions.checkNotNull(secret, "Secret can't be null");
 
@@ -55,7 +55,7 @@ public class Token implements Serializable {
         String value = null;
         for (String str : this.getRawResponse().split("&")) {
             if (str.startsWith(parameter + '=')) {
-                String[] part = str.split("=");
+                final String[] part = str.split("=");
                 if (part.length > 1) {
                     value = part[1].trim();
                 }
@@ -89,7 +89,7 @@ public class Token implements Serializable {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }

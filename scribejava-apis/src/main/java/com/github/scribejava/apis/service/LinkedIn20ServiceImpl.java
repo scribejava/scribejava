@@ -10,17 +10,17 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class LinkedIn20ServiceImpl extends OAuth20Service {
 
-    public LinkedIn20ServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
+    public LinkedIn20ServiceImpl(DefaultApi20 api, OAuthConfig config) {
         super(api, config);
     }
 
     @Override
-    public void signRequest(final Token accessToken, final AbstractRequest request) {
+    public void signRequest(Token accessToken, AbstractRequest request) {
         request.addQuerystringParameter("oauth2_access_token", accessToken.getToken());
     }
 
     @Override
-    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, final T request) {
+    protected <T extends AbstractRequest> T createAccessTokenRequest(Verifier verifier, T request) {
         super.createAccessTokenRequest(verifier, request);
         if (!getConfig().hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");

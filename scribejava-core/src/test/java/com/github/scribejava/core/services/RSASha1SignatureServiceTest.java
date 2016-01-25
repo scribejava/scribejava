@@ -13,16 +13,16 @@ public class RSASha1SignatureServiceTest {
 
     @Test
     public void shouldReturnSignatureMethodString() {
-        String expected = "RSA-SHA1";
+        final String expected = "RSA-SHA1";
         assertEquals(expected, service.getSignatureMethod());
     }
 
     @Test
     public void shouldReturnSignature() {
-        String apiSecret = "api secret";
-        String tokenSecret = "token secret";
-        String baseString = "base string";
-        String signature
+        final String apiSecret = "api secret";
+        final String tokenSecret = "token secret";
+        final String baseString = "base string";
+        final String signature
                 = "LUNRzQAlpdNyM9mLXm96Va6g/qVNnEAb7p7K1KM0g8IopOFQJPoOO7cvppgt7w3QyhijWJnCmvqXaaIAGrqvdyr3fIzBULh8D/iZQUNLMi08GCOA34P81XBvsc7A5uJjPDsGhJg2MzoVJ8nWJhU/lMMk4c92S1WGskeoDofRwpo=";
         assertEquals(signature, service.getSignature(baseString, apiSecret, tokenSecret));
     }
@@ -34,7 +34,7 @@ public class RSASha1SignatureServiceTest {
      * /tmp/myrsacert.pem openssl pkcs8 -in myrsakey.pem -topk8 -nocrypt -out myrsakey.pk8
      */
     private static PrivateKey getPrivateKey() {
-        String str = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMPQ5BCMxlUq2TYy\n"
+        final String str = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMPQ5BCMxlUq2TYy\n"
                 + "iRIoEUsz6HGTJhHuasS2nx1Se4Co3lxwxyubVdFj8AuhHNJSmJvjlpbTsGOjLZpr\n"
                 + "HyDEDdJmf1Fensh1MhUnBZ4a7uLrZrKzFHHJdamX9pxapB89vLeHlCot9hVXdrZH\n"
                 + "nNtg6FdmRKH/8gbs8iDyIayFvzYDAgMBAAECgYA+c9MpTBy9cQsR9BAvkEPjvkx2\n"
@@ -49,8 +49,8 @@ public class RSASha1SignatureServiceTest {
                 + "wJ3juUsVtujV23SnH43iMggXT7m82STpPGam1hPfmqu2Z0niePFo927ogQ7H1EMJ\n" + "UHgqXmuvk2X/Ww==";
 
         try {
-            KeyFactory fac = KeyFactory.getInstance("RSA");
-            PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(DatatypeConverter.parseBase64Binary(str));
+            final KeyFactory fac = KeyFactory.getInstance("RSA");
+            final PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(DatatypeConverter.parseBase64Binary(str));
             return fac.generatePrivate(privKeySpec);
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -34,7 +34,7 @@ public class FlickrApi extends DefaultApi10a {
      * {@inheritDoc}
      */
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return "https://www.flickr.com/services/oauth/authorize?oauth_token=" + requestToken.getToken();
     }
 

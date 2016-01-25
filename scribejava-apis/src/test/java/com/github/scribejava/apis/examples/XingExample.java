@@ -14,7 +14,7 @@ public abstract class XingExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.xing.com/v1/users/me";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

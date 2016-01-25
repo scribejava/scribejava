@@ -17,7 +17,7 @@ public abstract class GoogleExample {
     private static final String PROTECTED_RESOURCE_URL = "https://docs.google.com/feeds/default/private/full/";
     private static final String SCOPE = "https://docs.google.com/feeds/";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("anonymous")
                 .apiSecret("anonymous")

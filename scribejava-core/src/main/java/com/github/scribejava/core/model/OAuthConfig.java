@@ -21,13 +21,12 @@ public class OAuthConfig {
     private final Integer readTimeout;
     private String state;
 
-    public OAuthConfig(final String key, final String secret) {
+    public OAuthConfig(String key, String secret) {
         this(key, secret, null, null, null, null, null, null, null);
     }
 
-    public OAuthConfig(final String key, final String secret, final String callback, final SignatureType type,
-            final String scope, final OutputStream stream, final Integer connectTimeout, final Integer readTimeout,
-            final String grantType) {
+    public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope,
+            OutputStream stream, Integer connectTimeout, Integer readTimeout, String grantType) {
         this.apiKey = key;
         this.apiSecret = secret;
         this.callback = callback;
@@ -95,7 +94,7 @@ public class OAuthConfig {
      *
      * @param state some secret key that client side shall never receive
      */
-    public void setState(final String state) {
+    public void setState(String state) {
         this.state = state;
     }
 

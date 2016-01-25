@@ -14,7 +14,7 @@ public abstract class FoursquareExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.foursquare.com/v1/user";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

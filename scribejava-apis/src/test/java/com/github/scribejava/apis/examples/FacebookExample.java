@@ -17,7 +17,7 @@ public abstract class FacebookExample {
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.2/me";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";

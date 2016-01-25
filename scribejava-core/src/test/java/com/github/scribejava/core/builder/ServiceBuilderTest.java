@@ -79,7 +79,7 @@ public class ServiceBuilderTest {
         }
 
         @Override
-        public OAuth20Service createService(final OAuthConfig config) {
+        public OAuth20Service createService(OAuthConfig config) {
             this.config = config;
             return null;
         }
@@ -90,7 +90,7 @@ public class ServiceBuilderTest {
         }
 
         @Override
-        public String getAuthorizationUrl(final OAuthConfig config) {
+        public String getAuthorizationUrl(OAuthConfig config) {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }

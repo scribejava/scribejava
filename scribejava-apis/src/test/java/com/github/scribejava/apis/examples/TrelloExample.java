@@ -16,7 +16,7 @@ public abstract class TrelloExample {
     private static final String API_SECRET = "your_api_secret";
     private static final String PROTECTED_RESOURCE_URL = "https://trello.com/1/members/me";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey(API_KEY)
                 .apiSecret(API_SECRET)

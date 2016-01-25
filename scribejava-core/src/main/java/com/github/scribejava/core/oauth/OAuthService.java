@@ -25,7 +25,7 @@ public abstract class OAuthService {
     private final OAuthConfig config;
     private AsyncHttpClient asyncHttpClient;
 
-    public OAuthService(final OAuthConfig config) {
+    public OAuthService(OAuthConfig config) {
         this.config = config;
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
         if (config instanceof OAuthConfigAsync) {

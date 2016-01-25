@@ -15,7 +15,7 @@ public abstract class DiggExample {
     private static final String NETWORK_NAME = "Digg";
     private static final String PROTECTED_RESOURCE_URL = "http://services.digg.com/2.0/comment.digg";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "myKey";
         final String apiSecret = "mySecret";

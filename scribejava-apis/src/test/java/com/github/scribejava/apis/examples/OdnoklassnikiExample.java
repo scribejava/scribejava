@@ -17,7 +17,7 @@ public abstract class OdnoklassnikiExample {
             = "http://api.odnoklassniki.ru/api/users/getCurrentUser?application_key=%1$s&format=JSON";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String publicKey = "your api secret";

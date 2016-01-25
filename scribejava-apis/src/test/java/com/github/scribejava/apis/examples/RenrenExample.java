@@ -25,7 +25,7 @@ public abstract class RenrenExample {
     private static final String PROTECTED_RESOURCE_URL = "http://api.renren.com/restserver.do";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";
@@ -67,14 +67,14 @@ public abstract class RenrenExample {
         parameters.put("v", "1.0");
 
         final List<String> sigString = new ArrayList<>(parameters.size() + 1);
-        for (final Map.Entry<String, String> entry : parameters.entrySet()) {
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
             request.addQuerystringParameter(entry.getKey(), entry.getValue());
             sigString.add(String.format("%s=%s", entry.getKey(), entry.getValue()));
         }
         sigString.add(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getToken()));
         Collections.sort(sigString);
         final StringBuilder b = new StringBuilder();
-        for (final String param : sigString) {
+        for (String param : sigString) {
             b.append(param);
         }
         b.append(apiSecret);
@@ -92,7 +92,7 @@ public abstract class RenrenExample {
 
     }
 
-    public static String md5(final String orgString) {
+    public static String md5(String orgString) {
         try {
             final MessageDigest md = MessageDigest.getInstance("MD5");
             final byte[] array = md.digest(orgString.getBytes(Charset.forName("UTF-8")));

@@ -16,7 +16,7 @@ public abstract class SinaWeibo2Example {
     private static final String PROTECTED_RESOURCE_URL = "https://api.weibo.com/2/account/get_uid.json";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your_api_key";
         final String apiSecret = "your_api_secret";

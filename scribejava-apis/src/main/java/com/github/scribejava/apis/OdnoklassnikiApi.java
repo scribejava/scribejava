@@ -37,7 +37,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Odnoklassniki does not support OOB");
         if (config.hasScope()) {
             return String.format(
@@ -48,7 +48,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new OdnoklassnikiServiceImpl(this, config);
     }
 

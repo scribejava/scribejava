@@ -14,13 +14,13 @@ public class ServiceBuilder extends AbstractServiceBuilder<ServiceBuilder> {
     private Integer connectTimeout;
     private Integer readTimeout;
 
-    public ServiceBuilder connectTimeout(final Integer connectTimeout) {
+    public ServiceBuilder connectTimeout(Integer connectTimeout) {
         Preconditions.checkNotNull(connectTimeout, "Connection timeout can't be null");
         this.connectTimeout = connectTimeout;
         return this;
     }
 
-    public ServiceBuilder readTimeout(final Integer readTimeout) {
+    public ServiceBuilder readTimeout(Integer readTimeout) {
         Preconditions.checkNotNull(readTimeout, "Read timeout can't be null");
         this.readTimeout = readTimeout;
         return this;

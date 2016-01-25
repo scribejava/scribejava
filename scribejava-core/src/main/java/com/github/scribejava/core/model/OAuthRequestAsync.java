@@ -16,12 +16,12 @@ public class OAuthRequestAsync extends AbstractRequest {
 
     public static final ResponseConverter<Response> RESPONSE_CONVERTER = new ResponseConverter<Response>() {
         @Override
-        public Response convert(final com.ning.http.client.Response response) throws IOException {
+        public Response convert(com.ning.http.client.Response response) throws IOException {
             final FluentCaseInsensitiveStringsMap map = response.getHeaders();
             final Map<String, String> headersMap = new HashMap<>();
-            for (final FluentCaseInsensitiveStringsMap.Entry<String, List<String>> header : map) {
+            for (FluentCaseInsensitiveStringsMap.Entry<String, List<String>> header : map) {
                 final StringBuilder value = new StringBuilder();
-                for (final String str : header.getValue()) {
+                for (String str : header.getValue()) {
                     value.append(str);
                 }
                 headersMap.put(header.getKey(), value.toString());
@@ -31,15 +31,15 @@ public class OAuthRequestAsync extends AbstractRequest {
         }
     };
 
-    public OAuthRequestAsync(final Verb verb, final String url, final OAuthService service) {
+    public OAuthRequestAsync(Verb verb, String url, OAuthService service) {
         super(verb, url, service);
     }
 
-    public <T> Future<T> sendAsync(final OAuthAsyncRequestCallback<T> callback, final ResponseConverter<T> converter) {
+    public <T> Future<T> sendAsync(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
         return sendAsync(callback, converter, null);
     }
 
-    public <T> Future<T> sendAsync(final OAuthAsyncRequestCallback<T> callback, final ResponseConverter<T> converter, final ProxyServer proxyServer) {
+    public <T> Future<T> sendAsync(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter, ProxyServer proxyServer) {
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
         if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
             throw new OAuthException("Cannot use async operations, only sync");
@@ -71,13 +71,13 @@ public class OAuthRequestAsync extends AbstractRequest {
         private final OAuthAsyncRequestCallback<T> callback;
         private final ResponseConverter<T> converter;
 
-        OAuthAsyncCompletionHandler(final OAuthAsyncRequestCallback<T> callback, final ResponseConverter<T> converter) {
+        OAuthAsyncCompletionHandler(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
             this.callback = callback;
             this.converter = converter;
         }
 
         @Override
-        public T onCompleted(final com.ning.http.client.Response response) throws IOException {
+        public T onCompleted(com.ning.http.client.Response response) throws IOException {
             final T t = converter.convert(response);
             if (callback != null) {
                 callback.onCompleted(t);
@@ -86,18 +86,18 @@ public class OAuthRequestAsync extends AbstractRequest {
         }
 
         @Override
-        public void onThrowable(final Throwable t) {
+        public void onThrowable(Throwable t) {
             if (callback != null) {
                 callback.onThrowable(t);
             }
         }
     };
 
-    public Future<Response> sendAsync(final OAuthAsyncRequestCallback<Response> callback) {
+    public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback) {
         return sendAsync(callback, RESPONSE_CONVERTER, null);
     }
 
-    public Future<Response> sendAsync(final OAuthAsyncRequestCallback<Response> callback, final ProxyServer proxyServer) {
+    public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback, ProxyServer proxyServer) {
         return sendAsync(callback, RESPONSE_CONVERTER, proxyServer);
     }
 

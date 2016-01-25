@@ -14,12 +14,12 @@ public class LinkedInApi extends DefaultApi10a {
         scopesAsString = null;
     }
 
-    public LinkedInApi(final String... scopes) {
+    public LinkedInApi(String... scopes) {
         if (scopes == null || scopes.length == 0) {
             scopesAsString = null;
         } else {
             final StringBuilder builder = new StringBuilder();
-            for (final String scope : scopes) {
+            for (String scope : scopes) {
                 builder.append('+').append(scope);
             }
             scopesAsString = "?scope=" + builder.substring(1);
@@ -46,7 +46,7 @@ public class LinkedInApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 }

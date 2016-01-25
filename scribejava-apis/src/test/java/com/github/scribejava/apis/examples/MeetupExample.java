@@ -14,7 +14,7 @@ public abstract class MeetupExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.meetup.com/2/member/self";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

@@ -26,7 +26,7 @@ public class RSASha1SignatureService implements SignatureService {
     @Override
     public String getSignature(String baseString, String apiSecret, String tokenSecret) {
         try {
-            Signature signature = Signature.getInstance(RSA_SHA1);
+            final Signature signature = Signature.getInstance(RSA_SHA1);
             signature.initSign(privateKey);
             signature.update(baseString.getBytes(UTF8));
             return bytesToBase64String(signature);

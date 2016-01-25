@@ -54,7 +54,7 @@ public class ConnectionStub extends HttpURLConnection {
 
     @Override
     public OutputStream getOutputStream() throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write("contents".getBytes());
         return baos;
     }

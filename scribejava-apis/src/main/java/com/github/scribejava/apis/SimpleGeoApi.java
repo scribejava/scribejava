@@ -32,7 +32,7 @@ public class SimpleGeoApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return ENDPOINT;
     }
 }

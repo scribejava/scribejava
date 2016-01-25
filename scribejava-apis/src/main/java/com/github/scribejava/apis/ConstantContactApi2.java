@@ -20,7 +20,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
     private static final AccessTokenExtractor ACCESS_TOKEN_EXTRACTOR = new AccessTokenExtractor() {
 
         @Override
-        public Token extract(final String response) {
+        public Token extract(String response) {
             Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
 
             final String regex = "\"access_token\"\\s*:\\s*\"([^&\"]+)\"";
@@ -51,7 +51,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
 

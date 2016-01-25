@@ -20,20 +20,20 @@ public class ParameterListTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenAppendingNullMapToQuerystring() {
-        String url = null;
+        final String url = null;
         params.appendTo(url);
     }
 
     @Test
     public void shouldAppendNothingToQuerystringIfGivenEmptyMap() {
-        String url = "http://www.example.com";
+        final String url = "http://www.example.com";
         Assert.assertEquals(url, params.appendTo(url));
     }
 
     @Test
     public void shouldAppendParametersToSimpleUrl() {
         String url = "http://www.example.com";
-        String expectedUrl = "http://www.example.com?param1=value1&param2=value%20with%20spaces";
+        final String expectedUrl = "http://www.example.com?param1=value1&param2=value%20with%20spaces";
 
         params.add("param1", "value1");
         params.add("param2", "value with spaces");
@@ -45,7 +45,7 @@ public class ParameterListTest {
     @Test
     public void shouldAppendParametersToUrlWithQuerystring() {
         String url = "http://www.example.com?already=present";
-        String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=value%20with%20spaces";
+        final String expectedUrl = "http://www.example.com?already=present&param1=value1&param2=value%20with%20spaces";
 
         params.add("param1", "value1");
         params.add("param2", "value with spaces");

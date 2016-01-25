@@ -37,7 +37,7 @@ public class GoogleApi20 extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(
                 config.getCallback()), OAuthEncoder.encode(config.getScope())));
 
@@ -54,7 +54,7 @@ public class GoogleApi20 extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new GoogleOAuthServiceImpl(this, config);
     }
 }

@@ -18,7 +18,7 @@ public abstract class AWeberExample {
     private static final String CONSUMER_KEY = "";
     private static final String CONSUMER_SECRET = "";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)

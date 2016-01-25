@@ -14,7 +14,7 @@ public abstract class TumblrExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.tumblr.com/v2/user/info";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("MY_CONSUMER_KEY")
                 .apiSecret("MY_CONSUMER_SECRET")

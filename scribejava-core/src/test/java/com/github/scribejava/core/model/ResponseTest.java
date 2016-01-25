@@ -42,7 +42,7 @@ public class ResponseTest {
 
     @Test
     public void shouldHandleAConnectionWithErrors() throws Exception {
-        Response errResponse = new Response(new FaultyConnection());
+        final Response errResponse = new Response(new FaultyConnection());
         assertEquals(400, errResponse.getCode());
         assertEquals("errors", errResponse.getBody());
     }

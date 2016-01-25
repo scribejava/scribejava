@@ -33,7 +33,7 @@ public class OAuth10aService extends OAuthService {
      * @param api OAuth1.0a api information
      * @param config OAuth 1.0a configuration param object
      */
-    public OAuth10aService(final DefaultApi10a api, final OAuthConfig config) {
+    public OAuth10aService(DefaultApi10a api, OAuthConfig config) {
         super(config);
         this.api = api;
     }
@@ -58,7 +58,7 @@ public class OAuth10aService extends OAuthService {
         return api.getRequestTokenExtractor().extract(body);
     }
 
-    private void addOAuthParams(final AbstractRequest request, final Token token) {
+    private void addOAuthParams(AbstractRequest request, Token token) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
         request.addOAuthParameter(OAuthConstants.NONCE, api.getTimestampService().getNonce());
@@ -74,7 +74,7 @@ public class OAuth10aService extends OAuthService {
     }
 
     @Override
-    public Token getAccessToken(final Token requestToken, final Verifier verifier) {
+    public Token getAccessToken(Token requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
@@ -84,26 +84,26 @@ public class OAuth10aService extends OAuthService {
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(final Token requestToken, final Verifier verifier, final OAuthAsyncRequestCallback<Token> callback) {
+    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(final Token requestToken, final Verifier verifier, final OAuthAsyncRequestCallback<Token> callback,
-            final ProxyServer proxyServer) {
+    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
+            ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
             @Override
-            public Token convert(final com.ning.http.client.Response response) throws IOException {
+            public Token convert(com.ning.http.client.Response response) throws IOException {
                 return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
         }, proxyServer);
     }
 
-    private void prepareAccessTokenRequest(final AbstractRequest request, final Token requestToken, final Verifier verifier) {
+    private void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
@@ -116,7 +116,7 @@ public class OAuth10aService extends OAuthService {
      * {@inheritDoc}
      */
     @Override
-    public void signRequest(final Token token, final AbstractRequest request) {
+    public void signRequest(Token token, AbstractRequest request) {
         final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());
 
@@ -141,11 +141,11 @@ public class OAuth10aService extends OAuthService {
      * {@inheritDoc}
      */
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return api.getAuthorizationUrl(requestToken);
     }
 
-    private String getSignature(final AbstractRequest request, final Token token) {
+    private String getSignature(AbstractRequest request, Token token) {
         final OAuthConfig config = getConfig();
         config.log("generating signature...");
         config.log("using base64 encoder: " + Base64Encoder.type());
@@ -158,7 +158,7 @@ public class OAuth10aService extends OAuthService {
         return signature;
     }
 
-    private void appendSignature(final AbstractRequest request) {
+    private void appendSignature(AbstractRequest request) {
         final OAuthConfig config = getConfig();
         switch (config.getSignatureType()) {
             case Header:
@@ -170,7 +170,7 @@ public class OAuth10aService extends OAuthService {
             case QueryString:
                 config.log("using Querystring signature");
 
-                for (final Map.Entry<String, String> entry : request.getOauthParameters().entrySet()) {
+                for (Map.Entry<String, String> entry : request.getOauthParameters().entrySet()) {
                     request.addQuerystringParameter(entry.getKey(), entry.getValue());
                 }
                 break;

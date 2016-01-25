@@ -37,7 +37,7 @@ public class MailruApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Mail.ru does not support OOB");
         if (config.hasScope()) { // Appending scope if present
             return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.
@@ -48,7 +48,7 @@ public class MailruApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new MailruOAuthServiceImpl(this, config);
     }
 

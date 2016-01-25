@@ -40,7 +40,7 @@ public class FreelancerApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 
@@ -70,7 +70,7 @@ public class FreelancerApi extends DefaultApi10a {
         }
 
         @Override
-        public String getAuthorizationUrl(final Token requestToken) {
+        public String getAuthorizationUrl(Token requestToken) {
             return String.format(SANDBOX_AUTHORIZATION_URL + "?oauth_token=%s", requestToken.getToken());
         }
     }

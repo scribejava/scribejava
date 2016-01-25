@@ -20,7 +20,7 @@ public abstract class VkontakteExample {
     private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/friends.get";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";

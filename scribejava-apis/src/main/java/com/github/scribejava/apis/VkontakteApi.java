@@ -33,7 +33,7 @@ public class VkontakteApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Vkontakte does not support OOB");
         if (config.hasScope()) { // Appending scope if present
             return String.format(

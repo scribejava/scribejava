@@ -12,7 +12,7 @@ public class Parameter implements Comparable<Parameter> {
     private final String key;
     private final String value;
 
-    public Parameter(final String key, final String value) {
+    public Parameter(String key, String value) {
         this.key = key;
         this.value = value;
     }
@@ -22,7 +22,7 @@ public class Parameter implements Comparable<Parameter> {
     }
 
     @Override
-    public boolean equals(final Object other) {
+    public boolean equals(Object other) {
         if (other == null) {
             return false;
         }
@@ -51,7 +51,7 @@ public class Parameter implements Comparable<Parameter> {
     }
 
     @Override
-    public int compareTo(final Parameter parameter) {
+    public int compareTo(Parameter parameter) {
         final int keyDiff = key.compareTo(parameter.getKey());
 
         return keyDiff == 0 ? value.compareTo(parameter.getValue()) : keyDiff;

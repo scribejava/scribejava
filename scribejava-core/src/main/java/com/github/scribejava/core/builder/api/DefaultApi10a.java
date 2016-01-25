@@ -126,7 +126,7 @@ public abstract class DefaultApi10a implements Api {
     public abstract String getAuthorizationUrl(Token requestToken);
 
     @Override
-    public OAuth10aService createService(final OAuthConfig config) {
+    public OAuth10aService createService(OAuthConfig config) {
         return new OAuth10aService(this, config);
     }
 }

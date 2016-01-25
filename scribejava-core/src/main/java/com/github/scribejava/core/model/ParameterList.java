@@ -23,18 +23,18 @@ public class ParameterList {
         params = new ArrayList<>();
     }
 
-    ParameterList(final List<Parameter> params) {
+    ParameterList(List<Parameter> params) {
         this.params = new ArrayList<>(params);
     }
 
-    public ParameterList(final Map<String, String> map) {
+    public ParameterList(Map<String, String> map) {
         this();
-        for (final Map.Entry<String, String> entry : map.entrySet()) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             params.add(new Parameter(entry.getKey(), entry.getValue()));
         }
     }
 
-    public void add(final String key, final String value) {
+    public void add(String key, String value) {
         params.add(new Parameter(key, value));
     }
 
@@ -60,19 +60,19 @@ public class ParameterList {
         }
 
         final StringBuilder builder = new StringBuilder();
-        for (final Parameter p : params) {
+        for (Parameter p : params) {
             builder.append('&').append(p.asUrlEncodedPair());
         }
         return builder.toString().substring(1);
     }
 
-    public void addAll(final ParameterList other) {
+    public void addAll(ParameterList other) {
         params.addAll(other.getParams());
     }
 
-    public void addQuerystring(final String queryString) {
+    public void addQuerystring(String queryString) {
         if (queryString != null && queryString.length() > 0) {
-            for (final String param : queryString.split(PARAM_SEPARATOR)) {
+            for (String param : queryString.split(PARAM_SEPARATOR)) {
                 final String pair[] = param.split(PAIR_SEPARATOR);
                 final String key = OAuthEncoder.decode(pair[0]);
                 final String value = pair.length > 1 ? OAuthEncoder.decode(pair[1]) : EMPTY_STRING;
@@ -81,7 +81,7 @@ public class ParameterList {
         }
     }
 
-    public boolean contains(final Parameter param) {
+    public boolean contains(Parameter param) {
         return params.contains(param);
     }
 

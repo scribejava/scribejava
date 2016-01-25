@@ -22,7 +22,7 @@ public class DropBoxApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return "https://www.dropbox.com/1/oauth/authorize?oauth_token=" + requestToken.getToken();
     }
 

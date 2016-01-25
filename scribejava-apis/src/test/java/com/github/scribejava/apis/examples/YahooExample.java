@@ -15,7 +15,7 @@ public abstract class YahooExample {
     private static final String PROTECTED_RESOURCE_URL
             = "http://social.yahooapis.com/v1/user/A6ROU63MXWDCW3Y5MGCYWVHDJI/profile/status?format=json";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

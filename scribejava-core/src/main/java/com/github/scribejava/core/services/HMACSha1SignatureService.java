@@ -27,7 +27,7 @@ public class HMACSha1SignatureService implements SignatureService {
      * {@inheritDoc}
      */
     @Override
-    public String getSignature(final String baseString, final String apiSecret, final String tokenSecret) {
+    public String getSignature(String baseString, String apiSecret, String tokenSecret) {
         try {
             Preconditions.checkEmptyString(baseString, "Base string cant be null or empty string");
             Preconditions.checkEmptyString(apiSecret, "Api secret cant be null or empty string");
@@ -37,7 +37,7 @@ public class HMACSha1SignatureService implements SignatureService {
         }
     }
 
-    private String doSign(final String toSign, final String keyString) throws UnsupportedEncodingException,
+    private String doSign(String toSign, String keyString) throws UnsupportedEncodingException,
             NoSuchAlgorithmException, InvalidKeyException {
         final SecretKeySpec key = new SecretKeySpec(keyString.getBytes(UTF8), HMAC_SHA1);
         final Mac mac = Mac.getInstance(HMAC_SHA1);
@@ -46,7 +46,7 @@ public class HMACSha1SignatureService implements SignatureService {
         return bytesToBase64String(bytes).replace(CARRIAGE_RETURN, EMPTY_STRING);
     }
 
-    private String bytesToBase64String(final byte[] bytes) {
+    private String bytesToBase64String(byte[] bytes) {
         return Base64Encoder.getInstance().encode(bytes);
     }
 

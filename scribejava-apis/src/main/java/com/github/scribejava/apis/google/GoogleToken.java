@@ -13,7 +13,7 @@ public class GoogleToken extends Token {
      */
     private final String openIdToken;
 
-    public GoogleToken(final String token, final String secret, final String rawResponse, final String openIdToken) {
+    public GoogleToken(String token, String secret, String rawResponse, String openIdToken) {
         super(token, secret, rawResponse);
         this.openIdToken = openIdToken;
     }

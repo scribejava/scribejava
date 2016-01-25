@@ -58,7 +58,7 @@ public abstract class DefaultApi20 implements Api {
      * {@inheritDoc}
      */
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new OAuth20Service(this, config);
     }
 }

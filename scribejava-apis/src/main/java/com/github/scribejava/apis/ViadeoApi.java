@@ -35,7 +35,7 @@ public class ViadeoApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Viadeo does not support OOB");
 
         // Append scope if present

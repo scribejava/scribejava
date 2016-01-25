@@ -16,7 +16,7 @@ public abstract class ImgurExample {
     private static final String NETWORK_NAME = "Imgur";
     private static final String PROTECTED_RESOURCE_URL = "https://api.imgur.com/3/account/me";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";

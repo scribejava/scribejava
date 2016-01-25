@@ -22,9 +22,9 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
     @Override
     public String extract(AbstractRequest request) {
         checkPreconditions(request);
-        String verb = OAuthEncoder.encode(getVerb(request));
-        String url = OAuthEncoder.encode(getUrl(request));
-        String params = getSortedAndEncodedParams(request);
+        final String verb = OAuthEncoder.encode(getVerb(request));
+        final String url = OAuthEncoder.encode(getUrl(request));
+        final String params = getSortedAndEncodedParams(request);
         return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
     }
 
@@ -37,7 +37,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
     }
 
     protected String getSortedAndEncodedParams(AbstractRequest request) {
-        ParameterList params = new ParameterList();
+        final ParameterList params = new ParameterList();
         params.addAll(request.getQueryStringParams());
         params.addAll(request.getBodyParams());
         params.addAll(new ParameterList(request.getOauthParameters()));

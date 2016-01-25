@@ -11,11 +11,11 @@ public class JsonTokenExtractor implements AccessTokenExtractor {
     private static final Pattern ACCESS_TOKEN_PATTERN = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
 
     @Override
-    public Token extract(final String response) {
+    public Token extract(String response) {
         return new Token(extractAccessToken(response), "", response);
     }
 
-    protected String extractAccessToken(final String response) {
+    protected String extractAccessToken(String response) {
         Preconditions.checkEmptyString(response, "Cannot extract a token from a null or empty String");
         final Matcher matcher = ACCESS_TOKEN_PATTERN.matcher(response);
         if (matcher.find()) {

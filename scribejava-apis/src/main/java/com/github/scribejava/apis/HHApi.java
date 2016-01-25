@@ -37,7 +37,7 @@ public class HHApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         return String.format(AUTHORIZE_URL, config.getApiKey());
     }
 
@@ -47,7 +47,7 @@ public class HHApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new HHOAuthServiceImpl(this, config);
     }
 }

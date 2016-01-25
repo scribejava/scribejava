@@ -23,7 +23,7 @@ public class TimestampServiceImpl implements TimestampService {
      */
     @Override
     public String getNonce() {
-        Long ts = getTs();
+        final Long ts = getTs();
         return String.valueOf(ts + timer.getRandomInteger());
     }
 

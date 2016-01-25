@@ -15,7 +15,7 @@ public abstract class SohuWeiboExample {
     private static final String NETWORK_NAME = "SohuWeibo";
     private static final String PROTECTED_RESOURCE_URL = "http://api.t.sohu.com/account/verify_credentials.json";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your_key";
         final String apiSecret = "your_secret";

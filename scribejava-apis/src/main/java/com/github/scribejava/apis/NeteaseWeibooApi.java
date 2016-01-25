@@ -37,7 +37,7 @@ public class NeteaseWeibooApi extends DefaultApi10a {
      *
      * via http://open.t.163.com/wiki/index.php?title=%E8%AF%B7%E6%B1%82%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83Token(oauth/authorize)
      */
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 
@@ -49,7 +49,7 @@ public class NeteaseWeibooApi extends DefaultApi10a {
      * @param requestToken Token
      * @return String
      */
-    public String getAuthenticateUrl(final Token requestToken) {
+    public String getAuthenticateUrl(Token requestToken) {
         return String.format(AUTHENTICATE_URL, requestToken.getToken());
     }
 }
