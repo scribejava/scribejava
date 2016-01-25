@@ -35,7 +35,7 @@ public abstract class OAuthService {
             if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 config.log("Cannot use async operations, only sync");
             }
-            final OAuthConfigAsync asyncConfig = ((OAuthConfigAsync) config);
+            final OAuthConfigAsync asyncConfig = (OAuthConfigAsync) config;
             final String asyncHttpProviderClassName = asyncConfig.getAsyncHttpProviderClassName();
 
             asyncHttpClient = asyncHttpProviderClassName == null ? new AsyncHttpClient(asyncConfig.getAsyncHttpClientConfig())
