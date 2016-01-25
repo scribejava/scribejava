@@ -99,6 +99,15 @@
             <property name="max" value="120"/>
             <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
         </module>
+        <module name="OuterTypeNumber"/>
+        <module name="GenericWhitespace"/>
+        <module name="MethodParamPad"/>
+        <module name="ParenPad"/>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround">
+            <property name="tokens" value="ASSIGN"/>
+        </module>
     </module>
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf"/>
@@ -108,5 +117,8 @@
     <module name="RegexpSingleline">
         <!-- \s matches whitespace character, $ matches end of line. -->
         <property name="format" value="\s+$"/>
+    </module>
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
     </module>
 </module>
