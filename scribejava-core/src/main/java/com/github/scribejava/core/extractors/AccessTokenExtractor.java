@@ -15,5 +15,5 @@ public interface AccessTokenExtractor {
      * @param response the contents of the response
      * @return OAuth access token
      */
-    public Token extract(String response);
+    Token extract(String response);
 }

@@ -61,5 +61,29 @@
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
         <module name="ArrayTypeStyle"/>
+        <module name="CommentsIndentation"/>
+        <!-- Comparing this with null (i.e. this == null and this != null): -->
+        <module name="DescendantToken">
+            <property name="tokens" value="EQUAL,NOT_EQUAL"/>
+            <property name="limitedTokens" value="LITERAL_THIS,LITERAL_NULL"/>
+            <property name="maximumNumber" value="1"/>
+            <property name="maximumDepth" value="1"/>
+            <property name="sumTokenCounts" value="true"/>
+        </module>
+        <!--The initialiser in for performs no setup (where a while statement could be used instead): -->
+        <module name="DescendantToken">
+            <property name="tokens" value="FOR_INIT"/>
+            <property name="limitedTokens" value="EXPR"/>
+            <property name="minimumNumber" value="1"/>
+        </module>
+        <module name="Indentation"/>
+        <module name="OuterTypeFilename"/>
+        <module name="UpperEll"/>
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
     </module>
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
+    <module name="UniqueProperties"/>
 </module>

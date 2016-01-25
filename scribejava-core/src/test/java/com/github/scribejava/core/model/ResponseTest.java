@@ -49,7 +49,7 @@ public class ResponseTest {
 
     private static class FaultyConnection extends ConnectionStub {
 
-        public FaultyConnection() throws Exception {
+        private FaultyConnection() throws Exception {
             super();
         }
 
