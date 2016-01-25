@@ -31,5 +31,18 @@
         <module name="EqualsHashCode"/>
         <module name="ExplicitInitialization"/>
         <module name="FinalLocalVariable"/>
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.lang.Boolean"/>
+        </module>
+        <module name="IllegalTokenText">
+            <property name="tokens" value="NUM_INT,NUM_LONG"/>
+            <property name="format" value="^0[^lx]"/>
+            <property name="ignoreCase" value="true"/>
+        </module>
+        <module name="IllegalType">
+            <property name="illegalClassNames" value="java.util.HashSet, java.util.HashMap, java.util.TreeSet, java.util.TreeMap"/>
+        </module>
+        <module name="InnerAssignment"/>
+        <module name="MissingSwitchDefault"/>
     </module>
 </module>

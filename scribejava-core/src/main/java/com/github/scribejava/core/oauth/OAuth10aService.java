@@ -174,6 +174,8 @@ public class OAuth10aService extends OAuthService {
                     request.addQuerystringParameter(entry.getKey(), entry.getValue());
                 }
                 break;
+            default:
+                throw new IllegalStateException("Unknown new Signature Type '" + config.getSignatureType() + "'.");
         }
     }
 
