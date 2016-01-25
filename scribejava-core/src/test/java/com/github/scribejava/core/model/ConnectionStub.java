@@ -17,7 +17,7 @@ public class ConnectionStub extends HttpURLConnection {
 
     private final Map<String, String> headers = new HashMap<>();
     private final Map<String, List<String>> responseHeaders = new HashMap<>();
-    private int inputStreamCalled = 0;
+    private int inputStreamCalled;
 
     public ConnectionStub() throws MalformedURLException {
         super(new URL("http://example.com"));
