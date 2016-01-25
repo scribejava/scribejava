@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class RSASha1SignatureServiceTest {
 
-    RSASha1SignatureService service = new RSASha1SignatureService(getPrivateKey());
+    private RSASha1SignatureService service = new RSASha1SignatureService(getPrivateKey());
 
     @Test
     public void shouldReturnSignatureMethodString() {
