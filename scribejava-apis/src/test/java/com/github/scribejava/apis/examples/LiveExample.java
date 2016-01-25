@@ -12,7 +12,8 @@ import com.github.scribejava.core.oauth.OAuthService;
 
 public abstract class LiveExample {
 
-    private static final String PROTECTED_RESOURCE_URL = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
+    private static final String PROTECTED_RESOURCE_URL
+            = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
     private static final Token EMPTY_TOKEN = null;
 
     public static void main(String... args) {
@@ -50,7 +51,8 @@ public abstract class LiveExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getToken(), service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getToken(),
+                service);
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");

@@ -28,8 +28,10 @@ public class GitHubApi extends DefaultApi20 {
 
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. GitHub does not support OOB");
-        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback())));
+        Preconditions.checkValidUrl(config.getCallback(),
+                "Must provide a valid url as callback. GitHub does not support OOB");
+        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(),
+                OAuthEncoder.encode(config.getCallback())));
         if (config.hasScope()) {
             sb.append('&').append(OAuthConstants.SCOPE).append('=').append(OAuthEncoder.encode(config.getScope()));
         }

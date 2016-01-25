@@ -29,8 +29,8 @@ public class ServiceBuilder extends AbstractServiceBuilder<ServiceBuilder> {
     @Override
     protected OAuthConfig createConfig() {
         super.checkPreconditions();
-        final OAuthConfig config = new OAuthConfig(getApiKey(), getApiSecret(), getCallback(), getSignatureType(), getScope(), getDebugStream(),
-                connectTimeout, readTimeout, getGrantType());
+        final OAuthConfig config = new OAuthConfig(getApiKey(), getApiSecret(), getCallback(), getSignatureType(),
+                getScope(), getDebugStream(), connectTimeout, readTimeout, getGrantType());
         config.setState(getState());
         return config;
     }

@@ -12,7 +12,8 @@ import com.github.scribejava.core.utils.Preconditions;
 
 public class OdnoklassnikiApi extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL = "http://www.odnoklassniki.ru/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s";
+    private static final String AUTHORIZE_URL
+            = "http://www.odnoklassniki.ru/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = String.format("%s&scope=%%s", AUTHORIZE_URL);
 
     private OdnoklassnikiApi() {
@@ -38,10 +39,11 @@ public class OdnoklassnikiApi extends DefaultApi20 {
 
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Odnoklassniki does not support OOB");
+        Preconditions.checkValidUrl(config.getCallback(),
+                "Valid url is required for a callback. Odnoklassniki does not support OOB");
         if (config.hasScope()) {
-            return String.format(
-                    SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
+            return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()),
+                    OAuthEncoder.encode(config.getScope()));
         } else {
             return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
         }

@@ -26,8 +26,8 @@ public class OAuthRequestAsync extends AbstractRequest {
                 }
                 headersMap.put(header.getKey(), value.toString());
             }
-            return new Response(response.getStatusCode(), response.getStatusText(), headersMap, response.getResponseBody(), response.
-                    getResponseBodyAsStream());
+            return new Response(response.getStatusCode(), response.getStatusText(), headersMap,
+                    response.getResponseBody(), response.getResponseBodyAsStream());
         }
     };
 
@@ -39,7 +39,8 @@ public class OAuthRequestAsync extends AbstractRequest {
         return sendAsync(callback, converter, null);
     }
 
-    public <T> Future<T> sendAsync(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter, ProxyServer proxyServer) {
+    public <T> Future<T> sendAsync(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter,
+            ProxyServer proxyServer) {
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
         if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
             throw new OAuthException("Cannot use async operations, only sync");

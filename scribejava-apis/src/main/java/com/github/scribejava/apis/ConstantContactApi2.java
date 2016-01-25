@@ -16,12 +16,14 @@ import com.github.scribejava.core.utils.Preconditions;
 public class ConstantContactApi2 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
-            = "https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize?client_id=%s&response_type=code&redirect_uri=%s";
+            = "https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize?client_id=%s&response_type=code"
+            + "&redirect_uri=%s";
     private static final AccessTokenExtractor ACCESS_TOKEN_EXTRACTOR = new AccessTokenExtractor() {
 
         @Override
         public Token extract(String response) {
-            Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
+            Preconditions.checkEmptyString(response,
+                    "Response body is incorrect. Can't extract a token from an empty string");
 
             final String regex = "\"access_token\"\\s*:\\s*\"([^&\"]+)\"";
             final Matcher matcher = Pattern.compile(regex).matcher(response);
@@ -29,7 +31,8 @@ public class ConstantContactApi2 extends DefaultApi20 {
                 final String token = OAuthEncoder.decode(matcher.group(1));
                 return new Token(token, "", response);
             } else {
-                throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'", null);
+                throw new OAuthException("Response body is incorrect. Can't extract a token from this: '"
+                        + response + "'", null);
             }
         }
     };

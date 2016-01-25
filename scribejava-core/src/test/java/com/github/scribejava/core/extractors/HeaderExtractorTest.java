@@ -25,12 +25,14 @@ public class HeaderExtractorTest {
     public void shouldExtractStandardHeader() {
         final String header = extractor.extract(request);
         try {
-            assertEquals("OAuth oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\", " + "oauth_signature=\"OAuth-Signature\", "
-                    + "oauth_consumer_key=\"AS%23%24%5E%2A%40%26\", " + "oauth_timestamp=\"123456\"", header);
+            assertEquals("OAuth oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\", "
+                    + "oauth_signature=\"OAuth-Signature\", oauth_consumer_key=\"AS%23%24%5E%2A%40%26\", "
+                    + "oauth_timestamp=\"123456\"", header);
         } catch (AssertionError ae) {
             //maybe this is OpenJDK 8? Different order of elements in HashMap while iterating'em.
-            assertEquals("OAuth " + "oauth_signature=\"OAuth-Signature\", " + "oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\", "
-                    + "oauth_consumer_key=\"AS%23%24%5E%2A%40%26\", " + "oauth_timestamp=\"123456\"", header);
+            assertEquals("OAuth oauth_signature=\"OAuth-Signature\", "
+                    + "oauth_callback=\"http%3A%2F%2Fexample%2Fcallback\", "
+                    + "oauth_consumer_key=\"AS%23%24%5E%2A%40%26\", oauth_timestamp=\"123456\"", header);
         }
     }
 
@@ -42,8 +44,8 @@ public class HeaderExtractorTest {
 
     @Test(expected = OAuthParametersMissingException.class)
     public void shouldExceptionIfRequestHasNoOAuthParams() {
-        final OAuthRequest emptyRequest = new OAuthRequest(Verb.GET, "http://example.com", new OAuth20Service(null, new OAuthConfig(
-                "test", "test")));
+        final OAuthRequest emptyRequest = new OAuthRequest(Verb.GET, "http://example.com",
+                new OAuth20Service(null, new OAuthConfig("test", "test")));
         extractor.extract(emptyRequest);
     }
 }

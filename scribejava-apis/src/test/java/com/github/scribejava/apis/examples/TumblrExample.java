@@ -18,7 +18,8 @@ public abstract class TumblrExample {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("MY_CONSUMER_KEY")
                 .apiSecret("MY_CONSUMER_SECRET")
-                .callback("http://www.tumblr.com/connect/login_success.html") // OOB forbidden. We need an url and the better is on the tumblr website !
+                // OOB forbidden. We need an url and the better is on the tumblr website !
+                .callback("http://www.tumblr.com/connect/login_success.html")
                 .build(TumblrApi.instance());
         final Scanner in = new Scanner(System.in);
 

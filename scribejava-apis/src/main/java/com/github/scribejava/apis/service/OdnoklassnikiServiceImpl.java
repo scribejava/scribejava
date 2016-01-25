@@ -25,7 +25,9 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
             final String completeUrl = request.getCompleteUrl();
             final int queryIndex = completeUrl.indexOf('?');
             if (queryIndex != -1) {
-                final String sigSource = URLDecoder.decode(completeUrl.substring(queryIndex + 1).replace("&", ""), CharEncoding.UTF_8) + tokenDigest;
+                final String sigSource
+                        = URLDecoder.decode(completeUrl.substring(queryIndex + 1).replace("&", ""), CharEncoding.UTF_8)
+                        + tokenDigest;
                 request.addQuerystringParameter("sig", md5Hex(sigSource));
             }
 

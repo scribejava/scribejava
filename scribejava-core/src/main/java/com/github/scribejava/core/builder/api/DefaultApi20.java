@@ -9,12 +9,14 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 /**
  * Default implementation of the OAuth protocol, version 2.0 (draft 11)
  *
- * This class is meant to be extended by concrete implementations of the API, providing the endpoints and endpoint-http-verbs.
+ * This class is meant to be extended by concrete implementations of the API, providing the endpoints and
+ * endpoint-http-verbs.
  *
- * If your Api adheres to the 2.0 (draft 11) protocol correctly, you just need to extend this class and define the getters for your endpoints.
+ * If your Api adheres to the 2.0 (draft 11) protocol correctly, you just need to extend this class and define the
+ * getters for your endpoints.
  *
- * If your Api does something a bit different, you can override the different extractors or services, in order to fine-tune the process. Please read
- * the javadocs of the interfaces to get an idea of what to do.
+ * If your Api does something a bit different, you can override the different extractors or services, in order to
+ * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
  * @author Diego Silveira
  *

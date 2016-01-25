@@ -84,21 +84,24 @@ public class OAuth10aService extends OAuthService {
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
+    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<Token> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
-            ProxyServer proxyServer) {
+    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
-        final OAuthRequestAsync request = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
+        final OAuthRequestAsync request
+                = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
             @Override
             public Token convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+                return getApi().getAccessTokenExtractor()
+                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
         }, proxyServer);
     }

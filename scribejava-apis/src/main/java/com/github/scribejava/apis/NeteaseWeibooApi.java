@@ -33,18 +33,22 @@ public class NeteaseWeibooApi extends DefaultApi10a {
 
     @Override
     /**
-     * this method will ignore your callback if you're creating a desktop client please choose this url else your can call getAuthenticateUrl
+     * this method will ignore your callback if you're creating a desktop client please choose this url else your can
+     * call getAuthenticateUrl
      *
-     * via http://open.t.163.com/wiki/index.php?title=%E8%AF%B7%E6%B1%82%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83Token(oauth/authorize)
+     * via
+     * http://open.t.163.com/wiki/index.php?title=%E8%AF%B7%E6%B1%82%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83Token(oauth/authorize)
      */
     public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 
     /**
-     * this method is for web client with callback url if you're creating a desktop client please call getAuthorizationUrl
+     * this method is for web client with callback url if you're creating a desktop client please call
+     * getAuthorizationUrl
      *
-     * via http://open.t.163.com/wiki/index.php?title=%E8%AF%B7%E6%B1%82%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83Token(oauth/authenticate)
+     * via
+     * http://open.t.163.com/wiki/index.php?title=%E8%AF%B7%E6%B1%82%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83Token(oauth/authenticate)
      *
      * @param requestToken Token
      * @return String

@@ -64,7 +64,8 @@ public class Response {
     }
 
     /**
-     * Obtains the meaningful stream of the HttpUrlConnection, either inputStream or errorInputStream, depending on the status code
+     * Obtains the meaningful stream of the HttpUrlConnection, either inputStream or errorInputStream, depending on the
+     * status code
      *
      * @return input stream / error stream
      */
@@ -82,7 +83,8 @@ public class Response {
     }
 
     /**
-     * Obtains the HTTP status message. Returns <code>null</code> if the message can not be discerned from the response (not valid HTTP)
+     * Obtains the HTTP status message. Returns <code>null</code> if the message can not be discerned from the response
+     * (not valid HTTP)
      *
      * @return the status message
      */

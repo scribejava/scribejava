@@ -32,26 +32,27 @@ public class OAuth20Service extends OAuthService {
 
     @Override
     public Token getAccessToken(Token requestToken, Verifier verifier) {
-        final Response response = createAccessTokenRequest(verifier, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
-                send();
+        final Response response = createAccessTokenRequest(verifier,
+                new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
+    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<Token> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
     @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
-            ProxyServer proxyServer) {
-        final OAuthRequestAsync request = createAccessTokenRequest(verifier, new OAuthRequestAsync(api.getAccessTokenVerb(), api.
-                getAccessTokenEndpoint(),
-                this));
+    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer) {
+        final OAuthRequestAsync request = createAccessTokenRequest(verifier,
+                new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
             @Override
             public Token convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+                return getApi().getAccessTokenExtractor()
+                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
         }, proxyServer);
     }
@@ -76,7 +77,8 @@ public class OAuth20Service extends OAuthService {
      */
     @Override
     public Token getRequestToken() {
-        throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl' and redirect your users there");
+        throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl'"
+                + " and redirect your users there");
     }
 
     /**

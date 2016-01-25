@@ -13,7 +13,8 @@ import com.github.scribejava.core.utils.Preconditions;
 
 public class DoktornaraboteApi extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL = "http://auth.doktornarabote.ru/OAuth/Authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
+    private static final String AUTHORIZE_URL
+            = "http://auth.doktornarabote.ru/OAuth/Authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
     private static final String TOKEN_URL = "http://auth.doktornarabote.ru/OAuth/Token";
 
     private DoktornaraboteApi() {

@@ -66,7 +66,8 @@ public abstract class AbstractRequest {
             return key;
         } else {
             throw new IllegalArgumentException(
-                    String.format("OAuth parameters must either be '%s', '%s' or start with '%s'", OAuthConstants.SCOPE, OAuthConstants.REALM, OAUTH_PREFIX));
+                    String.format("OAuth parameters must either be '%s', '%s' or start with '%s'", OAuthConstants.SCOPE,
+                            OAuthConstants.REALM, OAUTH_PREFIX));
         }
     }
 
@@ -134,8 +135,8 @@ public abstract class AbstractRequest {
     }
 
     /**
-     * Add body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing. Like for example XML. Note: The
-     * contents are not part of the OAuth signature
+     * Add body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing.
+     * Like for example XML. Note: The contents are not part of the OAuth signature
      *
      * @param payload the body of the request
      */

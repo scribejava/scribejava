@@ -22,16 +22,16 @@ public class RSASha1SignatureServiceTest {
         final String apiSecret = "api secret";
         final String tokenSecret = "token secret";
         final String baseString = "base string";
-        final String signature
-                = "LUNRzQAlpdNyM9mLXm96Va6g/qVNnEAb7p7K1KM0g8IopOFQJPoOO7cvppgt7w3QyhijWJnCmvqXaaIAGrqvdyr3fIzBULh8D/iZQUNLMi08GCOA34P81XBvsc7A5uJjPDsGhJg2MzoVJ8nWJhU/lMMk4c92S1WGskeoDofRwpo=";
+        final String signature = "LUNRzQAlpdNyM9mLXm96Va6g/qVNnEAb7p7K1KM0g8IopOFQJPoOO7cvppgt7w3QyhijWJnCmvqXaaIAGrqvd"
+                + "yr3fIzBULh8D/iZQUNLMi08GCOA34P81XBvsc7A5uJjPDsGhJg2MzoVJ8nWJhU/lMMk4c92S1WGskeoDofRwpo=";
         assertEquals(signature, service.getSignature(baseString, apiSecret, tokenSecret));
     }
 
     /**
      * Created primary key using openssl.
      *
-     * openssl req -x509 -nodes -days 365 -newkey rsa:1024 -sha1 -subj '/C=GB/ST=/L=Manchester/CN=www.example.com' -keyout myrsakey.pem -out
-     * /tmp/myrsacert.pem openssl pkcs8 -in myrsakey.pem -topk8 -nocrypt -out myrsakey.pk8
+     * openssl req -x509 -nodes -days 365 -newkey rsa:1024 -sha1 -subj '/C=GB/ST=/L=Manchester/CN=www.example.com'
+     * -keyout myrsakey.pem -out /tmp/myrsacert.pem openssl pkcs8 -in myrsakey.pem -topk8 -nocrypt -out myrsakey.pk8
      */
     private static PrivateKey getPrivateKey() {
         final String str = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMPQ5BCMxlUq2TYy\n"

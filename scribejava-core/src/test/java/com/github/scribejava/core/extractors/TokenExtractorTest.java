@@ -33,7 +33,8 @@ public class TokenExtractorTest {
 
     @Test
     public void shouldExtractTokenFromResponseWithCallbackConfirmed() {
-        final String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03&callback_confirmed=true";
+        final String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03"
+                + "&callback_confirmed=true";
         final Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getToken());
         assertEquals("hdhd0244k9j7ao03", extracted.getSecret());

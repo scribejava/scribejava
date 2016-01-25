@@ -14,7 +14,8 @@ import com.github.scribejava.core.utils.Preconditions;
 public class LinkedInApi20 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
-            = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%s&redirect_uri=%s&" + OAuthConstants.STATE + "=%s";
+            = "https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=%s&redirect_uri=%s&"
+            + OAuthConstants.STATE + "=%s";
 
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
@@ -41,14 +42,15 @@ public class LinkedInApi20 extends DefaultApi20 {
 
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. LinkedIn does not support OOB");
+        Preconditions.checkValidUrl(config.getCallback(),
+                "Must provide a valid url as callback. LinkedIn does not support OOB");
 
         if (config.hasScope()) {
-            return String.format(
-                    SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), config.getState(), OAuthEncoder.encode(
-                            config.getScope()));
+            return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()),
+                    config.getState(), OAuthEncoder.encode(config.getScope()));
         } else {
-            return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()), config.getState());
+            return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()),
+                    config.getState());
         }
     }
 

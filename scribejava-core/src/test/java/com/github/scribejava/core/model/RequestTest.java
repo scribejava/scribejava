@@ -24,7 +24,8 @@ public class RequestTest {
         postRequest.addBodyParameter("param", "value");
         postRequest.addBodyParameter("param with spaces", "value with spaces");
         postRequest.setConnection(connection);
-        getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces", oAuthService);
+        getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",
+                oAuthService);
         getRequest.setConnection(connection);
     }
 

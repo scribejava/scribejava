@@ -46,7 +46,8 @@ public class FreelancerApi extends DefaultApi10a {
 
     public static class Sandbox extends FreelancerApi {
 
-        private static final String SANDBOX_AUTHORIZATION_URL = "http://www.sandbox.freelancer.com/users/api-token/auth.php";
+        private static final String SANDBOX_AUTHORIZATION_URL
+                = "http://www.sandbox.freelancer.com/users/api-token/auth.php";
 
         private Sandbox() {
         }

@@ -19,12 +19,14 @@ import com.github.scribejava.core.services.TimestampServiceImpl;
 /**
  * Default implementation of the OAuth protocol, version 1.0a
  *
- * This class is meant to be extended by concrete implementations of the API, providing the endpoints and endpoint-http-verbs.
+ * This class is meant to be extended by concrete implementations of the API, providing the endpoints and
+ * endpoint-http-verbs.
  *
- * If your Api adheres to the 1.0a protocol correctly, you just need to extend this class and define the getters for your endpoints.
+ * If your Api adheres to the 1.0a protocol correctly, you just need to extend this class and define the getters for
+ * your endpoints.
  *
- * If your Api does something a bit different, you can override the different extractors or services, in order to fine-tune the process. Please read
- * the javadocs of the interfaces to get an idea of what to do.
+ * If your Api does something a bit different, you can override the different extractors or services, in order to
+ * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
  * @author Pablo Fernandez
  *
