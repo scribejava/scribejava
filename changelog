@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[2.2.0]
  * Let GoogleApi20 supports OOB
  * Updated Imgur API to OAuth2
  * force not to instantiate stateless APIs. Use provided singletons
