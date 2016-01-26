@@ -2,6 +2,7 @@
  * Let GoogleApi20 supports OOB
  * Updated Imgur API to OAuth2
  * force not to instantiate stateless APIs. Use provided singletons
+ * reduce OAuthService abstraction for OAuth1 and OAuth2. Separate OAuth(1|2)Services
 
 [2.1.0]
  * add Pinterest API
