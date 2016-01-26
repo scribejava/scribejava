@@ -77,7 +77,7 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public Token getAccessToken(Token requestToken, Verifier verifier) {
+    public final Token getAccessToken(Token requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
@@ -95,12 +95,12 @@ public class OAuth10aService extends OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+    public final Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
             OAuthAsyncRequestCallback<Token> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+    public final Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
             OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
@@ -116,7 +116,7 @@ public class OAuth10aService extends OAuthService {
         }, proxyServer);
     }
 
-    private void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
+    protected void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());

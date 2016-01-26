@@ -30,7 +30,7 @@ public class OAuth20Service extends OAuthService {
         this.api = api;
     }
 
-    public Token getAccessToken(Verifier verifier) {
+    public final Token getAccessToken(Verifier verifier) {
         final Response response = createAccessTokenRequest(verifier,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
         return api.getAccessTokenExtractor().extract(response.getBody());
@@ -44,11 +44,11 @@ public class OAuth20Service extends OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
+    public final Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
         return getAccessTokenAsync(verifier, callback, null);
     }
 
-    public Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
+    public final Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
             ProxyServer proxyServer) {
         final OAuthRequestAsync request = createAccessTokenRequest(verifier,
                 new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));

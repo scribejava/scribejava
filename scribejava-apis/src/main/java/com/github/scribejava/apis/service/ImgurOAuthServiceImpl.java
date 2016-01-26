@@ -5,7 +5,6 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -17,21 +16,19 @@ public class ImgurOAuthServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public Token getAccessToken(Verifier verifier) {
-        final OAuthRequest request = new OAuthRequest(getApi().getAccessTokenVerb(),
-                getApi().getAccessTokenEndpoint(), this);
-        request.addBodyParameter(OAuthConstants.CLIENT_ID, getConfig().getApiKey());
-        request.addBodyParameter(OAuthConstants.CLIENT_SECRET, getConfig().getApiSecret());
+    protected <T extends AbstractRequest> T createAccessTokenRequest(Verifier verifier, T request) {
+        final OAuthConfig config = getConfig();
+        request.addBodyParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addBodyParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
 
-        if(ImgurApi.isOob(getConfig())) {
+        if (ImgurApi.isOob(config)) {
             request.addBodyParameter(OAuthConstants.GRANT_TYPE, "pin");
             request.addBodyParameter("pin", verifier.getValue());
         } else {
             request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
             request.addBodyParameter(OAuthConstants.CODE, verifier.getValue());
         }
-
-        return getApi().getAccessTokenExtractor().extract(request.send().getBody());
+        return request;
     }
 
     @Override
