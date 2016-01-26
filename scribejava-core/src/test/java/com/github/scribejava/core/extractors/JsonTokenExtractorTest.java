@@ -6,12 +6,12 @@ import com.github.scribejava.core.model.Token;
 
 public class JsonTokenExtractorTest {
 
-    private String response = "'{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X\"}'";
-    private JsonTokenExtractor extractor = new JsonTokenExtractor();
+    private static final String RESPONSE = "'{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X\"}'";
+    private final JsonTokenExtractor extractor = new JsonTokenExtractor();
 
     @Test
     public void shouldParseResponse() {
-        final Token token = extractor.extract(response);
+        final Token token = extractor.extract(RESPONSE);
         assertEquals(token.getToken(), "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X");
     }
 

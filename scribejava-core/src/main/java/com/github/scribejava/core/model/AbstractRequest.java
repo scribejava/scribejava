@@ -28,7 +28,7 @@ public abstract class AbstractRequest {
     private final Map<String, String> headers = new HashMap<>();
     private boolean connectionKeepAlive;
     private boolean followRedirects = true;
-    private OAuthService service;
+    private final OAuthService service;
 
     private String payload;
     private String charset;

@@ -4,9 +4,11 @@ public abstract class Base64Encoder {
 
     private static Base64Encoder instance;
 
-    public static synchronized Base64Encoder getInstance() {
-        if (instance == null) {
-            instance = createEncoderInstance();
+    public static Base64Encoder getInstance() {
+        synchronized (Base64Encoder.class) {
+            if (instance == null) {
+                instance = createEncoderInstance();
+            }
         }
         return instance;
     }

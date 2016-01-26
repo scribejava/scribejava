@@ -7,8 +7,6 @@ import com.github.scribejava.core.utils.OAuthEncoder;
  */
 public class Parameter implements Comparable<Parameter> {
 
-    private static final String UTF = "UTF8";
-
     private final String key;
     private final String value;
 

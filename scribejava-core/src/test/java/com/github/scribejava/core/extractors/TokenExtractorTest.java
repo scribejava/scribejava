@@ -11,7 +11,7 @@ public class TokenExtractorTest {
     private TokenExtractorImpl extractor;
 
     @Before
-    public void setup() {
+    public void setUp() {
         extractor = new TokenExtractorImpl();
     }
 

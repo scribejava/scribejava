@@ -1,6 +1,5 @@
 package com.github.scribejava.core.utils;
 
-import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -59,7 +58,7 @@ public class OAuthEncoderTest {
             "Dogs%2C%20Cats%20%26%20Mice"};
 
         for (int i = 0; i < sources.length; i++) {
-            Assert.assertEquals(encoded[i], OAuthEncoder.encode(sources[i]));
+            assertEquals(encoded[i], OAuthEncoder.encode(sources[i]));
         }
     }
 }
