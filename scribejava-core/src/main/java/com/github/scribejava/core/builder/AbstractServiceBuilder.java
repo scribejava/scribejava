@@ -32,7 +32,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param callback callback url. Must be a valid url or 'oob' for out of band OAuth
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public T callback(final String callback) {
+    public T callback(String callback) {
         Preconditions.checkNotNull(callback, "Callback can't be null");
         this.callback = callback;
         return (T) this;
@@ -44,7 +44,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param apiKey The api key for your application
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public T apiKey(final String apiKey) {
+    public T apiKey(String apiKey) {
         Preconditions.checkEmptyString(apiKey, "Invalid Api key");
         this.apiKey = apiKey;
         return (T) this;
@@ -56,7 +56,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param apiSecret The api secret for your application
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public T apiSecret(final String apiSecret) {
+    public T apiSecret(String apiSecret) {
         Preconditions.checkEmptyString(apiSecret, "Invalid Api secret");
         this.apiSecret = apiSecret;
         return (T) this;
@@ -68,7 +68,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param scope The OAuth scope
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public T scope(final String scope) {
+    public T scope(String scope) {
         Preconditions.checkEmptyString(scope, "Invalid OAuth scope");
         this.scope = scope;
         return (T) this;
@@ -80,7 +80,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param state The OAuth state
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public T state(final String state) {
+    public T state(String state) {
         Preconditions.checkEmptyString(state, "Invalid OAuth state");
         this.state = state;
         return (T) this;
@@ -92,19 +92,19 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param type SignatureType
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public T signatureType(final SignatureType type) {
+    public T signatureType(SignatureType type) {
         Preconditions.checkNotNull(type, "Signature type can't be null");
         this.signatureType = type;
         return (T) this;
     }
 
-    public T debugStream(final OutputStream stream) {
+    public T debugStream(OutputStream stream) {
         Preconditions.checkNotNull(stream, "debug stream can't be null");
         this.debugStream = stream;
         return (T) this;
     }
 
-    public T grantType(final String grantType) {
+    public T grantType(String grantType) {
         Preconditions.checkEmptyString(grantType, "Invalid OAuth grantType");
         this.grantType = grantType;
         return (T) this;
@@ -160,7 +160,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param api will build Service for this API
      * @return fully configured {@link OAuth10aService}
      */
-    public OAuth10aService build(final DefaultApi10a api) {
+    public OAuth10aService build(DefaultApi10a api) {
         return api.createService(createConfig());
     }
 
@@ -170,7 +170,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder> {
      * @param api will build Service for this API
      * @return fully configured {@link OAuth20Service}
      */
-    public OAuth20Service build(final DefaultApi20 api) {
+    public OAuth20Service build(DefaultApi20 api) {
         return api.createService(createConfig());
     }
 }

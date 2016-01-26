@@ -13,7 +13,8 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public class HHApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "https://m.hh.ru/oauth/authorize?response_type=code&client_id=%s";
-    private static final String TOKEN_URL = "https://m.hh.ru/oauth/token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
+    private static final String TOKEN_URL = "https://m.hh.ru/oauth/token?grant_type="
+            + OAuthConstants.AUTHORIZATION_CODE;
 
     private HHApi() {
     }
@@ -37,7 +38,7 @@ public class HHApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         return String.format(AUTHORIZE_URL, config.getApiKey());
     }
 
@@ -47,7 +48,7 @@ public class HHApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new HHOAuthServiceImpl(this, config);
     }
 }

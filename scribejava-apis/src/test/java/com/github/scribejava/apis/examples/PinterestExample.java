@@ -16,7 +16,7 @@ public abstract class PinterestExample {
     private static final String PROTECTED_RESOURCE_URL = "https://api.pinterest.com/v1/me/?access_token?access_token=";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_app_secret";
@@ -51,7 +51,8 @@ public abstract class PinterestExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getToken(), service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getToken(),
+                service);
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");

@@ -12,7 +12,7 @@ public class MapUtilsTest {
 
     @Test
     public void shouldPrettyPrintMap() {
-        Map<Integer, String> map = new HashMap<Integer, String>();
+        final Map<Integer, String> map = new HashMap<Integer, String>();
         map.put(1, "one");
         map.put(2, "two");
         map.put(3, "three");
@@ -22,7 +22,7 @@ public class MapUtilsTest {
 
     @Test
     public void shouldHandleEmptyMap() {
-        Map<Integer, String> map = new HashMap<Integer, String>();
+        final Map<Integer, String> map = new HashMap<Integer, String>();
         Assert.assertEquals("{}", MapUtils.toString(map));
     }
 

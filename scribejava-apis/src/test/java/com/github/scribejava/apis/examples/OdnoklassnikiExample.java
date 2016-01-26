@@ -17,7 +17,7 @@ public abstract class OdnoklassnikiExample {
             = "http://api.odnoklassniki.ru/api/users/getCurrentUser?application_key=%1$s&format=JSON";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String publicKey = "your api secret";
@@ -56,7 +56,8 @@ public abstract class OdnoklassnikiExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, publicKey), service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, publicKey),
+                service);
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");

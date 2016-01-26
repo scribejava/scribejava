@@ -15,7 +15,7 @@ public abstract class LinkedInExample {
     private static final String PROTECTED_RESOURCE_URL
             = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

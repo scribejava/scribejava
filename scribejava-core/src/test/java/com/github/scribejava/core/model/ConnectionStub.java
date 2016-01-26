@@ -17,7 +17,7 @@ public class ConnectionStub extends HttpURLConnection {
 
     private final Map<String, String> headers = new HashMap<>();
     private final Map<String, List<String>> responseHeaders = new HashMap<>();
-    private int inputStreamCalled = 0;
+    private int inputStreamCalled;
 
     public ConnectionStub() throws MalformedURLException {
         super(new URL("http://example.com"));
@@ -54,7 +54,7 @@ public class ConnectionStub extends HttpURLConnection {
 
     @Override
     public OutputStream getOutputStream() throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write("contents".getBytes());
         return baos;
     }

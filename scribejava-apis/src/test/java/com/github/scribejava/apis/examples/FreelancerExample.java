@@ -19,7 +19,7 @@ public abstract class FreelancerExample {
     private static final String PROTECTED_RESOURCE_URL = "http://api.sandbox.freelancer.com/Job/getJobList.json";
     private static final String SCOPE = "http://api.sandbox.freelancer.com";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .signatureType(SignatureType.QueryString)
                 .apiKey("your client id")

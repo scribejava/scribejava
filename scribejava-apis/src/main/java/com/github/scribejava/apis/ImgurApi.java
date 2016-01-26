@@ -40,16 +40,16 @@ public class ImgurApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         return String.format(AUTHORIZATION_URL, config.getApiKey(), isOob(config) ? "pin" : "code");
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new ImgurOAuthServiceImpl(this, config);
     }
 
-    public static boolean isOob(final OAuthConfig config) {
+    public static boolean isOob(OAuthConfig config) {
         return "oob".equals(config.getCallback());
     }
 }

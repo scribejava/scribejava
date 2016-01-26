@@ -14,12 +14,12 @@ public interface TimestampService {
      *
      * @return timestamp
      */
-    public String getTimestampInSeconds();
+    String getTimestampInSeconds();
 
     /**
      * Returns a nonce (unique value for each request)
      *
      * @return nonce
      */
-    public String getNonce();
+    String getNonce();
 }

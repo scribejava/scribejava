@@ -23,7 +23,7 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
      * {@inheritDoc}
      */
     @Override
-    public Token extract(final String response) {
+    public Token extract(String response) {
         Preconditions.checkEmptyString(response,
                 "Response body is incorrect. Can't extract a token from an empty string");
         final String token = extract(response, TOKEN_REGEX);
@@ -31,7 +31,7 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
         return new Token(token, secret, response);
     }
 
-    private String extract(final String response, final Pattern p) {
+    private String extract(String response, Pattern p) {
         final Matcher matcher = p.matcher(response);
         if (matcher.find() && matcher.groupCount() >= 1) {
             return OAuthEncoder.decode(matcher.group(1));

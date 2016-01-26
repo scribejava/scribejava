@@ -12,10 +12,11 @@ import com.github.scribejava.core.oauth.OAuthService;
 
 public abstract class Foursquare2Example {
 
-    private static final String PROTECTED_RESOURCE_URL = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
+    private static final String PROTECTED_RESOURCE_URL
+            = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";
@@ -49,7 +50,8 @@ public abstract class Foursquare2Example {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getToken(), service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getToken(),
+                service);
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");

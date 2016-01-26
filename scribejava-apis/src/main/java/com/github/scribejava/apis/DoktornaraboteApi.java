@@ -13,7 +13,8 @@ import com.github.scribejava.core.utils.Preconditions;
 
 public class DoktornaraboteApi extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL = "http://auth.doktornarabote.ru/OAuth/Authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
+    private static final String AUTHORIZE_URL
+            = "http://auth.doktornarabote.ru/OAuth/Authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
     private static final String TOKEN_URL = "http://auth.doktornarabote.ru/OAuth/Token";
 
     private DoktornaraboteApi() {
@@ -38,7 +39,7 @@ public class DoktornaraboteApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(
             config.getCallback(),
             "Must provide a valid url as callback. Doktornarabote does not support OOB");
@@ -64,7 +65,7 @@ public class DoktornaraboteApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new DoktornaraboteOAuthServiceImpl(this, config);
     }
 }

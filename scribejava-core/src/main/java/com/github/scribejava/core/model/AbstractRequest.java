@@ -16,9 +16,9 @@ import com.github.scribejava.core.oauth.OAuthService;
  */
 public abstract class AbstractRequest {
 
+    public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
     protected static final String CONTENT_LENGTH = "Content-Length";
     protected static final String CONTENT_TYPE = "Content-Type";
-    public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
     private static final String OAUTH_PREFIX = "oauth_";
 
     private final String url;
@@ -44,7 +44,7 @@ public abstract class AbstractRequest {
      * @param url resource URL
      * @param service OAuthService
      */
-    public AbstractRequest(final Verb verb, final String url, final OAuthService service) {
+    public AbstractRequest(Verb verb, String url, OAuthService service) {
         this.verb = verb;
         this.url = url;
         this.service = service;
@@ -57,16 +57,17 @@ public abstract class AbstractRequest {
      * @param value value of the parameter
      * @throws IllegalArgumentException if the parameter is not an OAuth parameter
      */
-    public void addOAuthParameter(final String key, final String value) {
+    public void addOAuthParameter(String key, String value) {
         oauthParameters.put(checkKey(key), value);
     }
 
-    private String checkKey(final String key) {
+    private String checkKey(String key) {
         if (key.startsWith(OAUTH_PREFIX) || key.equals(OAuthConstants.SCOPE) || key.equals(OAuthConstants.REALM)) {
             return key;
         } else {
             throw new IllegalArgumentException(
-                    String.format("OAuth parameters must either be '%s', '%s' or start with '%s'", OAuthConstants.SCOPE, OAuthConstants.REALM, OAUTH_PREFIX));
+                    String.format("OAuth parameters must either be '%s', '%s' or start with '%s'", OAuthConstants.SCOPE,
+                            OAuthConstants.REALM, OAUTH_PREFIX));
         }
     }
 
@@ -74,7 +75,7 @@ public abstract class AbstractRequest {
         return oauthParameters;
     }
 
-    public void setRealm(final String realm) {
+    public void setRealm(String realm) {
         this.realm = realm;
     }
 
@@ -97,7 +98,7 @@ public abstract class AbstractRequest {
      * @param key the header name
      * @param value the header value
      */
-    public void addHeader(final String key, final String value) {
+    public void addHeader(String key, String value) {
         this.headers.put(key, value);
     }
 
@@ -107,7 +108,7 @@ public abstract class AbstractRequest {
      * @param key the parameter name
      * @param value the parameter value
      */
-    public void addBodyParameter(final String key, final String value) {
+    public void addBodyParameter(String key, String value) {
         this.bodyParams.add(key, value);
     }
 
@@ -117,11 +118,11 @@ public abstract class AbstractRequest {
      * @param key the parameter name
      * @param value the parameter value
      */
-    public void addQuerystringParameter(final String key, final String value) {
+    public void addQuerystringParameter(String key, String value) {
         this.querystringParams.add(key, value);
     }
 
-    public void addParameter(final String key, final String value) {
+    public void addParameter(String key, String value) {
         if (hasBodyContent()) {
             bodyParams.add(key, value);
         } else {
@@ -134,12 +135,12 @@ public abstract class AbstractRequest {
     }
 
     /**
-     * Add body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing. Like for example XML. Note: The
-     * contents are not part of the OAuth signature
+     * Add body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing.
+     * Like for example XML. Note: The contents are not part of the OAuth signature
      *
      * @param payload the body of the request
      */
-    public void addPayload(final String payload) {
+    public void addPayload(String payload) {
         this.payload = payload;
     }
 
@@ -148,7 +149,7 @@ public abstract class AbstractRequest {
      *
      * @param payload byte[]
      */
-    public void addPayload(final byte[] payload) {
+    public void addPayload(byte[] payload) {
         this.bytePayload = payload.clone();
     }
 
@@ -252,7 +253,7 @@ public abstract class AbstractRequest {
      *
      * @param charsetName name of the charset of the request
      */
-    public void setCharset(final String charsetName) {
+    public void setCharset(String charsetName) {
         charset = charsetName;
     }
 
@@ -264,7 +265,7 @@ public abstract class AbstractRequest {
      * @see <a
      * href="http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html">http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html</a>
      */
-    public void setConnectionKeepAlive(final boolean connectionKeepAlive) {
+    public void setConnectionKeepAlive(boolean connectionKeepAlive) {
         this.connectionKeepAlive = connectionKeepAlive;
     }
 
@@ -277,7 +278,7 @@ public abstract class AbstractRequest {
      * href="http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)">http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)</a>
      * @param followRedirects boolean
      */
-    public void setFollowRedirects(final boolean followRedirects) {
+    public void setFollowRedirects(boolean followRedirects) {
         this.followRedirects = followRedirects;
     }
 

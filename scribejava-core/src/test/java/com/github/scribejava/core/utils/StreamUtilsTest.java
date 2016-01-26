@@ -11,15 +11,15 @@ public class StreamUtilsTest {
 
     @Test
     public void shouldCorrectlyDecodeAStream() {
-        String value = "expected";
-        InputStream is = new ByteArrayInputStream(value.getBytes());
-        String decoded = StreamUtils.getStreamContents(is);
+        final String value = "expected";
+        final InputStream is = new ByteArrayInputStream(value.getBytes());
+        final String decoded = StreamUtils.getStreamContents(is);
         assertEquals("expected", decoded);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailForNullParameter() {
-        InputStream is = null;
+        final InputStream is = null;
         StreamUtils.getStreamContents(is);
         fail("Must throw exception before getting here");
     }

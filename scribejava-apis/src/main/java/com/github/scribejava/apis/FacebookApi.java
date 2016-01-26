@@ -8,7 +8,8 @@ import com.github.scribejava.core.utils.Preconditions;
 
 public class FacebookApi extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL = "https://www.facebook.com/v2.2/dialog/oauth?client_id=%s&redirect_uri=%s";
+    private static final String AUTHORIZE_URL
+            = "https://www.facebook.com/v2.2/dialog/oauth?client_id=%s&redirect_uri=%s";
 
     private FacebookApi() {
     }
@@ -27,11 +28,11 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
+    public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(),
                 "Must provide a valid url as callback. Facebook does not support OOB");
-        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(
-                config.getCallback())));
+        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(),
+                OAuthEncoder.encode(config.getCallback())));
         if (config.hasScope()) {
             sb.append('&').append(OAuthConstants.SCOPE).append('=').append(OAuthEncoder.encode(config.getScope()));
         }

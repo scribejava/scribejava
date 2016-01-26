@@ -17,7 +17,7 @@ public class Response {
     private InputStream stream;
     private Map<String, String> headers;
 
-    public Response(final int code, final String message, final Map<String, String> headers, final String body, final InputStream stream) {
+    public Response(int code, String message, Map<String, String> headers, String body, InputStream stream) {
         this.code = code;
         this.headers = headers;
         this.body = body;
@@ -25,7 +25,7 @@ public class Response {
         this.stream = stream;
     }
 
-    Response(final HttpURLConnection connection) throws IOException {
+    Response(HttpURLConnection connection) throws IOException {
         try {
             connection.connect();
             code = connection.getResponseCode();
@@ -42,9 +42,9 @@ public class Response {
         return body;
     }
 
-    private Map<String, String> parseHeaders(final HttpURLConnection conn) {
+    private Map<String, String> parseHeaders(HttpURLConnection conn) {
         final Map<String, String> headers = new HashMap<>();
-        for (final String key : conn.getHeaderFields().keySet()) {
+        for (String key : conn.getHeaderFields().keySet()) {
             headers.put(key, conn.getHeaderFields().get(key).get(0));
         }
         return headers;
@@ -64,7 +64,8 @@ public class Response {
     }
 
     /**
-     * Obtains the meaningful stream of the HttpUrlConnection, either inputStream or errorInputStream, depending on the status code
+     * Obtains the meaningful stream of the HttpUrlConnection, either inputStream or errorInputStream, depending on the
+     * status code
      *
      * @return input stream / error stream
      */
@@ -82,7 +83,8 @@ public class Response {
     }
 
     /**
-     * Obtains the HTTP status message. Returns <code>null</code> if the message can not be discerned from the response (not valid HTTP)
+     * Obtains the HTTP status message. Returns <code>null</code> if the message can not be discerned from the response
+     * (not valid HTTP)
      *
      * @return the status message
      */
@@ -106,7 +108,7 @@ public class Response {
      *
      * @return header value or null.
      */
-    public String getHeader(final String name) {
+    public String getHeader(String name) {
         return headers.get(name);
     }
 

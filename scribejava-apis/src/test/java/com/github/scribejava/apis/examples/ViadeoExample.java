@@ -16,7 +16,7 @@ public abstract class ViadeoExample {
     private static final String PROTECTED_RESOURCE_URL = "https://api.viadeo.com/me?user_detail=full";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";

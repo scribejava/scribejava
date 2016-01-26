@@ -16,7 +16,7 @@ public abstract class Kaixin20Example {
     private static final String PROTECTED_RESOURCE_URL = "https://api.kaixin001.com/users/me.json";
     private static final Token EMPTY_TOKEN = null;
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";

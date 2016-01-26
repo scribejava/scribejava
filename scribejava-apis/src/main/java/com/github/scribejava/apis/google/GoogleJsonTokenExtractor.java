@@ -12,11 +12,11 @@ public class GoogleJsonTokenExtractor extends JsonTokenExtractor {
     private static final Pattern ID_TOKEN_PATTERN = Pattern.compile("\"id_token\"\\s*:\\s*\"(\\S*?)\"");
 
     @Override
-    public GoogleToken extract(final String response) {
+    public GoogleToken extract(String response) {
         return new GoogleToken(extractAccessToken(response), "", response, extractOpenIdToken(response));
     }
 
-    private String extractOpenIdToken(final String response) {
+    private String extractOpenIdToken(String response) {
         final Matcher matcher = ID_TOKEN_PATTERN.matcher(response);
         if (matcher.find()) {
             return matcher.group(1);

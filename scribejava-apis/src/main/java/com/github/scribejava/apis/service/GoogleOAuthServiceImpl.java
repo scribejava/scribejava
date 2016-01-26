@@ -9,12 +9,12 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class GoogleOAuthServiceImpl extends OAuth20Service {
 
-    public GoogleOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
+    public GoogleOAuthServiceImpl(DefaultApi20 api, OAuthConfig config) {
         super(api, config);
     }
 
     @Override
-    protected <T extends AbstractRequest> T createAccessTokenRequest(final Verifier verifier, final T request) {
+    protected <T extends AbstractRequest> T createAccessTokenRequest(Verifier verifier, T request) {
         super.createAccessTokenRequest(verifier, request);
         if (!getConfig().hasGrantType()) {
             request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");

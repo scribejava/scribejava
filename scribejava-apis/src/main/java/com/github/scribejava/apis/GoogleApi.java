@@ -6,7 +6,8 @@ import com.github.scribejava.core.model.Verb;
 
 public class GoogleApi extends DefaultApi10a {
 
-    private static final String AUTHORIZATION_URL = "https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token=%s";
+    private static final String AUTHORIZATION_URL
+            = "https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token=%s";
 
     private GoogleApi() {
     }
@@ -40,7 +41,7 @@ public class GoogleApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 }

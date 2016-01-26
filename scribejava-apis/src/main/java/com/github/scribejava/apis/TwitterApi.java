@@ -31,7 +31,7 @@ public class TwitterApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 
@@ -56,7 +56,7 @@ public class TwitterApi extends DefaultApi10a {
         }
 
         @Override
-        public String getAuthorizationUrl(final Token requestToken) {
+        public String getAuthorizationUrl(Token requestToken) {
             return String.format(AUTHENTICATE_URL, requestToken.getToken());
         }
     }

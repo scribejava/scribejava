@@ -31,7 +31,7 @@ public class MisoApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 

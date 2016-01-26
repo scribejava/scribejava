@@ -14,7 +14,7 @@ public abstract class SkyrockExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.skyrock.com/v2/user/get.json";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("your-api-key")
                 .apiSecret("your-api-secret")

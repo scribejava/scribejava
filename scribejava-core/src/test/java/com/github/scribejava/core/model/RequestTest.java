@@ -24,7 +24,8 @@ public class RequestTest {
         postRequest.addBodyParameter("param", "value");
         postRequest.addBodyParameter("param with spaces", "value with spaces");
         postRequest.setConnection(connection);
-        getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces", oAuthService);
+        getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",
+                oAuthService);
         getRequest.setConnection(connection);
     }
 
@@ -67,7 +68,7 @@ public class RequestTest {
 
     @Test
     public void shouldAllowAddingQuerystringParametersAfterCreation() {
-        OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals(3, request.getQueryStringParams().size());
@@ -75,7 +76,7 @@ public class RequestTest {
 
     @Test
     public void shouldReturnTheCompleteUrl() {
-        OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals("http://example.com?one=val&two=other%20val&more=params", request.getCompleteUrl());

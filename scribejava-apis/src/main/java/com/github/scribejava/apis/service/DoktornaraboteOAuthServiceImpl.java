@@ -8,12 +8,12 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class DoktornaraboteOAuthServiceImpl extends OAuth20Service {
 
-    public DoktornaraboteOAuthServiceImpl(final DefaultApi20 api, final OAuthConfig config) {
+    public DoktornaraboteOAuthServiceImpl(DefaultApi20 api, OAuthConfig config) {
         super(api, config);
     }
 
     @Override
-    public void signRequest(final Token accessToken, final AbstractRequest request) {
+    public void signRequest(Token accessToken, AbstractRequest request) {
         request.addHeader("Authorization", "Bearer " + accessToken.getToken());
     }
 }

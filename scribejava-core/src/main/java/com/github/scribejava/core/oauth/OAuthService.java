@@ -25,7 +25,7 @@ public abstract class OAuthService {
     private final OAuthConfig config;
     private AsyncHttpClient asyncHttpClient;
 
-    public OAuthService(final OAuthConfig config) {
+    public OAuthService(OAuthConfig config) {
         this.config = config;
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
         if (config instanceof OAuthConfigAsync) {
@@ -35,10 +35,11 @@ public abstract class OAuthService {
             if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 config.log("Cannot use async operations, only sync");
             }
-            final OAuthConfigAsync asyncConfig = ((OAuthConfigAsync) config);
+            final OAuthConfigAsync asyncConfig = (OAuthConfigAsync) config;
             final String asyncHttpProviderClassName = asyncConfig.getAsyncHttpProviderClassName();
 
-            asyncHttpClient = asyncHttpProviderClassName == null ? new AsyncHttpClient(asyncConfig.getAsyncHttpClientConfig())
+            asyncHttpClient = asyncHttpProviderClassName == null
+                    ? new AsyncHttpClient(asyncConfig.getAsyncHttpClientConfig())
                     : new AsyncHttpClient(asyncHttpProviderClassName, asyncConfig.getAsyncHttpClientConfig());
         } else {
             if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
@@ -80,17 +81,19 @@ public abstract class OAuthService {
     public abstract void signRequest(Token accessToken, AbstractRequest request);
 
     /**
-     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token when it is available.
+     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
+     * when it is available.
      *
      * @param requestToken request token (obtained previously or null)
      * @param verifier verifier code
      * @param callback optional callback
      * @return Future
      */
-    public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback);
+    public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<Token> callback);
 
-    public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
-            ProxyServer proxyServer);
+    public abstract Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer);
 
     /**
      * Returns the OAuth version of the service.

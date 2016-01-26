@@ -10,7 +10,8 @@ import com.github.scribejava.core.utils.Preconditions;
 
 public class Foursquare2Api extends DefaultApi20 {
 
-    private static final String AUTHORIZATION_URL = "https://foursquare.com/oauth2/authenticate?client_id=%s&response_type=code&redirect_uri=%s";
+    private static final String AUTHORIZATION_URL
+            = "https://foursquare.com/oauth2/authenticate?client_id=%s&response_type=code&redirect_uri=%s";
 
     private Foursquare2Api() {
     }
@@ -29,8 +30,9 @@ public class Foursquare2Api extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback. Foursquare2 does not support OOB");
+    public String getAuthorizationUrl(OAuthConfig config) {
+        Preconditions.checkValidUrl(config.getCallback(),
+                "Must provide a valid url as callback. Foursquare2 does not support OOB");
         return String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
 

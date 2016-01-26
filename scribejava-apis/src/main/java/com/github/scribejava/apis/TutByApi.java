@@ -12,7 +12,8 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class TutByApi extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL = "http://profile.tut.by/auth?client_id=%s&response_type=code&redirect_uri=%s";
+    private static final String AUTHORIZE_URL
+            = "http://profile.tut.by/auth?client_id=%s&response_type=code&redirect_uri=%s";
 
     private TutByApi() {
     }
@@ -36,13 +37,14 @@ public class TutByApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(final OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(), "Valid url is required for a callback. Tut.by does not support OOB");
+    public String getAuthorizationUrl(OAuthConfig config) {
+        Preconditions.checkValidUrl(config.getCallback(),
+                "Valid url is required for a callback. Tut.by does not support OOB");
         return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
     }
 
     @Override
-    public OAuth20Service createService(final OAuthConfig config) {
+    public OAuth20Service createService(OAuthConfig config) {
         return new TutByOAuthServiceImpl(this, config);
     }
 

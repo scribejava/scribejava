@@ -12,13 +12,13 @@ import com.github.scribejava.core.oauth.OAuthService;
 
 public abstract class AWeberExample {
 
-    //To get your consumer key/secret, and view API docs, see https://labs.aweber.com/docs	
+    //To get your consumer key/secret, and view API docs, see https://labs.aweber.com/docs
     private static final String ACCOUNT_RESOURCE_URL = "https://api.aweber.com/1.0/accounts/";
 
     private static final String CONSUMER_KEY = "";
     private static final String CONSUMER_SECRET = "";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)

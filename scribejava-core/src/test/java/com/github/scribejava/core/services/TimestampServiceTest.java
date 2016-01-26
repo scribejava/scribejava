@@ -18,13 +18,13 @@ public class TimestampServiceTest {
 
     @Test
     public void shouldReturnTimestampInSeconds() {
-        String expected = "1000";
+        final String expected = "1000";
         assertEquals(expected, service.getTimestampInSeconds());
     }
 
     @Test
     public void shouldReturnNonce() {
-        String expected = "1042";
+        final String expected = "1042";
         assertEquals(expected, service.getNonce());
     }
 

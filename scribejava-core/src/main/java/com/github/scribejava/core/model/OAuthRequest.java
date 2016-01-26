@@ -67,12 +67,12 @@ public class OAuthRequest extends AbstractRequest {
     }
 
     void addHeaders() {
-        for (final Map.Entry<String, String> entry : getHeaders().entrySet()) {
+        for (Map.Entry<String, String> entry : getHeaders().entrySet()) {
             connection.setRequestProperty(entry.getKey(), entry.getValue());
         }
     }
 
-    void addBody(final byte[] content) throws IOException {
+    void addBody(byte[] content) throws IOException {
         connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
 
         if (connection.getRequestProperty(CONTENT_TYPE) == null) {
@@ -82,7 +82,7 @@ public class OAuthRequest extends AbstractRequest {
         connection.getOutputStream().write(content);
     }
 
-    void setConnection(final HttpURLConnection connection) {
+    void setConnection(HttpURLConnection connection) {
         this.connection = connection;
     }
 }

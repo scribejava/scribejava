@@ -20,7 +20,7 @@ public class TokenExtractor20Impl implements AccessTokenExtractor {
      * {@inheritDoc}
      */
     @Override
-    public Token extract(final String response) {
+    public Token extract(String response) {
         Preconditions.checkEmptyString(response,
                 "Response body is incorrect. Can't extract a token from an empty string");
 

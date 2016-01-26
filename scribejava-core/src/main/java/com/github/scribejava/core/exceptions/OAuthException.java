@@ -8,6 +8,8 @@ package com.github.scribejava.core.exceptions;
  */
 public class OAuthException extends RuntimeException {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Default constructor
      *
@@ -35,6 +37,4 @@ public class OAuthException extends RuntimeException {
     public OAuthException(Exception e) {
         super(e);
     }
-
-    private static final long serialVersionUID = 1L;
 }

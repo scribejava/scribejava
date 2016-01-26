@@ -30,7 +30,7 @@ public class DiggApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(final Token requestToken) {
+    public String getAuthorizationUrl(Token requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 

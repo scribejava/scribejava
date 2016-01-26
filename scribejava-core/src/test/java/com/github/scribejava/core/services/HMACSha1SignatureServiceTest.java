@@ -16,16 +16,16 @@ public class HMACSha1SignatureServiceTest {
 
     @Test
     public void shouldReturnSignatureMethodString() {
-        String expected = "HMAC-SHA1";
+        final String expected = "HMAC-SHA1";
         assertEquals(expected, service.getSignatureMethod());
     }
 
     @Test
     public void shouldReturnSignature() {
-        String apiSecret = "api secret";
-        String tokenSecret = "token secret";
-        String baseString = "base string";
-        String signature = "uGymw2KHOTWI699YEaoi5xyLT50=";
+        final String apiSecret = "api secret";
+        final String tokenSecret = "token secret";
+        final String baseString = "base string";
+        final String signature = "uGymw2KHOTWI699YEaoi5xyLT50=";
         assertEquals(signature, service.getSignature(baseString, apiSecret, tokenSecret));
     }
 

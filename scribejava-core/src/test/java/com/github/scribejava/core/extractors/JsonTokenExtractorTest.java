@@ -11,7 +11,7 @@ public class JsonTokenExtractorTest {
 
     @Test
     public void shouldParseResponse() {
-        Token token = extractor.extract(response);
+        final Token token = extractor.extract(response);
         assertEquals(token.getToken(), "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X");
     }
 

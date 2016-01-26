@@ -42,14 +42,14 @@ public class ResponseTest {
 
     @Test
     public void shouldHandleAConnectionWithErrors() throws Exception {
-        Response errResponse = new Response(new FaultyConnection());
+        final Response errResponse = new Response(new FaultyConnection());
         assertEquals(400, errResponse.getCode());
         assertEquals("errors", errResponse.getBody());
     }
 
     private static class FaultyConnection extends ConnectionStub {
 
-        public FaultyConnection() throws Exception {
+        private FaultyConnection() throws Exception {
             super();
         }
 

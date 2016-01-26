@@ -14,11 +14,12 @@ public abstract class TumblrExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.tumblr.com/v2/user/info";
 
-    public static void main(final String... args) {
+    public static void main(String... args) {
         final OAuthService service = new ServiceBuilder()
                 .apiKey("MY_CONSUMER_KEY")
                 .apiSecret("MY_CONSUMER_SECRET")
-                .callback("http://www.tumblr.com/connect/login_success.html") // OOB forbidden. We need an url and the better is on the tumblr website !
+                // OOB forbidden. We need an url and the better is on the tumblr website !
+                .callback("http://www.tumblr.com/connect/login_success.html")
                 .build(TumblrApi.instance());
         final Scanner in = new Scanner(System.in);
 

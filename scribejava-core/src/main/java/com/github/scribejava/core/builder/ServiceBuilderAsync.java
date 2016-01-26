@@ -9,7 +9,7 @@ public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAs
     private AsyncHttpClientConfig asyncHttpClientConfig;
     private String asyncHttpProviderClassName;
 
-    public ServiceBuilderAsync asyncHttpClientConfig(final AsyncHttpClientConfig asyncHttpClientConfig) {
+    public ServiceBuilderAsync asyncHttpClientConfig(AsyncHttpClientConfig asyncHttpClientConfig) {
         Preconditions.checkNotNull(asyncHttpClientConfig, "asyncHttpClientConfig can't be null");
         this.asyncHttpClientConfig = asyncHttpClientConfig;
         return this;
@@ -24,14 +24,14 @@ public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAs
     @Override
     protected OAuthConfigAsync createConfig() {
         checkPreconditions();
-        final OAuthConfigAsync configAsync = new OAuthConfigAsync(getApiKey(), getApiSecret(), getCallback(), getSignatureType(), getScope(),
-                getGrantType(), getDebugStream(), asyncHttpClientConfig);
+        final OAuthConfigAsync configAsync = new OAuthConfigAsync(getApiKey(), getApiSecret(), getCallback(),
+                getSignatureType(), getScope(), getGrantType(), getDebugStream(), asyncHttpClientConfig);
         configAsync.setState(getState());
         configAsync.setAsyncHttpProviderClassName(asyncHttpProviderClassName);
         return configAsync;
     }
 
-    public ServiceBuilderAsync asyncHttpProviderClassName(final String asyncHttpProviderClassName) {
+    public ServiceBuilderAsync asyncHttpProviderClassName(String asyncHttpProviderClassName) {
         this.asyncHttpProviderClassName = asyncHttpProviderClassName;
         return this;
     }
