@@ -8,14 +8,14 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class TumblrExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.tumblr.com/v2/user/info";
 
     public static void main(String... args) {
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey("MY_CONSUMER_KEY")
                 .apiSecret("MY_CONSUMER_SECRET")
                 // OOB forbidden. We need an url and the better is on the tumblr website !

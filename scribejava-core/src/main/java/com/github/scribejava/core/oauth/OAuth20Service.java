@@ -30,22 +30,26 @@ public class OAuth20Service extends OAuthService {
         this.api = api;
     }
 
-    @Override
-    public Token getAccessToken(Token requestToken, Verifier verifier) {
+    public Token getAccessToken(Verifier verifier) {
         final Response response = createAccessTokenRequest(verifier,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
-    @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
-            OAuthAsyncRequestCallback<Token> callback) {
-        return getAccessTokenAsync(requestToken, verifier, callback, null);
+    /**
+     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
+     * when it is available.
+     *
+     * @param verifier verifier code
+     * @param callback optional callback
+     * @return Future
+     */
+    public Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback) {
+        return getAccessTokenAsync(verifier, callback, null);
     }
 
-    @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
-            OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer) {
+    public Future<Token> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<Token> callback,
+            ProxyServer proxyServer) {
         final OAuthRequestAsync request = createAccessTokenRequest(verifier,
                 new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
@@ -76,15 +80,6 @@ public class OAuth20Service extends OAuthService {
      * {@inheritDoc}
      */
     @Override
-    public Token getRequestToken() {
-        throw new UnsupportedOperationException("Unsupported operation, please use 'getAuthorizationUrl'"
-                + " and redirect your users there");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String getVersion() {
         return VERSION;
     }
@@ -98,10 +93,11 @@ public class OAuth20Service extends OAuthService {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the URL where you should redirect your users to authenticate your application.
+     *
+     * @return the URL where you should redirect your users
      */
-    @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl() {
         return api.getAuthorizationUrl(getConfig());
     }
 

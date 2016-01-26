@@ -8,7 +8,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class AWeberExample {
 
@@ -19,7 +19,7 @@ public abstract class AWeberExample {
     private static final String CONSUMER_SECRET = "";
 
     public static void main(String... args) {
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)
                 .build(AWeberApi.instance());

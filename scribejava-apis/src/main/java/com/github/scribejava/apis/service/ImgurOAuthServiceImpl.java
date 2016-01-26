@@ -17,7 +17,7 @@ public class ImgurOAuthServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public Token getAccessToken(Token requestToken, Verifier verifier) {
+    public Token getAccessToken(Verifier verifier) {
         final OAuthRequest request = new OAuthRequest(getApi().getAccessTokenVerb(),
                 getApi().getAccessTokenEndpoint(), this);
         request.addBodyParameter(OAuthConstants.CLIENT_ID, getConfig().getApiKey());

@@ -38,7 +38,11 @@ public class OAuth10aService extends OAuthService {
         this.api = api;
     }
 
-    @Override
+    /**
+     * Retrieve the request token.
+     *
+     * @return request token
+     */
     public Token getRequestToken() {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
@@ -73,7 +77,6 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    @Override
     public Token getAccessToken(Token requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
@@ -83,13 +86,20 @@ public class OAuth10aService extends OAuthService {
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
-    @Override
+    /**
+     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
+     * when it is available.
+     *
+     * @param requestToken request token (obtained previously or null)
+     * @param verifier verifier code
+     * @param callback optional callback
+     * @return Future
+     */
     public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
             OAuthAsyncRequestCallback<Token> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
-    @Override
     public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
             OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
@@ -141,9 +151,11 @@ public class OAuth10aService extends OAuthService {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the URL where you should redirect your users to authenticate your application.
+     *
+     * @param requestToken the request token you need to authorize
+     * @return the URL where you should redirect your users
      */
-    @Override
     public String getAuthorizationUrl(Token requestToken) {
         return api.getAuthorizationUrl(requestToken);
     }

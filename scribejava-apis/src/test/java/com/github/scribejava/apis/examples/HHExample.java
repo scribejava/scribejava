@@ -8,21 +8,20 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
 
 import com.github.scribejava.apis.HHApi;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class HHExample {
 
     private static final String NETWORK_NAME = "hh.ru";
     private static final String PROTECTED_RESOURCE_URL = "https://api.hh.ru/me";
-    private static final Token EMPTY_TOKEN = null;
 
     public static void main(String... args) {
         // Replace these with your own client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        final OAuthService service = new ServiceBuilder()
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://your.site.com/callback")
@@ -34,7 +33,7 @@ public abstract class HHExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        final String authorizationUrl = service.getAuthorizationUrl();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -45,7 +44,7 @@ public abstract class HHExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+        final Token accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

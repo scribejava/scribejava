@@ -13,13 +13,12 @@ import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class FacebookAsyncExample {
 
     private static final String NETWORK_NAME = "Facebook";
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.2/me";
-    private static final Token EMPTY_TOKEN = null;
 
     public static void main(String... args) throws InterruptedException, ExecutionException {
         // Replace these with your client id and secret
@@ -35,7 +34,7 @@ public abstract class FacebookAsyncExample {
                 .setReadTimeout(1_000)
                 .build();
 
-        final OAuthService service = new ServiceBuilderAsync()
+        final OAuth20Service service = new ServiceBuilderAsync()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
@@ -50,7 +49,7 @@ public abstract class FacebookAsyncExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        final String authorizationUrl = service.getAuthorizationUrl();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -73,7 +72,7 @@ public abstract class FacebookAsyncExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessTokenAsync(EMPTY_TOKEN, verifier, null).get();
+        final Token accessToken = service.getAccessTokenAsync(verifier, null).get();
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

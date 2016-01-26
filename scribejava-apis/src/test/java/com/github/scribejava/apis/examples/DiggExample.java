@@ -8,7 +8,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class DiggExample {
 
@@ -19,7 +19,7 @@ public abstract class DiggExample {
         // Replace these with your own api key and secret
         final String apiKey = "myKey";
         final String apiSecret = "mySecret";
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .build(DiggApi.instance());

@@ -8,7 +8,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class LinkedInExample {
 
@@ -16,7 +16,7 @@ public abstract class LinkedInExample {
             = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
 
     public static void main(String... args) {
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")
                 .build(LinkedInApi.instance());

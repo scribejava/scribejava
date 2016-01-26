@@ -9,7 +9,7 @@ import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class FreelancerExample {
 
@@ -20,7 +20,7 @@ public abstract class FreelancerExample {
     private static final String SCOPE = "http://api.sandbox.freelancer.com";
 
     public static void main(String... args) {
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .signatureType(SignatureType.QueryString)
                 .apiKey("your client id")
                 .apiSecret("your client secret")
