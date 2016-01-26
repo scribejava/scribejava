@@ -8,7 +8,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class GoogleExample {
 
@@ -18,7 +18,7 @@ public abstract class GoogleExample {
     private static final String SCOPE = "https://docs.google.com/feeds/";
 
     public static void main(String... args) {
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey("anonymous")
                 .apiSecret("anonymous")
                 .scope(SCOPE)

@@ -10,7 +10,7 @@ public class HMACSha1SignatureServiceTest {
     private HMACSha1SignatureService service;
 
     @Before
-    public void setup() {
+    public void setUp() {
         service = new HMACSha1SignatureService();
     }
 

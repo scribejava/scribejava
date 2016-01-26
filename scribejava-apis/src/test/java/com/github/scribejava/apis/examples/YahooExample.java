@@ -8,7 +8,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class YahooExample {
 
@@ -16,7 +16,7 @@ public abstract class YahooExample {
             = "http://social.yahooapis.com/v1/user/A6ROU63MXWDCW3Y5MGCYWVHDJI/profile/status?format=json";
 
     public static void main(String... args) {
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")
                 .build(YahooApi.instance());

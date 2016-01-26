@@ -27,7 +27,7 @@ public abstract class OAuthEncoder {
 
     public static String encode(String plain) {
         Preconditions.checkNotNull(plain, "Cannot encode null object");
-        String encoded = "";
+        String encoded;
         try {
             encoded = URLEncoder.encode(plain, CHARSET);
         } catch (UnsupportedEncodingException uee) {

@@ -45,10 +45,10 @@ public class OAuthRequest extends AbstractRequest {
         connection.setRequestMethod(verb.name());
         final OAuthConfig config = getService().getConfig();
         if (config.getConnectTimeout() != null) {
-            connection.setConnectTimeout(config.getConnectTimeout().intValue());
+            connection.setConnectTimeout(config.getConnectTimeout());
         }
         if (config.getReadTimeout() != null) {
-            connection.setReadTimeout(config.getReadTimeout().intValue());
+            connection.setReadTimeout(config.getReadTimeout());
         }
         addHeaders();
         if (hasBodyContent()) {

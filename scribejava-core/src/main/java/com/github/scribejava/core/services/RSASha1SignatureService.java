@@ -14,7 +14,7 @@ public class RSASha1SignatureService implements SignatureService {
     private static final String RSA_SHA1 = "SHA1withRSA";
     private static final String UTF8 = "UTF-8";
 
-    private PrivateKey privateKey;
+    private final PrivateKey privateKey;
 
     public RSASha1SignatureService(PrivateKey privateKey) {
         this.privateKey = privateKey;

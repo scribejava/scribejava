@@ -14,7 +14,7 @@ public class ParameterListTest {
     private ParameterList params;
 
     @Before
-    public void setup() {
+    public void setUp() {
         this.params = new ParameterList();
     }
 
@@ -39,7 +39,7 @@ public class ParameterListTest {
         params.add("param2", "value with spaces");
 
         url = params.appendTo(url);
-        Assert.assertEquals(url, expectedUrl);
+        Assert.assertEquals(expectedUrl, url);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ParameterListTest {
         params.add("param2", "value with spaces");
 
         url = params.appendTo(url);
-        Assert.assertEquals(url, expectedUrl);
+        Assert.assertEquals(expectedUrl, url);
     }
 
     @Test

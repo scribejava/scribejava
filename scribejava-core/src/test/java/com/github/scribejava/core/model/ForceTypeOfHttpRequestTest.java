@@ -16,12 +16,11 @@ public class ForceTypeOfHttpRequestTest {
 
     private OAuthRequest request;
     private OAuthRequestAsync requestAsync;
-    private OAuthService oAuthService;
 
     @Before
     public void setUp() {
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.NONE);
-        oAuthService = new OAuth20Service(null, new OAuthConfig("test", "test"));
+        final OAuthService oAuthService = new OAuth20Service(null, new OAuthConfig("test", "test"));
         request = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",
                 oAuthService);
         requestAsync = new OAuthRequestAsync(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",

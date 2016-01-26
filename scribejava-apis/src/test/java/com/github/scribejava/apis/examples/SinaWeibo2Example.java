@@ -8,19 +8,18 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class SinaWeibo2Example {
 
     private static final String NETWORK_NAME = "SinaWeibo";
     private static final String PROTECTED_RESOURCE_URL = "https://api.weibo.com/2/account/get_uid.json";
-    private static final Token EMPTY_TOKEN = null;
 
     public static void main(String... args) {
         // Replace these with your own api key and secret
         final String apiKey = "your_api_key";
         final String apiSecret = "your_api_secret";
-        final OAuthService service = new ServiceBuilder()
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://www.dajie.com/oauth/sina")
@@ -32,7 +31,7 @@ public abstract class SinaWeibo2Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        final String authorizationUrl = service.getAuthorizationUrl();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -43,7 +42,7 @@ public abstract class SinaWeibo2Example {
 
         // Trade the Request Token and Verifier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+        final Token accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

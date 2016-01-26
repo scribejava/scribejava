@@ -8,14 +8,14 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class XingExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.xing.com/v1/users/me";
 
     public static void main(String... args) {
-        final OAuthService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")
                 .build(XingApi.instance());

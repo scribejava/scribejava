@@ -38,7 +38,11 @@ public class OAuth10aService extends OAuthService {
         this.api = api;
     }
 
-    @Override
+    /**
+     * Retrieve the request token.
+     *
+     * @return request token
+     */
     public Token getRequestToken() {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
@@ -73,8 +77,7 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    @Override
-    public Token getAccessToken(Token requestToken, Verifier verifier) {
+    public final Token getAccessToken(Token requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
@@ -83,14 +86,21 @@ public class OAuth10aService extends OAuthService {
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
-    @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+    /**
+     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
+     * when it is available.
+     *
+     * @param requestToken request token (obtained previously or null)
+     * @param verifier verifier code
+     * @param callback optional callback
+     * @return Future
+     */
+    public final Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
             OAuthAsyncRequestCallback<Token> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
-    @Override
-    public Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
+    public final Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
             OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
@@ -106,7 +116,7 @@ public class OAuth10aService extends OAuthService {
         }, proxyServer);
     }
 
-    private void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
+    protected void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
@@ -141,9 +151,11 @@ public class OAuth10aService extends OAuthService {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the URL where you should redirect your users to authenticate your application.
+     *
+     * @param requestToken the request token you need to authorize
+     * @return the URL where you should redirect your users
      */
-    @Override
     public String getAuthorizationUrl(Token requestToken) {
         return api.getAuthorizationUrl(requestToken);
     }

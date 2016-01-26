@@ -3,6 +3,7 @@ package com.github.scribejava.core.model;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class ResponseTest {
     private ConnectionStub connection;
 
     @Before
-    public void setup() throws Exception {
+    public void setUp() throws IOException {
         connection = new ConnectionStub();
         connection.addResponseHeader("one", "one");
         connection.addResponseHeader("two", "two");
@@ -41,7 +42,7 @@ public class ResponseTest {
     }
 
     @Test
-    public void shouldHandleAConnectionWithErrors() throws Exception {
+    public void shouldHandleAConnectionWithErrors() throws IOException {
         final Response errResponse = new Response(new FaultyConnection());
         assertEquals(400, errResponse.getCode());
         assertEquals("errors", errResponse.getBody());
@@ -49,7 +50,7 @@ public class ResponseTest {
 
     private static class FaultyConnection extends ConnectionStub {
 
-        private FaultyConnection() throws Exception {
+        private FaultyConnection() throws MalformedURLException {
             super();
         }
 

@@ -8,14 +8,13 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
-import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class OdnoklassnikiExample {
 
     private static final String NETWORK_NAME = "Odnoklassniki.ru";
     private static final String PROTECTED_RESOURCE_URL
             = "http://api.odnoklassniki.ru/api/users/getCurrentUser?application_key=%1$s&format=JSON";
-    private static final Token EMPTY_TOKEN = null;
 
     public static void main(String... args) {
         // Replace these with your client id and secret
@@ -23,7 +22,7 @@ public abstract class OdnoklassnikiExample {
         final String publicKey = "your api secret";
         final String clientSecret = "your client secret";
 
-        final OAuthService service = new ServiceBuilder()
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("VALUABLE ACCESS")
@@ -37,7 +36,7 @@ public abstract class OdnoklassnikiExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        final String authorizationUrl = service.getAuthorizationUrl();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -49,7 +48,7 @@ public abstract class OdnoklassnikiExample {
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
 
-        final Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+        final Token accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

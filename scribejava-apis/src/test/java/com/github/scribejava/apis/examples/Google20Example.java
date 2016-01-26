@@ -15,7 +15,6 @@ public abstract class Google20Example {
 
     private static final String NETWORK_NAME = "G+";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
-    private static final Token EMPTY_TOKEN = null;
 
     public static void main(String... args) {
         // Replace these with your client id and secret
@@ -36,7 +35,7 @@ public abstract class Google20Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+        final String authorizationUrl = service.getAuthorizationUrl();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -59,7 +58,7 @@ public abstract class Google20Example {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+        final Token accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

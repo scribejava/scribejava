@@ -7,13 +7,11 @@ import org.junit.Test;
 public class TimestampServiceTest {
 
     private TimestampServiceImpl service;
-    private TimestampServiceImpl.Timer timerStub;
 
     @Before
-    public void setup() {
+    public void setUp() {
         service = new TimestampServiceImpl();
-        timerStub = new TimerStub();
-        service.setTimer(timerStub);
+        service.setTimer(new TimerStub());
     }
 
     @Test
