@@ -14,7 +14,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public abstract class FacebookExample {
 
     private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.2/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.5/me";
 
     public static void main(String... args) {
         // Replace these with your client id and secret
