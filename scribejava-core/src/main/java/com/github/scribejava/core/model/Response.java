@@ -38,7 +38,11 @@ public class Response {
     }
 
     private String parseBodyContents() {
-        body = StreamUtils.getStreamContents(getStream());
+        if ( "gzip".equals(getHeader("Content-Encoding")) ){
+            body = StreamUtils.getGzipStreamContents(getStream());
+        } else {
+            body = StreamUtils.getStreamContents(getStream());
+        }
         return body;
     }
 
