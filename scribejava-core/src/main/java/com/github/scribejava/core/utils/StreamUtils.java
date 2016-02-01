@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Utils to deal with Streams.
@@ -33,6 +34,22 @@ public abstract class StreamUtils {
                 } while (read >= 0);
             }
             return out.toString();
+        } catch (IOException ioe) {
+            throw new IllegalStateException("Error while reading response body", ioe);
+        }
+    }
+
+    /**
+     * Return String content from a gzip stream
+     *
+     * @param is input stream
+     * @return string contents
+     */
+    public static String getGzipStreamContents(InputStream is) {
+        Preconditions.checkNotNull(is, "Cannot get String from a null object");
+        try {
+            GZIPInputStream gis = new GZIPInputStream(is);
+            return getStreamContents(gis);
         } catch (IOException ioe) {
             throw new IllegalStateException("Error while reading response body", ioe);
         }
