@@ -1,4 +1,5 @@
 [SNAPSHOT]
+ * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).
  * Support response in gzip.
  * Update Facebook API v2.2 -> v2.5
 
