@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * Update Facebook API v2.2 -> v2.5
+
 [2.2.0]
  * Let GoogleApi20 supports OOB
  * Updated Imgur API to OAuth2
