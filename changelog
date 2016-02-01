@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * Support response in gzip.
+
 [2.2.2]
  * make all APIs to be extentable (have protected constructors, useful for testing)
 
