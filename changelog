@@ -1,5 +1,6 @@
-[SNAPSHOT]
+[2.2.1]
  * Update Facebook API v2.2 -> v2.5
+ * Update hh.ru urls
 
 [2.2.0]
  * Let GoogleApi20 supports OOB
