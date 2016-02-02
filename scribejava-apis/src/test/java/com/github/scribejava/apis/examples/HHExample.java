@@ -25,6 +25,7 @@ public abstract class HHExample {
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://your.site.com/callback")
+                .grantType("authorization_code")
                 .build(HHApi.instance());
         final Scanner in = new Scanner(System.in);
 
