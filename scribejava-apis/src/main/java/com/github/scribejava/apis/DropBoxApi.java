@@ -5,7 +5,7 @@ import com.github.scribejava.core.model.Token;
 
 public class DropBoxApi extends DefaultApi10a {
 
-    private DropBoxApi() {
+    protected DropBoxApi() {
     }
 
     private static class InstanceHolder {

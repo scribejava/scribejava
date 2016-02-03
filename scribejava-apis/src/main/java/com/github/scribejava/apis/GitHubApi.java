@@ -10,7 +10,7 @@ public class GitHubApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL = "https://github.com/login/oauth/authorize?client_id=%s&redirect_uri=%s";
 
-    private GitHubApi() {
+    protected GitHubApi() {
     }
 
     private static class InstanceHolder {

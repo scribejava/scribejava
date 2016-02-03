@@ -8,7 +8,7 @@ public class ConstantContactApi extends DefaultApi10a {
     private static final String AUTHORIZE_URL
             = "https://oauth.constantcontact.com/ws/oauth/confirm_access?oauth_token=%s";
 
-    private ConstantContactApi() {
+    protected ConstantContactApi() {
     }
 
     private static class InstanceHolder {

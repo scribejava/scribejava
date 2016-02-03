@@ -16,7 +16,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
             = "http://www.odnoklassniki.ru/oauth/authorize?client_id=%s&response_type=code&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = String.format("%s&scope=%%s", AUTHORIZE_URL);
 
-    private OdnoklassnikiApi() {
+    protected OdnoklassnikiApi() {
     }
 
     private static class InstanceHolder {

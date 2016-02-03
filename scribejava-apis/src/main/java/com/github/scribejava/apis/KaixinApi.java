@@ -10,7 +10,7 @@ public class KaixinApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "http://api.kaixin001.com/oauth/access_token";
     private static final String AUTHORIZE_URL = "http://api.kaixin001.com/oauth/authorize?oauth_token=%s";
 
-    private KaixinApi() {
+    protected KaixinApi() {
     }
 
     private static class InstanceHolder {

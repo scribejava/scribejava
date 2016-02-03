@@ -9,7 +9,7 @@ public class NetProspexApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "https://api.netprospex.com/1.0/oauth/access-token";
     private static final String AUTHORIZE_URL = "https://api.netprospex.com/1.0/oauth/authorize?oauth_token=%s";
 
-    private NetProspexApi() {
+    protected NetProspexApi() {
     }
 
     private static class InstanceHolder {

@@ -15,7 +15,7 @@ public class PinterestApi extends DefaultApi20 {
             = "https://api.pinterest.com/oauth?response_type=code&client_id=%s&redirect_uri=%s";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
-    private PinterestApi() {
+    protected PinterestApi() {
     }
 
     private static class InstanceHolder {

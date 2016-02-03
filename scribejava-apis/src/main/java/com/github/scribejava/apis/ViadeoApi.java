@@ -14,7 +14,7 @@ public class ViadeoApi extends DefaultApi20 {
             = "https://secure.viadeo.com/oauth-provider/authorize2?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
-    private ViadeoApi() {
+    protected ViadeoApi() {
     }
 
     private static class InstanceHolder {

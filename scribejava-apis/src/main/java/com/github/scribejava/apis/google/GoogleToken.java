@@ -4,6 +4,8 @@ import com.github.scribejava.core.model.Token;
 
 public class GoogleToken extends Token {
 
+    private static final long serialVersionUID = 5634896204924467956L;
+
     /**
      * Id_token is part of OpenID Connect specification. It can hold user information that you can directly extract
      * without additional request to provider.

@@ -15,7 +15,7 @@ public class TutByApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL
             = "http://profile.tut.by/auth?client_id=%s&response_type=code&redirect_uri=%s";
 
-    private TutByApi() {
+    protected TutByApi() {
     }
 
     private static class InstanceHolder {

@@ -9,7 +9,7 @@ public class TumblrApi extends DefaultApi10a {
     private static final String REQUEST_TOKEN_RESOURCE = "http://www.tumblr.com/oauth/request_token";
     private static final String ACCESS_TOKEN_RESOURCE = "http://www.tumblr.com/oauth/access_token";
 
-    private TumblrApi() {
+    protected TumblrApi() {
     }
 
     private static class InstanceHolder {

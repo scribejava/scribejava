@@ -13,7 +13,7 @@ public class Foursquare2Api extends DefaultApi20 {
     private static final String AUTHORIZATION_URL
             = "https://foursquare.com/oauth2/authenticate?client_id=%s&response_type=code&redirect_uri=%s";
 
-    private Foursquare2Api() {
+    protected Foursquare2Api() {
     }
 
     private static class InstanceHolder {

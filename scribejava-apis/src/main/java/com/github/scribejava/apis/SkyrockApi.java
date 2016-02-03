@@ -16,7 +16,7 @@ public class SkyrockApi extends DefaultApi10a {
     private static final String AUTHORIZE_URL = "/oauth/authorize?oauth_token=%s";
     private static final String ACCESS_TOKEN_RESOURCE = "/oauth/token";
 
-    private SkyrockApi() {
+    protected SkyrockApi() {
     }
 
     private static class InstanceHolder {

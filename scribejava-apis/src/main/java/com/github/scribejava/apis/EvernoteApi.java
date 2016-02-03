@@ -5,7 +5,7 @@ import com.github.scribejava.core.model.Token;
 
 public class EvernoteApi extends DefaultApi10a {
 
-    private EvernoteApi() {
+    protected EvernoteApi() {
     }
 
     private static class InstanceHolder {

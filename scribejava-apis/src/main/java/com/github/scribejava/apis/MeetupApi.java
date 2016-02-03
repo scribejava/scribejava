@@ -10,7 +10,7 @@ public class MeetupApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "http://www.meetup.com/authenticate?oauth_token=%s";
 
-    private MeetupApi() {
+    protected MeetupApi() {
     }
 
     private static class InstanceHolder {

@@ -7,7 +7,7 @@ public class TrelloApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "https://trello.com/1/OAuthAuthorizeToken?oauth_token=%s";
 
-    private TrelloApi() {
+    protected TrelloApi() {
     }
 
     private static class InstanceHolder {

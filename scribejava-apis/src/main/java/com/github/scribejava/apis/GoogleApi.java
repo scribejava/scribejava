@@ -9,7 +9,7 @@ public class GoogleApi extends DefaultApi10a {
     private static final String AUTHORIZATION_URL
             = "https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token=%s";
 
-    private GoogleApi() {
+    protected GoogleApi() {
     }
 
     private static class InstanceHolder {

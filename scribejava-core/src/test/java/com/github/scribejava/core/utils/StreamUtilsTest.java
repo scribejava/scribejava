@@ -19,8 +19,7 @@ public class StreamUtilsTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailForNullParameter() {
-        final InputStream is = null;
-        StreamUtils.getStreamContents(is);
+        StreamUtils.getStreamContents(null);
         fail("Must throw exception before getting here");
     }
 

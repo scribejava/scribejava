@@ -39,14 +39,12 @@ public class OAuthEncoderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfStringToEncodeIsNull() {
-        final String toEncode = null;
-        OAuthEncoder.encode(toEncode);
+        OAuthEncoder.encode(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfStringToDecodeIsNull() {
-        final String toDecode = null;
-        OAuthEncoder.decode(toDecode);
+        OAuthEncoder.decode(null);
     }
 
     @Test

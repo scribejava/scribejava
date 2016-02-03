@@ -12,7 +12,7 @@ public class MendeleyApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "http://api.mendeley.com/oauth/authorize?oauth_token=%s";
 
-    private MendeleyApi() {
+    protected MendeleyApi() {
     }
 
     private static class InstanceHolder {

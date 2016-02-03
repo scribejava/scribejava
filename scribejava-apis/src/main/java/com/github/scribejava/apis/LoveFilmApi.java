@@ -9,7 +9,7 @@ public class LoveFilmApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "http://openapi.lovefilm.com/oauth/access_token";
     private static final String AUTHORIZE_URL = "https://www.lovefilm.com/activate?oauth_token=%s";
 
-    private LoveFilmApi() {
+    protected LoveFilmApi() {
     }
 
     private static class InstanceHolder {

@@ -11,7 +11,7 @@ import com.github.scribejava.core.model.Token;
  */
 public class FlickrApi extends DefaultApi10a {
 
-    private FlickrApi() {
+    protected FlickrApi() {
     }
 
     private static class InstanceHolder {

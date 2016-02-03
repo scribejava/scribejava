@@ -10,7 +10,7 @@ public class SimpleGeoApi extends DefaultApi10a {
 
     private static final String ENDPOINT = "these are not used since SimpleGeo uses 2 legged OAuth";
 
-    private SimpleGeoApi() {
+    protected SimpleGeoApi() {
     }
 
     private static class InstanceHolder {

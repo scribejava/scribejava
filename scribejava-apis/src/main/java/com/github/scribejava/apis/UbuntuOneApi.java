@@ -14,7 +14,7 @@ public class UbuntuOneApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "https://one.ubuntu.com/oauth/authorize/?oauth_token=%s";
 
-    private UbuntuOneApi() {
+    protected UbuntuOneApi() {
     }
 
     private static class InstanceHolder {
