@@ -8,7 +8,7 @@ public class DiggApi extends DefaultApi10a {
     private static final String AUTHORIZATION_URL = "http://digg.com/oauth/authorize?oauth_token=%s";
     private static final String BASE_URL = "http://services.digg.com/oauth/";
 
-    private DiggApi() {
+    protected DiggApi() {
     }
 
     private static class InstanceHolder {

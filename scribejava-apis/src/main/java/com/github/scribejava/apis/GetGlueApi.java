@@ -9,7 +9,7 @@ public class GetGlueApi extends DefaultApi10a {
     private static final String REQUEST_TOKEN_RESOURCE = "https://api.getglue.com/oauth/request_token";
     private static final String ACCESS_TOKEN_RESOURCE = "https://api.getglue.com/oauth/access_token";
 
-    private GetGlueApi() {
+    protected GetGlueApi() {
     }
 
     private static class InstanceHolder {

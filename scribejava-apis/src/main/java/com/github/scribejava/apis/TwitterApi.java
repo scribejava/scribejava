@@ -9,7 +9,7 @@ public class TwitterApi extends DefaultApi10a {
     private static final String REQUEST_TOKEN_RESOURCE = "api.twitter.com/oauth/request_token";
     private static final String ACCESS_TOKEN_RESOURCE = "api.twitter.com/oauth/access_token";
 
-    private TwitterApi() {
+    protected TwitterApi() {
     }
 
     private static class InstanceHolder {

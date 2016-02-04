@@ -17,7 +17,7 @@ public class HHApi extends DefaultApi20 {
 
     private static final String TOKEN_URL = "https://hh.ru/oauth/token";
 
-    private HHApi() {
+    protected HHApi() {
     }
 
     private static class InstanceHolder {

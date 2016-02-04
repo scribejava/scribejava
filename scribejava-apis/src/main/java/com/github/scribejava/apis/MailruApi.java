@@ -16,7 +16,7 @@ public class MailruApi extends DefaultApi20 {
             = "https://connect.mail.ru/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
-    private MailruApi() {
+    protected MailruApi() {
     }
 
     private static class InstanceHolder {

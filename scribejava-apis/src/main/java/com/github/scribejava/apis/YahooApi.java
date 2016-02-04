@@ -7,7 +7,7 @@ public class YahooApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "https://api.login.yahoo.com/oauth/v2/request_auth?oauth_token=%s";
 
-    private YahooApi() {
+    protected YahooApi() {
     }
 
     private static class InstanceHolder {

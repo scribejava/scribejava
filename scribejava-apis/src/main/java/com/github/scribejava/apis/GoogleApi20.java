@@ -15,7 +15,7 @@ public class GoogleApi20 extends DefaultApi20 {
     private static final String AUTHORIZE_URL
             = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
 
-    private GoogleApi20() {
+    protected GoogleApi20() {
     }
 
     private static class InstanceHolder {

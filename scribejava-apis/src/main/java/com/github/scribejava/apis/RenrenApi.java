@@ -16,7 +16,7 @@ public class RenrenApi extends DefaultApi20 {
             = "https://graph.renren.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
-    private RenrenApi() {
+    protected RenrenApi() {
     }
 
     private static class InstanceHolder {

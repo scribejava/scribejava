@@ -8,7 +8,7 @@ public class FreelancerApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "http://www.freelancer.com/users/api-token/auth.php?oauth_token=%s";
 
-    private FreelancerApi() {
+    protected FreelancerApi() {
     }
 
     private static class InstanceHolder {

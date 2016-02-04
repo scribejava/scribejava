@@ -9,7 +9,7 @@ public class YammerApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "https://www.yammer.com/oauth/authorize?oauth_token=%s";
 
-    private YammerApi() {
+    protected YammerApi() {
     }
 
     private static class InstanceHolder {

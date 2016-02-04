@@ -9,7 +9,7 @@ public class PlurkApi extends DefaultApi10a {
     private static final String AUTHORIZATION_URL = "http://www.plurk.com/OAuth/authorize?oauth_token=%s";
     private static final String ACCESS_TOKEN_URL = "http://www.plurk.com/OAuth/access_token";
 
-    private PlurkApi() {
+    protected PlurkApi() {
     }
 
     private static class InstanceHolder {

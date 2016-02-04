@@ -37,7 +37,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
         }
     };
 
-    private ConstantContactApi2() {
+    protected ConstantContactApi2() {
     }
 
     private static class InstanceHolder {

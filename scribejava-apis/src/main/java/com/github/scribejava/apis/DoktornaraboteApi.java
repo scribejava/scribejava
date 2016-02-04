@@ -17,7 +17,7 @@ public class DoktornaraboteApi extends DefaultApi20 {
             = "http://auth.doktornarabote.ru/OAuth/Authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
     private static final String TOKEN_URL = "http://auth.doktornarabote.ru/OAuth/Token";
 
-    private DoktornaraboteApi() {
+    protected DoktornaraboteApi() {
     }
 
     private static class InstanceHolder {

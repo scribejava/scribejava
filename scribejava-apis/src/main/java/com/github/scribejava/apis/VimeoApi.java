@@ -7,7 +7,7 @@ public class VimeoApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "http://vimeo.com/oauth/authorize?oauth_token=%s";
 
-    private VimeoApi() {
+    protected VimeoApi() {
     }
 
     private static class InstanceHolder {

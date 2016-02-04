@@ -9,7 +9,7 @@ public class QWeiboApi extends DefaultApi10a {
     private static final String ACCESS_TOKEN_URL = "https://open.t.qq.com/cgi-bin/access_token";
     private static final String AUTHORIZE_URL = "https://open.t.qq.com/cgi-bin/authorize?oauth_token=%s";
 
-    private QWeiboApi() {
+    protected QWeiboApi() {
     }
 
     private static class InstanceHolder {

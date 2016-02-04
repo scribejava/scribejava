@@ -10,7 +10,7 @@ public class SapoApi extends DefaultApi10a {
     private static final String ACCESS_URL = "https://id.sapo.pt/oauth/access_token";
     private static final String REQUEST_URL = "https://id.sapo.pt/oauth/request_token";
 
-    private SapoApi() {
+    protected SapoApi() {
     }
 
     private static class InstanceHolder {

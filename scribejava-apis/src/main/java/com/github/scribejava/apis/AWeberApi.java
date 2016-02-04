@@ -9,7 +9,7 @@ public class AWeberApi extends DefaultApi10a {
     private static final String REQUEST_TOKEN_ENDPOINT = "https://auth.aweber.com/1.0/oauth/request_token";
     private static final String ACCESS_TOKEN_ENDPOINT = "https://auth.aweber.com/1.0/oauth/access_token";
 
-    private AWeberApi() {
+    protected AWeberApi() {
     }
 
     private static class InstanceHolder {

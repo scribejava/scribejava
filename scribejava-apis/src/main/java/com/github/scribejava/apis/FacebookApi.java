@@ -17,7 +17,7 @@ public class FacebookApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL
             = "https://www.facebook.com/v2.5/dialog/oauth?client_id=%s&redirect_uri=%s";
 
-    private FacebookApi() {
+    protected FacebookApi() {
     }
 
     private static class InstanceHolder {

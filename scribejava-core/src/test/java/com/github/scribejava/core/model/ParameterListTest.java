@@ -20,8 +20,7 @@ public class ParameterListTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenAppendingNullMapToQuerystring() {
-        final String url = null;
-        params.appendTo(url);
+        params.appendTo(null);
     }
 
     @Test

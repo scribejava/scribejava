@@ -38,8 +38,7 @@ public class HeaderExtractorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldExceptionIfRequestIsNull() {
-        final OAuthRequest nullRequest = null;
-        extractor.extract(nullRequest);
+        extractor.extract(null);
     }
 
     @Test(expected = OAuthParametersMissingException.class)

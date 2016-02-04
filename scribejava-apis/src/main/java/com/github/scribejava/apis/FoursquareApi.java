@@ -7,7 +7,7 @@ public class FoursquareApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "http://foursquare.com/oauth/authorize?oauth_token=%s";
 
-    private FoursquareApi() {
+    protected FoursquareApi() {
     }
 
     private static class InstanceHolder {

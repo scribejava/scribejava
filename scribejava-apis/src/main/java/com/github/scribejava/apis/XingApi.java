@@ -7,7 +7,7 @@ public class XingApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "https://api.xing.com/v1/authorize?oauth_token=%s";
 
-    private XingApi() {
+    protected XingApi() {
     }
 
     private static class InstanceHolder {

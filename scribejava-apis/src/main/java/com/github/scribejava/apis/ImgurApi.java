@@ -13,7 +13,7 @@ public class ImgurApi extends DefaultApi20 {
     private static final String AUTHORIZATION_URL =
             "https://api.imgur.com/oauth2/authorize?client_id=%s&response_type=%s";
 
-    private ImgurApi() {
+    protected ImgurApi() {
     }
 
     private static class InstanceHolder {

@@ -51,8 +51,7 @@ public class TokenExtractor20Test {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfResponseIsNull() {
-        final String response = null;
-        extractor.extract(response);
+        extractor.extract(null);
     }
 
     @Test(expected = IllegalArgumentException.class)

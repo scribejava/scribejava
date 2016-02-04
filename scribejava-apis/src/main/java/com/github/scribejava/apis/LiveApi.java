@@ -14,7 +14,7 @@ public class LiveApi extends DefaultApi20 {
             = "https://oauth.live.com/authorize?client_id=%s&redirect_uri=%s&response_type=code";
     private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
-    private LiveApi() {
+    protected LiveApi() {
     }
 
     private static class InstanceHolder {
