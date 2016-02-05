@@ -19,7 +19,7 @@ public class StackExchangeApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL
     = "https://stackexchange.com/oauth?client_id=%s&redirect_uri=%s";
 
-    private StackExchangeApi() {
+    protected StackExchangeApi() {
     }
 
     private static class InstanceHolder {
