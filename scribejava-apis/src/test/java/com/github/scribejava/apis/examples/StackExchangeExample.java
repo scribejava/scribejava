@@ -15,13 +15,16 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public abstract class StackExchangeExample {
 
     private static final String NETWORK_NAME = "Stack Exchange";
-    private static final String PROTECTED_RESOURCE_URL = "https://api.stackexchange.com/2.2/me?site=stackoverflow&key=";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.stackexchange.com/2.2/me";
 
     public static void main(String... args) {
-        // Replace these with your client id and secret
+        // Replace these with your client id, secret, application key and
+        // optionally site name
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String key = "your client key";
+        // Enter one of Stack Exchange site names the user has account with.
+        final String site = "stackoverflow";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder()
         .apiKey(clientId)
@@ -66,7 +69,7 @@ public abstract class StackExchangeExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + key, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + "?site=" + site + "&key=" + key, service);
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
