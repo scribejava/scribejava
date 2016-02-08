@@ -90,7 +90,7 @@
         <dependency>
             <groupId>com.ning</groupId>
             <artifactId>async-http-client</artifactId>
-            <version>1.9.31</version>
+            <version>1.9.32</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -105,7 +105,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.5</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <source>1.7</source>
