@@ -16,8 +16,7 @@ import com.github.scribejava.core.utils.Preconditions;
  */
 public class StackExchangeApi extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL
-    = "https://stackexchange.com/oauth?client_id=%s&redirect_uri=%s";
+    private static final String AUTHORIZE_URL = "https://stackexchange.com/oauth?client_id=%s&redirect_uri=%s";
 
     protected StackExchangeApi() {
     }

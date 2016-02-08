@@ -27,11 +27,11 @@ public abstract class StackExchangeExample {
         final String site = "stackoverflow";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder()
-        .apiKey(clientId)
-        .apiSecret(clientSecret)
-        .state(secretState)
-        .callback("http://www.example.com/oauth_callback/")
-        .build(StackExchangeApi.instance());
+                .apiKey(clientId)
+                .apiSecret(clientSecret)
+                .state(secretState)
+                .callback("http://www.example.com/oauth_callback/")
+                .build(StackExchangeApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
@@ -69,7 +69,8 @@ public abstract class StackExchangeExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + "?site=" + site + "&key=" + key, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET,
+                PROTECTED_RESOURCE_URL + "?site=" + site + "&key=" + key, service);
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");
