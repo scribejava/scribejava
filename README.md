@@ -4,17 +4,16 @@
 
 ### Dead Simple
 
-Who said OAuth/OAuth2 was difficult? Configuring scribe is __so easy your grandma can do it__! check it out:
+Who said OAuth/OAuth2 was difficult? Configuring ScribeJava is __so easy your grandma can do it__! check it out:
 
 ```java
 OAuthService service = new ServiceBuilder()
-                                  .provider(LinkedInApi.class)
                                   .apiKey(YOUR_API_KEY)
                                   .apiSecret(YOUR_API_SECRET)
-                                  .build();
+                                  .build(LinkedInApi20.instance());
 ```
 
-That **single line** (added newlines for readability) is the only thing you need to configure scribe with LinkedIn's OAuth API for example.
+That **single line** (added newlines for readability) is the only thing you need to configure ScribeJava with LinkedIn's OAuth API for example.
 
 ### Threadsafe
 

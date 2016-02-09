@@ -32,7 +32,7 @@ public abstract class TumblrExample {
         System.out.println("Got the Request Token!");
         System.out.println();
 
-        System.out.println("Now go and authorize Scribe here:");
+        System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(service.getAuthorizationUrl(requestToken));
         System.out.println("And paste the verifier here");
         System.out.print(">>");
