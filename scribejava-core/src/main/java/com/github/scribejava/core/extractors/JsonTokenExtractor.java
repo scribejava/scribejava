@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuth1Token;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.utils.Preconditions;
 
 public class JsonTokenExtractor implements AccessTokenExtractor {

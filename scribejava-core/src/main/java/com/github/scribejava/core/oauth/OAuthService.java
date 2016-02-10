@@ -67,9 +67,9 @@ public abstract class OAuthService {
      * @param request request to sign
      */
     public abstract void signRequest(Token accessToken, AbstractRequest request);
-    
+
     /**
-     * Signs an OAuth request. 
+     * Signs an OAuth request.
      *
      * @param accessToken access token (obtained previously)
      * @param request request to sign

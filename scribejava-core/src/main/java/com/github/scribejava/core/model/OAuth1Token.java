@@ -4,7 +4,6 @@ import com.github.scribejava.core.utils.Preconditions;
 
 /**
  * Represents an OAuth 1 access token
- * 
  */
 public class OAuth1Token implements AccessToken, RequestToken {
 
@@ -104,5 +103,5 @@ public class OAuth1Token implements AccessToken, RequestToken {
     public int hashCode() {
         return 31 * token.hashCode() + secret.hashCode();
     }
-    
+
 }

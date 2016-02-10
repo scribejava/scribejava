@@ -21,7 +21,7 @@ public abstract class Google20Example {
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
-        
+
         System.out.println("Enter your Google API client key");
         System.out.print(">>");
         final String clientId = in.nextLine();
@@ -72,7 +72,7 @@ public abstract class Google20Example {
         System.out.println("(if you're curious it looks like this: " + accessToken + " )");
         System.out.println("This token will expire in "+accessToken.getExpiresIn()+"ms");
         System.out.println();
-        
+
         System.out.println("Refreshing the Access Token...");
         accessToken = service.refreshOAuth2AccessToken(accessToken);
         System.out.println("Refreshed the Access Token!");

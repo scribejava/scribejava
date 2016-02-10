@@ -41,7 +41,8 @@ public class RequestTokenTest {
 
     @Test
     public void shouldReturnUrlParam() throws Exception {
-        final OAuth1Token actual = new OAuth1Token("acccess", "secret", "user_id=3107154759&screen_name=someuser&empty=&=");
+        final OAuth1Token actual = new OAuth1Token("acccess", "secret",
+                "user_id=3107154759&screen_name=someuser&empty=&=");
         assertEquals("someuser", actual.getParameter("screen_name"));
         assertEquals("3107154759", actual.getParameter("user_id"));
         assertEquals(null, actual.getParameter("empty"));

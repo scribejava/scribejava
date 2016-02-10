@@ -4,11 +4,9 @@ import java.util.Random;
 import java.util.Scanner;
 import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -19,9 +17,9 @@ public abstract class FacebookExample {
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.2/me";
 
     public static void main(final String... args) {
-        
+
         final Scanner in = new Scanner(System.in, "UTF-8");
-        
+
         System.out.println("Enter your Facebook API client key");
         System.out.print(">>");
         final String clientId = in.nextLine();
@@ -67,16 +65,16 @@ public abstract class FacebookExample {
         OAuth2AccessToken accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
-        System.out.println("This token expires in "+accessToken.getExpiresIn()+"s");
+        System.out.println("This token expires in " + accessToken.getExpiresIn() + "s");
         System.out.println();
 
         System.out.println("We're going to get a longer-lived token now");
         accessToken = service.refreshOAuth2AccessToken(accessToken);
         System.out.println("Got the long-lived Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
-        System.out.println("This token expires in "+accessToken.getExpiresIn()+"s");
+        System.out.println("This token expires in " + accessToken.getExpiresIn() + "s");
         System.out.println();
-        
+
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);

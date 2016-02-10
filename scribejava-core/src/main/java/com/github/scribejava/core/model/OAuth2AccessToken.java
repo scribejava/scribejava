@@ -5,20 +5,19 @@ import java.util.Objects;
 
 /**
  * Represents an OAuth 2 access token
- * 
  * @see <a href="https://tools.ietf.org/html/rfc6749#section-4.1.4">OAuth 2 Access Token Specification</a>
- * 
  * @author Daniel Tyreus
  */
 public class OAuth2AccessToken implements AccessToken {
-    
+
     private final String accessToken;
     private final String tokenType;
     private final String refreshToken;
     private final Long expiresIn;
     private final String rawResponse;
 
-    public OAuth2AccessToken(String accessToken, String tokenType, String refreshToken, Long expiresIn, String rawResponse) {
+    public OAuth2AccessToken(String accessToken, String tokenType, String refreshToken,
+            Long expiresIn, String rawResponse) {
         Preconditions.checkNotNull(accessToken, "Token can't be null");
         this.accessToken = accessToken;
         this.tokenType = tokenType;
@@ -26,7 +25,7 @@ public class OAuth2AccessToken implements AccessToken {
         this.expiresIn = expiresIn;
         this.rawResponse = rawResponse;
     }
-    
+
     public OAuth2AccessToken(String accessToken, String rawResponse) {
         Preconditions.checkNotNull(accessToken, "Token can't be null");
         this.accessToken = accessToken;
@@ -35,7 +34,7 @@ public class OAuth2AccessToken implements AccessToken {
         this.expiresIn = null;
         this.rawResponse = rawResponse;
     }
-    
+
     public OAuth2AccessToken(String accessToken) {
         Preconditions.checkNotNull(accessToken, "Token can't be null");
         this.accessToken = accessToken;
@@ -101,8 +100,9 @@ public class OAuth2AccessToken implements AccessToken {
         if (rawResponse != null){
             return rawResponse;
         }
-        
-        return "OAuth2AccessToken{" + "accessToken=" + accessToken + ", tokenType=" + tokenType + ", refreshToken=" + refreshToken + ", expiresIn=" + expiresIn + '}';
+
+        return "OAuth2AccessToken{" + "accessToken=" + accessToken + ", tokenType="
+                + tokenType + ", refreshToken=" + refreshToken + ", expiresIn=" + expiresIn + '}';
     }
 
 }

@@ -29,7 +29,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
             final String regex = "\"access_token\"\\s*:\\s*\"([^&\"]+)\"";
             final Matcher matcher = Pattern.compile(regex).matcher(response);
             if (matcher.find()) {
-                String token = OAuthEncoder.decode(matcher.group(1));
+                final String token = OAuthEncoder.decode(matcher.group(1));
                 return new OAuth2AccessToken(token, response);
             } else {
                 throw new OAuthException("Response body is incorrect. Can't extract a token from this: '"

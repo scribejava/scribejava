@@ -8,7 +8,6 @@ import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.OAuth1Token;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -87,23 +86,25 @@ public class OAuth10aService extends OAuthService {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
         final Response response = request.send();
-        return (OAuth1Token)api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth1Token) api.getAccessTokenExtractor().extract(response.getBody());
     }
 
     /**
-     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
-     * when it is available.
+     * Start the request to retrieve the access token. The optionally provided
+     * callback will be called with the Token when it is available.
      *
      * @param requestToken request token (obtained previously or null)
      * @param verifier verifier code
      * @param callback optional callback
      * @return Future
      */
-    public Future<AccessToken> getAccessTokenAsync(RequestToken requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback) {
+    public Future<AccessToken> getAccessTokenAsync(RequestToken requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<AccessToken> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
-    public Future<AccessToken> getAccessTokenAsync(RequestToken requestToken, Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback, ProxyServer proxyServer) {
+    public Future<AccessToken> getAccessTokenAsync(RequestToken requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<AccessToken> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request
@@ -112,12 +113,14 @@ public class OAuth10aService extends OAuthService {
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<AccessToken>() {
             @Override
             public AccessToken convert(final com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+                return getApi().getAccessTokenExtractor()
+                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
         }, proxyServer);
     }
 
-    private void prepareAccessTokenRequest(final AbstractRequest request, final RequestToken requestToken, final Verifier verifier) {
+    private void prepareAccessTokenRequest(final AbstractRequest request, final RequestToken requestToken,
+            final Verifier verifier) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
@@ -135,7 +138,7 @@ public class OAuth10aService extends OAuthService {
         }
 
     }
-    
+
     @Override
     public void signRequest(final AccessToken token, final AbstractRequest request) {
         final OAuthConfig config = getConfig();
@@ -157,7 +160,8 @@ public class OAuth10aService extends OAuthService {
     }
 
     /**
-     * Returns the URL where you should redirect your users to authenticate your application.
+     * Returns the URL where you should redirect your users to authenticate your
+     * application.
      *
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users

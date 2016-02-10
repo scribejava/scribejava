@@ -6,7 +6,6 @@ import java.util.concurrent.ExecutionException;
 import com.github.scribejava.apis.MailruApi;
 import com.github.scribejava.core.builder.ServiceBuilderAsync;
 import com.github.scribejava.core.model.OAuthRequestAsync;
-import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;

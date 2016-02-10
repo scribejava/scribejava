@@ -6,7 +6,6 @@ import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.AccessToken;
-import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
@@ -36,21 +35,22 @@ public class OAuth20Service extends OAuthService {
     public OAuth2AccessToken getAccessToken(final Verifier verifier) {
         final Response response = createAccessTokenRequest(verifier,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
-        return (OAuth2AccessToken)api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth2AccessToken) api.getAccessTokenExtractor().extract(response.getBody());
     }
-    
+
     public OAuth2AccessToken refreshOAuth2AccessToken(final OAuth2AccessToken refreshToken) {
-        
+
         if (refreshToken.getRefreshToken() == null) {
             throw new IllegalArgumentException("The access token passed in does not contain a refresh token");
         }
-        
-        final Response response = createRefreshTokenRequest(refreshToken, new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
+
+        final Response response = createRefreshTokenRequest(refreshToken,
+                new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).
                 send();
-        return (OAuth2AccessToken)api.getAccessTokenExtractor().extract(response.getBody());
+        return (OAuth2AccessToken) api.getAccessTokenExtractor().extract(response.getBody());
     }
 
-     /**
+    /**
      * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
      * when it is available.
      *
@@ -58,13 +58,15 @@ public class OAuth20Service extends OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public Future<AccessToken> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback, ProxyServer proxyServer) {
+    public Future<AccessToken> getAccessTokenAsync(Verifier verifier, OAuthAsyncRequestCallback<AccessToken> callback,
+            ProxyServer proxyServer) {
         final OAuthRequestAsync request = createAccessTokenRequest(verifier,
                 new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<AccessToken>() {
             @Override
             public AccessToken convert(final com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+                return getApi().getAccessTokenExtractor()
+                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
         }, proxyServer);
     }
@@ -83,8 +85,9 @@ public class OAuth20Service extends OAuthService {
         }
         return request;
     }
-    
-    protected <T extends AbstractRequest> T createRefreshTokenRequest(final OAuth2AccessToken accessToken, final T request) {
+
+    protected <T extends AbstractRequest> T createRefreshTokenRequest(final OAuth2AccessToken accessToken,
+            final T request) {
         final OAuthConfig config = getConfig();
         request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
@@ -115,9 +118,8 @@ public class OAuth20Service extends OAuthService {
         } else {
             throw new IllegalArgumentException("The access token must be an OAuth2AccessToken.");
         }
-
     }
-    
+
     @Override
     public void signRequest(final AccessToken accessToken, final AbstractRequest request) {
         request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
