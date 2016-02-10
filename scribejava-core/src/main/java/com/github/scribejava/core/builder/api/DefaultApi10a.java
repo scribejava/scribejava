@@ -6,7 +6,8 @@ import com.github.scribejava.core.extractors.BaseStringExtractorImpl;
 import com.github.scribejava.core.extractors.HeaderExtractor;
 import com.github.scribejava.core.extractors.HeaderExtractorImpl;
 import com.github.scribejava.core.extractors.RequestTokenExtractor;
-import com.github.scribejava.core.extractors.TokenExtractorImpl;
+import com.github.scribejava.core.extractors.OAuth1AccessTokenExtractorImpl;
+import com.github.scribejava.core.extractors.OAuth1RequestTokenExtractorImpl;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
@@ -39,7 +40,7 @@ public abstract class DefaultApi10a implements Api {
      * @return access token extractor
      */
     public AccessTokenExtractor getAccessTokenExtractor() {
-        return new TokenExtractorImpl();
+        return new OAuth1AccessTokenExtractorImpl();
     }
 
     /**
@@ -66,7 +67,7 @@ public abstract class DefaultApi10a implements Api {
      * @return request token extractor
      */
     public RequestTokenExtractor getRequestTokenExtractor() {
-        return new TokenExtractorImpl();
+        return new OAuth1RequestTokenExtractorImpl();
     }
 
     /**

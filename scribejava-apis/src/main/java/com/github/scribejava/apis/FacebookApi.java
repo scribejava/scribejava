@@ -1,14 +1,17 @@
 package com.github.scribejava.apis;
 
+import com.github.scribejava.apis.service.FacebookOAuth20ServiceImpl;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.AccessTokenExtractor;
-import com.github.scribejava.core.extractors.JsonTokenExtractor;
+import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractorImpl;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
-/***
+/**
+ * *
  * Facebook v2.5 API
  *
  */
@@ -21,6 +24,7 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final FacebookApi INSTANCE = new FacebookApi();
     }
 
@@ -29,14 +33,13 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     @Override
-    public AccessTokenExtractor getAccessTokenExtractor() {
-
-        return new JsonTokenExtractor();
+    public String getAccessTokenEndpoint() {
+        return "https://graph.facebook.com/v2.5/oauth/access_token";
     }
 
     @Override
-    public String getAccessTokenEndpoint() {
-        return "https://graph.facebook.com/v2.5/oauth/access_token";
+    public AccessTokenExtractor getAccessTokenExtractor() {
+        return new OAuth2AccessTokenExtractorImpl("access_token", "refresh_token", "expires", null, "token_type");
     }
 
     @Override
@@ -55,4 +58,10 @@ public class FacebookApi extends DefaultApi20 {
         }
         return sb.toString();
     }
+
+    @Override
+    public OAuth20Service createService(OAuthConfig config) {
+        return new FacebookOAuth20ServiceImpl(this, config);
+    }
+
 }

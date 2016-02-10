@@ -56,7 +56,7 @@ public abstract class MailruAsyncExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessTokenAsync(verifier, null).get();
+        final Token accessToken = service.getAccessTokenAsync(verifier, null, null).get();
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

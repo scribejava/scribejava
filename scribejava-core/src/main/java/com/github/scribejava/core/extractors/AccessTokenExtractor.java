@@ -1,5 +1,6 @@
 package com.github.scribejava.core.extractors;
 
+import com.github.scribejava.core.model.AccessToken;
 import com.github.scribejava.core.model.Token;
 
 /**
@@ -15,5 +16,5 @@ public interface AccessTokenExtractor {
      * @param response the contents of the response
      * @return OAuth access token
      */
-    Token extract(String response);
+    AccessToken extract(String response);
 }

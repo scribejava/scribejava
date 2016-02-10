@@ -4,9 +4,9 @@ import java.util.Random;
 import java.util.Scanner;
 import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -14,20 +14,25 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public abstract class FacebookExample {
 
     private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.5/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.2/me";
 
-    public static void main(String... args) {
-        // Replace these with your client id and secret
-        final String clientId = "your client id";
-        final String clientSecret = "your client secret";
-        final String secretState = "secret" + new Random().nextInt(999_999);
+    public static void main(final String... args) {
+
+        final Scanner in = new Scanner(System.in, "UTF-8");
+
+        System.out.println("Enter your Facebook API client key");
+        System.out.print(">>");
+        final String clientId = in.nextLine();
+        System.out.println("Enter your Facebook API client secret");
+        System.out.print(">>");
+        final String clientSecret = in.nextLine();
+        final String secretState = "state_" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
                 .build(FacebookApi.instance());
-        final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
@@ -57,9 +62,17 @@ public abstract class FacebookExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessToken(verifier);
+        OAuth2AccessToken accessToken = service.getAccessToken(verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("This token expires in " + accessToken.getExpiresIn() + "s");
+        System.out.println();
+
+        System.out.println("We're going to get a longer-lived token now");
+        accessToken = service.refreshOAuth2AccessToken(accessToken);
+        System.out.println("Got the long-lived Access Token!");
+        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("This token expires in " + accessToken.getExpiresIn() + "s");
         System.out.println();
 
         // Now let's go and ask for a protected resource!

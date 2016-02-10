@@ -4,6 +4,7 @@ import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.XingApi;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.RequestToken;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
@@ -26,7 +27,7 @@ public abstract class XingExample {
 
         // Obtain the Request Token
         System.out.println("Fetching the Request Token...");
-        final Token requestToken = service.getRequestToken();
+        final RequestToken requestToken = service.getRequestToken();
         System.out.println("Got the Request Token!");
         System.out.println();
 

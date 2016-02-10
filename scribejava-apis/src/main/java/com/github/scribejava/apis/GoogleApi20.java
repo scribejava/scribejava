@@ -13,7 +13,8 @@ import com.github.scribejava.core.utils.OAuthEncoder;
 public class GoogleApi20 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
-            = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
+            = "https://accounts.google.com/o/oauth2/auth?response_type=code"
+            + "&client_id=%s&redirect_uri=%s&scope=%s&access_type=offline";
 
     protected GoogleApi20() {
     }
@@ -33,7 +34,7 @@ public class GoogleApi20 extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://accounts.google.com/o/oauth2/token";
+        return "https://www.googleapis.com/oauth2/v4/token";
     }
 
     @Override

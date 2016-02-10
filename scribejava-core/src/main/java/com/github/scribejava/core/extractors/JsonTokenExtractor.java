@@ -3,7 +3,8 @@ package com.github.scribejava.core.extractors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.AccessToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.utils.Preconditions;
 
 public class JsonTokenExtractor implements AccessTokenExtractor {
@@ -11,8 +12,8 @@ public class JsonTokenExtractor implements AccessTokenExtractor {
     private static final Pattern ACCESS_TOKEN_PATTERN = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
 
     @Override
-    public Token extract(String response) {
-        return new Token(extractAccessToken(response), "", response);
+    public AccessToken extract(final String response) {
+        return new OAuth1Token(extractAccessToken(response), response);
     }
 
     protected String extractAccessToken(String response) {
