@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1RequestToken;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -22,7 +25,7 @@ import com.github.scribejava.core.utils.MapUtils;
  *
  * @author Pablo Fernandez
  */
-public class OAuth10aService extends OAuthService {
+public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
 
     private static final String VERSION = "1.0";
     private final DefaultApi10a api;
@@ -43,7 +46,7 @@ public class OAuth10aService extends OAuthService {
      *
      * @return request token
      */
-    public Token getRequestToken() {
+    public OAuth1RequestToken getRequestToken() {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), this);
@@ -62,7 +65,7 @@ public class OAuth10aService extends OAuthService {
         return api.getRequestTokenExtractor().extract(body);
     }
 
-    private void addOAuthParams(AbstractRequest request, Token token) {
+    private void addOAuthParams(AbstractRequest request, OAuth1Token token) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
         request.addOAuthParameter(OAuthConstants.NONCE, api.getTimestampService().getNonce());
@@ -77,7 +80,7 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public final Token getAccessToken(Token requestToken, Verifier verifier) {
+    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, Verifier verifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
@@ -95,28 +98,29 @@ public class OAuth10aService extends OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public final Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
-            OAuthAsyncRequestCallback<Token> callback) {
+    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<OAuth1AccessToken> callback) {
         return getAccessTokenAsync(requestToken, verifier, callback, null);
     }
 
-    public final Future<Token> getAccessTokenAsync(Token requestToken, Verifier verifier,
-            OAuthAsyncRequestCallback<Token> callback, ProxyServer proxyServer) {
+    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, Verifier verifier,
+            OAuthAsyncRequestCallback<OAuth1AccessToken> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request
                 = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, verifier);
-        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<Token>() {
+        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1AccessToken>() {
             @Override
-            public Token convert(com.ning.http.client.Response response) throws IOException {
+            public OAuth1AccessToken convert(com.ning.http.client.Response response) throws IOException {
                 return getApi().getAccessTokenExtractor()
                         .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }
         }, proxyServer);
     }
 
-    protected void prepareAccessTokenRequest(AbstractRequest request, Token requestToken, Verifier verifier) {
+    protected void prepareAccessTokenRequest(AbstractRequest request, OAuth1RequestToken requestToken,
+            Verifier verifier) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
@@ -129,7 +133,7 @@ public class OAuth10aService extends OAuthService {
      * {@inheritDoc}
      */
     @Override
-    public void signRequest(Token token, AbstractRequest request) {
+    public void signRequest(OAuth1AccessToken token, AbstractRequest request) {
         final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());
 
@@ -160,13 +164,13 @@ public class OAuth10aService extends OAuthService {
         return api.getAuthorizationUrl(requestToken);
     }
 
-    private String getSignature(AbstractRequest request, Token token) {
+    private String getSignature(AbstractRequest request, OAuth1Token token) {
         final OAuthConfig config = getConfig();
         config.log("generating signature...");
         config.log("using base64 encoder: " + Base64Encoder.type());
         final String baseString = api.getBaseStringExtractor().extract(request);
-        final String signature = api.getSignatureService().getSignature(baseString, config.getApiSecret(), token.
-                getSecret());
+        final String signature = api.getSignatureService()
+                .getSignature(baseString, config.getApiSecret(), token.getSecret());
 
         config.log("base string is: " + baseString);
         config.log("signature is: " + signature);

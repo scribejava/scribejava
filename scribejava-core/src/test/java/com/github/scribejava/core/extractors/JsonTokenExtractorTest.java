@@ -7,7 +7,7 @@ import com.github.scribejava.core.model.Token;
 public class JsonTokenExtractorTest {
 
     private static final String RESPONSE = "'{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X\"}'";
-    private final JsonTokenExtractor extractor = new JsonTokenExtractor();
+    private final OAuth2AccessTokenJsonExtractor extractor = OAuth2AccessTokenJsonExtractor.instance();
 
     @Test
     public void shouldParseResponse() {

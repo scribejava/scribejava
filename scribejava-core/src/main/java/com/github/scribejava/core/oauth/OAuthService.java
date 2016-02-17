@@ -16,7 +16,7 @@ import com.github.scribejava.core.model.Token;
  *
  * @author Pablo Fernandez
  */
-public abstract class OAuthService {
+public abstract class OAuthService<T extends Token> {
 
     private final OAuthConfig config;
     private AsyncHttpClient asyncHttpClient;
@@ -65,7 +65,7 @@ public abstract class OAuthService {
      * @param accessToken access token (obtained previously)
      * @param request request to sign
      */
-    public abstract void signRequest(Token accessToken, AbstractRequest request);
+    public abstract void signRequest(T accessToken, AbstractRequest request);
 
     /**
      * Returns the OAuth version of the service.

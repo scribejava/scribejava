@@ -3,9 +3,10 @@ package com.github.scribejava.apis.examples;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.Px500Api;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth10aService;
@@ -26,7 +27,7 @@ public abstract class Px500Example {
 
         // Obtain the Request Token
         System.out.println("Fetching the Request Token...");
-        final Token requestToken = service.getRequestToken();
+        final OAuth1RequestToken requestToken = service.getRequestToken();
         System.out.println("Got the Request Token!");
         System.out.println();
 
@@ -39,7 +40,7 @@ public abstract class Px500Example {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final Token accessToken = service.getAccessToken(requestToken, verifier);
+        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, verifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken + " )");
         System.out.println();

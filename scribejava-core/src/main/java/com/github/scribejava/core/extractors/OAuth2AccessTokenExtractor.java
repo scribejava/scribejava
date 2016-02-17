@@ -3,31 +3,41 @@ package com.github.scribejava.core.extractors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
- * Default implementation of {@link AccessTokenExtractor}. Conforms to OAuth 2.0
- *
+ * Default implementation of {@link TokenExtractor} for OAuth 2.0
  */
-public class TokenExtractor20Impl implements AccessTokenExtractor {
+public class OAuth2AccessTokenExtractor implements TokenExtractor<OAuth2AccessToken> {
 
     private static final String TOKEN_REGEX = "access_token=([^&]+)";
-    private static final String EMPTY_SECRET = "";
+
+    protected OAuth2AccessTokenExtractor() {
+    }
+
+    private static class InstanceHolder {
+
+        private static final OAuth2AccessTokenExtractor INSTANCE = new OAuth2AccessTokenExtractor();
+    }
+
+    public static OAuth2AccessTokenExtractor instance() {
+        return InstanceHolder.INSTANCE;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Token extract(String response) {
+    public OAuth2AccessToken extract(String response) {
         Preconditions.checkEmptyString(response,
                 "Response body is incorrect. Can't extract a token from an empty string");
 
         final Matcher matcher = Pattern.compile(TOKEN_REGEX).matcher(response);
         if (matcher.find()) {
             final String token = OAuthEncoder.decode(matcher.group(1));
-            return new Token(token, EMPTY_SECRET, response);
+            return new OAuth2AccessToken(token, response);
         } else {
             throw new OAuthException("Response body is incorrect. Can't extract a token from this: '" + response + "'",
                     null);

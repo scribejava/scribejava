@@ -2,45 +2,26 @@ package com.github.scribejava.core.model;
 
 import java.io.Serializable;
 import com.github.scribejava.core.utils.Preconditions;
+import java.util.Objects;
 
 /**
- * Represents an OAuth token (either request or access token) and its secret
- *
- * @author Pablo Fernandez
+ * Represents an abstract OAuth (1 and 2) token (either request or access token)
  */
-public class Token implements Serializable {
+public abstract class Token implements Serializable {
 
-    private static final long serialVersionUID = 715000866082812683L;
+    private static final long serialVersionUID = 777818051043452947L;
 
     private final String token;
-    private final String secret;
     private final String rawResponse;
 
-    /**
-     * Default constructor
-     *
-     * @param token token value. Can't be null.
-     * @param secret token secret. Can't be null.
-     */
-    public Token(String token, String secret) {
-        this(token, secret, null);
-    }
-
-    public Token(String token, String secret, String rawResponse) {
+    public Token(String token, String rawResponse) {
         Preconditions.checkNotNull(token, "Token can't be null");
-        Preconditions.checkNotNull(secret, "Secret can't be null");
-
         this.token = token;
-        this.secret = secret;
         this.rawResponse = rawResponse;
     }
 
     public String getToken() {
         return token;
-    }
-
-    public String getSecret() {
-        return secret;
     }
 
     public String getRawResponse() {
@@ -67,42 +48,28 @@ public class Token implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Token[%s , %s]", token, secret);
-    }
-
-    /**
-     * @return true if the token is empty (token = "", secret = "")
-     */
-    public boolean isEmpty() {
-        return "".equals(this.token) && "".equals(this.secret);
-    }
-
-    /**
-     * Factory method
-     *
-     * Useful for two legged OAuth.
-     *
-     * @return empty token (token = "", secret = "")
-     */
-    public static Token empty() {
-        return new Token("", "");
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        final Token that = (Token) o;
-        return token.equals(that.getToken()) && secret.equals(that.getSecret());
+        return String.format("Token[%s]", token);
     }
 
     @Override
     public int hashCode() {
-        return 31 * token.hashCode() + secret.hashCode();
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(token);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Token other = (Token) obj;
+        return Objects.equals(token, other.getToken());
     }
 }
