@@ -3,16 +3,28 @@ package com.github.scribejava.core.extractors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.utils.Preconditions;
 
-public class JsonTokenExtractor implements AccessTokenExtractor {
+public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2AccessToken> {
 
     private static final Pattern ACCESS_TOKEN_PATTERN = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
 
+    protected OAuth2AccessTokenJsonExtractor() {
+    }
+
+    private static class InstanceHolder {
+
+        private static final OAuth2AccessTokenJsonExtractor INSTANCE = new OAuth2AccessTokenJsonExtractor();
+    }
+
+    public static OAuth2AccessTokenJsonExtractor instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     @Override
-    public Token extract(String response) {
-        return new Token(extractAccessToken(response), "", response);
+    public OAuth2AccessToken extract(String response) {
+        return new OAuth2AccessToken(extractAccessToken(response), response);
     }
 
     protected String extractAccessToken(String response) {

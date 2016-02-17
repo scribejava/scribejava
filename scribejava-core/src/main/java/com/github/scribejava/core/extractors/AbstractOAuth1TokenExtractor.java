@@ -3,18 +3,19 @@ package com.github.scribejava.core.extractors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
- * Default implementation of {@link RequestTokenExtractor} and {@link AccessTokenExtractor}. Conforms to OAuth 1.0a
+ * Default implementation of {@link TokenExtractor} for OAuth 1.0a
  *
  * The process for extracting access and request tokens is similar so this class can do both things.
  *
  * @author Pablo Fernandez
+ * @param <T> concrete type of OAuth1Token. access or request
  */
-public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExtractor {
+public abstract class AbstractOAuth1TokenExtractor<T extends OAuth1Token> implements TokenExtractor<T> {
 
     private static final Pattern TOKEN_REGEX = Pattern.compile("oauth_token=([^&]+)");
     private static final Pattern SECRET_REGEX = Pattern.compile("oauth_token_secret=([^&]*)");
@@ -23,12 +24,12 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
      * {@inheritDoc}
      */
     @Override
-    public Token extract(String response) {
+    public T extract(String response) {
         Preconditions.checkEmptyString(response,
                 "Response body is incorrect. Can't extract a token from an empty string");
         final String token = extract(response, TOKEN_REGEX);
         final String secret = extract(response, SECRET_REGEX);
-        return new Token(token, secret, response);
+        return createToken(token, secret, response);
     }
 
     private String extract(String response, Pattern p) {
@@ -40,4 +41,6 @@ public class TokenExtractorImpl implements RequestTokenExtractor, AccessTokenExt
                     + response + "'", null);
         }
     }
+
+    protected abstract T createToken(String token, String secret, String response);
 }

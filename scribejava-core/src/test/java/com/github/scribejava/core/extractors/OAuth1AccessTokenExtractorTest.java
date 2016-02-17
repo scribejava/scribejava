@@ -1,24 +1,24 @@
 package com.github.scribejava.core.extractors;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1Token;
+import static org.junit.Assert.assertEquals;
 
-public class TokenExtractorTest {
+public class OAuth1AccessTokenExtractorTest {
 
-    private TokenExtractorImpl extractor;
+    private OAuth1AccessTokenExtractor extractor;
 
     @Before
     public void setUp() {
-        extractor = new TokenExtractorImpl();
+        extractor = OAuth1AccessTokenExtractor.instance();
     }
 
     @Test
     public void shouldExtractTokenFromOAuthStandardResponse() {
         final String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03";
-        final Token extracted = extractor.extract(response);
+        final OAuth1Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getToken());
         assertEquals("hdhd0244k9j7ao03", extracted.getSecret());
     }
@@ -26,7 +26,7 @@ public class TokenExtractorTest {
     @Test
     public void shouldExtractTokenFromInvertedOAuthStandardResponse() {
         final String response = "oauth_token_secret=hh5s93j4hdidpola&oauth_token=hdhd0244k9j7ao03";
-        final Token extracted = extractor.extract(response);
+        final OAuth1Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getSecret());
         assertEquals("hdhd0244k9j7ao03", extracted.getToken());
     }
@@ -35,7 +35,7 @@ public class TokenExtractorTest {
     public void shouldExtractTokenFromResponseWithCallbackConfirmed() {
         final String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03"
                 + "&callback_confirmed=true";
-        final Token extracted = extractor.extract(response);
+        final OAuth1Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getToken());
         assertEquals("hdhd0244k9j7ao03", extracted.getSecret());
     }
@@ -43,7 +43,7 @@ public class TokenExtractorTest {
     @Test
     public void shouldExtractTokenWithEmptySecret() {
         final String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=";
-        final Token extracted = extractor.extract(response);
+        final OAuth1Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getToken());
         assertEquals("", extracted.getSecret());
     }

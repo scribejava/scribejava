@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).
  * Support response in gzip.
+ * differentiate OAuth1 Access token, OAuth 1 Request Token and OAuth 2 Access token
 
 [2.2.2]
  * make all APIs to be extentable (have protected constructors, useful for testing)

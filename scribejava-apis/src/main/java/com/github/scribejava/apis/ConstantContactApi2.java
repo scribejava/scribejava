@@ -1,41 +1,20 @@
 package com.github.scribejava.apis;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.github.scribejava.apis.constantcontact.ConstantContactTokenExtractor;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.extractors.AccessTokenExtractor;
+import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
-import com.github.scribejava.core.utils.Preconditions;
 
 public class ConstantContactApi2 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
             = "https://oauth2.constantcontact.com/oauth2/oauth/siteowner/authorize?client_id=%s&response_type=code"
             + "&redirect_uri=%s";
-    private static final AccessTokenExtractor ACCESS_TOKEN_EXTRACTOR = new AccessTokenExtractor() {
-
-        @Override
-        public Token extract(String response) {
-            Preconditions.checkEmptyString(response,
-                    "Response body is incorrect. Can't extract a token from an empty string");
-
-            final String regex = "\"access_token\"\\s*:\\s*\"([^&\"]+)\"";
-            final Matcher matcher = Pattern.compile(regex).matcher(response);
-            if (matcher.find()) {
-                final String token = OAuthEncoder.decode(matcher.group(1));
-                return new Token(token, "", response);
-            } else {
-                throw new OAuthException("Response body is incorrect. Can't extract a token from this: '"
-                        + response + "'", null);
-            }
-        }
-    };
 
     protected ConstantContactApi2() {
     }
@@ -64,7 +43,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
     }
 
     @Override
-    public AccessTokenExtractor getAccessTokenExtractor() {
-        return ACCESS_TOKEN_EXTRACTOR;
+    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
+        return ConstantContactTokenExtractor.instance();
     }
 }

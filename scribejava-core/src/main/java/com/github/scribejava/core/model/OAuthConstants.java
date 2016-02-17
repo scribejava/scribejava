@@ -22,7 +22,7 @@ public interface OAuthConstants {
     String OUT_OF_BAND = "oob";
     String VERIFIER = "oauth_verifier";
     String HEADER = "Authorization";
-    Token EMPTY_TOKEN = new Token("", "");
+    OAuth1RequestToken EMPTY_TOKEN = new OAuth1RequestToken("", "");
     String SCOPE = "scope";
 
     // OAuth 2.0

@@ -1,12 +1,11 @@
 package com.github.scribejava.core.builder.api;
 
-import com.github.scribejava.core.extractors.AccessTokenExtractor;
 import com.github.scribejava.core.extractors.BaseStringExtractor;
 import com.github.scribejava.core.extractors.BaseStringExtractorImpl;
 import com.github.scribejava.core.extractors.HeaderExtractor;
 import com.github.scribejava.core.extractors.HeaderExtractorImpl;
-import com.github.scribejava.core.extractors.RequestTokenExtractor;
-import com.github.scribejava.core.extractors.TokenExtractorImpl;
+import com.github.scribejava.core.extractors.OAuth1AccessTokenExtractor;
+import com.github.scribejava.core.extractors.OAuth1RequestTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
@@ -15,6 +14,9 @@ import com.github.scribejava.core.services.HMACSha1SignatureService;
 import com.github.scribejava.core.services.SignatureService;
 import com.github.scribejava.core.services.TimestampService;
 import com.github.scribejava.core.services.TimestampServiceImpl;
+import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 
 /**
  * Default implementation of the OAuth protocol, version 1.0a
@@ -38,8 +40,8 @@ public abstract class DefaultApi10a implements Api {
      *
      * @return access token extractor
      */
-    public AccessTokenExtractor getAccessTokenExtractor() {
-        return new TokenExtractorImpl();
+    public TokenExtractor<OAuth1AccessToken> getAccessTokenExtractor() {
+        return OAuth1AccessTokenExtractor.instance();
     }
 
     /**
@@ -65,8 +67,8 @@ public abstract class DefaultApi10a implements Api {
      *
      * @return request token extractor
      */
-    public RequestTokenExtractor getRequestTokenExtractor() {
-        return new TokenExtractorImpl();
+    public TokenExtractor<OAuth1RequestToken> getRequestTokenExtractor() {
+        return OAuth1RequestTokenExtractor.instance();
     }
 
     /**
