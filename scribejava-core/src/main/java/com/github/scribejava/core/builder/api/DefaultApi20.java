@@ -22,7 +22,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
  * @author Diego Silveira
  *
  */
-public abstract class DefaultApi20 implements Api {
+public abstract class DefaultApi20 {
 
     /**
      * Returns the access token extractor.
@@ -57,10 +57,6 @@ public abstract class DefaultApi20 implements Api {
      */
     public abstract String getAuthorizationUrl(OAuthConfig config);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public OAuth20Service createService(OAuthConfig config) {
         return new OAuth20Service(this, config);
     }

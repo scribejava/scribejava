@@ -33,7 +33,7 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
  * @author Pablo Fernandez
  *
  */
-public abstract class DefaultApi10a implements Api {
+public abstract class DefaultApi10a {
 
     /**
      * Returns the access token extractor.
@@ -129,7 +129,6 @@ public abstract class DefaultApi10a implements Api {
      */
     public abstract String getAuthorizationUrl(Token requestToken);
 
-    @Override
     public OAuth10aService createService(OAuthConfig config) {
         return new OAuth10aService(this, config);
     }
