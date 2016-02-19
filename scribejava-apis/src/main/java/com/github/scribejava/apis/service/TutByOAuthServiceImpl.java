@@ -15,7 +15,6 @@ public class TutByOAuthServiceImpl extends OAuth20Service {
 
     @Override
     public void signRequest(OAuth2AccessToken accessToken, AbstractRequest request) {
-        request.addQuerystringParameter(OAuthConstants.TOKEN, accessToken.getToken());
+        request.addQuerystringParameter(OAuthConstants.TOKEN, accessToken.getAccessToken());
     }
-
 }

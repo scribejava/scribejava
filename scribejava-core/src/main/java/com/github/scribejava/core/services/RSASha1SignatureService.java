@@ -4,6 +4,9 @@ import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
 import com.github.scribejava.core.exceptions.OAuthSignatureException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * A signature service that uses the RSA-SHA1 algorithm.
@@ -30,7 +33,8 @@ public class RSASha1SignatureService implements SignatureService {
             signature.initSign(privateKey);
             signature.update(baseString.getBytes(UTF8));
             return bytesToBase64String(signature);
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | UnsupportedEncodingException |
+                RuntimeException e) {
             throw new OAuthSignatureException(baseString, e);
         }
     }

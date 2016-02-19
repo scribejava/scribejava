@@ -24,7 +24,7 @@ import com.github.scribejava.core.utils.MapUtils;
  *
  * @author Pablo Fernandez
  */
-public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
+public class OAuth10aService extends OAuthService {
 
     private static final String VERSION = "1.0";
     private final DefaultApi10a api;
@@ -128,10 +128,6 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         appendSignature(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void signRequest(OAuth1AccessToken token, AbstractRequest request) {
         final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());
@@ -169,7 +165,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         config.log("using base64 encoder: " + Base64Encoder.type());
         final String baseString = api.getBaseStringExtractor().extract(request);
         final String signature = api.getSignatureService()
-                .getSignature(baseString, config.getApiSecret(), token.getSecret());
+                .getSignature(baseString, config.getApiSecret(), token.getTokenSecret());
 
         config.log("base string is: " + baseString);
         config.log("signature is: " + signature);

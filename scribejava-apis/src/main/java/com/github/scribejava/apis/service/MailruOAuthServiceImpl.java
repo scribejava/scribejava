@@ -23,7 +23,7 @@ public class MailruOAuthServiceImpl extends OAuth20Service {
     @Override
     public void signRequest(OAuth2AccessToken accessToken, AbstractRequest request) {
         // sig = md5(params + secret_key)
-        request.addQuerystringParameter("session_key", accessToken.getToken());
+        request.addQuerystringParameter("session_key", accessToken.getAccessToken());
         request.addQuerystringParameter("app_id", getConfig().getApiKey());
         final String completeUrl = request.getCompleteUrl();
 
@@ -55,7 +55,7 @@ public class MailruOAuthServiceImpl extends OAuth20Service {
     protected <T extends AbstractRequest> T createAccessTokenRequest(Verifier verifier, T request) {
         super.createAccessTokenRequest(verifier, request);
         if (!getConfig().hasGrantType()) {
-            request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");
+            request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
         }
         return request;
     }

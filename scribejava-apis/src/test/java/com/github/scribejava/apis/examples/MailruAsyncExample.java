@@ -28,7 +28,7 @@ public abstract class MailruAsyncExample {
                 .setRequestTimeout(10_000)
                 .setAllowPoolingConnections(false)
                 .setPooledConnectionIdleTimeout(1_000)
-                .setReadTimeout(1_000)
+                .setReadTimeout(10_000)
                 .build();
 
         final OAuth20Service service = new ServiceBuilderAsync()

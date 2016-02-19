@@ -17,7 +17,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public abstract class VkontakteExample {
 
     private static final String NETWORK_NAME = "Vkontakte.ru";
-    private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/friends.get";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/users.get";
 
     public static void main(String... args) {
         // Replace these with your client id and secret
@@ -26,7 +26,7 @@ public abstract class VkontakteExample {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
-                .scope("friends,wall,offline") // replace with desired scope
+                .scope("wall,offline") // replace with desired scope
                 .callback("http://your.site.com/callback")
                 .build(VkontakteApi.instance());
         final Scanner in = new Scanner(System.in);

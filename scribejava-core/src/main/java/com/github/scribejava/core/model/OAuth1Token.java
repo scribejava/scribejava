@@ -1,62 +1,48 @@
 package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.utils.Preconditions;
-import java.util.Objects;
 
 /**
- * Represents an abstract OAuth 1 Access Token (either request or access token)
+ * Represents an abstract OAuth 1 Token (either request or access token)
  */
 public abstract class OAuth1Token extends Token {
 
-    private static final long serialVersionUID = -2591380053073767654L;
+    private static final long serialVersionUID = 6285873427974823019L;
 
-    private final String secret;
+    /**
+     * oauth_token:
+     * <p>
+     * The Request/Access Token.</p>
+     */
+    private final String token;
 
-    public OAuth1Token(String token, String secret, String rawResponse) {
-        super(token, rawResponse);
-        Preconditions.checkNotNull(secret, "Secret can't be null");
-        this.secret = secret;
+    /**
+     * oauth_token_secret:
+     * <p>
+     * The Token Secret.</p>
+     */
+    private final String tokenSecret;
+
+    public OAuth1Token(String token, String tokenSecret, String rawResponse) {
+        super(rawResponse);
+        Preconditions.checkNotNull(token, "oauth_token can't be null");
+        Preconditions.checkNotNull(tokenSecret, "oauth_token_secret can't be null");
+        this.token = token;
+        this.tokenSecret = tokenSecret;
     }
 
-    public String getSecret() {
-        return secret;
+    public String getToken() {
+        return token;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Token[%s , %s]", getToken(), secret);
+    public String getTokenSecret() {
+        return tokenSecret;
     }
 
     /**
-     * @return true if the token is empty (token = "", secret = "")
+     * @return true if the token is empty (oauth_token = "", oauth_token_secret = "")
      */
     public boolean isEmpty() {
-        return "".equals(this.getToken()) && "".equals(this.secret);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + Objects.hashCode(secret);
-        hash = 71 * hash + Objects.hashCode(getToken());
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final OAuth1Token other = (OAuth1Token) obj;
-        if (!Objects.equals(secret, other.getSecret())) {
-            return false;
-        }
-        return Objects.equals(getToken(), other.getToken());
+        return "".equals(token) && "".equals(tokenSecret);
     }
 }

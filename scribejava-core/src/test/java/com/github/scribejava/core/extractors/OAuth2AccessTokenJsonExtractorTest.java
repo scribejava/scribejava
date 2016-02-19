@@ -1,18 +1,18 @@
 package com.github.scribejava.core.extractors;
 
-import static org.junit.Assert.assertEquals;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import org.junit.Test;
-import com.github.scribejava.core.model.Token;
+import static org.junit.Assert.assertEquals;
 
-public class JsonTokenExtractorTest {
+public class OAuth2AccessTokenJsonExtractorTest {
 
     private static final String RESPONSE = "'{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X\"}'";
     private final OAuth2AccessTokenJsonExtractor extractor = OAuth2AccessTokenJsonExtractor.instance();
 
     @Test
     public void shouldParseResponse() {
-        final Token token = extractor.extract(RESPONSE);
-        assertEquals(token.getToken(), "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X");
+        final OAuth2AccessToken token = extractor.extract(RESPONSE);
+        assertEquals(token.getAccessToken(), "I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X");
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -20,14 +20,14 @@ public class OAuth1AccessTokenExtractorTest {
         final String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03";
         final OAuth1Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getToken());
-        assertEquals("hdhd0244k9j7ao03", extracted.getSecret());
+        assertEquals("hdhd0244k9j7ao03", extracted.getTokenSecret());
     }
 
     @Test
     public void shouldExtractTokenFromInvertedOAuthStandardResponse() {
         final String response = "oauth_token_secret=hh5s93j4hdidpola&oauth_token=hdhd0244k9j7ao03";
         final OAuth1Token extracted = extractor.extract(response);
-        assertEquals("hh5s93j4hdidpola", extracted.getSecret());
+        assertEquals("hh5s93j4hdidpola", extracted.getTokenSecret());
         assertEquals("hdhd0244k9j7ao03", extracted.getToken());
     }
 
@@ -37,7 +37,7 @@ public class OAuth1AccessTokenExtractorTest {
                 + "&callback_confirmed=true";
         final OAuth1Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getToken());
-        assertEquals("hdhd0244k9j7ao03", extracted.getSecret());
+        assertEquals("hdhd0244k9j7ao03", extracted.getTokenSecret());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class OAuth1AccessTokenExtractorTest {
         final String response = "oauth_token=hh5s93j4hdidpola&oauth_token_secret=";
         final OAuth1Token extracted = extractor.extract(response);
         assertEquals("hh5s93j4hdidpola", extracted.getToken());
-        assertEquals("", extracted.getSecret());
+        assertEquals("", extracted.getTokenSecret());
     }
 
     @Test(expected = OAuthException.class)

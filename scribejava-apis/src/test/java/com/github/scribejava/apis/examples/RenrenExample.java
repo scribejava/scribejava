@@ -70,7 +70,7 @@ public abstract class RenrenExample {
             request.addQuerystringParameter(entry.getKey(), entry.getValue());
             sigString.add(String.format("%s=%s", entry.getKey(), entry.getValue()));
         }
-        sigString.add(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getToken()));
+        sigString.add(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken()));
         Collections.sort(sigString);
         final StringBuilder b = new StringBuilder();
         for (String param : sigString) {

@@ -3,7 +3,7 @@ package com.github.scribejava.core.extractors;
 import org.junit.Before;
 import org.junit.Test;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import static org.junit.Assert.assertEquals;
 
 public class OAuth2AccessTokenExtractorTest {
@@ -19,25 +19,25 @@ public class OAuth2AccessTokenExtractorTest {
     public void shouldExtractTokenFromOAuthStandardResponse() {
         final String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159"
                 + "|RsXNdKrpxg8L6QNLWcs2TVTmcaE";
-        final Token extracted = extractor.extract(response);
+        final OAuth2AccessToken extracted = extractor.extract(response);
         assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE",
-                extracted.getToken());
+                extracted.getAccessToken());
     }
 
     @Test
     public void shouldExtractTokenFromResponseWithExpiresParam() {
         final String response = "access_token=166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159"
                 + "|RsXNdKrpxg8L6QNLWcs2TVTmcaE&expires=5108";
-        final Token extracted = extractor.extract(response);
+        final OAuth2AccessToken extracted = extractor.extract(response);
         assertEquals("166942940015970|2.2ltzWXYNDjCtg5ZDVVJJeg__.3600.1295816400-548517159|RsXNdKrpxg8L6QNLWcs2TVTmcaE",
-                extracted.getToken());
+                extracted.getAccessToken());
     }
 
     @Test
     public void shouldExtractTokenFromResponseWithManyParameters() {
         final String response = "access_token=foo1234&other_stuff=yeah_we_have_this_too&number=42";
-        final Token extracted = extractor.extract(response);
-        assertEquals("foo1234", extracted.getToken());
+        final OAuth2AccessToken extracted = extractor.extract(response);
+        assertEquals("foo1234", extracted.getAccessToken());
     }
 
     @Test(expected = OAuthException.class)

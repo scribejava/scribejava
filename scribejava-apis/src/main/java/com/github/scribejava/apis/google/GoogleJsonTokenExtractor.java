@@ -25,7 +25,7 @@ public class GoogleJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
     @Override
     public GoogleToken extract(String response) {
-        return new GoogleToken(extractAccessToken(response), response, extractOpenIdToken(response));
+        return new GoogleToken(extractAccessToken(response), extractOpenIdToken(response), response);
     }
 
     private String extractOpenIdToken(String response) {

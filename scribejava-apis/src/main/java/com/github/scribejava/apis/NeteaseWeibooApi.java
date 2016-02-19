@@ -2,7 +2,7 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.OAuth1RequestToken;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1Token;
 
 public class NeteaseWeibooApi extends DefaultApi10a {
 
@@ -54,7 +54,7 @@ public class NeteaseWeibooApi extends DefaultApi10a {
      * @param requestToken Token
      * @return String
      */
-    public String getAuthenticateUrl(Token requestToken) {
+    public String getAuthenticateUrl(OAuth1Token requestToken) {
         return String.format(AUTHENTICATE_URL, requestToken.getToken());
     }
 }

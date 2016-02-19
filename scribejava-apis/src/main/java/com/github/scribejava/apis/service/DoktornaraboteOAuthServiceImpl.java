@@ -14,6 +14,6 @@ public class DoktornaraboteOAuthServiceImpl extends OAuth20Service {
 
     @Override
     public void signRequest(OAuth2AccessToken accessToken, AbstractRequest request) {
-        request.addHeader("Authorization", "Bearer " + accessToken.getToken());
+        request.addHeader("Authorization", "Bearer " + accessToken.getAccessToken());
     }
 }

@@ -9,6 +9,16 @@ import org.junit.Test;
 
 public class StreamUtilsTest {
 
+    private static final InputStream ALLWAYS_ERROR_INPUT_STREAM = new AllwaysErrorInputStream();
+
+    private static class AllwaysErrorInputStream extends InputStream {
+
+        @Override
+        public int read() throws IOException {
+            throw new IOException();
+        }
+    }
+
     @Test
     public void shouldCorrectlyDecodeAStream() {
         final String value = "expected";
@@ -26,13 +36,7 @@ public class StreamUtilsTest {
     @Test(expected = IllegalStateException.class)
     public void shouldFailWithBrokenStream() {
         // This object simulates problems with input stream.
-        final InputStream is = new InputStream() {
-            @Override
-            public int read() throws IOException {
-                throw new IOException();
-            }
-        };
-        StreamUtils.getStreamContents(is);
+        StreamUtils.getStreamContents(ALLWAYS_ERROR_INPUT_STREAM);
         fail("Must throw exception before getting here");
     }
 }

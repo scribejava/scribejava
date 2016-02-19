@@ -21,7 +21,7 @@ public abstract class LinkedIn20Example {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId).apiSecret(clientSecret)
-                .scope("r_fullprofile,r_emailaddress,r_contactinfo") // replace with desired scope
+                .scope("r_basicprofile,r_emailaddress") // replace with desired scope
                 .callback("http://example.com/callback")
                 .state("some_params")
                 .build(LinkedInApi20.instance());
@@ -51,10 +51,14 @@ public abstract class LinkedIn20Example {
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         while (true) {
-            System.out.println("Paste profile query for fetch");
+            System.out.println("Paste profile query for fetch (firstName, lastName, etc) or 'exit' to stop example");
             System.out.print(">>");
             final String query = in.nextLine();
             System.out.println();
+
+            if ("exit".equals(query)) {
+                break;
+            }
 
             final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, query),
                     service);

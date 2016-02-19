@@ -14,7 +14,7 @@ import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verifier;
 
-public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
+public class OAuth20Service extends OAuthService {
 
     private static final String VERSION = "2.0";
     private final DefaultApi20 api;
@@ -85,12 +85,8 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         return VERSION;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void signRequest(OAuth2AccessToken accessToken, AbstractRequest request) {
-        request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
+        request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken());
     }
 
     /**

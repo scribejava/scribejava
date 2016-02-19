@@ -2,12 +2,10 @@ package com.github.scribejava.core.oauth;
 
 import com.ning.http.client.AsyncHttpClient;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConfigAsync;
 import com.github.scribejava.core.model.ScribeJavaConfig;
-import com.github.scribejava.core.model.Token;
 
 /**
  * The main ScribeJava object.
@@ -16,7 +14,7 @@ import com.github.scribejava.core.model.Token;
  *
  * @author Pablo Fernandez
  */
-public abstract class OAuthService<T extends Token> {
+public abstract class OAuthService {
 
     private final OAuthConfig config;
     private AsyncHttpClient asyncHttpClient;
@@ -60,17 +58,9 @@ public abstract class OAuthService<T extends Token> {
     }
 
     /**
-     * Signs am OAuth request
-     *
-     * @param accessToken access token (obtained previously)
-     * @param request request to sign
-     */
-    public abstract void signRequest(T accessToken, AbstractRequest request);
-
-    /**
      * Returns the OAuth version of the service.
      *
-     * @return oauth version as string
+     * @return OAuth version as string
      */
     public abstract String getVersion();
 }
