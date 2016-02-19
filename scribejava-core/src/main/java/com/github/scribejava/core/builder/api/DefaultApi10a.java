@@ -7,7 +7,6 @@ import com.github.scribejava.core.extractors.HeaderExtractorImpl;
 import com.github.scribejava.core.extractors.OAuth1AccessTokenExtractor;
 import com.github.scribejava.core.extractors.OAuth1RequestTokenExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import com.github.scribejava.core.services.HMACSha1SignatureService;
@@ -127,7 +126,7 @@ public abstract class DefaultApi10a {
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users
      */
-    public abstract String getAuthorizationUrl(Token requestToken);
+    public abstract String getAuthorizationUrl(OAuth1RequestToken requestToken);
 
     public OAuth10aService createService(OAuthConfig config) {
         return new OAuth10aService(this, config);

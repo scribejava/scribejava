@@ -1,7 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.Verb;
 
 public class FreelancerApi extends DefaultApi10a {
@@ -40,7 +40,7 @@ public class FreelancerApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 
@@ -71,7 +71,7 @@ public class FreelancerApi extends DefaultApi10a {
         }
 
         @Override
-        public String getAuthorizationUrl(Token requestToken) {
+        public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
             return String.format(SANDBOX_AUTHORIZATION_URL + "?oauth_token=%s", requestToken.getToken());
         }
     }

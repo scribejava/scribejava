@@ -1,7 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 
 public class DiggApi extends DefaultApi10a {
 
@@ -30,7 +30,7 @@ public class DiggApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
         return String.format(AUTHORIZATION_URL, requestToken.getToken());
     }
 

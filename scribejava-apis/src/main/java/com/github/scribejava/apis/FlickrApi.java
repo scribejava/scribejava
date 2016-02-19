@@ -1,7 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 
 /**
  * OAuth API for Flickr.
@@ -34,7 +34,7 @@ public class FlickrApi extends DefaultApi10a {
      * {@inheritDoc}
      */
     @Override
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
         return "https://www.flickr.com/services/oauth/authorize?oauth_token=" + requestToken.getToken();
     }
 

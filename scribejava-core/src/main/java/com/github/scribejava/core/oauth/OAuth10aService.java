@@ -15,7 +15,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.services.Base64Encoder;
 import com.github.scribejava.core.utils.MapUtils;
@@ -160,7 +159,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users
      */
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
         return api.getAuthorizationUrl(requestToken);
     }
 

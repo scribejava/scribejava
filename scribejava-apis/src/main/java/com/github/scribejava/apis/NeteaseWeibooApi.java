@@ -1,6 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
+import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.Token;
 
 public class NeteaseWeibooApi extends DefaultApi10a {
@@ -39,7 +40,7 @@ public class NeteaseWeibooApi extends DefaultApi10a {
      * via
      * http://open.t.163.com/wiki/index.php?title=%E8%AF%B7%E6%B1%82%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83Token(oauth/authorize)
      */
-    public String getAuthorizationUrl(Token requestToken) {
+    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }
 
