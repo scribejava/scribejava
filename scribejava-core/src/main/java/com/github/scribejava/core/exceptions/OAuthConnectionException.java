@@ -1,8 +1,5 @@
 package com.github.scribejava.core.exceptions;
 
-/**
- * @author Pablo Fernandez
- */
 public class OAuthConnectionException extends OAuthException {
 
     private static final long serialVersionUID = 6901269342236961310L;

@@ -5,11 +5,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.services.PlaintextSignatureService;
 import com.github.scribejava.core.services.SignatureService;
 
-/**
- * @author Julio Gutierrez
- *
- * Sep 6, 2012
- */
 public class UbuntuOneApi extends DefaultApi10a {
 
     private static final String AUTHORIZATION_URL = "https://one.ubuntu.com/oauth/authorize/?oauth_token=%s";

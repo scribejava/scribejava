@@ -7,12 +7,9 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
-/***
+/**
  * Stack Exchange authentication via OAuth 2.0  (stackoverflow.com,
  * askubuntu.com, etc.).
- *
- * @author Michal Foksa
- *
  */
 public class StackExchangeApi extends DefaultApi20 {
 

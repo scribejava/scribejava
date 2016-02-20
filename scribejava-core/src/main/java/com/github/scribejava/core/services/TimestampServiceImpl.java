@@ -4,8 +4,6 @@ import java.util.Random;
 
 /**
  * Implementation of {@link TimestampService} using plain java classes.
- *
- * @author Pablo Fernandez
  */
 public class TimestampServiceImpl implements TimestampService {
 
@@ -45,8 +43,6 @@ public class TimestampServiceImpl implements TimestampService {
 
     /**
      * Inner class that uses {@link System} for generating the timestamps.
-     *
-     * @author Pablo Fernandez
      */
     static class Timer {
 

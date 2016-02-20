@@ -4,8 +4,6 @@ import com.github.scribejava.core.utils.Preconditions;
 
 /**
  * Represents an OAuth verifier code.
- *
- * @author Pablo Fernandez
  */
 public class Verifier {
 

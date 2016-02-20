@@ -5,8 +5,6 @@ import java.io.OutputStream;
 
 /**
  * Parameter object that groups OAuth config values
- *
- * @author Pablo Fernandez
  */
 public class OAuthConfig {
 

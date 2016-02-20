@@ -6,8 +6,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 
 /**
  * Utils for checking preconditions and invariants
- *
- * @author Pablo Fernandez
  */
 public abstract class Preconditions {
 

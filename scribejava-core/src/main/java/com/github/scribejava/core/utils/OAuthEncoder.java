@@ -9,9 +9,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 
-/**
- * @author Pablo Fernandez
- */
 public abstract class OAuthEncoder {
 
     private static final String CHARSET = "UTF-8";

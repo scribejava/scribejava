@@ -21,8 +21,6 @@ import com.github.scribejava.core.utils.MapUtils;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
- *
- * @author Pablo Fernandez
  */
 public class OAuth10aService extends OAuthService {
 

@@ -4,8 +4,6 @@ package com.github.scribejava.core.services;
  * Unix epoch timestamp generator.
  *
  * This class is useful for stubbing in tests.
- *
- * @author Pablo Fernandez
  */
 public interface TimestampService {
 

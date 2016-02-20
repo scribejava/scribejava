@@ -6,9 +6,6 @@ import com.github.scribejava.core.utils.Preconditions;
 
 /**
  * plaintext implementation of {@link SignatureService}
- *
- * @author Pablo Fernandez
- *
  */
 public class PlaintextSignatureService implements SignatureService {
 

@@ -4,8 +4,6 @@ import com.github.scribejava.core.model.AbstractRequest;
 
 /**
  * Specialized exception that represents a missing OAuth parameter.
- *
- * @author Pablo Fernandez
  */
 public class OAuthParametersMissingException extends OAuthException {
 

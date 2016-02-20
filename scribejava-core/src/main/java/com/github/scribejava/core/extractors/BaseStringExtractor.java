@@ -4,8 +4,6 @@ import com.github.scribejava.core.model.AbstractRequest;
 
 /**
  * Simple command object that extracts a base string from a {@link AbstractRequest}
- *
- * @author Pablo Fernandez
  */
 public interface BaseStringExtractor {
 

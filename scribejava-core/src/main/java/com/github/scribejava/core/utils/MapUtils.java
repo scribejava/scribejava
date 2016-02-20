@@ -2,9 +2,6 @@ package com.github.scribejava.core.utils;
 
 import java.util.Map;
 
-/**
- * @author Pablo Fernandez
- */
 public abstract class MapUtils {
 
     public static <K, V> String toString(Map<K, V> map) {

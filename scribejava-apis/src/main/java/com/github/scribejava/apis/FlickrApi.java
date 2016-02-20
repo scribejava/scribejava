@@ -6,7 +6,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 /**
  * OAuth API for Flickr.
  *
- * @author Darren Greaves
  * @see <a href="http://www.flickr.com/services/api/">Flickr API</a>
  */
 public class FlickrApi extends DefaultApi10a {

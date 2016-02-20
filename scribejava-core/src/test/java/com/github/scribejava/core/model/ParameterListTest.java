@@ -6,9 +6,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotSame;
 
-/**
- * @author: Pablo Fernandez
- */
 public class ParameterListTest {
 
     private ParameterList params;

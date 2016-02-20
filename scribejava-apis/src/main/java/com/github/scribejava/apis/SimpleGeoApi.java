@@ -3,9 +3,6 @@ package com.github.scribejava.apis;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 
-/**
- * @author Pablo Fernandez
- */
 public class SimpleGeoApi extends DefaultApi10a {
 
     private static final String ENDPOINT = "these are not used since SimpleGeo uses 2 legged OAuth";

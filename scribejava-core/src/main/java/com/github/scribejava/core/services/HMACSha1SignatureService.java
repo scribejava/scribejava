@@ -11,9 +11,6 @@ import com.github.scribejava.core.utils.Preconditions;
 
 /**
  * HMAC-SHA1 implementation of {@link SignatureService}
- *
- * @author Pablo Fernandez
- *
  */
 public class HMACSha1SignatureService implements SignatureService {
 

@@ -2,8 +2,6 @@ package com.github.scribejava.core.exceptions;
 
 /**
  * Specialized exception that represents a problem in the signature
- *
- * @author Pablo Fernandez
  */
 public class OAuthSignatureException extends OAuthException {
 

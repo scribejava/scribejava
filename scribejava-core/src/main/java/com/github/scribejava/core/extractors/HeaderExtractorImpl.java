@@ -9,9 +9,6 @@ import com.github.scribejava.core.utils.Preconditions;
 
 /**
  * Default implementation of {@link HeaderExtractor}. Conforms to OAuth 1.0a
- *
- * @author Pablo Fernandez
- *
  */
 public class HeaderExtractorImpl implements HeaderExtractor {
 

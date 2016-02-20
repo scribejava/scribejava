@@ -8,8 +8,6 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * Utils to deal with Streams.
- *
- * @author Pablo Fernandez
  */
 public abstract class StreamUtils {
 

@@ -2,8 +2,6 @@ package com.github.scribejava.core.model;
 
 /**
  * This class contains OAuth constants, used project-wide
- *
- * @author Pablo Fernandez
  */
 public interface OAuthConstants {
 

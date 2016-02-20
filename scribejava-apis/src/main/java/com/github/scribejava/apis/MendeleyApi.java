@@ -5,7 +5,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.Verb;
 
 /**
- * @author Arieh "Vainolo" Bibliowicz
  * @see <a href="http://apidocs.mendeley.com/home/authentication">http://apidocs.mendeley.com/home/authentication</a>
  */
 public class MendeleyApi extends DefaultApi10a {

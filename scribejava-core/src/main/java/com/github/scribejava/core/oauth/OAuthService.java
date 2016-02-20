@@ -11,8 +11,6 @@ import com.github.scribejava.core.model.ScribeJavaConfig;
  * The main ScribeJava object.
  *
  * A facade responsible for the retrieval of request and access tokens and for the signing of HTTP requests.
- *
- * @author Pablo Fernandez
  */
 public abstract class OAuthService {
 

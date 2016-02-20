@@ -19,8 +19,6 @@ import com.github.scribejava.core.oauth.OAuth20Service;
  * If your Api does something a bit different, you can override the different extractors or services, in order to
  * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
- * @author Diego Silveira
- *
  */
 public abstract class DefaultApi20 {
 

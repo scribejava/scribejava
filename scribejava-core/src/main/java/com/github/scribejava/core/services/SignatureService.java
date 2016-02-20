@@ -2,9 +2,6 @@ package com.github.scribejava.core.services;
 
 /**
  * Signs a base string, returning the OAuth signature
- *
- * @author Pablo Fernandez
- *
  */
 public interface SignatureService {
 

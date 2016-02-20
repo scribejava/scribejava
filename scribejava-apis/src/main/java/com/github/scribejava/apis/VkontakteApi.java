@@ -8,10 +8,6 @@ import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
-/**
- * @author Boris G. Tsirkin &lt;mail@dotbg.name&gt;
- * @since 20.4.2011
- */
 public class VkontakteApi extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL

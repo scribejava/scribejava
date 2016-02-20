@@ -5,9 +5,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author: Pablo Fernandez
- */
 public class MapUtilsTest {
 
     @Test

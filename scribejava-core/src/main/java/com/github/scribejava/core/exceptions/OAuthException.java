@@ -3,8 +3,6 @@ package com.github.scribejava.core.exceptions;
 /**
  * Default ScribeJava exception. Represents a problem in the OAuth signing
  * process
- *
- * @author Pablo Fernandez
  */
 public class OAuthException extends RuntimeException {
 

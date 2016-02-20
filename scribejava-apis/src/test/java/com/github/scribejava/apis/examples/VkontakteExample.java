@@ -10,10 +10,6 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
-/**
- * @author Boris G. Tsirkin <mail@dotbg.name>
- * @since 20.4.2011
- */
 public abstract class VkontakteExample {
 
     private static final String NETWORK_NAME = "Vkontakte.ru";

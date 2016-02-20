@@ -7,9 +7,6 @@ import java.util.Map;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
-/**
- * @author Pablo Fernandez
- */
 public class ParameterList {
 
     private static final char QUERY_STRING_SEPARATOR = '?';

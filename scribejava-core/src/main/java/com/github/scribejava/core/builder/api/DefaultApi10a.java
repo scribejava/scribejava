@@ -29,8 +29,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
  * If your Api does something a bit different, you can override the different extractors or services, in order to
  * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
- * @author Pablo Fernandez
- *
  */
 public abstract class DefaultApi10a {
 

@@ -6,7 +6,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 /**
  * OAuth API for Skyrock.
  *
- * @author Nicolas Quiénot
  * @see <a href="http://www.skyrock.com/developer/">Skyrock.com API</a>
  */
 public class SkyrockApi extends DefaultApi10a {

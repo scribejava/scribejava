@@ -12,7 +12,6 @@ import com.github.scribejava.core.utils.Preconditions;
  *
  * The process for extracting access and request tokens is similar so this class can do both things.
  *
- * @author Pablo Fernandez
  * @param <T> concrete type of OAuth1Token. access or request
  */
 public abstract class AbstractOAuth1TokenExtractor<T extends OAuth1Token> implements TokenExtractor<T> {

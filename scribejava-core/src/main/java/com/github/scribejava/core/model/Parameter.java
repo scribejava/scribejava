@@ -2,9 +2,6 @@ package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.utils.OAuthEncoder;
 
-/**
- * @author Pablo Fernandez
- */
 public class Parameter implements Comparable<Parameter> {
 
     private final String key;

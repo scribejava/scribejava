@@ -6,8 +6,6 @@ import com.github.scribejava.core.utils.Preconditions;
 
 /**
  * Implementation of the Builder pattern, with a fluent interface that creates a {@link OAuthService}
- *
- * @author Pablo Fernandez
  */
 public class ServiceBuilder extends AbstractServiceBuilder<ServiceBuilder> {
 

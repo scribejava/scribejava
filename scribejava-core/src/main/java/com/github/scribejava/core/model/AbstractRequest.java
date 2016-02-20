@@ -11,8 +11,6 @@ import com.github.scribejava.core.oauth.OAuthService;
 
 /**
  * The representation of an OAuth HttpRequest.
- *
- * @author Pablo Fernandez
  */
 public abstract class AbstractRequest {
 
