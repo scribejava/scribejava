@@ -8,7 +8,7 @@ import com.github.scribejava.core.utils.Preconditions;
 
 public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2AccessToken> {
 
-    private static final Pattern ACCESS_TOKEN_PATTERN = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
+    private static final String ACCESS_TOKENS_REGEXP = "\"access_token\"\\s*:\\s*\"(\\S*?)\"";
 
     protected OAuth2AccessTokenJsonExtractor() {
     }
@@ -29,7 +29,7 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
 
     protected String extractAccessToken(String response) {
         Preconditions.checkEmptyString(response, "Cannot extract a token from a null or empty String");
-        final Matcher matcher = ACCESS_TOKEN_PATTERN.matcher(response);
+        final Matcher matcher = Pattern.compile(ACCESS_TOKENS_REGEXP).matcher(response);
         if (matcher.find()) {
             return matcher.group(1);
         } else {

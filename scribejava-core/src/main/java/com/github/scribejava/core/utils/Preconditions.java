@@ -12,7 +12,7 @@ public abstract class Preconditions {
     private static final String DEFAULT_MESSAGE = "Received an invalid parameter";
 
     // scheme = alpha *( alpha | digit | "+" | "-" | "." )
-    private static final Pattern URL_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9+.-]*://\\S+");
+    private static final String URL_REGEXP = "^[a-zA-Z][a-zA-Z0-9+.-]*://\\S+";
 
     /**
      * Checks that an object is not null.
@@ -63,7 +63,7 @@ public abstract class Preconditions {
     }
 
     private static boolean isUrl(String url) {
-        return URL_PATTERN.matcher(url).matches();
+        return Pattern.compile(URL_REGEXP).matcher(url).matches();
     }
 
     private static void check(boolean requirements, String error) {

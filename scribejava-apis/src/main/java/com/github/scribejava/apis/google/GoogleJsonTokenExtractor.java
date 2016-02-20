@@ -9,7 +9,7 @@ import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
  */
 public class GoogleJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
-    private static final Pattern ID_TOKEN_PATTERN = Pattern.compile("\"id_token\"\\s*:\\s*\"(\\S*?)\"");
+    private static final String REGEXP = "\"id_token\"\\s*:\\s*\"(\\S*?)\"";
 
     protected GoogleJsonTokenExtractor() {
     }
@@ -29,7 +29,7 @@ public class GoogleJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
     }
 
     private String extractOpenIdToken(String response) {
-        final Matcher matcher = ID_TOKEN_PATTERN.matcher(response);
+        final Matcher matcher = Pattern.compile(REGEXP).matcher(response);
         if (matcher.find()) {
             return matcher.group(1);
         }

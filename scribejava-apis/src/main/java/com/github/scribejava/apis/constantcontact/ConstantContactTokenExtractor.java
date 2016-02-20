@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 public class ConstantContactTokenExtractor implements TokenExtractor<OAuth2AccessToken> {
 
+    private static final String REGEXP = "\"access_token\"\\s*:\\s*\"([^&\"]+)\"";
+
     protected ConstantContactTokenExtractor() {
     }
 
@@ -27,8 +29,7 @@ public class ConstantContactTokenExtractor implements TokenExtractor<OAuth2Acces
         Preconditions.checkEmptyString(response,
                 "Response body is incorrect. Can't extract a token from an empty string");
 
-        final String regex = "\"access_token\"\\s*:\\s*\"([^&\"]+)\"";
-        final Matcher matcher = Pattern.compile(regex).matcher(response);
+        final Matcher matcher = Pattern.compile(REGEXP).matcher(response);
         if (matcher.find()) {
             final String token = OAuthEncoder.decode(matcher.group(1));
             return new OAuth2AccessToken(token, response);
