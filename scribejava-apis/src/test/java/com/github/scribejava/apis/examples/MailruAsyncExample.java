@@ -58,7 +58,8 @@ public abstract class MailruAsyncExample {
         System.out.println("Trading the Request Token for an Access Token...");
         final OAuth2AccessToken accessToken = service.getAccessTokenAsync(verifier, null).get();
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
 
         System.out.println("Now we're going to access a protected resource...");
