@@ -9,18 +9,8 @@ public abstract class OAuth1Token extends Token {
 
     private static final long serialVersionUID = 6285873427974823019L;
 
-    /**
-     * oauth_token:
-     * <p>
-     * The Request/Access Token.</p>
-     */
     private final String token;
 
-    /**
-     * oauth_token_secret:
-     * <p>
-     * The Token Secret.</p>
-     */
     private final String tokenSecret;
 
     public OAuth1Token(String token, String tokenSecret, String rawResponse) {

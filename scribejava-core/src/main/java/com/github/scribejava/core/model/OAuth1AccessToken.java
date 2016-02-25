@@ -3,11 +3,11 @@ package com.github.scribejava.core.model;
 import java.util.Objects;
 
 /**
- * Represents an OAuth 1 Access Token http://oauth.net/core/1.0a/#rfc.section.6.3.2
+ * Represents an OAuth 1 Access Token http://tools.ietf.org/html/rfc5849#section-2.3
  */
 public class OAuth1AccessToken extends OAuth1Token {
 
-    private static final long serialVersionUID = -8784937061938486135L;
+    private static final long serialVersionUID = -103999293167210966L;
 
     public OAuth1AccessToken(String token, String tokenSecret) {
         this(token, tokenSecret, null);
@@ -15,6 +15,26 @@ public class OAuth1AccessToken extends OAuth1Token {
 
     public OAuth1AccessToken(String token, String tokenSecret, String rawResponse) {
         super(token, tokenSecret, rawResponse);
+    }
+
+    /**
+     * The token identifier.
+     *
+     * @return oauth_token
+     */
+    @Override
+    public String getToken() {
+        return super.getToken();
+    }
+
+    /**
+     * The token shared-secret.
+     *
+     * @return oauth_token_secret
+     */
+    @Override
+    public String getTokenSecret() {
+        return super.getTokenSecret();
     }
 
     @Override
