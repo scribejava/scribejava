@@ -129,4 +129,14 @@ public abstract class DefaultApi10a {
     public OAuth10aService createService(OAuthConfig config) {
         return new OAuth10aService(this, config);
     }
+
+    /**
+     * http://tools.ietf.org/html/rfc5849 says that "The client MAY omit the empty "oauth_token" protocol parameter from
+     * the request", but not all oauth servers are good boys.
+     *
+     * @return whether to inlcude empty oauth_token param to the request
+     */
+    public boolean isEmptyOAuthTokenParamIsRequired() {
+        return false;
+    }
 }

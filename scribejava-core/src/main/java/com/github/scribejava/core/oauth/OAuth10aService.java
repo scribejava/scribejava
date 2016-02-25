@@ -130,8 +130,7 @@ public class OAuth10aService extends OAuthService {
         final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());
 
-        // Do not append the token if empty. This is for two legged OAuth calls.
-        if (!token.isEmpty()) {
+        if (!token.isEmpty() || api.isEmptyOAuthTokenParamIsRequired()) {
             request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
         }
         config.log("setting token to: " + token);
