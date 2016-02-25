@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class GoogleToken extends OAuth2AccessToken {
 
-    private static final long serialVersionUID = 6150970703986214220L;
+    private static final long serialVersionUID = 7845679917727899612L;
 
     /**
      * Id_token is part of OpenID Connect specification. It can hold user information that you can directly extract
@@ -19,7 +19,12 @@ public class GoogleToken extends OAuth2AccessToken {
     private final String openIdToken;
 
     public GoogleToken(String accessToken, String openIdToken, String rawResponse) {
-        super(accessToken, rawResponse);
+        this(accessToken, null, null, null, null, openIdToken, rawResponse);
+    }
+
+    public GoogleToken(String accessToken, String tokenType, Integer expiresIn, String refreshToken, String scope,
+            String openIdToken, String rawResponse) {
+        super(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
         this.openIdToken = openIdToken;
     }
 
