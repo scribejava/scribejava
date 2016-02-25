@@ -103,6 +103,4 @@ Feel free to drop us an email or create issue right here on github.com
 
 ## Forks
 
-Looking for a ScribeJava variation? check the [Fork List](https://github.com/scribejava/scribejava/wiki/Forks)
-
 If you have a useful fork that should be listed there please contact us
