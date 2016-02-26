@@ -13,6 +13,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verifier;
+import java.util.Map;
 
 public class OAuth20Service extends OAuthService {
 
@@ -94,8 +95,18 @@ public class OAuth20Service extends OAuthService {
      *
      * @return the URL where you should redirect your users
      */
-    public String getAuthorizationUrl() {
-        return api.getAuthorizationUrl(getConfig());
+    public final String getAuthorizationUrl() {
+        return getAuthorizationUrl(null);
+    }
+
+    /**
+     * Returns the URL where you should redirect your users to authenticate your application.
+     *
+     * @param additionalParams any additional GET params to add to the URL
+     * @return the URL where you should redirect your users
+     */
+    public String getAuthorizationUrl(Map<String, String> additionalParams) {
+        return api.getAuthorizationUrl(getConfig(), additionalParams);
     }
 
     public DefaultApi20 getApi() {
