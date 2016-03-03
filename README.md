@@ -21,7 +21,7 @@ Hit ScribeJava as hard and with many threads as you like.
 
 ### Async
 
-You can user ning async http client out-of-box, just use ServiceBuilderAsync
+You can use ning async http client out-of-box, just use ServiceBuilderAsync
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
