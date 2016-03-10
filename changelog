@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * APIs 2.0 can define different endpoints for access token and for refresh token (the same urls by default)
+
 [2.3.0]
  * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).
  * Support response in gzip.

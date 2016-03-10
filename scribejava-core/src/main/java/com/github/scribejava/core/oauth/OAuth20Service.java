@@ -80,7 +80,7 @@ public class OAuth20Service extends OAuthService {
 
     public final OAuth2AccessToken refreshAccessToken(String refreshToken) {
         final Response response = createRefreshTokenRequest(refreshToken,
-                new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
+                new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint(), this)).send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
 
@@ -92,7 +92,7 @@ public class OAuth20Service extends OAuthService {
     public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
         final OAuthRequestAsync request = createRefreshTokenRequest(refreshToken,
-                new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
+                new OAuthRequestAsync(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint(), this));
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth2AccessToken>() {
             @Override
             public OAuth2AccessToken convert(com.ning.http.client.Response response) throws IOException {

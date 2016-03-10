@@ -49,6 +49,10 @@ public abstract class DefaultApi20 {
      */
     public abstract String getAccessTokenEndpoint();
 
+    public String getRefreshTokenEndpoint() {
+        return getAccessTokenEndpoint();
+    }
+
     /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
