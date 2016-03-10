@@ -1,14 +1,11 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 import com.github.scribejava.apis.service.MailruOAuthServiceImpl;
-import com.github.scribejava.core.extractors.TokenExtractor;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class MailruApi extends DefaultApi20 {
@@ -53,10 +50,5 @@ public class MailruApi extends DefaultApi20 {
     @Override
     public OAuth20Service createService(OAuthConfig config) {
         return new MailruOAuthServiceImpl(this, config);
-    }
-
-    @Override
-    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return OAuth2AccessTokenJsonExtractor.instance();
     }
 }

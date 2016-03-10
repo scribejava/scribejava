@@ -8,7 +8,7 @@ import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
- * Default implementation of {@link TokenExtractor} for OAuth 2.0
+ * Custom implementation of {@link TokenExtractor} for OAuth 2.0
  */
 public class OAuth2AccessTokenExtractor implements TokenExtractor<OAuth2AccessToken> {
 
