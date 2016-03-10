@@ -25,8 +25,8 @@ public class ServiceBuilderAsync extends AbstractServiceBuilder<ServiceBuilderAs
     protected OAuthConfigAsync createConfig() {
         checkPreconditions();
         final OAuthConfigAsync configAsync = new OAuthConfigAsync(getApiKey(), getApiSecret(), getCallback(),
-                getSignatureType(), getScope(), getGrantType(), getDebugStream(), asyncHttpClientConfig);
-        configAsync.setState(getState());
+                getSignatureType(), getScope(), getGrantType(), getState(), getResponseType(), getDebugStream(),
+                asyncHttpClientConfig);
         configAsync.setAsyncHttpProviderClassName(asyncHttpProviderClassName);
         return configAsync;
     }

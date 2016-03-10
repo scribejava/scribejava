@@ -14,7 +14,7 @@ import com.github.scribejava.core.utils.OAuthEncoder;
 public class GoogleApi20 extends DefaultApi20 {
 
     private static final String AUTHORIZE_URL
-            = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=%s&redirect_uri=%s&scope=%s";
+            = "https://accounts.google.com/o/oauth2/auth?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s";
 
     protected GoogleApi20() {
     }
@@ -39,8 +39,8 @@ public class GoogleApi20 extends DefaultApi20 {
 
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
-        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(
-                config.getCallback()), OAuthEncoder.encode(config.getScope())));
+        final StringBuilder sb = new StringBuilder(String.format(AUTHORIZE_URL, config.getResponseType(),
+                config.getApiKey(), OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope())));
 
         final String state = config.getState();
         if (state != null) {

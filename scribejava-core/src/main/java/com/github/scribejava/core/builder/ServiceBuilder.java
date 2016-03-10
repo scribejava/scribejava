@@ -28,8 +28,8 @@ public class ServiceBuilder extends AbstractServiceBuilder<ServiceBuilder> {
     protected OAuthConfig createConfig() {
         super.checkPreconditions();
         final OAuthConfig config = new OAuthConfig(getApiKey(), getApiSecret(), getCallback(), getSignatureType(),
-                getScope(), getDebugStream(), connectTimeout, readTimeout, getGrantType());
-        config.setState(getState());
+                getScope(), getDebugStream(), connectTimeout, readTimeout, getGrantType(), getState(),
+                getResponseType());
         return config;
     }
 }

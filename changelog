@@ -3,6 +3,7 @@
  * mark Facebook doesn't support refresh token by throwing UnsupportedOperationException
  * make JSON Access Token Extractor be the default for OAuth 2.0 (according to RFC 6749)
  * drop Google OAuth 1.0 support (OAuth 1.0 was officially deprecated by Google)
+ * add response_type parameter to the ServiceBuilder/OAuthConfig to use not only "code" for authorization code
 
 [2.3.0]
  * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).

@@ -17,14 +17,16 @@ public class OAuthConfig {
     private final OutputStream debugStream;
     private final Integer connectTimeout;
     private final Integer readTimeout;
-    private String state;
+    private final String state;
+    private final String responseType;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope,
-            OutputStream stream, Integer connectTimeout, Integer readTimeout, String grantType) {
+            OutputStream stream, Integer connectTimeout, Integer readTimeout, String grantType, String state,
+            String responseType) {
         this.apiKey = key;
         this.apiSecret = secret;
         this.callback = callback;
@@ -34,6 +36,8 @@ public class OAuthConfig {
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
         this.grantType = grantType;
+        this.state = state;
+        this.responseType = responseType;
     }
 
     public String getApiKey() {
@@ -87,17 +91,11 @@ public class OAuthConfig {
         }
     }
 
-    /**
-     * Sets optional value used by some provider implementations that is exchanged with provider to avoid CSRF attacks.
-     *
-     * @param state some secret key that client side shall never receive
-     */
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public String getState() {
         return state;
     }
 
+    public String getResponseType() {
+        return responseType;
+    }
 }
