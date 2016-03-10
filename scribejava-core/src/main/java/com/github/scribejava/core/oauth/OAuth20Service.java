@@ -12,7 +12,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verifier;
 import java.util.Map;
 
 public class OAuth20Service extends OAuthService {
@@ -31,8 +30,8 @@ public class OAuth20Service extends OAuthService {
         this.api = api;
     }
 
-    public final OAuth2AccessToken getAccessToken(Verifier verifier) {
-        final Response response = createAccessTokenRequest(verifier,
+    public final OAuth2AccessToken getAccessToken(String code) {
+        final Response response = createAccessTokenRequest(code,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this)).send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
@@ -41,18 +40,18 @@ public class OAuth20Service extends OAuthService {
      * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
      * when it is available.
      *
-     * @param verifier verifier code
+     * @param code code
      * @param callback optional callback
      * @return Future
      */
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(Verifier verifier,
+    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        return getAccessTokenAsync(verifier, callback, null);
+        return getAccessTokenAsync(code, callback, null);
     }
 
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(Verifier verifier,
+    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
-        final OAuthRequestAsync request = createAccessTokenRequest(verifier,
+        final OAuthRequestAsync request = createAccessTokenRequest(code,
                 new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth2AccessToken>() {
             @Override
@@ -63,11 +62,11 @@ public class OAuth20Service extends OAuthService {
         }, proxyServer);
     }
 
-    protected <T extends AbstractRequest> T createAccessTokenRequest(Verifier verifier, T request) {
+    protected <T extends AbstractRequest> T createAccessTokenRequest(String code, T request) {
         final OAuthConfig config = getConfig();
         request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-        request.addParameter(OAuthConstants.CODE, verifier.getValue());
+        request.addParameter(OAuthConstants.CODE, code);
         request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
         if (config.hasScope()) {
             request.addParameter(OAuthConstants.SCOPE, config.getScope());

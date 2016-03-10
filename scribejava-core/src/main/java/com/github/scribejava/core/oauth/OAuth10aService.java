@@ -14,7 +14,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.services.Base64Encoder;
 import com.github.scribejava.core.utils.MapUtils;
 
@@ -76,11 +75,11 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, Verifier verifier) {
+    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier) {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
-        prepareAccessTokenRequest(request, requestToken, verifier);
+        prepareAccessTokenRequest(request, requestToken, oauthVerifier);
         final Response response = request.send();
         return api.getAccessTokenExtractor().extract(response.getBody());
     }
@@ -90,22 +89,22 @@ public class OAuth10aService extends OAuthService {
      * callback will be called with the Token when it is available.
      *
      * @param requestToken request token (obtained previously or null)
-     * @param verifier verifier code
+     * @param oauthVerifier oauth_verifier
      * @param callback optional callback
      * @return Future
      */
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, Verifier verifier,
+    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
             OAuthAsyncRequestCallback<OAuth1AccessToken> callback) {
-        return getAccessTokenAsync(requestToken, verifier, callback, null);
+        return getAccessTokenAsync(requestToken, oauthVerifier, callback, null);
     }
 
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, Verifier verifier,
+    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
             OAuthAsyncRequestCallback<OAuth1AccessToken> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request
                 = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
-        prepareAccessTokenRequest(request, requestToken, verifier);
+        prepareAccessTokenRequest(request, requestToken, oauthVerifier);
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1AccessToken>() {
             @Override
             public OAuth1AccessToken convert(com.ning.http.client.Response response) throws IOException {
@@ -116,11 +115,11 @@ public class OAuth10aService extends OAuthService {
     }
 
     protected void prepareAccessTokenRequest(AbstractRequest request, OAuth1RequestToken requestToken,
-            Verifier verifier) {
+            String oauthVerifier) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
-        request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
-        config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
+        request.addOAuthParameter(OAuthConstants.VERIFIER, oauthVerifier);
+        config.log("setting token to: " + requestToken + " and verifier to: " + oauthVerifier);
         addOAuthParams(request, requestToken.getTokenSecret());
         appendSignature(request);
     }
