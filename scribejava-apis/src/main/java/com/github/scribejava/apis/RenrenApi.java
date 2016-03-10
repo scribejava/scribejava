@@ -3,6 +3,7 @@ package com.github.scribejava.apis;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 
 /**
@@ -23,6 +24,11 @@ public class RenrenApi extends DefaultApi20 {
 
     public static RenrenApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    @Override
+    public Verb getAccessTokenVerb() {
+        return Verb.GET;
     }
 
     @Override

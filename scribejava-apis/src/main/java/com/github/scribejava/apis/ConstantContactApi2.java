@@ -7,7 +7,6 @@ import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 
 public class ConstantContactApi2 extends DefaultApi20 {
@@ -35,11 +34,6 @@ public class ConstantContactApi2 extends DefaultApi20 {
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
         return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override

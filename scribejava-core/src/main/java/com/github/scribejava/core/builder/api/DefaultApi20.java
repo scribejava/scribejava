@@ -34,12 +34,12 @@ public abstract class DefaultApi20 {
     }
 
     /**
-     * Returns the verb for the access token endpoint (defaults to GET)
+     * Returns the verb for the access token endpoint (defaults to POST)
      *
      * @return access token endpoint verb
      */
     public Verb getAccessTokenVerb() {
-        return Verb.GET;
+        return Verb.POST;
     }
 
     /**

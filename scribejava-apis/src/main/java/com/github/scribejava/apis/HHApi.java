@@ -2,7 +2,6 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.Verb;
 
 import com.github.scribejava.apis.service.HHOAuthServiceImpl;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -24,11 +23,6 @@ public class HHApi extends DefaultApi20 {
 
     public static HHApi instance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override

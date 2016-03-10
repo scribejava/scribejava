@@ -2,7 +2,6 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 import com.github.scribejava.apis.service.MailruOAuthServiceImpl;
@@ -23,11 +22,6 @@ public class MailruApi extends DefaultApi20 {
 
     public static MailruApi instance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override

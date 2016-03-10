@@ -3,7 +3,6 @@ package com.github.scribejava.apis;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -27,11 +26,6 @@ public class PinterestApi extends DefaultApi20 {
     @Override
     public String getAccessTokenEndpoint() {
         return "https://api.pinterest.com/v1/oauth/token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.github.scribejava.apis;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -20,6 +21,11 @@ public class Foursquare2Api extends DefaultApi20 {
 
     public static Foursquare2Api instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    @Override
+    public Verb getAccessTokenVerb() {
+        return Verb.GET;
     }
 
     @Override

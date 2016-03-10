@@ -3,7 +3,6 @@ package com.github.scribejava.apis;
 import com.github.scribejava.apis.service.ImgurOAuthServiceImpl;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class ImgurApi extends DefaultApi20 {
@@ -20,11 +19,6 @@ public class ImgurApi extends DefaultApi20 {
 
     public static ImgurApi instance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override

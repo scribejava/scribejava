@@ -6,6 +6,7 @@ import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -22,6 +23,11 @@ public class GitHubApi extends DefaultApi20 {
 
     public static GitHubApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    @Override
+    public Verb getAccessTokenVerb() {
+        return Verb.GET;
     }
 
     @Override
