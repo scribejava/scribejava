@@ -40,6 +40,11 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     @Override
+    public String getRefreshTokenEndpoint() {
+        throw new UnsupportedOperationException("Facebook doesn't support refershing tokens");
+    }
+
+    @Override
     public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(),
                 "Must provide a valid url as callback. Facebook does not support OOB");

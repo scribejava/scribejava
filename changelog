@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * APIs 2.0 can define different endpoints for access token and for refresh token (the same urls by default)
+ * mark Facebook doesn't support refresh token by throwing UnsupportedOperationException
 
 [2.3.0]
  * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).
