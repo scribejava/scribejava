@@ -5,6 +5,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Parameter;
 import com.google.gson.Gson;
@@ -26,7 +27,28 @@ class OAuth20ServiceUnit extends OAuth20Service {
     super(api, config);
   }
 
-  protected Future<OAuth2AccessToken> getAccessTokenAsync(OAuthRequestAsync request,
+  @Override
+  protected OAuth2AccessToken sendTokenSync(OAuthRequest request) {
+
+    final Gson json = new Gson();
+    final Map<String, String> response = new HashMap<>();
+
+    response.put(OAuthConstants.ACCESS_TOKEN, token);
+    response.put(OAuthConstants.STATE, state);
+    response.put("expires_in", expires);
+
+    response.putAll( request.getHeaders() );
+    response.putAll( request.getOauthParameters() );
+
+    for(Parameter p : request.getBodyParams().getParams()) {
+      response.put( "query-" + p.getKey(), p.getValue() );
+    }
+
+    return new OAuth2AccessToken(token, json.toJson( response ));
+  }
+
+  @Override
+  protected Future<OAuth2AccessToken> sendTokenAsync(OAuthRequestAsync request,
       OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
 
       final Gson json = new Gson();
@@ -39,7 +61,7 @@ class OAuth20ServiceUnit extends OAuth20Service {
       response.putAll( request.getHeaders() );
       response.putAll( request.getOauthParameters() );
 
-      for(Parameter p : request.getQueryStringParams().getParams()) {
+      for(Parameter p : request.getBodyParams().getParams()) {
         response.put( "query-" + p.getKey(), p.getValue() );
       }
 

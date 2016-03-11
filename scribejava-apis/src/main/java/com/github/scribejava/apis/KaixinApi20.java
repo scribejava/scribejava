@@ -1,11 +1,9 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import com.github.scribejava.core.extractors.TokenExtractor;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 
 /**
@@ -29,8 +27,8 @@ public class KaixinApi20 extends DefaultApi20 {
     }
 
     @Override
-    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return OAuth2AccessTokenJsonExtractor.instance();
+    public Verb getAccessTokenVerb() {
+        return Verb.GET;
     }
 
     @Override

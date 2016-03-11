@@ -9,7 +9,6 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public abstract class StackExchangeExample {
@@ -45,7 +44,7 @@ public abstract class StackExchangeExample {
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
-        final Verifier verifier = new Verifier(in.nextLine());
+        final String code = in.nextLine();
         System.out.println();
 
         System.out.println("And paste the state from server here. We have set 'secretState'='" + secretState + "'.");
@@ -62,7 +61,7 @@ public abstract class StackExchangeExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(verifier);
+        final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");

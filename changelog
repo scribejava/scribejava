@@ -1,3 +1,12 @@
+[SNAPSHOT]
+ * APIs 2.0 can define different endpoints for access token and for refresh token (the same urls by default)
+ * mark Facebook doesn't support refresh token by throwing UnsupportedOperationException
+ * make JSON Access Token Extractor be the default for OAuth 2.0 (according to RFC 6749)
+ * drop Google OAuth 1.0 support (OAuth 1.0 was officially deprecated by Google)
+ * add response_type parameter to the ServiceBuilder/OAuthConfig to use not only "code" for authorization code
+ * remove Verifier object, we just need Strings, 'code' for OAuth2 and 'oauthVerifier' for OAuth1
+ * default HTTP verb for OAuth 2.0 Access Token EndPoint is POST (http://tools.ietf.org/html/rfc6749#section-3.2)
+
 [2.3.0]
  * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).
  * Support response in gzip.

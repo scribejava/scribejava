@@ -1,9 +1,11 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractor;
+import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -27,11 +29,6 @@ public class StackExchangeApi extends DefaultApi20 {
     }
 
     @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
-    }
-
-    @Override
     public String getAccessTokenEndpoint() {
         return "https://stackexchange.com/oauth/access_token";
     }
@@ -51,5 +48,10 @@ public class StackExchangeApi extends DefaultApi20 {
             sb.append('&').append(OAuthConstants.STATE).append('=').append(OAuthEncoder.encode(state));
         }
         return sb.toString();
+    }
+
+    @Override
+    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
+        return OAuth2AccessTokenExtractor.instance();
     }
 }

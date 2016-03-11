@@ -13,8 +13,9 @@ public class OAuthConfigAsync extends OAuthConfig {
     }
 
     public OAuthConfigAsync(String key, String secret, String callback, SignatureType type, String scope,
-            String grantType, OutputStream stream, AsyncHttpClientConfig asyncHttpClientConfig) {
-        super(key, secret, callback, type, scope, stream, null, null, grantType);
+            String grantType, String state, String responseType, OutputStream stream,
+            AsyncHttpClientConfig asyncHttpClientConfig) {
+        super(key, secret, callback, type, scope, stream, null, null, grantType, state, responseType);
         this.asyncHttpClientConfig = asyncHttpClientConfig;
     }
 

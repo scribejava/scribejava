@@ -7,7 +7,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
- * JSON implementation of {@link TokenExtractor} for OAuth 2.0
+ * JSON (default) implementation of {@link TokenExtractor} for OAuth 2.0
  */
 public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2AccessToken> {
 

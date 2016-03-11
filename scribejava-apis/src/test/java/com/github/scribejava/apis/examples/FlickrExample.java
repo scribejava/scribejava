@@ -8,7 +8,6 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
 public abstract class FlickrExample {
@@ -39,12 +38,12 @@ public abstract class FlickrExample {
         System.out.println(authorizationUrl + "&perms=read");
         System.out.println("And paste the verifier here");
         System.out.print(">>");
-        final Verifier verifier = new Verifier(in.nextLine());
+        final String oauthVerifier = in.nextLine();
         System.out.println();
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, verifier);
+        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, oauthVerifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");

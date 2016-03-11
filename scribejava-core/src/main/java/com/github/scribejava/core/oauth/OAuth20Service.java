@@ -1,12 +1,9 @@
 package com.github.scribejava.core.oauth;
 
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.services.Base64Encoder;
-import com.github.scribejava.core.utils.Uninterruptibles;
 import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
@@ -17,9 +14,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verifier;
-import org.apache.commons.codec.binary.Base64;
-
 import java.util.Map;
 
 public class OAuth20Service extends OAuthService {
@@ -38,35 +32,122 @@ public class OAuth20Service extends OAuthService {
         this.api = api;
     }
 
-    public final OAuth2AccessToken getAccessToken(Verifier verifier) {
-        return Uninterruptibles.getUninterruptibly( getAccessTokenAsync(verifier, null) );
+    //sync version, protected to facilitate mocking
+    protected OAuth2AccessToken sendTokenSync(OAuthRequest request) {
+        return api.getAccessTokenExtractor().extract(request.send().getBody());
     }
 
-    public final OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password) {
-        return Uninterruptibles.getUninterruptibly( getAccessTokenPasswordGrantAsync(uname, password, null) );
+    //async version, protected to facilitate mocking
+    protected Future<OAuth2AccessToken> sendTokenAsync(OAuthRequestAsync request,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
+
+        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth2AccessToken>() {
+            @Override
+            public OAuth2AccessToken convert(com.ning.http.client.Response response) throws IOException {
+                return getApi().getAccessTokenExtractor()
+                  .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            }
+        }, proxyServer);
+    }
+
+    public final OAuth2AccessToken getAccessToken(String code) {
+        final OAuthRequest request = createAccessTokenRequest(code,
+                new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
+
+        return sendTokenSync(request);
     }
 
     /**
      * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
      * when it is available.
      *
-     * @param verifier verifier code
+     * @param code code
      * @param callback optional callback
      * @return Future
      */
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(Verifier verifier,
+    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        return getAccessTokenAsync(verifier, callback, null);
+        return getAccessTokenAsync(code, callback, null);
     }
 
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(Verifier verifier,
+    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
-        final OAuthRequestAsync request = createAccessTokenRequest(verifier,
+        final OAuthRequestAsync request = createAccessTokenRequest(code,
                 new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
 
-        return getAccessTokenAsync(request, callback, proxyServer);
+        return sendTokenAsync(request, callback, proxyServer);
     }
 
+    protected <T extends AbstractRequest> T createAccessTokenRequest(String code, T request) {
+        final OAuthConfig config = getConfig();
+        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        request.addParameter(OAuthConstants.CODE, code);
+        request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
+        if (config.hasScope()) {
+            request.addParameter(OAuthConstants.SCOPE, config.getScope());
+        }
+        if (config.hasGrantType()) {
+            request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
+        }
+        return request;
+    }
+
+    public final OAuth2AccessToken refreshAccessToken(String refreshToken) {
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken,
+          new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
+
+        return sendTokenSync(request);
+    }
+
+    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
+        return refreshAccessTokenAsync(refreshToken, callback, null);
+    }
+
+    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
+        final OAuthRequestAsync request = createRefreshTokenRequest(refreshToken,
+                new OAuthRequestAsync(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint(), this));
+
+        return sendTokenAsync(request, callback, proxyServer);
+    }
+
+    protected <T extends AbstractRequest> T createRefreshTokenRequest(String refreshToken, T request) {
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            throw new IllegalArgumentException("The refreshToken cannot be null or empty");
+        }
+        final OAuthConfig config = getConfig();
+        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
+        request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
+        return request;
+    }
+
+    /**
+     * Request Access Token Password Grant sync version
+     *
+     * @param uname User name
+     * @param password User password
+     * @return OAuth2AccessToken
+     */
+
+    public final OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password) {
+        final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password,
+          new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
+
+        return sendTokenSync(request);
+    }
+
+    /**
+   * Request Access Token Password Grant async version
+   *
+   * @param uname User name
+   * @param password User password
+   * @param callback Optional callback
+   * @return Future
+   */
     public final Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
         final OAuthRequestAsync request = createAccessTokenPasswordGrantRequest(uname, password,
@@ -80,19 +161,7 @@ public class OAuth20Service extends OAuthService {
         final OAuthRequestAsync request = createAccessTokenPasswordGrantRequest(uname, password,
           new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
 
-        return getAccessTokenAsync(request, callback, proxyServer);
-    }
-
-    protected Future<OAuth2AccessToken> getAccessTokenAsync(OAuthRequestAsync request,
-        OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
-
-        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth2AccessToken>() {
-            @Override
-            public OAuth2AccessToken convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor()
-                  .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
-            }
-        }, proxyServer);
+        return sendTokenAsync(request, callback, proxyServer);
     }
 
     protected <T extends AbstractRequest> T createAccessTokenPasswordGrantRequest(String username, String password, T request) {
@@ -107,62 +176,13 @@ public class OAuth20Service extends OAuthService {
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
 
         request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + " " +
-            Base64Encoder.getInstance().encode(
-                String.format("%s:%s", config.getApiKey(), config.getApiSecret()).getBytes(
-                  Charset.forName("UTF-8")
-                )
+          Base64Encoder.getInstance().encode(
+            String.format("%s:%s", config.getApiKey(), config.getApiSecret()).getBytes(
+              Charset.forName("UTF-8")
             )
+          )
         );
 
-        return request;
-    }
-
-    protected <T extends AbstractRequest> T createAccessTokenRequest(Verifier verifier, T request) {
-        final OAuthConfig config = getConfig();
-        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-        request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-        request.addParameter(OAuthConstants.CODE, verifier.getValue());
-        request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-        if (config.hasScope()) {
-            request.addParameter(OAuthConstants.SCOPE, config.getScope());
-        }
-        if (config.hasGrantType()) {
-            request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
-        }
-        return request;
-    }
-
-    public final OAuth2AccessToken refreshAccessToken(String refreshToken) {
-        return Uninterruptibles.getUninterruptibly( refreshAccessTokenAsync(refreshToken, null) );
-    }
-
-    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken,
-            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        return refreshAccessTokenAsync(refreshToken, callback, null);
-    }
-
-    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken,
-            OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
-        final OAuthRequestAsync request = createRefreshTokenRequest(refreshToken,
-                new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
-        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth2AccessToken>() {
-            @Override
-            public OAuth2AccessToken convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor()
-                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
-            }
-        }, proxyServer);
-    }
-
-    protected <T extends AbstractRequest> T createRefreshTokenRequest(String refreshToken, T request) {
-        if (refreshToken == null || refreshToken.isEmpty()) {
-            throw new IllegalArgumentException("The refreshToken cannot be null or empty");
-        }
-        final OAuthConfig config = getConfig();
-        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-        request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
-        request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
-        request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
         return request;
     }
 

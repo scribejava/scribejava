@@ -20,6 +20,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder<T>> {
     private SignatureType signatureType;
     private OutputStream debugStream;
     private String grantType;
+    private String responseType = "code";
 
     AbstractServiceBuilder() {
         this.callback = OAuthConstants.OUT_OF_BAND;
@@ -119,6 +120,13 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder<T>> {
     }
 
     @SuppressWarnings("unchecked")
+    public T responseType(String responseType) {
+        Preconditions.checkEmptyString(responseType, "Invalid OAuth responseType");
+        this.responseType = responseType;
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
     public T debug() {
         debugStream(System.out);
         return (T) this;
@@ -159,6 +167,10 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder<T>> {
 
     public String getGrantType() {
         return grantType;
+    }
+
+    public String getResponseType() {
+        return responseType;
     }
 
     protected abstract OAuthConfig createConfig();
