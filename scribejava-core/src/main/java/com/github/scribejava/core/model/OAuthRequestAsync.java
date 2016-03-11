@@ -38,6 +38,21 @@ public class OAuthRequestAsync extends AbstractRequest {
         super(verb, url, service);
     }
 
+    private Map<String, Collection<String>> mapHeaders() {
+        final Map<String, Collection<String>> mapped = new HashMap<>();
+
+        for (Map.Entry<String, String> header : getHeaders().entrySet()) {
+            final String headerName = header.getKey();
+            Collection<String> headerValues = mapped.get(headerName);
+            if (headerValues == null) {
+                headerValues = new ArrayList<>();
+                mapped.put(headerName, headerValues);
+            }
+            headerValues.add(header.getValue());
+        }
+        return mapped;
+    }
+
     public <T> Future<T> sendAsync(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
         return sendAsync(callback, converter, null);
     }
@@ -54,46 +69,24 @@ public class OAuthRequestAsync extends AbstractRequest {
         }
         final String completeUrl = getCompleteUrl();
         final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
+        final AsyncHttpClient asyncHttpClient = service.getAsyncHttpClient();
         switch (getVerb()) {
             case GET:
-                boundRequestBuilder = service.getAsyncHttpClient()
-                        .prepareGet(completeUrl)
-                        .setHeaders(mapHeaders());
-
+                boundRequestBuilder = asyncHttpClient.prepareGet(completeUrl);
                 break;
             case POST:
-                boundRequestBuilder = service.getAsyncHttpClient().preparePost(completeUrl)
-                        .setBody(getBodyContents())
-                        .setHeaders(mapHeaders());
-
+                boundRequestBuilder = asyncHttpClient.preparePost(completeUrl).setBody(getBodyContents());
                 break;
             default:
                 throw new IllegalArgumentException("message build error: unknown verb type");
         }
+
+        boundRequestBuilder.setHeaders(mapHeaders());
+
         if (proxyServer != null) {
             boundRequestBuilder.setProxyServer(proxyServer);
         }
         return boundRequestBuilder.execute(new OAuthAsyncCompletionHandler<>(callback, converter));
-    }
-
-    public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback) {
-        return sendAsync(callback, RESPONSE_CONVERTER, null);
-    }
-
-    public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback, ProxyServer proxyServer) {
-        return sendAsync(callback, RESPONSE_CONVERTER, proxyServer);
-    }
-
-    private Map<String, Collection<String>> mapHeaders() {
-        final Map<String, String> headers = getHeaders();
-        final Map<String, Collection<String>> mapped = new HashMap<>();
-
-        for(Map.Entry<String, String> entry: headers.entrySet()) {
-            final ArrayList<String> list = new ArrayList<>();
-            list.add(entry.getValue());
-            mapped.put(entry.getKey(), list);
-        }
-        return mapped;
     }
 
     private static class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
@@ -122,6 +115,14 @@ public class OAuthRequestAsync extends AbstractRequest {
             }
         }
     };
+
+    public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback) {
+        return sendAsync(callback, RESPONSE_CONVERTER, null);
+    }
+
+    public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback, ProxyServer proxyServer) {
+        return sendAsync(callback, RESPONSE_CONVERTER, proxyServer);
+    }
 
     public interface ResponseConverter<T> {
 
