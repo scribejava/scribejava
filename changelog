@@ -7,6 +7,7 @@
  * remove Verifier object, we just need Strings, 'code' for OAuth2 and 'oauthVerifier' for OAuth1
  * default HTTP verb for OAuth 2.0 Access Token EndPoint is POST (http://tools.ietf.org/html/rfc6749#section-3.2)
  * send missed headers in async version (as in sync)
+ * support 'password' grant_type for OAuth 2.0
 
 [2.3.0]
  * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).
