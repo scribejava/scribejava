@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[2.4.0]
  * APIs 2.0 can define different endpoints for access token and for refresh token (the same urls by default)
  * mark Facebook doesn't support refresh token by throwing UnsupportedOperationException
  * make JSON Access Token Extractor be the default for OAuth 2.0 (according to RFC 6749)
