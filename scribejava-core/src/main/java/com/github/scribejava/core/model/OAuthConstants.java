@@ -21,6 +21,7 @@ public interface OAuthConstants {
     String VERIFIER = "oauth_verifier";
     String HEADER = "Authorization";
     String SCOPE = "scope";
+    String BASIC = "Basic";
 
     // OAuth 2.0
     String ACCESS_TOKEN = "access_token";
@@ -32,4 +33,6 @@ public interface OAuthConstants {
     String GRANT_TYPE = "grant_type";
     String AUTHORIZATION_CODE = "authorization_code";
     String STATE = "state";
+    String USERNAME = "username";
+    String PASSWORD = "password";
 }
