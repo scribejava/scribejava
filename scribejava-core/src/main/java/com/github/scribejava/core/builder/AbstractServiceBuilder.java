@@ -1,5 +1,6 @@
 package com.github.scribejava.core.builder;
 
+import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
@@ -8,6 +9,7 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
 
 abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder<T>> {
@@ -176,22 +178,12 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder<T>> {
     protected abstract OAuthConfig createConfig();
 
     /**
-     * Returns the fully configured {@link OAuth10aService}
+     * Returns the fully configured {@link S}
      *
      * @param api will build Service for this API
-     * @return fully configured {@link OAuth10aService}
+     * @return fully configured {@link S}
      */
-    public OAuth10aService build(DefaultApi10a api) {
-        return api.createService(createConfig());
-    }
-
-    /**
-     * Returns the fully configured {@link OAuth20Service}
-     *
-     * @param api will build Service for this API
-     * @return fully configured {@link OAuth20Service}
-     */
-    public OAuth20Service build(DefaultApi20 api) {
+    public <S extends OAuthService> S build(BaseApi<S> api) {
         return api.createService(createConfig());
     }
 }
