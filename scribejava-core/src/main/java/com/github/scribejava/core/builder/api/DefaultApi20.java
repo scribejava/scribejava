@@ -22,7 +22,7 @@ import java.util.Map;
  * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
  */
-public abstract class DefaultApi20 {
+public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
 
     /**
      * Returns the access token extractor.
@@ -88,6 +88,7 @@ public abstract class DefaultApi20 {
         return authUrl;
     }
 
+    @Override
     public OAuth20Service createService(OAuthConfig config) {
         return new OAuth20Service(this, config);
     }
