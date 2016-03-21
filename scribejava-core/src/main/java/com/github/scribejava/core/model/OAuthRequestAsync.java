@@ -8,10 +8,8 @@ import com.ning.http.client.FluentCaseInsensitiveStringsMap;
 import com.ning.http.client.ProxyServer;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Future;
 
@@ -38,21 +36,6 @@ public class OAuthRequestAsync extends AbstractRequest {
         super(verb, url, service);
     }
 
-    private Map<String, Collection<String>> mapHeaders() {
-        final Map<String, Collection<String>> mapped = new HashMap<>();
-
-        for (Map.Entry<String, String> header : getHeaders().entrySet()) {
-            final String headerName = header.getKey();
-            Collection<String> headerValues = mapped.get(headerName);
-            if (headerValues == null) {
-                headerValues = new ArrayList<>();
-                mapped.put(headerName, headerValues);
-            }
-            headerValues.add(header.getValue());
-        }
-        return mapped;
-    }
-
     public <T> Future<T> sendAsync(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
         return sendAsync(callback, converter, null);
     }
@@ -75,13 +58,17 @@ public class OAuthRequestAsync extends AbstractRequest {
                 boundRequestBuilder = asyncHttpClient.prepareGet(completeUrl);
                 break;
             case POST:
-                boundRequestBuilder = asyncHttpClient.preparePost(completeUrl).setBody(getBodyContents());
+                boundRequestBuilder = asyncHttpClient.preparePost(completeUrl)
+                        .addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE)
+                        .setBody(getBodyContents());
                 break;
             default:
                 throw new IllegalArgumentException("message build error: unknown verb type");
         }
 
-        boundRequestBuilder.setHeaders(mapHeaders());
+        for (Map.Entry<String, String> header : getHeaders().entrySet()) {
+            boundRequestBuilder.addHeader(header.getKey(), header.getValue());
+        }
 
         if (proxyServer != null) {
             boundRequestBuilder.setProxyServer(proxyServer);
