@@ -3,6 +3,7 @@ package com.github.scribejava.core.model;
 import static com.github.scribejava.core.model.OpenIdConnectConstants.KEY_AUTHORIZATION_ENDPOINT;
 import static com.github.scribejava.core.model.OpenIdConnectConstants.KEY_ISSUER;
 import static com.github.scribejava.core.model.OpenIdConnectConstants.KEY_JWKS_URI;
+import static com.github.scribejava.core.model.OpenIdConnectConstants.KEY_RESPONSE_TYPES_SUPPORTED;
 import static com.github.scribejava.core.model.OpenIdConnectConstants.KEY_SCOPES_SUPPORTED;
 import static com.github.scribejava.core.model.OpenIdConnectConstants.KEY_TOKEN_ENDPOINT;
 
@@ -28,11 +29,12 @@ public class OpenIdConnectConfig {
     private final Map<String, String[]> config;
 
     public OpenIdConnectConfig(Map<String, String[]> config) {
-        assertEntryPresent(config, KEY_AUTHORIZATION_ENDPOINT);
-        assertEntryPresent(config, KEY_SCOPES_SUPPORTED);
-        assertEntryPresent(config, KEY_TOKEN_ENDPOINT);
-        assertEntryPresent(config, KEY_JWKS_URI);
         assertEntryPresent(config, KEY_ISSUER);
+        assertEntryPresent(config, KEY_AUTHORIZATION_ENDPOINT);
+        assertEntryPresent(config, KEY_TOKEN_ENDPOINT);
+        assertEntryPresent(config, KEY_SCOPES_SUPPORTED);
+        assertEntryPresent(config, KEY_JWKS_URI);
+        assertEntryPresent(config, KEY_RESPONSE_TYPES_SUPPORTED);
         this.config = new HashMap<>(config);
     }
 
