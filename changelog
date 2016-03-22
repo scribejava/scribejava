@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * add Google Async Exmaple (with bugfix for it to work)
+ * add OSGI manifest metadata
 
 [2.4.0]
  * APIs 2.0 can define different endpoints for access token and for refresh token (the same urls by default)
