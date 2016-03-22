@@ -176,6 +176,7 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder<T>> {
     /**
      * Returns the fully configured {@link S}
      *
+     * @param <S> OAuthService implementation (OAuth1/OAuth2/any API specific)
      * @param api will build Service for this API
      * @return fully configured {@link S}
      */
