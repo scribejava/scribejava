@@ -132,7 +132,6 @@ abstract class AbstractServiceBuilder<T extends AbstractServiceBuilder<T>> {
 
     public void checkPreconditions() {
         Preconditions.checkEmptyString(apiKey, "You must provide an api key");
-        Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
     }
 
     public String getCallback() {

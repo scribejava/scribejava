@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * add Google Async Exmaple (with bugfix for it to work)
  * add OSGI manifest metadata
+ * apiSecret is not mandatory parameter in config (to use on client sides and other flows without need of the API secret)
 
 [2.4.0]
  * APIs 2.0 can define different endpoints for access token and for refresh token (the same urls by default)
