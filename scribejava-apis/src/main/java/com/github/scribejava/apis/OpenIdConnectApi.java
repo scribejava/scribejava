@@ -15,6 +15,9 @@ public class OpenIdConnectApi extends DefaultApi20 {
     private final OpenIdConnectConfig config;
 
     public OpenIdConnectApi(OpenIdConnectConfig config) {
+        if (!config.isValid()) {
+            throw new IllegalArgumentException("OpenID connect configuration is not valid!");
+        }
         this.config = config;
     }
 
@@ -35,7 +38,7 @@ public class OpenIdConnectApi extends DefaultApi20 {
         if (scope != null && !"".equals(scope)) {
             sb.append(OAuthEncoder.encode(scope));
         } else {
-            final String[] scopes = this.config.getSupportedScopes();
+            final String[] scopes = this.config.getScopesSupported();
             for (int i = 0; i < scopes.length; i++) {
                 if (i > 0) {
                     sb.append("%20");
