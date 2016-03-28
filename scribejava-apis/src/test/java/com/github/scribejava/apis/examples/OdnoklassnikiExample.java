@@ -14,7 +14,7 @@ public abstract class OdnoklassnikiExample {
 
     private static final String NETWORK_NAME = "Odnoklassniki.ru";
     private static final String PROTECTED_RESOURCE_URL
-            = "http://api.odnoklassniki.ru/api/users/getCurrentUser?application_key=%1$s&format=JSON";
+            = "https://api.ok.ru/api/users/getCurrentUser?application_key=%1$s&format=JSON";
 
     public static void main(String... args) {
         // Replace these with your client id and secret
@@ -49,8 +49,15 @@ public abstract class OdnoklassnikiExample {
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
 
-        final OAuth2AccessToken accessToken = service.getAccessToken(code);
+        OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
+        System.out.println();
+
+        System.out.println("Refreshing the Access Token...");
+        accessToken = service.refreshAccessToken(accessToken.getRefreshToken());
+        System.out.println("Refreshed the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
