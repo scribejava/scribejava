@@ -2,11 +2,13 @@ package com.github.scribejava.core.oauth;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.services.Base64Encoder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.junit.Assert;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
@@ -25,23 +27,23 @@ public class OAuth20ServiceTest {
         final OAuth2AccessToken token = service.getAccessTokenPasswordGrant("user1", "password1");
         final Gson json = new Gson();
 
-        Assert.assertNotNull(token);
+        assertNotNull(token);
 
         final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
 
-        Assert.assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
-        Assert.assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
-        Assert.assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
+        assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
+        assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
+        assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
         final String authorize = Base64Encoder.getInstance()
                 .encode(String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
                         .getBytes(Charset.forName("UTF-8")));
 
-        Assert.assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
+        assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
 
-        Assert.assertEquals("user1", map.get("query-username"));
-        Assert.assertEquals("password1", map.get("query-password"));
-        Assert.assertEquals("password", map.get("query-grant_type"));
+        assertEquals("user1", map.get("query-username"));
+        assertEquals("password1", map.get("query-password"));
+        assertEquals("password", map.get("query-grant_type"));
     }
 
     @Test
@@ -54,23 +56,72 @@ public class OAuth20ServiceTest {
         final OAuth2AccessToken token = service.getAccessTokenPasswordGrantAsync("user1", "password1", null).get();
         final Gson json = new Gson();
 
-        Assert.assertNotNull(token);
+        assertNotNull(token);
 
         final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
 
-        Assert.assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
-        Assert.assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
-        Assert.assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
+        assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
+        assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
+        assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
         final String authorize = Base64Encoder.getInstance()
                 .encode(String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
                         .getBytes(Charset.forName("UTF-8")));
 
-        Assert.assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
+        assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
 
-        Assert.assertEquals("user1", map.get("query-username"));
-        Assert.assertEquals("password1", map.get("query-password"));
-        Assert.assertEquals("password", map.get("query-grant_type"));
+        assertEquals("user1", map.get("query-username"));
+        assertEquals("password1", map.get("query-password"));
+        assertEquals("password", map.get("query-grant_type"));
+    }
+
+    @Test
+    public void testOAuthExtractAuthorization() {
+        final OAuth20Service service = new ServiceBuilder()
+                .apiKey("your_api_key")
+                .apiSecret("your_api_secret")
+                .build(new OAuth20ApiUnit());
+
+        OAuth2Authorization authorization = service.extractAuthorization("https://cl.ex.com/cb?code=SplxlOB&state=xyz");
+        assertEquals("SplxlOB", authorization.getCode());
+        assertEquals("xyz", authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?state=xyz&code=SplxlOB");
+        assertEquals("SplxlOB", authorization.getCode());
+        assertEquals("xyz", authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?key=value&state=xyz&code=SplxlOB");
+        assertEquals("SplxlOB", authorization.getCode());
+        assertEquals("xyz", authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?state=xyz&code=SplxlOB&key=value&");
+        assertEquals("SplxlOB", authorization.getCode());
+        assertEquals("xyz", authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?code=SplxlOB&state=");
+        assertEquals("SplxlOB", authorization.getCode());
+        assertEquals(null, authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?code=SplxlOB");
+        assertEquals("SplxlOB", authorization.getCode());
+        assertEquals(null, authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?code=");
+        assertEquals(null, authorization.getCode());
+        assertEquals(null, authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?code");
+        assertEquals(null, authorization.getCode());
+        assertEquals(null, authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb?");
+        assertEquals(null, authorization.getCode());
+        assertEquals(null, authorization.getState());
+
+        authorization = service.extractAuthorization("https://cl.ex.com/cb");
+        assertEquals(null, authorization.getCode());
+        assertEquals(null, authorization.getState());
+
     }
 
     private static class TypeTokenImpl extends TypeToken<Map<String, String>> {

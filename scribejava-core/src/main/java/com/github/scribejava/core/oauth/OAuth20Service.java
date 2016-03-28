@@ -8,6 +8,7 @@ import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -215,5 +216,24 @@ public class OAuth20Service extends OAuthService {
 
     public DefaultApi20 getApi() {
         return api;
+    }
+
+    public OAuth2Authorization extractAuthorization(String redirectLocation) {
+        final OAuth2Authorization authorization = new OAuth2Authorization();
+        for (String param : redirectLocation.substring(redirectLocation.indexOf('?') + 1).split("&")) {
+            final String[] keyValue = param.split("=");
+            if (keyValue.length == 2) {
+                switch (keyValue[0]) {
+                    case "code":
+                        authorization.setCode(keyValue[1]);
+                        break;
+                    case "state":
+                        authorization.setState(keyValue[1]);
+                        break;
+                    default: //just ignore any other param;
+                }
+            }
+        }
+        return authorization;
     }
 }
