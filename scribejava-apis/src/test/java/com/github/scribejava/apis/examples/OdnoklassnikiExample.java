@@ -25,7 +25,6 @@ public abstract class OdnoklassnikiExample {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(secretKey)
-                .scope("VALUABLE_ACCESS")
                 .grantType(OAuthConstants.AUTHORIZATION_CODE)
                 .callback("http://your.site.com/callback")
                 .build(OdnoklassnikiApi.instance());
