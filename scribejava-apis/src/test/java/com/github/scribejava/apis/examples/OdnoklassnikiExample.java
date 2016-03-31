@@ -18,14 +18,14 @@ public abstract class OdnoklassnikiExample {
 
     public static void main(String... args) {
         // Replace these with your client id and secret
-        final String clientId = "your client id";
-        final String publicKey = "your api secret";
-        final String clientSecret = "your client secret";
+        final String clientId  = "your api client id";
+        final String publicKey = "your api public key";
+        final String secretKey = "your api secret key";
 
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
-                .apiSecret(clientSecret)
-                .scope("VALUABLE ACCESS")
+                .apiSecret(secretKey)
+                .scope("VALUABLE_ACCESS")
                 .grantType(OAuthConstants.AUTHORIZATION_CODE)
                 .callback("http://your.site.com/callback")
                 .build(OdnoklassnikiApi.instance());
