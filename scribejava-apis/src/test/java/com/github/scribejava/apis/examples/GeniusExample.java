@@ -10,10 +10,10 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
-public class GeniusExample {
+public abstract class GeniusExample {
 
-	private static final String CLIENT_ID = "eqCriYGl2QNLNa445Na1tUxcrzT2le_ln2x3nQCMTxvtRymytyyNmjBWQXNAE7Ea";
-	private static final String CLIENT_SECRET = "A2-27oGeWrCqrJGJsMoX8WitXvY0uFrxnLSOj-iC7Kexh20xWdg2VrDtQjqjydZmqGjCKVpXlbAJnJMJChAc3w";
+	private static final String CLIENT_ID = "client_id";
+	private static final String CLIENT_SECRET = "client_secret";
 	private static final String REDIRECT_URI = "com.scribejavatest://callback";
 	private static final String SCOPE = "me";
 	private static final String STATE = "100";
