@@ -23,12 +23,12 @@ public abstract class GeniusExample {
 	public static void main(String... args) {
 		
 		final OAuth20Service service = new ServiceBuilder()
-				.apiKey(CLIENT_ID)
-				.apiSecret(CLIENT_SECRET)
-				.scope(SCOPE)
-				.state(STATE)
-				.callback(REDIRECT_URI)
-				.build(GeniusApi.instance());
+		    .apiKey(CLIENT_ID)
+		    .apiSecret(CLIENT_SECRET)
+		    .scope(SCOPE)
+		    .state(STATE)
+		    .callback(REDIRECT_URI)
+		    .build(GeniusApi.instance());
 		
 		System.out.println("=== Genius' OAuth Workflow ===");
         System.out.println();
@@ -80,5 +80,4 @@ public abstract class GeniusExample {
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
         in.close();
 	}
-
 }

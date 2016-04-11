@@ -1,3 +1,6 @@
+[2.5.3]
+ * Genius.com authentication (OAuth2)
+
 [2.5.2]
  * add Google Async Exmaple (with bugfix for it to work)
  * add OSGI manifest metadata
