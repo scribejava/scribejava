@@ -53,20 +53,23 @@ public class OAuthRequestAsync extends AbstractRequest {
         final String completeUrl = getCompleteUrl();
         final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
         final AsyncHttpClient asyncHttpClient = service.getAsyncHttpClient();
+        final Map<String, String> headers = getHeaders();
         switch (getVerb()) {
             case GET:
                 boundRequestBuilder = asyncHttpClient.prepareGet(completeUrl);
                 break;
             case POST:
-                boundRequestBuilder = asyncHttpClient.preparePost(completeUrl)
-                        .addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE)
-                        .setBody(getBodyContents());
+                AsyncHttpClient.BoundRequestBuilder requestBuilder = asyncHttpClient.preparePost(completeUrl);
+                if (!headers.containsKey(CONTENT_TYPE)) {
+                    requestBuilder = requestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+                }
+                boundRequestBuilder = requestBuilder.setBody(getBodyContents());
                 break;
             default:
                 throw new IllegalArgumentException("message build error: unknown verb type");
         }
 
-        for (Map.Entry<String, String> header : getHeaders().entrySet()) {
+        for (Map.Entry<String, String> header : headers.entrySet()) {
             boundRequestBuilder.addHeader(header.getKey(), header.getValue());
         }
 
