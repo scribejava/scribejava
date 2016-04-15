@@ -1,3 +1,7 @@
+[2.5.3]
+ * fix - do not send two Content-Type header in async requests
+ * improve OK example
+
 [2.5.2]
  * add Google Async Exmaple (with bugfix for it to work)
  * add OSGI manifest metadata
