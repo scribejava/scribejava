@@ -3,7 +3,7 @@
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava</artifactId>
     <packaging>pom</packaging>
-    <version>2.5.3</version>
+    <version>2.5.4-SNAPSHOT</version>
     <name>ScribeJava OAuth Library</name>
     <description>The best OAuth library out there</description>
     <url>https://github.com/scribejava/scribejava</url>
