@@ -1,9 +1,9 @@
-package com.github.scribejava.apis.google;
+package com.github.scribejava.apis.openid;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import java.util.Objects;
 
-public class GoogleToken extends OAuth2AccessToken {
+public class OpenIdToken extends OAuth2AccessToken {
 
     private static final long serialVersionUID = 7845679917727899612L;
 
@@ -18,11 +18,11 @@ public class GoogleToken extends OAuth2AccessToken {
      */
     private final String openIdToken;
 
-    public GoogleToken(String accessToken, String openIdToken, String rawResponse) {
+    public OpenIdToken(String accessToken, String openIdToken, String rawResponse) {
         this(accessToken, null, null, null, null, openIdToken, rawResponse);
     }
 
-    public GoogleToken(String accessToken, String tokenType, Integer expiresIn, String refreshToken, String scope,
+    public OpenIdToken(String accessToken, String tokenType, Integer expiresIn, String refreshToken, String scope,
             String openIdToken, String rawResponse) {
         super(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
         this.openIdToken = openIdToken;
@@ -30,6 +30,14 @@ public class GoogleToken extends OAuth2AccessToken {
 
     public String getOpenIdToken() {
         return openIdToken;
+    }
+
+    @Override
+    public String getParameter(String parameter) {
+        if ("id_token".equals(parameter)) {
+            return openIdToken;
+        }
+        return super.getParameter(parameter);
     }
 
     @Override
@@ -55,7 +63,7 @@ public class GoogleToken extends OAuth2AccessToken {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GoogleToken other = (GoogleToken) obj;
+        final OpenIdToken other = (OpenIdToken) obj;
         if (!Objects.equals(getAccessToken(), other.getAccessToken())) {
             return false;
         }
@@ -76,7 +84,7 @@ public class GoogleToken extends OAuth2AccessToken {
 
     @Override
     public String toString() {
-        return "GoogleToken{"
+        return "OpenIdToken{"
                 + "access_token=" + getAccessToken()
                 + ", token_type=" + getTokenType()
                 + ", expires_in=" + getExpiresIn()

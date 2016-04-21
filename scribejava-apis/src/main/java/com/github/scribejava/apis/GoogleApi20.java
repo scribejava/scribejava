@@ -1,6 +1,6 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.google.GoogleJsonTokenExtractor;
+import com.github.scribejava.apis.openid.OpenIdConnectJsonTokenExtractor;
 import com.github.scribejava.apis.service.GoogleOAuthServiceImpl;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
@@ -12,8 +12,8 @@ import com.github.scribejava.core.utils.OAuthEncoder;
 
 public class GoogleApi20 extends DefaultApi20 {
 
-    private static final String AUTHORIZE_URL
-            = "https://accounts.google.com/o/oauth2/auth?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s";
+    private static final String AUTHORIZE_URL =
+            "https://accounts.google.com/o/oauth2/auth?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s";
 
     protected GoogleApi20() {
     }
@@ -45,7 +45,7 @@ public class GoogleApi20 extends DefaultApi20 {
 
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return GoogleJsonTokenExtractor.instance();
+        return OpenIdConnectJsonTokenExtractor.instance();
     }
 
     @Override
