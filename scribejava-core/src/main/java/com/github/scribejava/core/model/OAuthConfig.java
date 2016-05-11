@@ -72,6 +72,10 @@ public class OAuthConfig {
         return grantType != null;
     }
 
+    public boolean hasClientCredentials() {
+        return apiKey != null && apiSecret != null;
+    }
+
     public Integer getConnectTimeout() {
         return connectTimeout;
     }
