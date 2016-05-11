@@ -172,6 +172,8 @@ public class OAuth20Service extends OAuthService {
 
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
 
+        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
         request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + " "
                 + Base64Encoder.getInstance().encode(
                         String.format("%s:%s", config.getApiKey(), config.getApiSecret()).getBytes(
