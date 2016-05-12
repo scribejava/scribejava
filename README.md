@@ -104,3 +104,31 @@ Feel free to drop us an email or create issue right here on github.com
 ## Forks
 
 If you have a useful fork that should be listed there please contact us
+
+
+## QQ登陆
+
+        final String apiKey = "101303927";
+        final String apiSecret = "0c3ac6430d6e2f60dfb637101252417e ";
+        final OAuth20Service service = new ServiceBuilder().apiKey(apiKey).apiSecret(apiSecret)
+                .callback("http://www.yichisancun.com/qqlogin.htm").state("xxxx")
+                .scope("get_user_info,list_album,upload_pic,do_like").build(QQApi.instance());
+        System.out.println(service.getAuthorizationUrl())
+
+## 微信登陆
+
+        final String apiKey = "x";
+        final String apiSecret = "x ";
+        final OAuth20Service service = new ServiceBuilder().apiKey(apiKey).apiSecret(apiSecret)
+                .callback("url").state("xxxx").scope("snsapi_login")
+                .build(WeiXinApi.instance());
+        System.out.println(service.getAuthorizationUrl());
+
+## 开源中国登陆
+
+     final OAuth20Service    oschina = new ServiceBuilder().apiKey("CTJlkYcnBaZCsi4GGgUk").grantType("authorization_code")
+                .apiSecret("TlKrmPCKImAKEzk1ORZtdwooJKDIgXrF").callback("http://www.yichisancun.com/oschinalogin.htm")
+                .responseType("code").build(OschinaApi.instance());
+                System.out.println(service.getAuthorizationUrl());
+
+    
