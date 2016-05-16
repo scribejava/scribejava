@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * simplify async/sync usages
+
 [2.5.3]
  * fix - do not send two Content-Type header in async requests
  * improve OK example

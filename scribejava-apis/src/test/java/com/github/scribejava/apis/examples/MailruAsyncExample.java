@@ -4,7 +4,7 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import com.github.scribejava.apis.MailruApi;
-import com.github.scribejava.core.builder.ServiceBuilderAsync;
+import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
@@ -30,7 +30,7 @@ public abstract class MailruAsyncExample {
                 .setReadTimeout(10_000)
                 .build();
 
-        final OAuth20Service service = new ServiceBuilderAsync()
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")

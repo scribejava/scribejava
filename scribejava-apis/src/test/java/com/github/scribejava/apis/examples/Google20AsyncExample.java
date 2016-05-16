@@ -3,7 +3,7 @@ package com.github.scribejava.apis.examples;
 import java.util.Random;
 import java.util.Scanner;
 import com.github.scribejava.apis.GoogleApi20;
-import com.github.scribejava.core.builder.ServiceBuilderAsync;
+import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -35,7 +35,7 @@ public abstract class Google20AsyncExample {
                 .setReadTimeout(1_000)
                 .build();
 
-        final OAuth20Service service = new ServiceBuilderAsync()
+        final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope

@@ -1,5 +1,6 @@
 package com.github.scribejava.core.model;
 
+import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -15,29 +16,37 @@ public class OAuthConfig {
     private final String scope;
     private final String grantType;
     private final OutputStream debugStream;
-    private final Integer connectTimeout;
-    private final Integer readTimeout;
     private final String state;
     private final String responseType;
 
+    //sync only version
+    private final Integer connectTimeout;
+    private final Integer readTimeout;
+
+    //async only version
+    private final AsyncHttpClientConfig asyncHttpClientConfig;
+    private final String asyncHttpProviderClassName;
+
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
     }
 
-    public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope,
-            OutputStream stream, Integer connectTimeout, Integer readTimeout, String grantType, String state,
-            String responseType) {
-        this.apiKey = key;
-        this.apiSecret = secret;
+    public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
+            OutputStream debugStream, String grantType, String state, String responseType, Integer connectTimeout,
+            Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig, String asyncHttpProviderClassName) {
+        this.apiKey = apiKey;
+        this.apiSecret = apiSecret;
         this.callback = callback;
-        this.signatureType = type;
+        this.signatureType = signatureType;
         this.scope = scope;
-        this.debugStream = stream;
+        this.debugStream = debugStream;
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
         this.grantType = grantType;
         this.state = state;
         this.responseType = responseType;
+        this.asyncHttpClientConfig = asyncHttpClientConfig;
+        this.asyncHttpProviderClassName = asyncHttpProviderClassName;
     }
 
     public String getApiKey() {
@@ -72,12 +81,12 @@ public class OAuthConfig {
         return grantType != null;
     }
 
-    public Integer getConnectTimeout() {
-        return connectTimeout;
+    public String getState() {
+        return state;
     }
 
-    public Integer getReadTimeout() {
-        return readTimeout;
+    public String getResponseType() {
+        return responseType;
     }
 
     public void log(String message) {
@@ -91,11 +100,20 @@ public class OAuthConfig {
         }
     }
 
-    public String getState() {
-        return state;
+    public Integer getConnectTimeout() {
+        return connectTimeout;
     }
 
-    public String getResponseType() {
-        return responseType;
+    public Integer getReadTimeout() {
+        return readTimeout;
     }
+
+    public AsyncHttpClientConfig getAsyncHttpClientConfig() {
+        return asyncHttpClientConfig;
+    }
+
+    public String getAsyncHttpProviderClassName() {
+        return asyncHttpProviderClassName;
+    }
+
 }

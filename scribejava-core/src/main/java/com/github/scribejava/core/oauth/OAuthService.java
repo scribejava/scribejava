@@ -4,8 +4,8 @@ import com.ning.http.client.AsyncHttpClient;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConfigAsync;
 import com.github.scribejava.core.model.ScribeJavaConfig;
+import com.ning.http.client.AsyncHttpClientConfig;
 
 /**
  * The main ScribeJava object.
@@ -15,31 +15,31 @@ import com.github.scribejava.core.model.ScribeJavaConfig;
 public abstract class OAuthService {
 
     private final OAuthConfig config;
-    private AsyncHttpClient asyncHttpClient;
+    private final AsyncHttpClient asyncHttpClient;
 
     public OAuthService(OAuthConfig config) {
         this.config = config;
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
-        if (config instanceof OAuthConfigAsync) {
-            if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                throw new OAuthException("Cannot use async operations, only sync");
-            }
-            if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                config.log("Cannot use async operations, only sync");
-            }
-            final OAuthConfigAsync asyncConfig = (OAuthConfigAsync) config;
-            final String asyncHttpProviderClassName = asyncConfig.getAsyncHttpProviderClassName();
-
-            asyncHttpClient = asyncHttpProviderClassName == null
-                    ? new AsyncHttpClient(asyncConfig.getAsyncHttpClientConfig())
-                    : new AsyncHttpClient(asyncHttpProviderClassName, asyncConfig.getAsyncHttpClientConfig());
-        } else {
+        final AsyncHttpClientConfig asyncHttpClientConfig = config.getAsyncHttpClientConfig();
+        if (asyncHttpClientConfig == null) {
             if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 throw new OAuthException("Cannot use sync operations, only async");
             }
             if (ForceTypeOfHttpRequest.PREFER_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 config.log("Cannot use sync operations, only async");
             }
+            asyncHttpClient = null;
+        } else {
+            if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
+                throw new OAuthException("Cannot use async operations, only sync");
+            }
+            if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
+                config.log("Cannot use async operations, only sync");
+            }
+            final String asyncHttpProviderClassName = config.getAsyncHttpProviderClassName();
+
+            asyncHttpClient = asyncHttpProviderClassName == null ? new AsyncHttpClient(asyncHttpClientConfig)
+                    : new AsyncHttpClient(asyncHttpProviderClassName, asyncHttpClientConfig);
         }
     }
 
