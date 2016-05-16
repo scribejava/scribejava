@@ -2,7 +2,6 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 
@@ -33,7 +32,7 @@ public class KaixinApi20 extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://api.kaixin001.com/oauth2/access_token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
+        return "https://api.kaixin001.com/oauth2/access_token";
     }
 
     @Override

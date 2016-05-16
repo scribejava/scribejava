@@ -10,7 +10,6 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class MailruOAuthServiceImpl extends OAuth20Service {
@@ -48,14 +47,5 @@ public class MailruOAuthServiceImpl extends OAuth20Service {
         } catch (UnsupportedEncodingException e) {
             throw new IllegalStateException(e);
         }
-    }
-
-    @Override
-    protected <T extends AbstractRequest> T createAccessTokenRequest(String code, T request) {
-        super.createAccessTokenRequest(code, request);
-        if (!getConfig().hasGrantType()) {
-            request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
-        }
-        return request;
     }
 }

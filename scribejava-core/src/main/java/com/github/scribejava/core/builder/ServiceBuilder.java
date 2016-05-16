@@ -21,7 +21,6 @@ public class ServiceBuilder {
     private String state;
     private SignatureType signatureType;
     private OutputStream debugStream;
-    private String grantType;
     private String responseType = "code";
     private String userAgent;
 
@@ -116,12 +115,6 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder grantType(String grantType) {
-        Preconditions.checkEmptyString(grantType, "Invalid OAuth grantType");
-        this.grantType = grantType;
-        return this;
-    }
-
     public ServiceBuilder responseType(String responseType) {
         Preconditions.checkEmptyString(responseType, "Invalid OAuth responseType");
         this.responseType = responseType;
@@ -166,9 +159,8 @@ public class ServiceBuilder {
     }
     private OAuthConfig createConfig() {
         checkPreconditions();
-        return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, grantType, state,
-                responseType, userAgent, connectTimeout, readTimeout, asyncHttpClientConfig,
-                asyncHttpProviderClassName);
+        return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
+                userAgent, connectTimeout, readTimeout, asyncHttpClientConfig, asyncHttpProviderClassName);
     }
 
     /**

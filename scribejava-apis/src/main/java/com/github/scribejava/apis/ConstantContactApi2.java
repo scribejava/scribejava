@@ -6,7 +6,6 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.utils.OAuthEncoder;
 
 public class ConstantContactApi2 extends DefaultApi20 {
@@ -28,7 +27,7 @@ public class ConstantContactApi2 extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://oauth2.constantcontact.com/oauth2/oauth/token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
+        return "https://oauth2.constantcontact.com/oauth2/oauth/token";
     }
 
     @Override

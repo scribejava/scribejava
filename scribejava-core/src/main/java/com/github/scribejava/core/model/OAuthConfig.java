@@ -14,7 +14,6 @@ public class OAuthConfig {
     private final String callback;
     private final SignatureType signatureType;
     private final String scope;
-    private final String grantType;
     private final OutputStream debugStream;
     private final String state;
     private final String responseType;
@@ -29,20 +28,18 @@ public class OAuthConfig {
     private final String asyncHttpProviderClassName;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
-            OutputStream debugStream, String grantType, String state, String responseType, String userAgent,
-            Integer connectTimeout, Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig,
-            String asyncHttpProviderClassName) {
+            OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
+            Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig, String asyncHttpProviderClassName) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
         this.signatureType = signatureType;
         this.scope = scope;
         this.debugStream = debugStream;
-        this.grantType = grantType;
         this.state = state;
         this.responseType = responseType;
         this.userAgent = userAgent;
@@ -74,14 +71,6 @@ public class OAuthConfig {
 
     public boolean hasScope() {
         return scope != null;
-    }
-
-    public String getGrantType() {
-        return grantType;
-    }
-
-    public boolean hasGrantType() {
-        return grantType != null;
     }
 
     public String getState() {

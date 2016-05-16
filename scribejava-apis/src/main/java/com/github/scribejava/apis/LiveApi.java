@@ -2,7 +2,6 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
@@ -31,7 +30,7 @@ public class LiveApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://login.live.com/oauth20_token.srf?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
+        return "https://login.live.com/oauth20_token.srf";
     }
 
     @Override

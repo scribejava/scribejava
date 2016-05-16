@@ -87,9 +87,7 @@ public class OAuth20Service extends OAuthService {
         if (config.hasScope()) {
             request.addParameter(OAuthConstants.SCOPE, config.getScope());
         }
-        if (config.hasGrantType()) {
-            request.addParameter(OAuthConstants.GRANT_TYPE, config.getGrantType());
-        }
+        request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
         return request;
     }
 

@@ -4,7 +4,6 @@ import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.OdnoklassnikiApi;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -25,7 +24,6 @@ public abstract class OdnoklassnikiExample {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(secretKey)
-                .grantType(OAuthConstants.AUTHORIZATION_CODE)
                 .callback("http://your.site.com/callback")
                 .build(OdnoklassnikiApi.instance());
 

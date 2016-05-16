@@ -3,7 +3,6 @@ package com.github.scribejava.apis.examples;
 import java.util.Scanner;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -24,7 +23,6 @@ public abstract class TutByExample {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
-                .grantType(OAuthConstants.AUTHORIZATION_CODE)
                 .callback("http://www.example.com/oauth_callback/")
                 .build(TutByApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
