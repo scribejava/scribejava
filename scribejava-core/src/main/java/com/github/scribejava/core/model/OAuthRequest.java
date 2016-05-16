@@ -70,6 +70,10 @@ public class OAuthRequest extends AbstractRequest {
         for (Map.Entry<String, String> entry : getHeaders().entrySet()) {
             connection.setRequestProperty(entry.getKey(), entry.getValue());
         }
+        final String userAgent = getService().getConfig().getUserAgent();
+        if (userAgent != null) {
+            connection.setRequestProperty(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
+        }
     }
 
     void addBody(byte[] content) throws IOException {

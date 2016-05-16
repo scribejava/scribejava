@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * simplify async/sync usages
+ * add optional "User-Agent" config option to use while making http calls
 
 [2.5.3]
  * fix - do not send two Content-Type header in async requests

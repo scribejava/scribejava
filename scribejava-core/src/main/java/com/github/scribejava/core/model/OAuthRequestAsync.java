@@ -47,8 +47,9 @@ public class OAuthRequestAsync extends AbstractRequest {
             throw new OAuthException("Cannot use async operations, only sync");
         }
         final OAuthService service = getService();
+        final OAuthConfig config = service.getConfig();
         if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            service.getConfig().log("Cannot use async operations, only sync");
+            config.log("Cannot use async operations, only sync");
         }
         final String completeUrl = getCompleteUrl();
         final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
@@ -71,6 +72,10 @@ public class OAuthRequestAsync extends AbstractRequest {
 
         for (Map.Entry<String, String> header : headers.entrySet()) {
             boundRequestBuilder.addHeader(header.getKey(), header.getValue());
+        }
+        final String userAgent = config.getUserAgent();
+        if (userAgent != null) {
+            boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
         }
 
         if (proxyServer != null) {

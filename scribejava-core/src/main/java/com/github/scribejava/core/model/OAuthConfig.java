@@ -18,6 +18,7 @@ public class OAuthConfig {
     private final OutputStream debugStream;
     private final String state;
     private final String responseType;
+    private final String userAgent;
 
     //sync only version
     private final Integer connectTimeout;
@@ -28,23 +29,25 @@ public class OAuthConfig {
     private final String asyncHttpProviderClassName;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
-            OutputStream debugStream, String grantType, String state, String responseType, Integer connectTimeout,
-            Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig, String asyncHttpProviderClassName) {
+            OutputStream debugStream, String grantType, String state, String responseType, String userAgent,
+            Integer connectTimeout, Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig,
+            String asyncHttpProviderClassName) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
         this.signatureType = signatureType;
         this.scope = scope;
         this.debugStream = debugStream;
-        this.connectTimeout = connectTimeout;
-        this.readTimeout = readTimeout;
         this.grantType = grantType;
         this.state = state;
         this.responseType = responseType;
+        this.userAgent = userAgent;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
         this.asyncHttpClientConfig = asyncHttpClientConfig;
         this.asyncHttpProviderClassName = asyncHttpProviderClassName;
     }
@@ -89,6 +92,10 @@ public class OAuthConfig {
         return responseType;
     }
 
+    public String getUserAgent() {
+        return userAgent;
+    }
+
     public void log(String message) {
         if (debugStream != null) {
             message += '\n';
@@ -115,5 +122,4 @@ public class OAuthConfig {
     public String getAsyncHttpProviderClassName() {
         return asyncHttpProviderClassName;
     }
-
 }

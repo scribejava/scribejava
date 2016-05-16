@@ -35,4 +35,8 @@ public interface OAuthConstants {
     String STATE = "state";
     String USERNAME = "username";
     String PASSWORD = "password";
+
+    //not OAuth specific
+    String USER_AGENT_HEADER_NAME = "User-Agent";
+
 }
