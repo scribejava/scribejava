@@ -6,6 +6,7 @@
  * fix GitHub API
  * standardize authorization url generation for OAuth2
  * update Facebook to v2.6
+ * cleanup: drop old APIs without Examples
 
 [2.5.3]
  * fix - do not send two Content-Type header in async requests
