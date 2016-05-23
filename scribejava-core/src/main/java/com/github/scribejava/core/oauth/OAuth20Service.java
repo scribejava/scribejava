@@ -172,11 +172,14 @@ public class OAuth20Service extends OAuthService {
 
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
 
-        request.addHeader(OAuthConstants.HEADER,
-                OAuthConstants.BASIC + ' '
-                + Base64Encoder.getInstance()
-                .encode(String.format("%s:%s", config.getApiKey(), config.getApiSecret())
-                        .getBytes(Charset.forName("UTF-8"))));
+        final String apiKey = config.getApiKey();
+        final String apiSecret = config.getApiSecret();
+        if (apiKey != null && apiSecret != null) {
+            request.addHeader(OAuthConstants.HEADER,
+                    OAuthConstants.BASIC + ' '
+                    + Base64Encoder.getInstance()
+                    .encode(String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
+        }
 
         return request;
     }
