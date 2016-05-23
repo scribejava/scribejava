@@ -69,10 +69,6 @@ public class OAuthConfig {
         return scope;
     }
 
-    public boolean hasScope() {
-        return scope != null;
-    }
-
     public String getState() {
         return state;
     }

@@ -4,6 +4,7 @@
  * refactor usage of grant_type [authorization_code|refresh_token|password|etc]
  * add Genius.com API authentication (OAuth2)
  * fix GitHub API
+ * standardize authorization url generation for OAuth2
 
 [2.5.3]
  * fix - do not send two Content-Type header in async requests

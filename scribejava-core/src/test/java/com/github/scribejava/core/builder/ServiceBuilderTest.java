@@ -90,7 +90,7 @@ public class ServiceBuilderTest {
         }
 
         @Override
-        public String getAuthorizationUrl(OAuthConfig config) {
+        protected String getAuthorizationBaseUrl() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }

@@ -26,8 +26,10 @@ public class ParameterList {
 
     public ParameterList(Map<String, String> map) {
         this();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            params.add(new Parameter(entry.getKey(), entry.getValue()));
+        if (map != null && !map.isEmpty()) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                params.add(new Parameter(entry.getKey(), entry.getValue()));
+            }
         }
     }
 
@@ -41,9 +43,9 @@ public class ParameterList {
         if (queryString.equals(EMPTY_STRING)) {
             return url;
         } else {
-            url += url.indexOf(QUERY_STRING_SEPARATOR) == -1 ? QUERY_STRING_SEPARATOR : PARAM_SEPARATOR;
-            url += queryString;
-            return url;
+            return url
+                    + (url.indexOf(QUERY_STRING_SEPARATOR) == -1 ? QUERY_STRING_SEPARATOR : PARAM_SEPARATOR)
+                    + queryString;
         }
     }
 
@@ -58,9 +60,9 @@ public class ParameterList {
 
         final StringBuilder builder = new StringBuilder();
         for (Parameter p : params) {
-            builder.append('&').append(p.asUrlEncodedPair());
+            builder.append(PARAM_SEPARATOR).append(p.asUrlEncodedPair());
         }
-        return builder.toString().substring(1);
+        return builder.substring(1);
     }
 
     public void addAll(ParameterList other) {
@@ -68,7 +70,7 @@ public class ParameterList {
     }
 
     public void addQuerystring(String queryString) {
-        if (queryString != null && queryString.length() > 0) {
+        if (queryString != null && !queryString.isEmpty()) {
             for (String param : queryString.split(PARAM_SEPARATOR)) {
                 final String[] pair = param.split(PAIR_SEPARATOR);
                 final String key = OAuthEncoder.decode(pair[0]);

@@ -4,18 +4,8 @@ import com.github.scribejava.apis.service.GeniusOAuthServiceImpl;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.github.scribejava.core.utils.OAuthEncoder;
 
 public class GeniusApi extends DefaultApi20 {
-
-    private static final String AUTHORIZE_URL = "https://api.genius.com/oauth/authorize"
-            + "?client_id=%s"
-            + "&redirect_uri=%s"
-            + "&scope=%s"
-            + "&state=%s"
-            + "&response_type=code";
-
-    private static final String TOKEN_ENDPOINT_URL = "https://api.genius.com/oauth/token";
 
     protected GeniusApi() {
     }
@@ -31,18 +21,12 @@ public class GeniusApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return TOKEN_ENDPOINT_URL;
+        return "https://api.genius.com/oauth/token";
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
-
-        // User must provide these 4 elements to the service builder
-        return String.format(AUTHORIZE_URL,
-                OAuthEncoder.encode(config.getApiKey()),
-                OAuthEncoder.encode(config.getCallback()),
-                OAuthEncoder.encode(config.getScope()),
-                OAuthEncoder.encode(config.getState()));
+    protected String getAuthorizationBaseUrl() {
+        return "https://api.genius.com/oauth/authorize";
     }
 
     @Override

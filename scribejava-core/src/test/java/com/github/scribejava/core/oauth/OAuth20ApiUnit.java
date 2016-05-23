@@ -11,7 +11,7 @@ class OAuth20ApiUnit extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
+    protected String getAuthorizationBaseUrl() {
         return "http://localhost:8080/authorize";
     }
 

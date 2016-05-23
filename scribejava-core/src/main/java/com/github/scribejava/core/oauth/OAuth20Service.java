@@ -84,8 +84,9 @@ public class OAuth20Service extends OAuthService {
         request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
         request.addParameter(OAuthConstants.CODE, code);
         request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-        if (config.hasScope()) {
-            request.addParameter(OAuthConstants.SCOPE, config.getScope());
+        final String scope = config.getScope();
+        if (scope != null) {
+            request.addParameter(OAuthConstants.SCOPE, scope);
         }
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
         return request;
@@ -164,19 +165,18 @@ public class OAuth20Service extends OAuthService {
         request.addParameter(OAuthConstants.USERNAME, username);
         request.addParameter(OAuthConstants.PASSWORD, password);
 
-        if (config.hasScope()) {
-            request.addParameter(OAuthConstants.SCOPE, config.getScope());
+        final String scope = config.getScope();
+        if (scope != null) {
+            request.addParameter(OAuthConstants.SCOPE, scope);
         }
 
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
 
-        request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + " "
-                + Base64Encoder.getInstance().encode(
-                        String.format("%s:%s", config.getApiKey(), config.getApiSecret()).getBytes(
-                        Charset.forName("UTF-8")
-                )
-                )
-        );
+        request.addHeader(OAuthConstants.HEADER,
+                OAuthConstants.BASIC + ' '
+                + Base64Encoder.getInstance()
+                .encode(String.format("%s:%s", config.getApiKey(), config.getApiSecret())
+                        .getBytes(Charset.forName("UTF-8"))));
 
         return request;
     }

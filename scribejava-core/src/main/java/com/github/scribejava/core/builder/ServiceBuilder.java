@@ -157,6 +157,7 @@ public class ServiceBuilder {
     public void checkPreconditions() {
         Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     }
+
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,

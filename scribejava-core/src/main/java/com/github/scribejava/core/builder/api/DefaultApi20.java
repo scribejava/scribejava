@@ -4,9 +4,10 @@ import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
+import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.github.scribejava.core.utils.OAuthEncoder;
 import java.util.Map;
 
 /**
@@ -53,13 +54,7 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
         return getAccessTokenEndpoint();
     }
 
-    /**
-     * Returns the URL where you should redirect your users to authenticate your application.
-     *
-     * @param config OAuth 2.0 configuration param object
-     * @return the URL where you should redirect your users
-     */
-    public abstract String getAuthorizationUrl(OAuthConfig config);
+    protected abstract String getAuthorizationBaseUrl();
 
     /**
      * Returns the URL where you should redirect your users to authenticate your application.
@@ -69,23 +64,26 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl(OAuthConfig config, Map<String, String> additionalParams) {
-        String authUrl = getAuthorizationUrl(config);
+        final ParameterList parameters = new ParameterList(additionalParams);
+        parameters.add(OAuthConstants.RESPONSE_TYPE, config.getResponseType());
+        parameters.add(OAuthConstants.CLIENT_ID, config.getApiKey());
 
-        if (additionalParams != null && !additionalParams.isEmpty()) {
-            final StringBuilder authUrlWithParams = new StringBuilder(authUrl)
-                    .append(authUrl.indexOf('?') == -1 ? '?' : '&');
-
-            for (Map.Entry<String, String> param : additionalParams.entrySet()) {
-                authUrlWithParams.append(OAuthEncoder.encode(param.getKey()))
-                        .append('=')
-                        .append(OAuthEncoder.encode(param.getValue()))
-                        .append('&');
-            }
-
-            authUrl = authUrlWithParams.substring(0, authUrlWithParams.length() - 1);
+        final String callback = config.getCallback();
+        if (callback != null) {
+            parameters.add(OAuthConstants.REDIRECT_URI, callback);
         }
 
-        return authUrl;
+        final String scope = config.getScope();
+        if (scope != null) {
+            parameters.add(OAuthConstants.SCOPE, scope);
+        }
+
+        final String state = config.getState();
+        if (state != null) {
+            parameters.add(OAuthConstants.STATE, state);
+        }
+
+        return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
     @Override

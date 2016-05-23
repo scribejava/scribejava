@@ -67,8 +67,9 @@ public class OAuth10aService extends OAuthService {
         request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, config.getApiKey());
         request.addOAuthParameter(OAuthConstants.SIGN_METHOD, api.getSignatureService().getSignatureMethod());
         request.addOAuthParameter(OAuthConstants.VERSION, getVersion());
-        if (config.hasScope()) {
-            request.addOAuthParameter(OAuthConstants.SCOPE, config.getScope());
+        final String scope = config.getScope();
+        if (scope != null) {
+            request.addOAuthParameter(OAuthConstants.SCOPE, scope);
         }
         request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, tokenSecret));
 
