@@ -27,7 +27,7 @@ public class GitHubApi extends DefaultApi20 {
 
     @Override
     public Verb getAccessTokenVerb() {
-        return Verb.GET;
+        return Verb.POST;
     }
 
     @Override
