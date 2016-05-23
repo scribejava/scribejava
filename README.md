@@ -25,35 +25,41 @@ You can use ning async http client out-of-box, just use ServiceBuilderAsync
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
-* Google
-
-* Facebook
-
-* Yahoo
-
-* LinkedIn
-
-* Twitter
-
-* Foursquare
-
-* Evernote
-
-* Vimeo
-
-* Windows Live
-
-* Odnoklassniki
-
-* Mail.ru
-
-* LinkedIn2.0
-
-* Google2.0
-
-* GitHub
-
-* and many more! check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
+* AWeber (http://www.aweber.com/)
+* Digg (http://digg.com/)
+* Доктор на работе (http://www.doktornarabote.ru/)
+* Facebook (https://www.facebook.com/)
+* Flickr (https://www.flickr.com/)
+* Foursquare (https://foursquare.com/)
+* Freelancer (https://www.freelancer.com/)
+* Genius (http://genius.com/)
+* GitHub (https://github.com/)
+* Google (https://www.google.ru/)
+* HeadHunter ХэдХантер (https://hh.ru/)
+* Imgur (http://imgur.com/)
+* Kaixin 开心网 (http://www.kaixin001.com/)
+* LinkedIn (https://www.linkedin.com/)
+* Microsoft Live (https://login.live.com/)
+* Mail.Ru (https://mail.ru/)
+* Meetup (http://www.meetup.com/)
+* NetEase (http://www.163.com/)
+* Odnoklassniki Одноклассники (http://ok.ru/)
+* Pinterest (https://www.pinterest.com/)
+* 500px (https://500px.com/)
+* Renren (http://renren.com/)
+* Sina (http://www.sina.com.cn/ http://weibo.com/login.php)
+* Skyrock (http://skyrock.com/)
+* sohu 搜狐 (http://www.sohu.com/)
+* StackExchange (http://stackexchange.com/)
+* Trello (https://trello.com/)
+* Tumblr (https://www.tumblr.com/)
+* TUT.BY (http://www.tut.by/)
+* Twitter (https://twitter.com/)
+* Viadeo (http://viadeo.com/)
+* VK ВКонтакте (http://vk.com/)
+* XING (https://www.xing.com/)
+* Yahoo (https://www.yahoo.com/)
+* check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
 
 ### Small and modular
 
