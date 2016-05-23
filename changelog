@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[2.6.0]
  * simplify async/sync usages
  * add optional "User-Agent" config option to use while making http calls
  * refactor usage of grant_type [authorization_code|refresh_token|password|etc]
