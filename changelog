@@ -5,6 +5,7 @@
  * add Genius.com API authentication (OAuth2)
  * fix GitHub API
  * standardize authorization url generation for OAuth2
+ * update Facebook to v2.6
 
 [2.5.3]
  * fix - do not send two Content-Type header in async requests
