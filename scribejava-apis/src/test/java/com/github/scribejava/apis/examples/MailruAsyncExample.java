@@ -1,8 +1,12 @@
 package com.github.scribejava.apis.examples;
 
-import com.ning.http.client.AsyncHttpClientConfig;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
+
+import org.asynchttpclient.AsyncHttpClientConfig;
+import org.asynchttpclient.DefaultAsyncHttpClientConfig;
+
 import com.github.scribejava.apis.MailruApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -22,10 +26,9 @@ public abstract class MailruAsyncExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
 
-        final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
+        final AsyncHttpClientConfig clientConfig = new DefaultAsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
-                .setAllowPoolingConnections(false)
                 .setPooledConnectionIdleTimeout(1_000)
                 .setReadTimeout(10_000)
                 .build();
@@ -73,6 +76,11 @@ public abstract class MailruAsyncExample {
 
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
-        service.closeAsyncClient();
+        try {
+            service.closeAsyncClient();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

@@ -10,11 +10,12 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Parameter;
 import com.google.gson.Gson;
-import com.ning.http.client.ProxyServer;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
+
+import org.asynchttpclient.proxy.ProxyServer;
 
 class OAuth20ServiceUnit extends OAuth20Service {
 

@@ -3,11 +3,13 @@ package com.github.scribejava.core.builder;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.model.OAuthConfig;
 import java.io.OutputStream;
+
+import org.asynchttpclient.AsyncHttpClientConfig;
+
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
-import com.ning.http.client.AsyncHttpClientConfig;
 
 /**
  * Implementation of the Builder pattern, with a fluent interface that creates a {@link OAuthService}

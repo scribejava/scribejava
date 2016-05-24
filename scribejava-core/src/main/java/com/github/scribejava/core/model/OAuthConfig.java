@@ -1,8 +1,9 @@
 package com.github.scribejava.core.model;
 
-import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import org.asynchttpclient.AsyncHttpClientConfig;
 
 /**
  * Parameter object that groups OAuth config values

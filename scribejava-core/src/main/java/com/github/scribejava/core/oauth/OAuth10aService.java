@@ -1,9 +1,11 @@
 package com.github.scribejava.core.oauth;
 
-import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
+
+import org.asynchttpclient.proxy.ProxyServer;
+
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth1AccessToken;
@@ -108,7 +110,7 @@ public class OAuth10aService extends OAuthService {
         prepareAccessTokenRequest(request, requestToken, oauthVerifier);
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1AccessToken>() {
             @Override
-            public OAuth1AccessToken convert(com.ning.http.client.Response response) throws IOException {
+            public OAuth1AccessToken convert(org.asynchttpclient.Response response) throws IOException {
                 return getApi().getAccessTokenExtractor()
                         .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
             }

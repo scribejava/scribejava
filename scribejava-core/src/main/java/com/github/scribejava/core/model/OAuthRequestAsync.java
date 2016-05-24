@@ -2,30 +2,29 @@ package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.oauth.OAuthService;
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.FluentCaseInsensitiveStringsMap;
-import com.ning.http.client.ProxyServer;
+
+import io.netty.handler.codec.http.HttpHeaders;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Future;
+
+import org.asynchttpclient.AsyncCompletionHandler;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.BoundRequestBuilder;
+import org.asynchttpclient.proxy.ProxyServer;
 
 public class OAuthRequestAsync extends AbstractRequest {
 
     public static final ResponseConverter<Response> RESPONSE_CONVERTER = new ResponseConverter<Response>() {
         @Override
-        public Response convert(com.ning.http.client.Response response) throws IOException {
-            final FluentCaseInsensitiveStringsMap map = response.getHeaders();
+        public Response convert(org.asynchttpclient.Response response) throws IOException {
+            final HttpHeaders map = response.getHeaders();
             final Map<String, String> headersMap = new HashMap<>();
-            for (FluentCaseInsensitiveStringsMap.Entry<String, List<String>> header : map) {
-                final StringBuilder value = new StringBuilder();
-                for (String str : header.getValue()) {
-                    value.append(str);
-                }
-                headersMap.put(header.getKey(), value.toString());
+            for (Entry<String, String> header : map) {
+                headersMap.put(header.getKey(), header.getValue());
             }
             return new Response(response.getStatusCode(), response.getStatusText(), headersMap,
                     response.getResponseBody(), response.getResponseBodyAsStream());
@@ -52,7 +51,7 @@ public class OAuthRequestAsync extends AbstractRequest {
             config.log("Cannot use async operations, only sync");
         }
         final String completeUrl = getCompleteUrl();
-        final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
+        final BoundRequestBuilder boundRequestBuilder;
         final AsyncHttpClient asyncHttpClient = service.getAsyncHttpClient();
         final Map<String, String> headers = getHeaders();
         switch (getVerb()) {
@@ -60,7 +59,7 @@ public class OAuthRequestAsync extends AbstractRequest {
                 boundRequestBuilder = asyncHttpClient.prepareGet(completeUrl);
                 break;
             case POST:
-                AsyncHttpClient.BoundRequestBuilder requestBuilder = asyncHttpClient.preparePost(completeUrl);
+                BoundRequestBuilder requestBuilder = asyncHttpClient.preparePost(completeUrl);
                 if (!headers.containsKey(CONTENT_TYPE)) {
                     requestBuilder = requestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
                 }
@@ -95,7 +94,7 @@ public class OAuthRequestAsync extends AbstractRequest {
         }
 
         @Override
-        public T onCompleted(com.ning.http.client.Response response) throws IOException {
+        public T onCompleted(org.asynchttpclient.Response response) throws IOException {
             final T t = converter.convert(response);
             if (callback != null) {
                 callback.onCompleted(t);
@@ -121,6 +120,6 @@ public class OAuthRequestAsync extends AbstractRequest {
 
     public interface ResponseConverter<T> {
 
-        T convert(com.ning.http.client.Response response) throws IOException;
+        T convert(org.asynchttpclient.Response response) throws IOException;
     }
 }

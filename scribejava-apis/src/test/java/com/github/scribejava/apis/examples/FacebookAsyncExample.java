@@ -1,9 +1,13 @@
 package com.github.scribejava.apis.examples;
 
-import com.ning.http.client.AsyncHttpClientConfig;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
+
+import org.asynchttpclient.AsyncHttpClientConfig;
+import org.asynchttpclient.DefaultAsyncHttpClientConfig;
+
 import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
@@ -25,10 +29,9 @@ public abstract class FacebookAsyncExample {
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
-        final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
+        final AsyncHttpClientConfig clientConfig = new DefaultAsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
-                .setAllowPoolingConnections(false)
                 .setPooledConnectionIdleTimeout(1_000)
                 .setReadTimeout(1_000)
                 .build();
@@ -89,6 +92,11 @@ public abstract class FacebookAsyncExample {
 
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
-        service.closeAsyncClient();
+        try {
+            service.closeAsyncClient();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
