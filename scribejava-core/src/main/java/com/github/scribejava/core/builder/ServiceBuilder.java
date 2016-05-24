@@ -3,11 +3,13 @@ package com.github.scribejava.core.builder;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.model.OAuthConfig;
 import java.io.OutputStream;
+
+import org.asynchttpclient.AsyncHttpClientConfig;
+
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
-import com.ning.http.client.AsyncHttpClientConfig;
 
 /**
  * Implementation of the Builder pattern, with a fluent interface that creates a {@link OAuthService}
@@ -30,7 +32,6 @@ public class ServiceBuilder {
 
     //async version only
     private AsyncHttpClientConfig asyncHttpClientConfig;
-    private String asyncHttpProviderClassName;
 
     public ServiceBuilder() {
         callback = OAuthConstants.OUT_OF_BAND;
@@ -139,11 +140,6 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder asyncHttpProviderClassName(String asyncHttpProviderClassName) {
-        this.asyncHttpProviderClassName = asyncHttpProviderClassName;
-        return this;
-    }
-
     public ServiceBuilder userAgent(String userAgent) {
         this.userAgent = userAgent;
         return this;
@@ -161,7 +157,7 @@ public class ServiceBuilder {
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
-                userAgent, connectTimeout, readTimeout, asyncHttpClientConfig, asyncHttpProviderClassName);
+                userAgent, connectTimeout, readTimeout, asyncHttpClientConfig);
     }
 
     /**

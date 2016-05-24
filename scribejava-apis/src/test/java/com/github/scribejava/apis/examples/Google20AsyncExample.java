@@ -11,10 +11,14 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.ning.http.client.AsyncHttpClientConfig;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import org.asynchttpclient.AsyncHttpClientConfig;
+import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 
 public abstract class Google20AsyncExample {
 
@@ -27,10 +31,9 @@ public abstract class Google20AsyncExample {
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
-        final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
+        final AsyncHttpClientConfig clientConfig = new DefaultAsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
-                .setAllowPoolingConnections(false)
                 .setPooledConnectionIdleTimeout(1_000)
                 .setReadTimeout(1_000)
                 .build();
@@ -117,6 +120,11 @@ public abstract class Google20AsyncExample {
 
             System.out.println();
         }
-        service.closeAsyncClient();
+        try {
+            service.closeAsyncClient();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

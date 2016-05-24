@@ -1,8 +1,9 @@
 package com.github.scribejava.core.model;
 
-import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import org.asynchttpclient.AsyncHttpClientConfig;
 
 /**
  * Parameter object that groups OAuth config values
@@ -25,15 +26,14 @@ public class OAuthConfig {
 
     //async only version
     private final AsyncHttpClientConfig asyncHttpClientConfig;
-    private final String asyncHttpProviderClassName;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
-            Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig, String asyncHttpProviderClassName) {
+            Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -46,7 +46,6 @@ public class OAuthConfig {
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
         this.asyncHttpClientConfig = asyncHttpClientConfig;
-        this.asyncHttpProviderClassName = asyncHttpProviderClassName;
     }
 
     public String getApiKey() {
@@ -102,9 +101,5 @@ public class OAuthConfig {
 
     public AsyncHttpClientConfig getAsyncHttpClientConfig() {
         return asyncHttpClientConfig;
-    }
-
-    public String getAsyncHttpProviderClassName() {
-        return asyncHttpProviderClassName;
     }
 }

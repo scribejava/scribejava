@@ -1,11 +1,15 @@
 package com.github.scribejava.core.oauth;
 
-import com.ning.http.client.AsyncHttpClient;
+import java.io.IOException;
+
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.AsyncHttpClientConfig;
+import org.asynchttpclient.DefaultAsyncHttpClient;
+
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.ScribeJavaConfig;
-import com.ning.http.client.AsyncHttpClientConfig;
 
 /**
  * The main ScribeJava object.
@@ -36,10 +40,7 @@ public abstract class OAuthService {
             if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 config.log("Cannot use async operations, only sync");
             }
-            final String asyncHttpProviderClassName = config.getAsyncHttpProviderClassName();
-
-            asyncHttpClient = asyncHttpProviderClassName == null ? new AsyncHttpClient(asyncHttpClientConfig)
-                    : new AsyncHttpClient(asyncHttpProviderClassName, asyncHttpClientConfig);
+            asyncHttpClient = new DefaultAsyncHttpClient(asyncHttpClientConfig);
         }
     }
 
@@ -47,7 +48,7 @@ public abstract class OAuthService {
         return asyncHttpClient;
     }
 
-    public void closeAsyncClient() {
+    public void closeAsyncClient() throws IOException {
         asyncHttpClient.close();
     }
 
