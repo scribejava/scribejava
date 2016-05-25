@@ -1,11 +1,20 @@
 package com.github.scribejava.core.oauth;
 
+import com.github.scribejava.core.async.ning.OAuthAsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.model.AbstractRequest;
+import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
+import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
+import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.ScribeJavaConfig;
+import com.github.scribejava.core.model.Verb;
 import com.ning.http.client.AsyncHttpClientConfig;
+import java.util.Map;
+import java.util.concurrent.Future;
 
 /**
  * The main ScribeJava object.
@@ -43,10 +52,6 @@ public abstract class OAuthService {
         }
     }
 
-    public AsyncHttpClient getAsyncHttpClient() {
-        return asyncHttpClient;
-    }
-
     public void closeAsyncClient() {
         asyncHttpClient.close();
     }
@@ -61,4 +66,34 @@ public abstract class OAuthService {
      * @return OAuth version as string
      */
     public abstract String getVersion();
+
+    public <T> Future<T> executeAsync(Map<String, String> headers, Verb httpVerb, String completeUrl,
+            String bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
+        final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
+        switch (httpVerb) {
+            case GET:
+                boundRequestBuilder = asyncHttpClient.prepareGet(completeUrl);
+                break;
+            case POST:
+                AsyncHttpClient.BoundRequestBuilder requestBuilder = asyncHttpClient.preparePost(completeUrl);
+                if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
+                    requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+                }
+                boundRequestBuilder = requestBuilder.setBody(bodyContents);
+                break;
+            default:
+                throw new IllegalArgumentException("message build error: unknown verb type");
+        }
+
+        for (Map.Entry<String, String> header : headers.entrySet()) {
+            boundRequestBuilder.addHeader(header.getKey(), header.getValue());
+        }
+        final String userAgent = config.getUserAgent();
+        if (userAgent != null) {
+            boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
+        }
+
+        return boundRequestBuilder.execute(new OAuthAsyncCompletionHandler<>(callback, converter));
+    }
 }

@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * make http async client implementation be more pluggable
+
 [2.6.0]
  * simplify async/sync usages
  * add optional "User-Agent" config option to use while making http calls

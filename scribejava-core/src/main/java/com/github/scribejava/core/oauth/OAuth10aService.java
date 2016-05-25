@@ -1,6 +1,5 @@
 package com.github.scribejava.core.oauth;
 
-import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -96,11 +95,6 @@ public class OAuth10aService extends OAuthService {
      */
     public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
             OAuthAsyncRequestCallback<OAuth1AccessToken> callback) {
-        return getAccessTokenAsync(requestToken, oauthVerifier, callback, null);
-    }
-
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
-            OAuthAsyncRequestCallback<OAuth1AccessToken> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request
@@ -108,11 +102,10 @@ public class OAuth10aService extends OAuthService {
         prepareAccessTokenRequest(request, requestToken, oauthVerifier);
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1AccessToken>() {
             @Override
-            public OAuth1AccessToken convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor()
-                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            public OAuth1AccessToken convert(Response response) throws IOException {
+                return getApi().getAccessTokenExtractor().extract(response.getBody());
             }
-        }, proxyServer);
+        });
     }
 
     protected void prepareAccessTokenRequest(AbstractRequest request, OAuth1RequestToken requestToken,
