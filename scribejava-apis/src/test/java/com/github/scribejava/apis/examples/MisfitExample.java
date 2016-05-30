@@ -22,8 +22,8 @@ public abstract class MisfitExample {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
-				.callback("http://example.com/callback/")
-				.scope("public,birthday,email,tracking,session,sleep")
+                .callback("http://example.com/callback/")
+                .scope("public,birthday,email,tracking,session,sleep")
                 .build(MisfitApi.instance());
         final Scanner in = new Scanner(System.in);
 
