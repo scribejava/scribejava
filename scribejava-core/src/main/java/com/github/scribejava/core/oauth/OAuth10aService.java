@@ -60,6 +60,32 @@ public class OAuth10aService extends OAuthService {
         return api.getRequestTokenExtractor().extract(body);
     }
 
+    public Future<OAuth1RequestToken> getRequestTokenAsync(OAuthAsyncRequestCallback<OAuth1RequestToken> callback) {
+        return getRequestTokenAsync(callback, null);
+    }
+
+    public Future<OAuth1RequestToken> getRequestTokenAsync(OAuthAsyncRequestCallback<OAuth1RequestToken> callback,
+                                                           ProxyServer proxyServer) {
+        final OAuthConfig config = getConfig();
+        config.log("async obtaining request token from " + api.getRequestTokenEndpoint());
+        final OAuthRequestAsync request = new OAuthRequestAsync(api.getRequestTokenVerb(),
+                api.getRequestTokenEndpoint(), this);
+
+        config.log("setting oauth_callback to " + config.getCallback());
+        request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
+        addOAuthParams(request, "");
+        appendSignature(request);
+
+        config.log("sending request...");
+        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1RequestToken>() {
+            @Override
+            public OAuth1RequestToken convert(final com.ning.http.client.Response response) throws IOException {
+                return getApi().getRequestTokenExtractor().extract(
+                        OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            }
+        }, proxyServer);
+    }
+
     private void addOAuthParams(AbstractRequest request, String tokenSecret) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
