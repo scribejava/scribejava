@@ -1,11 +1,6 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.ParameterList;
-import com.github.scribejava.core.oauth.OAuth20Service;
-import java.util.Map;
 
 public class MisfitApi extends DefaultApi20 {
 
@@ -13,6 +8,7 @@ public class MisfitApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final MisfitApi INSTANCE = new MisfitApi();
     }
 
@@ -22,7 +18,7 @@ public class MisfitApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-		return "https://api.misfitwearables.com/auth/tokens/exchange";
+        return "https://api.misfitwearables.com/auth/tokens/exchange";
     }
 
     @Override

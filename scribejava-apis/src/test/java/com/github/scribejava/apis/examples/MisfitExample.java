@@ -12,8 +12,9 @@ import java.util.Scanner;
 
 public abstract class MisfitExample {
 
-    private static final String NETWORK_NAME = "Misfit";    
-    private static final String PROTECTED_RESOURCE_URL = "https://api.misfitwearables.com/move/resource/v1/user/me/profile";
+    private static final String NETWORK_NAME = "Misfit";
+    private static final String PROTECTED_RESOURCE_URL
+            = "https://api.misfitwearables.com/move/resource/v1/user/me/profile";
 
     public static void main(String... args) {
         // Replace these with your own api key and secret

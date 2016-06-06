@@ -59,6 +59,7 @@ You can use ning async http client out-of-box, just use ServiceBuilderAsync
 * VK ВКонтакте (http://vk.com/)
 * XING (https://www.xing.com/)
 * Yahoo (https://www.yahoo.com/)
+* Misfit (http://misfit.com/)
 * check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
 
 ### Small and modular
