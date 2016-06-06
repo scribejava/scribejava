@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[2.7.0]
  * make http async client implementation be more pluggable
  * add async-http-client 2.0 support (thanks to Sai Chandrasekharan https://github.com/saichand)
  * add Misfit (http://misfit.com/) API
