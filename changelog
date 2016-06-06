@@ -2,6 +2,7 @@
  * make http async client implementation be more pluggable
  * add async-http-client 2.0 support (thanks to Sai Chandrasekharan https://github.com/saichand)
  * add Misfit (http://misfit.com/) API
+ * implement async version getting Request Token for OAuth 1.0a
 
 [2.6.0]
  * simplify async/sync usages
