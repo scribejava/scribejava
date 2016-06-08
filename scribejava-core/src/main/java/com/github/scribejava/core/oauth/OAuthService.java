@@ -49,13 +49,10 @@ public abstract class OAuthService {
             }
 
             if (ahcConfig == null) {
-                final String ningAsyncHttpProviderClassName = config.getNingAsyncHttpProviderClassName();
-                ningAsyncHttpClient = ningAsyncHttpProviderClassName == null
-                        ? new com.ning.http.client.AsyncHttpClient(ningConfig)
-                        : new com.ning.http.client.AsyncHttpClient(ningAsyncHttpProviderClassName, ningConfig);
+                ningAsyncHttpClient = NingProvider.createClient(config.getNingAsyncHttpProviderClassName(), ningConfig);
                 ahcAsyncHttpClient = null;
             } else {
-                ahcAsyncHttpClient = new org.asynchttpclient.DefaultAsyncHttpClient(ahcConfig);
+                ahcAsyncHttpClient = AHCProvider.createClient(ahcConfig);
                 ningAsyncHttpClient = null;
             }
         }
@@ -84,72 +81,93 @@ public abstract class OAuthService {
             String bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
         if (ahcAsyncHttpClient == null) {
-            return ningExecuteAsync(headers, httpVerb, completeUrl, bodyContents, callback, converter);
+            return NingProvider.ningExecuteAsync(ningAsyncHttpClient, config.getUserAgent(), headers, httpVerb,
+                    completeUrl, bodyContents, callback, converter);
         } else {
-            return ahcExecuteAsync(headers, httpVerb, completeUrl, bodyContents, callback, converter);
+            return AHCProvider.ahcExecuteAsync(ahcAsyncHttpClient, config.getUserAgent(), headers, httpVerb,
+                    completeUrl, bodyContents, callback, converter);
         }
     }
 
-    private <T> Future<T> ningExecuteAsync(Map<String, String> headers, Verb httpVerb, String completeUrl,
-            String bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequestAsync.ResponseConverter<T> converter) {
-        final com.ning.http.client.AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
-        switch (httpVerb) {
-            case GET:
-                boundRequestBuilder = ningAsyncHttpClient.prepareGet(completeUrl);
-                break;
-            case POST:
-                com.ning.http.client.AsyncHttpClient.BoundRequestBuilder requestBuilder
-                        = ningAsyncHttpClient.preparePost(completeUrl);
-                if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
-                    requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-                }
-                boundRequestBuilder = requestBuilder.setBody(bodyContents);
-                break;
-            default:
-                throw new IllegalArgumentException("message build error: unknown verb type");
+    private static class NingProvider {
+
+        private static com.ning.http.client.AsyncHttpClient createClient(String ningAsyncHttpProviderClassName,
+                com.ning.http.client.AsyncHttpClientConfig ningConfig) {
+            return ningAsyncHttpProviderClassName == null
+                    ? new com.ning.http.client.AsyncHttpClient(ningConfig)
+                    : new com.ning.http.client.AsyncHttpClient(ningAsyncHttpProviderClassName, ningConfig);
         }
 
-        for (Map.Entry<String, String> header : headers.entrySet()) {
-            boundRequestBuilder.addHeader(header.getKey(), header.getValue());
-        }
-        final String userAgent = config.getUserAgent();
-        if (userAgent != null) {
-            boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
-        }
+        private static <T> Future<T> ningExecuteAsync(com.ning.http.client.AsyncHttpClient ningAsyncHttpClient,
+                String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl, String bodyContents,
+                OAuthAsyncRequestCallback<T> callback, OAuthRequestAsync.ResponseConverter<T> converter) {
+            final com.ning.http.client.AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
+            switch (httpVerb) {
+                case GET:
+                    boundRequestBuilder = ningAsyncHttpClient.prepareGet(completeUrl);
+                    break;
+                case POST:
+                    com.ning.http.client.AsyncHttpClient.BoundRequestBuilder requestBuilder
+                            = ningAsyncHttpClient.preparePost(completeUrl);
+                    if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
+                        requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+                    }
+                    boundRequestBuilder = requestBuilder.setBody(bodyContents);
+                    break;
+                default:
+                    throw new IllegalArgumentException("message build error: unknown verb type");
+            }
 
-        return boundRequestBuilder
-                .execute(new com.github.scribejava.core.async.ning.OAuthAsyncCompletionHandler<>(callback, converter));
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                boundRequestBuilder.addHeader(header.getKey(), header.getValue());
+            }
+            if (userAgent != null) {
+                boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
+            }
+
+            return boundRequestBuilder
+                    .execute(new com.github.scribejava.core.async.ning.OAuthAsyncCompletionHandler<>(
+                            callback, converter));
+        }
     }
 
-    private <T> Future<T> ahcExecuteAsync(Map<String, String> headers, Verb httpVerb, String completeUrl,
-            String bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequestAsync.ResponseConverter<T> converter) {
-        final org.asynchttpclient.BoundRequestBuilder boundRequestBuilder;
-        switch (httpVerb) {
-            case GET:
-                boundRequestBuilder = ahcAsyncHttpClient.prepareGet(completeUrl);
-                break;
-            case POST:
-                org.asynchttpclient.BoundRequestBuilder requestBuilder = ahcAsyncHttpClient.preparePost(completeUrl);
-                if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
-                    requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-                }
-                boundRequestBuilder = requestBuilder.setBody(bodyContents);
-                break;
-            default:
-                throw new IllegalArgumentException("message build error: unknown verb type");
+    private static class AHCProvider {
+
+        private static org.asynchttpclient.AsyncHttpClient createClient(
+                org.asynchttpclient.AsyncHttpClientConfig ahcConfig) {
+            return new org.asynchttpclient.DefaultAsyncHttpClient(ahcConfig);
         }
 
-        for (Map.Entry<String, String> header : headers.entrySet()) {
-            boundRequestBuilder.addHeader(header.getKey(), header.getValue());
-        }
-        final String userAgent = config.getUserAgent();
-        if (userAgent != null) {
-            boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
-        }
+        private static <T> Future<T> ahcExecuteAsync(org.asynchttpclient.AsyncHttpClient ahcAsyncHttpClient,
+                String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl, String bodyContents,
+                OAuthAsyncRequestCallback<T> callback, OAuthRequestAsync.ResponseConverter<T> converter) {
+            final org.asynchttpclient.BoundRequestBuilder boundRequestBuilder;
+            switch (httpVerb) {
+                case GET:
+                    boundRequestBuilder = ahcAsyncHttpClient.prepareGet(completeUrl);
+                    break;
+                case POST:
+                    org.asynchttpclient.BoundRequestBuilder requestBuilder
+                            = ahcAsyncHttpClient.preparePost(completeUrl);
+                    if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
+                        requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+                    }
+                    boundRequestBuilder = requestBuilder.setBody(bodyContents);
+                    break;
+                default:
+                    throw new IllegalArgumentException("message build error: unknown verb type");
+            }
 
-        return boundRequestBuilder
-                .execute(new com.github.scribejava.core.async.ahc.OAuthAsyncCompletionHandler<>(callback, converter));
+            for (Map.Entry<String, String> header : headers.entrySet()) {
+                boundRequestBuilder.addHeader(header.getKey(), header.getValue());
+            }
+            if (userAgent != null) {
+                boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
+            }
+
+            return boundRequestBuilder
+                    .execute(new com.github.scribejava.core.async.ahc.OAuthAsyncCompletionHandler<>(
+                            callback, converter));
+        }
     }
 }

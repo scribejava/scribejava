@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * FIX: ScribeJava shouldn't require any async http client provider to be on the classpath (neither ning neither AHC)
+
 [2.7.1]
  * do not hide checked IOException in unchecked IllegalArgumentException
 

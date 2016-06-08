@@ -16,7 +16,7 @@ public abstract class StreamUtils {
      *
      * @param is input stream
      * @return string contents
-     * @throws java.io.IOException
+     * @throws java.io.IOException in any. SocketTimeout in example
      */
     public static String getStreamContents(InputStream is) throws IOException {
         Preconditions.checkNotNull(is, "Cannot get String from a null object");
@@ -39,7 +39,7 @@ public abstract class StreamUtils {
      *
      * @param is input stream
      * @return string contents
-     * @throws java.io.IOException
+     * @throws java.io.IOException in any. SocketTimeout in example
      */
     public static String getGzipStreamContents(InputStream is) throws IOException {
         Preconditions.checkNotNull(is, "Cannot get String from a null object");
