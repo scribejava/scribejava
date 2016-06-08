@@ -9,13 +9,14 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
 public abstract class GeniusExample {
 
     private static final String NETWORK_NAME = "Genius";
     private static final String PROTECTED_RESOURCE_URL = "https://api.genius.com/songs/378195";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";

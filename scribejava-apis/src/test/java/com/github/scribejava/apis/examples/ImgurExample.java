@@ -7,6 +7,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public abstract class ImgurExample {
     private static final String NETWORK_NAME = "Imgur";
     private static final String PROTECTED_RESOURCE_URL = "https://api.imgur.com/3/account/me";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";

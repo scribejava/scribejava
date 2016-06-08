@@ -33,7 +33,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     //sync version, protected to facilitate mocking
-    protected OAuth2AccessToken sendAccessTokenRequestSync(OAuthRequest request) {
+    protected OAuth2AccessToken sendAccessTokenRequestSync(OAuthRequest request) throws IOException {
         return api.getAccessTokenExtractor().extract(request.send().getBody());
     }
 
@@ -49,7 +49,7 @@ public class OAuth20Service extends OAuthService {
         });
     }
 
-    public final OAuth2AccessToken getAccessToken(String code) {
+    public final OAuth2AccessToken getAccessToken(String code) throws IOException {
         final OAuthRequest request = createAccessTokenRequest(code,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
 
@@ -86,7 +86,7 @@ public class OAuth20Service extends OAuthService {
         return request;
     }
 
-    public final OAuth2AccessToken refreshAccessToken(String refreshToken) {
+    public final OAuth2AccessToken refreshAccessToken(String refreshToken) throws IOException {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
 
@@ -113,14 +113,7 @@ public class OAuth20Service extends OAuthService {
         return request;
     }
 
-    /**
-     * Request Access Token Password Grant sync version
-     *
-     * @param uname User name
-     * @param password User password
-     * @return OAuth2AccessToken
-     */
-    public final OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password) {
+    public final OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password) throws IOException {
         final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
 

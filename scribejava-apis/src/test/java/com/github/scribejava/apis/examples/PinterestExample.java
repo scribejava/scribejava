@@ -7,6 +7,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public abstract class PinterestExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.pinterest.com/v1/me/?access_token?access_token=";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_app_secret";

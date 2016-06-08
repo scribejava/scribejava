@@ -8,13 +8,14 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
 public abstract class SinaWeibo2Example {
 
     private static final String NETWORK_NAME = "SinaWeibo";
     private static final String PROTECTED_RESOURCE_URL = "https://api.weibo.com/2/account/get_uid.json";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
         final String apiKey = "your_api_key";
         final String apiSecret = "your_api_secret";

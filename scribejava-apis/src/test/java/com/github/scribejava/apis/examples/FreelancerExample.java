@@ -10,6 +10,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import java.io.IOException;
 
 public abstract class FreelancerExample {
 
@@ -19,7 +20,7 @@ public abstract class FreelancerExample {
     private static final String PROTECTED_RESOURCE_URL = "http://api.sandbox.freelancer.com/Job/getJobList.json";
     private static final String SCOPE = "http://api.sandbox.freelancer.com";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()
                 .signatureType(SignatureType.QueryString)
                 .apiKey("your client id")

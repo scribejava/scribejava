@@ -9,13 +9,14 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import java.io.IOException;
 
 public abstract class SinaWeiboExample {
 
     private static final String NETWORK_NAME = "SinaWeibo";
     private static final String PROTECTED_RESOURCE_URL = "http://api.t.sina.com.cn/account/verify_credentials.json";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
         final String apiKey = "your key";
         final String apiSecret = "your secret";

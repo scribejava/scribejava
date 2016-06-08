@@ -35,12 +35,7 @@ public class OAuth10aService extends OAuthService {
         this.api = api;
     }
 
-    /**
-     * Retrieve the request token.
-     *
-     * @return request token
-     */
-    public final OAuth1RequestToken getRequestToken() {
+    public final OAuth1RequestToken getRequestToken() throws IOException {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), this);
@@ -95,7 +90,8 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier) {
+    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
+            throws IOException {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
