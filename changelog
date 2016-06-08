@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[2.7.2]
  * FIX: ScribeJava shouldn't require any async http client provider to be on the classpath (neither ning neither AHC)
 
 [2.7.1]
