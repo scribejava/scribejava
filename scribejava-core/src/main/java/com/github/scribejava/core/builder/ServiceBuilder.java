@@ -135,24 +135,24 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder asyncHttpClientConfig(com.ning.http.client.AsyncHttpClientConfig asyncHttpClientConfig) {
+    public ServiceBuilder asyncNingHttpClientConfig(com.ning.http.client.AsyncHttpClientConfig asyncHttpClientConfig) {
         Preconditions.checkNotNull(asyncHttpClientConfig, "asyncHttpClientConfig can't be null");
         ningAsyncHttpClientConfig = asyncHttpClientConfig;
         ahcAsyncHttpClientConfig = null;
         return this;
     }
 
-    public ServiceBuilder asyncHttpClientConfig(org.asynchttpclient.AsyncHttpClientConfig asyncHttpClientConfig) {
+    public ServiceBuilder asyncNingHttpProviderClassName(String asyncHttpProviderClassName) {
+        this.ningAsyncHttpProviderClassName = asyncHttpProviderClassName;
+        ahcAsyncHttpClientConfig = null;
+        return this;
+    }
+
+    public ServiceBuilder asyncAHCHttpClientConfig(org.asynchttpclient.AsyncHttpClientConfig asyncHttpClientConfig) {
         Preconditions.checkNotNull(asyncHttpClientConfig, "asyncHttpClientConfig can't be null");
         ahcAsyncHttpClientConfig = asyncHttpClientConfig;
         ningAsyncHttpClientConfig = null;
         ningAsyncHttpProviderClassName = null;
-        return this;
-    }
-
-    public ServiceBuilder asyncHttpProviderClassName(String asyncHttpProviderClassName) {
-        this.ningAsyncHttpProviderClassName = asyncHttpProviderClassName;
-        ahcAsyncHttpClientConfig = null;
         return this;
     }
 

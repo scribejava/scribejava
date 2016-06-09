@@ -42,7 +42,7 @@ public abstract class Google20AsyncAHCExample {
                 .scope("profile") // replace with desired scope
                 .state(secretState)
                 .callback("http://example.com/callback")
-                .asyncHttpClientConfig(clientConfig)
+                .asyncAHCHttpClientConfig(clientConfig)
                 .build(GoogleApi20.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 

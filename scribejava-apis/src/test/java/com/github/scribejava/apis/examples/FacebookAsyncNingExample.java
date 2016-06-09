@@ -39,7 +39,7 @@ public abstract class FacebookAsyncNingExample {
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
-                .asyncHttpClientConfig(clientConfig)
+                .asyncNingHttpClientConfig(clientConfig)
                 .build(FacebookApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");

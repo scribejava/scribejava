@@ -35,7 +35,7 @@ public abstract class MailruAsyncExample {
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
-                .asyncHttpClientConfig(clientConfig)
+                .asyncNingHttpClientConfig(clientConfig)
                 .build(MailruApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");
