@@ -1,7 +1,6 @@
 package com.github.scribejava.apis.google;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 
 /**
  * additionally parses OpenID id_token
@@ -23,7 +22,7 @@ public class GoogleJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
     }
 
     @Override
-    protected OAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
+    protected GoogleToken createToken(String accessToken, String tokenType, Integer expiresIn,
             String refreshToken, String scope, String response) {
         return new GoogleToken(accessToken, tokenType, expiresIn, refreshToken, scope,
                 extractParameter(response, ID_TOKEN_REGEX, false), response);
