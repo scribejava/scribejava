@@ -20,9 +20,9 @@ import com.github.scribejava.core.model.Verb;
 public class SalesforceApi extends DefaultApi20 {
 	
 	// Constants
-	private static final String BASE_URL = "https://login.salesforce.com/services/oauth2";
-	private static final String ACCESS_URL = BASE_URL + "/token?grant_type=authorization_code";
-	private static final String AUTHORIZE_URL = BASE_URL + "/authorize";
+    private static final String BASE_URL = "https://login.salesforce.com/services/oauth2";
+    private static final String ACCESS_URL = BASE_URL + "/token?grant_type=authorization_code";
+    private static final String AUTHORIZE_URL = BASE_URL + "/authorize";
 
     protected SalesforceApi() {
     	SSLContext sc;
@@ -33,12 +33,9 @@ public class SalesforceApi extends DefaultApi20 {
 				sc.init(null, null, null);
 				HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());				
 			}
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new  IllegalStateException("Unexpected JVM without TLS 1.2 support", e);
 		} 
-		catch (KeyManagementException e) {
-			e.printStackTrace();
-		}
     }
 
     private static class InstanceHolder {
