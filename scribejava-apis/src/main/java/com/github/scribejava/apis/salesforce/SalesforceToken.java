@@ -62,7 +62,7 @@ public class SalesforceToken extends OAuth2AccessToken {
         if (!Objects.equals(getScope(), other.getScope())) {
             return false;
         }
-        if (!Objects.equals(instanceUrl, other.getInstanceUrl())) {
+        if (!Objects.equals(getInstanceUrl(), other.getInstanceUrl())) {
             return false;
         }
         return Objects.equals(getExpiresIn(), other.getExpiresIn());
@@ -76,6 +76,6 @@ public class SalesforceToken extends OAuth2AccessToken {
                 + ", expires_in=" + getExpiresIn()
                 + ", refresh_token=" + getRefreshToken()
                 + ", scope=" + getScope()
-                + ", instance_url=" + instanceUrl + '}';
+                + ", instance_url=" + getInstanceUrl() + '}';
     }
 }
