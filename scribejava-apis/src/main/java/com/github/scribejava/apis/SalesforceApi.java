@@ -28,7 +28,7 @@ public class SalesforceApi extends DefaultApi20 {
     	SSLContext sc;
 		try {
 			String protocol = SSLContext.getDefault().getProtocol();
-			if (!protocol.equals("TLSv1.2") || !protocol.equals("TLSv1.1")) { // This is important!
+			if (!protocol.equals("TLSv1.2")) { // This is important!
 				sc = SSLContext.getInstance("TLSv1.2");
 				sc.init(null, null, null);
 				HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());				
