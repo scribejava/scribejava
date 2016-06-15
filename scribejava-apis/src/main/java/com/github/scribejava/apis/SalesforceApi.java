@@ -6,7 +6,7 @@ import javax.net.ssl.SSLContext;
 import com.github.scribejava.apis.salesforce.SalesforceJsonTokenExtractor;
 
 /**
- * This class is an implementation of the Salesforce OAuth2 API. 
+ * This class is an implementation of the Salesforce OAuth2 API.
  */
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
@@ -15,24 +15,24 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
 
 public class SalesforceApi extends DefaultApi20 {
-	
-	// Constants
+
+    // Constants
     private static final String BASE_URL = "https://login.salesforce.com/services/oauth2";
     private static final String ACCESS_URL = BASE_URL + "/token?grant_type=authorization_code";
     private static final String AUTHORIZE_URL = BASE_URL + "/authorize";
 
     protected SalesforceApi() {
-    	SSLContext sc;
-		try {
-			String protocol = SSLContext.getDefault().getProtocol();
-			if (!protocol.equals("TLSv1.2")) { // This is important!
-				sc = SSLContext.getInstance("TLSv1.2");
-				sc.init(null, null, null);
-				HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());				
-			}
-		} catch (Exception e) {
-			throw new  IllegalStateException("Unexpected JVM without TLS 1.2 support", e);
-		} 
+        final SSLContext sc;
+        try {
+            final String protocol = SSLContext.getDefault().getProtocol();
+            if (!"TLSv1.2".equals(protocol)) { // This is important!
+                sc = SSLContext.getInstance("TLSv1.2");
+                sc.init(null, null, null);
+                HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Unexpected JVM without TLS 1.2 support", e);
+        }
     }
 
     private static class InstanceHolder {
@@ -42,22 +42,22 @@ public class SalesforceApi extends DefaultApi20 {
     public static SalesforceApi instance() {
         return InstanceHolder.INSTANCE;
     }
-    
+
     @Override
-    public Verb getAccessTokenVerb(){
-          return Verb.POST;
+    public Verb getAccessTokenVerb() {
+        return Verb.POST;
     }
 
-	@Override
-	public String getAccessTokenEndpoint() {
-		return ACCESS_URL;
-	}
+    @Override
+    public String getAccessTokenEndpoint() {
+        return ACCESS_URL;
+    }
 
-	@Override
-	protected String getAuthorizationBaseUrl() {
-		return AUTHORIZE_URL;
-	}
-	
+    @Override
+    protected String getAuthorizationBaseUrl() {
+        return AUTHORIZE_URL;
+    }
+
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
         return SalesforceJsonTokenExtractor.instance();

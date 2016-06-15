@@ -4,7 +4,8 @@ import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
 /**
- * This extractor parses in addition to the standard Extractor the instance_url of the used Salesforce organization.
+ * This extractor parses in addition to the standard Extractor the instance_url
+ * of the used Salesforce organization.
  */
 public class SalesforceJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 

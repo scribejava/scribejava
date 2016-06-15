@@ -1,14 +1,16 @@
 package com.github.scribejava.apis.salesforce;
 
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import java.util.Objects;
+
+import com.github.scribejava.core.model.OAuth2AccessToken;
 
 public class SalesforceToken extends OAuth2AccessToken {
 
     private static final long serialVersionUID = 7845679917727899612L;
 
     /**
-	 * This token model includes the instance_url to address the needed Salesforce organization instance.
+     * This token model includes the instance_url to address the needed
+     * Salesforce organization instance.
      */
     private final String instanceUrl;
 
