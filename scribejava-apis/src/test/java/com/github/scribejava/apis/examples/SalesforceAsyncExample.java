@@ -1,5 +1,6 @@
 package com.github.scribejava.apis.examples;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -40,7 +41,7 @@ public abstract class SalesforceAsyncExample {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
-                .asyncHttpClientConfig(clientConfig)
+                .asyncNingHttpClientConfig(clientConfig)
                 .callback("https://www.example.com/callback")
                 .build(SalesforceApi.instance());
         final Scanner in = new Scanner(System.in);
@@ -114,7 +115,12 @@ public abstract class SalesforceAsyncExample {
                 public void onCompleted(Object response) {
                     System.out.println();
                     System.out.println(((Response) response).getCode());
-                    System.out.println(((Response) response).getBody());
+                    try {
+                        System.out.println(((Response) response).getBody());
+                    } catch (IOException e) {
+                        System.out.println("Error on reading body from async response.");
+                        e.printStackTrace();
+                    }
                 }
             });
         }

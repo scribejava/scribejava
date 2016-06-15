@@ -1,5 +1,6 @@
 package com.github.scribejava.apis.examples;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -17,7 +18,7 @@ public abstract class SalesforceExample {
 
     private static final String NETWORK_NAME = "Salesforce";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
