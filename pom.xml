@@ -3,7 +3,7 @@
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava</artifactId>
     <packaging>pom</packaging>
-    <version>2.6.1-SNAPSHOT</version>
+    <version>2.7.4-SNAPSHOT</version>
     <name>ScribeJava OAuth Library</name>
     <description>The best OAuth library out there</description>
     <url>https://github.com/scribejava/scribejava</url>
@@ -97,6 +97,12 @@
             <groupId>com.ning</groupId>
             <artifactId>async-http-client</artifactId>
             <version>1.9.38</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asynchttpclient</groupId>
+            <artifactId>async-http-client</artifactId>
+            <version>2.0.4</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -205,7 +211,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>6.18</version>
+                        <version>6.19</version>
                     </dependency>
                 </dependencies>
                 <executions>

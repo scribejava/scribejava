@@ -8,13 +8,14 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
 public abstract class ViadeoExample {
 
     private static final String NETWORK_NAME = "Viadeo";
     private static final String PROTECTED_RESOURCE_URL = "https://api.viadeo.com/me?user_detail=full";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";

@@ -9,12 +9,13 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import java.io.IOException;
 
 public abstract class FlickrExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.flickr.com/services/rest/";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";

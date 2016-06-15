@@ -20,7 +20,7 @@ public class StreamUtilsTest {
     }
 
     @Test
-    public void shouldCorrectlyDecodeAStream() {
+    public void shouldCorrectlyDecodeAStream() throws IOException {
         final String value = "expected";
         final InputStream is = new ByteArrayInputStream(value.getBytes());
         final String decoded = StreamUtils.getStreamContents(is);
@@ -28,13 +28,13 @@ public class StreamUtilsTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldFailForNullParameter() {
+    public void shouldFailForNullParameter() throws IOException {
         StreamUtils.getStreamContents(null);
         fail("Must throw exception before getting here");
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void shouldFailWithBrokenStream() {
+    @Test(expected = IOException.class)
+    public void shouldFailWithBrokenStream() throws IOException {
         // This object simulates problems with input stream.
         StreamUtils.getStreamContents(ALLWAYS_ERROR_INPUT_STREAM);
         fail("Must throw exception before getting here");

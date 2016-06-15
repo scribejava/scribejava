@@ -9,13 +9,14 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import java.io.IOException;
 
 public abstract class LinkedInExample {
 
     private static final String PROTECTED_RESOURCE_URL
             = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

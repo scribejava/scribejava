@@ -37,7 +37,7 @@ public class Response {
         }
     }
 
-    private String parseBodyContents() {
+    private String parseBodyContents() throws IOException {
         if ("gzip".equals(getHeader("Content-Encoding"))) {
             body = StreamUtils.getGzipStreamContents(getStream());
         } else {
@@ -58,12 +58,7 @@ public class Response {
         return getCode() >= 200 && getCode() < 400;
     }
 
-    /**
-     * Obtains the HTTP Response body
-     *
-     * @return response body
-     */
-    public String getBody() {
+    public String getBody() throws IOException {
         return body == null ? parseBodyContents() : body;
     }
 

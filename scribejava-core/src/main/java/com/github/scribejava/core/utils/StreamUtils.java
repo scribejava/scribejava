@@ -16,25 +16,22 @@ public abstract class StreamUtils {
      *
      * @param is input stream
      * @return string contents
+     * @throws java.io.IOException in any. SocketTimeout in example
      */
-    public static String getStreamContents(InputStream is) {
+    public static String getStreamContents(InputStream is) throws IOException {
         Preconditions.checkNotNull(is, "Cannot get String from a null object");
-        try {
-            final char[] buffer = new char[0x10000];
-            final StringBuilder out = new StringBuilder();
-            try (Reader in = new InputStreamReader(is, "UTF-8")) {
-                int read;
-                do {
-                    read = in.read(buffer, 0, buffer.length);
-                    if (read > 0) {
-                        out.append(buffer, 0, read);
-                    }
-                } while (read >= 0);
-            }
-            return out.toString();
-        } catch (IOException ioe) {
-            throw new IllegalStateException("Error while reading response body", ioe);
+        final char[] buffer = new char[0x10000];
+        final StringBuilder out = new StringBuilder();
+        try (Reader in = new InputStreamReader(is, "UTF-8")) {
+            int read;
+            do {
+                read = in.read(buffer, 0, buffer.length);
+                if (read > 0) {
+                    out.append(buffer, 0, read);
+                }
+            } while (read >= 0);
         }
+        return out.toString();
     }
 
     /**
@@ -42,14 +39,11 @@ public abstract class StreamUtils {
      *
      * @param is input stream
      * @return string contents
+     * @throws java.io.IOException in any. SocketTimeout in example
      */
-    public static String getGzipStreamContents(InputStream is) {
+    public static String getGzipStreamContents(InputStream is) throws IOException {
         Preconditions.checkNotNull(is, "Cannot get String from a null object");
-        try {
-            final GZIPInputStream gis = new GZIPInputStream(is);
-            return getStreamContents(gis);
-        } catch (IOException ioe) {
-            throw new IllegalStateException("Error while reading response body", ioe);
-        }
+        final GZIPInputStream gis = new GZIPInputStream(is);
+        return getStreamContents(gis);
     }
 }

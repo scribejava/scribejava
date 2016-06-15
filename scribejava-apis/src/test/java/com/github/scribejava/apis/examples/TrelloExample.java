@@ -9,6 +9,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import java.io.IOException;
 
 public abstract class TrelloExample {
 
@@ -16,7 +17,7 @@ public abstract class TrelloExample {
     private static final String API_SECRET = "your_api_secret";
     private static final String PROTECTED_RESOURCE_URL = "https://trello.com/1/members/me";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()
                 .apiKey(API_KEY)
                 .apiSecret(API_SECRET)

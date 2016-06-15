@@ -7,6 +7,7 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.services.Base64Encoder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 public class OAuth20ServiceTest {
 
     @Test
-    public void shouldProduceCorrectRequestSync() {
+    public void shouldProduceCorrectRequestSync() throws IOException {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey("your_api_key")
                 .apiSecret("your_api_secret")

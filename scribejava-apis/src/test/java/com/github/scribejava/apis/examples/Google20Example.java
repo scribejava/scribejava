@@ -9,6 +9,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public abstract class Google20Example {
     private static final String NETWORK_NAME = "G+";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";

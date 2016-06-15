@@ -28,13 +28,13 @@ public class ResponseTest {
     }
 
     @Test
-    public void shouldParseBodyContents() {
+    public void shouldParseBodyContents() throws IOException {
         assertEquals("contents", response.getBody());
         assertEquals(1, connection.getTimesCalledInpuStream());
     }
 
     @Test
-    public void shouldParseBodyContentsOnlyOnce() {
+    public void shouldParseBodyContentsOnlyOnce() throws IOException {
         assertEquals("contents", response.getBody());
         assertEquals("contents", response.getBody());
         assertEquals("contents", response.getBody());

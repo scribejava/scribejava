@@ -10,7 +10,6 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Parameter;
 import com.google.gson.Gson;
-import com.ning.http.client.ProxyServer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +49,7 @@ class OAuth20ServiceUnit extends OAuth20Service {
 
     @Override
     protected Future<OAuth2AccessToken> sendAccessTokenRequestAsync(OAuthRequestAsync request,
-            OAuthAsyncRequestCallback<OAuth2AccessToken> callback, ProxyServer proxyServer) {
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
 
         final OAuth2AccessToken accessToken = new OAuth2AccessToken(TOKEN, prepareRawResponse(request));
 

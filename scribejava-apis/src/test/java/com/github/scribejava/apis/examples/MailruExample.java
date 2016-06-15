@@ -8,6 +8,7 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.apis.MailruApi;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
 public abstract class MailruExample {
 
@@ -15,7 +16,7 @@ public abstract class MailruExample {
     private static final String PROTECTED_RESOURCE_URL
             = "http://www.appsmail.ru/platform/api?method=users.getInfo&secure=1";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";

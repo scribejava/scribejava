@@ -1,6 +1,5 @@
 package com.github.scribejava.core.model;
 
-import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -23,17 +22,21 @@ public class OAuthConfig {
     private final Integer connectTimeout;
     private final Integer readTimeout;
 
-    //async only version
-    private final AsyncHttpClientConfig asyncHttpClientConfig;
-    private final String asyncHttpProviderClassName;
+    //async version only
+    //ning 1.9
+    private com.ning.http.client.AsyncHttpClientConfig ningAsyncHttpClientConfig;
+    private String ningAsyncHttpProviderClassName;
+    //AHC 2.0
+    private org.asynchttpclient.AsyncHttpClientConfig ahcAsyncHttpClientConfig;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
-            Integer readTimeout, AsyncHttpClientConfig asyncHttpClientConfig, String asyncHttpProviderClassName) {
+            Integer readTimeout, com.ning.http.client.AsyncHttpClientConfig ningAsyncHttpClientConfig,
+            String ningAsyncHttpProviderClassName, org.asynchttpclient.AsyncHttpClientConfig ahcAsyncHttpClientConfig) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -45,8 +48,9 @@ public class OAuthConfig {
         this.userAgent = userAgent;
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
-        this.asyncHttpClientConfig = asyncHttpClientConfig;
-        this.asyncHttpProviderClassName = asyncHttpProviderClassName;
+        this.ningAsyncHttpClientConfig = ningAsyncHttpClientConfig;
+        this.ningAsyncHttpProviderClassName = ningAsyncHttpProviderClassName;
+        this.ahcAsyncHttpClientConfig = ahcAsyncHttpClientConfig;
     }
 
     public String getApiKey() {
@@ -100,11 +104,15 @@ public class OAuthConfig {
         return readTimeout;
     }
 
-    public AsyncHttpClientConfig getAsyncHttpClientConfig() {
-        return asyncHttpClientConfig;
+    public com.ning.http.client.AsyncHttpClientConfig getNingAsyncHttpClientConfig() {
+        return ningAsyncHttpClientConfig;
     }
 
-    public String getAsyncHttpProviderClassName() {
-        return asyncHttpProviderClassName;
+    public String getNingAsyncHttpProviderClassName() {
+        return ningAsyncHttpProviderClassName;
+    }
+
+    public org.asynchttpclient.AsyncHttpClientConfig getAhcAsyncHttpClientConfig() {
+        return ahcAsyncHttpClientConfig;
     }
 }

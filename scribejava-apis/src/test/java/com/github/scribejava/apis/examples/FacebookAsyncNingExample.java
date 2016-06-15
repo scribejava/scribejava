@@ -13,13 +13,14 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
-public abstract class FacebookAsyncExample {
+public abstract class FacebookAsyncNingExample {
 
     private static final String NETWORK_NAME = "Facebook";
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.6/me";
 
-    public static void main(String... args) throws InterruptedException, ExecutionException {
+    public static void main(String... args) throws InterruptedException, ExecutionException, IOException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
@@ -38,7 +39,7 @@ public abstract class FacebookAsyncExample {
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
-                .asyncHttpClientConfig(clientConfig)
+                .asyncNingHttpClientConfig(clientConfig)
                 .build(FacebookApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");

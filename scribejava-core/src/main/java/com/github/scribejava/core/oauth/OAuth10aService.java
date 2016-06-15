@@ -1,6 +1,5 @@
 package com.github.scribejava.core.oauth;
 
-import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -36,20 +35,12 @@ public class OAuth10aService extends OAuthService {
         this.api = api;
     }
 
-    /**
-     * Retrieve the request token.
-     *
-     * @return request token
-     */
-    public OAuth1RequestToken getRequestToken() {
+    public final OAuth1RequestToken getRequestToken() throws IOException {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), this);
 
-        config.log("setting oauth_callback to " + config.getCallback());
-        request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
-        addOAuthParams(request, "");
-        appendSignature(request);
+        prepareRequestTokenRequest(request);
 
         config.log("sending request...");
         final Response response = request.send();
@@ -58,6 +49,29 @@ public class OAuth10aService extends OAuthService {
         config.log("response status code: " + response.getCode());
         config.log("response body: " + body);
         return api.getRequestTokenExtractor().extract(body);
+    }
+
+    public final Future<OAuth1RequestToken> getRequestTokenAsync(
+            OAuthAsyncRequestCallback<OAuth1RequestToken> callback) {
+        final OAuthConfig config = getConfig();
+        config.log("async obtaining request token from " + api.getRequestTokenEndpoint());
+        final OAuthRequestAsync request
+                = new OAuthRequestAsync(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), this);
+        prepareRequestTokenRequest(request);
+        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1RequestToken>() {
+            @Override
+            public OAuth1RequestToken convert(Response response) throws IOException {
+                return getApi().getRequestTokenExtractor().extract(response.getBody());
+            }
+        });
+    }
+
+    protected void prepareRequestTokenRequest(AbstractRequest request) {
+        final OAuthConfig config = getConfig();
+        config.log("setting oauth_callback to " + config.getCallback());
+        request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
+        addOAuthParams(request, "");
+        appendSignature(request);
     }
 
     private void addOAuthParams(AbstractRequest request, String tokenSecret) {
@@ -76,7 +90,8 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier) {
+    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
+            throws IOException {
         final OAuthConfig config = getConfig();
         config.log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
@@ -96,11 +111,6 @@ public class OAuth10aService extends OAuthService {
      */
     public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
             OAuthAsyncRequestCallback<OAuth1AccessToken> callback) {
-        return getAccessTokenAsync(requestToken, oauthVerifier, callback, null);
-    }
-
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
-            OAuthAsyncRequestCallback<OAuth1AccessToken> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequestAsync request
@@ -108,11 +118,10 @@ public class OAuth10aService extends OAuthService {
         prepareAccessTokenRequest(request, requestToken, oauthVerifier);
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1AccessToken>() {
             @Override
-            public OAuth1AccessToken convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor()
-                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            public OAuth1AccessToken convert(Response response) throws IOException {
+                return getApi().getAccessTokenExtractor().extract(response.getBody());
             }
-        }, proxyServer);
+        });
     }
 
     protected void prepareAccessTokenRequest(AbstractRequest request, OAuth1RequestToken requestToken,

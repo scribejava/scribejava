@@ -8,13 +8,14 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
 
 public abstract class Kaixin20Example {
 
     private static final String NETWORK_NAME = "Kaixin";
     private static final String PROTECTED_RESOURCE_URL = "https://api.kaixin001.com/users/me.json";
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";
