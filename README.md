@@ -47,6 +47,7 @@ You can use ning async http client out-of-box, just use ServiceBuilderAsync
 * Pinterest (https://www.pinterest.com/)
 * 500px (https://500px.com/)
 * Renren (http://renren.com/)
+* Salesforce (https://www.salesforce.com/)
 * Sina (http://www.sina.com.cn/ http://weibo.com/login.php)
 * Skyrock (http://skyrock.com/)
 * sohu 搜狐 (http://www.sohu.com/)
