@@ -34,12 +34,7 @@ public class GoogleToken extends OAuth2AccessToken {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(getAccessToken());
-        hash = 37 * hash + Objects.hashCode(getTokenType());
-        hash = 37 * hash + Objects.hashCode(getExpiresIn());
-        hash = 37 * hash + Objects.hashCode(getRefreshToken());
-        hash = 37 * hash + Objects.hashCode(getScope());
+        int hash = super.hashCode();
         hash = 37 * hash + Objects.hashCode(openIdToken);
         return hash;
     }
@@ -55,23 +50,11 @@ public class GoogleToken extends OAuth2AccessToken {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GoogleToken other = (GoogleToken) obj;
-        if (!Objects.equals(getAccessToken(), other.getAccessToken())) {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!Objects.equals(getTokenType(), other.getTokenType())) {
-            return false;
-        }
-        if (!Objects.equals(getRefreshToken(), other.getRefreshToken())) {
-            return false;
-        }
-        if (!Objects.equals(getScope(), other.getScope())) {
-            return false;
-        }
-        if (!Objects.equals(openIdToken, other.getOpenIdToken())) {
-            return false;
-        }
-        return Objects.equals(getExpiresIn(), other.getExpiresIn());
+
+        return Objects.equals(openIdToken, ((GoogleToken) obj).getOpenIdToken());
     }
 
     @Override
