@@ -31,7 +31,7 @@ public class HeaderExtractorTest {
         final String key = "oauth_consumer_key=\"AS%23%24%5E%2A%40%26\"";
         final String timestamp = "oauth_timestamp=\"123456\"";
 
-        assertTrue(header.contains(oauth));
+        assertTrue(header.startsWith(oauth));
         assertTrue(header.contains(callback));
         assertTrue(header.contains(signature));
         assertTrue(header.contains(key));
