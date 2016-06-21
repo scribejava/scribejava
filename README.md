@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/scribejava/scribejava.svg?branch=master)](https://travis-ci.org/scribejava/scribejava)
+
 # Welcome to the home of ScribeJava, the simple OAuth Java lib!
 
 # Why use ScribeJava?
