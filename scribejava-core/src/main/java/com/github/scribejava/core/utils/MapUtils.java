@@ -14,8 +14,12 @@ public abstract class MapUtils {
 
         final StringBuilder result = new StringBuilder();
         for (Map.Entry<K, V> entry : map.entrySet()) {
-            result.append(String.format(", %s -> %s ", entry.getKey().toString(), entry.getValue().toString()));
+            result.append(", ")
+                    .append(entry.getKey().toString())
+                    .append(" -> ")
+                    .append(entry.getValue().toString())
+                    .append(' ');
         }
-        return "{" + result.substring(1) + "}";
+        return "{" + result.append('}').substring(1);
     }
 }
