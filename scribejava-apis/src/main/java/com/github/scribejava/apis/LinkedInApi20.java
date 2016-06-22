@@ -3,7 +3,6 @@ package com.github.scribejava.apis;
 import com.github.scribejava.apis.service.LinkedIn20ServiceImpl;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class LinkedInApi20 extends DefaultApi20 {
@@ -20,18 +19,13 @@ public class LinkedInApi20 extends DefaultApi20 {
     }
 
     @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.GET;
-    }
-
-    @Override
     public String getAccessTokenEndpoint() {
-        return "https://www.linkedin.com/uas/oauth2/accessToken";
+        return "https://www.linkedin.com/oauth/v2/accessToken";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "https://www.linkedin.com/uas/oauth2/authorization";
+        return "https://www.linkedin.com/oauth/v2/authorization";
     }
 
     @Override

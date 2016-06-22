@@ -6,7 +6,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 
 public class SalesforceToken extends OAuth2AccessToken {
 
-    private static final long serialVersionUID = 7845679917727899612L;
+    private static final long serialVersionUID = 7496092256264195577L;
 
     /**
      * This token model includes the instance_url to address the needed

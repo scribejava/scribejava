@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * add Salesforce API
+ * update Linked In API
 
 [2.7.3]
  * FIX: ScribeJava shouldn't require all async http client provider to be on the classpath if using only one of them
