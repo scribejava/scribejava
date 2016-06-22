@@ -1,5 +1,6 @@
 package com.github.scribejava.core.utils;
 
+import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Assert;
@@ -9,7 +10,7 @@ public class MapUtilsTest {
 
     @Test
     public void shouldPrettyPrintMap() {
-        final Map<Integer, String> map = new HashMap<>();
+        final Map<Integer, String> map = new LinkedHashMap<>();
         map.put(1, "one");
         map.put(2, "two");
         map.put(3, "three");
