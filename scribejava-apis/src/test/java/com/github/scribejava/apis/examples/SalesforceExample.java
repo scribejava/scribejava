@@ -3,6 +3,8 @@ package com.github.scribejava.apis.examples;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 import com.github.scribejava.apis.SalesforceApi;
@@ -12,8 +14,6 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 
 public abstract class SalesforceExample {
 
@@ -23,9 +23,23 @@ public abstract class SalesforceExample {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        //IT's important! Salesforce upper require TLS v1.1 or 1.2.
-        //They are enabled in Java 8 by default, but not in Java 7
+        // IT's important! Salesforce upper require TLS v1.1 or 1.2.
+        // They are enabled in Java 8 by default, but not in Java 7
         SalesforceApi.initTLSv11orUpper();
+
+        // The below used ServiceBuilder connects to login.salesforce.com
+        // (production environment).
+        //
+        // When you plan to connect to a Sandbox environment you've to assign
+        // the object first. Then call withSandbox() and pass the api object to
+        // the build() method. If you want to reuse the object in a production
+        // environment you can call withProduction() to reset the hostname to
+        // login.salesforce.com.
+        //
+        // SalesforceApi api = SalesforceApi.instance();
+        // api.withSandbox();
+        // new ServiceBuilder.....build(api);
+
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
@@ -68,7 +82,8 @@ public abstract class SalesforceExample {
         // Sample SOQL statement
         final String queryEncoded = URLEncoder.encode("Select Id, Name from Account LIMIT 10", "UTF-8");
 
-        // Building the query URI. We've parsed the instance URL from the accessToken request.
+        // Building the query URI. We've parsed the instance URL from the
+        // accessToken request.
         final String url = accessToken.getInstanceUrl() + "/services/data/v36.0/query?q=" + queryEncoded;
 
         System.out.println();
