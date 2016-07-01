@@ -26,6 +26,13 @@ public abstract class SalesforceExample {
         //IT's important! Salesforce upper require TLS v1.1 or 1.2.
         //They are enabled in Java 8 by default, but not in Java 7
         SalesforceApi.initTLSv11orUpper();
+
+        // The below used ServiceBuilder connects to login.salesforce.com
+        // (production environment).
+        //
+        // When you plan to connect to a Sandbox environment you've to use SalesforceApi.sandbox() API instance
+        // new ServiceBuilder.....build(SalesforceApi.sandbox());
+
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)

@@ -14,15 +14,28 @@ import javax.net.ssl.SSLSocket;
 
 /**
  * This class is an implementation of the Salesforce OAuth2 API.
+ * The default implementation connects to the Salesforce
+ * production environment.
+ * If you want to connect to a Sandbox environment you've to use {@link #sandbox()} method to
+ * get sandbox instance of this API
  */
 public class SalesforceApi extends DefaultApi20 {
 
-    private static final String BASE_URL = "https://login.salesforce.com/services/oauth2";
-    private static final String ACCESS_URL = BASE_URL + "/token";
-    private static final String AUTHORIZE_URL = BASE_URL + "/authorize";
+    private static final String PRODUCTION_HOST = "login.salesforce.com";
+    private static final String SANDBOX_HOST = "test.salesforce.com";
+    private static final String PROTOCOL = "https://";
+    private static final String ACCESS_PATH = "/services/oauth2/token";
+    private static final String AUTHORIZE_PATH = "/services/oauth2/authorize";
 
-    protected SalesforceApi() {
+    private final String accessTokenUrl;
+    private final String authorizationBaseUrl;
 
+    /**
+     * @param hostName The hostname to be used, which is either {@link #PRODUCTION_HOST} or {@link #SANDBOX_HOST}.
+     */
+    protected SalesforceApi(String hostName) {
+        accessTokenUrl = PROTOCOL + hostName + ACCESS_PATH;
+        authorizationBaseUrl = PROTOCOL + hostName + AUTHORIZE_PATH;
         try {
             final SSLSocket socket = (SSLSocket) SSLContext.getDefault().getSocketFactory().createSocket();
             if (!isTLSv11orUpperEnabled(socket)) {
@@ -36,12 +49,15 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
-
-        private static final SalesforceApi INSTANCE = new SalesforceApi();
+        private static final SalesforceApi INSTANCE = new SalesforceApi(PRODUCTION_HOST);
     }
 
     public static SalesforceApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public static SalesforceApi sandbox() {
+        return new SalesforceApi(SANDBOX_HOST);
     }
 
     @Override
@@ -51,12 +67,12 @@ public class SalesforceApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return ACCESS_URL;
+        return accessTokenUrl;
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return AUTHORIZE_URL;
+        return authorizationBaseUrl;
     }
 
     @Override
@@ -74,14 +90,15 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     /**
-     * Salesforce API required to use TLSv1.1 or upper.
+     * Salesforce API requires to use TLSv1.1 or upper.
      * <p>
      * Java 8 have TLS 1.2 enabled by default. java 7 - no, you should invoke this method or turn TLS&gt;=1.1 somehow
      * else</p>
      *
      * @throws java.security.NoSuchAlgorithmException in case your jvm doesn't support TLSv1.1 and TLSv1.2
-     * @throws java.security.KeyManagementException
-     * @throws java.io.IOException
+     * @throws java.security.KeyManagementException unexpected Exception from
+     * {@link SSLContext#init(javax.net.ssl.KeyManager[], javax.net.ssl.TrustManager[], java.security.SecureRandom)}
+     * @throws java.io.IOException unexpected Exception from {@link javax.net.ssl.SSLSocketFactory#createSocket()}
      */
     public static void initTLSv11orUpper() throws NoSuchAlgorithmException, KeyManagementException, IOException {
         final SSLSocket socket = (SSLSocket) SSLContext.getDefault().getSocketFactory().createSocket();
