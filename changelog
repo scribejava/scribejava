@@ -1,3 +1,6 @@
+[2.8.1]
+ * add Salesforce sandbox API support
+
 [2.8.0]
  * add Salesforce API
  * update Linked In API
