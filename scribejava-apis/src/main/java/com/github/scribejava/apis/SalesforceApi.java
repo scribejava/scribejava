@@ -1,7 +1,5 @@
 package com.github.scribejava.apis;
 
-import javax.net.ssl.SSLContext;
-
 import com.github.scribejava.apis.salesforce.SalesforceJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
@@ -10,6 +8,7 @@ import com.github.scribejava.core.model.Verb;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 
 /**
@@ -17,12 +16,28 @@ import javax.net.ssl.SSLSocket;
  */
 public class SalesforceApi extends DefaultApi20 {
 
-    private static final String BASE_URL = "https://login.salesforce.com/services/oauth2";
-    private static final String ACCESS_URL = BASE_URL + "/token";
-    private static final String AUTHORIZE_URL = BASE_URL + "/authorize";
+    private String hostName = "";
+    private final String accessTokenUrl;
+    private final String authorizationBaseUrl;
+    private static final String HOST_PRODUCTION = "login.salesforce.com";
+    private static final String HOST_SANDBOX = "test.salesforce.com";
+    private static final String PROTOCOL = "https://";
+    private static final String ACCESS_URL = "/services/oauth2/token";
+    private static final String AUTHORIZE_URL = "/services/oauth2/authorize";
 
-    protected SalesforceApi() {
-
+    /**
+     * The default implementation connects to the Salesforce production environment.
+     * 
+     * If you want to connect to a Sandbox environment you've to call the {@link #withSandbox} method after object
+     * creation.
+     * 
+     * @param hostName
+     *            The to be used hostname, which is either {@link #HOST_PRODUCTION} or {@link #HOST_SANDBOX}.
+     */
+    protected SalesforceApi(String hostName) {
+        this.hostName = hostName;
+        this.accessTokenUrl = PROTOCOL + hostName + ACCESS_URL;
+        this.authorizationBaseUrl = PROTOCOL + hostName + AUTHORIZE_URL;
         try {
             final SSLSocket socket = (SSLSocket) SSLContext.getDefault().getSocketFactory().createSocket();
             if (!isTLSv11orUpperEnabled(socket)) {
@@ -36,12 +51,31 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
-
-        private static final SalesforceApi INSTANCE = new SalesforceApi();
+        private static final SalesforceApi INSTANCE = new SalesforceApi(HOST_PRODUCTION);
     }
 
     public static SalesforceApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public static SalesforceApi sandbox() {
+        return new SalesforceApi(HOST_SANDBOX);
+    }
+
+    /**
+     * Calling this method sets the target hostname to login.salesforce.com.
+     * 
+     * It is only needed to call this method when you've switched to a Sandbox environment before.
+     */
+    public void withProduction() {
+        hostName = HOST_PRODUCTION;
+    }
+
+    /**
+     * Calling this method sets the target hostname to test.salesforce.com.
+     */
+    public void withSandbox() {
+        hostName = HOST_SANDBOX;
     }
 
     @Override
@@ -51,12 +85,12 @@ public class SalesforceApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return ACCESS_URL;
+        return accessTokenUrl;
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return AUTHORIZE_URL;
+        return authorizationBaseUrl;
     }
 
     @Override
@@ -74,12 +108,14 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     /**
-     * Salesforce API required to use TLSv1.1 or upper.
+     * Salesforce API requires to use TLSv1.1 or upper.
      * <p>
      * Java 8 have TLS 1.2 enabled by default. java 7 - no, you should invoke this method or turn TLS&gt;=1.1 somehow
-     * else</p>
+     * else
+     * </p>
      *
-     * @throws java.security.NoSuchAlgorithmException in case your jvm doesn't support TLSv1.1 and TLSv1.2
+     * @throws java.security.NoSuchAlgorithmException
+     *             in case your jvm doesn't support TLSv1.1 and TLSv1.2
      * @throws java.security.KeyManagementException
      * @throws java.io.IOException
      */
