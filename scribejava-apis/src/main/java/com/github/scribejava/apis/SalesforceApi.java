@@ -1,17 +1,15 @@
 package com.github.scribejava.apis;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-
 import com.github.scribejava.apis.salesforce.SalesforceJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
 
 /**
  * This class is an implementation of the Salesforce OAuth2 API.
@@ -19,6 +17,8 @@ import com.github.scribejava.core.model.Verb;
 public class SalesforceApi extends DefaultApi20 {
 
     private String hostName = "";
+    private final String accessTokenUrl;
+    private final String authorizationBaseUrl;
     private static final String HOST_PRODUCTION = "login.salesforce.com";
     private static final String HOST_SANDBOX = "test.salesforce.com";
     private static final String PROTOCOL = "https://";
@@ -26,14 +26,18 @@ public class SalesforceApi extends DefaultApi20 {
     private static final String AUTHORIZE_URL = "/services/oauth2/authorize";
 
     /**
-     * The default implementation connects to the Salesforce production
-     * environment.
+     * The default implementation connects to the Salesforce production environment.
      * 
-     * If you want to connect to a Sandbox environment you've to call the
-     * {@link #withSandbox} method after object creation.
+     * If you want to connect to a Sandbox environment you've to call the {@link #withSandbox} method after object
+     * creation.
+     * 
+     * @param hostName
+     *            The to be used hostname, which is either {@link #HOST_PRODUCTION} or {@link #HOST_SANDBOX}.
      */
-    protected SalesforceApi() {
-        hostName = HOST_PRODUCTION;
+    protected SalesforceApi(String hostName) {
+        this.hostName = hostName;
+        this.accessTokenUrl = PROTOCOL + hostName + ACCESS_URL;
+        this.authorizationBaseUrl = PROTOCOL + hostName + AUTHORIZE_URL;
         try {
             final SSLSocket socket = (SSLSocket) SSLContext.getDefault().getSocketFactory().createSocket();
             if (!isTLSv11orUpperEnabled(socket)) {
@@ -47,18 +51,21 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
-        private static final SalesforceApi INSTANCE = new SalesforceApi();
+        private static final SalesforceApi INSTANCE = new SalesforceApi(HOST_PRODUCTION);
     }
 
     public static SalesforceApi instance() {
         return InstanceHolder.INSTANCE;
     }
 
+    public static SalesforceApi sandbox() {
+        return new SalesforceApi(HOST_SANDBOX);
+    }
+
     /**
      * Calling this method sets the target hostname to login.salesforce.com.
      * 
-     * It is only needed to call this method when you've switched to a Sandbox
-     * environment before.
+     * It is only needed to call this method when you've switched to a Sandbox environment before.
      */
     public void withProduction() {
         hostName = HOST_PRODUCTION;
@@ -78,12 +85,12 @@ public class SalesforceApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return PROTOCOL + hostName + ACCESS_URL;
+        return accessTokenUrl;
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return PROTOCOL + hostName + AUTHORIZE_URL;
+        return authorizationBaseUrl;
     }
 
     @Override
@@ -103,8 +110,8 @@ public class SalesforceApi extends DefaultApi20 {
     /**
      * Salesforce API requires to use TLSv1.1 or upper.
      * <p>
-     * Java 8 have TLS 1.2 enabled by default. java 7 - no, you should invoke
-     * this method or turn TLS&gt;=1.1 somehow else
+     * Java 8 have TLS 1.2 enabled by default. java 7 - no, you should invoke this method or turn TLS&gt;=1.1 somehow
+     * else
      * </p>
      *
      * @throws java.security.NoSuchAlgorithmException
