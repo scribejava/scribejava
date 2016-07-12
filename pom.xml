@@ -17,6 +17,8 @@
     <modules>
         <module>scribejava-core</module>
         <module>scribejava-apis</module>
+        <module>scribejava-httpclient-ahc</module>
+        <module>scribejava-httpclient-ning</module>
     </modules>
 
     <licenses>
@@ -91,18 +93,6 @@
             <version>1.10</version>
             <scope>compile</scope>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.ning</groupId>
-            <artifactId>async-http-client</artifactId>
-            <version>1.9.38</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.asynchttpclient</groupId>
-            <artifactId>async-http-client</artifactId>
-            <version>2.0.9</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

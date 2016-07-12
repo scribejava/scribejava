@@ -23,20 +23,15 @@ public class OAuthConfig {
     private final Integer readTimeout;
 
     //async version only
-    //ning 1.9
-    private com.ning.http.client.AsyncHttpClientConfig ningAsyncHttpClientConfig;
-    private String ningAsyncHttpProviderClassName;
-    //AHC 2.0
-    private org.asynchttpclient.AsyncHttpClientConfig ahcAsyncHttpClientConfig;
+    private HttpClient.Config httpClientConfig;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
-            Integer readTimeout, com.ning.http.client.AsyncHttpClientConfig ningAsyncHttpClientConfig,
-            String ningAsyncHttpProviderClassName, org.asynchttpclient.AsyncHttpClientConfig ahcAsyncHttpClientConfig) {
+            Integer readTimeout, HttpClient.Config httpClientConfig) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -48,9 +43,7 @@ public class OAuthConfig {
         this.userAgent = userAgent;
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
-        this.ningAsyncHttpClientConfig = ningAsyncHttpClientConfig;
-        this.ningAsyncHttpProviderClassName = ningAsyncHttpProviderClassName;
-        this.ahcAsyncHttpClientConfig = ahcAsyncHttpClientConfig;
+        this.httpClientConfig = httpClientConfig;
     }
 
     public String getApiKey() {
@@ -104,15 +97,7 @@ public class OAuthConfig {
         return readTimeout;
     }
 
-    public com.ning.http.client.AsyncHttpClientConfig getNingAsyncHttpClientConfig() {
-        return ningAsyncHttpClientConfig;
-    }
-
-    public String getNingAsyncHttpProviderClassName() {
-        return ningAsyncHttpProviderClassName;
-    }
-
-    public org.asynchttpclient.AsyncHttpClientConfig getAhcAsyncHttpClientConfig() {
-        return ahcAsyncHttpClientConfig;
+    public HttpClient.Config getHttpClientConfig() {
+        return httpClientConfig;
     }
 }

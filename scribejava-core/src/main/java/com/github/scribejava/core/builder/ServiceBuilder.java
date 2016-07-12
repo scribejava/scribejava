@@ -1,12 +1,14 @@
 package com.github.scribejava.core.builder;
 
 import com.github.scribejava.core.builder.api.BaseApi;
+import com.github.scribejava.core.model.HttpClient;
 import com.github.scribejava.core.model.OAuthConfig;
-import java.io.OutputStream;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
+
+import java.io.OutputStream;
 
 /**
  * Implementation of the Builder pattern, with a fluent interface that creates a {@link OAuthService}
@@ -27,12 +29,8 @@ public class ServiceBuilder {
     private Integer connectTimeout;
     private Integer readTimeout;
 
-    //async version only
-    //ning 1.9
-    private com.ning.http.client.AsyncHttpClientConfig ningAsyncHttpClientConfig;
-    private String ningAsyncHttpProviderClassName;
-    //AHC 2.0
-    private org.asynchttpclient.AsyncHttpClientConfig ahcAsyncHttpClientConfig;
+    //not-default httpclient only
+    private HttpClient.Config httpClientConfig;
 
     public ServiceBuilder() {
         callback = OAuthConstants.OUT_OF_BAND;
@@ -135,24 +133,9 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder asyncNingHttpClientConfig(com.ning.http.client.AsyncHttpClientConfig asyncHttpClientConfig) {
-        Preconditions.checkNotNull(asyncHttpClientConfig, "asyncHttpClientConfig can't be null");
-        ningAsyncHttpClientConfig = asyncHttpClientConfig;
-        ahcAsyncHttpClientConfig = null;
-        return this;
-    }
-
-    public ServiceBuilder asyncNingHttpProviderClassName(String asyncHttpProviderClassName) {
-        this.ningAsyncHttpProviderClassName = asyncHttpProviderClassName;
-        ahcAsyncHttpClientConfig = null;
-        return this;
-    }
-
-    public ServiceBuilder asyncAHCHttpClientConfig(org.asynchttpclient.AsyncHttpClientConfig asyncHttpClientConfig) {
-        Preconditions.checkNotNull(asyncHttpClientConfig, "asyncHttpClientConfig can't be null");
-        ahcAsyncHttpClientConfig = asyncHttpClientConfig;
-        ningAsyncHttpClientConfig = null;
-        ningAsyncHttpProviderClassName = null;
+    public ServiceBuilder httpClientConfig(HttpClient.Config httpClientConfig) {
+        Preconditions.checkNotNull(httpClientConfig, "httpClientConfig can't be null");
+        this.httpClientConfig = httpClientConfig;
         return this;
     }
 
@@ -173,8 +156,7 @@ public class ServiceBuilder {
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
-                userAgent, connectTimeout, readTimeout, ningAsyncHttpClientConfig, ningAsyncHttpProviderClassName,
-                ahcAsyncHttpClientConfig);
+                userAgent, connectTimeout, readTimeout, httpClientConfig);
     }
 
     /**

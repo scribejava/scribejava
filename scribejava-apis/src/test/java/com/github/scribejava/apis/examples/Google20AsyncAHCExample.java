@@ -3,8 +3,10 @@ package com.github.scribejava.apis.examples;
 import java.util.Random;
 import java.util.Scanner;
 import com.github.scribejava.apis.GoogleApi20;
+import com.github.scribejava.httpclient.ahc.AhcHttpClientConfig;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
+import com.github.scribejava.core.model.HttpClient;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
@@ -15,7 +17,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import org.asynchttpclient.AsyncHttpClientConfig;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 
 public abstract class Google20AsyncAHCExample {
@@ -29,12 +30,12 @@ public abstract class Google20AsyncAHCExample {
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
-        final AsyncHttpClientConfig clientConfig = new DefaultAsyncHttpClientConfig.Builder()
+        final HttpClient.Config clientConfig = new AhcHttpClientConfig(new DefaultAsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
                 .setPooledConnectionIdleTimeout(1_000)
                 .setReadTimeout(1_000)
-                .build();
+                .build());
 
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
@@ -42,7 +43,7 @@ public abstract class Google20AsyncAHCExample {
                 .scope("profile") // replace with desired scope
                 .state(secretState)
                 .callback("http://example.com/callback")
-                .asyncAHCHttpClientConfig(clientConfig)
+                .httpClientConfig(clientConfig)
                 .build(GoogleApi20.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 

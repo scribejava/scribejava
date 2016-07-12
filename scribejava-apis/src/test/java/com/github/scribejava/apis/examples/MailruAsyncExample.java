@@ -1,5 +1,6 @@
 package com.github.scribejava.apis.examples;
 
+import com.github.scribejava.httpclient.ning.NingHttpClientConfig;
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -23,19 +24,19 @@ public abstract class MailruAsyncExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
 
-        final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
+        final NingHttpClientConfig clientConfig = new NingHttpClientConfig(new AsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
                 .setAllowPoolingConnections(false)
                 .setPooledConnectionIdleTimeout(1_000)
                 .setReadTimeout(10_000)
-                .build();
+                .build());
 
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
-                .asyncNingHttpClientConfig(clientConfig)
+                .httpClientConfig(clientConfig)
                 .build(MailruApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");

@@ -10,8 +10,8 @@
     </parent>
     
     <groupId>com.github.scribejava</groupId>
-    <artifactId>scribejava-apis</artifactId>
-    <name>ScribeJava APIs</name>
+    <artifactId>scribejava-ning</artifactId>
+    <name>ScribeJava Ning Async client support</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -21,16 +21,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.scribejava</groupId>
-            <artifactId>scribejava-ahc</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.scribejava</groupId>
-            <artifactId>scribejava-ning</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
+            <groupId>com.ning</groupId>
+            <artifactId>async-http-client</artifactId>
+            <version>1.9.38</version>
         </dependency>
     </dependencies>
 

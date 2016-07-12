@@ -1,5 +1,6 @@
 package com.github.scribejava.apis.examples;
 
+import com.github.scribejava.httpclient.ning.NingHttpClientConfig;
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.util.Random;
 import java.util.Scanner;
@@ -26,20 +27,20 @@ public abstract class FacebookAsyncNingExample {
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
-        final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
+        final NingHttpClientConfig clientConfig = new NingHttpClientConfig(new AsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
                 .setAllowPoolingConnections(false)
                 .setPooledConnectionIdleTimeout(1_000)
                 .setReadTimeout(1_000)
-                .build();
+                .build());
 
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
-                .asyncNingHttpClientConfig(clientConfig)
+                .httpClientConfig(clientConfig)
                 .build(FacebookApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");

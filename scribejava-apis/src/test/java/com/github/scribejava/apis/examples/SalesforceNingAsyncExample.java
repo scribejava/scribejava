@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.github.scribejava.apis.SalesforceApi;
 import com.github.scribejava.apis.salesforce.SalesforceToken;
+import com.github.scribejava.httpclient.ning.NingHttpClientConfig;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -32,20 +33,20 @@ public abstract class SalesforceNingAsyncExample {
         final String clientSecret = "your client secret";
 
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
-        final AsyncHttpClientConfig clientConfig = new AsyncHttpClientConfig.Builder()
+        final NingHttpClientConfig clientConfig = new NingHttpClientConfig(new AsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
                 .setAllowPoolingConnections(false)
                 .setPooledConnectionIdleTimeout(1_000)
                 .setReadTimeout(10_000)
-                .build();
+                .build());
 
         //IT's important! Salesforce upper require TLS v1.1 or 1.2
         SalesforceApi.initTLSv11orUpper();
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
-                .asyncNingHttpClientConfig(clientConfig)
+                .httpClientConfig(clientConfig)
                 .callback("https://www.example.com/callback")
                 .build(SalesforceApi.instance());
 

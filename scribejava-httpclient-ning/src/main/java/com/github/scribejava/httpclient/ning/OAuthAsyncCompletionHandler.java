@@ -1,4 +1,4 @@
-package com.github.scribejava.core.async.ning;
+package com.github.scribejava.httpclient.ning;
 
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequestAsync;

@@ -1,4 +1,4 @@
-package com.github.scribejava.core.async.ahc;
+package com.github.scribejava.httpclient.ahc;
 
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequestAsync;
