@@ -19,9 +19,9 @@ That **single line** (added newlines for readability) is the only thing you need
 
 Hit ScribeJava as hard and with many threads as you like.
 
-### Async
+### Async and other HTTP clients
 
-You can use ning async http client out-of-box, just use ServiceBuilderAsync
+You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just add maven modules scribejava-httpclient-ning or scribejava-httpclient-ahc to your pom
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 

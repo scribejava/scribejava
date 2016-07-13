@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
+import org.asynchttpclient.BoundRequestBuilder;
 
 public class AhcHttpClient implements HttpClient {
 
@@ -32,14 +33,13 @@ public class AhcHttpClient implements HttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
                                       String bodyContents, OAuthAsyncRequestCallback<T> callback,
                                       OAuthRequestAsync.ResponseConverter<T> converter) {
-        final org.asynchttpclient.BoundRequestBuilder boundRequestBuilder;
+        final BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
             case GET:
                 boundRequestBuilder = client.prepareGet(completeUrl);
                 break;
             case POST:
-                org.asynchttpclient.BoundRequestBuilder requestBuilder
-                        = client.preparePost(completeUrl);
+                BoundRequestBuilder requestBuilder = client.preparePost(completeUrl);
                 if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
                     requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
                 }

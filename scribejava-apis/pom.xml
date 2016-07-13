@@ -22,13 +22,13 @@
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
-            <artifactId>scribejava-ahc</artifactId>
+            <artifactId>scribejava-httpclient-ahc</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
-            <artifactId>scribejava-ning</artifactId>
+            <artifactId>scribejava-httpclient-ning</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

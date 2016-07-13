@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * create abstract HTTP Client layer to support different HTTP clients as plugins (AHC and Ning support becames maven submodules)
+
 [2.8.1]
  * add Salesforce sandbox API support
 

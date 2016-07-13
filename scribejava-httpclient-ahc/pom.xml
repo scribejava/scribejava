@@ -10,8 +10,8 @@
     </parent>
     
     <groupId>com.github.scribejava</groupId>
-    <artifactId>scribejava-ahc</artifactId>
-    <name>ScribeJava Async Http Client support</name>
+    <artifactId>scribejava-httpclient-ahc</artifactId>
+    <name>ScribeJava Async Http Http Client support</name>
     <packaging>jar</packaging>
 
     <dependencies>

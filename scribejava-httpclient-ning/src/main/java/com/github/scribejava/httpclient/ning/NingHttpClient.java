@@ -19,9 +19,8 @@ public class NingHttpClient implements HttpClient {
 
     public NingHttpClient(NingHttpClientConfig ningConfig) {
         final String ningAsyncHttpProviderClassName = ningConfig.getNingAsyncHttpProviderClassName();
-        client = ningAsyncHttpProviderClassName == null
-                ? new com.ning.http.client.AsyncHttpClient(ningConfig.getConfig())
-                : new com.ning.http.client.AsyncHttpClient(ningAsyncHttpProviderClassName, ningConfig.getConfig());
+        client = ningAsyncHttpProviderClassName == null ? new AsyncHttpClient(ningConfig.getConfig())
+                : new AsyncHttpClient(ningAsyncHttpProviderClassName, ningConfig.getConfig());
     }
 
     @Override
@@ -33,14 +32,13 @@ public class NingHttpClient implements HttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
                                       String bodyContents, OAuthAsyncRequestCallback<T> callback,
                                       OAuthRequestAsync.ResponseConverter<T> converter) {
-        final com.ning.http.client.AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
+        final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
             case GET:
                 boundRequestBuilder = client.prepareGet(completeUrl);
                 break;
             case POST:
-                com.ning.http.client.AsyncHttpClient.BoundRequestBuilder requestBuilder
-                        = client.preparePost(completeUrl);
+                AsyncHttpClient.BoundRequestBuilder requestBuilder = client.preparePost(completeUrl);
                 if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
                     requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
                 }
