@@ -1,9 +1,12 @@
 package com.github.scribejava.apis.examples;
 
+import java.nio.file.Paths;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.LinkedInApi20;
+import com.github.scribejava.core.model.FileTokenStorage;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuth2CodeProvider;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -16,6 +19,7 @@ public abstract class LinkedIn20Example {
     private static final String PROTECTED_RESOURCE_URL = "https://api.linkedin.com/v1/people/~:(%s)";
 
     public static void main(String... args) throws IOException {
+        final Scanner in = new Scanner(System.in);
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
@@ -24,26 +28,30 @@ public abstract class LinkedIn20Example {
                 .scope("r_basicprofile r_emailaddress") // replace with desired scope
                 .callback("http://example.com/callback")
                 .state("some_params")
+                .codeProvider(new OAuth2CodeProvider() {
+                    @Override
+                    public String getCode(OAuth20Service service) {
+                        // Obtain the Authorization URL
+                        System.out.println("Fetching the Authorization URL...");
+                        final String authorizationUrl = service.getAuthorizationUrl();
+                        System.out.println("Got the Authorization URL!");
+                        System.out.println("Now go and authorize ScribeJava here:");
+                        System.out.println(authorizationUrl);
+                        System.out.println("And paste the authorization code here");
+                        System.out.print(">>");
+                        System.out.println();
+                        return in.nextLine();
+                    }
+                })
                 .build(LinkedInApi20.instance());
-        final Scanner in = new Scanner(System.in);
+
+        final FileTokenStorage tokenStorage = new FileTokenStorage(service, Paths.get("linkedin.token"));
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
-
-        // Obtain the Authorization URL
-        System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
-        System.out.println("Got the Authorization URL!");
-        System.out.println("Now go and authorize ScribeJava here:");
-        System.out.println(authorizationUrl);
-        System.out.println("And paste the authorization code here");
-        System.out.print(">>");
-        final String code = in.nextLine();
-        System.out.println();
-
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(code);
+        final OAuth2AccessToken accessToken = tokenStorage.getOrGenerateToken();
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");

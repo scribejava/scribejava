@@ -17,6 +17,7 @@ public class OAuthConfig {
     private final String state;
     private final String responseType;
     private final String userAgent;
+    private final OAuth2CodeProvider codeProvider;
 
     //sync only version
     private final Integer connectTimeout;
@@ -26,12 +27,13 @@ public class OAuthConfig {
     private HttpClient.Config httpClientConfig;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
-            Integer readTimeout, HttpClient.Config httpClientConfig) {
+                       OutputStream debugStream, String state, String responseType, String userAgent,
+                       OAuth2CodeProvider codeProvider, Integer connectTimeout, Integer readTimeout,
+                       HttpClient.Config httpClientConfig) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -41,6 +43,7 @@ public class OAuthConfig {
         this.state = state;
         this.responseType = responseType;
         this.userAgent = userAgent;
+        this.codeProvider = codeProvider;
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
         this.httpClientConfig = httpClientConfig;
@@ -76,6 +79,10 @@ public class OAuthConfig {
 
     public String getUserAgent() {
         return userAgent;
+    }
+
+    public OAuth2CodeProvider getCodeProvider() {
+        return codeProvider;
     }
 
     public void log(String message) {

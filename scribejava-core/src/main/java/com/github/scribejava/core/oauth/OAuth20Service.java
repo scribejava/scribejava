@@ -1,19 +1,21 @@
 package com.github.scribejava.core.oauth;
 
-import com.github.scribejava.core.services.Base64Encoder;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.concurrent.Future;
-import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
+import com.github.scribejava.core.model.OAuth2CodeProvider;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.services.Base64Encoder;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.concurrent.Future;
+import com.github.scribejava.core.builder.api.DefaultApi20;
+
 import java.util.Map;
 
 public class OAuth20Service extends OAuthService {
@@ -47,6 +49,14 @@ public class OAuth20Service extends OAuthService {
                 return getApi().getAccessTokenExtractor().extract(response.getBody());
             }
         });
+    }
+
+    public final OAuth2AccessToken getAccessToken() throws IOException {
+        final OAuth2CodeProvider codeProvider = getConfig().getCodeProvider();
+        if (codeProvider == null) {
+            throw new IllegalStateException("A code provider must be configured");
+        }
+        return getAccessToken(codeProvider.getCode(this));
     }
 
     public final OAuth2AccessToken getAccessToken(String code) throws IOException {
