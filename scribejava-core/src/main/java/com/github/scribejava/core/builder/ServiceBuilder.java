@@ -2,6 +2,7 @@ package com.github.scribejava.core.builder;
 
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.model.OAuth2CodeProvider;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
@@ -24,6 +25,7 @@ public class ServiceBuilder {
     private OutputStream debugStream;
     private String responseType = "code";
     private String userAgent;
+    private OAuth2CodeProvider codeProvider;
 
     //sync version only
     private Integer connectTimeout;
@@ -144,6 +146,11 @@ public class ServiceBuilder {
         return this;
     }
 
+    public ServiceBuilder codeProvider(OAuth2CodeProvider codeProvider) {
+        this.codeProvider = codeProvider;
+        return this;
+    }
+
     public ServiceBuilder debug() {
         debugStream(System.out);
         return this;
@@ -156,7 +163,7 @@ public class ServiceBuilder {
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
-                userAgent, connectTimeout, readTimeout, httpClientConfig);
+                userAgent, codeProvider, connectTimeout, readTimeout, httpClientConfig);
     }
 
     /**
