@@ -1,8 +1,10 @@
 package com.github.scribejava.apis.examples;
 
+import java.nio.file.Paths;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.LinkedInApi20;
+import com.github.scribejava.core.model.FileTokenStorage;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2CodeProvider;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -43,11 +45,13 @@ public abstract class LinkedIn20Example {
                 })
                 .build(LinkedInApi20.instance());
 
+        final FileTokenStorage tokenStorage = new FileTokenStorage(service, Paths.get("linkedin.token"));
+
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
         System.out.println();
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken();
+        final OAuth2AccessToken accessToken = tokenStorage.getOrGenerateToken();
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
