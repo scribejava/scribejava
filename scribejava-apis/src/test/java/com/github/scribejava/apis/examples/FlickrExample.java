@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public abstract class FlickrExample {
 
-    private static final String PROTECTED_RESOURCE_URL = "http://api.flickr.com/services/rest/";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.flickr.com/services/rest/";
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret
