@@ -21,7 +21,7 @@ Hit ScribeJava as hard and with many threads as you like.
 
 ### Async and other HTTP clients
 
-You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just add maven modules scribejava-httpclient-ning or scribejava-httpclient-ahc to your pom (not in maven central yet, wait for next relase after 2.8.1)
+You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just add maven modules scribejava-httpclient-ning or scribejava-httpclient-ahc to your pom
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
@@ -86,7 +86,7 @@ You can pull ScribeJava from the central maven repository, just add these to you
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-apis</artifactId>
-    <version>2.8.1</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -95,7 +95,7 @@ And in case you need just core classes (that's it, without any external API (FB,
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-core</artifactId>
-    <version>2.8.1</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
