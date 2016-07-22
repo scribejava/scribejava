@@ -24,7 +24,6 @@ public abstract class AbstractRequest {
     private final ParameterList querystringParams = new ParameterList();
     private final ParameterList bodyParams = new ParameterList();
     private final Map<String, String> headers = new HashMap<>();
-    private boolean connectionKeepAlive;
     private boolean followRedirects = true;
     private final OAuthService service;
 
@@ -262,9 +261,11 @@ public abstract class AbstractRequest {
      *
      * @see <a
      * href="http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html">http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html</a>
+     * @deprecated does nothing - JVM default is left untouched. Set {@code http.keepAlive} system property to
+     * {@code false} for pre-deprecation behavior.
      */
+    @Deprecated
     public void setConnectionKeepAlive(boolean connectionKeepAlive) {
-        this.connectionKeepAlive = connectionKeepAlive;
     }
 
     /**
@@ -278,10 +279,6 @@ public abstract class AbstractRequest {
      */
     public void setFollowRedirects(boolean followRedirects) {
         this.followRedirects = followRedirects;
-    }
-
-    public boolean isConnectionKeepAlive() {
-        return connectionKeepAlive;
     }
 
     public boolean isFollowRedirects() {

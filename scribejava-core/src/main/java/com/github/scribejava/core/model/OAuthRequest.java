@@ -60,7 +60,6 @@ public class OAuthRequest extends AbstractRequest {
     private void createConnection() throws IOException {
         final String completeUrl = getCompleteUrl();
         if (connection == null) {
-            System.setProperty("http.keepAlive", isConnectionKeepAlive() ? "true" : "false");
             connection = (HttpURLConnection) new URL(completeUrl).openConnection();
             connection.setInstanceFollowRedirects(isFollowRedirects());
         }
