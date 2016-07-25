@@ -34,7 +34,7 @@ You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just
 * Freelancer (https://www.freelancer.com/)
 * Genius (http://genius.com/)
 * GitHub (https://github.com/)
-* Google (https://www.google.ru/)
+* Google (https://www.google.com/)
 * HeadHunter ХэдХантер (https://hh.ru/)
 * Imgur (http://imgur.com/)
 * Kaixin 开心网 (http://www.kaixin001.com/)
