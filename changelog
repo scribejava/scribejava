@@ -1,3 +1,7 @@
+[SNAPSHOT]
+ * make ScribeJava compilable under jdk7 (checkstyle downgraded for jdk 1.7)
+ * add travis CI (check [oracle|open]jdk7 oraclejdk8)
+
 [3.0.0]
  * create abstract HTTP Client layer to support different HTTP clients as plugins (AHC and Ning support becames maven submodules)
  * remove changing global JVM property http.keepAlive, deprecate controlling this property inside of ScribeJava (thanks to wldaunfr and rockihack)
