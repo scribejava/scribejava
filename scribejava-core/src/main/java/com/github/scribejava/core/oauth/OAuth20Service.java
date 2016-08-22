@@ -34,7 +34,7 @@ public class OAuth20Service extends OAuthService {
 
     //sync version, protected to facilitate mocking
     protected OAuth2AccessToken sendAccessTokenRequestSync(OAuthRequest request) throws IOException {
-        return api.getAccessTokenExtractor().extract(request.send().getBody());
+        return api.getAccessTokenExtractor().extract(request.send());
     }
 
     //async version, protected to facilitate mocking
@@ -44,7 +44,7 @@ public class OAuth20Service extends OAuthService {
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth2AccessToken>() {
             @Override
             public OAuth2AccessToken convert(Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(response.getBody());
+                return getApi().getAccessTokenExtractor().extract(response);
             }
         });
     }

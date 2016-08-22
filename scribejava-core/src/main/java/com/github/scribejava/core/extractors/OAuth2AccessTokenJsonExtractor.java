@@ -1,9 +1,13 @@
 package com.github.scribejava.core.extractors;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuth2ErrorResponse;
+import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
@@ -16,6 +20,9 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
     private static final String EXPIRES_IN_REGEX = "\"expires_in\"\\s*:\\s*\"?(\\d*?)\"?\\D";
     private static final String REFRESH_TOKEN_REGEX = "\"refresh_token\"\\s*:\\s*\"(\\S*?)\"";
     private static final String SCOPE_REGEX = "\"scope\"\\s*:\\s*\"(\\S*?)\"";
+    private static final String ERROR_REGEX = "\"error\"\\s*:\\s*\"(\\S*?)\"";
+    private static final String ERROR_DESCRIPTION_REGEX = "\"error_description\"\\s*:\\s*\"([^\"]*?)\"";
+    private static final String ERROR_URI_REGEX = "\"error_uri\"\\s*:\\s*\"(\\S*?)\"";
 
     protected OAuth2AccessTokenJsonExtractor() {
     }
@@ -30,10 +37,34 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
     }
 
     @Override
-    public OAuth2AccessToken extract(String response) {
-        Preconditions.checkEmptyString(response,
+    public OAuth2AccessToken extract(Response response) throws IOException {
+        final String body = response.getBody();
+        Preconditions.checkEmptyString(body,
                 "Response body is incorrect. Can't extract a token from an empty string");
 
+        if (response.getCode() != 200) {
+            generateError(response.getBody());
+        }
+        return createToken(body);
+    }
+
+    // Related documentation: https://tools.ietf.org/html/rfc6749#section-5.2
+    private static void generateError(String response) {
+        final String errorInString = extractParameter(response, ERROR_REGEX, true);
+        final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX, false);
+        final String errorUriInString = extractParameter(response, ERROR_URI_REGEX, false);
+        URI errorUri;
+        try {
+            errorUri = errorUriInString == null ? null : URI.create(errorUriInString);
+        } catch (IllegalArgumentException iae) {
+            errorUri = null;
+        }
+
+        throw new OAuth2ErrorResponse(OAuth2ErrorResponse.OAuthError.valueOf(errorInString), errorDescription,
+                errorUri, response);
+    }
+
+    private OAuth2AccessToken createToken(String response) {
         final String accessToken = extractParameter(response, ACCESS_TOKEN_REGEX, true);
         final String tokenType = extractParameter(response, TOKEN_TYPE_REGEX, false);
         final String expiresInString = extractParameter(response, EXPIRES_IN_REGEX, false);
