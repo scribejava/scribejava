@@ -30,10 +30,8 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
             final int queryIndex = completeUrl.indexOf('?');
             if (queryIndex != -1) {
                 String[] params = completeUrl.substring(queryIndex + 1).split("&");
-                final String sigSource
-                        = URLDecoder.decode(collectParams(params), CharEncoding.UTF_8)
-                        + tokenDigest;
-                request.addQuerystringParameter("sig", md5Hex(sigSource));
+                final String sigSource = URLDecoder.decode(collectParams(params), CharEncoding.UTF_8)+ tokenDigest;
+                request.addQuerystringParameter("sig", md5Hex(sigSource).toLowerCase());
             }
 
             super.signRequest(accessToken, request);
@@ -58,7 +56,6 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
         for (Object o : mp.entrySet()) {
             Map.Entry pair = (Map.Entry) o;
             builder.append(pair.getValue());
-            builder.append(",");
         }
         return builder.toString();
     }
