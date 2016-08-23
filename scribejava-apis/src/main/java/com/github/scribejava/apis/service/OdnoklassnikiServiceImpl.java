@@ -29,7 +29,7 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
             final String completeUrl = request.getCompleteUrl();
             final int queryIndex = completeUrl.indexOf('?');
             if (queryIndex != -1) {
-                String[] params = completeUrl.substring(queryIndex + 1).split("&");
+                final String[] params = completeUrl.substring(queryIndex + 1).split("&");
                 final String sigSource = URLDecoder.decode(collectParams(params), CharEncoding.UTF_8)+ tokenDigest;
                 request.addQuerystringParameter("sig", md5Hex(sigSource).toLowerCase());
             }
@@ -41,9 +41,9 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
     }
 
     private String collectParams(String[] queryParams){
-        Map<String, String> paramsMap = new TreeMap<>();
+        final Map<String, String> paramsMap = new TreeMap<>();
         for(String param : queryParams) {
-            String[] splited = param.split("=");
+            final String[] splited = param.split("=");
             if (splited.length != 0) {
                 paramsMap.put(splited[0], param);
             }
@@ -52,9 +52,9 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
     }
 
     private String concatParams(Map mp) {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         for (Object o : mp.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
+            final Map.Entry pair = (Map.Entry) o;
             builder.append(pair.getValue());
         }
         return builder.toString();
