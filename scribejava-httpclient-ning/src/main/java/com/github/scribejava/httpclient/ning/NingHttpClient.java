@@ -23,6 +23,10 @@ public class NingHttpClient implements HttpClient {
                 : new AsyncHttpClient(ningAsyncHttpProviderClassName, ningConfig.getConfig());
     }
 
+    public NingHttpClient(AsyncHttpClient client) {
+        this.client = client;
+    }
+
     @Override
     public void close() {
         client.close();

@@ -29,8 +29,9 @@ public abstract class OAuthService {
         this.config = config;
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
         final HttpClient.Config httpClientConfig = config.getHttpClientConfig();
+        final HttpClient externalHttpClient = config.getHttpClient();
 
-        if (httpClientConfig == null) {
+        if (httpClientConfig == null && externalHttpClient == null) {
             if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
                 throw new OAuthException("Cannot use sync operations, only async");
             }
@@ -46,7 +47,7 @@ public abstract class OAuthService {
                 config.log("Cannot use async operations, only sync");
             }
 
-            httpClient = getClient(httpClientConfig);
+            httpClient = externalHttpClient == null ? getClient(httpClientConfig) : externalHttpClient;
         }
     }
 

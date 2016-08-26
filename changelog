@@ -1,4 +1,5 @@
 [SNAPSHOT]
+ * add posibility to use externally created http client
  * make ScribeJava compilable under jdk7 (checkstyle downgraded for jdk 1.7)
  * add travis CI (check [oracle|open]jdk7 oraclejdk8)
 

@@ -24,6 +24,10 @@ public class AhcHttpClient implements HttpClient {
         client = new DefaultAsyncHttpClient(ahcConfig.getClientConfig());
     }
 
+    public AhcHttpClient(DefaultAsyncHttpClient ahcClient) {
+        client = ahcClient;
+    }
+
     @Override
     public void close() throws IOException {
         client.close();

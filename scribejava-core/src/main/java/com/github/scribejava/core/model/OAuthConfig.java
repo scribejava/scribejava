@@ -24,14 +24,15 @@ public class OAuthConfig {
 
     //async version only
     private HttpClient.Config httpClientConfig;
+    private HttpClient httpClient;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
-            Integer readTimeout, HttpClient.Config httpClientConfig) {
+            Integer readTimeout, HttpClient.Config httpClientConfig, HttpClient httpClient) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -44,6 +45,7 @@ public class OAuthConfig {
         this.connectTimeout = connectTimeout;
         this.readTimeout = readTimeout;
         this.httpClientConfig = httpClientConfig;
+        this.httpClient = httpClient;
     }
 
     public String getApiKey() {
@@ -99,5 +101,9 @@ public class OAuthConfig {
 
     public HttpClient.Config getHttpClientConfig() {
         return httpClientConfig;
+    }
+
+    public HttpClient getHttpClient() {
+        return httpClient;
     }
 }

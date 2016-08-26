@@ -31,6 +31,7 @@ public class ServiceBuilder {
 
     //not-default httpclient only
     private HttpClient.Config httpClientConfig;
+    private HttpClient httpClient;
 
     public ServiceBuilder() {
         callback = OAuthConstants.OUT_OF_BAND;
@@ -139,6 +140,17 @@ public class ServiceBuilder {
         return this;
     }
 
+    /**
+     * takes precedence over httpClientConfig
+     *
+     * @param httpClient externally created HTTP client
+     * @return the {@link ServiceBuilder} instance for method chaining
+     */
+    public ServiceBuilder httpClient(HttpClient httpClient) {
+        this.httpClient = httpClient;
+        return this;
+    }
+
     public ServiceBuilder userAgent(String userAgent) {
         this.userAgent = userAgent;
         return this;
@@ -156,7 +168,7 @@ public class ServiceBuilder {
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
-                userAgent, connectTimeout, readTimeout, httpClientConfig);
+                userAgent, connectTimeout, readTimeout, httpClientConfig, httpClient);
     }
 
     /**
