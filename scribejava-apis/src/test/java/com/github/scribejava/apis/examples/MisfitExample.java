@@ -11,11 +11,14 @@ import java.io.IOException;
 
 import java.util.Scanner;
 
-public abstract class MisfitExample {
+public final class MisfitExample {
 
     private static final String NETWORK_NAME = "Misfit";
     private static final String PROTECTED_RESOURCE_URL
             = "https://api.misfitwearables.com/move/resource/v1/user/me/profile";
+
+    private MisfitExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

@@ -11,10 +11,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class DiggExample {
+public final class DiggExample {
 
     private static final String NETWORK_NAME = "Digg";
     private static final String PROTECTED_RESOURCE_URL = "http://services.digg.com/2.0/comment.digg";
+
+    private DiggExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

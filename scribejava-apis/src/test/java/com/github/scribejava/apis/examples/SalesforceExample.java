@@ -15,9 +15,12 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
-public abstract class SalesforceExample {
+public final class SalesforceExample {
 
     private static final String NETWORK_NAME = "Salesforce";
+
+    private SalesforceExample() {
+    }
 
     public static void main(String... args) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         // Replace these with your client id and secret

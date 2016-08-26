@@ -13,11 +13,14 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class MailruAsyncExample {
+public final class MailruAsyncExample {
 
     private static final String NETWORK_NAME = "Mail.ru";
     private static final String PROTECTED_RESOURCE_URL
             = "http://www.appsmail.ru/platform/api?method=users.getInfo&secure=1";
+
+    private MailruAsyncExample() {
+    }
 
     public static void main(String... args) throws InterruptedException, ExecutionException, IOException {
         // Replace these with your client id and secret

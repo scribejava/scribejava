@@ -11,10 +11,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class SohuWeiboExample {
+public final class SohuWeiboExample {
 
     private static final String NETWORK_NAME = "SohuWeibo";
     private static final String PROTECTED_RESOURCE_URL = "http://api.t.sohu.com/account/verify_credentials.json";
+
+    private SohuWeiboExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

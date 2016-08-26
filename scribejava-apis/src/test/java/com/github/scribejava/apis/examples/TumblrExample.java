@@ -11,9 +11,12 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class TumblrExample {
+public final class TumblrExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.tumblr.com/v2/user/info";
+
+    private TumblrExample() {
+    }
 
     public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()

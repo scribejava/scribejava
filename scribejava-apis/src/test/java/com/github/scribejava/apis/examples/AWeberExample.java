@@ -11,13 +11,16 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class AWeberExample {
+public final class AWeberExample {
 
     //To get your consumer key/secret, and view API docs, see https://labs.aweber.com/docs
     private static final String ACCOUNT_RESOURCE_URL = "https://api.aweber.com/1.0/accounts/";
 
     private static final String CONSUMER_KEY = "";
     private static final String CONSUMER_SECRET = "";
+
+    private AWeberExample() {
+    }
 
     public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()

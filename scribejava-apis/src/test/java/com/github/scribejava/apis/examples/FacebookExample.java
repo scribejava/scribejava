@@ -11,10 +11,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class FacebookExample {
+public final class FacebookExample {
 
     private static final String NETWORK_NAME = "Facebook";
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.6/me";
+
+    private FacebookExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your client id and secret

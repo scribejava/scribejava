@@ -11,10 +11,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class NeteaseWeiboExample {
+public final class NeteaseWeiboExample {
 
     private static final String NETWORK_NAME = "NetEase(163.com) Weibo";
     private static final String PROTECTED_RESOURCE_URL = "http://api.t.163.com/account/verify_credentials.json";
+
+    private NeteaseWeiboExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

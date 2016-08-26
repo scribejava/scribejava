@@ -11,9 +11,12 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class Px500Example {
+public final class Px500Example {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.500px.com/v1/";
+
+    private Px500Example() {
+    }
 
     public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()

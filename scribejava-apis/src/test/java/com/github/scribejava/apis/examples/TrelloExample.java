@@ -11,11 +11,14 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class TrelloExample {
+public final class TrelloExample {
 
     private static final String API_KEY = "your_api_key";
     private static final String API_SECRET = "your_api_secret";
     private static final String PROTECTED_RESOURCE_URL = "https://trello.com/1/members/me";
+
+    private TrelloExample() {
+    }
 
     public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()

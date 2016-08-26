@@ -11,9 +11,12 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class TwitterExample {
+public final class TwitterExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.twitter.com/1.1/account/verify_credentials.json";
+
+    private TwitterExample() {
+    }
 
     public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()

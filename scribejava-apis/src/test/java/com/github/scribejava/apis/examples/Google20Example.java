@@ -13,10 +13,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Google20Example {
+public final class Google20Example {
 
     private static final String NETWORK_NAME = "G+";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
+
+    private Google20Example() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your client id and secret

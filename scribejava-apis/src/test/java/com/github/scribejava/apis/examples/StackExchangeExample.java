@@ -12,10 +12,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class StackExchangeExample {
+public final class StackExchangeExample {
 
     private static final String NETWORK_NAME = "Stack Exchange";
     private static final String PROTECTED_RESOURCE_URL = "https://api.stackexchange.com/2.2/me";
+
+    private StackExchangeExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your client id, secret, application key and

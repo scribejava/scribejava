@@ -10,10 +10,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class ViadeoExample {
+public final class ViadeoExample {
 
     private static final String NETWORK_NAME = "Viadeo";
     private static final String PROTECTED_RESOURCE_URL = "https://api.viadeo.com/me?user_detail=full";
+
+    private ViadeoExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

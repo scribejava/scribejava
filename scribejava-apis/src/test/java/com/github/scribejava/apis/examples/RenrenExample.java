@@ -19,10 +19,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class RenrenExample {
+public final class RenrenExample {
 
     private static final String NETWORK_NAME = "Renren";
     private static final String PROTECTED_RESOURCE_URL = "http://api.renren.com/restserver.do";
+
+    private RenrenExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

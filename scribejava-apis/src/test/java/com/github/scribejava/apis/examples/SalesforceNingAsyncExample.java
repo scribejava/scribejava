@@ -21,9 +21,12 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
-public abstract class SalesforceNingAsyncExample {
+public final class SalesforceNingAsyncExample {
 
     private static final String NETWORK_NAME = "Salesforce";
+
+    private SalesforceNingAsyncExample() {
+    }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static void main(String... args) throws InterruptedException, ExecutionException,

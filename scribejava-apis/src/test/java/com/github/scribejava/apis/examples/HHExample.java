@@ -12,10 +12,13 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class HHExample {
+public final class HHExample {
 
     private static final String NETWORK_NAME = "hh.ru";
     private static final String PROTECTED_RESOURCE_URL = "https://api.hh.ru/me";
+
+    private HHExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own client id and secret

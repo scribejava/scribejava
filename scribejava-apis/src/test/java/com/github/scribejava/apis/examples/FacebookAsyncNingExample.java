@@ -16,10 +16,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class FacebookAsyncNingExample {
+public final class FacebookAsyncNingExample {
 
     private static final String NETWORK_NAME = "Facebook";
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.6/me";
+
+    private FacebookAsyncNingExample() {
+    }
 
     public static void main(String... args) throws InterruptedException, ExecutionException, IOException {
         // Replace these with your client id and secret

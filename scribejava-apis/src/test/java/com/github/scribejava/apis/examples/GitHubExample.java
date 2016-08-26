@@ -11,10 +11,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class GitHubExample {
+public final class GitHubExample {
 
     private static final String NETWORK_NAME = "GitHub";
     private static final String PROTECTED_RESOURCE_URL = "https://api.github.com/user";
+
+    private GitHubExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your client id and secret

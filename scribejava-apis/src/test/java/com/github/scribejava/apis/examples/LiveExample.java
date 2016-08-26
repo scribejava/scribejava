@@ -10,10 +10,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class LiveExample {
+public final class LiveExample {
 
     private static final String PROTECTED_RESOURCE_URL
             = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
+
+    private LiveExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

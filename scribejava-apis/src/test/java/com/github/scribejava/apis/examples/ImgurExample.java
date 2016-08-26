@@ -11,10 +11,13 @@ import java.io.IOException;
 
 import java.util.Scanner;
 
-public abstract class ImgurExample {
+public final class ImgurExample {
 
     private static final String NETWORK_NAME = "Imgur";
     private static final String PROTECTED_RESOURCE_URL = "https://api.imgur.com/3/account/me";
+
+    private ImgurExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

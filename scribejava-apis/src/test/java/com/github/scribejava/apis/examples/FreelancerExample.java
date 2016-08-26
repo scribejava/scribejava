@@ -12,13 +12,16 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class FreelancerExample {
+public final class FreelancerExample {
 
     private static final String NETWORK_NAME = "Freelancer";
     private static final String AUTHORIZE_URL
             = "http://www.sandbox.freelancer.com/users/api-token/auth.php?oauth_token=";
     private static final String PROTECTED_RESOURCE_URL = "http://api.sandbox.freelancer.com/Job/getJobList.json";
     private static final String SCOPE = "http://api.sandbox.freelancer.com";
+
+    private FreelancerExample() {
+    }
 
     public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()

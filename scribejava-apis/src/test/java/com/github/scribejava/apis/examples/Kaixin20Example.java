@@ -10,10 +10,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public abstract class Kaixin20Example {
+public final class Kaixin20Example {
 
     private static final String NETWORK_NAME = "Kaixin";
     private static final String PROTECTED_RESOURCE_URL = "https://api.kaixin001.com/users/me.json";
+
+    private Kaixin20Example() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

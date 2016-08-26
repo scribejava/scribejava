@@ -11,10 +11,13 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class LinkedInExampleWithScopes {
+public final class LinkedInExampleWithScopes {
 
     private static final String PROTECTED_RESOURCE_URL
             = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
+
+    private LinkedInExampleWithScopes() {
+    }
 
     public static void main(String... args) throws IOException {
         //  Replace these with your client id and secret

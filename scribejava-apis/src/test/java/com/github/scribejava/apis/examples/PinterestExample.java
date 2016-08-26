@@ -11,9 +11,12 @@ import java.io.IOException;
 
 import java.util.Scanner;
 
-public abstract class PinterestExample {
+public final class PinterestExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.pinterest.com/v1/me/?access_token?access_token=";
+
+    private PinterestExample() {
+    }
 
     public static void main(String... args) throws IOException {
         // Replace these with your own api key and secret

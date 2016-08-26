@@ -11,9 +11,12 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 
-public abstract class XingExample {
+public final class XingExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.xing.com/v1/users/me";
+
+    private XingExample() {
+    }
 
     public static void main(String... args) throws IOException {
         final OAuth10aService service = new ServiceBuilder()
