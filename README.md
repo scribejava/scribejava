@@ -1,4 +1,4 @@
-# Welcome to the home of ScribeJava, the simple OAuth Java lib!
+# Welcome to the home of ScribeJava, the simple OAuth client Java lib!
 
 [![Build Status](https://travis-ci.org/scribejava/scribejava.svg?branch=master)](https://travis-ci.org/scribejava/scribejava)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava)
@@ -18,6 +18,8 @@ OAuthService service = new ServiceBuilder()
 ```
 
 That **single line** (added newlines for readability) is the only thing you need to configure ScribeJava with LinkedIn's OAuth API for example.
+
+Working runnable examples are [here](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
 
 ### Threadsafe
 
