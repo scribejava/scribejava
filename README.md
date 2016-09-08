@@ -93,7 +93,7 @@ You can pull ScribeJava from the central maven repository, just add these to you
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-apis</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
 </dependency>
 ```
 
@@ -102,7 +102,7 @@ And in case you need just core classes (that's it, without any external API (FB,
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-core</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
 </dependency>
 ```
 
