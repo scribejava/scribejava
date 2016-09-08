@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuth2ErrorResponse;
+import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -48,7 +48,9 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
         return createToken(body);
     }
 
-    // Related documentation: https://tools.ietf.org/html/rfc6749#section-5.2
+    /**
+     * Related documentation: https://tools.ietf.org/html/rfc6749#section-5.2
+     */
     private static void generateError(String response) {
         final String errorInString = extractParameter(response, ERROR_REGEX, true);
         final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX, false);
@@ -60,8 +62,8 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
             errorUri = null;
         }
 
-        throw new OAuth2ErrorResponse(OAuth2ErrorResponse.OAuthError.valueOf(errorInString), errorDescription,
-                errorUri, response);
+        throw new OAuth2AccessTokenErrorResponse(OAuth2AccessTokenErrorResponse.ErrorCode.valueOf(errorInString),
+                errorDescription, errorUri, response);
     }
 
     private OAuth2AccessToken createToken(String response) {

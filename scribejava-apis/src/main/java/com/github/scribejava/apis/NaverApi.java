@@ -17,10 +17,12 @@ public class NaverApi extends DefaultApi20 {
         return NaverApi.InstanceHolder.INSTANCE;
     }
 
+    @Override
     public String getAccessTokenEndpoint() {
         return "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code";
     }
 
+    @Override
     protected String getAuthorizationBaseUrl() {
         return "https://nid.naver.com/oauth2.0/authorize";
     }

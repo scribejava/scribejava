@@ -15,8 +15,9 @@ public interface TokenExtractor<T extends Token> {
     /**
      * Extracts the concrete type of token from the contents of an Http Response
      *
-     * @param response the contents of the response
+     * @param response the whole response
      * @return OAuth access token
+     * @throws java.io.IOException in case of troubles while getting body from the response
      */
     T extract(Response response) throws IOException, OAuthException;
 }

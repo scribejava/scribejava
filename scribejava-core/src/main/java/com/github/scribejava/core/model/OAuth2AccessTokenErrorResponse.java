@@ -7,34 +7,33 @@ import java.net.URI;
 /**
  * Representing <a href="https://tools.ietf.org/html/rfc6749#section-5.2">"5.2. Error Response"</a>
  */
-public class OAuth2ErrorResponse extends OAuthException {
+public class OAuth2AccessTokenErrorResponse extends OAuthException {
 
-    public enum OAuthError {
+    private static final long serialVersionUID = 2309424849700276816L;
+
+    public enum ErrorCode {
         invalid_request, invalid_client, invalid_grant, unauthorized_client, unsupported_grant_type, invalid_scope
     }
 
-    private final OAuthError error;
+    private final ErrorCode errorCode;
     private final String errorDescription;
     private final URI errorUri;
     private final String rawResponse;
 
-    public OAuth2ErrorResponse(OAuthError error, String errorDescription, URI errorUri, String rawResponse) {
-        super(generateMessage(error, errorDescription, errorUri, rawResponse));
-        if (error == null) {
-            throw new IllegalArgumentException("error must not be null");
+    public OAuth2AccessTokenErrorResponse(ErrorCode errorCode, String errorDescription, URI errorUri,
+            String rawResponse) {
+        super(rawResponse);
+        if (errorCode == null) {
+            throw new IllegalArgumentException("errorCode must not be null");
         }
-        this.error = error;
+        this.errorCode = errorCode;
         this.errorDescription = errorDescription;
         this.errorUri = errorUri;
         this.rawResponse = rawResponse;
     }
 
-    private static String generateMessage(OAuthError error, String errorDescription, URI errorUri, String rawResponse) {
-        return rawResponse;
-    }
-
-    public OAuthError getError() {
-        return error;
+    public ErrorCode getErrorCode() {
+        return errorCode;
     }
 
     public String getErrorDescription() {
