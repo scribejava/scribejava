@@ -48,7 +48,7 @@ public class OAuth10aService extends OAuthService {
 
         config.log("response status code: " + response.getCode());
         config.log("response body: " + body);
-        return api.getRequestTokenExtractor().extract(body);
+        return api.getRequestTokenExtractor().extract(response);
     }
 
     public final Future<OAuth1RequestToken> getRequestTokenAsync(
@@ -61,7 +61,7 @@ public class OAuth10aService extends OAuthService {
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1RequestToken>() {
             @Override
             public OAuth1RequestToken convert(Response response) throws IOException {
-                return getApi().getRequestTokenExtractor().extract(response.getBody());
+                return getApi().getRequestTokenExtractor().extract(response);
             }
         });
     }
@@ -97,7 +97,7 @@ public class OAuth10aService extends OAuthService {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
         prepareAccessTokenRequest(request, requestToken, oauthVerifier);
         final Response response = request.send();
-        return api.getAccessTokenExtractor().extract(response.getBody());
+        return api.getAccessTokenExtractor().extract(response);
     }
 
     /**
@@ -119,7 +119,7 @@ public class OAuth10aService extends OAuthService {
         return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1AccessToken>() {
             @Override
             public OAuth1AccessToken convert(Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(response.getBody());
+                return getApi().getAccessTokenExtractor().extract(response);
             }
         });
     }

@@ -1,9 +1,11 @@
 package com.github.scribejava.core.extractors;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -34,23 +36,24 @@ public class OAuth2AccessTokenExtractor implements TokenExtractor<OAuth2AccessTo
      * {@inheritDoc}
      */
     @Override
-    public OAuth2AccessToken extract(String response) {
-        Preconditions.checkEmptyString(response,
+    public OAuth2AccessToken extract(Response response) throws IOException {
+        final String body = response.getBody();
+        Preconditions.checkEmptyString(body,
                 "Response body is incorrect. Can't extract a token from an empty string");
 
-        final String accessToken = extractParameter(response, ACCESS_TOKEN_REGEX, true);
-        final String tokenType = extractParameter(response, TOKEN_TYPE_REGEX, false);
-        final String expiresInString = extractParameter(response, EXPIRES_IN_REGEX, false);
+        final String accessToken = extractParameter(body, ACCESS_TOKEN_REGEX, true);
+        final String tokenType = extractParameter(body, TOKEN_TYPE_REGEX, false);
+        final String expiresInString = extractParameter(body, EXPIRES_IN_REGEX, false);
         Integer expiresIn;
         try {
             expiresIn = expiresInString == null ? null : Integer.valueOf(expiresInString);
         } catch (NumberFormatException nfe) {
             expiresIn = null;
         }
-        final String refreshToken = extractParameter(response, REFRESH_TOKEN_REGEX, false);
-        final String scope = extractParameter(response, SCOPE_REGEX, false);
+        final String refreshToken = extractParameter(body, REFRESH_TOKEN_REGEX, false);
+        final String scope = extractParameter(body, SCOPE_REGEX, false);
 
-        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, response);
+        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, body);
     }
 
     private static String extractParameter(String response, String regex, boolean required) throws OAuthException {

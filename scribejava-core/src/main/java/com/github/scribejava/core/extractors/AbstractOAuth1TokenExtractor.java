@@ -1,9 +1,11 @@
 package com.github.scribejava.core.extractors;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth1Token;
+import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -23,12 +25,13 @@ public abstract class AbstractOAuth1TokenExtractor<T extends OAuth1Token> implem
      * {@inheritDoc}
      */
     @Override
-    public T extract(String response) {
-        Preconditions.checkEmptyString(response,
+    public T extract(Response response) throws IOException {
+        final String body = response.getBody();
+        Preconditions.checkEmptyString(body,
                 "Response body is incorrect. Can't extract a token from an empty string");
-        final String token = extract(response, Pattern.compile(OAUTH_TOKEN_REGEXP));
-        final String secret = extract(response, Pattern.compile(OAUTH_TOKEN_SECRET_REGEXP));
-        return createToken(token, secret, response);
+        final String token = extract(body, Pattern.compile(OAUTH_TOKEN_REGEXP));
+        final String secret = extract(body, Pattern.compile(OAUTH_TOKEN_SECRET_REGEXP));
+        return createToken(token, secret, body);
     }
 
     private String extract(String response, Pattern p) {
