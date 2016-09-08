@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * Add Naver API
+
 [3.1.0]
  * fix OdnoklassnikiServiceImpl signature, params for hash must be sorted in lexicographic order, see http://new.apiok.ru/dev/methods/
  * add posibility to use externally created http client

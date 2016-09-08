@@ -48,6 +48,7 @@ You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just
 * Microsoft Live (https://login.live.com/)
 * Mail.Ru (https://mail.ru/)
 * Meetup (http://www.meetup.com/)
+* NAVER (http://www.naver.com/)
 * NetEase (http://www.163.com/)
 * Odnoklassniki Одноклассники (http://ok.ru/)
 * Pinterest (https://www.pinterest.com/)
