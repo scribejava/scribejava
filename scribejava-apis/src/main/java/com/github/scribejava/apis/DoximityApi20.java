@@ -22,9 +22,6 @@ public class DoximityApi20 extends DefaultApi20 {
         return InstanceHolder.INSTANCE;
     }
 
-    private static final String AUTHORIZE_URL = "https://auth.doximity.com/oauth/authorize?";
-
-
     @Override
     public String getAccessTokenEndpoint() {
         return "https://auth.doximity.com/oauth/token?grant_type=authorization_code";
@@ -57,7 +54,7 @@ public class DoximityApi20 extends DefaultApi20 {
             parameters.add(OAuthConstants.STATE, state);
         }
 
-        return parameters.appendTo(AUTHORIZE_URL);
+        return parameters.appendTo("https://auth.doximity.com/oauth/authorize?");
     }
 
     @Override

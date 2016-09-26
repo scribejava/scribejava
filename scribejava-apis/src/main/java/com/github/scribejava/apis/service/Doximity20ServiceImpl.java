@@ -22,7 +22,7 @@ public class Doximity20ServiceImpl extends OAuth20Service {
 
     @Override
     protected <T extends AbstractRequest> T createAccessTokenRequest(String oauthVerrifier, T request) {
-        super.createAccessTokenRequest(oauthVerrifier,request);
+        super.createAccessTokenRequest(oauthVerrifier, request);
         request.addParameter(OAuthConstants.GRANT_TYPE, "authorization_code");
         return request;
     }
