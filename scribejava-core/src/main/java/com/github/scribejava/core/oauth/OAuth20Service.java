@@ -56,6 +56,19 @@ public class OAuth20Service extends OAuthService {
         return sendAccessTokenRequestSync(request);
     }
 
+    public final OAuth2AccessToken getAccessToken(String code, Map<String, String> additionalParams) throws IOException {
+        final OAuthRequest request = createAccessTokenRequest(code,
+                new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
+
+        if(null != additionalParams && !additionalParams.isEmpty()){
+            for(Map.Entry<String, String> entry: additionalParams.entrySet()){
+                request.addParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return sendAccessTokenRequestSync(request);
+    }
+
     /**
      * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
      * when it is available.
