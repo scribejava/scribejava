@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.utils.StreamUtils;
 
@@ -48,8 +50,13 @@ public class Response {
 
     private Map<String, String> parseHeaders(HttpURLConnection conn) {
         final Map<String, String> headers = new HashMap<>();
-        for (String key : conn.getHeaderFields().keySet()) {
-            headers.put(key, conn.getHeaderFields().get(key).get(0));
+        for (final Entry<String, List<String>> entry : conn.getHeaderFields().entrySet()) {
+            final String key = entry.getKey();
+            if ("Content-Encoding".equalsIgnoreCase(key)) {
+                headers.put("Content-Encoding", entry.getValue().get(0));
+            } else {
+                headers.put(key, entry.getValue().get(0));
+            }
         }
         return headers;
     }
