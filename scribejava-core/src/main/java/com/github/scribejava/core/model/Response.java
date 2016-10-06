@@ -50,7 +50,7 @@ public class Response {
 
     private Map<String, String> parseHeaders(HttpURLConnection conn) {
         final Map<String, String> headers = new HashMap<>();
-        for (final Entry<String, List<String>> entry : conn.getHeaderFields().entrySet()) {
+        for (Entry<String, List<String>> entry : conn.getHeaderFields().entrySet()) {
             final String key = entry.getKey();
             if ("Content-Encoding".equalsIgnoreCase(key)) {
                 headers.put("Content-Encoding", entry.getValue().get(0));
