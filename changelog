@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * update Facebook v2.6 -> v2.8
+
 [3.2.0]
  * Add Naver API (thanks to chooco)
  * handle OAuth2 error response for Issuing an Access Token (thanks to juherr)
