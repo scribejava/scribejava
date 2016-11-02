@@ -1,7 +1,6 @@
 package com.github.scribejava.apis.examples;
 
 import com.github.scribejava.apis.TheThingsNetworkV1StagingApi;
-import com.github.scribejava.apis.TheThingsNetworkV2PreviewApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -90,11 +89,9 @@ public final class TTNV1Example {
         System.out.println();
         System.out.println(response.getCode());
 
-        if(response.getCode()==401)
-        {
+        if(response.getCode()==401) {
             System.out.println("Not authorised: "+response.getBody());
-        }
-        else {
+        } else {
             System.out.println("You should see a JSON array of your registered applications:");
             System.out.println(response.getBody());
 

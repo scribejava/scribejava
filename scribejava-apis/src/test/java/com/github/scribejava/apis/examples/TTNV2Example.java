@@ -9,14 +9,14 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.Random;
 import java.util.Scanner;
 
 public final class TTNV2Example {
 
     private static final String NETWORK_NAME = "TTNv2preview";
-    private static final String PROTECTED_RESOURCE_URL = "https://preview.account.thethingsnetwork.org/api/v2/applications";
+    private static final String PROTECTED_RESOURCE_URL = 
+            "https://preview.account.thethingsnetwork.org/api/v2/applications";
 
     private TTNV2Example() {
     }
@@ -86,11 +86,9 @@ public final class TTNV2Example {
         System.out.println();
         System.out.println(response.getCode());
 
-        if(response.getCode()==401)
-        {
+        if(response.getCode()==401) {
             System.out.println("Not authorised: "+response.getBody());
-        }
-        else {
+        } else {
             System.out.println("You should see a JSON array of your registered applications:");
             System.out.println(response.getBody());
 
