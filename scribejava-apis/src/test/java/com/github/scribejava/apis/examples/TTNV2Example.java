@@ -15,7 +15,7 @@ import java.util.Scanner;
 public final class TTNV2Example {
 
     private static final String NETWORK_NAME = "TTNv2preview";
-    private static final String PROTECTED_RESOURCE_URL = 
+    private static final String PROTECTED_RESOURCE_URL =
             "https://preview.account.thethingsnetwork.org/api/v2/applications";
 
     private TTNV2Example() {
