@@ -24,7 +24,7 @@ public final class Box20Example {
     public static void main(String... args) throws IOException {
         //Replace these with your client id and secret
         final String clientId = "your client id";
-        final string clientSecret = "your client secret";
+        final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
