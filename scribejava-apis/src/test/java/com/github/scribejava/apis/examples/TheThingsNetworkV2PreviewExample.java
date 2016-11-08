@@ -12,13 +12,13 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
-public final class TTNV2Example {
+public final class TheThingsNetworkV2PreviewExample {
 
     private static final String NETWORK_NAME = "TTNv2preview";
     private static final String PROTECTED_RESOURCE_URL =
             "https://preview.account.thethingsnetwork.org/api/v2/applications";
 
-    private TTNV2Example() {
+    private TheThingsNetworkV2PreviewExample() {
     }
 
     public static void main(String... args) throws IOException {

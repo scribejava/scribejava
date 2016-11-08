@@ -13,12 +13,12 @@ import java.net.URLDecoder;
 import java.util.Random;
 import java.util.Scanner;
 
-public final class TTNV1Example {
+public final class TheThingsNetworkV1StagingExample {
 
     private static final String NETWORK_NAME = "TTNv1staging";
     private static final String PROTECTED_RESOURCE_URL = "https://account.thethingsnetwork.org/applications";
 
-    private TTNV1Example() {
+    private TheThingsNetworkV1StagingExample() {
     }
 
     public static void main(String... args) throws IOException {
