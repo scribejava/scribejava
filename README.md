@@ -59,6 +59,7 @@ You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just
 * Skyrock (http://skyrock.com/)
 * sohu 搜狐 (http://www.sohu.com/)
 * StackExchange (http://stackexchange.com/)
+* The Things Network (v1-staging and v2-preview) (https://www.thethingsnetwork.org/)
 * Trello (https://trello.com/)
 * Tumblr (https://www.tumblr.com/)
 * TUT.BY (http://www.tut.by/)
