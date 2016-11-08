@@ -32,6 +32,7 @@ You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
 * AWeber (http://www.aweber.com/)
+* Box (https://www.box.com/)
 * Digg (http://digg.com/)
 * Доктор на работе (http://www.doktornarabote.ru/)
 * Facebook (https://www.facebook.com/)
