@@ -88,7 +88,7 @@ public class OAuth20Service extends OAuthService {
 
     public final OAuth2AccessToken refreshAccessToken(String refreshToken) throws IOException {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken,
-                new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this));
+                new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint(), this));
 
         return sendAccessTokenRequestSync(request);
     }
