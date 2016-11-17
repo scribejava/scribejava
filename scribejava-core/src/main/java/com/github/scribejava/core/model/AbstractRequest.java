@@ -25,7 +25,7 @@ public abstract class AbstractRequest {
     private final ParameterList bodyParams = new ParameterList();
     private final Map<String, String> headers = new HashMap<>();
     private boolean followRedirects = true;
-    private final OAuthService service;
+    private final OAuthService<?> service;
 
     private String payload;
     private String charset;
@@ -41,7 +41,7 @@ public abstract class AbstractRequest {
      * @param url resource URL
      * @param service OAuthService
      */
-    public AbstractRequest(Verb verb, String url, OAuthService service) {
+    public AbstractRequest(Verb verb, String url, OAuthService<?> service) {
         this.verb = verb;
         this.url = url;
         this.service = service;
@@ -285,7 +285,7 @@ public abstract class AbstractRequest {
         return followRedirects;
     }
 
-    public OAuthService getService() {
+    public OAuthService<?> getService() {
         return service;
     }
 }

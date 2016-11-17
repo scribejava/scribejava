@@ -2,12 +2,14 @@ package com.github.scribejava.core.oauth;
 
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.httpclient.HttpClientProvider;
+import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.ScribeJavaConfig;
+import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ import java.util.concurrent.Future;
  *
  * A facade responsible for the retrieval of request and access tokens and for the signing of HTTP requests.
  */
-public abstract class OAuthService {
+public abstract class OAuthService<T extends Token> {
 
     private final OAuthConfig config;
     private final HttpClient httpClient;
@@ -75,6 +77,8 @@ public abstract class OAuthService {
      * @return OAuth version as string
      */
     public abstract String getVersion();
+
+    public abstract void signRequest(T token, AbstractRequest request);
 
     public <T> Future<T> executeAsync(Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback,

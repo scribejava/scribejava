@@ -14,7 +14,7 @@ public class RequestTest {
     private OAuthRequest getRequest;
     private OAuthRequest postRequest;
     private ConnectionStub connection;
-    private OAuthService oAuthService;
+    private OAuthService<?> oAuthService;
 
     @Before
     public void setUp() throws MalformedURLException {

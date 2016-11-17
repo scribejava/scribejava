@@ -16,7 +16,7 @@ import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import java.util.Map;
 
-public class OAuth20Service extends OAuthService {
+public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
     private static final String VERSION = "2.0";
     private final DefaultApi20 api;
@@ -169,6 +169,7 @@ public class OAuth20Service extends OAuthService {
         return VERSION;
     }
 
+    @Override
     public void signRequest(OAuth2AccessToken accessToken, AbstractRequest request) {
         request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken());
     }

@@ -12,7 +12,7 @@ public class OAuthRequest extends AbstractRequest {
 
     private HttpURLConnection connection;
 
-    public OAuthRequest(Verb verb, String url, OAuthService service) {
+    public OAuthRequest(Verb verb, String url, OAuthService<?> service) {
         super(verb, url, service);
     }
 

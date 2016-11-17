@@ -8,7 +8,7 @@ import java.util.concurrent.Future;
 
 public class OAuthRequestAsync extends AbstractRequest {
 
-    public OAuthRequestAsync(Verb verb, String url, OAuthService service) {
+    public OAuthRequestAsync(Verb verb, String url, OAuthService<?> service) {
         super(verb, url, service);
     }
 
@@ -17,7 +17,7 @@ public class OAuthRequestAsync extends AbstractRequest {
         if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
             throw new OAuthException("Cannot use async operations, only sync");
         }
-        final OAuthService service = getService();
+        final OAuthService<?> service = getService();
         final OAuthConfig config = service.getConfig();
         if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
             config.log("Cannot use async operations, only sync");
