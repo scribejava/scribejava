@@ -2,6 +2,7 @@
  * update Facebook v2.6 -> v2.8
  * add The Things Network API (v1-staging and v2-preview) (thanks to https://github.com/jpmeijers)
  * add Box (thanks to https://github.com/MclaughlinSteve)
+ * fix: OAuth20Service::refreshAccessToken should use RefreshTokenEndpoint, not AccessTokenEndpoint (thanks to https://github.com/vivin)
 
 [3.2.0]
  * Add Naver API (thanks to chooco)
