@@ -4,6 +4,7 @@
  * add Box (thanks to https://github.com/MclaughlinSteve)
  * fix: OAuth20Service::refreshAccessToken should use RefreshTokenEndpoint, not AccessTokenEndpoint (thanks to https://github.com/vivin)
  * move signRequest method to OAuthService (common for OAuth1 and OAuth2) (thanks to https://github.com/apomelov)
+ * drop deprecated setConnectionKeepAlive method
 
 [3.2.0]
  * Add Naver API (thanks to chooco)

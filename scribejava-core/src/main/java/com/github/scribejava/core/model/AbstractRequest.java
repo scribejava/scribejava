@@ -255,20 +255,6 @@ public abstract class AbstractRequest {
     }
 
     /**
-     * Sets whether the underlying Http Connection is persistent or not.
-     *
-     * @param connectionKeepAlive boolean
-     *
-     * @see <a
-     * href="http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html">http://download.oracle.com/javase/1.5.0/docs/guide/net/http-keepalive.html</a>
-     * @deprecated does nothing - JVM default is left untouched. Set {@code http.keepAlive} system property to
-     * {@code false} for pre-deprecation behavior.
-     */
-    @Deprecated
-    public void setConnectionKeepAlive(boolean connectionKeepAlive) {
-    }
-
-    /**
      * Sets whether the underlying Http Connection follows redirects or not.
      *
      * Defaults to true (follow redirects)

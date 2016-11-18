@@ -21,6 +21,7 @@ import java.util.concurrent.Future;
  * The main ScribeJava object.
  *
  * A facade responsible for the retrieval of request and access tokens and for the signing of HTTP requests.
+ * @param <T> type of token used to sign the request
  */
 public abstract class OAuthService<T extends Token> {
 
