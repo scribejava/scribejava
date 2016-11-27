@@ -22,7 +22,8 @@ public class OAuthRequestAsync extends AbstractRequest {
         if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
             config.log("Cannot use async operations, only sync");
         }
-        return service.executeAsync(getHeaders(), getVerb(), getCompleteUrl(), getBodyContents(), callback, converter);
+        return service.executeAsync(getHeaders(), getVerb(), getCompleteUrl(), this.getByteBodyContents(),
+                callback, converter);
     }
 
     public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback) {
