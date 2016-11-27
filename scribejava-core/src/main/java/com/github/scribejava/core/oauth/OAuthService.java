@@ -87,4 +87,11 @@ public abstract class OAuthService<T extends Token> {
         return httpClient.executeAsync(config.getUserAgent(), headers, httpVerb,
                     completeUrl, bodyContents, callback, converter);
     }
+
+    public <T> Future<T> executeAsync(Map<String, String> headers, Verb httpVerb, String completeUrl,
+                                      byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
+                                      OAuthRequestAsync.ResponseConverter<T> converter) {
+        return httpClient.executeAsync(config.getUserAgent(), headers, httpVerb,
+                completeUrl, bodyContents, callback, converter);
+    }
 }

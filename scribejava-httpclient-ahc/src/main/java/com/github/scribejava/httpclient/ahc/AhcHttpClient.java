@@ -35,15 +35,30 @@ public class AhcHttpClient implements HttpClient {
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-                                      String bodyContents, OAuthAsyncRequestCallback<T> callback,
+                                      byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
                                       OAuthRequestAsync.ResponseConverter<T> converter) {
+        BoundRequestBuilder requestBuilder;
         final BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
             case GET:
                 boundRequestBuilder = client.prepareGet(completeUrl);
                 break;
             case POST:
-                BoundRequestBuilder requestBuilder = client.preparePost(completeUrl);
+                requestBuilder = client.preparePost(completeUrl);
+                if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
+                    requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+                }
+                boundRequestBuilder = requestBuilder.setBody(bodyContents);
+                break;
+            case PUT:
+                requestBuilder  = client.preparePut(completeUrl);
+                if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
+                    requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+                }
+                boundRequestBuilder = requestBuilder.setBody(bodyContents);
+                break;
+            case DELETE:
+                requestBuilder  = client.prepareDelete(completeUrl);
                 if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
                     requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
                 }
@@ -63,5 +78,12 @@ public class AhcHttpClient implements HttpClient {
         return boundRequestBuilder
                 .execute(new OAuthAsyncCompletionHandler<>(
                         callback, converter));
+    }
+
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+                                      String bodyContents, OAuthAsyncRequestCallback<T> callback,
+                                      OAuthRequestAsync.ResponseConverter<T> converter) {
+        return this.executeAsync(userAgent, headers, httpVerb, completeUrl,
+                bodyContents.getBytes(), callback, converter);
     }
 }

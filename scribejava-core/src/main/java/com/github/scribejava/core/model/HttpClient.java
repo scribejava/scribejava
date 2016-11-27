@@ -11,6 +11,9 @@ public interface HttpClient {
                                String bodyContents, OAuthAsyncRequestCallback<T> callback,
                                OAuthRequestAsync.ResponseConverter<T> converter);
 
+    <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+                               byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
+                               OAuthRequestAsync.ResponseConverter<T> converter);
     interface Config {
     }
 }
