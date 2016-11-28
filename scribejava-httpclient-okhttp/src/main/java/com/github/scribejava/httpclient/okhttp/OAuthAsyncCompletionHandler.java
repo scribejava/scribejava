@@ -62,7 +62,8 @@ class OAuthAsyncCompletionHandler<T> implements Callback, Future<T> {
                                                     null); // cannot return both body String and InputStream
 
             @SuppressWarnings("unchecked")
-            final T t = result = converter == null ? (T) response : converter.convert(response);
+            final T t = converter == null ? (T) response : converter.convert(response);
+            result = t;
             if (callback != null) {
                 callback.onCompleted(t);
             }

@@ -47,8 +47,8 @@ public class OkHttpHttpClient implements HttpClient {
                 requestBuilder.get();
                 break;
             case POST:
-                String contentType = headers.containsKey(AbstractRequest.CONTENT_TYPE) ?
-                                       headers.get(AbstractRequest.CONTENT_TYPE) : DEFAULT_CONTENT_TYPE;
+                final String contentType = headers.containsKey(AbstractRequest.CONTENT_TYPE) ?
+                                             headers.get(AbstractRequest.CONTENT_TYPE) : DEFAULT_CONTENT_TYPE;
 
                 requestBuilder.post(RequestBody.create(MediaType.parse(contentType), bodyContents));
                 break;
