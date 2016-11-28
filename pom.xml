@@ -19,6 +19,7 @@
         <module>scribejava-apis</module>
         <module>scribejava-httpclient-ahc</module>
         <module>scribejava-httpclient-ning</module>
+        <module>scribejava-httpclient-okhttp</module>
     </modules>
 
     <licenses>
