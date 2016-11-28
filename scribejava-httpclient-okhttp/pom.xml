@@ -11,7 +11,7 @@
     
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-httpclient-okhttp</artifactId>
-    <name>ScribeJava OkHttp Client support</name>
+    <name>ScribeJava Async OkHttp Client support</name>
     <packaging>jar</packaging>
 
     <dependencies>
