@@ -1,8 +1,13 @@
 package com.github.scribejava.httpclient.okhttp;
 
-import com.github.scribejava.core.model.*;
+import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.model.OAuthConfig;
+import com.github.scribejava.core.model.OAuthRequestAsync;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth.OAuthService;
+import com.github.scribejava.core.utils.StreamUtils;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockResponse;
@@ -81,6 +86,27 @@ public class OkHttpHttpClientTest {
         recordedRequest = server.takeRequest();
         assertEquals("POST", recordedRequest.getMethod());
         assertEquals("", recordedRequest.getBody().readUtf8());
+
+        server.shutdown();
+    }
+
+    @Test
+    public void shouldReadResponseStream() throws Exception {
+        String expectedResponseBody = "response body";
+
+        MockWebServer server = new MockWebServer();
+        server.enqueue(new MockResponse().setBody(expectedResponseBody));
+        server.start();
+
+        HttpUrl baseUrl = server.url("/testUrl");
+
+        OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString(), oAuthService);
+        Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
+
+        assertEquals(expectedResponseBody, StreamUtils.getStreamContents(response.getStream()));
+
+        RecordedRequest recordedRequest = server.takeRequest();
+        assertEquals("GET", recordedRequest.getMethod());
 
         server.shutdown();
     }

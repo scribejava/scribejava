@@ -58,8 +58,8 @@ class OAuthAsyncCompletionHandler<T> implements Callback, Future<T> {
             final Response response = new Response(okHttpResponse.code(),
                                                     okHttpResponse.message(),
                                                     headersMap,
-                                                    okHttpResponse.body().string(),
-                                                    null); // cannot return both body String and InputStream
+                                                    null, // cannot return both body String and InputStream
+                                                    okHttpResponse.body().byteStream());
 
             @SuppressWarnings("unchecked")
             final T t = converter == null ? (T) response : converter.convert(response);
