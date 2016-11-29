@@ -47,7 +47,7 @@ public class OkHttpHttpClient implements HttpClient {
 
         // prepare body
         RequestBody body = null;
-        if (bodyContents != null && !bodyContents.isEmpty() && HttpMethod.permitsRequestBody(method)) {
+        if (bodyContents != null && HttpMethod.permitsRequestBody(method)) {
             final String contentType = headers.containsKey(AbstractRequest.CONTENT_TYPE) ?
                                          headers.get(AbstractRequest.CONTENT_TYPE) : DEFAULT_CONTENT_TYPE;
             body = RequestBody.create(MediaType.parse(contentType), bodyContents);
