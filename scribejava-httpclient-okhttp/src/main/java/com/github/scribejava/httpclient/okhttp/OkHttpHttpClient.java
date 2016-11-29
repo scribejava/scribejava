@@ -11,6 +11,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.internal.http.HttpMethod;
 
 import java.io.IOException;
 import java.util.Map;
@@ -42,20 +43,20 @@ public class OkHttpHttpClient implements HttpClient {
         final Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.url(completeUrl);
 
-        switch (httpVerb) {
-            case GET:
-                requestBuilder.get();
-                break;
-            case POST:
-                final String contentType = headers.containsKey(AbstractRequest.CONTENT_TYPE) ?
-                                             headers.get(AbstractRequest.CONTENT_TYPE) : DEFAULT_CONTENT_TYPE;
+        final String method = httpVerb.name();
 
-                requestBuilder.post(RequestBody.create(MediaType.parse(contentType), bodyContents));
-                break;
-            default:
-                throw new IllegalArgumentException("message build error: unknown verb type");
+        // prepare body
+        RequestBody body = null;
+        if (bodyContents != null && !bodyContents.isEmpty() && HttpMethod.permitsRequestBody(method)) {
+            final String contentType = headers.containsKey(AbstractRequest.CONTENT_TYPE) ?
+                                         headers.get(AbstractRequest.CONTENT_TYPE) : DEFAULT_CONTENT_TYPE;
+            body = RequestBody.create(MediaType.parse(contentType), bodyContents);
         }
 
+        // fill HTTP method and body
+        requestBuilder.method(method, body);
+
+        // fill headers
         for (Map.Entry<String, String> header : headers.entrySet()) {
             requestBuilder.addHeader(header.getKey(), header.getValue());
         }
@@ -63,6 +64,7 @@ public class OkHttpHttpClient implements HttpClient {
             requestBuilder.header(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
         }
 
+        // create a new call
         final Call call = client.newCall(requestBuilder.build());
         return new OAuthAsyncCompletionHandler<>(callback, converter, call);
     }
