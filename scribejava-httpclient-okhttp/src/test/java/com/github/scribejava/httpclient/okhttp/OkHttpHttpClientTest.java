@@ -26,7 +26,7 @@ public class OkHttpHttpClientTest {
 
     @Before
     public void setUp() throws MalformedURLException {
-        HttpClient client = new OkHttpHttpClient(new OkHttpClient());
+        final HttpClient client = new OkHttpHttpClient(new OkHttpClient());
         oAuthService = new OAuth20Service(null,
                 new OAuthConfig("test", "test", null, null, null, null, null, null, null, null, null, null, client));
     }
@@ -34,20 +34,20 @@ public class OkHttpHttpClientTest {
 
     @Test
     public void shouldSendGetRequest() throws Exception {
-        String expectedResponseBody = "response body";
+        final String expectedResponseBody = "response body";
 
-        MockWebServer server = new MockWebServer();
+        final MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody(expectedResponseBody));
         server.start();
 
-        HttpUrl baseUrl = server.url("/testUrl");
+        final HttpUrl baseUrl = server.url("/testUrl");
 
-        OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString(), oAuthService);
-        Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
+        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString(), oAuthService);
+        final Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
 
         assertEquals(expectedResponseBody, response.getBody());
 
-        RecordedRequest recordedRequest = server.takeRequest();
+        final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("GET", recordedRequest.getMethod());
 
         server.shutdown();
@@ -55,15 +55,15 @@ public class OkHttpHttpClientTest {
 
     @Test
     public void shouldSendPostRequest() throws Exception {
-        String expectedResponseBody = "response body";
-        String expectedRequestBody = "request body";
+        final String expectedResponseBody = "response body";
+        final String expectedRequestBody = "request body";
 
-        MockWebServer server = new MockWebServer();
+        final MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody(expectedResponseBody));
         server.enqueue(new MockResponse().setBody(expectedResponseBody));
         server.start();
 
-        HttpUrl baseUrl = server.url("/testUrl");
+        final HttpUrl baseUrl = server.url("/testUrl");
 
         // request with body
         OAuthRequestAsync request = new OAuthRequestAsync(Verb.POST, baseUrl.toString(), oAuthService);
@@ -92,20 +92,20 @@ public class OkHttpHttpClientTest {
 
     @Test
     public void shouldReadResponseStream() throws Exception {
-        String expectedResponseBody = "response body";
+        final String expectedResponseBody = "response body";
 
-        MockWebServer server = new MockWebServer();
+        final MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody(expectedResponseBody));
         server.start();
 
-        HttpUrl baseUrl = server.url("/testUrl");
+        final HttpUrl baseUrl = server.url("/testUrl");
 
-        OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString(), oAuthService);
-        Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
+        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString(), oAuthService);
+        final Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
 
         assertEquals(expectedResponseBody, StreamUtils.getStreamContents(response.getStream()));
 
-        RecordedRequest recordedRequest = server.takeRequest();
+        final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("GET", recordedRequest.getMethod());
 
         server.shutdown();
