@@ -24,7 +24,7 @@ public class AhcHttpClient implements HttpClient {
         client = new DefaultAsyncHttpClient(ahcConfig.getClientConfig());
     }
 
-    public AhcHttpClient(DefaultAsyncHttpClient ahcClient) {
+    public AhcHttpClient(AsyncHttpClient ahcClient) {
         client = ahcClient;
     }
 
