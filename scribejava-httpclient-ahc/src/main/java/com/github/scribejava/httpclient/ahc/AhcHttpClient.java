@@ -27,7 +27,7 @@ public class AhcHttpClient implements HttpClient {
         client = clientConfig == null ? new DefaultAsyncHttpClient() : new DefaultAsyncHttpClient(clientConfig);
     }
 
-    public AhcHttpClient(DefaultAsyncHttpClient ahcClient) {
+    public AhcHttpClient(AsyncHttpClient ahcClient) {
         client = ahcClient;
     }
 
