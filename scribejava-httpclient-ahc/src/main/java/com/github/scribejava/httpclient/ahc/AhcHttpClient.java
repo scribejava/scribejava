@@ -61,20 +61,29 @@ public class AhcHttpClient implements HttpClient {
     private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
             String completeUrl, BodySetter bodySetter, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-        final BoundRequestBuilder boundRequestBuilder;
+        BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
             case GET:
                 boundRequestBuilder = client.prepareGet(completeUrl);
                 break;
             case POST:
-                BoundRequestBuilder requestBuilder = client.preparePost(completeUrl);
-                if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
-                    requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-                }
-                boundRequestBuilder = bodySetter.setBody(requestBuilder);
+                boundRequestBuilder = client.preparePost(completeUrl);
+                break;
+            case PUT:
+                boundRequestBuilder = client.preparePut(completeUrl);
+                break;
+            case DELETE:
+                boundRequestBuilder = client.prepareDelete(completeUrl);
                 break;
             default:
                 throw new IllegalArgumentException("message build error: unknown verb type");
+        }
+
+        if (httpVerb == Verb.POST || httpVerb == Verb.PUT || httpVerb == Verb.DELETE) {
+            if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
+                boundRequestBuilder = boundRequestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+            }
+            boundRequestBuilder = bodySetter.setBody(boundRequestBuilder);
         }
 
         for (Map.Entry<String, String> header : headers.entrySet()) {
