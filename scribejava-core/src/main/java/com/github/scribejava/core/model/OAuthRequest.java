@@ -12,12 +12,30 @@ public class OAuthRequest extends AbstractRequest {
 
     private HttpURLConnection connection;
 
+    private final OAuthConfig config;
+
+    /**
+     *
+     * @param verb verb
+     * @param url url
+     * @param service service
+     * @deprecated use {@link #OAuthRequest(com.github.scribejava.core.model.Verb, java.lang.String,
+     * com.github.scribejava.core.model.OAuthConfig)}
+     */
+    @Deprecated
     public OAuthRequest(Verb verb, String url, OAuthService<?> service) {
-        super(verb, url, service);
+        this(verb, url, service.getConfig());
+    }
+
+    public OAuthRequest(Verb verb, String url, OAuthConfig config) {
+        super(verb, url);
+        this.config = config;
     }
 
     /**
      * Execute the request and return a {@link Response}
+     *
+     * the same as {@link OAuthService#execute(com.github.scribejava.core.model.OAuthRequest)}
      *
      * @return Http Response
      *
@@ -30,7 +48,7 @@ public class OAuthRequest extends AbstractRequest {
             throw new OAuthException("Cannot use sync operations, only async");
         }
         if (ForceTypeOfHttpRequest.PREFER_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            getService().getConfig().log("Cannot use sync operations, only async");
+            config.log("Cannot use sync operations, only async");
         }
         try {
             createConnection();
@@ -43,7 +61,6 @@ public class OAuthRequest extends AbstractRequest {
     Response doSend() throws IOException {
         final Verb verb = getVerb();
         connection.setRequestMethod(verb.name());
-        final OAuthConfig config = getService().getConfig();
         if (config.getConnectTimeout() != null) {
             connection.setConnectTimeout(config.getConnectTimeout());
         }
@@ -69,7 +86,7 @@ public class OAuthRequest extends AbstractRequest {
         for (Map.Entry<String, String> entry : getHeaders().entrySet()) {
             connection.setRequestProperty(entry.getKey(), entry.getValue());
         }
-        final String userAgent = getService().getConfig().getUserAgent();
+        final String userAgent = config.getUserAgent();
         if (userAgent != null) {
             connection.setRequestProperty(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
         }

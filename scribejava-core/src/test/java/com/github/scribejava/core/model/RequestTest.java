@@ -5,8 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.scribejava.core.oauth.OAuth20Service;
-import com.github.scribejava.core.oauth.OAuthService;
 import java.net.MalformedURLException;
 
 public class RequestTest {
@@ -14,18 +12,18 @@ public class RequestTest {
     private OAuthRequest getRequest;
     private OAuthRequest postRequest;
     private ConnectionStub connection;
-    private OAuthService<?> oAuthService;
+    private OAuthConfig config;
 
     @Before
     public void setUp() throws MalformedURLException {
         connection = new ConnectionStub();
-        oAuthService = new OAuth20Service(null, new OAuthConfig("test", "test"));
-        postRequest = new OAuthRequest(Verb.POST, "http://example.com", oAuthService);
+        config = new OAuthConfig("test", "test");
+        postRequest = new OAuthRequest(Verb.POST, "http://example.com", config);
         postRequest.addBodyParameter("param", "value");
         postRequest.addBodyParameter("param with spaces", "value with spaces");
         postRequest.setConnection(connection);
         getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",
-                oAuthService);
+                config);
         getRequest.setConnection(connection);
     }
 
@@ -68,7 +66,7 @@ public class RequestTest {
 
     @Test
     public void shouldAllowAddingQuerystringParametersAfterCreation() {
-        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", config);
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals(3, request.getQueryStringParams().size());
@@ -76,7 +74,7 @@ public class RequestTest {
 
     @Test
     public void shouldReturnTheCompleteUrl() {
-        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", oAuthService);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", config);
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals("http://example.com?one=val&two=other%20val&more=params", request.getCompleteUrl());

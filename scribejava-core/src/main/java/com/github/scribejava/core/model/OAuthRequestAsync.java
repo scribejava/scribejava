@@ -1,32 +1,53 @@
 package com.github.scribejava.core.model;
 
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.oauth.OAuthService;
-
 import java.io.IOException;
 import java.util.concurrent.Future;
 
 public class OAuthRequestAsync extends AbstractRequest {
 
+    /**
+     * @param verb verb
+     * @param url url
+     * @param service service
+     * @deprecated use {@link #OAuthRequestAsync(com.github.scribejava.core.model.Verb, java.lang.String) }
+     */
+    @Deprecated
     public OAuthRequestAsync(Verb verb, String url, OAuthService<?> service) {
-        super(verb, url, service);
+        this(verb, url);
     }
 
+    public OAuthRequestAsync(Verb verb, String url) {
+        super(verb, url);
+    }
+
+    /**
+     * always throws UnsupportedOperationException
+     *
+     * @param <T> T
+     * @param callback callback
+     * @param converter converter
+     * @return never
+     * @deprecated user {@link OAuthService#execute(com.github.scribejava.core.model.OAuthRequestAsync,
+     * com.github.scribejava.core.model.OAuthAsyncRequestCallback,
+     * com.github.scribejava.core.model.OAuthRequestAsync.ResponseConverter) }
+     */
+    @Deprecated
     public <T> Future<T> sendAsync(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
-        final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
-        if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            throw new OAuthException("Cannot use async operations, only sync");
-        }
-        final OAuthService<?> service = getService();
-        final OAuthConfig config = service.getConfig();
-        if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            config.log("Cannot use async operations, only sync");
-        }
-        return service.executeAsync(getHeaders(), getVerb(), getCompleteUrl(), getBodyContents(), callback, converter);
+        throw new UnsupportedOperationException();
     }
 
+    /**
+     * always throws UnsupportedOperationException
+     *
+     * @param callback callback
+     * @return never
+     * @deprecated user {@link OAuthService#execute(com.github.scribejava.core.model.OAuthRequestAsync,
+     * com.github.scribejava.core.model.OAuthAsyncRequestCallback) }
+     */
+    @Deprecated
     public Future<Response> sendAsync(OAuthAsyncRequestCallback<Response> callback) {
-        return sendAsync(callback, null);
+        throw new UnsupportedOperationException();
     }
 
     public interface ResponseConverter<T> {

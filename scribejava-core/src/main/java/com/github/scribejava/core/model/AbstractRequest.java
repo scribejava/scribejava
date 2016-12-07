@@ -25,7 +25,6 @@ public abstract class AbstractRequest {
     private final ParameterList bodyParams = new ParameterList();
     private final Map<String, String> headers = new HashMap<>();
     private boolean followRedirects = true;
-    private final OAuthService<?> service;
 
     private String payload;
     private String charset;
@@ -40,11 +39,22 @@ public abstract class AbstractRequest {
      * @param verb Http verb/method
      * @param url resource URL
      * @param service OAuthService
+     * @deprecated use {@link #AbstractRequest(com.github.scribejava.core.model.Verb, java.lang.String)}
      */
+    @Deprecated
     public AbstractRequest(Verb verb, String url, OAuthService<?> service) {
+        this(verb, url);
+    }
+
+    /**
+     * Default constructor.
+     *
+     * @param verb Http verb/method
+     * @param url resource URL
+     */
+    public AbstractRequest(Verb verb, String url) {
         this.verb = verb;
         this.url = url;
-        this.service = service;
     }
 
     /**
@@ -271,7 +281,14 @@ public abstract class AbstractRequest {
         return followRedirects;
     }
 
+    /**
+     * always throws UnsupportedOperationException
+     *
+     * @return never
+     * @deprecated Request doesn't couple with Service anymore. It doesn't need it. Look for service somewhere else
+     */
+    @Deprecated
     public OAuthService<?> getService() {
-        return service;
+        throw new UnsupportedOperationException();
     }
 }

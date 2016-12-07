@@ -75,9 +75,9 @@ public final class VkontakteExternalHttpExample {
 
             // Now let's go and ask for a protected resource!
             System.out.println("Now we're going to access a protected resource...");
-            final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, PROTECTED_RESOURCE_URL, service);
+            final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
-            final Response response = request.sendAsync(null).get();
+            final Response response = service.execute(request, null).get();
             System.out.println("Got it! Lets see what we found...");
             System.out.println();
             System.out.println(response.getCode());

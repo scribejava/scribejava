@@ -74,7 +74,7 @@ public final class StackExchangeExample {
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET,
-                PROTECTED_RESOURCE_URL + "?site=" + site + "&key=" + key, service);
+                PROTECTED_RESOURCE_URL + "?site=" + site + "&key=" + key, service.getConfig());
         service.signRequest(accessToken, request);
         final Response response = request.send();
         System.out.println("Got it! Lets see what we found...");

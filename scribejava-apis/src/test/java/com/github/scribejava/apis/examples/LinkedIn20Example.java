@@ -65,7 +65,7 @@ public final class LinkedIn20Example {
             }
 
             final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, query),
-                    service);
+                    service.getConfig());
             request.addHeader("x-li-format", "json");
             request.addHeader("Accept-Language", "ru-RU");
             service.signRequest(accessToken, request);

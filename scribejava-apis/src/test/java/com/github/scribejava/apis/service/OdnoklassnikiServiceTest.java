@@ -27,7 +27,7 @@ public class OdnoklassnikiServiceTest {
     @Test
     public void testSigGeneration() {
         final OAuth2AccessToken accessToken = new OAuth2AccessToken("d3iwa.403gvrs194740652m1k4w2a503k3c");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, URL, service.getConfig());
         service.signRequest(accessToken, request);
         assertEquals("96127f5ca29a8351399e94bbd284ab16", findParam(request.getQueryStringParams(), "sig"));
     }

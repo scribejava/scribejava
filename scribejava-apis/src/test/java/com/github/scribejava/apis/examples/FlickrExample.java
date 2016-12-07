@@ -55,7 +55,7 @@ public final class FlickrExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service.getConfig());
         request.addQuerystringParameter("method", "flickr.test.login");
         service.signRequest(accessToken, request);
         final Response response = request.send();

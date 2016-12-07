@@ -59,7 +59,7 @@ public final class DiggExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL, service.getConfig());
         request.addBodyParameter("comment_id", "20100729223726:4fef610331ee46a3b5cbd740bf71313e");
         service.signRequest(accessToken, request);
         final Response response = request.send();

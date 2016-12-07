@@ -8,7 +8,6 @@ import com.github.scribejava.core.exceptions.OAuthParametersMissingException;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.ObjectMother;
 
 public class HeaderExtractorTest {
@@ -53,7 +52,7 @@ public class HeaderExtractorTest {
     @Test(expected = OAuthParametersMissingException.class)
     public void shouldExceptionIfRequestHasNoOAuthParams() {
         final OAuthRequest emptyRequest = new OAuthRequest(Verb.GET, "http://example.com",
-                new OAuth20Service(null, new OAuthConfig("test", "test")));
+                new OAuthConfig("test", "test"));
         extractor.extract(emptyRequest);
     }
 }

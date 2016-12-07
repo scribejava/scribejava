@@ -1,3 +1,7 @@
+[SNAPSHOT]
+ * uncouple OAuthRequest and Service. OAuthRequest shouldn't know anything about OAuthservice.
+   You don't need OAuthService to create OAuthRequest anymore. Async request should be sent via OAuthService method.
+
 [3.3.0]
  * update Facebook v2.6 -> v2.8
  * add The Things Network API (v1-staging and v2-preview) (thanks to https://github.com/jpmeijers)

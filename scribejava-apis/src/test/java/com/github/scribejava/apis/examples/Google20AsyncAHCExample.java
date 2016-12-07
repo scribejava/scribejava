@@ -113,9 +113,9 @@ public final class Google20AsyncAHCExample {
                 requestUrl = PROTECTED_RESOURCE_URL + "?fields=" + query;
             }
 
-            final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, requestUrl, service);
+            final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, requestUrl);
             service.signRequest(accessToken, request);
-            final Response response = request.sendAsync(null).get();
+            final Response response = service.execute(request, null).get();
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getBody());

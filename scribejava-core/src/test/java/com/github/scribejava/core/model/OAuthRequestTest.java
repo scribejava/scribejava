@@ -3,7 +3,6 @@ package com.github.scribejava.core.model;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class OAuthRequestTest {
 
@@ -11,8 +10,7 @@ public class OAuthRequestTest {
 
     @Before
     public void setUp() {
-        request = new OAuthRequest(Verb.GET, "http://example.com",
-                new OAuth20Service(null, new OAuthConfig("test", "test")));
+        request = new OAuthRequest(Verb.GET, "http://example.com", new OAuthConfig("test", "test"));
     }
 
     @Test

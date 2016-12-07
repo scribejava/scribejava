@@ -16,15 +16,17 @@ public class ForceTypeOfHttpRequestTest {
 
     private OAuthRequest request;
     private OAuthRequestAsync requestAsync;
+    private OAuthService<?> oAuthService;
 
     @Before
     public void setUp() {
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.NONE);
-        final OAuthService<?> oAuthService = new OAuth20Service(null, new OAuthConfig("test", "test"));
-        request = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",
-                oAuthService);
-        requestAsync = new OAuthRequestAsync(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",
-                oAuthService);
+        final OAuthConfig config = new OAuthConfig("test", "test");
+
+        oAuthService = new OAuth20Service(null, config);
+        request = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces", config);
+        requestAsync
+                = new OAuthRequestAsync(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces");
     }
 
     @Test
@@ -40,6 +42,6 @@ public class ForceTypeOfHttpRequestTest {
         expectedException.expect(OAuthException.class);
         expectedException.expectMessage("Cannot use async operations, only sync");
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS);
-        requestAsync.sendAsync(null).get();
+        oAuthService.execute(requestAsync, null).get();
     }
 }
