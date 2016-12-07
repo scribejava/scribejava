@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
+import java.io.File;
 
 public class NingHttpClient implements HttpClient {
 
@@ -34,8 +35,34 @@ public class NingHttpClient implements HttpClient {
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-                                      String bodyContents, OAuthAsyncRequestCallback<T> callback,
-                                      OAuthRequestAsync.ResponseConverter<T> converter) {
+            byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
+
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new ByteArrayBodySetter(bodyContents),
+                callback, converter);
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            String bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
+
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new StringBodySetter(bodyContents), callback,
+                converter);
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            File bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
+
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new FileBodySetter(bodyContents), callback,
+                converter);
+    }
+
+    private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
+            String completeUrl, BodySetter bodySetter, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
         final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
             case GET:
@@ -46,7 +73,7 @@ public class NingHttpClient implements HttpClient {
                 if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
                     requestBuilder = requestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
                 }
-                boundRequestBuilder = requestBuilder.setBody(bodyContents);
+                boundRequestBuilder = bodySetter.setBody(requestBuilder);
                 break;
             default:
                 throw new IllegalArgumentException("message build error: unknown verb type");
@@ -62,5 +89,52 @@ public class NingHttpClient implements HttpClient {
         return boundRequestBuilder
                 .execute(new OAuthAsyncCompletionHandler<>(
                         callback, converter));
+    }
+
+    private interface BodySetter {
+
+        AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder);
+    }
+
+    private static class ByteArrayBodySetter implements BodySetter {
+
+        private final byte[] bodyContents;
+
+        private ByteArrayBodySetter(byte[] bodyContents) {
+            this.bodyContents = bodyContents;
+        }
+
+        @Override
+        public AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder) {
+            return requestBuilder.setBody(bodyContents);
+        }
+    }
+
+    private static class StringBodySetter implements BodySetter {
+
+        private final String bodyContents;
+
+        private StringBodySetter(String bodyContents) {
+            this.bodyContents = bodyContents;
+        }
+
+        @Override
+        public AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder) {
+            return requestBuilder.setBody(bodyContents);
+        }
+    }
+
+    private static class FileBodySetter implements BodySetter {
+
+        private final File bodyContents;
+
+        private FileBodySetter(File bodyContents) {
+            this.bodyContents = bodyContents;
+        }
+
+        @Override
+        public AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder) {
+            return requestBuilder.setBody(bodyContents);
+        }
     }
 }

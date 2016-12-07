@@ -7,6 +7,7 @@ import java.util.Map;
 import com.github.scribejava.core.exceptions.OAuthConnectionException;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.oauth.OAuthService;
+import java.io.File;
 
 public class OAuthRequest extends AbstractRequest {
 
@@ -69,7 +70,14 @@ public class OAuthRequest extends AbstractRequest {
         }
         addHeaders();
         if (hasBodyContent()) {
-            addBody(getByteBodyContents());
+            final File filePayload = getFilePayload();
+            if (filePayload != null) {
+                throw new UnsupportedOperationException("Sync Requests do not support File payload for the moment");
+            } else if (getStringPayload() != null) {
+                addBody(getStringPayload().getBytes(getCharset()));
+            } else {
+                addBody(getByteArrayPayload());
+            }
         }
         return new Response(connection);
     }

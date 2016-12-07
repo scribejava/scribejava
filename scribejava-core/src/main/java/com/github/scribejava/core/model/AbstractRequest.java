@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.oauth.OAuthService;
+import java.io.File;
 
 /**
  * The representation of an OAuth HttpRequest.
@@ -26,9 +27,12 @@ public abstract class AbstractRequest {
     private final Map<String, String> headers = new HashMap<>();
     private boolean followRedirects = true;
 
-    private String payload;
     private String charset;
-    private byte[] bytePayload;
+
+    private String stringPayload;
+    private byte[] byteArrayPayload;
+    private File filePayload;
+
     private final Map<String, String> oauthParameters = new HashMap<>();
 
     private String realm;
@@ -142,13 +146,32 @@ public abstract class AbstractRequest {
     }
 
     /**
-     * Add body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing.
+     * @param payload payload
+     * @deprecated use {@link #setPayload(java.lang.String) }
+     */
+    @Deprecated
+    public void addPayload(String payload) {
+        setPayload(payload);
+    }
+
+    /**
+     * @param payload payload
+     * @deprecated use {@link #setPayload(byte[]) }
+     */
+    @Deprecated
+    public void addPayload(byte[] payload) {
+        setPayload(payload);
+    }
+
+    /**
+     * Set body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing.
      * Like for example XML. Note: The contents are not part of the OAuth signature
      *
      * @param payload the body of the request
      */
-    public void addPayload(String payload) {
-        this.payload = payload;
+    public void setPayload(String payload) {
+        resetPayload();
+        stringPayload = payload;
     }
 
     /**
@@ -156,8 +179,25 @@ public abstract class AbstractRequest {
      *
      * @param payload byte[]
      */
-    public void addPayload(byte[] payload) {
-        this.bytePayload = payload.clone();
+    public void setPayload(byte[] payload) {
+        resetPayload();
+        byteArrayPayload = payload.clone();
+    }
+
+    /**
+     * Overloaded version for File
+     *
+     * @param payload File
+     */
+    public void setPayload(File payload) {
+        resetPayload();
+        filePayload = payload;
+    }
+
+    private void resetPayload() {
+        stringPayload = null;
+        byteArrayPayload = null;
+        filePayload = null;
     }
 
     /**
@@ -212,30 +252,52 @@ public abstract class AbstractRequest {
     }
 
     /**
-     * Returns the body of the request
+     * @return value set in {@link #setPayload(java.lang.String)}
+     * @deprecated use {@link #getStringPayload()} or {@link #getByteArrayPayload()}
+     */
+    @Deprecated
+    public String getBodyContents() {
+        return getStringPayload();
+    }
+
+    /**
+     * Returns the body of the request (set in {@link #setPayload(java.lang.String)})
      *
      * @return form encoded string
      *
      * @throws OAuthException if the charset chosen is not supported
      */
-    public String getBodyContents() {
-        try {
-            return new String(getByteBodyContents(), getCharset());
-        } catch (UnsupportedEncodingException uee) {
-            throw new OAuthException("Unsupported Charset: " + charset, uee);
-        }
+    public String getStringPayload() {
+        return stringPayload;
     }
 
-    byte[] getByteBodyContents() {
-        if (bytePayload != null) {
-            return bytePayload;
+    /**
+     * @return value set in {@link #setPayload(byte[])}
+     * @deprecated use {@link #getByteArrayPayload() }
+     */
+    @Deprecated
+    public byte[] getByteBodyContents() {
+        return getByteArrayPayload();
+    }
+
+    /**
+     * @return the body of the request (set in {@link #setPayload(byte[])} or in
+     * {@link #addBodyParameter(java.lang.String, java.lang.String)} )
+     */
+    public byte[] getByteArrayPayload() {
+        if (byteArrayPayload != null) {
+            return byteArrayPayload;
         }
-        final String body = (payload == null) ? bodyParams.asFormUrlEncodedString() : payload;
+        final String body = bodyParams.asFormUrlEncodedString();
         try {
             return body.getBytes(getCharset());
         } catch (UnsupportedEncodingException uee) {
             throw new OAuthException("Unsupported Charset: " + getCharset(), uee);
         }
+    }
+
+    public File getFilePayload() {
+        return filePayload;
     }
 
     @Override

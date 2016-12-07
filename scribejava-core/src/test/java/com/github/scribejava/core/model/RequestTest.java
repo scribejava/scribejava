@@ -51,16 +51,17 @@ public class RequestTest {
 
     @Test
     public void shouldSetBodyParamsAndAddContentLength() {
-        assertEquals("param=value&param%20with%20spaces=value%20with%20spaces", postRequest.getBodyContents());
+        assertEquals("param=value&param%20with%20spaces=value%20with%20spaces",
+                new String(postRequest.getByteArrayPayload()));
         postRequest.send();
         assertTrue(connection.getHeaders().containsKey("Content-Length"));
     }
 
     @Test
     public void shouldSetPayloadAndHeaders() {
-        postRequest.addPayload("PAYLOAD");
+        postRequest.setPayload("PAYLOAD");
         postRequest.send();
-        assertEquals("PAYLOAD", postRequest.getBodyContents());
+        assertEquals("PAYLOAD", postRequest.getStringPayload());
         assertTrue(connection.getHeaders().containsKey("Content-Length"));
     }
 
@@ -87,14 +88,14 @@ public class RequestTest {
 
     @Test
     public void shouldAutomaticallyAddContentTypeForPostRequestsWithBytePayload() {
-        postRequest.addPayload("PAYLOAD".getBytes());
+        postRequest.setPayload("PAYLOAD".getBytes());
         postRequest.send();
         assertEquals(OAuthRequest.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
     }
 
     @Test
     public void shouldAutomaticallyAddContentTypeForPostRequestsWithStringPayload() {
-        postRequest.addPayload("PAYLOAD");
+        postRequest.setPayload("PAYLOAD");
         postRequest.send();
         assertEquals(OAuthRequest.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
     }

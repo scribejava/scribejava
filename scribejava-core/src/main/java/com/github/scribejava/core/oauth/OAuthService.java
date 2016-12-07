@@ -13,6 +13,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Token;
 import com.github.scribejava.core.model.Verb;
+import java.io.File;
 
 import java.io.IOException;
 import java.util.Map;
@@ -127,8 +128,17 @@ public abstract class OAuthService<T extends Token> {
             config.log("Cannot use async operations, only sync");
         }
 
-        return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                request.getCompleteUrl(), request.getBodyContents(), callback, converter);
+        final File filePayload = request.getFilePayload();
+        if (filePayload != null) {
+            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), filePayload, callback, converter);
+        } else if (request.getStringPayload() != null) {
+            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getStringPayload(), callback, converter);
+        } else {
+            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getByteArrayPayload(), callback, converter);
+        }
     }
 
     public Future<Response> execute(OAuthRequestAsync request, OAuthAsyncRequestCallback<Response> callback) {
