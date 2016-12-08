@@ -82,7 +82,7 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         if (scope != null) {
             request.addParameter(OAuthConstants.SCOPE, scope);
         }
-        final String expires_In = config.getExpiresIn();
+        final Integer expires_In = config.getExpiresIn();
         if (expires_In != null) {
             request.addParameter(OAuthConstants.EXPIRES_IN, expires_In);
         }
