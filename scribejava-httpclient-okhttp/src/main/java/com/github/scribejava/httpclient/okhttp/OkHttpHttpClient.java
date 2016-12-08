@@ -1,7 +1,7 @@
 package com.github.scribejava.httpclient.okhttp;
 
 import com.github.scribejava.core.model.AbstractRequest;
-import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -28,7 +28,8 @@ public class OkHttpHttpClient implements HttpClient {
     private final OkHttpClient client;
 
     public OkHttpHttpClient(OkHttpHttpClientConfig config) {
-        client = config.getClientBuilder().build();
+        final OkHttpClient.Builder clientBuilder = config.getClientBuilder();
+        client = clientBuilder == null ? new OkHttpClient() : clientBuilder.build();
     }
 
     public OkHttpHttpClient(OkHttpClient client) {

@@ -4,7 +4,8 @@ import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.httpclient.HttpClientProvider;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
-import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -34,7 +35,7 @@ public abstract class OAuthService<T extends Token> {
     public OAuthService(OAuthConfig config) {
         this.config = config;
         final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
-        final HttpClient.Config httpClientConfig = config.getHttpClientConfig();
+        final HttpClientConfig httpClientConfig = config.getHttpClientConfig();
         final HttpClient externalHttpClient = config.getHttpClient();
 
         if (httpClientConfig == null && externalHttpClient == null) {
@@ -57,7 +58,7 @@ public abstract class OAuthService<T extends Token> {
         }
     }
 
-    private static HttpClient getClient(HttpClient.Config config) {
+    private static HttpClient getClient(HttpClientConfig config) {
         for (HttpClientProvider provider : ServiceLoader.load(HttpClientProvider.class)) {
             final HttpClient client = provider.createClient(config);
             if (client != null) {

@@ -1,9 +1,9 @@
 package com.github.scribejava.httpclient.ning;
 
-import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.ning.http.client.AsyncHttpClientConfig;
 
-public class NingHttpClientConfig implements HttpClient.Config {
+public class NingHttpClientConfig implements HttpClientConfig {
 
     private final AsyncHttpClientConfig config;
     private String ningAsyncHttpProviderClassName;
@@ -22,5 +22,14 @@ public class NingHttpClientConfig implements HttpClient.Config {
 
     public AsyncHttpClientConfig getConfig() {
         return config;
+    }
+
+    @Override
+    public HttpClientConfig createDefaultConfig() {
+        return defaultConfig();
+    }
+
+    public static HttpClientConfig defaultConfig() {
+        return new NingHttpClientConfig(null);
     }
 }

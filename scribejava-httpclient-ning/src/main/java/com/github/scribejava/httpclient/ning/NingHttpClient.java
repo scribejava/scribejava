@@ -1,7 +1,7 @@
 package com.github.scribejava.httpclient.ning;
 
 import com.github.scribejava.core.model.AbstractRequest;
-import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
+import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.File;
 
 public class NingHttpClient implements HttpClient {
@@ -20,8 +21,15 @@ public class NingHttpClient implements HttpClient {
 
     public NingHttpClient(NingHttpClientConfig ningConfig) {
         final String ningAsyncHttpProviderClassName = ningConfig.getNingAsyncHttpProviderClassName();
-        client = ningAsyncHttpProviderClassName == null ? new AsyncHttpClient(ningConfig.getConfig())
-                : new AsyncHttpClient(ningAsyncHttpProviderClassName, ningConfig.getConfig());
+        AsyncHttpClientConfig config = ningConfig.getConfig();
+        if (ningAsyncHttpProviderClassName == null) {
+            client = config == null ? new AsyncHttpClient() : new AsyncHttpClient(config);
+        } else {
+            if (config == null) {
+                config = new AsyncHttpClientConfig.Builder().build();
+            }
+            client = new AsyncHttpClient(ningAsyncHttpProviderClassName, config);
+        }
     }
 
     public NingHttpClient(AsyncHttpClient client) {

@@ -1,5 +1,6 @@
 package com.github.scribejava.core.model;
 
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -23,16 +24,46 @@ public class OAuthConfig {
     private final Integer readTimeout;
 
     //async version only
-    private HttpClient.Config httpClientConfig;
-    private HttpClient httpClient;
+    private HttpClientConfig httpClientConfig;
+    private com.github.scribejava.core.httpclient.HttpClient httpClient;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null, (HttpClientConfig) null, null);
+    }
+
+    /**
+     * throws UnsupportedOperationException
+     *
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param signatureType signatureType
+     * @param scope scope
+     * @param debugStream debugStream
+     * @param state state
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param connectTimeout connectTimeout
+     * @param readTimeout readTimeout
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @deprecated use
+     * {@link #OAuthConfig(java.lang.String, java.lang.String, java.lang.String,
+     * com.github.scribejava.core.model.SignatureType, java.lang.String, java.io.OutputStream, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.Integer, java.lang.Integer,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
+            Integer readTimeout, HttpClient.Config httpClientConfig, HttpClient httpClient) {
+        throw new UnsupportedOperationException("deprecated, use another method, see javadocs");
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
-            Integer readTimeout, HttpClient.Config httpClientConfig, HttpClient httpClient) {
+            Integer readTimeout, HttpClientConfig httpClientConfig,
+            com.github.scribejava.core.httpclient.HttpClient httpClient) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -99,11 +130,11 @@ public class OAuthConfig {
         return readTimeout;
     }
 
-    public HttpClient.Config getHttpClientConfig() {
+    public HttpClientConfig getHttpClientConfig() {
         return httpClientConfig;
     }
 
-    public HttpClient getHttpClient() {
+    public com.github.scribejava.core.httpclient.HttpClient getHttpClient() {
         return httpClient;
     }
 }

@@ -1,7 +1,8 @@
 package com.github.scribejava.core.builder;
 
 import com.github.scribejava.core.builder.api.BaseApi;
-import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
@@ -30,7 +31,7 @@ public class ServiceBuilder {
     private Integer readTimeout;
 
     //not-default httpclient only
-    private HttpClient.Config httpClientConfig;
+    private HttpClientConfig httpClientConfig;
     private HttpClient httpClient;
 
     public ServiceBuilder() {
@@ -134,7 +135,19 @@ public class ServiceBuilder {
         return this;
     }
 
-    public ServiceBuilder httpClientConfig(HttpClient.Config httpClientConfig) {
+    /**
+     * throws UnsupportedOperationException
+     *
+     * @param httpClientConfig httpClientConfig
+     * @return never
+     * @deprecated use {@link #httpClientConfig(com.github.scribejava.core.httpclient.HttpClientConfig)}
+     */
+    @Deprecated
+    public ServiceBuilder httpClientConfig(com.github.scribejava.core.model.HttpClient.Config httpClientConfig) {
+        throw new UnsupportedOperationException("deprecated, use another method, see javadocs");
+    }
+
+    public ServiceBuilder httpClientConfig(HttpClientConfig httpClientConfig) {
         Preconditions.checkNotNull(httpClientConfig, "httpClientConfig can't be null");
         this.httpClientConfig = httpClientConfig;
         return this;

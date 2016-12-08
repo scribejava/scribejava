@@ -8,7 +8,6 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.httpclient.okhttp.OkHttpHttpClientConfig;
-import okhttp3.OkHttpClient;
 
 import java.io.IOException;
 import java.util.Random;
@@ -28,13 +27,12 @@ public final class GitHubAsyncOkHttpExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
-        final OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
-                .httpClientConfig(new OkHttpHttpClientConfig(okHttpBuilder))
+                .httpClientConfig(OkHttpHttpClientConfig.defaultConfig())
                 .build(GitHubApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 

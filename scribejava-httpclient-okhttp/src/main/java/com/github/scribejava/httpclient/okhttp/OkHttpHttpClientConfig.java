@@ -1,9 +1,9 @@
 package com.github.scribejava.httpclient.okhttp;
 
-import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import okhttp3.OkHttpClient;
 
-public class OkHttpHttpClientConfig implements HttpClient.Config {
+public class OkHttpHttpClientConfig implements HttpClientConfig {
 
     private final OkHttpClient.Builder clientBuilder;
 
@@ -13,5 +13,14 @@ public class OkHttpHttpClientConfig implements HttpClient.Config {
 
     public OkHttpClient.Builder getClientBuilder() {
         return clientBuilder;
+    }
+
+    @Override
+    public HttpClientConfig createDefaultConfig() {
+        return defaultConfig();
+    }
+
+    public static HttpClientConfig defaultConfig() {
+        return new OkHttpHttpClientConfig(null);
     }
 }

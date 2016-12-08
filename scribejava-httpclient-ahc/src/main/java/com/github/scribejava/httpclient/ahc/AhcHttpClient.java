@@ -1,7 +1,7 @@
 package com.github.scribejava.httpclient.ahc;
 
 import com.github.scribejava.core.model.AbstractRequest;
-import com.github.scribejava.core.model.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 
 import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
 import java.io.File;
+import org.asynchttpclient.AsyncHttpClientConfig;
 import org.asynchttpclient.BoundRequestBuilder;
 
 public class AhcHttpClient implements HttpClient {
@@ -22,7 +23,8 @@ public class AhcHttpClient implements HttpClient {
     private final AsyncHttpClient client;
 
     public AhcHttpClient(AhcHttpClientConfig ahcConfig) {
-        client = new DefaultAsyncHttpClient(ahcConfig.getClientConfig());
+        final AsyncHttpClientConfig clientConfig = ahcConfig.getClientConfig();
+        client = clientConfig == null ? new DefaultAsyncHttpClient() : new DefaultAsyncHttpClient(clientConfig);
     }
 
     public AhcHttpClient(DefaultAsyncHttpClient ahcClient) {
