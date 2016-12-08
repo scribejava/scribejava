@@ -5,6 +5,7 @@
  * add support for  HTTP verbs (thanks to https://github.com/keijohyttinen)
  * add OkHttp http client support (thanks to https://github.com/arcao)
  * add default HTTP client configs (to use like 'new ServiceBuilder().httpClientConfig(OkHttpHttpClientConfig.defaultConfig())')
+ * you can use your own impl of AsyncHttpClient
 
 [3.3.0]
  * update Facebook v2.6 -> v2.8
