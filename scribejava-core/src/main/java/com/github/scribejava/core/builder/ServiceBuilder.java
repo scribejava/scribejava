@@ -24,6 +24,7 @@ public class ServiceBuilder {
     private OutputStream debugStream;
     private String responseType = "code";
     private String userAgent;
+    private Integer expiresIn;
 
     //sync version only
     private Integer connectTimeout;
@@ -155,6 +156,11 @@ public class ServiceBuilder {
         this.userAgent = userAgent;
         return this;
     }
+    
+    public ServiceBuilder expiresIn(Integer expiresIn) {
+        this.expiresIn = expiresIn;
+        return this;
+    }
 
     public ServiceBuilder debug() {
         debugStream(System.out);
@@ -168,7 +174,7 @@ public class ServiceBuilder {
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
-                userAgent, connectTimeout, readTimeout, httpClientConfig, httpClient);
+                userAgent, expiresIn, connectTimeout, readTimeout, httpClientConfig, httpClient);
     }
 
     /**
