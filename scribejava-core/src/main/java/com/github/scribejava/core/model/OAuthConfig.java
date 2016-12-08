@@ -17,7 +17,7 @@ public class OAuthConfig {
     private final String state;
     private final String responseType;
     private final String userAgent;
-    private final String expiresIn;
+    private final Integer expiresIn;
 
 
     //sync only version
@@ -33,7 +33,7 @@ public class OAuthConfig {
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent, String expiresIn, Integer connectTimeout,
+            OutputStream debugStream, String state, String responseType, String userAgent, Integer expiresIn, Integer connectTimeout,
             Integer readTimeout, HttpClient.Config httpClientConfig, HttpClient httpClient) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
@@ -83,7 +83,7 @@ public class OAuthConfig {
         return userAgent;
     }
     
-    public String getExpiresIn() {
+    public Integer getExpiresIn() {
         return expiresIn;
     }
 
