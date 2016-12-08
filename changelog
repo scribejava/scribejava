@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[3.4.0]
  * uncouple OAuthRequest and Service. OAuthRequest shouldn't know anything about OAuthservice.
    You don't need OAuthService to create OAuthRequest anymore. Async request should be sent via OAuthService method.
  * add support for byte[] and File (async only) payload in OAuth Requests (thanks to https://github.com/keijohyttinen)
