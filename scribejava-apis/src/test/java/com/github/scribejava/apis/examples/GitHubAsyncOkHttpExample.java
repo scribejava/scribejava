@@ -7,7 +7,7 @@ import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.github.scribejava.httpclient.okhttp.OkHttpHttpClient;
+import com.github.scribejava.httpclient.okhttp.OkHttpHttpClientConfig;
 import okhttp3.OkHttpClient;
 
 import java.io.IOException;
@@ -28,12 +28,13 @@ public final class GitHubAsyncOkHttpExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
+        final OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
-                .httpClient(new OkHttpHttpClient(new OkHttpClient()))
+                .httpClientConfig(new OkHttpHttpClientConfig(okHttpBuilder))
                 .build(GitHubApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 
@@ -73,9 +74,9 @@ public final class GitHubAsyncOkHttpExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        final Response response = request.sendAsync(null).get();
+        final Response response = service.execute(request, null).get();
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getCode());
@@ -83,5 +84,6 @@ public final class GitHubAsyncOkHttpExample {
 
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
+        service.closeAsyncClient();
     }
 }

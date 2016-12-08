@@ -18,13 +18,17 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
+import java.io.File;
+import okhttp3.Cache;
 
 public class OkHttpHttpClient implements HttpClient {
+
+    private static final MediaType DEFAULT_CONTENT_TYPE_MEDIA_TYPE = MediaType.parse(DEFAULT_CONTENT_TYPE);
 
     private final OkHttpClient client;
 
     public OkHttpHttpClient(OkHttpHttpClientConfig config) {
-        client = config.getClient();
+        client = config.getClientBuilder().build();
     }
 
     public OkHttpHttpClient(OkHttpClient client) {
@@ -33,24 +37,55 @@ public class OkHttpHttpClient implements HttpClient {
 
     @Override
     public void close() throws IOException {
-        //client.close();
+        client.dispatcher().executorService().shutdown();
+        client.connectionPool().evictAll();
+        final Cache cache = client.cache();
+        if (cache != null) {
+            cache.close();
+        }
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-                                      String bodyContents, OAuthAsyncRequestCallback<T> callback,
-                                      OAuthRequestAsync.ResponseConverter<T> converter) {
+            byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents, callback,
+                converter);
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            String bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents, callback,
+                converter);
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            File bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents, callback,
+                converter);
+    }
+
+    private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
+            String completeUrl, BodyType bodyType, Object bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequestAsync.ResponseConverter<T> converter) {
         final Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.url(completeUrl);
 
         final String method = httpVerb.name();
 
         // prepare body
-        RequestBody body = null;
+        final RequestBody body;
         if (bodyContents != null && HttpMethod.permitsRequestBody(method)) {
-            final String contentType = headers.containsKey(AbstractRequest.CONTENT_TYPE) ?
-                                         headers.get(AbstractRequest.CONTENT_TYPE) : DEFAULT_CONTENT_TYPE;
-            body = RequestBody.create(MediaType.parse(contentType), bodyContents);
+            final MediaType mediaType = headers.containsKey(AbstractRequest.CONTENT_TYPE)
+                    ? MediaType.parse(headers.get(AbstractRequest.CONTENT_TYPE)) : DEFAULT_CONTENT_TYPE_MEDIA_TYPE;
+
+            body = bodyType.createBody(mediaType, bodyContents);
+        } else {
+            body = null;
         }
 
         // fill HTTP method and body
@@ -66,6 +101,31 @@ public class OkHttpHttpClient implements HttpClient {
 
         // create a new call
         final Call call = client.newCall(requestBuilder.build());
-        return new OAuthAsyncCompletionHandler<>(callback, converter, call);
+        final OkHttpFuture<T> okHttpFuture = new OkHttpFuture<>(call);
+        call.enqueue(new OAuthAsyncCompletionHandler<>(callback, converter, okHttpFuture));
+        return okHttpFuture;
+    }
+
+    private enum BodyType {
+        BYTE_ARRAY {
+            @Override
+            RequestBody createBody(MediaType mediaType, Object bodyContents) {
+                return RequestBody.create(mediaType, (byte[]) bodyContents);
+            }
+        },
+        STRING {
+            @Override
+            RequestBody createBody(MediaType mediaType, Object bodyContents) {
+                return RequestBody.create(mediaType, (String) bodyContents);
+            }
+        },
+        FILE {
+            @Override
+            RequestBody createBody(MediaType mediaType, Object bodyContents) {
+                return RequestBody.create(mediaType, (File) bodyContents);
+            }
+        };
+
+        abstract RequestBody createBody(MediaType mediaType, Object bodyContents);
     }
 }

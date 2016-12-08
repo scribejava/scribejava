@@ -30,7 +30,7 @@ public final class VkontakteExternalHttpExample {
         final String clientSecret = "your client secret";
         ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
 
-        //create any http cleint externally
+        //create any http client externally
         final DefaultAsyncHttpClientConfig httpClientConfig = new DefaultAsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)

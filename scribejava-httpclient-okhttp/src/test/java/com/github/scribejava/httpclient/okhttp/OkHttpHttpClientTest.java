@@ -16,7 +16,6 @@ import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +24,7 @@ public class OkHttpHttpClientTest {
     private OAuthService<?> oAuthService;
 
     @Before
-    public void setUp() throws MalformedURLException {
+    public void setUp() {
         final HttpClient client = new OkHttpHttpClient(new OkHttpClient());
         oAuthService = new OAuth20Service(null,
                 new OAuthConfig("test", "test", null, null, null, null, null, null, null, null, null, null, client));
@@ -42,8 +41,8 @@ public class OkHttpHttpClientTest {
 
         final HttpUrl baseUrl = server.url("/testUrl");
 
-        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString(), oAuthService);
-        final Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
+        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString());
+        final Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
 
         assertEquals(expectedResponseBody, response.getBody());
 
@@ -66,9 +65,9 @@ public class OkHttpHttpClientTest {
         final HttpUrl baseUrl = server.url("/testUrl");
 
         // request with body
-        OAuthRequestAsync request = new OAuthRequestAsync(Verb.POST, baseUrl.toString(), oAuthService);
-        request.addPayload(expectedRequestBody);
-        Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
+        OAuthRequestAsync request = new OAuthRequestAsync(Verb.POST, baseUrl.toString());
+        request.setPayload(expectedRequestBody);
+        Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
 
         assertEquals(expectedResponseBody, response.getBody());
 
@@ -78,8 +77,8 @@ public class OkHttpHttpClientTest {
 
 
         // request with empty body
-        request = new OAuthRequestAsync(Verb.POST, baseUrl.toString(), oAuthService);
-        response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
+        request = new OAuthRequestAsync(Verb.POST, baseUrl.toString());
+        response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
 
         assertEquals(expectedResponseBody, response.getBody());
 
@@ -100,8 +99,8 @@ public class OkHttpHttpClientTest {
 
         final HttpUrl baseUrl = server.url("/testUrl");
 
-        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString(), oAuthService);
-        final Response response = request.sendAsync(null).get(30, TimeUnit.SECONDS);
+        final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, baseUrl.toString());
+        final Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
 
         assertEquals(expectedResponseBody, StreamUtils.getStreamContents(response.getStream()));
 

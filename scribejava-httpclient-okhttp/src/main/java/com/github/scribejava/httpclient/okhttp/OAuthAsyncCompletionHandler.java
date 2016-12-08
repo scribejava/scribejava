@@ -10,28 +10,18 @@ import okhttp3.Headers;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
-class OAuthAsyncCompletionHandler<T> implements Callback, Future<T> {
+class OAuthAsyncCompletionHandler<T> implements Callback {
 
     private final OAuthAsyncRequestCallback<T> callback;
     private final OAuthRequestAsync.ResponseConverter<T> converter;
-    private final Call call;
-    private final CountDownLatch latch;
-    private T result;
+    private final OkHttpFuture<T> okHttpFuture;
 
     OAuthAsyncCompletionHandler(OAuthAsyncRequestCallback<T> callback,
-                                OAuthRequestAsync.ResponseConverter<T> converter, Call call) {
+            OAuthRequestAsync.ResponseConverter<T> converter, OkHttpFuture<T> okHttpFuture) {
         this.callback = callback;
         this.converter = converter;
-        this.call = call;
-        this.latch = new CountDownLatch(1);
-
-        call.enqueue(this);
+        this.okHttpFuture = okHttpFuture;
     }
 
     @Override
@@ -41,7 +31,7 @@ class OAuthAsyncCompletionHandler<T> implements Callback, Future<T> {
                 callback.onThrowable(e);
             }
         } finally {
-            latch.countDown();
+            okHttpFuture.finish();
         }
     }
 
@@ -63,40 +53,12 @@ class OAuthAsyncCompletionHandler<T> implements Callback, Future<T> {
 
             @SuppressWarnings("unchecked")
             final T t = converter == null ? (T) response : converter.convert(response);
-            result = t;
+            okHttpFuture.setResult(t);
             if (callback != null) {
                 callback.onCompleted(t);
             }
         } finally {
-            latch.countDown();
+            okHttpFuture.finish();
         }
-    }
-
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-        call.cancel();
-        return call.isCanceled();
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return call.isCanceled();
-    }
-
-    @Override
-    public boolean isDone() {
-        return call.isExecuted();
-    }
-
-    @Override
-    public T get() throws InterruptedException, ExecutionException {
-        latch.await();
-        return result;
-    }
-
-    @Override
-    public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        latch.await(timeout, unit);
-        return result;
     }
 }

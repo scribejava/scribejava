@@ -5,13 +5,13 @@ import okhttp3.OkHttpClient;
 
 public class OkHttpHttpClientConfig implements HttpClient.Config {
 
-    private final OkHttpClient client;
+    private final OkHttpClient.Builder clientBuilder;
 
-    public OkHttpHttpClientConfig(OkHttpClient client) {
-        this.client = client;
+    public OkHttpHttpClientConfig(OkHttpClient.Builder clientBuilder) {
+        this.clientBuilder = clientBuilder;
     }
 
-    public OkHttpClient getClient() {
-        return client;
+    public OkHttpClient.Builder getClientBuilder() {
+        return clientBuilder;
     }
 }

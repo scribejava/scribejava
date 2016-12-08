@@ -27,7 +27,12 @@ Hit ScribeJava as hard and with many threads as you like.
 
 ### Async and other HTTP clients
 
-You can use ning async http client 1.9.x or asynchttpclient 2.x out-of-box, just add maven modules scribejava-httpclient-ning or scribejava-httpclient-ahc to your pom
+ScribeJava support out-of-box several HTTP clients:
+ * ning async http client 1.9.x (maven module scribejava-httpclient-ning)
+ * asynchttpclient 2.x (maven module scribejava-httpclient-ahc)
+ * OkHttp (maven module scribejava-httpclient-okhttp)
+ 
+ just add corresponding maven modules to your pom
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 

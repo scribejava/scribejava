@@ -38,15 +38,15 @@ public class AhcHttpClient implements HttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new ByteArrayBodySetter(bodyContents),
-                callback, converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.BYTE_ARRAY, bodyContents, callback,
+                converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new StringBodySetter(bodyContents), callback,
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.STRING, bodyContents, callback,
                 converter);
     }
 
@@ -54,12 +54,12 @@ public class AhcHttpClient implements HttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new FileBodySetter(bodyContents), callback,
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.FILE, bodyContents, callback,
                 converter);
     }
 
     private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
-            String completeUrl, BodySetter bodySetter, OAuthAsyncRequestCallback<T> callback,
+            String completeUrl, BodySetter bodySetter, Object bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
         BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
@@ -83,7 +83,7 @@ public class AhcHttpClient implements HttpClient {
             if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
                 boundRequestBuilder = boundRequestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             }
-            boundRequestBuilder = bodySetter.setBody(boundRequestBuilder);
+            boundRequestBuilder = bodySetter.setBody(boundRequestBuilder, bodyContents);
         }
 
         for (Map.Entry<String, String> header : headers.entrySet()) {
@@ -93,55 +93,29 @@ public class AhcHttpClient implements HttpClient {
             boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
         }
 
-        return boundRequestBuilder
-                .execute(new OAuthAsyncCompletionHandler<>(
-                        callback, converter));
+        return boundRequestBuilder.execute(new OAuthAsyncCompletionHandler<>(callback, converter));
     }
 
-    private interface BodySetter {
+    private enum BodySetter {
+        BYTE_ARRAY {
+            @Override
+            BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents) {
+                return requestBuilder.setBody((byte[]) bodyContents);
+            }
+        },
+        STRING {
+            @Override
+            BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents) {
+                return requestBuilder.setBody((String) bodyContents);
+            }
+        },
+        FILE {
+            @Override
+            BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents) {
+                return requestBuilder.setBody((File) bodyContents);
+            }
+        };
 
-        BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder);
-    }
-
-    private static class ByteArrayBodySetter implements BodySetter {
-
-        private final byte[] bodyContents;
-
-        private ByteArrayBodySetter(byte[] bodyContents) {
-            this.bodyContents = bodyContents;
-        }
-
-        @Override
-        public BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder) {
-            return requestBuilder.setBody(bodyContents);
-        }
-    }
-
-    private static class StringBodySetter implements BodySetter {
-
-        private final String bodyContents;
-
-        private StringBodySetter(String bodyContents) {
-            this.bodyContents = bodyContents;
-        }
-
-        @Override
-        public BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder) {
-            return requestBuilder.setBody(bodyContents);
-        }
-    }
-
-    private static class FileBodySetter implements BodySetter {
-
-        private final File bodyContents;
-
-        private FileBodySetter(File bodyContents) {
-            this.bodyContents = bodyContents;
-        }
-
-        @Override
-        public BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder) {
-            return requestBuilder.setBody(bodyContents);
-        }
+        abstract BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents);
     }
 }

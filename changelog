@@ -3,6 +3,7 @@
    You don't need OAuthService to create OAuthRequest anymore. Async request should be sent via OAuthService method.
  * add support for byte[] and File (async only) payload in OAuth Requests (thanks to https://github.com/keijohyttinen)
  * add support for  HTTP verbs (thanks to https://github.com/keijohyttinen)
+ * add OkHttp http client support (thanks to https://github.com/arcao)
 
 [3.3.0]
  * update Facebook v2.6 -> v2.8
