@@ -135,18 +135,6 @@ public class ServiceBuilder {
         return this;
     }
 
-    /**
-     * throws UnsupportedOperationException
-     *
-     * @param httpClientConfig httpClientConfig
-     * @return never
-     * @deprecated use {@link #httpClientConfig(com.github.scribejava.core.httpclient.HttpClientConfig)}
-     */
-    @Deprecated
-    public ServiceBuilder httpClientConfig(com.github.scribejava.core.model.HttpClient.Config httpClientConfig) {
-        throw new UnsupportedOperationException("deprecated, use another method, see javadocs");
-    }
-
     public ServiceBuilder httpClientConfig(HttpClientConfig httpClientConfig) {
         Preconditions.checkNotNull(httpClientConfig, "httpClientConfig can't be null");
         this.httpClientConfig = httpClientConfig;

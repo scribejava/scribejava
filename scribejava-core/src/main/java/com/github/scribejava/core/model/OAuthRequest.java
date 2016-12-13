@@ -15,19 +15,6 @@ public class OAuthRequest extends AbstractRequest {
 
     private final OAuthConfig config;
 
-    /**
-     *
-     * @param verb verb
-     * @param url url
-     * @param service service
-     * @deprecated use {@link #OAuthRequest(com.github.scribejava.core.model.Verb, java.lang.String,
-     * com.github.scribejava.core.model.OAuthConfig)}
-     */
-    @Deprecated
-    public OAuthRequest(Verb verb, String url, OAuthService<?> service) {
-        this(verb, url, service.getConfig());
-    }
-
     public OAuthRequest(Verb verb, String url, OAuthConfig config) {
         super(verb, url);
         this.config = config;

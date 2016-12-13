@@ -7,7 +7,6 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.oauth.OAuthService;
 import java.io.File;
 
 /**
@@ -36,19 +35,6 @@ public abstract class AbstractRequest {
     private final Map<String, String> oauthParameters = new HashMap<>();
 
     private String realm;
-
-    /**
-     * Default constructor.
-     *
-     * @param verb Http verb/method
-     * @param url resource URL
-     * @param service OAuthService
-     * @deprecated use {@link #AbstractRequest(com.github.scribejava.core.model.Verb, java.lang.String)}
-     */
-    @Deprecated
-    public AbstractRequest(Verb verb, String url, OAuthService<?> service) {
-        this(verb, url);
-    }
 
     /**
      * Default constructor.
@@ -146,24 +132,6 @@ public abstract class AbstractRequest {
     }
 
     /**
-     * @param payload payload
-     * @deprecated use {@link #setPayload(java.lang.String) }
-     */
-    @Deprecated
-    public void addPayload(String payload) {
-        setPayload(payload);
-    }
-
-    /**
-     * @param payload payload
-     * @deprecated use {@link #setPayload(byte[]) }
-     */
-    @Deprecated
-    public void addPayload(byte[] payload) {
-        setPayload(payload);
-    }
-
-    /**
      * Set body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing.
      * Like for example XML. Note: The contents are not part of the OAuth signature
      *
@@ -252,15 +220,6 @@ public abstract class AbstractRequest {
     }
 
     /**
-     * @return value set in {@link #setPayload(java.lang.String)}
-     * @deprecated use {@link #getStringPayload()} or {@link #getByteArrayPayload()}
-     */
-    @Deprecated
-    public String getBodyContents() {
-        return getStringPayload();
-    }
-
-    /**
      * Returns the body of the request (set in {@link #setPayload(java.lang.String)})
      *
      * @return form encoded string
@@ -269,15 +228,6 @@ public abstract class AbstractRequest {
      */
     public String getStringPayload() {
         return stringPayload;
-    }
-
-    /**
-     * @return value set in {@link #setPayload(byte[])}
-     * @deprecated use {@link #getByteArrayPayload() }
-     */
-    @Deprecated
-    public byte[] getByteBodyContents() {
-        return getByteArrayPayload();
     }
 
     /**
@@ -341,16 +291,5 @@ public abstract class AbstractRequest {
 
     public boolean isFollowRedirects() {
         return followRedirects;
-    }
-
-    /**
-     * always throws UnsupportedOperationException
-     *
-     * @return never
-     * @deprecated Request doesn't couple with Service anymore. It doesn't need it. Look for service somewhere else
-     */
-    @Deprecated
-    public OAuthService<?> getService() {
-        throw new UnsupportedOperationException();
     }
 }
