@@ -20,12 +20,12 @@ public class DoktornaraboteApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "http://auth.doktornarabote.ru/OAuth/Token";
+        return "https://auth.doktornarabote.ru/OAuth/Token";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "http://auth.doktornarabote.ru/OAuth/Authorize";
+        return "https://auth.doktornarabote.ru/OAuth/Authorize";
     }
 
     @Override

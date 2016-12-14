@@ -39,7 +39,7 @@ ScribeJava support out-of-box several HTTP clients:
 * AWeber (http://www.aweber.com/)
 * Box (https://www.box.com/)
 * Digg (http://digg.com/)
-* Доктор на работе (http://www.doktornarabote.ru/)
+* Доктор на работе (https://www.doktornarabote.ru/)
 * Facebook (https://www.facebook.com/)
 * Flickr (https://www.flickr.com/)
 * Foursquare (https://foursquare.com/)
