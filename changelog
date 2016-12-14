@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[3.4.1]
  * Drop deprecated methods
  * Move doktornarabote.ru urls to https (thanks to https://github.com/ezibrov)
 
