@@ -1,7 +1,7 @@
 package com.github.scribejava.httpclient.ning;
 
+import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
 import com.github.scribejava.core.model.AbstractRequest;
-import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -15,7 +15,7 @@ import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_T
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.File;
 
-public class NingHttpClient implements HttpClient {
+public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
 
     private final AsyncHttpClient client;
 

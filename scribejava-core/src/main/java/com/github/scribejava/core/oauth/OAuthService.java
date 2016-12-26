@@ -14,6 +14,7 @@ import java.io.File;
 
 import java.io.IOException;
 import java.util.ServiceLoader;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -66,8 +67,8 @@ public abstract class OAuthService<T extends Token> {
 
     public abstract void signRequest(T token, AbstractRequest request);
 
-    public <T> Future<T> execute(OAuthRequestAsync request, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequestAsync.ResponseConverter<T> converter) {
+    public <R> Future<R> execute(OAuthRequestAsync request, OAuthAsyncRequestCallback<R> callback,
+            OAuthRequestAsync.ResponseConverter<R> converter) {
 
         final File filePayload = request.getFilePayload();
         if (filePayload != null) {
@@ -84,6 +85,20 @@ public abstract class OAuthService<T extends Token> {
 
     public Future<Response> execute(OAuthRequestAsync request, OAuthAsyncRequestCallback<Response> callback) {
         return execute(request, callback, null);
+    }
+
+    public Response execute(OAuthRequestAsync request) throws InterruptedException, ExecutionException, IOException {
+        final File filePayload = request.getFilePayload();
+        if (filePayload != null) {
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), filePayload);
+        } else if (request.getStringPayload() != null) {
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getStringPayload());
+        } else {
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getByteArrayPayload());
+        }
     }
 
     /**

@@ -18,8 +18,12 @@ import java.util.Map;
 import java.util.concurrent.Future;
 
 import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
+import com.github.scribejava.core.model.Response;
 import java.io.File;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 import okhttp3.Cache;
+import okhttp3.Headers;
 
 public class OkHttpHttpClient implements HttpClient {
 
@@ -73,6 +77,38 @@ public class OkHttpHttpClient implements HttpClient {
     private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
             String completeUrl, BodyType bodyType, Object bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
+        final Call call = createCall(userAgent, headers, httpVerb, completeUrl, bodyType, bodyContents);
+        final OkHttpFuture<T> okHttpFuture = new OkHttpFuture<>(call);
+        call.enqueue(new OAuthAsyncCompletionHandler<>(callback, converter, okHttpFuture));
+        return okHttpFuture;
+    }
+
+    @Override
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
+        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents);
+    }
+
+    @Override
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            String bodyContents) throws InterruptedException, ExecutionException, IOException {
+        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents);
+    }
+
+    @Override
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            File bodyContents) throws InterruptedException, ExecutionException, IOException {
+        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents);
+    }
+
+    private Response doExecute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            BodyType bodyType, Object bodyContents) throws IOException {
+        final Call call = createCall(userAgent, headers, httpVerb, completeUrl, bodyType, bodyContents);
+        return convertResponse(call.execute());
+    }
+
+    private Call createCall(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            BodyType bodyType, Object bodyContents) {
         final Request.Builder requestBuilder = new Request.Builder();
         requestBuilder.url(completeUrl);
 
@@ -101,10 +137,7 @@ public class OkHttpHttpClient implements HttpClient {
         }
 
         // create a new call
-        final Call call = client.newCall(requestBuilder.build());
-        final OkHttpFuture<T> okHttpFuture = new OkHttpFuture<>(call);
-        call.enqueue(new OAuthAsyncCompletionHandler<>(callback, converter, okHttpFuture));
-        return okHttpFuture;
+        return client.newCall(requestBuilder.build());
     }
 
     private enum BodyType {
@@ -128,5 +161,18 @@ public class OkHttpHttpClient implements HttpClient {
         };
 
         abstract RequestBody createBody(MediaType mediaType, Object bodyContents);
+    }
+
+    static Response convertResponse(okhttp3.Response okHttpResponse) {
+        final Headers headers = okHttpResponse.headers();
+        final Map<String, String> headersMap = new HashMap<>();
+
+        for (String name : headers.names()) {
+            headersMap.put(name, headers.get(name));
+        }
+
+        return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
+                okHttpResponse.body().byteStream());
+
     }
 }

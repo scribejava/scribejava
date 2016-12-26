@@ -5,11 +5,8 @@ import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Headers;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 class OAuthAsyncCompletionHandler<T> implements Callback {
 
@@ -38,15 +35,8 @@ class OAuthAsyncCompletionHandler<T> implements Callback {
     @Override
     public void onResponse(Call call, okhttp3.Response okHttpResponse) throws IOException {
         try {
-            final Headers headers = okHttpResponse.headers();
-            final Map<String, String> headersMap = new HashMap<>();
 
-            for (String name : headers.names()) {
-                headersMap.put(name, headers.get(name));
-            }
-
-            final Response response = new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
-                    okHttpResponse.body().byteStream());
+            final Response response = OkHttpHttpClient.convertResponse(okHttpResponse);
 
             @SuppressWarnings("unchecked")
             final T t = converter == null ? (T) response : converter.convert(response);
