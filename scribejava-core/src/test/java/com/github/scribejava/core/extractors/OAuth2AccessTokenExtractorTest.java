@@ -76,7 +76,6 @@ public class OAuth2AccessTokenExtractorTest {
     }
 
     private static Response ok(String body) {
-        return new Response(200, /* message */ null, /* headers */ Collections.<String, String>emptyMap(),
-                body, /* stream */ null);
+        return new Response(200, /* message */ null, /* headers */ Collections.<String, String>emptyMap(), body);
     }
 }

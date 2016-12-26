@@ -13,20 +13,54 @@ import com.github.scribejava.core.utils.StreamUtils;
 
 public class Response {
 
-    private int code;
-    private String message;
+    private final int code;
+    private final String message;
+    private final Map<String, String> headers;
     private String body;
     private InputStream stream;
-    private Map<String, String> headers;
 
+    /**
+     *
+     * @param code code
+     * @param message message
+     * @param headers headers
+     * @param body body
+     * @param stream stream
+     * @deprecated use either {@link #Response(int, java.lang.String, java.util.Map, java.io.InputStream) }
+     * or {@link #Response(int, java.lang.String, java.util.Map, java.lang.String) }
+     */
+    @Deprecated
     public Response(int code, String message, Map<String, String> headers, String body, InputStream stream) {
         this.code = code;
+        this.message = message;
         this.headers = headers;
         this.body = body;
-        this.message = message;
         this.stream = stream;
     }
 
+    private Response(int code, String message, Map<String, String> headers) {
+        this.code = code;
+        this.message = message;
+        this.headers = headers;
+    }
+
+    public Response(int code, String message, Map<String, String> headers, InputStream stream) {
+        this(code, message, headers);
+        this.stream = stream;
+    }
+
+    public Response(int code, String message, Map<String, String> headers, String body) {
+        this(code, message, headers);
+        this.body = body;
+    }
+
+    /**
+     *
+     * @param connection connection
+     * @throws IOException
+     * @deprecated use {@link #Response(int, java.lang.String, java.util.Map, java.lang.String, java.io.InputStream) }
+     */
+    @Deprecated
     Response(HttpURLConnection connection) throws IOException {
         try {
             connection.connect();
@@ -40,14 +74,24 @@ public class Response {
     }
 
     private String parseBodyContents() throws IOException {
+        if (stream == null) {
+            return null;
+        }
         if ("gzip".equals(getHeader("Content-Encoding"))) {
-            body = StreamUtils.getGzipStreamContents(getStream());
+            body = StreamUtils.getGzipStreamContents(stream);
         } else {
-            body = StreamUtils.getStreamContents(getStream());
+            body = StreamUtils.getStreamContents(stream);
         }
         return body;
     }
 
+    /**
+     *
+     * @param conn conn
+     * @return
+     * @deprecated use {@link OAuthRequest#parseHeaders(java.net.HttpURLConnection) }
+     */
+    @Deprecated
     private Map<String, String> parseHeaders(HttpURLConnection conn) {
         final Map<String, String> headers = new HashMap<>();
         for (Entry<String, List<String>> entry : conn.getHeaderFields().entrySet()) {
@@ -62,7 +106,7 @@ public class Response {
     }
 
     public final boolean isSuccessful() {
-        return getCode() >= 200 && getCode() < 400;
+        return code >= 200 && code < 400;
     }
 
     public String getBody() throws IOException {

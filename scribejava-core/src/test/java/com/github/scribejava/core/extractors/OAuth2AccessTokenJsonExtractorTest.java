@@ -48,12 +48,10 @@ public class OAuth2AccessTokenJsonExtractorTest {
     }
 
     private static Response ok(String body) {
-        return new Response(200, /* message */ null, /* headers */ Collections.<String, String>emptyMap(),
-                body, /* stream */ null);
+        return new Response(200, /* message */ null, /* headers */ Collections.<String, String>emptyMap(), body);
     }
 
     private static Response error(String body) {
-        return new Response(400, /* message */ null, /* headers */ Collections.<String, String>emptyMap(),
-                body, /* stream */ null);
+        return new Response(400, /* message */ null, /* headers */ Collections.<String, String>emptyMap(), body);
     }
 }

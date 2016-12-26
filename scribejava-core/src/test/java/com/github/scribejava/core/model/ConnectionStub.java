@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +16,6 @@ import java.util.Map;
 public class ConnectionStub extends HttpURLConnection {
 
     private final Map<String, String> headers = new HashMap<>();
-    private final Map<String, List<String>> responseHeaders = new HashMap<>();
-    private int inputStreamCalled;
 
     public ConnectionStub() throws MalformedURLException {
         super(new URL("http://example.com"));
@@ -44,12 +42,7 @@ public class ConnectionStub extends HttpURLConnection {
 
     @Override
     public InputStream getInputStream() throws IOException {
-        inputStreamCalled++;
         return new ByteArrayInputStream("contents".getBytes());
-    }
-
-    public int getTimesCalledInpuStream() {
-        return inputStreamCalled;
     }
 
     @Override
@@ -61,11 +54,7 @@ public class ConnectionStub extends HttpURLConnection {
 
     @Override
     public Map<String, List<String>> getHeaderFields() {
-        return responseHeaders;
-    }
-
-    public void addResponseHeader(String key, String value) {
-        responseHeaders.put(key, Arrays.asList(value));
+        return Collections.emptyMap();
     }
 
     @Override

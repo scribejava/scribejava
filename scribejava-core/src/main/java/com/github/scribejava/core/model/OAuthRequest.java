@@ -5,8 +5,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 import com.github.scribejava.core.exceptions.OAuthConnectionException;
+import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.oauth.OAuthService;
 import java.io.File;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.List;
 
 public class OAuthRequest extends AbstractRequest {
 
@@ -57,7 +61,29 @@ public class OAuthRequest extends AbstractRequest {
                 addBody(getByteArrayPayload());
             }
         }
-        return new Response(connection);
+
+        try {
+            connection.connect();
+            final int responseCode = connection.getResponseCode();
+            return new Response(responseCode, connection.getResponseMessage(), parseHeaders(connection),
+                    responseCode >= 200 && responseCode < 400 ? connection.getInputStream()
+                            : connection.getErrorStream());
+        } catch (UnknownHostException e) {
+            throw new OAuthException("The IP address of a host could not be determined.", e);
+        }
+    }
+
+    private static Map<String, String> parseHeaders(HttpURLConnection conn) {
+        final Map<String, String> headers = new HashMap<>();
+        for (Map.Entry<String, List<String>> entry : conn.getHeaderFields().entrySet()) {
+            final String key = entry.getKey();
+            if ("Content-Encoding".equalsIgnoreCase(key)) {
+                headers.put("Content-Encoding", entry.getValue().get(0));
+            } else {
+                headers.put(key, entry.getValue().get(0));
+            }
+        }
+        return headers;
     }
 
     private void createConnection() throws IOException {

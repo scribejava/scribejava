@@ -28,7 +28,7 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
             headersMap.put(header.getKey(), header.getValue());
         }
         final Response response = new Response(ahcResponse.getStatusCode(), ahcResponse.getStatusText(), headersMap,
-                ahcResponse.getResponseBody(), ahcResponse.getResponseBodyAsStream());
+                ahcResponse.getResponseBodyAsStream());
 
         @SuppressWarnings("unchecked")
         final T t = converter == null ? (T) response : converter.convert(response);

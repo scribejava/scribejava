@@ -33,7 +33,7 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
             headersMap.put(header.getKey(), value.toString());
         }
         final Response response = new Response(ningResponse.getStatusCode(), ningResponse.getStatusText(), headersMap,
-                ningResponse.getResponseBody(), ningResponse.getResponseBodyAsStream());
+                ningResponse.getResponseBodyAsStream());
 
         @SuppressWarnings("unchecked")
         final T t = converter == null ? (T) response : converter.convert(response);
