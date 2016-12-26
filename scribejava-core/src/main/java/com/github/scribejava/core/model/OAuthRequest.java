@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 import com.github.scribejava.core.exceptions.OAuthConnectionException;
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.oauth.OAuthService;
 import java.io.File;
 
@@ -30,14 +29,6 @@ public class OAuthRequest extends AbstractRequest {
      * @throws RuntimeException if the connection cannot be created.
      */
     public Response send() {
-        final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
-
-        if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            throw new OAuthException("Cannot use sync operations, only async");
-        }
-        if (ForceTypeOfHttpRequest.PREFER_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            config.log("Cannot use sync operations, only async");
-        }
         try {
             createConnection();
             return doSend();

@@ -7,11 +7,9 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
@@ -29,7 +27,6 @@ public final class FacebookAsyncNingExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
-        ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
         final NingHttpClientConfig clientConfig = new NingHttpClientConfig(new AsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)

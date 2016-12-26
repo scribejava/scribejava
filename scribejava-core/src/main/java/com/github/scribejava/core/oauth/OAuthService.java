@@ -1,9 +1,7 @@
 package com.github.scribejava.core.oauth;
 
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.httpclient.HttpClientProvider;
 import com.github.scribejava.core.model.AbstractRequest;
-import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
@@ -11,7 +9,6 @@ import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Token;
 import java.io.File;
 
@@ -32,26 +29,12 @@ public abstract class OAuthService<T extends Token> {
 
     public OAuthService(OAuthConfig config) {
         this.config = config;
-        final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
         final HttpClientConfig httpClientConfig = config.getHttpClientConfig();
         final HttpClient externalHttpClient = config.getHttpClient();
 
         if (httpClientConfig == null && externalHttpClient == null) {
-            if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                throw new OAuthException("Cannot use sync operations, only async");
-            }
-            if (ForceTypeOfHttpRequest.PREFER_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                config.log("Cannot use sync operations, only async");
-            }
             httpClient = null;
         } else {
-            if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                throw new OAuthException("Cannot use async operations, only sync");
-            }
-            if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                config.log("Cannot use async operations, only sync");
-            }
-
             httpClient = externalHttpClient == null ? getClient(httpClientConfig) : externalHttpClient;
         }
     }
@@ -85,14 +68,6 @@ public abstract class OAuthService<T extends Token> {
 
     public <T> Future<T> execute(OAuthRequestAsync request, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-
-        final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
-        if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            throw new OAuthException("Cannot use async operations, only sync");
-        }
-        if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-            config.log("Cannot use async operations, only sync");
-        }
 
         final File filePayload = request.getFilePayload();
         if (filePayload != null) {

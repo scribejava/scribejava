@@ -1,5 +1,10 @@
 package com.github.scribejava.core.model;
 
+/**
+ *
+ * @deprecated unused anymore. Have no sense and impaction
+ */
+@Deprecated
 public abstract class ScribeJavaConfig {
 
     private static ForceTypeOfHttpRequest forceTypeOfHttpRequests = ForceTypeOfHttpRequest.NONE;

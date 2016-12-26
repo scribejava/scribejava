@@ -1,5 +1,10 @@
 package com.github.scribejava.core.model;
 
+/**
+ *
+ * @deprecated unused anymore. Have no sense and impaction
+ */
+@Deprecated
 public enum ForceTypeOfHttpRequest {
 
     NONE,

@@ -5,12 +5,10 @@ import java.util.Scanner;
 import com.github.scribejava.apis.GoogleApi20;
 import com.github.scribejava.httpclient.ahc.AhcHttpClientConfig;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.ScribeJavaConfig;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
@@ -32,7 +30,6 @@ public final class Google20AsyncAHCExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
-        ScribeJavaConfig.setForceTypeOfHttpRequests(ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS);
         final HttpClientConfig clientConfig = new AhcHttpClientConfig(new DefaultAsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
                 .setRequestTimeout(10_000)
