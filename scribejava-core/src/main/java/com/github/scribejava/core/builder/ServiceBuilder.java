@@ -3,6 +3,7 @@ package com.github.scribejava.core.builder;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
@@ -26,11 +27,6 @@ public class ServiceBuilder {
     private String responseType = "code";
     private String userAgent;
 
-    //sync version only
-    private Integer connectTimeout;
-    private Integer readTimeout;
-
-    //not-default httpclient only
     private HttpClientConfig httpClientConfig;
     private HttpClient httpClient;
 
@@ -123,15 +119,43 @@ public class ServiceBuilder {
         return this;
     }
 
+    /**
+     *
+     * @param connectTimeout connectTimeout
+     * @return ServiceBuilder to chain methods
+     * @deprecated use {@link com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig} and
+     * <br> {@link #httpClientConfig(com.github.scribejava.core.httpclient.HttpClientConfig) }
+     */
+    @Deprecated
     public ServiceBuilder connectTimeout(Integer connectTimeout) {
-        Preconditions.checkNotNull(connectTimeout, "Connection timeout can't be null");
-        this.connectTimeout = connectTimeout;
+        final JDKHttpClientConfig jdkHttpClientConfig;
+        if (httpClientConfig instanceof JDKHttpClientConfig) {
+            jdkHttpClientConfig = (JDKHttpClientConfig) httpClientConfig;
+        } else {
+            jdkHttpClientConfig = new JDKHttpClientConfig();
+            httpClientConfig = jdkHttpClientConfig;
+        }
+        jdkHttpClientConfig.setConnectTimeout(connectTimeout);
         return this;
     }
 
+    /**
+     *
+     * @param readTimeout readTimeout
+     * @return ServiceBuilder to chain methods
+     * @deprecated use {@link com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig} and
+     * <br> {@link #httpClientConfig(com.github.scribejava.core.httpclient.HttpClientConfig) }
+     */
+    @Deprecated
     public ServiceBuilder readTimeout(Integer readTimeout) {
-        Preconditions.checkNotNull(readTimeout, "Read timeout can't be null");
-        this.readTimeout = readTimeout;
+        final JDKHttpClientConfig jdkHttpClientConfig;
+        if (httpClientConfig instanceof JDKHttpClientConfig) {
+            jdkHttpClientConfig = (JDKHttpClientConfig) httpClientConfig;
+        } else {
+            jdkHttpClientConfig = new JDKHttpClientConfig();
+            httpClientConfig = jdkHttpClientConfig;
+        }
+        jdkHttpClientConfig.setReadTimeout(readTimeout);
         return this;
     }
 
@@ -169,7 +193,7 @@ public class ServiceBuilder {
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
-                userAgent, connectTimeout, readTimeout, httpClientConfig, httpClient);
+                userAgent, httpClientConfig, httpClient);
     }
 
     /**

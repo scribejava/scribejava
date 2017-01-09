@@ -1,6 +1,8 @@
 package com.github.scribejava.core.model;
 
+import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -19,22 +21,16 @@ public class OAuthConfig {
     private final String responseType;
     private final String userAgent;
 
-    //sync only version
-    private final Integer connectTimeout;
-    private final Integer readTimeout;
-
-    //async version only
     private HttpClientConfig httpClientConfig;
-    private com.github.scribejava.core.httpclient.HttpClient httpClient;
+    private HttpClient httpClient;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null, null);
     }
 
     public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
-            Integer readTimeout, HttpClientConfig httpClientConfig,
-            com.github.scribejava.core.httpclient.HttpClient httpClient) {
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -44,8 +40,6 @@ public class OAuthConfig {
         this.state = state;
         this.responseType = responseType;
         this.userAgent = userAgent;
-        this.connectTimeout = connectTimeout;
-        this.readTimeout = readTimeout;
         this.httpClientConfig = httpClientConfig;
         this.httpClient = httpClient;
     }
@@ -93,19 +87,37 @@ public class OAuthConfig {
         }
     }
 
+    /**
+     *
+     * @return Connect Timeout
+     * @deprecated use {@link JDKHttpClientConfig}
+     */
+    @Deprecated
     public Integer getConnectTimeout() {
-        return connectTimeout;
+        if (httpClientConfig instanceof JDKHttpClientConfig) {
+            return ((JDKHttpClientConfig) httpClientConfig).getConnectTimeout();
+        }
+        return null;
     }
 
+    /**
+     *
+     * @return Read Timeout
+     * @deprecated use {@link JDKHttpClientConfig}
+     */
+    @Deprecated
     public Integer getReadTimeout() {
-        return readTimeout;
+        if (httpClientConfig instanceof JDKHttpClientConfig) {
+            return ((JDKHttpClientConfig) httpClientConfig).getReadTimeout();
+        }
+        return null;
     }
 
     public HttpClientConfig getHttpClientConfig() {
         return httpClientConfig;
     }
 
-    public com.github.scribejava.core.httpclient.HttpClient getHttpClient() {
+    public HttpClient getHttpClient() {
         return httpClient;
     }
 }

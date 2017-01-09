@@ -25,11 +25,11 @@ public class NingHttpClientConfig implements HttpClientConfig {
     }
 
     @Override
-    public HttpClientConfig createDefaultConfig() {
+    public NingHttpClientConfig createDefaultConfig() {
         return defaultConfig();
     }
 
-    public static HttpClientConfig defaultConfig() {
+    public static NingHttpClientConfig defaultConfig() {
         return new NingHttpClientConfig(null);
     }
 }

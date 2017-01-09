@@ -4,6 +4,7 @@ import com.github.scribejava.core.httpclient.HttpClientProvider;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -102,6 +103,9 @@ public abstract class OAuthService<T extends Token> {
     }
 
     public Response execute(OAuthRequest request) {
-        return request.send(config);
+        final HttpClientConfig httpClientConfig = config.getHttpClientConfig();
+        return request.send(config.getUserAgent(),
+                httpClientConfig instanceof JDKHttpClientConfig ? (JDKHttpClientConfig) httpClientConfig
+                        : JDKHttpClientConfig.defaultConfig());
     }
 }

@@ -27,7 +27,7 @@ public class OkHttpHttpClientTest {
     public void setUp() {
         final HttpClient client = new OkHttpHttpClient(new OkHttpClient());
         oAuthService = new OAuth20Service(null,
-                new OAuthConfig("test", "test", null, null, null, null, null, null, null, null, null, null, client));
+                new OAuthConfig("test", "test", null, null, null, null, null, null, null, null, client));
     }
 
 

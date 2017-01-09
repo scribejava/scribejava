@@ -16,11 +16,11 @@ public class AhcHttpClientConfig implements HttpClientConfig {
     }
 
     @Override
-    public HttpClientConfig createDefaultConfig() {
+    public AhcHttpClientConfig createDefaultConfig() {
         return defaultConfig();
     }
 
-    public static HttpClientConfig defaultConfig() {
+    public static AhcHttpClientConfig defaultConfig() {
         return new AhcHttpClientConfig(null);
     }
 }

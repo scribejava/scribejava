@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.util.Map;
 import com.github.scribejava.core.exceptions.OAuthConnectionException;
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import java.io.File;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -29,26 +30,27 @@ public class OAuthRequest extends AbstractRequest {
         this(verb, url);
     }
 
-    public Response send(OAuthConfig config) {
+    public Response send(String userAgent, JDKHttpClientConfig httpClientConfig) {
         try {
-            return doSend(config, isFollowRedirects(), getHeaders(), getVerb(), getCompleteUrl(), this);
+            return doSend(userAgent, httpClientConfig, isFollowRedirects(), getHeaders(), getVerb(), getCompleteUrl(),
+                    this);
         } catch (IOException | RuntimeException e) {
             throw new OAuthConnectionException(getCompleteUrl(), e);
         }
     }
 
-    private static Response doSend(OAuthConfig config, boolean followRedirects, Map<String, String> headers,
-            Verb httpVerb, String completeUrl, OAuthRequest request) throws IOException {
+    private static Response doSend(String userAgent, JDKHttpClientConfig httpClientConfig, boolean followRedirects,
+            Map<String, String> headers, Verb httpVerb, String completeUrl, OAuthRequest request) throws IOException {
         final HttpURLConnection connection = (HttpURLConnection) new URL(completeUrl).openConnection();
         connection.setInstanceFollowRedirects(followRedirects);
         connection.setRequestMethod(httpVerb.name());
-        if (config.getConnectTimeout() != null) {
-            connection.setConnectTimeout(config.getConnectTimeout());
+        if (httpClientConfig.getConnectTimeout() != null) {
+            connection.setConnectTimeout(httpClientConfig.getConnectTimeout());
         }
-        if (config.getReadTimeout() != null) {
-            connection.setReadTimeout(config.getReadTimeout());
+        if (httpClientConfig.getReadTimeout() != null) {
+            connection.setReadTimeout(httpClientConfig.getReadTimeout());
         }
-        addHeaders(connection, headers, config.getUserAgent());
+        addHeaders(connection, headers, userAgent);
         if (httpVerb == Verb.POST || httpVerb == Verb.PUT || httpVerb == Verb.DELETE) {
             final File filePayload = request.getFilePayload();
             if (filePayload != null) {

@@ -16,11 +16,11 @@ public class OkHttpHttpClientConfig implements HttpClientConfig {
     }
 
     @Override
-    public HttpClientConfig createDefaultConfig() {
+    public OkHttpHttpClientConfig createDefaultConfig() {
         return defaultConfig();
     }
 
-    public static HttpClientConfig defaultConfig() {
+    public static OkHttpHttpClientConfig defaultConfig() {
         return new OkHttpHttpClientConfig(null);
     }
 }
