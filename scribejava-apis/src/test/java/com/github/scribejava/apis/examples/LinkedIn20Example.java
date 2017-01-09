@@ -64,12 +64,11 @@ public final class LinkedIn20Example {
                 break;
             }
 
-            final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, query),
-                    service.getConfig());
+            final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, query));
             request.addHeader("x-li-format", "json");
             request.addHeader("Accept-Language", "ru-RU");
             service.signRequest(accessToken, request);
-            final Response response = request.send();
+            final Response response = service.execute(request);
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getBody());

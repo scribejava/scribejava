@@ -10,7 +10,7 @@ public class OAuthRequestTest {
 
     @Before
     public void setUp() {
-        request = new OAuthRequest(Verb.GET, "http://example.com", new OAuthConfig("test", "test"));
+        request = new OAuthRequest(Verb.GET, "http://example.com");
     }
 
     @Test

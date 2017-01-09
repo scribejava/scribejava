@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.util.Map;
 import com.github.scribejava.core.exceptions.OAuthConnectionException;
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.oauth.OAuthService;
 import java.io.File;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -14,23 +13,23 @@ import java.util.List;
 
 public class OAuthRequest extends AbstractRequest {
 
-    private final OAuthConfig config;
-
-    public OAuthRequest(Verb verb, String url, OAuthConfig config) {
+    public OAuthRequest(Verb verb, String url) {
         super(verb, url);
-        this.config = config;
     }
 
     /**
-     * Execute the request and return a {@link Response}
      *
-     * the same as {@link OAuthService#execute(com.github.scribejava.core.model.OAuthRequest)}
-     *
-     * @return Http Response
-     *
-     * @throws RuntimeException if the connection cannot be created.
+     * @param verb verb
+     * @param url url
+     * @param config unused
+     * @deprecated use {@link #OAuthRequest(com.github.scribejava.core.model.Verb, java.lang.String) }
      */
-    public Response send() {
+    @Deprecated
+    public OAuthRequest(Verb verb, String url, OAuthConfig config) {
+        this(verb, url);
+    }
+
+    public Response send(OAuthConfig config) {
         try {
             return doSend(config, isFollowRedirects(), getHeaders(), getVerb(), getCompleteUrl(), this);
         } catch (IOException | RuntimeException e) {

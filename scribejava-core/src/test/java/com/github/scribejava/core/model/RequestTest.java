@@ -10,18 +10,14 @@ public class RequestTest {
 
     private OAuthRequest getRequest;
     private OAuthRequest postRequest;
-    private OAuthConfig config;
 
     @Before
     public void setUp() throws MalformedURLException {
-        config = new OAuthConfig("test", "test");
-
-        postRequest = new OAuthRequest(Verb.POST, "http://example.com", config);
+        postRequest = new OAuthRequest(Verb.POST, "http://example.com");
         postRequest.addBodyParameter("param", "value");
         postRequest.addBodyParameter("param with spaces", "value with spaces");
 
-        getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces",
-                config);
+        getRequest = new OAuthRequest(Verb.GET, "http://example.com?qsparam=value&other+param=value+with+spaces");
     }
 
     @Test
@@ -45,7 +41,7 @@ public class RequestTest {
 
     @Test
     public void shouldAllowAddingQuerystringParametersAfterCreation() {
-        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", config);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val");
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals(3, request.getQueryStringParams().size());
@@ -53,7 +49,7 @@ public class RequestTest {
 
     @Test
     public void shouldReturnTheCompleteUrl() {
-        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val", config);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com?one=val");
         request.addQuerystringParameter("two", "other val");
         request.addQuerystringParameter("more", "params");
         assertEquals("http://example.com?one=val&two=other%20val&more=params", request.getCompleteUrl());

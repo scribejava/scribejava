@@ -63,7 +63,7 @@ public final class RenrenExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL, service.getConfig());
+        final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("method", "users.getInfo");
         parameters.put("format", "json");
@@ -84,7 +84,7 @@ public final class RenrenExample {
         System.out.println("Sig string: " + b.toString());
         request.addQuerystringParameter("sig", md5(b.toString()));
         service.signRequest(accessToken, request);
-        final Response response = request.send();
+        final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getCode());

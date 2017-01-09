@@ -101,13 +101,7 @@ public abstract class OAuthService<T extends Token> {
         }
     }
 
-    /**
-     * the same as {@link OAuthRequest#send()}
-     *
-     * @param request request
-     * @return Response
-     */
     public Response execute(OAuthRequest request) {
-        return request.send();
+        return request.send(config);
     }
 }

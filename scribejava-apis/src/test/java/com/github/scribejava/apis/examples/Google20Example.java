@@ -98,9 +98,9 @@ public final class Google20Example {
                 requestUrl = PROTECTED_RESOURCE_URL + "?fields=" + query;
             }
 
-            final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service.getConfig());
+            final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
             service.signRequest(accessToken, request);
-            final Response response = request.send();
+            final Response response = service.execute(request);
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getBody());
