@@ -32,17 +32,17 @@ public class OAuthRequest extends AbstractRequest {
 
     public Response send(String userAgent, JDKHttpClientConfig httpClientConfig) {
         try {
-            return doSend(userAgent, httpClientConfig, isFollowRedirects(), getHeaders(), getVerb(), getCompleteUrl(),
+            return doSend(userAgent, httpClientConfig, getHeaders(), getVerb(), getCompleteUrl(),
                     this);
         } catch (IOException | RuntimeException e) {
             throw new OAuthConnectionException(getCompleteUrl(), e);
         }
     }
 
-    private static Response doSend(String userAgent, JDKHttpClientConfig httpClientConfig, boolean followRedirects,
-            Map<String, String> headers, Verb httpVerb, String completeUrl, OAuthRequest request) throws IOException {
+    private static Response doSend(String userAgent, JDKHttpClientConfig httpClientConfig, Map<String, String> headers,
+            Verb httpVerb, String completeUrl, OAuthRequest request) throws IOException {
         final HttpURLConnection connection = (HttpURLConnection) new URL(completeUrl).openConnection();
-        connection.setInstanceFollowRedirects(followRedirects);
+        connection.setInstanceFollowRedirects(httpClientConfig.isFollowRedirects());
         connection.setRequestMethod(httpVerb.name());
         if (httpClientConfig.getConnectTimeout() != null) {
             connection.setConnectTimeout(httpClientConfig.getConnectTimeout());

@@ -24,7 +24,6 @@ public abstract class AbstractRequest {
     private final ParameterList querystringParams = new ParameterList();
     private final ParameterList bodyParams = new ParameterList();
     private final Map<String, String> headers = new HashMap<>();
-    private boolean followRedirects = true;
 
     private String charset;
 
@@ -274,22 +273,5 @@ public abstract class AbstractRequest {
      */
     public void setCharset(String charsetName) {
         charset = charsetName;
-    }
-
-    /**
-     * Sets whether the underlying Http Connection follows redirects or not.
-     *
-     * Defaults to true (follow redirects)
-     *
-     * @see <a
-     * href="http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)">http://docs.oracle.com/javase/6/docs/api/java/net/HttpURLConnection.html#setInstanceFollowRedirects(boolean)</a>
-     * @param followRedirects boolean
-     */
-    public void setFollowRedirects(boolean followRedirects) {
-        this.followRedirects = followRedirects;
-    }
-
-    public boolean isFollowRedirects() {
-        return followRedirects;
     }
 }
