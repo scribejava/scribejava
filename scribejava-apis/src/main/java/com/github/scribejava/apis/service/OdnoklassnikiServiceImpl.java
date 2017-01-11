@@ -5,9 +5,9 @@ import java.net.URLDecoder;
 import org.apache.commons.codec.CharEncoding;
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
+import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.util.Arrays;
 
@@ -18,7 +18,7 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public void signRequest(OAuth2AccessToken accessToken, AbstractRequest request) {
+    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
         //sig = lower(md5( sorted_request_params_composed_string + md5(access_token + application_secret_key)))
         try {
             final String tokenDigest = md5Hex(accessToken.getAccessToken() + getConfig().getApiSecret());

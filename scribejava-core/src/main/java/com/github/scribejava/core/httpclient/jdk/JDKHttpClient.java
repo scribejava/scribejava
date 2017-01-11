@@ -4,7 +4,7 @@ import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.OAuthRequestAsync;
+import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import java.io.File;
@@ -32,8 +32,7 @@ public class JDKHttpClient implements HttpClient {
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequestAsync.ResponseConverter<T> converter) {
+            byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
         try {
             final T response = converter.convert(execute(userAgent, headers, httpVerb, completeUrl, bodyContents));
             callback.onCompleted(response);
@@ -46,22 +45,24 @@ public class JDKHttpClient implements HttpClient {
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            String bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequestAsync.ResponseConverter<T> converter) {
+            String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
         try {
             final T response = converter.convert(execute(userAgent, headers, httpVerb, completeUrl, bodyContents));
-            callback.onCompleted(response);
+            if (callback != null) {
+                callback.onCompleted(response);
+            }
             return new JDKHttpFuture<>(response);
         } catch (InterruptedException | ExecutionException | IOException e) {
-            callback.onThrowable(e);
+            if (callback != null) {
+                callback.onThrowable(e);
+            }
             return new JDKHttpFuture<>(e);
         }
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            File bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequestAsync.ResponseConverter<T> converter) {
+            File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
         throw new UnsupportedOperationException("JDKHttpClient do not support File payload for the moment");
     }
 

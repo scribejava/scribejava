@@ -1,6 +1,6 @@
 package com.github.scribejava.core.exceptions;
 
-import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.OAuthRequest;
 
 /**
  * Specialized exception that represents a missing OAuth parameter.
@@ -16,7 +16,7 @@ public class OAuthParametersMissingException extends OAuthException {
      *
      * @param request OAuthRequest that caused the error
      */
-    public OAuthParametersMissingException(AbstractRequest request) {
+    public OAuthParametersMissingException(OAuthRequest request) {
         super(String.format(MSG, request));
     }
 }

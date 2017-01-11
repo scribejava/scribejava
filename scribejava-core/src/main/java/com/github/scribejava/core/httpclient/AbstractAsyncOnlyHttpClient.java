@@ -1,6 +1,6 @@
 package com.github.scribejava.core.httpclient;
 
-import com.github.scribejava.core.model.OAuthRequestAsync;
+import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import java.io.File;
@@ -14,20 +14,20 @@ public abstract class AbstractAsyncOnlyHttpClient implements HttpClient {
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
         return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
-                (OAuthRequestAsync.ResponseConverter<Response>) null).get();
+                (OAuthRequest.ResponseConverter<Response>) null).get();
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents) throws InterruptedException, ExecutionException, IOException {
         return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
-                (OAuthRequestAsync.ResponseConverter<Response>) null).get();
+                (OAuthRequest.ResponseConverter<Response>) null).get();
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents) throws InterruptedException, ExecutionException, IOException {
         return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
-                (OAuthRequestAsync.ResponseConverter<Response>) null).get();
+                (OAuthRequest.ResponseConverter<Response>) null).get();
     }
 }

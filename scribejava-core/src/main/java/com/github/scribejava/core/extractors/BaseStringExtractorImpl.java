@@ -1,7 +1,7 @@
 package com.github.scribejava.core.extractors;
 
 import com.github.scribejava.core.exceptions.OAuthParametersMissingException;
-import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
@@ -17,7 +17,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
      * {@inheritDoc}
      */
     @Override
-    public String extract(AbstractRequest request) {
+    public String extract(OAuthRequest request) {
         checkPreconditions(request);
         final String verb = OAuthEncoder.encode(getVerb(request));
         final String url = OAuthEncoder.encode(getUrl(request));
@@ -25,15 +25,15 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
         return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
     }
 
-    protected String getVerb(AbstractRequest request) {
+    protected String getVerb(OAuthRequest request) {
         return request.getVerb().name();
     }
 
-    protected String getUrl(AbstractRequest request) {
+    protected String getUrl(OAuthRequest request) {
         return request.getSanitizedUrl();
     }
 
-    protected String getSortedAndEncodedParams(AbstractRequest request) {
+    protected String getSortedAndEncodedParams(OAuthRequest request) {
         final ParameterList params = new ParameterList();
         params.addAll(request.getQueryStringParams());
         params.addAll(request.getBodyParams());
@@ -41,7 +41,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
         return params.sort().asOauthBaseString();
     }
 
-    protected void checkPreconditions(AbstractRequest request) {
+    protected void checkPreconditions(OAuthRequest request) {
         Preconditions.checkNotNull(request, "Cannot extract base string from a null object");
 
         if (request.getOauthParameters() == null || request.getOauthParameters().size() <= 0) {

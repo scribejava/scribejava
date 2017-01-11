@@ -1,7 +1,6 @@
 package com.github.scribejava.core.oauth;
 
 import com.github.scribejava.core.httpclient.HttpClientProvider;
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.httpclient.jdk.JDKHttpClient;
@@ -9,7 +8,6 @@ import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Token;
 import java.io.File;
@@ -25,7 +23,7 @@ import java.util.concurrent.Future;
  * A facade responsible for the retrieval of request and access tokens and for the signing of HTTP requests.
  * @param <T> type of token used to sign the request
  */
-public abstract class OAuthService<T extends Token> {
+public abstract class OAuthService<T extends Token> implements AutoCloseable {
 
     private final OAuthConfig config;
     private final HttpClient httpClient;
@@ -52,7 +50,18 @@ public abstract class OAuthService<T extends Token> {
         return null;
     }
 
+    /**
+     *
+     * @throws IOException IOException
+     * @deprecated use {@link #close() }
+     */
+    @Deprecated
     public void closeAsyncClient() throws IOException {
+        close();
+    }
+
+    @Override
+    public void close() throws IOException {
         httpClient.close();
     }
 
@@ -67,10 +76,10 @@ public abstract class OAuthService<T extends Token> {
      */
     public abstract String getVersion();
 
-    public abstract void signRequest(T token, AbstractRequest request);
+    public abstract void signRequest(T token, OAuthRequest request);
 
-    public <R> Future<R> execute(OAuthRequestAsync request, OAuthAsyncRequestCallback<R> callback,
-            OAuthRequestAsync.ResponseConverter<R> converter) {
+    public <R> Future<R> execute(OAuthRequest request, OAuthAsyncRequestCallback<R> callback,
+            OAuthRequest.ResponseConverter<R> converter) {
 
         final File filePayload = request.getFilePayload();
         if (filePayload != null) {
@@ -85,37 +94,20 @@ public abstract class OAuthService<T extends Token> {
         }
     }
 
-    public Future<Response> execute(OAuthRequestAsync request, OAuthAsyncRequestCallback<Response> callback) {
+    public Future<Response> execute(OAuthRequest request, OAuthAsyncRequestCallback<Response> callback) {
         return execute(request, callback, null);
     }
 
-    public Response execute(OAuthRequestAsync request) throws InterruptedException, ExecutionException, IOException {
-        final File filePayload = request.getFilePayload();
-        if (filePayload != null) {
-            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), filePayload);
-        } else if (request.getStringPayload() != null) {
-            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), request.getStringPayload());
-        } else {
-            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), request.getByteArrayPayload());
-        }
-    }
-
     public Response execute(OAuthRequest request) throws InterruptedException, ExecutionException, IOException {
-        final JDKHttpClient jdkHttpClient = httpClient instanceof JDKHttpClient ? (JDKHttpClient) httpClient
-                : new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
-
         final File filePayload = request.getFilePayload();
         if (filePayload != null) {
-            return jdkHttpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
                     request.getCompleteUrl(), filePayload);
         } else if (request.getStringPayload() != null) {
-            return jdkHttpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
                     request.getCompleteUrl(), request.getStringPayload());
         } else {
-            return jdkHttpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
                     request.getCompleteUrl(), request.getByteArrayPayload());
         }
     }

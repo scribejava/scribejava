@@ -1,6 +1,6 @@
 package com.github.scribejava.core.extractors;
 
-import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.model.OAuthRequest;
 
 /**
  * Simple command object that generates an OAuth Authorization header to include in the request.
@@ -13,5 +13,5 @@ public interface HeaderExtractor {
      * @param request the AbstractRequest to inspect and generate the header
      * @return the Http header value
      */
-    String extract(AbstractRequest request);
+    String extract(OAuthRequest request);
 }

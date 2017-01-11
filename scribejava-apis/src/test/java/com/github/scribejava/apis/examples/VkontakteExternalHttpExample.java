@@ -4,7 +4,7 @@ import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.VkontakteApi;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuthRequestAsync;
+import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -72,7 +72,7 @@ public final class VkontakteExternalHttpExample {
 
             // Now let's go and ask for a protected resource!
             System.out.println("Now we're going to access a protected resource...");
-            final OAuthRequestAsync request = new OAuthRequestAsync(Verb.GET, PROTECTED_RESOURCE_URL);
+            final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
             final Response response = service.execute(request, null).get();
             System.out.println("Got it! Lets see what we found...");

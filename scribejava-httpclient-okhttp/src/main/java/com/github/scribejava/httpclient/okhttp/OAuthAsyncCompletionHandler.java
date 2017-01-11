@@ -1,7 +1,7 @@
 package com.github.scribejava.httpclient.okhttp;
 
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthRequestAsync;
+import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -11,11 +11,11 @@ import java.io.IOException;
 class OAuthAsyncCompletionHandler<T> implements Callback {
 
     private final OAuthAsyncRequestCallback<T> callback;
-    private final OAuthRequestAsync.ResponseConverter<T> converter;
+    private final OAuthRequest.ResponseConverter<T> converter;
     private final OkHttpFuture<T> okHttpFuture;
 
-    OAuthAsyncCompletionHandler(OAuthAsyncRequestCallback<T> callback,
-            OAuthRequestAsync.ResponseConverter<T> converter, OkHttpFuture<T> okHttpFuture) {
+    OAuthAsyncCompletionHandler(OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter,
+            OkHttpFuture<T> okHttpFuture) {
         this.callback = callback;
         this.converter = converter;
         this.okHttpFuture = okHttpFuture;

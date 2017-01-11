@@ -1,13 +1,11 @@
 package com.github.scribejava.core.oauth;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Parameter;
 import com.google.gson.Gson;
 
@@ -30,7 +28,7 @@ class OAuth20ServiceUnit extends OAuth20Service {
         return new OAuth2AccessToken(TOKEN, prepareRawResponse(request));
     }
 
-    private <T extends AbstractRequest> String prepareRawResponse(T request) {
+    private String prepareRawResponse(OAuthRequest request) {
         final Gson json = new Gson();
         final Map<String, String> response = new HashMap<>();
         response.put(OAuthConstants.ACCESS_TOKEN, TOKEN);
@@ -48,7 +46,7 @@ class OAuth20ServiceUnit extends OAuth20Service {
     }
 
     @Override
-    protected Future<OAuth2AccessToken> sendAccessTokenRequestAsync(OAuthRequestAsync request,
+    protected Future<OAuth2AccessToken> sendAccessTokenRequestAsync(OAuthRequest request,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
 
         final OAuth2AccessToken accessToken = new OAuth2AccessToken(TOKEN, prepareRawResponse(request));
