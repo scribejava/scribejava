@@ -34,21 +34,35 @@ public class JDKHttpClient implements HttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            final T response = converter.convert(execute(userAgent, headers, httpVerb, completeUrl, bodyContents));
+            callback.onCompleted(response);
+            return new JDKHttpFuture<>(response);
+        } catch (InterruptedException | ExecutionException | IOException e) {
+            callback.onThrowable(e);
+            return new JDKHttpFuture<>(e);
+        }
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            final T response = converter.convert(execute(userAgent, headers, httpVerb, completeUrl, bodyContents));
+            callback.onCompleted(response);
+            return new JDKHttpFuture<>(response);
+        } catch (InterruptedException | ExecutionException | IOException e) {
+            callback.onThrowable(e);
+            return new JDKHttpFuture<>(e);
+        }
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequestAsync.ResponseConverter<T> converter) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("JDKHttpClient do not support File payload for the moment");
     }
 
     @Override
