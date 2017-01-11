@@ -15,6 +15,7 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
@@ -33,7 +34,8 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
     }
 
     //sync version, protected to facilitate mocking
-    protected OAuth2AccessToken sendAccessTokenRequestSync(OAuthRequest request) throws IOException {
+    protected OAuth2AccessToken sendAccessTokenRequestSync(OAuthRequest request)
+            throws IOException, InterruptedException, ExecutionException {
         return api.getAccessTokenExtractor().extract(execute(request));
     }
 
@@ -49,7 +51,8 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         });
     }
 
-    public final OAuth2AccessToken getAccessToken(String code) throws IOException {
+    public final OAuth2AccessToken getAccessToken(String code)
+            throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createAccessTokenRequest(code,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint()));
 
@@ -86,7 +89,8 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         return request;
     }
 
-    public final OAuth2AccessToken refreshAccessToken(String refreshToken) throws IOException {
+    public final OAuth2AccessToken refreshAccessToken(String refreshToken)
+            throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint()));
 
@@ -113,7 +117,8 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         return request;
     }
 
-    public final OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password) throws IOException {
+    public final OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password)
+            throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password,
                 new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint()));
 

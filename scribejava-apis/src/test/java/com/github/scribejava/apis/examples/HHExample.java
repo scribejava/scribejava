@@ -11,6 +11,7 @@ import com.github.scribejava.apis.HHApi;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public final class HHExample {
 
@@ -20,7 +21,7 @@ public final class HHExample {
     private HHExample() {
     }
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";

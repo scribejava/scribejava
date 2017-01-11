@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 public class OAuth20ServiceTest {
 
     @Test
-    public void shouldProduceCorrectRequestSync() throws IOException {
+    public void shouldProduceCorrectRequestSync() throws IOException, InterruptedException, ExecutionException {
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey("your_api_key")
                 .apiSecret("your_api_secret")

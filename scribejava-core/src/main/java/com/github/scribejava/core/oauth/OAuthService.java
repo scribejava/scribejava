@@ -103,10 +103,20 @@ public abstract class OAuthService<T extends Token> {
         }
     }
 
-    public Response execute(OAuthRequest request) {
+    public Response execute(OAuthRequest request) throws InterruptedException, ExecutionException, IOException {
         final JDKHttpClient jdkHttpClient = httpClient instanceof JDKHttpClient ? (JDKHttpClient) httpClient
                 : new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
 
-        return jdkHttpClient.send(config.getUserAgent(), request);
+        final File filePayload = request.getFilePayload();
+        if (filePayload != null) {
+            return jdkHttpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), filePayload);
+        } else if (request.getStringPayload() != null) {
+            return jdkHttpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getStringPayload());
+        } else {
+            return jdkHttpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getByteArrayPayload());
+        }
     }
 }

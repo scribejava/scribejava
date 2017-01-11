@@ -219,8 +219,6 @@ public abstract class AbstractRequest {
      * Returns the body of the request (set in {@link #setPayload(java.lang.String)})
      *
      * @return form encoded string
-     *
-     * @throws OAuthException if the charset chosen is not supported
      */
     public String getStringPayload() {
         return stringPayload;

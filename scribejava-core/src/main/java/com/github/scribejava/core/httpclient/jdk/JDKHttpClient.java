@@ -1,11 +1,9 @@
 package com.github.scribejava.core.httpclient.jdk;
 
-import com.github.scribejava.core.exceptions.OAuthConnectionException;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -56,31 +54,23 @@ public class JDKHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents);
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents) throws InterruptedException, ExecutionException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents);
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents) throws InterruptedException, ExecutionException, IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("JDKHttpClient do not support File payload for the moment");
     }
 
-    public Response send(String userAgent, OAuthRequest request) {
-        try {
-            return doSend(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(), request);
-        } catch (IOException | RuntimeException e) {
-            throw new OAuthConnectionException(request.getCompleteUrl(), e);
-        }
-    }
-
-    private Response doSend(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            OAuthRequest request) throws IOException {
+    private Response doExecute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            BodyType bodyType, Object bodyContents) throws IOException {
         final HttpURLConnection connection = (HttpURLConnection) new URL(completeUrl).openConnection();
         connection.setInstanceFollowRedirects(config.isFollowRedirects());
         connection.setRequestMethod(httpVerb.name());
@@ -92,14 +82,7 @@ public class JDKHttpClient implements HttpClient {
         }
         addHeaders(connection, headers, userAgent);
         if (httpVerb == Verb.POST || httpVerb == Verb.PUT || httpVerb == Verb.DELETE) {
-            final File filePayload = request.getFilePayload();
-            if (filePayload != null) {
-                throw new UnsupportedOperationException("Sync Requests do not support File payload for the moment");
-            } else if (request.getStringPayload() != null) {
-                addBody(connection, request.getStringPayload().getBytes(request.getCharset()));
-            } else {
-                addBody(connection, request.getByteArrayPayload());
-            }
+            bodyType.setBody(connection, bodyContents);
         }
 
         try {
@@ -111,6 +94,23 @@ public class JDKHttpClient implements HttpClient {
         } catch (UnknownHostException e) {
             throw new OAuthException("The IP address of a host could not be determined.", e);
         }
+    }
+
+    private enum BodyType {
+        BYTE_ARRAY {
+            @Override
+            void setBody(HttpURLConnection connection, Object bodyContents) throws IOException {
+                addBody(connection, (byte[]) bodyContents);
+            }
+        },
+        STRING {
+            @Override
+            void setBody(HttpURLConnection connection, Object bodyContents) throws IOException {
+                addBody(connection, ((String) bodyContents).getBytes());
+            }
+        };
+
+        abstract void setBody(HttpURLConnection connection, Object bodyContents) throws IOException;
     }
 
     private static Map<String, String> parseHeaders(HttpURLConnection conn) {

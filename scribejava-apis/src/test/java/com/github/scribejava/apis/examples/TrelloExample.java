@@ -10,6 +10,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public final class TrelloExample {
 
@@ -20,7 +21,7 @@ public final class TrelloExample {
     private TrelloExample() {
     }
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder()
                 .apiKey(API_KEY)
                 .apiSecret(API_SECRET)

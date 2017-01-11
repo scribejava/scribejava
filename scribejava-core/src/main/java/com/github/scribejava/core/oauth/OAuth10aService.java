@@ -15,6 +15,7 @@ import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.services.Base64Encoder;
 import com.github.scribejava.core.utils.MapUtils;
+import java.util.concurrent.ExecutionException;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
@@ -35,7 +36,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         this.api = api;
     }
 
-    public final OAuth1RequestToken getRequestToken() throws IOException {
+    public final OAuth1RequestToken getRequestToken() throws IOException, InterruptedException, ExecutionException {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
@@ -91,7 +92,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
     }
 
     public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
-            throws IOException {
+            throws IOException, InterruptedException, ExecutionException {
         getConfig().log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
         prepareAccessTokenRequest(request, requestToken, oauthVerifier);

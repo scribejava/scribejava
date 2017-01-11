@@ -11,6 +11,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public final class StackExchangeExample {
 
@@ -20,7 +21,7 @@ public final class StackExchangeExample {
     private StackExchangeExample() {
     }
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id, secret, application key and
         // optionally site name
         final String clientId = "your client id";

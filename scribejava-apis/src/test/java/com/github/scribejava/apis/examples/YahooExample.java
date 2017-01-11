@@ -10,6 +10,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 public final class YahooExample {
 
@@ -19,7 +20,7 @@ public final class YahooExample {
     private YahooExample() {
     }
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder()
                 .apiKey("your client id")
                 .apiSecret("your client secret")

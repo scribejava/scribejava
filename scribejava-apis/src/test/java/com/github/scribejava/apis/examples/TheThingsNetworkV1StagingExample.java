@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public final class TheThingsNetworkV1StagingExample {
 
@@ -21,7 +22,7 @@ public final class TheThingsNetworkV1StagingExample {
     private TheThingsNetworkV1StagingExample() {
     }
 
-    public static void main(String... args) throws IOException {
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your_client_id";
         final String clientSecret = "your_client_secret";
