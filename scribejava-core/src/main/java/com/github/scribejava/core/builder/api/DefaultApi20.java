@@ -90,4 +90,8 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     public OAuth20Service createService(OAuthConfig config) {
         return new OAuth20Service(this, config);
     }
+
+    public SignatureType getSignatureType() {
+        return SignatureType.BEARER_AUTHORIZATION_REQUEST_HEADER_FIELD;
+    }
 }

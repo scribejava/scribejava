@@ -2,6 +2,7 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.google.GoogleJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.builder.api.SignatureType;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
@@ -31,5 +32,10 @@ public class GoogleApi20 extends DefaultApi20 {
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
         return GoogleJsonTokenExtractor.instance();
+    }
+
+    @Override
+    public SignatureType getSignatureType() {
+        return SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

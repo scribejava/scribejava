@@ -1,6 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.builder.api.SignatureType;
 
 /**
  * Box.com Api
@@ -29,4 +30,8 @@ public class BoxApi20 extends DefaultApi20 {
         return "https://account.box.com/api/oauth2/authorize";
     }
 
+    @Override
+    public SignatureType getSignatureType() {
+        return SignatureType.BEARER_URI_QUERY_PARAMETER;
+    }
 }

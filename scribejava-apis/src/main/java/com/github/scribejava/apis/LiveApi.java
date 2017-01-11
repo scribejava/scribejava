@@ -1,6 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.builder.api.SignatureType;
 import com.github.scribejava.core.model.Verb;
 
 public class LiveApi extends DefaultApi20 {
@@ -29,5 +30,10 @@ public class LiveApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://oauth.live.com/authorize";
+    }
+
+    @Override
+    public SignatureType getSignatureType() {
+        return SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

@@ -83,7 +83,6 @@ public final class SalesforceNingAsyncExample {
             System.out.println();
             System.out.println("Full URL: " + url);
             final OAuthRequest request = new OAuthRequest(Verb.GET, url);
-            request.addHeader("Authorization", "Bearer " + accessToken.getAccessToken());
             final Response response = service.execute(request, null).get();
             System.out.println();
             System.out.println(response.getCode());

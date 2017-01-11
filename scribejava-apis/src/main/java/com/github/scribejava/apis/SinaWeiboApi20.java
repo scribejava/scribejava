@@ -1,6 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.builder.api.SignatureType;
 
 /**
  * SinaWeibo OAuth 2.0 api.
@@ -26,5 +27,10 @@ public class SinaWeiboApi20 extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://api.weibo.com/oauth2/authorize";
+    }
+
+    @Override
+    public SignatureType getSignatureType() {
+        return SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

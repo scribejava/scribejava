@@ -1,9 +1,6 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.service.GeniusOAuthServiceImpl;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class GeniusApi extends DefaultApi20 {
 
@@ -27,10 +24,5 @@ public class GeniusApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://api.genius.com/oauth/authorize";
-    }
-
-    @Override
-    public OAuth20Service createService(OAuthConfig config) {
-        return new GeniusOAuthServiceImpl(this, config);
     }
 }

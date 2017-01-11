@@ -1,10 +1,6 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.OAuthConfig;
-
-import com.github.scribejava.apis.service.HHOAuthServiceImpl;
-import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class HHApi extends DefaultApi20 {
 
@@ -27,10 +23,5 @@ public class HHApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://hh.ru/oauth/authorize";
-    }
-
-    @Override
-    public OAuth20Service createService(OAuthConfig config) {
-        return new HHOAuthServiceImpl(this, config);
     }
 }

@@ -75,12 +75,7 @@ public final class TheThingsNetworkV2PreviewExample {
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
 
-        // TTN should support both signing the request with a parameter, or with a header.
-        // 1. Token as a parameter
         service.signRequest(accessToken, request);
-        // 2. Token in the header.
-        //request.addHeader("Authorization", "bearer "+accessToken.getAccessToken());
-        // And we always expect JSON data.
         request.addHeader("Accept", "application/json");
         final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");

@@ -187,7 +187,7 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
     @Override
     public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
-        request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken());
+        api.getSignatureType().signRequest(accessToken, request);
     }
 
     /**

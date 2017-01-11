@@ -9,6 +9,9 @@ public class OAuthRequestAsync extends OAuthRequest {
 
     /**
      *
+     * @param verb verb
+     * @param url url
+     *
      * @deprecated use {@link OAuthRequest#OAuthRequest(com.github.scribejava.core.model.Verb, java.lang.String) }
      */
     @Deprecated

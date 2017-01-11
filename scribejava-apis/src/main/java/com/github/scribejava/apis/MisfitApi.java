@@ -1,6 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.builder.api.SignatureType;
 
 public class MisfitApi extends DefaultApi20 {
 
@@ -24,5 +25,10 @@ public class MisfitApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://api.misfitwearables.com/auth/dialog/authorize";
+    }
+
+    @Override
+    public SignatureType getSignatureType() {
+        return SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }
