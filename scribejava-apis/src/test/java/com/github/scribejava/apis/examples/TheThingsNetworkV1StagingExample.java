@@ -90,7 +90,7 @@ public final class TheThingsNetworkV1StagingExample {
         System.out.println();
         System.out.println(response.getCode());
 
-        if(response.getCode()==401) {
+        if (response.getCode() == 401) {
             System.out.println("Not authorised: "+response.getBody());
         } else {
             System.out.println("You should see a JSON array of your registered applications:");
