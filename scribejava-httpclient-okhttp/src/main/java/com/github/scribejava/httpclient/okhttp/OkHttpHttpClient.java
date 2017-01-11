@@ -1,6 +1,5 @@
 package com.github.scribejava.httpclient.okhttp;
 
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
 import com.github.scribejava.core.model.Response;
 import java.io.File;
 import java.util.HashMap;
@@ -117,8 +115,8 @@ public class OkHttpHttpClient implements HttpClient {
         // prepare body
         final RequestBody body;
         if (bodyContents != null && HttpMethod.permitsRequestBody(method)) {
-            final MediaType mediaType = headers.containsKey(AbstractRequest.CONTENT_TYPE)
-                    ? MediaType.parse(headers.get(AbstractRequest.CONTENT_TYPE)) : DEFAULT_CONTENT_TYPE_MEDIA_TYPE;
+            final MediaType mediaType = headers.containsKey(CONTENT_TYPE) ? MediaType.parse(headers.get(CONTENT_TYPE))
+                    : DEFAULT_CONTENT_TYPE_MEDIA_TYPE;
 
             body = bodyType.createBody(mediaType, bodyContents);
         } else {

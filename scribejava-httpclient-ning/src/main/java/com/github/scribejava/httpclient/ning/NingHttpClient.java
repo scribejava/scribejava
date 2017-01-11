@@ -1,7 +1,6 @@
 package com.github.scribejava.httpclient.ning;
 
 import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -11,7 +10,6 @@ import com.ning.http.client.AsyncHttpClient;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.File;
 
@@ -90,8 +88,8 @@ public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
         }
 
         if (httpVerb == Verb.POST || httpVerb == Verb.PUT || httpVerb == Verb.DELETE) {
-            if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
-                boundRequestBuilder = boundRequestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+            if (!headers.containsKey(CONTENT_TYPE)) {
+                boundRequestBuilder = boundRequestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             }
             boundRequestBuilder = bodySetter.setBody(boundRequestBuilder, bodyContents);
         }

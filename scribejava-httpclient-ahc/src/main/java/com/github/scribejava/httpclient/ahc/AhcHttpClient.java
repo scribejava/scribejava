@@ -1,7 +1,6 @@
 package com.github.scribejava.httpclient.ahc;
 
 import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequestAsync;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-import static com.github.scribejava.core.model.AbstractRequest.DEFAULT_CONTENT_TYPE;
 import java.io.File;
 import org.asynchttpclient.AsyncHttpClientConfig;
 import org.asynchttpclient.BoundRequestBuilder;
@@ -82,8 +80,8 @@ public class AhcHttpClient extends AbstractAsyncOnlyHttpClient {
         }
 
         if (httpVerb == Verb.POST || httpVerb == Verb.PUT || httpVerb == Verb.DELETE) {
-            if (!headers.containsKey(AbstractRequest.CONTENT_TYPE)) {
-                boundRequestBuilder = boundRequestBuilder.addHeader(AbstractRequest.CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+            if (!headers.containsKey(CONTENT_TYPE)) {
+                boundRequestBuilder = boundRequestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             }
             boundRequestBuilder = bodySetter.setBody(boundRequestBuilder, bodyContents);
         }

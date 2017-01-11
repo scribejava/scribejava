@@ -14,9 +14,6 @@ import java.io.File;
  */
 public abstract class AbstractRequest {
 
-    public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
-    public static final String CONTENT_TYPE = "Content-Type";
-    protected static final String CONTENT_LENGTH = "Content-Length";
     private static final String OAUTH_PREFIX = "oauth_";
 
     private final String url;

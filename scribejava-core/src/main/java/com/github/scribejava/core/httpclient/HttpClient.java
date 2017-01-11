@@ -11,6 +11,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public interface HttpClient {
+    String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
+    String CONTENT_TYPE = "Content-Type";
+    String CONTENT_LENGTH = "Content-Length";
 
     void close() throws IOException;
 

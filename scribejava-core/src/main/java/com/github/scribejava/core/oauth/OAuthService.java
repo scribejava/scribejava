@@ -4,6 +4,7 @@ import com.github.scribejava.core.httpclient.HttpClientProvider;
 import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.httpclient.jdk.JDKHttpClient;
 import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
@@ -35,7 +36,7 @@ public abstract class OAuthService<T extends Token> {
         final HttpClient externalHttpClient = config.getHttpClient();
 
         if (httpClientConfig == null && externalHttpClient == null) {
-            httpClient = null;
+            httpClient = new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
         } else {
             httpClient = externalHttpClient == null ? getClient(httpClientConfig) : externalHttpClient;
         }
@@ -103,9 +104,9 @@ public abstract class OAuthService<T extends Token> {
     }
 
     public Response execute(OAuthRequest request) {
-        final HttpClientConfig httpClientConfig = config.getHttpClientConfig();
-        return request.send(config.getUserAgent(),
-                httpClientConfig instanceof JDKHttpClientConfig ? (JDKHttpClientConfig) httpClientConfig
-                        : JDKHttpClientConfig.defaultConfig());
+        final JDKHttpClient jdkHttpClient = httpClient instanceof JDKHttpClient ? (JDKHttpClient) httpClient
+                : new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
+
+        return jdkHttpClient.send(config.getUserAgent(), request);
     }
 }
