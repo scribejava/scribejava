@@ -1,7 +1,6 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.builder.api.SignatureType;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -38,10 +37,5 @@ public class GitHubApi extends DefaultApi20 {
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
         return OAuth2AccessTokenExtractor.instance();
-    }
-
-    @Override
-    public SignatureType getSignatureType() {
-        return SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

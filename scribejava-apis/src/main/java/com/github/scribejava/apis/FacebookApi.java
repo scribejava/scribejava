@@ -1,7 +1,6 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.builder.api.SignatureType;
 import com.github.scribejava.core.model.Verb;
 
 /**
@@ -39,10 +38,5 @@ public class FacebookApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://www.facebook.com/v2.8/dialog/oauth";
-    }
-
-    @Override
-    public SignatureType getSignatureType() {
-        return SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

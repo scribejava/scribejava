@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * Remove OAuthRequestAsync, just OAuthRequest. Request should know about sync vs async. Move default Http engine to JDKHttpClient.
  * introduce SignatureType for OAuth2.0 to implement Bearer signing for the requests
+ * switch Google, GitHub, Facebook OAuth2.0 oauth requests signing to more secured recommended variant (GET-param -> header Bearer)
 
 [3.4.1]
  * Drop deprecated methods
