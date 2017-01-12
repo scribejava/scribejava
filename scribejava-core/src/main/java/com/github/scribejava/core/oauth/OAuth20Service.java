@@ -215,7 +215,11 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
     public OAuth2Authorization extractAuthorization(String redirectLocation) {
         final OAuth2Authorization authorization = new OAuth2Authorization();
-        for (String param : redirectLocation.substring(redirectLocation.indexOf('?') + 1).split("&")) {
+        int end = redirectLocation.indexOf('#');
+        if (end == -1) {
+            end = redirectLocation.length();
+        }
+        for (String param : redirectLocation.substring(redirectLocation.indexOf('?') + 1, end).split("&")) {
             final String[] keyValue = param.split("=");
             if (keyValue.length == 2) {
                 switch (keyValue[0]) {
