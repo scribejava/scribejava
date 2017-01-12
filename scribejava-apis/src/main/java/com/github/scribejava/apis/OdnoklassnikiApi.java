@@ -2,6 +2,7 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.service.OdnoklassnikiServiceImpl;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.builder.api.SignatureType;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
@@ -31,5 +32,10 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     @Override
     public OAuth20Service createService(OAuthConfig config) {
         return new OdnoklassnikiServiceImpl(this, config);
+    }
+
+    @Override
+    public SignatureType getSignatureType() {
+        return SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }
