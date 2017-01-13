@@ -67,7 +67,7 @@ public final class SalesforceNingAsyncExample {
             final String codeEncoded = URLDecoder.decode(code, "UTF-8");
             // Trade the Request Token and Verifier for the Access Token
             System.out.println("Trading the Request Token for an Access Token...");
-            final SalesforceToken accessToken = (SalesforceToken) service.getAccessTokenAsync(codeEncoded, null).get();
+            final SalesforceToken accessToken = (SalesforceToken) service.getAccessToken(codeEncoded);
             System.out.println("Got the Access Token!");
             System.out.println("(if your curious it looks like this: " + accessToken
                     + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
@@ -83,7 +83,7 @@ public final class SalesforceNingAsyncExample {
             System.out.println();
             System.out.println("Full URL: " + url);
             final OAuthRequest request = new OAuthRequest(Verb.GET, url);
-            final Response response = service.execute(request, null).get();
+            final Response response = service.execute(request);
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getBody());

@@ -54,15 +54,33 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         });
     }
 
+    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code) {
+        return getAccessToken(code, null);
+    }
+
+    /**
+     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
+     * when it is available.
+     *
+     * @param code code
+     * @param callback optional callback
+     * @return Future
+     * @deprecated user {@link #getAccessToken(java.lang.String,
+     * com.github.scribejava.core.model.OAuthAsyncRequestCallback) }
+     */
+    @Deprecated
+    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
+        final OAuthRequest request = createAccessTokenRequest(code);
+
+        return sendAccessTokenRequestAsync(request, callback);
+    }
+
     public final OAuth2AccessToken getAccessToken(String code)
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createAccessTokenRequest(code);
 
         return sendAccessTokenRequestSync(request);
-    }
-
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code) {
-        return getAccessTokenAsync(code, null);
     }
 
     /**
@@ -73,7 +91,7 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
      * @param callback optional callback
      * @return Future
      */
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code,
+    public final Future<OAuth2AccessToken> getAccessToken(String code,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
         final OAuthRequest request = createAccessTokenRequest(code);
 
@@ -95,6 +113,26 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         return request;
     }
 
+    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken) {
+        return refreshAccessToken(refreshToken, null);
+    }
+
+    /**
+     *
+     * @param refreshToken refreshToken
+     * @param callback callback
+     * @return future
+     * @deprecated use {@link #refreshAccessToken(java.lang.String,
+     * com.github.scribejava.core.model.OAuthAsyncRequestCallback)}
+     */
+    @Deprecated
+    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken);
+
+        return sendAccessTokenRequestAsync(request, callback);
+    }
+
     public final OAuth2AccessToken refreshAccessToken(String refreshToken)
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken);
@@ -102,11 +140,7 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         return sendAccessTokenRequestSync(request);
     }
 
-    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken) {
-        return refreshAccessTokenAsync(refreshToken, null);
-    }
-
-    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken,
+    public final Future<OAuth2AccessToken> refreshAccessToken(String refreshToken,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken);
 

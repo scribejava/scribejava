@@ -68,6 +68,14 @@ public abstract class OAuthService<T extends Token> implements AutoCloseable {
 
     public abstract void signRequest(T token, OAuthRequest request);
 
+    public Future<Response> executeAsync(OAuthRequest request) {
+        return execute(request, null);
+    }
+
+    public Future<Response> execute(OAuthRequest request, OAuthAsyncRequestCallback<Response> callback) {
+        return execute(request, callback, null);
+    }
+
     public <R> Future<R> execute(OAuthRequest request, OAuthAsyncRequestCallback<R> callback,
             OAuthRequest.ResponseConverter<R> converter) {
 
@@ -82,10 +90,6 @@ public abstract class OAuthService<T extends Token> implements AutoCloseable {
             return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
                     request.getCompleteUrl(), request.getByteArrayPayload(), callback, converter);
         }
-    }
-
-    public Future<Response> execute(OAuthRequest request, OAuthAsyncRequestCallback<Response> callback) {
-        return execute(request, callback, null);
     }
 
     public Response execute(OAuthRequest request) throws InterruptedException, ExecutionException, IOException {

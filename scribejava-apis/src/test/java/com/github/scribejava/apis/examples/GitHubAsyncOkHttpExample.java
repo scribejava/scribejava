@@ -65,7 +65,7 @@ public final class GitHubAsyncOkHttpExample {
 
             // Trade the Request Token and Verfier for the Access Token
             System.out.println("Trading the Request Token for an Access Token...");
-            final OAuth2AccessToken accessToken = service.getAccessTokenAsync(code, null).get();
+            final OAuth2AccessToken accessToken = service.getAccessToken(code);
             System.out.println("Got the Access Token!");
             System.out.println("(if your curious it looks like this: " + accessToken
                     + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
@@ -75,7 +75,7 @@ public final class GitHubAsyncOkHttpExample {
             System.out.println("Now we're going to access a protected resource...");
             final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
-            final Response response = service.execute(request, null).get();
+            final Response response = service.execute(request);
             System.out.println("Got it! Lets see what we found...");
             System.out.println();
             System.out.println(response.getCode());
