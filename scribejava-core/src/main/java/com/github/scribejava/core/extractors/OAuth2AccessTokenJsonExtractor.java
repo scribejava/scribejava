@@ -50,8 +50,10 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
 
     /**
      * Related documentation: https://tools.ietf.org/html/rfc6749#section-5.2
+     *
+     * @param response response
      */
-    private static void generateError(String response) {
+    protected void generateError(String response) {
         final String errorInString = extractParameter(response, ERROR_REGEX, true);
         final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX, false);
         final String errorUriInString = extractParameter(response, ERROR_URI_REGEX, false);

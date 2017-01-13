@@ -1,6 +1,9 @@
 package com.github.scribejava.apis;
 
+import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
 
 /**
@@ -38,5 +41,10 @@ public class FacebookApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://www.facebook.com/v2.8/dialog/oauth";
+    }
+
+    @Override
+    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
+        return FacebookAccessTokenJsonExtractor.instance();
     }
 }
