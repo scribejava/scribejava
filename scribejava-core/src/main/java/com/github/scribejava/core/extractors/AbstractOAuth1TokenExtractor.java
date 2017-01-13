@@ -18,8 +18,8 @@ import com.github.scribejava.core.utils.Preconditions;
  */
 public abstract class AbstractOAuth1TokenExtractor<T extends OAuth1Token> implements TokenExtractor<T> {
 
-    private static final String OAUTH_TOKEN_REGEXP = "oauth_token=([^&]+)";
-    private static final String OAUTH_TOKEN_SECRET_REGEXP = "oauth_token_secret=([^&]*)";
+    private static final Pattern OAUTH_TOKEN_REGEXP_PATTERN = Pattern.compile("oauth_token=([^&]+)");
+    private static final Pattern OAUTH_TOKEN_SECRET_REGEXP_PATTERN = Pattern.compile("oauth_token_secret=([^&]*)");
 
     /**
      * {@inheritDoc}
@@ -29,8 +29,8 @@ public abstract class AbstractOAuth1TokenExtractor<T extends OAuth1Token> implem
         final String body = response.getBody();
         Preconditions.checkEmptyString(body,
                 "Response body is incorrect. Can't extract a token from an empty string");
-        final String token = extract(body, Pattern.compile(OAUTH_TOKEN_REGEXP));
-        final String secret = extract(body, Pattern.compile(OAUTH_TOKEN_SECRET_REGEXP));
+        final String token = extract(body, OAUTH_TOKEN_REGEXP_PATTERN);
+        final String secret = extract(body, OAUTH_TOKEN_SECRET_REGEXP_PATTERN);
         return createToken(token, secret, body);
     }
 

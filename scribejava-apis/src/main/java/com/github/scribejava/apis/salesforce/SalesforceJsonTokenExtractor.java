@@ -1,6 +1,7 @@
 package com.github.scribejava.apis.salesforce;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
+import java.util.regex.Pattern;
 
 /**
  * This extractor parses in addition to the standard Extractor the instance_url
@@ -8,7 +9,7 @@ import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
  */
 public class SalesforceJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
-    private static final String INSTANCE_URL_REGEX = "\"instance_url\"\\s*:\\s*\"(\\S*?)\"";
+    private static final Pattern INSTANCE_URL_REGEX_PATTERN = Pattern.compile("\"instance_url\"\\s*:\\s*\"(\\S*?)\"");
 
     protected SalesforceJsonTokenExtractor() {
     }
@@ -26,6 +27,6 @@ public class SalesforceJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor
     protected SalesforceToken createToken(String accessToken, String tokenType, Integer expiresIn,
             String refreshToken, String scope, String response) {
         return new SalesforceToken(accessToken, tokenType, expiresIn, refreshToken, scope,
-                extractParameter(response, INSTANCE_URL_REGEX, true), response);
+                extractParameter(response, INSTANCE_URL_REGEX_PATTERN, true), response);
     }
 }

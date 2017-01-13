@@ -14,11 +14,11 @@ import com.github.scribejava.core.utils.Preconditions;
  */
 public class OAuth2AccessTokenExtractor implements TokenExtractor<OAuth2AccessToken> {
 
-    private static final String ACCESS_TOKEN_REGEX = "access_token=([^&]+)";
-    private static final String TOKEN_TYPE_REGEX = "token_type=([^&]+)";
-    private static final String EXPIRES_IN_REGEX = "expires_in=([^&]+)";
-    private static final String REFRESH_TOKEN_REGEX = "refresh_token=([^&]+)";
-    private static final String SCOPE_REGEX = "scope=([^&]+)";
+    private static final Pattern ACCESS_TOKEN_REGEX_PATTERN = Pattern.compile("access_token=([^&]+)");
+    private static final Pattern TOKEN_TYPE_REGEX_PATTERN = Pattern.compile("token_type=([^&]+)");
+    private static final Pattern EXPIRES_IN_REGEX_PATTERN = Pattern.compile("expires_in=([^&]+)");
+    private static final Pattern REFRESH_TOKEN_REGEX_PATTERN = Pattern.compile("refresh_token=([^&]+)");
+    private static final Pattern SCOPE_REGEX_PATTERN = Pattern.compile("scope=([^&]+)");
 
     protected OAuth2AccessTokenExtractor() {
     }
@@ -41,27 +41,29 @@ public class OAuth2AccessTokenExtractor implements TokenExtractor<OAuth2AccessTo
         Preconditions.checkEmptyString(body,
                 "Response body is incorrect. Can't extract a token from an empty string");
 
-        final String accessToken = extractParameter(body, ACCESS_TOKEN_REGEX, true);
-        final String tokenType = extractParameter(body, TOKEN_TYPE_REGEX, false);
-        final String expiresInString = extractParameter(body, EXPIRES_IN_REGEX, false);
+        final String accessToken = extractParameter(body, ACCESS_TOKEN_REGEX_PATTERN, true);
+        final String tokenType = extractParameter(body, TOKEN_TYPE_REGEX_PATTERN, false);
+        final String expiresInString = extractParameter(body, EXPIRES_IN_REGEX_PATTERN, false);
         Integer expiresIn;
         try {
             expiresIn = expiresInString == null ? null : Integer.valueOf(expiresInString);
         } catch (NumberFormatException nfe) {
             expiresIn = null;
         }
-        final String refreshToken = extractParameter(body, REFRESH_TOKEN_REGEX, false);
-        final String scope = extractParameter(body, SCOPE_REGEX, false);
+        final String refreshToken = extractParameter(body, REFRESH_TOKEN_REGEX_PATTERN, false);
+        final String scope = extractParameter(body, SCOPE_REGEX_PATTERN, false);
 
         return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, body);
     }
 
-    private static String extractParameter(String response, String regex, boolean required) throws OAuthException {
-        final Matcher matcher = Pattern.compile(regex).matcher(response);
+    private static String extractParameter(String response, Pattern regexPattern, boolean required)
+            throws OAuthException {
+
+        final Matcher matcher = regexPattern.matcher(response);
         if (matcher.find()) {
             return OAuthEncoder.decode(matcher.group(1));
         } else if (required) {
-            throw new OAuthException("Response body is incorrect. Can't extract a '" + regex
+            throw new OAuthException("Response body is incorrect. Can't extract a '" + regexPattern.pattern()
                     + "' from this: '" + response + "'", null);
         } else {
             return null;

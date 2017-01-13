@@ -1,16 +1,17 @@
 package com.github.scribejava.apis.facebook;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
+import java.util.regex.Pattern;
 
 /**
  * non standard Facebook Extractor
  */
 public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtractor {
 
-    private static final String MESSAGE_REGEX = "\"message\"\\s*:\\s*\"([^\"]*?)\"";
-    private static final String TYPE_REGEX = "\"type\"\\s*:\\s*\"([^\"]*?)\"";
-    private static final String CODE_REGEX = "\"code\"\\s*:\\s*\"?([^\",}]*?)[\",}]";
-    private static final String FBTRACE_ID_REGEX = "\"fbtrace_id\"\\s*:\\s*\"([^\"]*?)\"";
+    private static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("\"message\"\\s*:\\s*\"([^\"]*?)\"");
+    private static final Pattern TYPE_REGEX_PATTERN = Pattern.compile("\"type\"\\s*:\\s*\"([^\"]*?)\"");
+    private static final Pattern CODE_REGEX_PATTERN = Pattern.compile("\"code\"\\s*:\\s*\"?([^\",}]*?)[\",}]");
+    private static final Pattern FBTRACE_ID_REGEX_PATTERN = Pattern.compile("\"fbtrace_id\"\\s*:\\s*\"([^\"]*?)\"");
 
     protected FacebookAccessTokenJsonExtractor() {
     }
@@ -35,11 +36,12 @@ public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtra
      */
     @Override
     protected void generateError(String response) {
-        extractParameter(response, MESSAGE_REGEX, false);
+        extractParameter(response, MESSAGE_REGEX_PATTERN, false);
 
-        throw new FacebookAccessTokenErrorResponse(extractParameter(response, MESSAGE_REGEX, false),
-                extractParameter(response, TYPE_REGEX, false), extractParameter(response, CODE_REGEX, false),
-                extractParameter(response, FBTRACE_ID_REGEX, false), response);
+        throw new FacebookAccessTokenErrorResponse(extractParameter(response, MESSAGE_REGEX_PATTERN, false),
+                extractParameter(response, TYPE_REGEX_PATTERN, false),
+                extractParameter(response, CODE_REGEX_PATTERN, false),
+                extractParameter(response, FBTRACE_ID_REGEX_PATTERN, false), response);
     }
 
 }

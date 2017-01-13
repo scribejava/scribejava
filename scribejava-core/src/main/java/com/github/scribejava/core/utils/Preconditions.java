@@ -35,15 +35,32 @@ public abstract class Preconditions {
      * @throws IllegalArgumentException if the string is null or empty
      */
     public static void checkEmptyString(String string, String errorMsg) {
-        check(string != null && !string.trim().isEmpty(), errorMsg);
+        check(hasText(string), errorMsg);
     }
+
+    public static boolean hasText(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        final int strLen = str.length();
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Checks that a URL is valid
      *
      * @param url any string
      * @param errorMsg error message
+     *
+     * @deprecated will be just removed. not used in ScribeJava
      */
+    @Deprecated
     public static void checkValidUrl(String url, String errorMsg) {
         checkEmptyString(url, errorMsg);
         check(isUrl(url), errorMsg);
@@ -54,7 +71,10 @@ public abstract class Preconditions {
      *
      * @param url any string
      * @param errorMsg error message
+     *
+     * @deprecated will be just removed. not used in ScribeJava
      */
+    @Deprecated
     public static void checkValidOAuthCallback(String url, String errorMsg) {
         checkEmptyString(url, errorMsg);
         if (url.toLowerCase(Locale.getDefault()).compareToIgnoreCase(OAuthConstants.OUT_OF_BAND) != 0) {
@@ -68,7 +88,7 @@ public abstract class Preconditions {
 
     private static void check(boolean requirements, String error) {
         if (!requirements) {
-            throw new IllegalArgumentException(error == null || error.trim().length() <= 0 ? DEFAULT_MESSAGE : error);
+            throw new IllegalArgumentException(hasText(error) ? error : DEFAULT_MESSAGE);
         }
     }
 
