@@ -2,7 +2,6 @@ package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
-import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -85,32 +84,6 @@ public class OAuthConfig {
                 throw new RuntimeException("there were problems while writting to the debug stream", e);
             }
         }
-    }
-
-    /**
-     *
-     * @return Connect Timeout
-     * @deprecated use {@link JDKHttpClientConfig}
-     */
-    @Deprecated
-    public Integer getConnectTimeout() {
-        if (httpClientConfig instanceof JDKHttpClientConfig) {
-            return ((JDKHttpClientConfig) httpClientConfig).getConnectTimeout();
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @return Read Timeout
-     * @deprecated use {@link JDKHttpClientConfig}
-     */
-    @Deprecated
-    public Integer getReadTimeout() {
-        if (httpClientConfig instanceof JDKHttpClientConfig) {
-            return ((JDKHttpClientConfig) httpClientConfig).getReadTimeout();
-        }
-        return null;
     }
 
     public HttpClientConfig getHttpClientConfig() {

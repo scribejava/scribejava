@@ -50,16 +50,6 @@ public abstract class OAuthService<T extends Token> implements AutoCloseable {
         return null;
     }
 
-    /**
-     *
-     * @throws IOException IOException
-     * @deprecated use {@link #close() }
-     */
-    @Deprecated
-    public void closeAsyncClient() throws IOException {
-        close();
-    }
-
     @Override
     public void close() throws IOException {
         httpClient.close();

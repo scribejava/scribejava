@@ -3,7 +3,6 @@ package com.github.scribejava.core.builder;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
-import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.SignatureType;
@@ -116,46 +115,6 @@ public class ServiceBuilder {
     public ServiceBuilder responseType(String responseType) {
         Preconditions.checkEmptyString(responseType, "Invalid OAuth responseType");
         this.responseType = responseType;
-        return this;
-    }
-
-    /**
-     *
-     * @param connectTimeout connectTimeout
-     * @return ServiceBuilder to chain methods
-     * @deprecated use {@link com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig} and
-     * <br> {@link #httpClientConfig(com.github.scribejava.core.httpclient.HttpClientConfig) }
-     */
-    @Deprecated
-    public ServiceBuilder connectTimeout(Integer connectTimeout) {
-        final JDKHttpClientConfig jdkHttpClientConfig;
-        if (httpClientConfig instanceof JDKHttpClientConfig) {
-            jdkHttpClientConfig = (JDKHttpClientConfig) httpClientConfig;
-        } else {
-            jdkHttpClientConfig = new JDKHttpClientConfig();
-            httpClientConfig = jdkHttpClientConfig;
-        }
-        jdkHttpClientConfig.setConnectTimeout(connectTimeout);
-        return this;
-    }
-
-    /**
-     *
-     * @param readTimeout readTimeout
-     * @return ServiceBuilder to chain methods
-     * @deprecated use {@link com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig} and
-     * <br> {@link #httpClientConfig(com.github.scribejava.core.httpclient.HttpClientConfig) }
-     */
-    @Deprecated
-    public ServiceBuilder readTimeout(Integer readTimeout) {
-        final JDKHttpClientConfig jdkHttpClientConfig;
-        if (httpClientConfig instanceof JDKHttpClientConfig) {
-            jdkHttpClientConfig = (JDKHttpClientConfig) httpClientConfig;
-        } else {
-            jdkHttpClientConfig = new JDKHttpClientConfig();
-            httpClientConfig = jdkHttpClientConfig;
-        }
-        jdkHttpClientConfig.setReadTimeout(readTimeout);
         return this;
     }
 

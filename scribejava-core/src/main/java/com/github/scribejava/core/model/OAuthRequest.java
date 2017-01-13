@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * The representation of an OAuth HttpRequest.
  */
-public class OAuthRequest extends AbstractRequest {
+public class OAuthRequest {
 
     private static final String OAUTH_PREFIX = "oauth_";
 
@@ -42,18 +42,6 @@ public class OAuthRequest extends AbstractRequest {
     public OAuthRequest(Verb verb, String url) {
         this.verb = verb;
         this.url = url;
-    }
-
-    /**
-     *
-     * @param verb verb
-     * @param url url
-     * @param config unused
-     * @deprecated use {@link #OAuthRequest(com.github.scribejava.core.model.Verb, java.lang.String) }
-     */
-    @Deprecated
-    public OAuthRequest(Verb verb, String url, OAuthConfig config) {
-        this(verb, url);
     }
 
     /**
