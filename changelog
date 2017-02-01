@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * add body for PATCH HTTP method
+
 [4.0.0]
  * Remove OAuthRequestAsync, just OAuthRequest. Request should know about sync vs async. Move default Http engine to JDKHttpClient.
  * introduce SignatureType for OAuth2.0 to implement Bearer signing for the requests

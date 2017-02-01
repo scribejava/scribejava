@@ -96,7 +96,7 @@ public class JDKHttpClient implements HttpClient {
             connection.setReadTimeout(config.getReadTimeout());
         }
         addHeaders(connection, headers, userAgent);
-        if (httpVerb == Verb.POST || httpVerb == Verb.PUT || httpVerb == Verb.DELETE) {
+        if (httpVerb.isPermitBody()) {
             bodyType.setBody(connection, bodyContents);
         }
 

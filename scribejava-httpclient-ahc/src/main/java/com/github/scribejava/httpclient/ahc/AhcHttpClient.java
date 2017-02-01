@@ -76,7 +76,7 @@ public class AhcHttpClient extends AbstractAsyncOnlyHttpClient {
                 throw new IllegalArgumentException("message build error: unknown verb type");
         }
 
-        if (httpVerb == Verb.POST || httpVerb == Verb.PUT || httpVerb == Verb.DELETE) {
+        if (httpVerb.isPermitBody()) {
             if (!headers.containsKey(CONTENT_TYPE)) {
                 boundRequestBuilder = boundRequestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             }

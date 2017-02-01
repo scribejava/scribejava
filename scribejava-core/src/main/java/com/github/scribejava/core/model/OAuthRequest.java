@@ -117,15 +117,11 @@ public class OAuthRequest {
     }
 
     public void addParameter(String key, String value) {
-        if (hasBodyContent()) {
+        if (verb.isPermitBody()) {
             bodyParams.add(key, value);
         } else {
             querystringParams.add(key, value);
         }
-    }
-
-    protected boolean hasBodyContent() {
-        return verb == Verb.PUT || verb == Verb.POST;
     }
 
     /**
