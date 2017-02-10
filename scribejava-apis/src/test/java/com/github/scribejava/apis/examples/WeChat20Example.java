@@ -24,7 +24,7 @@ public final class WeChat20Example {
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key and secret
-        final String apiKey = "your_appid";;
+        final String apiKey = "your_appid";
         final String apiSecret = "your_secret";
         final OAuth20Service service = new ServiceBuilder()
                 .apiKey(apiKey)
@@ -61,7 +61,7 @@ public final class WeChat20Example {
         System.out.println("Now we're going to access a protected resource...");
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-        request.addQuerystringParameter(WeChatConstants.OPEN_ID, ((WeChatToken)accessToken).getOpenId());
+        request.addQuerystringParameter(WeChatConstants.OPEN_ID, ((WeChatToken) accessToken).getOpenId());
         request.addQuerystringParameter(WeChatConstants.LANG, "zh_CN");
 
         service.signRequest(accessToken, request);
