@@ -20,7 +20,7 @@ public class GoogleApi20 extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://www.googleapis.com/oauth2/v4/token";
+        return "https://accounts.google.com/o/oauth2/token";
     }
 
     @Override
