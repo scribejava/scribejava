@@ -12,7 +12,8 @@ public class OAuth2AccessTokenErrorResponse extends OAuthException {
     private static final long serialVersionUID = 2309424849700276816L;
 
     public enum ErrorCode {
-        invalid_request, invalid_client, invalid_grant, unauthorized_client, unsupported_grant_type, invalid_scope, invalid_token
+        invalid_request, invalid_client, invalid_grant, unauthorized_client, unsupported_grant_type, invalid_scope,
+        invalid_token
     }
 
     private final ErrorCode errorCode;
