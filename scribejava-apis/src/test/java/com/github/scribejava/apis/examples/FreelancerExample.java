@@ -7,7 +7,6 @@ import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
@@ -26,7 +25,6 @@ public final class FreelancerExample {
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder()
-                .signatureType(SignatureType.QueryString)
                 .apiKey("your client id")
                 .apiSecret("your client secret")
                 .scope(SCOPE)

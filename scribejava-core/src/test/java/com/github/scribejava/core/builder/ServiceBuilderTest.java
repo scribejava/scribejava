@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.SignatureType;
+import com.github.scribejava.core.builder.api.OAuth1SignatureType;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class ServiceBuilderTest {
@@ -21,6 +21,7 @@ public class ServiceBuilderTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void shouldReturnConfigDefaultValues() {
         builder.apiKey("key").apiSecret("secret").build(api);
 
@@ -28,7 +29,7 @@ public class ServiceBuilderTest {
         assertEquals(config.getApiKey(), "key");
         assertEquals(config.getApiSecret(), "secret");
         assertEquals(config.getCallback(), OAuthConstants.OUT_OF_BAND);
-        assertEquals(config.getSignatureType(), SignatureType.Header);
+        assertEquals(config.getSignatureType(), null);
     }
 
     @Test
@@ -42,13 +43,14 @@ public class ServiceBuilderTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void shouldAcceptASignatureType() {
-        builder.apiKey("key").apiSecret("secret").signatureType(SignatureType.QueryString).build(api);
+        builder.apiKey("key").apiSecret("secret").signatureType(OAuth1SignatureType.QueryString).build(api);
 
         final OAuthConfig config = api.getConfig();
         assertEquals(config.getApiKey(), "key");
         assertEquals(config.getApiSecret(), "secret");
-        assertEquals(config.getSignatureType(), SignatureType.QueryString);
+        assertEquals(config.getSignatureType(), OAuth1SignatureType.QueryString);
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -1,6 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
+import com.github.scribejava.core.builder.api.OAuth1SignatureType;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.Verb;
 
@@ -17,6 +18,11 @@ public class FreelancerApi extends DefaultApi10a {
 
     public static FreelancerApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    @Override
+    public OAuth1SignatureType getSignatureType() {
+        return OAuth1SignatureType.QueryString;
     }
 
     @Override

@@ -78,6 +78,13 @@ public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
     }
 
     /**
+     * @return the signature type, choose between header, querystring, etc. Defaults to Header
+     */
+    public OAuth1SignatureType getSignatureType() {
+        return OAuth1SignatureType.Header;
+    }
+
+    /**
      * Returns the timestamp service.
      *
      * @return timestamp service

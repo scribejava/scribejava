@@ -1,4 +1,5 @@
 [SNAPSHOT]
+ * move OAuth1 SignatureType to ServiceBuilder to API
  * add body for PATCH HTTP method
 
 [4.0.0]

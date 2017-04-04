@@ -4,11 +4,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 
-/**
- * @deprecated renamed to {@link OAuth2SignatureType}
- */
-@Deprecated
-public enum SignatureType {
+public enum OAuth2SignatureType {
     /**
      * https://tools.ietf.org/html/rfc6750#section-2.1
      */

@@ -1,7 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.builder.api.SignatureType;
+import com.github.scribejava.core.builder.api.OAuth2SignatureType;
 
 public class PinterestApi extends DefaultApi20 {
 
@@ -27,7 +27,7 @@ public class PinterestApi extends DefaultApi20 {
     }
 
     @Override
-    public SignatureType getSignatureType() {
-        return SignatureType.BEARER_URI_QUERY_PARAMETER;
+    public OAuth2SignatureType getSignatureType() {
+        return OAuth2SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
+import com.github.scribejava.core.builder.api.OAuth1SignatureType;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
@@ -179,7 +180,10 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
 
     private void appendSignature(OAuthRequest request) {
         final OAuthConfig config = getConfig();
-        switch (config.getSignatureType()) {
+        @SuppressWarnings("deprecation")
+        final OAuth1SignatureType signatureType
+                = config.getSignatureType() == null ? api.getSignatureType() : config.getSignatureType();
+        switch (signatureType) {
             case Header:
                 config.log("using Http Header signature");
 
@@ -194,7 +198,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
                 }
                 break;
             default:
-                throw new IllegalStateException("Unknown new Signature Type '" + config.getSignatureType() + "'.");
+                throw new IllegalStateException("Unknown new Signature Type '" + signatureType + "'.");
         }
     }
 

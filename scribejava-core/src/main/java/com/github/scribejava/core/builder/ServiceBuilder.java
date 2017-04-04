@@ -5,7 +5,7 @@ import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.SignatureType;
+import com.github.scribejava.core.builder.api.OAuth1SignatureType;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -21,7 +21,12 @@ public class ServiceBuilder {
     private String apiSecret;
     private String scope;
     private String state;
-    private SignatureType signatureType;
+    /**
+     * @deprecated override or change in Pull Request
+     * {@link com.github.scribejava.core.builder.api.DefaultApi10a#getSignatureType()}
+     */
+    @Deprecated
+    private OAuth1SignatureType signatureType;
     private OutputStream debugStream;
     private String responseType = "code";
     private String userAgent;
@@ -31,7 +36,6 @@ public class ServiceBuilder {
 
     public ServiceBuilder() {
         callback = OAuthConstants.OUT_OF_BAND;
-        signatureType = SignatureType.Header;
     }
 
     /**
@@ -95,13 +99,18 @@ public class ServiceBuilder {
     }
 
     /**
-     * Configures the signature type, choose between header, querystring, etc. Defaults to Header
+     * Configures the signature type, choose between header, querystring, etc. Defaults to null.<br>
+     * 'null' means to use default for API
+     * {@link com.github.scribejava.core.builder.api.DefaultApi10a#getSignatureType()}
      *
-     * @param signatureType SignatureType
+     * @param signatureType OAuth1SignatureType
      * @return the {@link ServiceBuilder} instance for method chaining
+     *
+     * @deprecated override or change in Pull Request
+     * {@link com.github.scribejava.core.builder.api.DefaultApi10a#getSignatureType()}
      */
-    public ServiceBuilder signatureType(SignatureType signatureType) {
-        Preconditions.checkNotNull(signatureType, "Signature type can't be null");
+    @Deprecated
+    public ServiceBuilder signatureType(OAuth1SignatureType signatureType) {
         this.signatureType = signatureType;
         return this;
     }
@@ -149,6 +158,7 @@ public class ServiceBuilder {
         Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     }
 
+    @SuppressWarnings("deprecation")
     private OAuthConfig createConfig() {
         checkPreconditions();
         return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
