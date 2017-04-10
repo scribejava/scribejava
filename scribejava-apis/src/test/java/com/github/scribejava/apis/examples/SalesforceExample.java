@@ -8,6 +8,7 @@ import java.util.Scanner;
 import com.github.scribejava.apis.SalesforceApi;
 import com.github.scribejava.apis.salesforce.SalesforceToken;
 import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -66,13 +67,21 @@ public final class SalesforceExample {
 
         // Trade the Request Token and Verifier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final SalesforceToken accessToken = (SalesforceToken) service.getAccessToken(codeEncoded);
+
+        final OAuth2AccessToken accessToken = service.getAccessToken(codeEncoded);
+        final SalesforceToken salesforceAccessToken;
+        if (accessToken instanceof SalesforceToken) {
+            salesforceAccessToken = (SalesforceToken) accessToken;
+        } else {
+            throw new IllegalStateException("Salesforce API didn't return SalesforceToken.");
+        }
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken + ", 'rawResponse'='"
+
+        System.out.println("(if your curious it looks like this: " + salesforceAccessToken + ", 'rawResponse'='"
                 + accessToken.getRawResponse() + "')");
         System.out.println();
 
-        System.out.println("instance_url is: " + accessToken.getInstanceUrl());
+        System.out.println("instance_url is: " + salesforceAccessToken.getInstanceUrl());
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're reading accounts from the Salesforce org (maxing them to 10).");
@@ -81,7 +90,7 @@ public final class SalesforceExample {
         final String queryEncoded = URLEncoder.encode("Select Id, Name from Account LIMIT 10", "UTF-8");
 
         // Building the query URI. We've parsed the instance URL from the accessToken request.
-        final String url = accessToken.getInstanceUrl() + "/services/data/v36.0/query?q=" + queryEncoded;
+        final String url = salesforceAccessToken.getInstanceUrl() + "/services/data/v36.0/query?q=" + queryEncoded;
 
         System.out.println();
         System.out.println("Full URL: " + url);
