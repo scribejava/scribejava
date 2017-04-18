@@ -2,6 +2,7 @@
  * make client_secret optional in OAuth2 while requesting AccessToken (if set to null, it's not required by OAuth2 specs)
  * move OAuth1 SignatureType to ServiceBuilder to API
  * add body for PATCH HTTP method
+ * make addOAuthParams appendSignature methods protected in OAuth10aService (to override them in case of need) (thanks to https://github.com/vivin)
 
 [4.0.0]
  * Remove OAuthRequestAsync, just OAuthRequest. Request should know about sync vs async. Move default Http engine to JDKHttpClient.
