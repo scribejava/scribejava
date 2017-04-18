@@ -76,7 +76,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         return request;
     }
 
-    private void addOAuthParams(OAuthRequest request, String tokenSecret) {
+    protected void addOAuthParams(OAuthRequest request, String tokenSecret) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
         request.addOAuthParameter(OAuthConstants.NONCE, api.getTimestampService().getNonce());
@@ -178,7 +178,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         return signature;
     }
 
-    private void appendSignature(OAuthRequest request) {
+    protected void appendSignature(OAuthRequest request) {
         final OAuthConfig config = getConfig();
         @SuppressWarnings("deprecation")
         final OAuth1SignatureType signatureType
