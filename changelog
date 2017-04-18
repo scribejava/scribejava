@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[4.1.0]
  * make client_secret optional in OAuth2 while requesting AccessToken (if set to null, it's not required by OAuth2 specs)
  * move OAuth1 SignatureType from ServiceBuilder to API
  * add body for PATCH HTTP method
