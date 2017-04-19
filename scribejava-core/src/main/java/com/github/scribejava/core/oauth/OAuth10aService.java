@@ -180,9 +180,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
 
     protected void appendSignature(OAuthRequest request) {
         final OAuthConfig config = getConfig();
-        @SuppressWarnings("deprecation")
-        final OAuth1SignatureType signatureType
-                = config.getSignatureType() == null ? api.getSignatureType() : config.getSignatureType();
+        final OAuth1SignatureType signatureType = api.getSignatureType();
         switch (signatureType) {
             case Header:
                 config.log("using Http Header signature");

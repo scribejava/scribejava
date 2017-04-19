@@ -5,7 +5,6 @@ import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.builder.api.OAuth1SignatureType;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -21,12 +20,6 @@ public class ServiceBuilder {
     private String apiSecret;
     private String scope;
     private String state;
-    /**
-     * @deprecated override or change in Pull Request
-     * {@link com.github.scribejava.core.builder.api.DefaultApi10a#getSignatureType()}
-     */
-    @Deprecated
-    private OAuth1SignatureType signatureType;
     private OutputStream debugStream;
     private String responseType = "code";
     private String userAgent;
@@ -98,23 +91,6 @@ public class ServiceBuilder {
         return this;
     }
 
-    /**
-     * Configures the signature type, choose between header, querystring, etc. Defaults to null.<br>
-     * 'null' means to use default for API
-     * {@link com.github.scribejava.core.builder.api.DefaultApi10a#getSignatureType()}
-     *
-     * @param signatureType OAuth1SignatureType
-     * @return the {@link ServiceBuilder} instance for method chaining
-     *
-     * @deprecated override or change in Pull Request
-     * {@link com.github.scribejava.core.builder.api.DefaultApi10a#getSignatureType()}
-     */
-    @Deprecated
-    public ServiceBuilder signatureType(OAuth1SignatureType signatureType) {
-        this.signatureType = signatureType;
-        return this;
-    }
-
     public ServiceBuilder debugStream(OutputStream debugStream) {
         Preconditions.checkNotNull(debugStream, "debug stream can't be null");
         this.debugStream = debugStream;
@@ -158,11 +134,10 @@ public class ServiceBuilder {
         Preconditions.checkEmptyString(apiKey, "You must provide an api key");
     }
 
-    @SuppressWarnings("deprecation")
     private OAuthConfig createConfig() {
         checkPreconditions();
-        return new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream, state, responseType,
-                userAgent, httpClientConfig, httpClient);
+        return new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
+                httpClientConfig, httpClient);
     }
 
     /**
