@@ -5,6 +5,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * Fake Future. Just to have Future API for the default JDK Http client. It's NOT Async in any way. Just facade.<br>
+ * That's it. Sync execution with Async methods.
+ */
 public class JDKHttpFuture<V> implements Future<V> {
 
     private final Exception exception;
