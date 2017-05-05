@@ -52,4 +52,11 @@ public class WooCommerceApi extends DefaultApi10a
         return null;
     }
 
+    @Override
+    public boolean isEmptyOAuthTokenParamIsRequired()
+    {
+        return true;
+    }
+
+
 }
