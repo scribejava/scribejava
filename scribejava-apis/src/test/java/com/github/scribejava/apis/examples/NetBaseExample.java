@@ -15,8 +15,10 @@ import java.util.concurrent.ExecutionException;
 public class NetBaseExample {
 
     private static final String NETWORK_NAME = "netbase";
-    private static final String PROTECTED_RESOURCE_URL = "https://api.netbase.com/cb/insight-api/2/helloWorld?language=English";
-    private static final String REGISTERED_CALLBACK = "http:// must be a callback URL that is registered with your netbase client application";
+    private static final String PROTECTED_RESOURCE_URL =
+            "https://api.netbase.com/cb/insight-api/2/helloWorld?language=English";
+    private static final String REGISTERED_CALLBACK =
+            "http:// must be a callback URL that is registered with your netbase client application";
 
     private NetBaseExample() {
     }

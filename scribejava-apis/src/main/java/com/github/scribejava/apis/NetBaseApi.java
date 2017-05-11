@@ -7,6 +7,8 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
  */
 public class NetBaseApi extends DefaultApi20 {
 
+    protected NetBaseApi() {}
+
     public static NetBaseApi instance() {
         return InstanceHolder.INSTANCE;
     }
@@ -14,8 +16,6 @@ public class NetBaseApi extends DefaultApi20 {
     private static class InstanceHolder {
         private static final NetBaseApi INSTANCE = new NetBaseApi();
     }
-
-    private NetBaseApi() {}
 
     @Override
     public String getAccessTokenEndpoint() {
