@@ -11,23 +11,20 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class WooCommerceExample
-{
+public final class WooCommerceExample {
 
     private static final String NETWORK_NAME = "WooCommerce";
     private static final String PROTECTED_RESOURCE_URL = "http://your-site/wordpress/wp-json/wc/v2/products";
 
-    private WooCommerceExample()
-    {
+    private WooCommerceExample() {
     }
 
-    public static void main(String... args) throws IOException, InterruptedException, ExecutionException
-    {
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";
 
-        OAuth10aService service = new ServiceBuilder()
+        final OAuth10aService service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
                 .debugStream(System.out)
