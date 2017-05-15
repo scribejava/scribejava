@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * omit the client_secret parameter if it is an empty string while refreshing token (thanks to https://github.com/KungfuPancake)
  * allow perms to be specified in Flickr Api (read, write, or delete) (thanks to https://github.com/rogerhu)
+ * OdnoklassnikiService should consider params in a body while signing the request (thanks to https://github.com/MrNeuronix)
 
 [4.1.0]
  * make client_secret optional in OAuth2 while requesting AccessToken (if set to null, it's not required by OAuth2 specs)

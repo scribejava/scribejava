@@ -20,6 +20,7 @@ public class LinkedInApi extends DefaultApi10a {
     }
 
     /**
+     * @param scopes scopes
      * @deprecated use {@link #instance(java.lang.String...) }
      */
     @Deprecated
