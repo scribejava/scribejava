@@ -151,12 +151,15 @@ public class JDKHttpClient implements HttpClient {
     }
 
     private static void addBody(HttpURLConnection connection, byte[] content) throws IOException {
-        connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(content.length));
+        final int contentLength = content.length;
+        connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength));
 
         if (connection.getRequestProperty(CONTENT_TYPE) == null) {
             connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
         }
-        connection.setDoOutput(true);
-        connection.getOutputStream().write(content);
+        if (contentLength > 0) {
+            connection.setDoOutput(true);
+            connection.getOutputStream().write(content);
+        }
     }
 }
