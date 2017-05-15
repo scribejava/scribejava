@@ -12,27 +12,21 @@ public class FlickrApi extends DefaultApi10a {
 
     private static final String AUTHORIZE_URL = "https://www.flickr.com/services/oauth/authorize?oauth_token=%s";
 
-    public enum FLICKR_PERM {
+    public enum FlickrPerm {
         READ, WRITE, DELETE
     };
 
-    private String permString; /* read, write, or delete (delete includes read/write) */
+    /**
+     * read, write, or delete (delete includes read/write)
+     */
+    private final String permString;
 
-    public FlickrApi() {
+    protected FlickrApi() {
         permString = null;
     }
 
-    public FlickrApi(FLICKR_PERM perm) {
-        switch(perm) {
-            case READ:
-                this.permString = "read";
-                break;
-            case WRITE:
-                this.permString = "write";
-                break;
-            case DELETE:
-                this.permString = "delete";
-        }
+    public FlickrApi(FlickrPerm perm) {
+        permString = perm.name().toLowerCase();
     }
 
     private static class InstanceHolder {

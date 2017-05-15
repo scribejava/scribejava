@@ -1,15 +1,16 @@
 package com.github.scribejava.apis.examples;
 
-import java.util.Scanner;
-import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.FlickrApi;
+import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
+
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public final class FlickrExample {
@@ -23,10 +24,11 @@ public final class FlickrExample {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";
+
         final OAuth10aService service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
-                .build(FlickrApi.instance());
+                .build(new FlickrApi(FlickrApi.FlickrPerm.DELETE));
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Flickr's OAuth Workflow ===");
@@ -40,7 +42,7 @@ public final class FlickrExample {
 
         System.out.println("Now go and authorize ScribeJava here:");
         final String authorizationUrl = service.getAuthorizationUrl(requestToken);
-        System.out.println(authorizationUrl + "&perms=read");
+        System.out.println(authorizationUrl);
         System.out.println("And paste the verifier here");
         System.out.print(">>");
         final String oauthVerifier = in.nextLine();
