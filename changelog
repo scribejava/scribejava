@@ -1,4 +1,5 @@
 [SNAPSHOT]
+ * omit the client_secret parameter if it is an empty string while refreshing token (thanks to https://github.com/KungfuPancake)
 
 [4.1.0]
  * make client_secret optional in OAuth2 while requesting AccessToken (if set to null, it's not required by OAuth2 specs)

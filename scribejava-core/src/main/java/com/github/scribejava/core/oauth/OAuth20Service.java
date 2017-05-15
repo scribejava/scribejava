@@ -123,8 +123,9 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint());
         final OAuthConfig config = getConfig();
         request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-        if (config.getApiSecret() != null) {
-            request.addParameter(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+        final String apiSecret = config.getApiSecret();
+        if (apiSecret != null) {
+            request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
         }
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
