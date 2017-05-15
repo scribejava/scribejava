@@ -10,11 +10,22 @@ public class LinkedInApi extends DefaultApi10a {
 
     private final String scopesAsString;
 
+    /**
+     * @deprecated use {@link #instance() }
+     */
+    @Deprecated
+    //TODO: make protected in the next release
     public LinkedInApi() {
         scopesAsString = null;
     }
 
+    /**
+     * @deprecated use {@link #instance(java.lang.String...) }
+     */
+    @Deprecated
+    //TODO: make protected in the next release
     public LinkedInApi(String... scopes) {
+        //TODO: deprecated check
         if (scopes == null || scopes.length == 0) {
             scopesAsString = null;
         } else {
@@ -33,6 +44,10 @@ public class LinkedInApi extends DefaultApi10a {
 
     public static LinkedInApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public static LinkedInApi instance(String... scopes) {
+        return scopes == null || scopes.length == 0 ? instance() : new LinkedInApi(scopes);
     }
 
     @Override
