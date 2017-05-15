@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import okhttp3.Cache;
 import okhttp3.Headers;
+import okhttp3.ResponseBody;
 
 public class OkHttpHttpClient implements HttpClient {
 
@@ -166,8 +167,9 @@ public class OkHttpHttpClient implements HttpClient {
             headersMap.put(name, headers.get(name));
         }
 
+        final ResponseBody body = okHttpResponse.body();
         return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
-                okHttpResponse.body().byteStream());
+                body == null ? null : body.byteStream());
 
     }
 }
