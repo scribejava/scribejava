@@ -28,7 +28,7 @@ public final class FlickrExample {
         final OAuth10aService service = new ServiceBuilder()
                 .apiKey(apiKey)
                 .apiSecret(apiSecret)
-                .build(new FlickrApi(FlickrApi.FlickrPerm.DELETE));
+                .build(FlickrApi.instance(FlickrApi.FlickrPerm.DELETE));
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Flickr's OAuth Workflow ===");

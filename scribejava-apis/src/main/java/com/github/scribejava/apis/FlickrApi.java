@@ -25,7 +25,7 @@ public class FlickrApi extends DefaultApi10a {
         permString = null;
     }
 
-    public FlickrApi(FlickrPerm perm) {
+    protected FlickrApi(FlickrPerm perm) {
         permString = perm.name().toLowerCase();
     }
 
@@ -37,6 +37,9 @@ public class FlickrApi extends DefaultApi10a {
         return InstanceHolder.INSTANCE;
     }
 
+    public static FlickrApi instance(FlickrPerm perm) {
+        return perm == null ? instance() : new FlickrApi(perm);
+    }
 
     /**
      * {@inheritDoc}
