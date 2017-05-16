@@ -10,32 +10,16 @@ public class LinkedInApi extends DefaultApi10a {
 
     private final String scopesAsString;
 
-    /**
-     * @deprecated use {@link #instance() }
-     */
-    @Deprecated
-    //TODO: make protected in the next release
-    public LinkedInApi() {
+    protected LinkedInApi() {
         scopesAsString = null;
     }
 
-    /**
-     * @param scopes scopes
-     * @deprecated use {@link #instance(java.lang.String...) }
-     */
-    @Deprecated
-    //TODO: make protected in the next release
-    public LinkedInApi(String... scopes) {
-        //TODO: deprecated check
-        if (scopes == null || scopes.length == 0) {
-            scopesAsString = null;
-        } else {
-            final StringBuilder builder = new StringBuilder();
-            for (String scope : scopes) {
-                builder.append('+').append(scope);
-            }
-            scopesAsString = "?scope=" + builder.substring(1);
+    protected LinkedInApi(String... scopes) {
+        final StringBuilder builder = new StringBuilder();
+        for (String scope : scopes) {
+            builder.append('+').append(scope);
         }
+        scopesAsString = "?scope=" + builder.substring(1);
     }
 
     private static class InstanceHolder {
