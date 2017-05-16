@@ -28,7 +28,7 @@ public final class LinkedInExampleWithScopes {
         final OAuth10aService service = new ServiceBuilder()
                 .apiKey(clientId)
                 .apiSecret(clientSecret)
-                .build(new LinkedInApi("foo", "bar", "baz"));
+                .build(LinkedInApi.instance("foo", "bar", "baz"));
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== LinkedIn's OAuth Workflow ===");
