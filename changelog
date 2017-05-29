@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * LinkedIn use Header to sign OAuth2 requests
+
 [4.1.1]
  * omit the client_secret parameter if it is an empty string while refreshing token (thanks to https://github.com/KungfuPancake)
  * allow perms to be specified in Flickr Api (read, write, or delete) (thanks to https://github.com/rogerhu)
