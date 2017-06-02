@@ -44,8 +44,7 @@ public final class SalesforceNingAsyncExample {
 
         //IT's important! Salesforce upper require TLS v1.1 or 1.2
         SalesforceApi.initTLSv11orUpper();
-        try (OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .httpClientConfig(clientConfig)
                 .callback("https://www.example.com/callback")

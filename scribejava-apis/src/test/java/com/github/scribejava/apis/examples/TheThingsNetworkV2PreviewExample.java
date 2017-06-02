@@ -29,8 +29,7 @@ public final class TheThingsNetworkV2PreviewExample {
         final String secretState = "secret" + new Random().nextInt(999_999);
         final String redirectURI = "https://your_redirect_uri";
 
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback(redirectURI)

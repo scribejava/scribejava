@@ -23,8 +23,7 @@ public final class PinterestExample {
         // Replace these with your own api key and secret
         final String apiKey = "your_app_id";
         final String apiSecret = "your_app_secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .scope("read_public,write_public,read_relationships,write_relationships")
                 .callback("https://localhost:9000/") // Add as valid callback in developer portal

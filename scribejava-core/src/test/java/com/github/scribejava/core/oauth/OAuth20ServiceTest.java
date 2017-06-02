@@ -20,8 +20,7 @@ public class OAuth20ServiceTest {
 
     @Test
     public void shouldProduceCorrectRequestSync() throws IOException, InterruptedException, ExecutionException {
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey("your_api_key")
+        final OAuth20Service service = new ServiceBuilder("your_api_key")
                 .apiSecret("your_api_secret")
                 .build(new OAuth20ApiUnit());
 
@@ -49,8 +48,7 @@ public class OAuth20ServiceTest {
 
     @Test
     public void shouldProduceCorrectRequestAsync() throws ExecutionException, InterruptedException {
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey("your_api_key")
+        final OAuth20Service service = new ServiceBuilder("your_api_key")
                 .apiSecret("your_api_secret")
                 .build(new OAuth20ApiUnit());
 
@@ -78,8 +76,7 @@ public class OAuth20ServiceTest {
 
     @Test
     public void testOAuthExtractAuthorization() {
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey("your_api_key")
+        final OAuth20Service service = new ServiceBuilder("your_api_key")
                 .apiSecret("your_api_secret")
                 .build(new OAuth20ApiUnit());
 

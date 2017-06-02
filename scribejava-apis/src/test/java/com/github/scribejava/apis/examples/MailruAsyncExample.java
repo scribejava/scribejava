@@ -35,8 +35,7 @@ public final class MailruAsyncExample {
                 .setReadTimeout(10_000)
                 .build());
 
-        try (OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
                 .httpClientConfig(clientConfig)

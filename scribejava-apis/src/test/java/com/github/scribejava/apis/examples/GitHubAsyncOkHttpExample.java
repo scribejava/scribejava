@@ -27,8 +27,7 @@ public final class GitHubAsyncOkHttpExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
-        try (OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")

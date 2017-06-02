@@ -37,8 +37,7 @@ public final class Google20AsyncAHCExample {
                 .setReadTimeout(1_000)
                 .build());
 
-        try (OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
                 .state(secretState)

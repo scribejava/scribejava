@@ -23,8 +23,7 @@ public final class SinaWeibo2Example {
         // Replace these with your own api key and secret
         final String apiKey = "your_api_key";
         final String apiSecret = "your_api_secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://www.dajie.com/oauth/sina")
                 .build(SinaWeiboApi20.instance());

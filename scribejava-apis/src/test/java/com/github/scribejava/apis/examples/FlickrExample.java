@@ -25,8 +25,7 @@ public final class FlickrExample {
         final String apiKey = "your_app_id";
         final String apiSecret = "your_api_secret";
 
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth10aService service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .build(FlickrApi.instance(FlickrApi.FlickrPerm.DELETE));
         final Scanner in = new Scanner(System.in);

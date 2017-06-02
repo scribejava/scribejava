@@ -20,8 +20,7 @@ public final class TumblrExample {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey("MY_CONSUMER_KEY")
+        final OAuth10aService service = new ServiceBuilder("MY_CONSUMER_KEY")
                 .apiSecret("MY_CONSUMER_SECRET")
                 // OOB forbidden. We need an url and the better is on the tumblr website !
                 .callback("http://www.tumblr.com/connect/login_success.html")

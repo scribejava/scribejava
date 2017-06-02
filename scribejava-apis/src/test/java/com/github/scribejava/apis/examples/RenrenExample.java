@@ -32,8 +32,7 @@ public final class RenrenExample {
         // Replace these with your own api key and secret
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .scope("status_update publish_feed")
                 .callback("http://your.doman.com/oauth/renren")

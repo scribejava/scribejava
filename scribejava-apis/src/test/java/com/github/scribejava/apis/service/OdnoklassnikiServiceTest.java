@@ -17,8 +17,7 @@ public class OdnoklassnikiServiceTest {
     private static final String URL = "https://api.ok.ru/fb.do?method=friends.get&fields=uid%2C"
             + "first_name%2Clast_name%2Cpic_2&application_key=AAAAAAAAAAAAAAAA&format=json";
 
-    private final OAuth20Service service = new ServiceBuilder()
-            .apiKey("0000000000")
+    private final OAuth20Service service = new ServiceBuilder("0000000000")
             .apiSecret("CCCCCCCCCCCCCCCCCCCCCCCC")
             .scope("VALUABLE_ACCESS")
             .callback("http://your.site.com/callback")

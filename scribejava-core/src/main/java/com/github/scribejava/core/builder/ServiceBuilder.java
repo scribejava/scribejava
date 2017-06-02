@@ -15,7 +15,7 @@ import java.io.OutputStream;
  */
 public class ServiceBuilder {
 
-    private String callback;
+    private String callback = OAuthConstants.OUT_OF_BAND;
     private String apiKey;
     private String apiSecret;
     private String scope;
@@ -27,8 +27,16 @@ public class ServiceBuilder {
     private HttpClientConfig httpClientConfig;
     private HttpClient httpClient;
 
+    /**
+     *
+     * @deprecated use {@link #ServiceBuilder(java.lang.String) }
+     */
+    @Deprecated
     public ServiceBuilder() {
-        callback = OAuthConstants.OUT_OF_BAND;
+    }
+
+    public ServiceBuilder(String apiKey) {
+        apiKey(apiKey);
     }
 
     /**
@@ -49,7 +57,7 @@ public class ServiceBuilder {
      * @param apiKey The api key for your application
      * @return the {@link ServiceBuilder} instance for method chaining
      */
-    public ServiceBuilder apiKey(String apiKey) {
+    public final ServiceBuilder apiKey(String apiKey) {
         Preconditions.checkEmptyString(apiKey, "Invalid Api key");
         this.apiKey = apiKey;
         return this;
@@ -130,14 +138,14 @@ public class ServiceBuilder {
         return this;
     }
 
+    /**
+     *
+     * @deprecated apiKey will be required param for the ServiceBuilder constructor
+     * {@link #ServiceBuilder(java.lang.String) }
+     */
+    @Deprecated
     public void checkPreconditions() {
         Preconditions.checkEmptyString(apiKey, "You must provide an api key");
-    }
-
-    private OAuthConfig createConfig() {
-        checkPreconditions();
-        return new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
-                httpClientConfig, httpClient);
     }
 
     /**
@@ -148,6 +156,8 @@ public class ServiceBuilder {
      * @return fully configured {@link S}
      */
     public <S extends OAuthService<?>> S build(BaseApi<S> api) {
-        return api.createService(createConfig());
+        checkPreconditions();
+        return api.createService(new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType,
+                userAgent, httpClientConfig, httpClient));
     }
 }

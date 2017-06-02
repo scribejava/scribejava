@@ -20,8 +20,7 @@ public final class Px500Example {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey("your-api-key")
+        final OAuth10aService service = new ServiceBuilder("your-api-key")
                 .apiSecret("your-api-secret")
                 .build(Px500Api.instance());
         final Scanner in = new Scanner(System.in);

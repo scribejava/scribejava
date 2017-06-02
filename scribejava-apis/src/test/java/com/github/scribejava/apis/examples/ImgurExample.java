@@ -24,8 +24,7 @@ public final class ImgurExample {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .build(ImgurApi.instance());
         final Scanner in = new Scanner(System.in);

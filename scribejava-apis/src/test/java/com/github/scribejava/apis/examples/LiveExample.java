@@ -23,8 +23,7 @@ public final class LiveExample {
         // Replace these with your own api key and secret
         final String apiKey = "";
         final String apiSecret = "";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .scope("wl.basic")
                 .callback("http://localhost:9000/")

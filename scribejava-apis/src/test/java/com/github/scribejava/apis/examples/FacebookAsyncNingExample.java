@@ -35,8 +35,7 @@ public final class FacebookAsyncNingExample {
                 .setReadTimeout(1_000)
                 .build());
 
-        try (OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")

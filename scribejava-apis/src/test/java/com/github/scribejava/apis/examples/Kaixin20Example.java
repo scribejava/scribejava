@@ -23,8 +23,7 @@ public final class Kaixin20Example {
         // Replace these with your own api key and secret
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://your.domain.com/handle")
                 .build(KaixinApi20.instance());

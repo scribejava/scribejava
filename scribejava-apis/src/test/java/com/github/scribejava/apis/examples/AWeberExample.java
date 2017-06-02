@@ -24,8 +24,7 @@ public final class AWeberExample {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey(CONSUMER_KEY)
+        final OAuth10aService service = new ServiceBuilder(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)
                 .build(AWeberApi.instance());
 

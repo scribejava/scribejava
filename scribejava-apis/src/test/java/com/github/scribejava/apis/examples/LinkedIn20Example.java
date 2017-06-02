@@ -23,8 +23,8 @@ public final class LinkedIn20Example {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId).apiSecret(clientSecret)
+        final OAuth20Service service = new ServiceBuilder(clientId)
+                .apiSecret(clientSecret)
                 .scope("r_basicprofile r_emailaddress") // replace with desired scope
                 .callback("http://example.com/callback")
                 .state("some_params")

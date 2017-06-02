@@ -22,8 +22,7 @@ public final class TrelloExample {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey(API_KEY)
+        final OAuth10aService service = new ServiceBuilder(API_KEY)
                 .apiSecret(API_SECRET)
                 .build(TrelloApi.instance());
         final Scanner in = new Scanner(System.in);

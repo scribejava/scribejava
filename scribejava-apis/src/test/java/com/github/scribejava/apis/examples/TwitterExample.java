@@ -20,8 +20,7 @@ public final class TwitterExample {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey("your client id")
+        final OAuth10aService service = new ServiceBuilder("your client id")
                 .apiSecret("your client secret")
                 .build(TwitterApi.instance());
         final Scanner in = new Scanner(System.in);

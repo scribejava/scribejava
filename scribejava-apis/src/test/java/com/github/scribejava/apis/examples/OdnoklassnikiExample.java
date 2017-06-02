@@ -26,8 +26,7 @@ public final class OdnoklassnikiExample {
         final String publicKey = "your api public key";
         final String secretKey = "your api secret key";
 
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(secretKey)
                 .callback("http://your.site.com/callback")
                 .build(OdnoklassnikiApi.instance());

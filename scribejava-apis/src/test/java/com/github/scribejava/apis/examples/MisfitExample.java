@@ -25,8 +25,7 @@ public final class MisfitExample {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://example.com/callback/")
                 .scope("public,birthday,email,tracking,session,sleep")

@@ -15,7 +15,7 @@ public class ServiceBuilderTest {
 
     @Before
     public void setUp() {
-        builder = new ServiceBuilder();
+        builder = new ServiceBuilder("will override api_key by another later in test");
         api = ApiMock.instance();
     }
 

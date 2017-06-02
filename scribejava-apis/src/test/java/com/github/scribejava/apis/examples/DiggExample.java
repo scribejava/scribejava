@@ -24,8 +24,7 @@ public final class DiggExample {
         // Replace these with your own api key and secret
         final String apiKey = "myKey";
         final String apiSecret = "mySecret";
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth10aService service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .build(DiggApi.instance());
         final Scanner in = new Scanner(System.in);

@@ -24,8 +24,7 @@ public final class SinaWeiboExample {
         // Replace these with your own api key and secret
         final String apiKey = "your key";
         final String apiSecret = "your secret";
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth10aService service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .build(SinaWeiboApi.instance());
         final Scanner in = new Scanner(System.in);

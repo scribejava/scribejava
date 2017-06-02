@@ -39,8 +39,7 @@ public final class SalesforceExample {
         // When you plan to connect to a Sandbox environment you've to use SalesforceApi.sandbox() API instance
         // new ServiceBuilder.....build(SalesforceApi.sandbox());
 
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .callback("https://www.example.com/callback")
                 .build(SalesforceApi.instance());

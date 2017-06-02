@@ -23,8 +23,7 @@ public final class Foursquare2Example {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback("http://localhost:9000/")
                 .build(Foursquare2Api.instance());

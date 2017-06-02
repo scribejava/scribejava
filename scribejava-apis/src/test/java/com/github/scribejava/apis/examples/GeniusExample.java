@@ -25,8 +25,7 @@ public final class GeniusExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "100";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .scope("me")
                 .state(secretState)

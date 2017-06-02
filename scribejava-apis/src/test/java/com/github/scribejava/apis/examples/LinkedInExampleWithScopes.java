@@ -25,8 +25,7 @@ public final class LinkedInExampleWithScopes {
         final String clientId = "your client id";
         final String clientSecret = "your client id";
 
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth10aService service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .build(LinkedInApi.instance("foo", "bar", "baz"));
         final Scanner in = new Scanner(System.in);

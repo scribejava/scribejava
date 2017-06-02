@@ -27,8 +27,7 @@ public final class Box20Example {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "security_token" + new Random().nextInt(999_999);
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .state(secretState)
                 .callback("https://example.com/callback")

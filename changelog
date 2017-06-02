@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * LinkedIn use Header to sign OAuth2 requests
+ * upgrade ServiceBuilder to check apiKey preconditions compile-tim (not run-time)
 
 [4.1.1]
  * omit the client_secret parameter if it is an empty string while refreshing token (thanks to https://github.com/KungfuPancake)

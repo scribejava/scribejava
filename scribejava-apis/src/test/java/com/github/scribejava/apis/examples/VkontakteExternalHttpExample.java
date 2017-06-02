@@ -39,9 +39,8 @@ public final class VkontakteExternalHttpExample {
             //wrap it
             final AhcHttpClient wrappedAHCHttpClient = new AhcHttpClient(ahcHttpClient);
 
-            final OAuth20Service service = new ServiceBuilder()
+            final OAuth20Service service = new ServiceBuilder(clientId)
                     .httpClient(wrappedAHCHttpClient)
-                    .apiKey(clientId)
                     .apiSecret(clientSecret)
                     .scope("wall,offline") // replace with desired scope
                     .callback("http://your.site.com/callback")

@@ -24,8 +24,7 @@ public final class MailruExample {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
                 .build(MailruApi.instance());
