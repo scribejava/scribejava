@@ -19,7 +19,7 @@ public class LiveApi extends DefaultApi20 {
 
     @Override
     public Verb getAccessTokenVerb() {
-        return Verb.GET;
+        return Verb.POST;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class LiveApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "https://oauth.live.com/authorize";
+        return "https://login.live.com/oauth20_authorize.srf";
     }
 
     @Override
