@@ -41,6 +41,22 @@ public class OAuthConfig {
         this.httpClient = httpClient;
     }
 
+    public OAuthConfig(String apiKey, String apiSecret, String callback, SignatureType signatureType, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent, Integer connectTimeout,
+            Integer readTimeout) {
+        this.apiKey = apiKey;
+        this.apiSecret = apiSecret;
+        this.callback = callback;
+        this.signatureType = signatureType;
+        this.scope = scope;
+        this.debugStream = debugStream;
+        this.state = state;
+        this.responseType = responseType;
+        this.userAgent = userAgent;
+        this.connectTimeout = connectTimeout;
+        this.readTimeout = readTimeout;
+    }
+
     public String getApiKey() {
         return apiKey;
     }
