@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 public final class FlickrExample {
 
-    private static final String PROTECTED_RESOURCE_URL = "http://api.flickr.com/services/rest/";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.flickr.com/services/rest/";
 
     private FlickrExample() {
     }
