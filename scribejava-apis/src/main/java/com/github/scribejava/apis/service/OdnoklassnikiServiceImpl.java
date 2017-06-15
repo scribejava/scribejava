@@ -1,14 +1,21 @@
 package com.github.scribejava.apis.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import org.apache.commons.codec.CharEncoding;
-import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.AbstractRequest;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Parameter;
+import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.oauth.OAuth20Service;
+
+import org.apache.commons.codec.CharEncoding;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Collections;
+import java.util.List;
+
+import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
 public class OdnoklassnikiServiceImpl extends OAuth20Service {
 
@@ -17,19 +24,23 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public void signRequest(OAuth2AccessToken accessToken, AbstractRequest request) {
-        // sig = md5( request_params_composed_string+ md5(access_token + application_secret_key)  )
+    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
+        //sig = lower(md5( sorted_request_params_composed_string + md5(access_token + application_secret_key)))
         try {
             final String tokenDigest = md5Hex(accessToken.getAccessToken() + getConfig().getApiSecret());
 
-            final String completeUrl = request.getCompleteUrl();
-            final int queryIndex = completeUrl.indexOf('?');
-            if (queryIndex != -1) {
-                final String sigSource
-                        = URLDecoder.decode(completeUrl.substring(queryIndex + 1).replace("&", ""), CharEncoding.UTF_8)
-                        + tokenDigest;
-                request.addQuerystringParameter("sig", md5Hex(sigSource));
+            final ParameterList queryParams = request.getQueryStringParams();
+            queryParams.addAll(request.getBodyParams());
+            final List<Parameter> allParams = queryParams.getParams();
+
+            Collections.sort(allParams);
+            final StringBuilder builder = new StringBuilder();
+            for (Parameter param : allParams) {
+                builder.append(param.getKey()).append('=').append(param.getValue());
             }
+
+            final String sigSource = URLDecoder.decode(builder.toString(), CharEncoding.UTF_8) + tokenDigest;
+            request.addQuerystringParameter("sig", md5Hex(sigSource).toLowerCase());
 
             super.signRequest(accessToken, request);
         } catch (UnsupportedEncodingException unex) {

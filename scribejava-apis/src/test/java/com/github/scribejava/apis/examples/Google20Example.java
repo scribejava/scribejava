@@ -8,21 +8,26 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
-public abstract class Google20Example {
+public final class Google20Example {
 
     private static final String NETWORK_NAME = "G+";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
 
-    public static void main(String... args) {
+    private Google20Example() {
+    }
+
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId)
+        final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
                 .state(secretState)
@@ -35,13 +40,19 @@ public abstract class Google20Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        //pass access_type=offline to get refresh token
+        //https://developers.google.com/identity/protocols/OAuth2WebServer#preparing-to-start-the-oauth-20-flow
+        final Map<String, String> additionalParams = new HashMap<>();
+        additionalParams.put("access_type", "offline");
+        //force to reget refresh token (if usera are asked not the first time)
+        additionalParams.put("prompt", "consent");
+        final String authorizationUrl = service.getAuthorizationUrl(additionalParams);
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
-        final Verifier verifier = new Verifier(in.nextLine());
+        final String code = in.nextLine();
         System.out.println();
 
         System.out.println("And paste the state from server here. We have set 'secretState'='" + secretState + "'.");
@@ -58,9 +69,16 @@ public abstract class Google20Example {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(verifier);
+        OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
+
+        System.out.println("Refreshing the Access Token...");
+        accessToken = service.refreshAccessToken(accessToken.getRefreshToken());
+        System.out.println("Refreshed the Access Token!");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!
@@ -80,9 +98,9 @@ public abstract class Google20Example {
                 requestUrl = PROTECTED_RESOURCE_URL + "?fields=" + query;
             }
 
-            final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl, service);
+            final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
             service.signRequest(accessToken, request);
-            final Response response = request.send();
+            final Response response = service.execute(request);
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getBody());

@@ -7,21 +7,25 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-public abstract class LinkedIn20Example {
+public final class LinkedIn20Example {
 
     private static final String NETWORK_NAME = "LinkedIn";
     private static final String PROTECTED_RESOURCE_URL = "https://api.linkedin.com/v1/people/~:(%s)";
 
-    public static void main(String... args) {
+    private LinkedIn20Example() {
+    }
+
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(clientId).apiSecret(clientSecret)
-                .scope("r_basicprofile,r_emailaddress") // replace with desired scope
+        final OAuth20Service service = new ServiceBuilder(clientId)
+                .apiSecret(clientSecret)
+                .scope("r_basicprofile r_emailaddress") // replace with desired scope
                 .callback("http://example.com/callback")
                 .state("some_params")
                 .build(LinkedInApi20.instance());
@@ -38,14 +42,15 @@ public abstract class LinkedIn20Example {
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
-        final Verifier verifier = new Verifier(in.nextLine());
+        final String code = in.nextLine();
         System.out.println();
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(verifier);
+        final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!
@@ -60,12 +65,11 @@ public abstract class LinkedIn20Example {
                 break;
             }
 
-            final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, query),
-                    service);
+            final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(PROTECTED_RESOURCE_URL, query));
             request.addHeader("x-li-format", "json");
             request.addHeader("Accept-Language", "ru-RU");
             service.signRequest(accessToken, request);
-            final Response response = request.send();
+            final Response response = service.execute(request);
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getBody());

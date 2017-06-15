@@ -1,5 +1,7 @@
 package com.github.scribejava.core.model;
 
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -11,29 +13,32 @@ public class OAuthConfig {
     private final String apiKey;
     private final String apiSecret;
     private final String callback;
-    private final SignatureType signatureType;
     private final String scope;
-    private final String grantType;
     private final OutputStream debugStream;
-    private final Integer connectTimeout;
-    private final Integer readTimeout;
-    private String state;
+    private final String state;
+    private final String responseType;
+    private final String userAgent;
+
+    private HttpClientConfig httpClientConfig;
+    private HttpClient httpClient;
 
     public OAuthConfig(String key, String secret) {
-        this(key, secret, null, null, null, null, null, null, null);
+        this(key, secret, null, null, null, null, null, null, null, null);
     }
 
-    public OAuthConfig(String key, String secret, String callback, SignatureType type, String scope,
-            OutputStream stream, Integer connectTimeout, Integer readTimeout, String grantType) {
-        this.apiKey = key;
-        this.apiSecret = secret;
+    public OAuthConfig(String apiKey, String apiSecret, String callback, String scope, OutputStream debugStream,
+            String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        this.apiKey = apiKey;
+        this.apiSecret = apiSecret;
         this.callback = callback;
-        this.signatureType = type;
         this.scope = scope;
-        this.debugStream = stream;
-        this.connectTimeout = connectTimeout;
-        this.readTimeout = readTimeout;
-        this.grantType = grantType;
+        this.debugStream = debugStream;
+        this.state = state;
+        this.responseType = responseType;
+        this.userAgent = userAgent;
+        this.httpClientConfig = httpClientConfig;
+        this.httpClient = httpClient;
     }
 
     public String getApiKey() {
@@ -48,32 +53,20 @@ public class OAuthConfig {
         return callback;
     }
 
-    public SignatureType getSignatureType() {
-        return signatureType;
-    }
-
     public String getScope() {
         return scope;
     }
 
-    public boolean hasScope() {
-        return scope != null;
+    public String getState() {
+        return state;
     }
 
-    public String getGrantType() {
-        return grantType;
+    public String getResponseType() {
+        return responseType;
     }
 
-    public boolean hasGrantType() {
-        return grantType != null;
-    }
-
-    public Integer getConnectTimeout() {
-        return connectTimeout;
-    }
-
-    public Integer getReadTimeout() {
-        return readTimeout;
+    public String getUserAgent() {
+        return userAgent;
     }
 
     public void log(String message) {
@@ -87,17 +80,11 @@ public class OAuthConfig {
         }
     }
 
-    /**
-     * Sets optional value used by some provider implementations that is exchanged with provider to avoid CSRF attacks.
-     *
-     * @param state some secret key that client side shall never receive
-     */
-    public void setState(String state) {
-        this.state = state;
+    public HttpClientConfig getHttpClientConfig() {
+        return httpClientConfig;
     }
 
-    public String getState() {
-        return state;
+    public HttpClient getHttpClient() {
+        return httpClient;
     }
-
 }

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class GoogleToken extends OAuth2AccessToken {
 
-    private static final long serialVersionUID = 6150970703986214220L;
+    private static final long serialVersionUID = 7845679917727899612L;
 
     /**
      * Id_token is part of OpenID Connect specification. It can hold user information that you can directly extract
@@ -19,7 +19,12 @@ public class GoogleToken extends OAuth2AccessToken {
     private final String openIdToken;
 
     public GoogleToken(String accessToken, String openIdToken, String rawResponse) {
-        super(accessToken, rawResponse);
+        this(accessToken, null, null, null, null, openIdToken, rawResponse);
+    }
+
+    public GoogleToken(String accessToken, String tokenType, Integer expiresIn, String refreshToken, String scope,
+            String openIdToken, String rawResponse) {
+        super(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
         this.openIdToken = openIdToken;
     }
 
@@ -29,12 +34,7 @@ public class GoogleToken extends OAuth2AccessToken {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(getAccessToken());
-        hash = 37 * hash + Objects.hashCode(getTokenType());
-        hash = 37 * hash + Objects.hashCode(getExpiresIn());
-        hash = 37 * hash + Objects.hashCode(getRefreshToken());
-        hash = 37 * hash + Objects.hashCode(getScope());
+        int hash = super.hashCode();
         hash = 37 * hash + Objects.hashCode(openIdToken);
         return hash;
     }
@@ -50,23 +50,11 @@ public class GoogleToken extends OAuth2AccessToken {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final GoogleToken other = (GoogleToken) obj;
-        if (!Objects.equals(getAccessToken(), other.getAccessToken())) {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!Objects.equals(getTokenType(), other.getTokenType())) {
-            return false;
-        }
-        if (!Objects.equals(getRefreshToken(), other.getRefreshToken())) {
-            return false;
-        }
-        if (!Objects.equals(getScope(), other.getScope())) {
-            return false;
-        }
-        if (!Objects.equals(openIdToken, other.getOpenIdToken())) {
-            return false;
-        }
-        return Objects.equals(getExpiresIn(), other.getExpiresIn());
+
+        return Objects.equals(openIdToken, ((GoogleToken) obj).getOpenIdToken());
     }
 
     @Override

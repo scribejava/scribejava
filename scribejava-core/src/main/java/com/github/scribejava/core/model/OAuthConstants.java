@@ -20,8 +20,8 @@ public interface OAuthConstants {
     String OUT_OF_BAND = "oob";
     String VERIFIER = "oauth_verifier";
     String HEADER = "Authorization";
-    OAuth1RequestToken EMPTY_TOKEN = new OAuth1RequestToken("", "");
     String SCOPE = "scope";
+    String BASIC = "Basic";
 
     // OAuth 2.0
     String ACCESS_TOKEN = "access_token";
@@ -29,7 +29,16 @@ public interface OAuthConstants {
     String CLIENT_SECRET = "client_secret";
     String REDIRECT_URI = "redirect_uri";
     String CODE = "code";
+    String REFRESH_TOKEN = "refresh_token";
     String GRANT_TYPE = "grant_type";
     String AUTHORIZATION_CODE = "authorization_code";
     String STATE = "state";
+    String USERNAME = "username";
+    String PASSWORD = "password";
+    String RESPONSE_TYPE = "response_type";
+    String RESPONSE_TYPE_CODE = "code";
+
+    //not OAuth specific
+    String USER_AGENT_HEADER_NAME = "User-Agent";
+
 }

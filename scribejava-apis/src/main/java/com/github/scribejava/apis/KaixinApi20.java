@@ -1,21 +1,13 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import com.github.scribejava.core.extractors.TokenExtractor;
-import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.utils.OAuthEncoder;
+import com.github.scribejava.core.builder.api.OAuth2SignatureType;
+import com.github.scribejava.core.model.Verb;
 
 /**
  * Kaixin(http://www.kaixin001.com/) open platform api based on OAuth 2.0.
  */
 public class KaixinApi20 extends DefaultApi20 {
-
-    private static final String AUTHORIZE_URL
-            = "http://api.kaixin001.com/oauth2/authorize?client_id=%s&redirect_uri=%s&response_type=code";
-    private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
     protected KaixinApi20() {
     }
@@ -29,23 +21,22 @@ public class KaixinApi20 extends DefaultApi20 {
     }
 
     @Override
-    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return OAuth2AccessTokenJsonExtractor.instance();
+    public Verb getAccessTokenVerb() {
+        return Verb.GET;
     }
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://api.kaixin001.com/oauth2/access_token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
+        return "https://api.kaixin001.com/oauth2/access_token";
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
-        // Append scope if present
-        if (config.hasScope()) {
-            return String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()),
-                    OAuthEncoder.encode(config.getScope()));
-        } else {
-            return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
-        }
+    protected String getAuthorizationBaseUrl() {
+        return "http://api.kaixin001.com/oauth2/authorize";
+    }
+
+    @Override
+    public OAuth2SignatureType getSignatureType() {
+        return OAuth2SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

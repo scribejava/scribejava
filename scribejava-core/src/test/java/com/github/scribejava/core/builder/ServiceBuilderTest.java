@@ -6,7 +6,6 @@ import org.junit.Test;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.model.SignatureType;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class ServiceBuilderTest {
@@ -16,7 +15,7 @@ public class ServiceBuilderTest {
 
     @Before
     public void setUp() {
-        builder = new ServiceBuilder();
+        builder = new ServiceBuilder("will override api_key by another later in test");
         api = ApiMock.instance();
     }
 
@@ -28,7 +27,6 @@ public class ServiceBuilderTest {
         assertEquals(config.getApiKey(), "key");
         assertEquals(config.getApiSecret(), "secret");
         assertEquals(config.getCallback(), OAuthConstants.OUT_OF_BAND);
-        assertEquals(config.getSignatureType(), SignatureType.Header);
     }
 
     @Test
@@ -39,16 +37,6 @@ public class ServiceBuilderTest {
         assertEquals(config.getApiKey(), "key");
         assertEquals(config.getApiSecret(), "secret");
         assertEquals(config.getCallback(), "http://example.com");
-    }
-
-    @Test
-    public void shouldAcceptASignatureType() {
-        builder.apiKey("key").apiSecret("secret").signatureType(SignatureType.QueryString).build(api);
-
-        final OAuthConfig config = api.getConfig();
-        assertEquals(config.getApiKey(), "key");
-        assertEquals(config.getApiSecret(), "secret");
-        assertEquals(config.getSignatureType(), SignatureType.QueryString);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -90,7 +78,7 @@ public class ServiceBuilderTest {
         }
 
         @Override
-        public String getAuthorizationUrl(OAuthConfig config) {
+        protected String getAuthorizationBaseUrl() {
             throw new UnsupportedOperationException("Not supported yet.");
         }
     }

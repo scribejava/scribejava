@@ -5,5 +5,15 @@ package com.github.scribejava.core.model;
  */
 public enum Verb {
 
-    GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE, PATCH
+    GET(false), POST(true), PUT(true), DELETE(true), HEAD(false), OPTIONS(false), TRACE(false), PATCH(true);
+
+    private final boolean permitBody;
+
+    Verb(boolean permitBody) {
+        this.permitBody = permitBody;
+    }
+
+    public boolean isPermitBody() {
+        return permitBody;
+    }
 }

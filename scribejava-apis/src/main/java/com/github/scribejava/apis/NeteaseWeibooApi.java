@@ -32,14 +32,15 @@ public class NeteaseWeibooApi extends DefaultApi10a {
         return ACCESS_TOKEN_URL;
     }
 
-    @Override
     /**
      * this method will ignore your callback if you're creating a desktop client please choose this url else your can
      * call getAuthenticateUrl
      *
      * via
      * http://open.t.163.com/wiki/index.php?title=%E8%AF%B7%E6%B1%82%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83Token(oauth/authorize)
+     * @return url to redirect user to (to get code)
      */
+    @Override
     public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
         return String.format(AUTHORIZE_URL, requestToken.getToken());
     }

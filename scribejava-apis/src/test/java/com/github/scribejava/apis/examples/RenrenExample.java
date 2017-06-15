@@ -16,20 +16,23 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-public abstract class RenrenExample {
+public final class RenrenExample {
 
     private static final String NETWORK_NAME = "Renren";
     private static final String PROTECTED_RESOURCE_URL = "http://api.renren.com/restserver.do";
 
-    public static void main(String... args) {
+    private RenrenExample() {
+    }
+
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key and secret
         final String apiKey = "your api key";
         final String apiSecret = "your api secret";
-        final OAuth20Service service = new ServiceBuilder()
-                .apiKey(apiKey)
+        final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .scope("status_update publish_feed")
                 .callback("http://your.doman.com/oauth/renren")
@@ -47,19 +50,20 @@ public abstract class RenrenExample {
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
-        final Verifier verifier = new Verifier(in.nextLine());
+        final String code = in.nextLine();
         System.out.println();
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(verifier);
+        final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
         final Map<String, String> parameters = new HashMap<>();
         parameters.put("method", "users.getInfo");
         parameters.put("format", "json");
@@ -80,7 +84,7 @@ public abstract class RenrenExample {
         System.out.println("Sig string: " + b.toString());
         request.addQuerystringParameter("sig", md5(b.toString()));
         service.signRequest(accessToken, request);
-        final Response response = request.send();
+        final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getCode());

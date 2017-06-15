@@ -4,7 +4,11 @@ import com.github.scribejava.core.utils.Preconditions;
 import java.util.Objects;
 
 /**
- * Represents an OAuth 2 Access Token http://tools.ietf.org/html/rfc6749#section-5.1
+ * Represents an OAuth 2 Access token.
+ * <p>
+ * http://tools.ietf.org/html/rfc6749#section-5.1
+ *
+ * @see <a href="https://tools.ietf.org/html/rfc6749#section-4.1.4">OAuth 2 Access Token Specification</a></p>
  */
 public class OAuth2AccessToken extends Token {
 

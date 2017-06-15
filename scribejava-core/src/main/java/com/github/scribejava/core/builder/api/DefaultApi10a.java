@@ -30,7 +30,7 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
  * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
  */
-public abstract class DefaultApi10a {
+public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
 
     /**
      * Returns the access token extractor.
@@ -75,6 +75,13 @@ public abstract class DefaultApi10a {
      */
     public SignatureService getSignatureService() {
         return new HMACSha1SignatureService();
+    }
+
+    /**
+     * @return the signature type, choose between header, querystring, etc. Defaults to Header
+     */
+    public OAuth1SignatureType getSignatureType() {
+        return OAuth1SignatureType.Header;
     }
 
     /**
@@ -126,7 +133,18 @@ public abstract class DefaultApi10a {
      */
     public abstract String getAuthorizationUrl(OAuth1RequestToken requestToken);
 
+    @Override
     public OAuth10aService createService(OAuthConfig config) {
         return new OAuth10aService(this, config);
+    }
+
+    /**
+     * http://tools.ietf.org/html/rfc5849 says that "The client MAY omit the empty "oauth_token" protocol parameter from
+     * the request", but not all oauth servers are good boys.
+     *
+     * @return whether to inlcude empty oauth_token param to the request
+     */
+    public boolean isEmptyOAuthTokenParamIsRequired() {
+        return false;
     }
 }

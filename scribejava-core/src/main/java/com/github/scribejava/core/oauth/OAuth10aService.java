@@ -1,28 +1,25 @@
 package com.github.scribejava.core.oauth;
 
-import com.ning.http.client.ProxyServer;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.AbstractRequest;
+import com.github.scribejava.core.builder.api.OAuth1SignatureType;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
-import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.OAuthRequestAsync;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.services.Base64Encoder;
 import com.github.scribejava.core.utils.MapUtils;
+import java.util.concurrent.ExecutionException;
 
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
  */
-public class OAuth10aService extends OAuthService {
+public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
 
     private static final String VERSION = "1.0";
     private final DefaultApi10a api;
@@ -38,117 +35,129 @@ public class OAuth10aService extends OAuthService {
         this.api = api;
     }
 
-    /**
-     * Retrieve the request token.
-     *
-     * @return request token
-     */
-    public OAuth1RequestToken getRequestToken() {
+    public final OAuth1RequestToken getRequestToken() throws IOException, InterruptedException, ExecutionException {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
-        final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint(), this);
-
-        config.log("setting oauth_callback to " + config.getCallback());
-        request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
-        addOAuthParams(request, OAuthConstants.EMPTY_TOKEN);
-        appendSignature(request);
+        final OAuthRequest request = prepareRequestTokenRequest();
 
         config.log("sending request...");
-        final Response response = request.send();
+        final Response response = execute(request);
         final String body = response.getBody();
 
         config.log("response status code: " + response.getCode());
         config.log("response body: " + body);
-        return api.getRequestTokenExtractor().extract(body);
+        return api.getRequestTokenExtractor().extract(response);
     }
 
-    private void addOAuthParams(AbstractRequest request, OAuth1Token token) {
+    public final Future<OAuth1RequestToken> getRequestTokenAsync() {
+        return getRequestTokenAsync(null);
+    }
+
+    public final Future<OAuth1RequestToken> getRequestTokenAsync(
+            OAuthAsyncRequestCallback<OAuth1RequestToken> callback) {
+        final OAuthConfig config = getConfig();
+        config.log("async obtaining request token from " + api.getRequestTokenEndpoint());
+        final OAuthRequest request = prepareRequestTokenRequest();
+        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1RequestToken>() {
+            @Override
+            public OAuth1RequestToken convert(Response response) throws IOException {
+                return getApi().getRequestTokenExtractor().extract(response);
+            }
+        });
+    }
+
+    protected OAuthRequest prepareRequestTokenRequest() {
+        final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
+        final OAuthConfig config = getConfig();
+        config.log("setting oauth_callback to " + config.getCallback());
+        request.addOAuthParameter(OAuthConstants.CALLBACK, config.getCallback());
+        addOAuthParams(request, "");
+        appendSignature(request);
+        return request;
+    }
+
+    protected void addOAuthParams(OAuthRequest request, String tokenSecret) {
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TIMESTAMP, api.getTimestampService().getTimestampInSeconds());
         request.addOAuthParameter(OAuthConstants.NONCE, api.getTimestampService().getNonce());
         request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, config.getApiKey());
         request.addOAuthParameter(OAuthConstants.SIGN_METHOD, api.getSignatureService().getSignatureMethod());
         request.addOAuthParameter(OAuthConstants.VERSION, getVersion());
-        if (config.hasScope()) {
-            request.addOAuthParameter(OAuthConstants.SCOPE, config.getScope());
+        final String scope = config.getScope();
+        if (scope != null) {
+            request.addOAuthParameter(OAuthConstants.SCOPE, scope);
         }
-        request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, token));
+        request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, tokenSecret));
 
         config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
     }
 
-    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, Verifier verifier) {
-        final OAuthConfig config = getConfig();
-        config.log("obtaining access token from " + api.getAccessTokenEndpoint());
-        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
-        prepareAccessTokenRequest(request, requestToken, verifier);
-        final Response response = request.send();
-        return api.getAccessTokenExtractor().extract(response.getBody());
+    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
+            throws IOException, InterruptedException, ExecutionException {
+        getConfig().log("obtaining access token from " + api.getAccessTokenEndpoint());
+        final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
+        final Response response = execute(request);
+        return api.getAccessTokenExtractor().extract(response);
+    }
+
+    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier) {
+        return getAccessTokenAsync(requestToken, oauthVerifier, null);
     }
 
     /**
-     * Start the request to retrieve the access token. The optionally provided callback will be called with the Token
-     * when it is available.
+     * Start the request to retrieve the access token. The optionally provided
+     * callback will be called with the Token when it is available.
      *
      * @param requestToken request token (obtained previously or null)
-     * @param verifier verifier code
+     * @param oauthVerifier oauth_verifier
      * @param callback optional callback
      * @return Future
      */
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, Verifier verifier,
+    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
             OAuthAsyncRequestCallback<OAuth1AccessToken> callback) {
-        return getAccessTokenAsync(requestToken, verifier, callback, null);
-    }
-
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, Verifier verifier,
-            OAuthAsyncRequestCallback<OAuth1AccessToken> callback, ProxyServer proxyServer) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
-        final OAuthRequestAsync request
-                = new OAuthRequestAsync(api.getAccessTokenVerb(), api.getAccessTokenEndpoint(), this);
-        prepareAccessTokenRequest(request, requestToken, verifier);
-        return request.sendAsync(callback, new OAuthRequestAsync.ResponseConverter<OAuth1AccessToken>() {
+        final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
+        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1AccessToken>() {
             @Override
-            public OAuth1AccessToken convert(com.ning.http.client.Response response) throws IOException {
-                return getApi().getAccessTokenExtractor()
-                        .extract(OAuthRequestAsync.RESPONSE_CONVERTER.convert(response).getBody());
+            public OAuth1AccessToken convert(Response response) throws IOException {
+                return getApi().getAccessTokenExtractor().extract(response);
             }
-        }, proxyServer);
+        });
     }
 
-    protected void prepareAccessTokenRequest(AbstractRequest request, OAuth1RequestToken requestToken,
-            Verifier verifier) {
+    protected OAuthRequest prepareAccessTokenRequest(OAuth1RequestToken requestToken, String oauthVerifier) {
+        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
         final OAuthConfig config = getConfig();
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
-        request.addOAuthParameter(OAuthConstants.VERIFIER, verifier.getValue());
-        config.log("setting token to: " + requestToken + " and verifier to: " + verifier);
-        addOAuthParams(request, requestToken);
+        request.addOAuthParameter(OAuthConstants.VERIFIER, oauthVerifier);
+        config.log("setting token to: " + requestToken + " and verifier to: " + oauthVerifier);
+        addOAuthParams(request, requestToken.getTokenSecret());
         appendSignature(request);
+        return request;
     }
 
-    public void signRequest(OAuth1AccessToken token, AbstractRequest request) {
+    @Override
+    public void signRequest(OAuth1AccessToken token, OAuthRequest request) {
         final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());
 
-        // Do not append the token if empty. This is for two legged OAuth calls.
-        if (!token.isEmpty()) {
+        if (!token.isEmpty() || api.isEmptyOAuthTokenParamIsRequired()) {
             request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
         }
         config.log("setting token to: " + token);
-        addOAuthParams(request, token);
+        addOAuthParams(request, token.getTokenSecret());
         appendSignature(request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getVersion() {
         return VERSION;
     }
 
     /**
-     * Returns the URL where you should redirect your users to authenticate your application.
+     * Returns the URL where you should redirect your users to authenticate your
+     * application.
      *
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users
@@ -157,22 +166,22 @@ public class OAuth10aService extends OAuthService {
         return api.getAuthorizationUrl(requestToken);
     }
 
-    private String getSignature(AbstractRequest request, OAuth1Token token) {
+    private String getSignature(OAuthRequest request, String tokenSecret) {
         final OAuthConfig config = getConfig();
         config.log("generating signature...");
         config.log("using base64 encoder: " + Base64Encoder.type());
         final String baseString = api.getBaseStringExtractor().extract(request);
-        final String signature = api.getSignatureService()
-                .getSignature(baseString, config.getApiSecret(), token.getTokenSecret());
+        final String signature = api.getSignatureService().getSignature(baseString, config.getApiSecret(), tokenSecret);
 
         config.log("base string is: " + baseString);
         config.log("signature is: " + signature);
         return signature;
     }
 
-    private void appendSignature(AbstractRequest request) {
+    protected void appendSignature(OAuthRequest request) {
         final OAuthConfig config = getConfig();
-        switch (config.getSignatureType()) {
+        final OAuth1SignatureType signatureType = api.getSignatureType();
+        switch (signatureType) {
             case Header:
                 config.log("using Http Header signature");
 
@@ -187,7 +196,7 @@ public class OAuth10aService extends OAuthService {
                 }
                 break;
             default:
-                throw new IllegalStateException("Unknown new Signature Type '" + config.getSignatureType() + "'.");
+                throw new IllegalStateException("Unknown new Signature Type '" + signatureType + "'.");
         }
     }
 

@@ -8,10 +8,11 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-public abstract class AWeberExample {
+public final class AWeberExample {
 
     //To get your consumer key/secret, and view API docs, see https://labs.aweber.com/docs
     private static final String ACCOUNT_RESOURCE_URL = "https://api.aweber.com/1.0/accounts/";
@@ -19,9 +20,11 @@ public abstract class AWeberExample {
     private static final String CONSUMER_KEY = "";
     private static final String CONSUMER_SECRET = "";
 
-    public static void main(String... args) {
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey(CONSUMER_KEY)
+    private AWeberExample() {
+    }
+
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
+        final OAuth10aService service = new ServiceBuilder(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)
                 .build(AWeberApi.instance());
 
@@ -40,21 +43,22 @@ public abstract class AWeberExample {
         System.out.println(service.getAuthorizationUrl(requestToken));
         System.out.println("And paste the verifier here");
         System.out.print(">>");
-        final Verifier verifier = new Verifier(in.nextLine());
+        final String oauthVerifier = in.nextLine();
         System.out.println();
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, verifier);
+        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, oauthVerifier);
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, ACCOUNT_RESOURCE_URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, ACCOUNT_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        final Response response = request.send();
+        final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getBody());

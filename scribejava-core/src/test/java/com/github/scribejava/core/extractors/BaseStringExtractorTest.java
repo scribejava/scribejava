@@ -5,10 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import com.github.scribejava.core.ObjectMother;
 import com.github.scribejava.core.exceptions.OAuthParametersMissingException;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class BaseStringExtractorTest {
 
@@ -92,8 +90,7 @@ public class BaseStringExtractorTest {
 
     @Test(expected = OAuthParametersMissingException.class)
     public void shouldThrowExceptionIfRquestHasNoOAuthParameters() {
-        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com",
-                new OAuth20Service(null, new OAuthConfig("test", "test")));
+        final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com");
         extractor.extract(request);
     }
 

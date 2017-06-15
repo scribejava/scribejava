@@ -1,7 +1,120 @@
 [SNAPSHOT]
+ * LinkedIn use Header to sign OAuth2 requests
+ * upgrade ServiceBuilder to check apiKey preconditions compile-tim (not run-time)
+
+[4.1.1]
+ * omit the client_secret parameter if it is an empty string while refreshing token (thanks to https://github.com/KungfuPancake)
+ * allow perms to be specified in Flickr Api (read, write, or delete) (thanks to https://github.com/rogerhu)
+ * OdnoklassnikiService should consider params in a body while signing the request (thanks to https://github.com/MrNeuronix)
+ * do not open OutputStream for output while sending empty body in HTTP requests in the default JDK Http client
+
+[4.1.0]
+ * make client_secret optional in OAuth2 while requesting AccessToken (if set to null, it's not required by OAuth2 specs)
+ * move OAuth1 SignatureType from ServiceBuilder to API
+ * add body for PATCH HTTP method
+ * make addOAuthParams appendSignature methods protected in OAuth10aService (to override them in case of need) (thanks to https://github.com/vivin)
+
+[4.0.0]
+ * Remove OAuthRequestAsync, just OAuthRequest. Request should know about sync vs async. Move default Http engine to JDKHttpClient.
+ * introduce SignatureType for OAuth2.0 to implement Bearer signing for the requests
+ * switch Google, GitHub, Facebook OAuth2.0 oauth requests signing to more secured recommended variant (GET-param -> header Bearer)
+ * introduce custom nonstandard Facebook AccessTokenErrorResponse
+
+[3.4.1]
+ * Drop deprecated methods
+ * Move doktornarabote.ru urls to https (thanks to https://github.com/ezibrov)
+
+[3.4.0]
+ * uncouple OAuthRequest and Service. OAuthRequest shouldn't know anything about OAuthservice.
+   You don't need OAuthService to create OAuthRequest anymore. Async request should be sent via OAuthService method.
+ * add support for byte[] and File (async only) payload in OAuth Requests (thanks to https://github.com/keijohyttinen)
+ * add support for  HTTP verbs (thanks to https://github.com/keijohyttinen)
+ * add OkHttp http client support (thanks to https://github.com/arcao)
+ * add default HTTP client configs (to use like 'new ServiceBuilder().httpClientConfig(OkHttpHttpClientConfig.defaultConfig())')
+ * you can use your own impl of AsyncHttpClient
+
+[3.3.0]
+ * update Facebook v2.6 -> v2.8
+ * add The Things Network API (v1-staging and v2-preview) (thanks to https://github.com/jpmeijers)
+ * add Box (thanks to https://github.com/MclaughlinSteve)
+ * fix: OAuth20Service::refreshAccessToken should use RefreshTokenEndpoint, not AccessTokenEndpoint (thanks to https://github.com/vivin)
+ * move signRequest method to OAuthService (common for OAuth1 and OAuth2) (thanks to https://github.com/apomelov)
+ * drop deprecated setConnectionKeepAlive method
+
+[3.2.0]
+ * Add Naver API (thanks to chooco)
+ * handle OAuth2 error response for Issuing an Access Token (thanks to juherr)
+
+[3.1.0]
+ * fix OdnoklassnikiServiceImpl signature, params for hash must be sorted in lexicographic order, see http://new.apiok.ru/dev/methods/
+ * add posibility to use externally created http client
+ * make ScribeJava compilable under jdk7 (checkstyle downgraded for jdk 1.7)
+ * add travis CI (check [oracle|open]jdk7 oraclejdk8)
+
+[3.0.0]
+ * create abstract HTTP Client layer to support different HTTP clients as plugins (AHC and Ning support becames maven submodules)
+ * remove changing global JVM property http.keepAlive, deprecate controlling this property inside of ScribeJava (thanks to wldaunfr and rockihack)
+
+[2.8.1]
+ * add Salesforce sandbox API support
+
+[2.8.0]
+ * add Salesforce API
+ * update Linked In API
+
+[2.7.3]
+ * FIX: ScribeJava shouldn't require all async http client provider to be on the classpath if using only one of them
+
+[2.7.2]
+ * FIX: ScribeJava shouldn't require any async http client provider to be on the classpath (neither ning neither AHC)
+
+[2.7.1]
+ * do not hide checked IOException in unchecked IllegalArgumentException
+
+[2.7.0]
+ * make http async client implementation be more pluggable
+ * add async-http-client 2.0 support (thanks to Sai Chandrasekharan https://github.com/saichand)
+ * add Misfit (http://misfit.com/) API
+ * implement async version getting Request Token for OAuth 1.0a
+
+[2.6.0]
+ * simplify async/sync usages
+ * add optional "User-Agent" config option to use while making http calls
+ * refactor usage of grant_type [authorization_code|refresh_token|password|etc]
+ * add Genius.com API authentication (OAuth2)
+ * fix GitHub API
+ * standardize authorization url generation for OAuth2
+ * update Facebook to v2.6
+ * cleanup: drop old APIs without Examples and with outdated domains
+
+[2.5.3]
+ * fix - do not send two Content-Type header in async requests
+ * improve OK example
+
+[2.5.2]
+ * add Google Async Exmaple (with bugfix for it to work)
+ * add OSGI manifest metadata
+ * apiSecret is not mandatory parameter in config (to use on client sides and other flows without need of the API secret)
+ * implement OAuth2 Authorization Response parsing in the OAuth20Service (to extract code and state from url, useful for Android)
+ * update ok.ru API urls, add 'state' support, add refresh token to the example
+
+[2.4.0]
+ * APIs 2.0 can define different endpoints for access token and for refresh token (the same urls by default)
+ * mark Facebook doesn't support refresh token by throwing UnsupportedOperationException
+ * make JSON Access Token Extractor be the default for OAuth 2.0 (according to RFC 6749)
+ * drop Google OAuth 1.0 support (OAuth 1.0 was officially deprecated by Google)
+ * add response_type parameter to the ServiceBuilder/OAuthConfig to use not only "code" for authorization code
+ * remove Verifier object, we just need Strings, 'code' for OAuth2 and 'oauthVerifier' for OAuth1
+ * default HTTP verb for OAuth 2.0 Access Token EndPoint is POST (http://tools.ietf.org/html/rfc6749#section-3.2)
+ * send missed headers in async version (as in sync)
+ * support 'password' grant_type for OAuth 2.0
+
+[2.3.0]
  * Stack Exchange authentication via OAuth 2.0 (stackoverflow.com, askubuntu.com, etc.).
  * Support response in gzip.
  * differentiate OAuth1 Access token, OAuth 1 Request Token and OAuth 2 Access token, make them conforms RFCs
+ * OAuth 1 APIs can choose whether to pass empty oauth_token param in requests
+ * Support refresh tokens for OAuth2 (very thanks to P. Daniel Tyreus https://github.com/pdtyreus)
 
 [2.2.2]
  * make all APIs to be extentable (have protected constructors, useful for testing)

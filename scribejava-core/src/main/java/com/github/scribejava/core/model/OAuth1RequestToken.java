@@ -3,17 +3,17 @@ package com.github.scribejava.core.model;
 import java.util.Objects;
 
 /**
- * Represents an OAuth 1 Request Token http://oauth.net/core/1.0a/#rfc.section.6.1.2
+ * Represents an OAuth 1 Request Token http://tools.ietf.org/html/rfc5849#section-2.1
  */
 public class OAuth1RequestToken extends OAuth1Token {
 
-    private static final long serialVersionUID = 359527630020350893L;
+    private static final long serialVersionUID = 6185104114662587991L;
 
     /**
      * oauth_callback_confirmed:
      * <p>
-     * MUST be present and set to true. The Consumer MAY use this to confirm that the Service Provider received the
-     * callback value.</p>
+     * MUST be present and set to "true". The parameter is used to differentiate from previous versions of the protocol.
+     * </p>
      */
     private final boolean oauthCallbackConfirmed;
 
@@ -28,6 +28,26 @@ public class OAuth1RequestToken extends OAuth1Token {
     public OAuth1RequestToken(String token, String tokenSecret, boolean oauthCallbackConfirmed, String rawResponse) {
         super(token, tokenSecret, rawResponse);
         this.oauthCallbackConfirmed = oauthCallbackConfirmed;
+    }
+
+    /**
+     * The temporary credentials identifier.
+     *
+     * @return oauth_token
+     */
+    @Override
+    public String getToken() {
+        return super.getToken();
+    }
+
+    /**
+     * The temporary credentials shared-secret.
+     *
+     * @return oauth_token_secret
+     */
+    @Override
+    public String getTokenSecret() {
+        return super.getTokenSecret();
     }
 
     public boolean isOauthCallbackConfirmed() {
@@ -69,6 +89,6 @@ public class OAuth1RequestToken extends OAuth1Token {
         return "OAuth1RequestToken{"
                 + "oauth_token=" + getToken()
                 + ", oauth_token_secret=" + getTokenSecret()
-                + ", oauthCallbackConfirmed=" + oauthCallbackConfirmed + '}';
+                + ", oauth_callback_confirmed=" + oauthCallbackConfirmed + '}';
     }
 }

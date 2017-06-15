@@ -1,18 +1,10 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import com.github.scribejava.core.extractors.TokenExtractor;
-import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.utils.OAuthEncoder;
-import com.github.scribejava.core.utils.Preconditions;
+import com.github.scribejava.core.builder.api.OAuth2SignatureType;
+import com.github.scribejava.core.model.Verb;
 
 public class Foursquare2Api extends DefaultApi20 {
-
-    private static final String AUTHORIZATION_URL
-            = "https://foursquare.com/oauth2/authenticate?client_id=%s&response_type=code&redirect_uri=%s";
 
     protected Foursquare2Api() {
     }
@@ -26,19 +18,22 @@ public class Foursquare2Api extends DefaultApi20 {
     }
 
     @Override
+    public Verb getAccessTokenVerb() {
+        return Verb.GET;
+    }
+
+    @Override
     public String getAccessTokenEndpoint() {
-        return "https://foursquare.com/oauth2/access_token?grant_type=" + OAuthConstants.AUTHORIZATION_CODE;
+        return "https://foursquare.com/oauth2/access_token";
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config) {
-        Preconditions.checkValidUrl(config.getCallback(),
-                "Must provide a valid url as callback. Foursquare2 does not support OOB");
-        return String.format(AUTHORIZATION_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
+    protected String getAuthorizationBaseUrl() {
+        return "https://foursquare.com/oauth2/authenticate";
     }
 
     @Override
-    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return OAuth2AccessTokenJsonExtractor.instance();
+    public OAuth2SignatureType getSignatureType() {
+        return OAuth2SignatureType.BEARER_URI_QUERY_PARAMETER;
     }
 }

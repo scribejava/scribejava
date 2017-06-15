@@ -10,20 +10,16 @@ public class LinkedInApi extends DefaultApi10a {
 
     private final String scopesAsString;
 
-    public LinkedInApi() {
+    protected LinkedInApi() {
         scopesAsString = null;
     }
 
-    public LinkedInApi(String... scopes) {
-        if (scopes == null || scopes.length == 0) {
-            scopesAsString = null;
-        } else {
-            final StringBuilder builder = new StringBuilder();
-            for (String scope : scopes) {
-                builder.append('+').append(scope);
-            }
-            scopesAsString = "?scope=" + builder.substring(1);
+    protected LinkedInApi(String... scopes) {
+        final StringBuilder builder = new StringBuilder();
+        for (String scope : scopes) {
+            builder.append('+').append(scope);
         }
+        scopesAsString = "?scope=" + builder.substring(1);
     }
 
     private static class InstanceHolder {
@@ -33,6 +29,10 @@ public class LinkedInApi extends DefaultApi10a {
 
     public static LinkedInApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public static LinkedInApi instance(String... scopes) {
+        return scopes == null || scopes.length == 0 ? instance() : new LinkedInApi(scopes);
     }
 
     @Override

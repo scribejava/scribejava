@@ -1,54 +1,58 @@
 package com.github.scribejava.core.oauth;
 
-import com.ning.http.client.AsyncHttpClient;
-import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.model.ForceTypeOfHttpRequest;
+import com.github.scribejava.core.httpclient.HttpClientProvider;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.httpclient.jdk.JDKHttpClient;
+import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
+import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConfigAsync;
-import com.github.scribejava.core.model.ScribeJavaConfig;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Token;
+import java.io.File;
+
+import java.io.IOException;
+import java.util.ServiceLoader;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * The main ScribeJava object.
  *
  * A facade responsible for the retrieval of request and access tokens and for the signing of HTTP requests.
+ * @param <T> type of token used to sign the request
  */
-public abstract class OAuthService {
+public abstract class OAuthService<T extends Token> implements AutoCloseable {
 
     private final OAuthConfig config;
-    private AsyncHttpClient asyncHttpClient;
+    private final HttpClient httpClient;
 
     public OAuthService(OAuthConfig config) {
         this.config = config;
-        final ForceTypeOfHttpRequest forceTypeOfHttpRequest = ScribeJavaConfig.getForceTypeOfHttpRequests();
-        if (config instanceof OAuthConfigAsync) {
-            if (ForceTypeOfHttpRequest.FORCE_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                throw new OAuthException("Cannot use async operations, only sync");
-            }
-            if (ForceTypeOfHttpRequest.PREFER_SYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                config.log("Cannot use async operations, only sync");
-            }
-            final OAuthConfigAsync asyncConfig = (OAuthConfigAsync) config;
-            final String asyncHttpProviderClassName = asyncConfig.getAsyncHttpProviderClassName();
+        final HttpClientConfig httpClientConfig = config.getHttpClientConfig();
+        final HttpClient externalHttpClient = config.getHttpClient();
 
-            asyncHttpClient = asyncHttpProviderClassName == null
-                    ? new AsyncHttpClient(asyncConfig.getAsyncHttpClientConfig())
-                    : new AsyncHttpClient(asyncHttpProviderClassName, asyncConfig.getAsyncHttpClientConfig());
+        if (httpClientConfig == null && externalHttpClient == null) {
+            httpClient = new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
         } else {
-            if (ForceTypeOfHttpRequest.FORCE_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                throw new OAuthException("Cannot use sync operations, only async");
-            }
-            if (ForceTypeOfHttpRequest.PREFER_ASYNC_ONLY_HTTP_REQUESTS == forceTypeOfHttpRequest) {
-                config.log("Cannot use sync operations, only async");
-            }
+            httpClient = externalHttpClient == null ? getClient(httpClientConfig) : externalHttpClient;
         }
     }
 
-    public AsyncHttpClient getAsyncHttpClient() {
-        return asyncHttpClient;
+    private static HttpClient getClient(HttpClientConfig config) {
+        for (HttpClientProvider provider : ServiceLoader.load(HttpClientProvider.class)) {
+            final HttpClient client = provider.createClient(config);
+            if (client != null) {
+                return client;
+            }
+        }
+        return null;
     }
 
-    public void closeAsyncClient() {
-        asyncHttpClient.close();
+    @Override
+    public void close() throws IOException {
+        httpClient.close();
     }
 
     public OAuthConfig getConfig() {
@@ -61,4 +65,44 @@ public abstract class OAuthService {
      * @return OAuth version as string
      */
     public abstract String getVersion();
+
+    public abstract void signRequest(T token, OAuthRequest request);
+
+    public Future<Response> executeAsync(OAuthRequest request) {
+        return execute(request, null);
+    }
+
+    public Future<Response> execute(OAuthRequest request, OAuthAsyncRequestCallback<Response> callback) {
+        return execute(request, callback, null);
+    }
+
+    public <R> Future<R> execute(OAuthRequest request, OAuthAsyncRequestCallback<R> callback,
+            OAuthRequest.ResponseConverter<R> converter) {
+
+        final File filePayload = request.getFilePayload();
+        if (filePayload != null) {
+            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), filePayload, callback, converter);
+        } else if (request.getStringPayload() != null) {
+            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getStringPayload(), callback, converter);
+        } else {
+            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getByteArrayPayload(), callback, converter);
+        }
+    }
+
+    public Response execute(OAuthRequest request) throws InterruptedException, ExecutionException, IOException {
+        final File filePayload = request.getFilePayload();
+        if (filePayload != null) {
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), filePayload);
+        } else if (request.getStringPayload() != null) {
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getStringPayload());
+        } else {
+            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
+                    request.getCompleteUrl(), request.getByteArrayPayload());
+        }
+    }
 }

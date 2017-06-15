@@ -8,17 +8,20 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.model.Verifier;
 import com.github.scribejava.core.oauth.OAuth10aService;
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-public abstract class LinkedInExample {
+public final class LinkedInExample {
 
     private static final String PROTECTED_RESOURCE_URL
             = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";
 
-    public static void main(String... args) {
-        final OAuth10aService service = new ServiceBuilder()
-                .apiKey("your client id")
+    private LinkedInExample() {
+    }
+
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
+        final OAuth10aService service = new ServiceBuilder("your client id")
                 .apiSecret("your client secret")
                 .build(LinkedInApi.instance());
         final Scanner in = new Scanner(System.in);
@@ -36,21 +39,22 @@ public abstract class LinkedInExample {
         System.out.println(service.getAuthorizationUrl(requestToken));
         System.out.println("And paste the verifier here");
         System.out.print(">>");
-        final Verifier verifier = new Verifier(in.nextLine());
+        final String oauthVerifier = in.nextLine();
         System.out.println();
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, verifier);
+        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, oauthVerifier);
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken + " )");
+        System.out.println("(if your curious it looks like this: " + accessToken
+                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL, service);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        final Response response = request.send();
+        final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getBody());
