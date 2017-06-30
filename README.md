@@ -11,8 +11,7 @@
 Who said OAuth/OAuth2 was difficult? Configuring ScribeJava is __so easy your grandma can do it__! check it out:
 
 ```java
-OAuthService service = new ServiceBuilder()
-                                  .apiKey(YOUR_API_KEY)
+OAuthService service = new ServiceBuilder(YOUR_API_KEY)
                                   .apiSecret(YOUR_API_SECRET)
                                   .build(LinkedInApi20.instance());
 ```
