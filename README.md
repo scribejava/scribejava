@@ -48,6 +48,7 @@ ScribeJava support out-of-box several HTTP clients:
 * GitHub (https://github.com/)
 * Google (https://www.google.com/)
 * HeadHunter ХэдХантер (https://hh.ru/)
+* Hub (https://www.jetbrains.com/hub/)
 * Imgur (http://imgur.com/)
 * Kaixin 开心网 (http://www.kaixin001.com/)
 * LinkedIn (https://www.linkedin.com/)
