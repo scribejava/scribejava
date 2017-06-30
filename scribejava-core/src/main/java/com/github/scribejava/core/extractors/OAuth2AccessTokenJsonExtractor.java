@@ -1,21 +1,22 @@
 package com.github.scribejava.core.extractors;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.utils.Preconditions;
 
+import java.io.IOException;
+import java.net.URI;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * JSON (default) implementation of {@link TokenExtractor} for OAuth 2.0
  */
 public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2AccessToken> {
 
-    private static final Pattern ACCESS_TOKEN_REGEX_PATTERN = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
+    private static final Pattern ACCESS_TOKEN_REGEX_PATTERN = Pattern.compile("\"access_token\"\\s*:\\s*\"(.*?)\"");
     private static final Pattern TOKEN_TYPE_REGEX_PATTERN = Pattern.compile("\"token_type\"\\s*:\\s*\"(\\S*?)\"");
     private static final Pattern EXPIRES_IN_REGEX_PATTERN = Pattern.compile("\"expires_in\"\\s*:\\s*\"?(\\d*?)\"?\\D");
     private static final Pattern REFRESH_TOKEN_REGEX_PATTERN = Pattern.compile("\"refresh_token\"\\s*:\\s*\"(\\S*?)\"");
