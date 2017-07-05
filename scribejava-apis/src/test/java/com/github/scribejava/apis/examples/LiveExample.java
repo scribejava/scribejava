@@ -13,8 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 public final class LiveExample {
 
-    private static final String PROTECTED_RESOURCE_URL
-            = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";
+    private static final String PROTECTED_RESOURCE_URL = "https://apis.live.net/v5.0/me";
 
     private LiveExample() {
     }
@@ -54,7 +53,7 @@ public final class LiveExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getAccessToken());
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
         final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
