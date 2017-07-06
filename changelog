@@ -1,6 +1,6 @@
 [SNAPSHOT]
  * LinkedIn use Header to sign OAuth2 requests
- * upgrade ServiceBuilder to check apiKey preconditions compile-tim (not run-time)
+ * upgrade ServiceBuilder to check apiKey preconditions compile-time (not run-time)
  * update Live API (thanks to https://github.com/typhoon17)
 
 [4.1.1]
