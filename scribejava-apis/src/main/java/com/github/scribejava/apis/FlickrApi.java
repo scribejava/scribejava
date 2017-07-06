@@ -54,13 +54,8 @@ public class FlickrApi extends DefaultApi10a {
      */
     @Override
     public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        String authUrl = String.format(AUTHORIZE_URL, requestToken.getToken());
-
-        if (permString != null) {
-            authUrl += "&perms=" + permString;
-        }
-
-        return authUrl;
+        final String authUrl = String.format(AUTHORIZE_URL, requestToken.getToken());
+        return permString == null ? authUrl : authUrl + "&perms=" + permString;
     }
 
     /**
