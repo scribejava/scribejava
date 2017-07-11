@@ -41,18 +41,6 @@ public class FrappeApi extends DefaultApi20 {
 
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return new TokenExtractor<OAuth2AccessToken>() {
-            @Override
-            public OAuth2AccessToken extract(Response response) throws IOException, OAuthException {
-                String token = null;
-                try {
-                    JSONObject bearerToken = new JSONObject(response.getBody());
-                    token = bearerToken.getString("access_token");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return new OAuth2AccessToken(token);
-            }
-        };
+        return FrappeJsonTokenExtractor.instance();
     }
 }
