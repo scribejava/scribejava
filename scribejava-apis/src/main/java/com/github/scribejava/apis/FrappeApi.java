@@ -7,7 +7,7 @@ import com.github.scribejava.core.model.Verb;
 
 public class FrappeApi extends DefaultApi20 {
 
-    String serverURL = "https://erpnext.org";
+    private String serverURL = "https://erpnext.org";
 
     protected FrappeApi() {
     }
@@ -18,6 +18,14 @@ public class FrappeApi extends DefaultApi20 {
 
     public static FrappeApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public String getServerURL() {
+        return this.serverURL;
+    }
+
+    public void setServerURL(String serverURL) {
+        this.serverURL = serverURL;
     }
 
     @Override
