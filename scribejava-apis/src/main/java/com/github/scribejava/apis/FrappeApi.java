@@ -1,17 +1,13 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-
-import java.io.IOException;
 
 public class FrappeApi extends DefaultApi20 {
 
-    String SERVER_URL = "https://erpnext.org";
+    String serverURL = "https://erpnext.org";
 
     protected FrappeApi() {
     }
@@ -31,12 +27,12 @@ public class FrappeApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return this.SERVER_URL + "/api/method/frappe.integrations.oauth2.get_token";
+        return this.serverURL + "/api/method/frappe.integrations.oauth2.get_token";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return this.SERVER_URL + "/api/method/frappe.integrations.oauth2.authorize";
+        return this.serverURL + "/api/method/frappe.integrations.oauth2.authorize";
     }
 
     @Override
