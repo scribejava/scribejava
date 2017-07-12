@@ -27,14 +27,6 @@ public class ServiceBuilder {
     private HttpClientConfig httpClientConfig;
     private HttpClient httpClient;
 
-    /**
-     *
-     * @deprecated use {@link #ServiceBuilder(java.lang.String) }
-     */
-    @Deprecated
-    public ServiceBuilder() {
-    }
-
     public ServiceBuilder(String apiKey) {
         apiKey(apiKey);
     }
@@ -139,16 +131,6 @@ public class ServiceBuilder {
     }
 
     /**
-     *
-     * @deprecated apiKey will be required param for the ServiceBuilder constructor
-     * {@link #ServiceBuilder(java.lang.String) }
-     */
-    @Deprecated
-    public void checkPreconditions() {
-        Preconditions.checkEmptyString(apiKey, "You must provide an api key");
-    }
-
-    /**
      * Returns the fully configured {@link S}
      *
      * @param <S> OAuthService implementation (OAuth1/OAuth2/any API specific)
@@ -156,7 +138,6 @@ public class ServiceBuilder {
      * @return fully configured {@link S}
      */
     public <S extends OAuthService<?>> S build(BaseApi<S> api) {
-        checkPreconditions();
         return api.createService(new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType,
                 userAgent, httpClientConfig, httpClient));
     }
