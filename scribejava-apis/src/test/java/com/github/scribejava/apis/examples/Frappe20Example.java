@@ -14,7 +14,8 @@ import java.util.concurrent.ExecutionException;
 public final class Frappe20Example {
 
     private static final String NETWORK_NAME = "Frappe";
-    private static final String PROTECTED_RESOURCE_URL = "https://scribejava.mntechnique.com/api/method/frappe.integrations.oauth2.openid_profile";
+    private static final String PROTECTED_RESOURCE_URL = "https://scribejava.mntechnique.com/" +
+            "api/method/frappe.integrations.oauth2.openid_profile";
 
     private Frappe20Example() {
     }
