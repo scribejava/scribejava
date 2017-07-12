@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * DELETE in JdkClient permits, but not requires payload
+
 [4.1.2]
  * LinkedIn use Header to sign OAuth2 requests
  * upgrade ServiceBuilder to check apiKey preconditions compile-time (not run-time)

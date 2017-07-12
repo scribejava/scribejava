@@ -97,7 +97,7 @@ public class JDKHttpClient implements HttpClient {
         }
         addHeaders(connection, headers, userAgent);
         if (httpVerb.isPermitBody()) {
-            bodyType.setBody(connection, bodyContents);
+            bodyType.setBody(connection, bodyContents, httpVerb.isRequiresBody());
         }
 
         try {
@@ -114,18 +114,19 @@ public class JDKHttpClient implements HttpClient {
     private enum BodyType {
         BYTE_ARRAY {
             @Override
-            void setBody(HttpURLConnection connection, Object bodyContents) throws IOException {
-                addBody(connection, (byte[]) bodyContents);
+            void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody) throws IOException {
+                addBody(connection, (byte[]) bodyContents, requiresBody);
             }
         },
         STRING {
             @Override
-            void setBody(HttpURLConnection connection, Object bodyContents) throws IOException {
-                addBody(connection, ((String) bodyContents).getBytes());
+            void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody) throws IOException {
+                addBody(connection, ((String) bodyContents).getBytes(), requiresBody);
             }
         };
 
-        abstract void setBody(HttpURLConnection connection, Object bodyContents) throws IOException;
+        abstract void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody)
+                throws IOException;
     }
 
     private static Map<String, String> parseHeaders(HttpURLConnection conn) {
@@ -150,14 +151,14 @@ public class JDKHttpClient implements HttpClient {
         }
     }
 
-    private static void addBody(HttpURLConnection connection, byte[] content) throws IOException {
+    private static void addBody(HttpURLConnection connection, byte[] content, boolean requiresBody) throws IOException {
         final int contentLength = content.length;
-        connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength));
+        if (requiresBody || contentLength > 0) {
+            connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength));
 
-        if (connection.getRequestProperty(CONTENT_TYPE) == null) {
-            connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-        }
-        if (contentLength > 0) {
+            if (connection.getRequestProperty(CONTENT_TYPE) == null) {
+                connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+            }
             connection.setDoOutput(true);
             connection.getOutputStream().write(content);
         }
