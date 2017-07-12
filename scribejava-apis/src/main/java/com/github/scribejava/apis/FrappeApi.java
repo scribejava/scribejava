@@ -4,7 +4,6 @@ import com.github.scribejava.apis.frappe.FrappeJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.Verb;
 
 public class FrappeApi extends DefaultApi20 {
 
