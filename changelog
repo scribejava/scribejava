@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * DELETE in JdkClient permits, but not requires payload (thanks to https://github.com/miguelD73)
+ * add new API - Frappe (https://github.com/frappe/frappe) (thanks to https://github.com/revant)
 
 [4.1.2]
  * LinkedIn use Header to sign OAuth2 requests

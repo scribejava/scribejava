@@ -42,6 +42,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Facebook (https://www.facebook.com/)
 * Flickr (https://www.flickr.com/)
 * Foursquare (https://foursquare.com/)
+* Frappe (https://github.com/frappe/frappe)
 * Freelancer (https://www.freelancer.com/)
 * Genius (http://genius.com/)
 * GitHub (https://github.com/)

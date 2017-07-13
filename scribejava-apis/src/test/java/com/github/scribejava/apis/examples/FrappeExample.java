@@ -11,24 +11,24 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class Frappe20Example {
+public final class FrappeExample {
 
     private static final String NETWORK_NAME = "Frappe";
-    private static final String PROTECTED_RESOURCE_URL = "https://scribejava.mntechnique.com/" +
-            "api/method/frappe.integrations.oauth2.openid_profile";
+    private static final String PROTECTED_RESOURCE_PATH = "/api/method/frappe.integrations.oauth2.openid_profile";
 
-    private Frappe20Example() {
+    private FrappeExample() {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         //Replace these with your client id and secret
-        final String clientId = "37763ecdb0";
-        final String clientSecret = "3e1d716ea7";
+        final String clientId = "clientId";
+        final String clientSecret = "clientSecret";
+        final String clientDomain = "https://example.com";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .scope("openid all")
                 .callback("https://example.com/callback")
-                .build(FrappeApi.instance());
+                .build(FrappeApi.instance(clientDomain));
         final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth 2.0 Workflow ===");
@@ -56,7 +56,7 @@ public final class Frappe20Example {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, clientDomain + PROTECTED_RESOURCE_PATH);
         service.signRequest(accessToken, request);
         final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");

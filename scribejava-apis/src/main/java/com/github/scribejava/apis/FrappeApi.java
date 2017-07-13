@@ -1,45 +1,42 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.frappe.FrappeJsonTokenExtractor;
+import com.github.scribejava.apis.openid.OpenIdJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
 public class FrappeApi extends DefaultApi20 {
 
-    private String serverURL = "https://scribejava.mntechnique.com";
+    private final String serverURL;
+    private final String accessTokenEndpoint;
+    private final String authorizationBaseUrl;
 
-    protected FrappeApi() {
+    protected FrappeApi(String serverURL) {
+        this.serverURL = serverURL;
+        this.accessTokenEndpoint = serverURL + "/api/method/frappe.integrations.oauth2.get_token";
+        this.authorizationBaseUrl = serverURL + "/api/method/frappe.integrations.oauth2.authorize";
     }
 
-    private static class InstanceHolder {
-        private static final FrappeApi INSTANCE = new FrappeApi();
-    }
-
-    public static FrappeApi instance() {
-        return InstanceHolder.INSTANCE;
+    public static FrappeApi instance(String serverUrl) {
+        return new FrappeApi(serverUrl);
     }
 
     public String getServerURL() {
-        return this.serverURL;
-    }
-
-    public void setServerURL(String serverURL) {
-        this.serverURL = serverURL;
+        return serverURL;
     }
 
     @Override
     public String getAccessTokenEndpoint() {
-        return this.serverURL + "/api/method/frappe.integrations.oauth2.get_token";
+        return accessTokenEndpoint;
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return this.serverURL + "/api/method/frappe.integrations.oauth2.authorize";
+        return authorizationBaseUrl;
     }
 
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return FrappeJsonTokenExtractor.instance();
+        return OpenIdJsonTokenExtractor.instance();
     }
 }
