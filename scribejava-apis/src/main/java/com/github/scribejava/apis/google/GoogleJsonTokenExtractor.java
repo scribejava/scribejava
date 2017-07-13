@@ -1,12 +1,14 @@
 package com.github.scribejava.apis.google;
 
-import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
+import com.github.scribejava.apis.openid.OpenIdJsonTokenExtractor;
 import java.util.regex.Pattern;
 
 /**
- * additionally parses OpenID id_token
+ *
+ * @deprecated use generic {@link OpenIdJsonTokenExtractor}
  */
-public class GoogleJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
+@Deprecated
+public class GoogleJsonTokenExtractor extends OpenIdJsonTokenExtractor {
 
     private static final Pattern ID_TOKEN_REGEX_PATTERN = Pattern.compile("\"id_token\"\\s*:\\s*\"(\\S*?)\"");
 
