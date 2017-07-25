@@ -39,6 +39,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Box (https://www.box.com/)
 * Digg (http://digg.com/)
 * Доктор на работе (https://www.doktornarabote.ru/)
+* Etsy (https://www.etsy.com/)
 * Facebook (https://www.facebook.com/)
 * Flickr (https://www.flickr.com/)
 * Foursquare (https://foursquare.com/)
