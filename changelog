@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[4.2.0]
  * DELETE in JdkClient permits, but not requires payload (thanks to https://github.com/miguelD73)
  * add new API - Frappe (https://github.com/frappe/frappe) (thanks to https://github.com/revant)
  * add new API - Etsy (https://www.etsy.com/) (thanks to https://github.com/efekocabas)
