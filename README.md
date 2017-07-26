@@ -76,6 +76,7 @@ ScribeJava support out-of-box several HTTP clients:
 * XING (https://www.xing.com/)
 * Yahoo (https://www.yahoo.com/)
 * Misfit (http://misfit.com/)
+* WeChat (https://weixin.qq.com/)
 * check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
 
 ### Small and modular
