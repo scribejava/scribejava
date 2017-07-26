@@ -1,7 +1,6 @@
 package com.github.scribejava.core.oauth;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.OAuth1SignatureType;
@@ -13,7 +12,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.services.Base64Encoder;
-import com.github.scribejava.core.utils.MapUtils;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -58,12 +56,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         final OAuthConfig config = getConfig();
         config.log("async obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = prepareRequestTokenRequest();
-        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1RequestToken>() {
-            @Override
-            public OAuth1RequestToken convert(Response response) throws IOException {
-                return getApi().getRequestTokenExtractor().extract(response);
-            }
-        });
+        return execute(request, callback, response -> getApi().getRequestTokenExtractor().extract(response));
     }
 
     protected OAuthRequest prepareRequestTokenRequest() {
@@ -89,7 +82,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         }
         request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, tokenSecret));
 
-        config.log("appended additional OAuth parameters: " + MapUtils.toString(request.getOauthParameters()));
+        config.log("appended additional OAuth parameters: " + request.getOauthParameters());
     }
 
     public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
@@ -118,12 +111,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
-        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1AccessToken>() {
-            @Override
-            public OAuth1AccessToken convert(Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(response);
-            }
-        });
+        return execute(request, callback, response -> getApi().getAccessTokenExtractor().extract(response));
     }
 
     protected OAuthRequest prepareAccessTokenRequest(OAuth1RequestToken requestToken, String oauthVerifier) {
@@ -191,9 +179,7 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
             case QueryString:
                 config.log("using Querystring signature");
 
-                for (Map.Entry<String, String> entry : request.getOauthParameters().entrySet()) {
-                    request.addQuerystringParameter(entry.getKey(), entry.getValue());
-                }
+                request.getOauthParameters().forEach((key, value) -> request.addQuerystringParameter(key, value));
                 break;
             default:
                 throw new IllegalStateException("Unknown new Signature Type '" + signatureType + "'.");

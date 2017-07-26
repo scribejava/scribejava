@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 
@@ -34,12 +35,12 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
             final List<Parameter> allParams = queryParams.getParams();
 
             Collections.sort(allParams);
-            final StringBuilder builder = new StringBuilder();
-            for (Parameter param : allParams) {
-                builder.append(param.getKey()).append('=').append(param.getValue());
-            }
 
-            final String sigSource = URLDecoder.decode(builder.toString(), CharEncoding.UTF_8) + tokenDigest;
+            final String stringParams = allParams.stream()
+                    .map(param -> param.getKey() + '=' + param.getValue())
+                    .collect(Collectors.joining());
+
+            final String sigSource = URLDecoder.decode(stringParams, CharEncoding.UTF_8) + tokenDigest;
             request.addQuerystringParameter("sig", md5Hex(sigSource).toLowerCase());
 
             super.signRequest(accessToken, request);

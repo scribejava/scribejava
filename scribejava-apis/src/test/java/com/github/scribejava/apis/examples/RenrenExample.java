@@ -3,10 +3,7 @@ package com.github.scribejava.apis.examples;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -19,6 +16,8 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class RenrenExample {
 
@@ -69,20 +68,19 @@ public final class RenrenExample {
         parameters.put("format", "json");
         parameters.put("v", "1.0");
 
-        final List<String> sigString = new ArrayList<>(parameters.size() + 1);
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            request.addQuerystringParameter(entry.getKey(), entry.getValue());
-            sigString.add(String.format("%s=%s", entry.getKey(), entry.getValue()));
-        }
-        sigString.add(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken()));
-        Collections.sort(sigString);
-        final StringBuilder b = new StringBuilder();
-        for (String param : sigString) {
-            b.append(param);
-        }
-        b.append(apiSecret);
-        System.out.println("Sig string: " + b.toString());
-        request.addQuerystringParameter("sig", md5(b.toString()));
+        parameters.forEach((key, value) -> request.addQuerystringParameter(key, value));
+
+        final String sig = Stream.concat(
+                Stream.concat(
+                        parameters.entrySet().stream()
+                                .map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue())),
+                        Stream.of(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken())))
+                        .sorted(),
+                Stream.of(apiSecret))
+                .collect(Collectors.joining());
+
+        System.out.println("Sig string: " + sig);
+        request.addQuerystringParameter("sig", md5(sig));
         service.signRequest(accessToken, request);
         final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");

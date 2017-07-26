@@ -11,7 +11,6 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -46,12 +45,7 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
     protected Future<OAuth2AccessToken> sendAccessTokenRequestAsync(OAuthRequest request,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
 
-        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth2AccessToken>() {
-            @Override
-            public OAuth2AccessToken convert(Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(response);
-            }
-        });
+        return execute(request, callback, response -> getApi().getAccessTokenExtractor().extract(response));
     }
 
     public final Future<OAuth2AccessToken> getAccessTokenAsync(String code) {

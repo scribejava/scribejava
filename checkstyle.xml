@@ -76,7 +76,6 @@
             <property name="limitedTokens" value="EXPR"/>
             <property name="minimumNumber" value="1"/>
         </module>
-        <module name="Indentation"/>
         <module name="OuterTypeFilename"/>
         <module name="UpperEll"/>
         <module name="ModifierOrder"/>

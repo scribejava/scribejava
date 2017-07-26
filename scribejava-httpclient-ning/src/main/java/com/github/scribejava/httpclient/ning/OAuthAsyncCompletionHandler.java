@@ -4,11 +4,9 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.FluentCaseInsensitiveStringsMap;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
 
@@ -23,15 +21,10 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
 
     @Override
     public T onCompleted(com.ning.http.client.Response ningResponse) throws IOException {
-        final FluentCaseInsensitiveStringsMap map = ningResponse.getHeaders();
-        final Map<String, String> headersMap = new HashMap<>();
-        for (FluentCaseInsensitiveStringsMap.Entry<String, List<String>> header : map) {
-            final StringBuilder value = new StringBuilder();
-            for (String str : header.getValue()) {
-                value.append(str);
-            }
-            headersMap.put(header.getKey(), value.toString());
-        }
+        final Map<String, String> headersMap = ningResponse.getHeaders().entrySet().stream()
+                .collect(Collectors.toMap(header -> header.getKey(),
+                        header -> header.getValue().stream().collect(Collectors.joining())));
+
         final Response response = new Response(ningResponse.getStatusCode(), ningResponse.getStatusText(), headersMap,
                 ningResponse.getResponseBodyAsStream());
 

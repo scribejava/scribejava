@@ -11,6 +11,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.util.stream.Collectors;
 
 public class MailruOAuthServiceImpl extends OAuth20Service {
 
@@ -35,13 +36,10 @@ public class MailruOAuthServiceImpl extends OAuth20Service {
                     final String[] parts = param.split("=");
                     map.put(parts[0], (parts.length == 1) ? "" : parts[1]);
                 }
-                final StringBuilder urlNew = new StringBuilder();
-                for (Map.Entry<String, String> entry : map.entrySet()) {
-                    urlNew.append(entry.getKey());
-                    urlNew.append('=');
-                    urlNew.append(entry.getValue());
-                }
-                final String sigSource = URLDecoder.decode(urlNew.toString(), CharEncoding.UTF_8) + clientSecret;
+                final String urlNew = map.entrySet().stream()
+                        .map(entry -> entry.getKey() + '=' + entry.getValue())
+                        .collect(Collectors.joining());
+                final String sigSource = URLDecoder.decode(urlNew, CharEncoding.UTF_8) + clientSecret;
                 request.addQuerystringParameter("sig", md5Hex(sigSource));
             }
         } catch (UnsupportedEncodingException e) {
