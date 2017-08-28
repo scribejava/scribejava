@@ -2,7 +2,11 @@ package com.github.scribejava.apis.examples;
 
 import com.github.scribejava.apis.UcozApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.*;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuth1RequestToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth10aService;
 
 import java.io.IOException;
@@ -10,23 +14,19 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class UcozExample {
-    public static void main(String ...args){
-        String PROTECTED_RESOURCE_URL ="http://artmurka.com/uapi/shop/request?page=categories";
-        OAuth10aService service = new ServiceBuilder( "your_api_key")
+
+    private static final String PROTECTED_RESOURCE_URL = "http://artmurka.com/uapi/shop/request?page=categories";
+
+    private UcozExample() {
+    }
+
+    public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
+        final OAuth10aService service = new ServiceBuilder("your_api_key")
                 .apiSecret("your_api_secret")
                 .debug()
                 .build(UcozApi.instance());
-        Scanner in = new Scanner(System.in);
-        OAuth1RequestToken requestToken = null;
-        try {
-            requestToken = service.getRequestToken();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        final Scanner in = new Scanner(System.in);
+        final OAuth1RequestToken requestToken = service.getRequestToken();
         System.out.println("Got the Request Token!");
         System.out.println();
 
@@ -38,16 +38,7 @@ public class UcozExample {
         System.out.println();
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        OAuth1AccessToken accessToken = null;
-        try {
-            accessToken = service.getAccessToken(requestToken, oauthVerifier);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, oauthVerifier);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
@@ -55,26 +46,14 @@ public class UcozExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        Response response = null;
-        try {
-            response = service.execute(request);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
         System.out.println(response.getCode());
-        try {
-            System.out.println(response.getBody());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println(response.getBody());
+
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
     }

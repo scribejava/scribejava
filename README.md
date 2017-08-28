@@ -71,6 +71,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Tumblr (https://www.tumblr.com/)
 * TUT.BY (http://www.tut.by/)
 * Twitter (https://twitter.com/)
+* uCoz (https://www.ucoz.com/)
 * Viadeo (http://viadeo.com/)
 * VK ВКонтакте (http://vk.com/)
 * XING (https://www.xing.com/)

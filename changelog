@@ -1,5 +1,7 @@
 [SNAPSHOT]
  * drop Java 7 backward compatibility support, become Java 8 only
+ * add JSON token extractor for OAuth 1.0a (thanks to https://github.com/evstropovv)
+ * add new API - uCoz (https://www.ucoz.com/) (thanks to https://github.com/evstropovv)
 
 [4.2.0]
  * DELETE in JdkClient permits, but not requires payload (thanks to https://github.com/miguelD73)

@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 
-public final class VkontakteExternalHttpExample {
+public class VkontakteExternalHttpExample {
 
     private static final String NETWORK_NAME = "Vkontakte.ru";
     private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/users.get";
