@@ -92,37 +92,44 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         return request;
     }
 
-    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken) {
-        return refreshAccessToken(refreshToken, null);
+    public final Future<OAuth2AccessToken> getAccessTokenClientCredentialsGrantAsync() {
+        return getAccessTokenClientCredentialsGrant(null);
     }
 
-    public final OAuth2AccessToken refreshAccessToken(String refreshToken)
+    public final OAuth2AccessToken getAccessTokenClientCredentialsGrant()
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken);
+        final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest();
 
         return sendAccessTokenRequestSync(request);
     }
 
-    public final Future<OAuth2AccessToken> refreshAccessToken(String refreshToken,
+    /**
+     * Start the request to retrieve the access token using client-credentials grant. The optionally provided callback
+     * will be called with the Token when it is available.
+     *
+     * @param callback optional callback
+     * @return Future
+     */
+    public final Future<OAuth2AccessToken> getAccessTokenClientCredentialsGrant(
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken);
+        final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest();
 
         return sendAccessTokenRequestAsync(request, callback);
     }
 
-    protected OAuthRequest createRefreshTokenRequest(String refreshToken) {
-        if (refreshToken == null || refreshToken.isEmpty()) {
-            throw new IllegalArgumentException("The refreshToken cannot be null or empty");
-        }
-        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint());
+    protected OAuthRequest createAccessTokenClientCredentialsGrantRequest() {
+        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
         final OAuthConfig config = getConfig();
         request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
         final String apiSecret = config.getApiSecret();
         if (apiSecret != null) {
             request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
         }
-        request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
-        request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
+        final String scope = config.getScope();
+        if (scope != null) {
+            request.addParameter(OAuthConstants.SCOPE, scope);
+        }
+        request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.CLIENT_CREDENTIALS);
         return request;
     }
 
@@ -174,6 +181,40 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
                     .encode(String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
         }
 
+        return request;
+    }
+
+    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken) {
+        return refreshAccessToken(refreshToken, null);
+    }
+
+    public final OAuth2AccessToken refreshAccessToken(String refreshToken)
+            throws IOException, InterruptedException, ExecutionException {
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken);
+
+        return sendAccessTokenRequestSync(request);
+    }
+
+    public final Future<OAuth2AccessToken> refreshAccessToken(String refreshToken,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken);
+
+        return sendAccessTokenRequestAsync(request, callback);
+    }
+
+    protected OAuthRequest createRefreshTokenRequest(String refreshToken) {
+        if (refreshToken == null || refreshToken.isEmpty()) {
+            throw new IllegalArgumentException("The refreshToken cannot be null or empty");
+        }
+        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint());
+        final OAuthConfig config = getConfig();
+        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
+        final String apiSecret = config.getApiSecret();
+        if (apiSecret != null) {
+            request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
+        }
+        request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
+        request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
         return request;
     }
 
