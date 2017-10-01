@@ -33,9 +33,13 @@ public class JDKHttpClient implements HttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
         try {
-            final T response = converter.convert(execute(userAgent, headers, httpVerb, completeUrl, bodyContents));
-            callback.onCompleted(response);
-            return new JDKHttpFuture<>(response);
+            final Response response = execute(userAgent, headers, httpVerb, completeUrl, bodyContents);
+            @SuppressWarnings("unchecked")
+            final T t = converter == null ? (T) response : converter.convert(response);
+            if (callback != null) {
+                callback.onCompleted(t);
+            }
+            return new JDKHttpFuture<>(t);
         } catch (InterruptedException | ExecutionException | IOException e) {
             callback.onThrowable(e);
             return new JDKHttpFuture<>(e);
@@ -46,11 +50,13 @@ public class JDKHttpClient implements HttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
         try {
-            final T response = converter.convert(execute(userAgent, headers, httpVerb, completeUrl, bodyContents));
+            final Response response = execute(userAgent, headers, httpVerb, completeUrl, bodyContents);
+            @SuppressWarnings("unchecked")
+            final T t = converter == null ? (T) response : converter.convert(response);
             if (callback != null) {
-                callback.onCompleted(response);
+                callback.onCompleted(t);
             }
-            return new JDKHttpFuture<>(response);
+            return new JDKHttpFuture<>(t);
         } catch (InterruptedException | ExecutionException | IOException e) {
             if (callback != null) {
                 callback.onThrowable(e);
