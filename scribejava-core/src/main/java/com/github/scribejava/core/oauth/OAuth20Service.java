@@ -1,7 +1,6 @@
 package com.github.scribejava.core.oauth;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -13,7 +12,6 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.pkce.AuthorizationUrlWithPKCE;
 import com.github.scribejava.core.pkce.PKCE;
 import com.github.scribejava.core.pkce.PKCEService;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -21,7 +19,6 @@ import java.util.concurrent.ExecutionException;
 public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
     private static final String VERSION = "2.0";
-    private static final Base64.Encoder BASE_64_ENCODER = Base64.getEncoder();
     private static final PKCEService PKCE_SERVICE = new PKCEService();
     private final DefaultApi20 api;
 
@@ -99,11 +96,9 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
     protected OAuthRequest createAccessTokenRequest(String code) {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
         final OAuthConfig config = getConfig();
-        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-        final String apiSecret = config.getApiSecret();
-        if (apiSecret != null) {
-            request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
-        }
+
+        api.getClientAuthenticationType().addClientAuthentication(request, config);
+
         request.addParameter(OAuthConstants.CODE, code);
         request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
         final String scope = config.getScope();
@@ -145,12 +140,9 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
             throw new IllegalArgumentException("The refreshToken cannot be null or empty");
         }
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint());
-        final OAuthConfig config = getConfig();
-        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-        final String apiSecret = config.getApiSecret();
-        if (apiSecret != null) {
-            request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
-        }
+
+        api.getClientAuthenticationType().addClientAuthentication(request, getConfig());
+
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
         return request;
@@ -195,13 +187,7 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
 
-        final String apiKey = config.getApiKey();
-        final String apiSecret = config.getApiSecret();
-        if (apiKey != null && apiSecret != null) {
-            request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + ' '
-                    + BASE_64_ENCODER.encodeToString(
-                            String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
-        }
+        api.getClientAuthenticationType().addClientAuthentication(request, config);
 
         return request;
     }

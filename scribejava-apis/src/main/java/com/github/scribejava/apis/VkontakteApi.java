@@ -1,5 +1,6 @@
 package com.github.scribejava.apis;
 
+import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.builder.api.OAuth2SignatureType;
 import com.github.scribejava.core.model.Verb;
@@ -35,5 +36,10 @@ public class VkontakteApi extends DefaultApi20 {
     @Override
     public OAuth2SignatureType getSignatureType() {
         return OAuth2SignatureType.BEARER_URI_QUERY_PARAMETER;
+    }
+
+    @Override
+    public ClientAuthenticationType getClientAuthenticationType() {
+        return ClientAuthenticationType.REQUEST_BODY;
     }
 }

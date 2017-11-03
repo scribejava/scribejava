@@ -1,5 +1,6 @@
 package com.github.scribejava.apis;
 
+import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
 public class HHApi extends DefaultApi20 {
@@ -23,5 +24,10 @@ public class HHApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://hh.ru/oauth/authorize";
+    }
+
+    @Override
+    public ClientAuthenticationType getClientAuthenticationType() {
+        return ClientAuthenticationType.REQUEST_BODY;
     }
 }
