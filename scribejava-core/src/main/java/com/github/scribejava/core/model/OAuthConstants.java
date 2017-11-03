@@ -32,6 +32,7 @@ public interface OAuthConstants {
     String REFRESH_TOKEN = "refresh_token";
     String GRANT_TYPE = "grant_type";
     String AUTHORIZATION_CODE = "authorization_code";
+    String CLIENT_CREDENTIALS = "client_credentials";
     String STATE = "state";
     String USERNAME = "username";
     String PASSWORD = "password";
