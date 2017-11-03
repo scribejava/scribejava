@@ -1,6 +1,5 @@
 package com.github.scribejava.core.oauth;
 
-import com.github.scribejava.core.services.Base64Encoder;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.Future;
@@ -11,12 +10,19 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.pkce.AuthorizationUrlWithPKCE;
+import com.github.scribejava.core.pkce.PKCE;
+import com.github.scribejava.core.pkce.PKCEService;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
     private static final String VERSION = "2.0";
+    private static final Base64.Encoder BASE_64_ENCODER = Base64.getEncoder();
+    private static final PKCEService PKCE_SERVICE = new PKCEService();
     private final DefaultApi20 api;
 
     /**
@@ -49,12 +55,21 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
     }
 
     public final Future<OAuth2AccessToken> getAccessTokenAsync(String code) {
-        return getAccessToken(code, null);
+        return getAccessToken(code, null, null);
+    }
+
+    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code, String pkceCodeVerifier) {
+        return getAccessToken(code, null, pkceCodeVerifier);
     }
 
     public final OAuth2AccessToken getAccessToken(String code)
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createAccessTokenRequest(code);
+        return getAccessToken(code, (String) null);
+    }
+
+    public final OAuth2AccessToken getAccessToken(String code, String pkceCodeVerifier)
+            throws IOException, InterruptedException, ExecutionException {
+        final OAuthRequest request = createAccessTokenRequest(code, pkceCodeVerifier);
 
         return sendAccessTokenRequestSync(request);
     }
@@ -65,13 +80,20 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
      *
      * @param code code
      * @param callback optional callback
+     * @param pkceCodeVerifier pkce Code Verifier
      * @return Future
      */
     public final Future<OAuth2AccessToken> getAccessToken(String code,
-            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createAccessTokenRequest(code);
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback, String pkceCodeVerifier) {
+        final OAuthRequest request = createAccessTokenRequest(code, pkceCodeVerifier);
 
         return sendAccessTokenRequestAsync(request, callback);
+    }
+
+    public final Future<OAuth2AccessToken> getAccessToken(String code,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
+
+        return getAccessToken(code, callback, null);
     }
 
     protected OAuthRequest createAccessTokenRequest(String code) {
@@ -89,6 +111,14 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
             request.addParameter(OAuthConstants.SCOPE, scope);
         }
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
+        return request;
+    }
+
+    protected OAuthRequest createAccessTokenRequest(String code, String pkceCodeVerifier) {
+        final OAuthRequest request = createAccessTokenRequest(code);
+        if (pkceCodeVerifier != null) {
+            request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
+        }
         return request;
     }
 
@@ -168,10 +198,9 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         final String apiKey = config.getApiKey();
         final String apiSecret = config.getApiSecret();
         if (apiKey != null && apiSecret != null) {
-            request.addHeader(OAuthConstants.HEADER,
-                    OAuthConstants.BASIC + ' '
-                    + Base64Encoder.getInstance()
-                    .encode(String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
+            request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + ' '
+                    + BASE_64_ENCODER.encodeToString(
+                            String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
         }
 
         return request;
@@ -190,13 +219,22 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         api.getSignatureType().signRequest(accessToken, request);
     }
 
+    public final AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE() {
+        return getAuthorizationUrlWithPKCE(null);
+    }
+
+    public final AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(Map<String, String> additionalParams) {
+        final PKCE pkce = PKCE_SERVICE.generatePKCE();
+        return new AuthorizationUrlWithPKCE(pkce, getAuthorizationUrl(additionalParams, pkce));
+    }
+
     /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
      * @return the URL where you should redirect your users
      */
     public final String getAuthorizationUrl() {
-        return getAuthorizationUrl(null);
+        return getAuthorizationUrl(null, null);
     }
 
     /**
@@ -205,8 +243,23 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
      * @param additionalParams any additional GET params to add to the URL
      * @return the URL where you should redirect your users
      */
-    public String getAuthorizationUrl(Map<String, String> additionalParams) {
-        return api.getAuthorizationUrl(getConfig(), additionalParams);
+    public final String getAuthorizationUrl(Map<String, String> additionalParams) {
+        return getAuthorizationUrl(additionalParams, null);
+    }
+
+    public final String getAuthorizationUrl(PKCE pkce) {
+        return getAuthorizationUrl(null, pkce);
+    }
+
+    public String getAuthorizationUrl(Map<String, String> additionalParams, PKCE pkce) {
+        final Map<String, String> params;
+        if (pkce == null) {
+            params = additionalParams;
+        } else {
+            params = additionalParams == null ? new HashMap<>() : new HashMap<>(additionalParams);
+            params.putAll(pkce.getAuthorizationUrlParams());
+        }
+        return api.getAuthorizationUrl(getConfig(), params);
     }
 
     public DefaultApi20 getApi() {

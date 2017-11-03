@@ -1,16 +1,17 @@
 package com.github.scribejava.core.services;
 
+/**
+ * @deprecated use standard java8 java.util.Base64
+ */
+@Deprecated
 public abstract class Base64Encoder {
 
-    private static Base64Encoder instance;
+    private static class InstanceHolder {
+        private static final Base64Encoder INSTANCE = createEncoderInstance();
+    }
 
     public static Base64Encoder getInstance() {
-        synchronized (Base64Encoder.class) {
-            if (instance == null) {
-                instance = createEncoderInstance();
-            }
-        }
-        return instance;
+        return InstanceHolder.INSTANCE;
     }
 
     private static Base64Encoder createEncoderInstance() {

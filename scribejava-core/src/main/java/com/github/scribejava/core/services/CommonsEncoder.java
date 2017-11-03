@@ -4,6 +4,10 @@ import java.io.UnsupportedEncodingException;
 import org.apache.commons.codec.binary.Base64;
 import com.github.scribejava.core.exceptions.OAuthSignatureException;
 
+/**
+ * @deprecated use standard java8 java.util.Base64
+ */
+@Deprecated
 public class CommonsEncoder extends Base64Encoder {
 
     @Override

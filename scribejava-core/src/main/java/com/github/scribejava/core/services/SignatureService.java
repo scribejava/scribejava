@@ -1,9 +1,12 @@
 package com.github.scribejava.core.services;
 
+import java.util.Base64;
+
 /**
  * Signs a base string, returning the OAuth signature
  */
 public interface SignatureService {
+    Base64.Encoder BASE_64_ENCODER = Base64.getEncoder();
 
     /**
      * Returns the signature

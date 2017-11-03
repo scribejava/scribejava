@@ -11,7 +11,6 @@ import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.services.Base64Encoder;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -157,7 +156,6 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
     private String getSignature(OAuthRequest request, String tokenSecret) {
         final OAuthConfig config = getConfig();
         config.log("generating signature...");
-        config.log("using base64 encoder: " + Base64Encoder.type());
         final String baseString = api.getBaseStringExtractor().extract(request);
         final String signature = api.getSignatureService().getSignature(baseString, config.getApiSecret(), tokenSecret);
 

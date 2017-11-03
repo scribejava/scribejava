@@ -2,6 +2,10 @@ package com.github.scribejava.core.services;
 
 import javax.xml.bind.DatatypeConverter;
 
+/**
+ * @deprecated use standard java8 java.util.Base64
+ */
+@Deprecated
 public class DatatypeConverterEncoder extends Base64Encoder {
 
     @Override

@@ -32,15 +32,11 @@ public class RSASha1SignatureService implements SignatureService {
             final Signature signature = Signature.getInstance(RSA_SHA1);
             signature.initSign(privateKey);
             signature.update(baseString.getBytes(UTF8));
-            return bytesToBase64String(signature);
+            return BASE_64_ENCODER.encodeToString(signature.sign());
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | UnsupportedEncodingException |
                 RuntimeException e) {
             throw new OAuthSignatureException(baseString, e);
         }
-    }
-
-    private String bytesToBase64String(Signature signature) throws SignatureException {
-        return Base64Encoder.getInstance().encode(signature.sign());
     }
 
     /**
