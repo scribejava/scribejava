@@ -220,11 +220,9 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
     protected OAuthRequest createAccessTokenClientCredentialsGrantRequest() {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
         final OAuthConfig config = getConfig();
-        request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-        final String apiSecret = config.getApiSecret();
-        if (apiSecret != null) {
-            request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
-        }
+
+        api.getClientAuthenticationType().addClientAuthentication(request, config);
+
         final String scope = config.getScope();
         if (scope != null) {
             request.addParameter(OAuthConstants.SCOPE, scope);

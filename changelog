@@ -5,6 +5,7 @@
  * add PKCE (RFC 7636) support (Proof Key for Code Exchange by OAuth Public Clients) (thanks for suggesting to https://github.com/dieseldjango)
  * switch to use HTTP Basic Authorization by default in requests with need of
    (2.3.  Client Authentication) https://tools.ietf.org/html/rfc6749#section-2.3 Can be overrided in API class
+ * add support for client_credentials grant type (thanks to https://github.com/vivin)
 
 [4.2.0]
  * DELETE in JdkClient permits, but not requires payload (thanks to https://github.com/miguelD73)
