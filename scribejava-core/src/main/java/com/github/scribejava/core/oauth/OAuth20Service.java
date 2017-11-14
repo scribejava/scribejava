@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import revoke.TokenTypeHint;
 
-public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
+public class OAuth20Service extends OAuthService {
 
     private static final String VERSION = "2.0";
     private static final PKCEService PKCE_SERVICE = new PKCEService();
@@ -243,9 +243,12 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
         return VERSION;
     }
 
-    @Override
-    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
+    public void signRequest(String accessToken, OAuthRequest request) {
         api.getSignatureType().signRequest(accessToken, request);
+    }
+
+    public final void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
+        signRequest(accessToken == null ? null : accessToken.getAccessToken(), request);
     }
 
     public final AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE() {

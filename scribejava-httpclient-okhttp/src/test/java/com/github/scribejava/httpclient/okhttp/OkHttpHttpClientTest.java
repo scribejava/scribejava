@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 
 public class OkHttpHttpClientTest {
-    private OAuthService<?> oAuthService;
+    private OAuthService oAuthService;
 
     @Before
     public void setUp() {

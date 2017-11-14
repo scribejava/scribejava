@@ -1,7 +1,6 @@
 package com.github.scribejava.apis.service;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -14,7 +13,7 @@ public class TutByOAuthServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
-        request.addQuerystringParameter(OAuthConstants.TOKEN, accessToken.getAccessToken());
+    public void signRequest(String accessToken, OAuthRequest request) {
+        request.addQuerystringParameter(OAuthConstants.TOKEN, accessToken);
     }
 }

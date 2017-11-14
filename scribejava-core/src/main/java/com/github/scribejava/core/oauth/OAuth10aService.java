@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * OAuth 1.0a implementation of {@link OAuthService}
  */
-public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
+public class OAuth10aService extends OAuthService {
 
     private static final String VERSION = "1.0";
     private final DefaultApi10a api;
@@ -124,7 +124,6 @@ public class OAuth10aService extends OAuthService<OAuth1AccessToken> {
         return request;
     }
 
-    @Override
     public void signRequest(OAuth1AccessToken token, OAuthRequest request) {
         final OAuthConfig config = getConfig();
         config.log("signing request: " + request.getCompleteUrl());

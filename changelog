@@ -7,6 +7,8 @@
    (2.3.  Client Authentication) https://tools.ietf.org/html/rfc6749#section-2.3 Can be overrided in API class
  * add support for client_credentials grant type (thanks to https://github.com/vivin)
  * add support for RFC 7009 OAuth 2.0 Token Revocation (thanks to https://github.com/vivin)
+ * add OAuth2Service signRequest method accepting just String, not OAuth2 Access Token Object.
+   Remove signRequest from abstract OAuthService. 2.0 and 1.0a will be a bit more different now.
 
 [4.2.0]
  * DELETE in JdkClient permits, but not requires payload (thanks to https://github.com/miguelD73)

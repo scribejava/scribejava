@@ -1,7 +1,6 @@
 package com.github.scribejava.apis.service;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Parameter;
@@ -25,10 +24,10 @@ public class OdnoklassnikiServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
+    public void signRequest(String accessToken, OAuthRequest request) {
         //sig = lower(md5( sorted_request_params_composed_string + md5(access_token + application_secret_key)))
         try {
-            final String tokenDigest = md5Hex(accessToken.getAccessToken() + getConfig().getApiSecret());
+            final String tokenDigest = md5Hex(accessToken + getConfig().getApiSecret());
 
             final ParameterList queryParams = request.getQueryStringParams();
             queryParams.addAll(request.getBodyParams());

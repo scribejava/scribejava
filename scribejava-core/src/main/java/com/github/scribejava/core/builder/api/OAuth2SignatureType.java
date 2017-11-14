@@ -10,8 +10,8 @@ public enum OAuth2SignatureType {
      */
     BEARER_AUTHORIZATION_REQUEST_HEADER_FIELD {
         @Override
-        public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
-            request.addHeader("Authorization", "Bearer " + accessToken.getAccessToken());
+        public void signRequest(String accessToken, OAuthRequest request) {
+            request.addHeader("Authorization", "Bearer " + accessToken);
         }
 
     },
@@ -20,11 +20,22 @@ public enum OAuth2SignatureType {
      */
     BEARER_URI_QUERY_PARAMETER {
         @Override
-        public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
-            request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken());
+        public void signRequest(String accessToken, OAuthRequest request) {
+            request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken);
         }
 
     };
 
-    public abstract void signRequest(OAuth2AccessToken accessToken, OAuthRequest request);
+    /**
+     *
+     * @param accessToken accessToken
+     * @param request request
+     * @deprecated use {@link #signRequest(java.lang.String, com.github.scribejava.core.model.OAuthRequest)}
+     */
+    @Deprecated
+    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
+        signRequest(accessToken == null ? null : accessToken.getAccessToken(), request);
+    }
+
+    public abstract void signRequest(String accessToken, OAuthRequest request);
 }

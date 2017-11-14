@@ -9,7 +9,6 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import com.github.scribejava.core.model.Token;
 import java.io.File;
 
 import java.io.IOException;
@@ -17,13 +16,7 @@ import java.util.ServiceLoader;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-/**
- * The main ScribeJava object.
- *
- * A facade responsible for the retrieval of request and access tokens and for the signing of HTTP requests.
- * @param <T> type of token used to sign the request
- */
-public abstract class OAuthService<T extends Token> implements AutoCloseable {
+public abstract class OAuthService implements AutoCloseable {
 
     private final OAuthConfig config;
     private final HttpClient httpClient;
@@ -65,8 +58,6 @@ public abstract class OAuthService<T extends Token> implements AutoCloseable {
      * @return OAuth version as string
      */
     public abstract String getVersion();
-
-    public abstract void signRequest(T token, OAuthRequest request);
 
     public Future<Response> executeAsync(OAuthRequest request) {
         return execute(request, null);

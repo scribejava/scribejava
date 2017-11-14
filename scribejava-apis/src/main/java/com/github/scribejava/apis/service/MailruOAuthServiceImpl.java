@@ -7,7 +7,6 @@ import java.util.TreeMap;
 import org.apache.commons.codec.CharEncoding;
 import static org.apache.commons.codec.digest.DigestUtils.md5Hex;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.oauth.OAuth20Service;
@@ -20,9 +19,9 @@ public class MailruOAuthServiceImpl extends OAuth20Service {
     }
 
     @Override
-    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
+    public void signRequest(String accessToken, OAuthRequest request) {
         // sig = md5(params + secret_key)
-        request.addQuerystringParameter("session_key", accessToken.getAccessToken());
+        request.addQuerystringParameter("session_key", accessToken);
         request.addQuerystringParameter("app_id", getConfig().getApiKey());
         final String completeUrl = request.getCompleteUrl();
 
