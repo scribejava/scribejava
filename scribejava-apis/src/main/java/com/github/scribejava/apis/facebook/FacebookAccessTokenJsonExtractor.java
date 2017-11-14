@@ -35,7 +35,7 @@ public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtra
      * ID.","type":"OAuthException","code":101,"fbtrace_id":"CvDR+X4WWIx"}}'
      */
     @Override
-    protected void generateError(String response) {
+    public void generateError(String response) {
         extractParameter(response, MESSAGE_REGEX_PATTERN, false);
 
         throw new FacebookAccessTokenErrorResponse(extractParameter(response, MESSAGE_REGEX_PATTERN, false),

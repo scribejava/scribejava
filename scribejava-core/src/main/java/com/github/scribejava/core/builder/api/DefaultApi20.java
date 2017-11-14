@@ -54,6 +54,18 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
         return getAccessTokenEndpoint();
     }
 
+    /**
+     * As stated in RFC 7009 OAuth 2.0 Token Revocation
+     *
+     * @return endpoint, which allows clients to notify the authorization server that a previously obtained refresh or
+     * access token is no longer needed.
+     * @see <a href="https://tools.ietf.org/html/rfc7009">RFC 7009</a>
+     */
+    public String getRevokeTokenEndpoint() {
+        throw new UnsupportedOperationException(
+                "This API doesn't support revoking tokens or we have no info about this");
+    }
+
     protected abstract String getAuthorizationBaseUrl();
 
     /**

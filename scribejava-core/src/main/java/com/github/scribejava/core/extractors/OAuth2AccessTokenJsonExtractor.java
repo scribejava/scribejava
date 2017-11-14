@@ -40,11 +40,10 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
     @Override
     public OAuth2AccessToken extract(Response response) throws IOException {
         final String body = response.getBody();
-        Preconditions.checkEmptyString(body,
-                "Response body is incorrect. Can't extract a token from an empty string");
+        Preconditions.checkEmptyString(body, "Response body is incorrect. Can't extract a token from an empty string");
 
         if (response.getCode() != 200) {
-            generateError(response.getBody());
+            generateError(body);
         }
         return createToken(body);
     }
@@ -54,7 +53,7 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
      *
      * @param response response
      */
-    protected void generateError(String response) {
+    public void generateError(String response) {
         final String errorInString = extractParameter(response, ERROR_REGEX_PATTERN, true);
         final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX_PATTERN, false);
         final String errorUriInString = extractParameter(response, ERROR_URI_REGEX_PATTERN, false);

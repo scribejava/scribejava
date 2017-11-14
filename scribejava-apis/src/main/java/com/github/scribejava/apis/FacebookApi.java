@@ -36,7 +36,7 @@ public class FacebookApi extends DefaultApi20 {
 
     @Override
     public String getRefreshTokenEndpoint() {
-        throw new UnsupportedOperationException("Facebook doesn't support refershing tokens");
+        throw new UnsupportedOperationException("Facebook doesn't support refreshing tokens");
     }
 
     @Override

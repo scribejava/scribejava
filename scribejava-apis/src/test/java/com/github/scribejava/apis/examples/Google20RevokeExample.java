@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class Google20Example {
+public class Google20RevokeExample {
 
     private static final String NETWORK_NAME = "G+";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
 
-    private Google20Example() {
+    private Google20RevokeExample() {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
@@ -69,42 +69,35 @@ public class Google20Example {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        OAuth2AccessToken accessToken = service.getAccessToken(code);
+        final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken
                 + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
 
-        System.out.println("Refreshing the Access Token...");
-        accessToken = service.refreshAccessToken(accessToken.getRefreshToken());
-        System.out.println("Refreshed the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken
-                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
-        System.out.println();
-
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        while (true) {
-            System.out.println("Paste fieldnames to fetch (leave empty to get profile, 'exit' to stop example)");
-            System.out.print(">>");
-            final String query = in.nextLine();
-            System.out.println();
+        OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        service.signRequest(accessToken, request);
+        Response response = service.execute(request);
+        System.out.println();
+        System.out.println(response.getCode());
+        System.out.println(response.getBody());
+        System.out.println();
 
-            final String requestUrl;
-            if ("exit".equals(query)) {
-                break;
-            } else if (query == null || query.isEmpty()) {
-                requestUrl = PROTECTED_RESOURCE_URL;
-            } else {
-                requestUrl = PROTECTED_RESOURCE_URL + "?fields=" + query;
-            }
-
-            final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
+        System.out.println("Revoking token...");
+        service.revokeToken(accessToken.getAccessToken());
+        System.out.println("done.");
+        System.out.println("After revoke we should fail requesting any data...");
+        //Google Note: Following a successful revocation response,
+        //it might take some time before the revocation has full effect.
+        while (response.getCode() == 200) {
+            Thread.sleep(1000);
+            request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
-            final Response response = service.execute(request);
+            response = service.execute(request);
             System.out.println();
             System.out.println(response.getCode());
             System.out.println(response.getBody());
-
             System.out.println();
         }
     }

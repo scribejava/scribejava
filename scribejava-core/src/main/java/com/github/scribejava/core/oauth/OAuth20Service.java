@@ -3,18 +3,22 @@ package com.github.scribejava.core.oauth;
 import java.io.IOException;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.pkce.AuthorizationUrlWithPKCE;
 import com.github.scribejava.core.pkce.PKCE;
 import com.github.scribejava.core.pkce.PKCEService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import revoke.TokenTypeHint;
 
 public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
@@ -289,6 +293,57 @@ public class OAuth20Service extends OAuthService<OAuth2AccessToken> {
 
     public DefaultApi20 getApi() {
         return api;
+    }
+
+    protected OAuthRequest createRevokeTokenRequest(String tokenToRevoke, TokenTypeHint tokenTypeHint) {
+        final OAuthRequest request = new OAuthRequest(Verb.POST, api.getRevokeTokenEndpoint());
+
+        api.getClientAuthenticationType().addClientAuthentication(request, getConfig());
+
+        request.addParameter("token", tokenToRevoke);
+        if (tokenTypeHint != null) {
+            request.addParameter("token_type_hint", tokenTypeHint.toString());
+        }
+        return request;
+    }
+
+    public final Future<Void> revokeTokenAsync(String tokenToRevoke) {
+        return revokeTokenAsync(tokenToRevoke, null);
+    }
+
+    public final Future<Void> revokeTokenAsync(String tokenToRevoke, TokenTypeHint tokenTypeHint) {
+        return revokeToken(tokenToRevoke, null, tokenTypeHint);
+    }
+
+    public final void revokeToken(String tokenToRevoke) throws IOException, InterruptedException, ExecutionException {
+        revokeToken(tokenToRevoke, (TokenTypeHint) null);
+    }
+
+    public final void revokeToken(String tokenToRevoke, TokenTypeHint tokenTypeHint)
+            throws IOException, InterruptedException, ExecutionException {
+        final OAuthRequest request = createRevokeTokenRequest(tokenToRevoke, tokenTypeHint);
+
+        checkForErrorRevokeToken(execute(request));
+    }
+
+    public final Future<Void> revokeToken(String tokenToRevoke, OAuthAsyncRequestCallback<Void> callback) {
+        return revokeToken(tokenToRevoke, callback, null);
+    }
+
+    public final Future<Void> revokeToken(String tokenToRevoke, OAuthAsyncRequestCallback<Void> callback,
+            TokenTypeHint tokenTypeHint) {
+        final OAuthRequest request = createRevokeTokenRequest(tokenToRevoke, tokenTypeHint);
+
+        return execute(request, callback, response -> {
+            checkForErrorRevokeToken(response);
+            return null;
+        });
+    }
+
+    private void checkForErrorRevokeToken(Response response) throws IOException {
+        if (response.getCode() != 200) {
+            OAuth2AccessTokenJsonExtractor.instance().generateError(response.getBody());
+        }
     }
 
     public OAuth2Authorization extractAuthorization(String redirectLocation) {

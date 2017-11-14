@@ -32,4 +32,9 @@ public class GoogleApi20 extends DefaultApi20 {
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
         return OpenIdJsonTokenExtractor.instance();
     }
+
+    @Override
+    public String getRevokeTokenEndpoint() {
+        return "https://accounts.google.com/o/oauth2/revoke";
+    }
 }
