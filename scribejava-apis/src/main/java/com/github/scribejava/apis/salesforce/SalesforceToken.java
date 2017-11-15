@@ -51,15 +51,4 @@ public class SalesforceToken extends OAuth2AccessToken {
         }
         return Objects.equals(instanceUrl, ((SalesforceToken) obj).getInstanceUrl());
     }
-
-    @Override
-    public String toString() {
-        return "SalesforceToken{"
-                + "access_token=" + getAccessToken()
-                + ", token_type=" + getTokenType()
-                + ", expires_in=" + getExpiresIn()
-                + ", refresh_token=" + getRefreshToken()
-                + ", scope=" + getScope()
-                + ", instance_url=" + instanceUrl + '}';
-    }
 }

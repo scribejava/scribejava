@@ -56,15 +56,4 @@ public class OpenIdOAuth2AccessToken extends OAuth2AccessToken {
 
         return Objects.equals(openIdToken, ((OpenIdOAuth2AccessToken) obj).getOpenIdToken());
     }
-
-    @Override
-    public String toString() {
-        return "OpenIdOAuth2AccessToken{"
-                + "access_token=" + getAccessToken()
-                + ", token_type=" + getTokenType()
-                + ", expires_in=" + getExpiresIn()
-                + ", refresh_token=" + getRefreshToken()
-                + ", scope=" + getScope()
-                + ", open_id_token=" + openIdToken + '}';
-    }
 }

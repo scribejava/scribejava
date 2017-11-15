@@ -83,12 +83,4 @@ public class OAuth1RequestToken extends OAuth1Token {
         }
         return Objects.equals(getTokenSecret(), other.getTokenSecret());
     }
-
-    @Override
-    public String toString() {
-        return "OAuth1RequestToken{"
-                + "oauth_token=" + getToken()
-                + ", oauth_token_secret=" + getTokenSecret()
-                + ", oauth_callback_confirmed=" + oauthCallbackConfirmed + '}';
-    }
 }

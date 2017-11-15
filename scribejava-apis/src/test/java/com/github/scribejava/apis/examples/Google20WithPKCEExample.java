@@ -75,14 +75,12 @@ public final class Google20WithPKCEExample {
         System.out.println("Trading the Request Token for an Access Token...");
         OAuth2AccessToken accessToken = service.getAccessToken(code, authUrlWithPKCE.getPkce().getCodeVerifier());
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken
-                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
+        System.out.println("(if your curious the raw answer looks like this: " + accessToken.getRawResponse() + "')");
 
         System.out.println("Refreshing the Access Token...");
         accessToken = service.refreshAccessToken(accessToken.getRefreshToken());
         System.out.println("Refreshed the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken
-                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
+        System.out.println("(if your curious the raw answer looks like this: " + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!

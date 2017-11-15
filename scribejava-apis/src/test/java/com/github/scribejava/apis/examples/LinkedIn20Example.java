@@ -49,8 +49,7 @@ public final class LinkedIn20Example {
         System.out.println("Trading the Request Token for an Access Token...");
         final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious it looks like this: " + accessToken
-                + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
+        System.out.println("(if your curious the raw answer looks like this: " + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!

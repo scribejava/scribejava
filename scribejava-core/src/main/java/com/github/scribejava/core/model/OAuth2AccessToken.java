@@ -131,14 +131,4 @@ public class OAuth2AccessToken extends Token {
         }
         return Objects.equals(expiresIn, other.getExpiresIn());
     }
-
-    @Override
-    public String toString() {
-        return "OAuth2AccessToken{"
-                + "access_token=" + accessToken
-                + ", token_type=" + tokenType
-                + ", expires_in=" + expiresIn
-                + ", refresh_token=" + refreshToken
-                + ", scope=" + scope + '}';
-    }
 }

@@ -77,8 +77,8 @@ public final class SalesforceNingAsyncExample {
             }
             System.out.println("Got the Access Token!");
 
-            System.out.println("(if your curious it looks like this: " + salesforceAccessToken
-                    + ", 'rawResponse'='" + accessToken.getRawResponse() + "')");
+            System.out.println("(if your curious the raw answer looks like this: " + accessToken.getRawResponse()
+                    + "')");
             System.out.println();
             System.out.println("Instance is: " + salesforceAccessToken.getInstanceUrl());
             // Now let's go and ask for a protected resource!
