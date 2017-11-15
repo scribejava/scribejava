@@ -1,4 +1,4 @@
-package revoke;
+package com.github.scribejava.core.revoke;
 
 /**
  *

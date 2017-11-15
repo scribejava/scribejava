@@ -18,7 +18,7 @@ import com.github.scribejava.core.pkce.PKCEService;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import revoke.TokenTypeHint;
+import com.github.scribejava.core.revoke.TokenTypeHint;
 
 public class OAuth20Service extends OAuthService {
 

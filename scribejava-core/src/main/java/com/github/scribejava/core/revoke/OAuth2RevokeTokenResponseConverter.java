@@ -1,4 +1,4 @@
-package revoke;
+package com.github.scribejava.core.revoke;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.Response;
