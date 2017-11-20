@@ -10,8 +10,8 @@
     </parent>
     
     <groupId>com.github.scribejava</groupId>
-    <artifactId>scribejava-httpclient-okhttp</artifactId>
-    <name>ScribeJava Async OkHttp Client support</name>
+    <artifactId>scribejava-httpclient-apache</artifactId>
+    <name>ScribeJava Apache Http Client support</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -21,21 +21,26 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>3.9.0</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>mockwebserver</artifactId>
-            <version>3.9.0</version>
-            <scope>test</scope>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.1.3</version>
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-core</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>mockwebserver</artifactId>
+            <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
