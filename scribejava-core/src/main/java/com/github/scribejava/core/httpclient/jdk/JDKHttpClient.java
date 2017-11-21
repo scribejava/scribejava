@@ -21,12 +21,16 @@ public class JDKHttpClient implements HttpClient {
 
     private final JDKHttpClientConfig config;
 
+    public JDKHttpClient() {
+        this(JDKHttpClientConfig.defaultConfig());
+    }
+
     public JDKHttpClient(JDKHttpClientConfig clientConfig) {
         config = clientConfig;
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
     }
 
     @Override

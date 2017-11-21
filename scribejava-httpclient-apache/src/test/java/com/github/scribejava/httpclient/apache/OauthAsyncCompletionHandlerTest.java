@@ -25,7 +25,7 @@ public class OauthAsyncCompletionHandlerTest {
     private OAuthAsyncCompletionHandler<String> handler;
     private TestCallback callback;
 
-    class TestCallback implements OAuthAsyncRequestCallback<String> {
+    private static class TestCallback implements OAuthAsyncRequestCallback<String> {
 
         private Throwable throwable;
         private String response;
@@ -39,6 +39,15 @@ public class OauthAsyncCompletionHandlerTest {
         public void onThrowable(Throwable throwable) {
             this.throwable = throwable;
         }
+
+        public Throwable getThrowable() {
+            return throwable;
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
     }
 
     @Before
@@ -55,8 +64,8 @@ public class OauthAsyncCompletionHandlerTest {
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
         handler.completed(response);
-        assertNotNull(callback.response);
-        assertNull(callback.throwable);
+        assertNotNull(callback.getResponse());
+        assertNull(callback.getThrowable());
         // verify latch is released
         assertEquals("All good", handler.getResult());
     }
@@ -72,9 +81,9 @@ public class OauthAsyncCompletionHandlerTest {
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
         handler.completed(response);
-        assertNull(callback.response);
-        assertNotNull(callback.throwable);
-        assertTrue(callback.throwable instanceof IOException);
+        assertNull(callback.getResponse());
+        assertNotNull(callback.getThrowable());
+        assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
         try {
             handler.getResult();
@@ -93,9 +102,9 @@ public class OauthAsyncCompletionHandlerTest {
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
         handler.cancelled();
-        assertNull(callback.response);
-        assertNotNull(callback.throwable);
-        assertTrue(callback.throwable instanceof CancellationException);
+        assertNull(callback.getResponse());
+        assertNotNull(callback.getThrowable());
+        assertTrue(callback.getThrowable() instanceof CancellationException);
         // verify latch is released
         try {
             handler.getResult();
@@ -114,9 +123,9 @@ public class OauthAsyncCompletionHandlerTest {
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
         handler.failed(new RuntimeException());
-        assertNull(callback.response);
-        assertNotNull(callback.throwable);
-        assertTrue(callback.throwable instanceof RuntimeException);
+        assertNull(callback.getResponse());
+        assertNotNull(callback.getThrowable());
+        assertTrue(callback.getThrowable() instanceof RuntimeException);
         // verify latch is released
         try {
             handler.getResult();

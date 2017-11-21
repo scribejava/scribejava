@@ -31,6 +31,10 @@ public class OkHttpHttpClient implements HttpClient {
 
     private final OkHttpClient client;
 
+    public OkHttpHttpClient() {
+        this(OkHttpHttpClientConfig.defaultConfig());
+    }
+
     public OkHttpHttpClient(OkHttpHttpClientConfig config) {
         final OkHttpClient.Builder clientBuilder = config.getClientBuilder();
         client = clientBuilder == null ? new OkHttpClient() : clientBuilder.build();

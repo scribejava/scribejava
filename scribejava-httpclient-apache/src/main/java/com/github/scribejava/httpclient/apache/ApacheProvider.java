@@ -9,7 +9,7 @@ public class ApacheProvider implements HttpClientProvider {
     @Override
     public HttpClient createClient(HttpClientConfig httpClientConfig) {
         if (httpClientConfig instanceof ApacheHttpClientConfig) {
-            return new ApacheHttpClient();
+            return new ApacheHttpClient((ApacheHttpClientConfig) httpClientConfig);
         }
         return null;
     }

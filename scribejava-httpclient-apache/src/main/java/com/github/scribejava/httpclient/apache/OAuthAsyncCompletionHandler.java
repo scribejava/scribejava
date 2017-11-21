@@ -8,35 +8,41 @@ import org.apache.http.HttpResponse;
 import org.apache.http.concurrent.FutureCallback;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.apache.http.StatusLine;
 
 public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpResponse> {
 
-    private final ResponseConverter<T> converter;
     private final OAuthAsyncRequestCallback<T> callback;
+    private final ResponseConverter<T> converter;
     private final CountDownLatch latch;
     private T result;
     private Exception exception;
 
     public OAuthAsyncCompletionHandler(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
-        this.converter = converter;
         this.callback = callback;
+        this.converter = converter;
         this.latch = new CountDownLatch(1);
     }
 
     @Override
     public void completed(HttpResponse httpResponse) {
         try {
-            final Map<String, String> headersMap = Stream.of(httpResponse.getAllHeaders())
+            final Map<String, String> headersMap = Arrays.stream(httpResponse.getAllHeaders())
                     .collect(Collectors.toMap(Header::getName, Header::getValue));
-            final Response response = new Response(httpResponse.getStatusLine().getStatusCode(),
-                    httpResponse.getStatusLine().getReasonPhrase(), headersMap, httpResponse.getEntity().getContent());
+
+            final StatusLine statusLine = httpResponse.getStatusLine();
+
+            final Response response = new Response(statusLine.getStatusCode(), statusLine.getReasonPhrase(),
+                    headersMap, httpResponse.getEntity().getContent());
+
             @SuppressWarnings("unchecked")
             final T t = converter == null ? (T) response : converter.convert(response);
             result = t;
@@ -85,8 +91,11 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
         return result;
     }
 
-    public T getResult(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException {
-        latch.await(timeout, unit);
+    public T getResult(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+
+        if (!latch.await(timeout, unit)) {
+            throw new TimeoutException();
+        }
         if (exception != null) {
             throw new ExecutionException(exception);
         }

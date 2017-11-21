@@ -11,7 +11,7 @@
     
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-httpclient-apache</artifactId>
-    <name>ScribeJava Apache Http Client support</name>
+    <name>ScribeJava Apache HttpComponents HttpClient support</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.2</version>
+            <version>4.5.3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -35,12 +35,6 @@
             <artifactId>scribejava-core</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>mockwebserver</artifactId>
-            <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

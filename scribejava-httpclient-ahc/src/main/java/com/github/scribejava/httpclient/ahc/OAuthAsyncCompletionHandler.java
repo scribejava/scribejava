@@ -3,7 +3,6 @@ package com.github.scribejava.httpclient.ahc;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
-import io.netty.handler.codec.http.HttpHeaders;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,11 +21,9 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
 
     @Override
     public T onCompleted(org.asynchttpclient.Response ahcResponse) throws IOException {
-        final HttpHeaders map = ahcResponse.getHeaders();
         final Map<String, String> headersMap = new HashMap<>();
-        for (Map.Entry<String, String> header : map) {
-            headersMap.put(header.getKey(), header.getValue());
-        }
+        ahcResponse.getHeaders().forEach(header -> headersMap.put(header.getKey(), header.getValue()));
+
         final Response response = new Response(ahcResponse.getStatusCode(), ahcResponse.getStatusText(), headersMap,
                 ahcResponse.getResponseBodyAsStream());
 

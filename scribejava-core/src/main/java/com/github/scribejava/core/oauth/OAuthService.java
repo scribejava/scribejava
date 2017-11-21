@@ -9,6 +9,7 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
+import java.io.Closeable;
 import java.io.File;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.ServiceLoader;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public abstract class OAuthService implements AutoCloseable {
+public abstract class OAuthService implements Closeable {
 
     private final OAuthConfig config;
     private final HttpClient httpClient;

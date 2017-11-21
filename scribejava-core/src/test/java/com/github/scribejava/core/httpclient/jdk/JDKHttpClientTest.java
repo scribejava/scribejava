@@ -7,6 +7,6 @@ public class JDKHttpClientTest extends AbstractClientTest {
 
     @Override
     protected HttpClient createNewClient() {
-        return new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
+        return new JDKHttpClient();
     }
 }

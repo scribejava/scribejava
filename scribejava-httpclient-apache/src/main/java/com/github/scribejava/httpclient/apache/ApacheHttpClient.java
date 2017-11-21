@@ -12,20 +12,28 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
-import org.apache.http.impl.nio.client.HttpAsyncClients;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.Future;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 
 public class ApacheHttpClient extends AbstractAsyncOnlyHttpClient {
 
     private final CloseableHttpAsyncClient client;
 
     public ApacheHttpClient() {
-        this(HttpAsyncClients.createDefault());
+        this(ApacheHttpClientConfig.defaultConfig());
+    }
+
+    public ApacheHttpClient(ApacheHttpClientConfig config) {
+        this(config.getHttpAsyncClientBuilder());
+    }
+
+    public ApacheHttpClient(HttpAsyncClientBuilder builder) {
+        this(builder.build());
     }
 
     public ApacheHttpClient(CloseableHttpAsyncClient client) {
@@ -72,9 +80,7 @@ public class ApacheHttpClient extends AbstractAsyncOnlyHttpClient {
             builder.setEntity(entity);
         }
 
-        for (Map.Entry<String, String> header : headers.entrySet()) {
-            builder.addHeader(header.getKey(), header.getValue());
-        }
+        headers.forEach((headerKey, headerValue) -> builder.addHeader(headerKey, headerValue));
 
         if (userAgent != null) {
             builder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
@@ -84,7 +90,7 @@ public class ApacheHttpClient extends AbstractAsyncOnlyHttpClient {
         return new ApacheHttpFuture<>(future, handler);
     }
 
-    private RequestBuilder getRequestBuilder(Verb httpVerb) {
+    private static RequestBuilder getRequestBuilder(Verb httpVerb) {
         switch (httpVerb) {
             case GET:
                 return RequestBuilder.get();

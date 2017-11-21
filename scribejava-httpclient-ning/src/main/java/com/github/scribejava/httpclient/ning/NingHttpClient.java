@@ -12,10 +12,15 @@ import java.util.concurrent.Future;
 
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.File;
+import java.util.function.Consumer;
 
 public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
 
     private final AsyncHttpClient client;
+
+    public NingHttpClient() {
+        this(NingHttpClientConfig.defaultConfig());
+    }
 
     public NingHttpClient(NingHttpClientConfig ningConfig) {
         final String ningAsyncHttpProviderClassName = ningConfig.getNingAsyncHttpProviderClassName();
@@ -43,30 +48,30 @@ public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
 
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.BYTE_ARRAY, bodyContents, callback,
-                converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
+                requestBuilder -> requestBuilder.setBody(bodyContents), callback, converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
 
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.STRING, bodyContents, callback,
-                converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
+                requestBuilder -> requestBuilder.setBody(bodyContents), callback, converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
 
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.FILE, bodyContents, callback,
-                converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
+                requestBuilder -> requestBuilder.setBody(bodyContents), callback, converter);
     }
 
     private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
-            String completeUrl, BodySetter bodySetter, Object bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequest.ResponseConverter<T> converter) {
-        AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
+            String completeUrl, Consumer<AsyncHttpClient.BoundRequestBuilder> bodySetter,
+            OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+        final AsyncHttpClient.BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
             case GET:
                 boundRequestBuilder = client.prepareGet(completeUrl);
@@ -86,45 +91,17 @@ public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
 
         if (httpVerb.isPermitBody()) {
             if (!headers.containsKey(CONTENT_TYPE)) {
-                boundRequestBuilder = boundRequestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+                boundRequestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             }
-            boundRequestBuilder = bodySetter.setBody(boundRequestBuilder, bodyContents);
+            bodySetter.accept(boundRequestBuilder);
         }
 
-        for (Map.Entry<String, String> header : headers.entrySet()) {
-            boundRequestBuilder.addHeader(header.getKey(), header.getValue());
-        }
+        headers.forEach((headerKey, headerValue) -> boundRequestBuilder.addHeader(headerKey, headerValue));
+
         if (userAgent != null) {
             boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
         }
 
         return boundRequestBuilder.execute(new OAuthAsyncCompletionHandler<>(callback, converter));
-    }
-
-    private enum BodySetter {
-        BYTE_ARRAY {
-            @Override
-            AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder,
-                    Object bodyContents) {
-                return requestBuilder.setBody((byte[]) bodyContents);
-            }
-        },
-        STRING {
-            @Override
-            AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder,
-                    Object bodyContents) {
-                return requestBuilder.setBody((String) bodyContents);
-            }
-        },
-        FILE {
-            @Override
-            AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder,
-                    Object bodyContents) {
-                return requestBuilder.setBody((File) bodyContents);
-            }
-        };
-
-        abstract AsyncHttpClient.BoundRequestBuilder setBody(AsyncHttpClient.BoundRequestBuilder requestBuilder,
-                Object bodyContents);
     }
 }

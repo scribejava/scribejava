@@ -7,6 +7,6 @@ public class AhcHttpClientTest extends AbstractClientTest {
 
     @Override
     protected HttpClient createNewClient() {
-        return new AhcHttpClient(AhcHttpClientConfig.defaultConfig());
+        return new AhcHttpClient();
     }
 }

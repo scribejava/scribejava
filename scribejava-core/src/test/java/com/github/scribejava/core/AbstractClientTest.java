@@ -17,49 +17,48 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractClientTest {
 
-    class TestCallback<T> implements OAuthAsyncRequestCallback<T> {
+    private OAuthService oAuthService;
 
-        private Throwable throwable;
-        private T response;
+    private static class TestCallback implements OAuthAsyncRequestCallback<Response> {
+
+        private Response response;
 
         @Override
-        public void onCompleted(T response) {
+        public void onCompleted(Response response) {
             this.response = response;
         }
 
         @Override
         public void onThrowable(Throwable throwable) {
-            this.throwable = throwable;
+        }
+
+        public Response getResponse() {
+            return response;
         }
     }
 
-    private OAuthService<?> oAuthService;
-    private HttpClient client;
-
     @Before
     public void setUp() {
-        client = createNewClient();
         oAuthService = new OAuth20Service(null,
-                new OAuthConfig("test", "test", null, null, null, null, null, null, null, client));
+                new OAuthConfig("test", "test", null, null, null, null, null, null, null, createNewClient()));
     }
 
     @After
-    public void shutDown() throws IOException {
-        client.close();
+    public void shutDown() throws Exception {
+        oAuthService.close();
     }
 
     protected abstract HttpClient createNewClient();
 
     @Test
     public void shouldSendGetRequest() throws Exception {
-        final String expectedResponseBody = "response body";
+        final String expectedResponseBody = "response body for test shouldSendGetRequest";
 
         final MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody(expectedResponseBody));
@@ -80,7 +79,7 @@ public abstract class AbstractClientTest {
 
     @Test
     public void shouldSendPostRequest() throws Exception {
-        final String expectedResponseBody = "response body";
+        final String expectedResponseBody = "response body for test shouldSendPostRequest";
         final String expectedRequestBody = "request body";
 
         final MockWebServer server = new MockWebServer();
@@ -101,7 +100,6 @@ public abstract class AbstractClientTest {
         assertEquals("POST", recordedRequest.getMethod());
         assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
 
-
         // request with empty body
         request = new OAuthRequest(Verb.POST, baseUrl.toString());
         response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
@@ -117,7 +115,7 @@ public abstract class AbstractClientTest {
 
     @Test
     public void shouldReadResponseStream() throws Exception {
-        final String expectedResponseBody = "response body";
+        final String expectedResponseBody = "response body for test shouldReadResponseStream";
 
         final MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody(expectedResponseBody));
@@ -138,7 +136,7 @@ public abstract class AbstractClientTest {
 
     @Test
     public void shouldCallCallback() throws Exception {
-        final String expectedResponseBody = "response body";
+        final String expectedResponseBody = "response body for test shouldCallCallback";
 
         final MockWebServer server = new MockWebServer();
         server.enqueue(new MockResponse().setBody(expectedResponseBody));
@@ -148,10 +146,10 @@ public abstract class AbstractClientTest {
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, baseUrl.toString());
 
-        final TestCallback<Response> callback = new TestCallback<>();
+        final TestCallback callback = new TestCallback();
         oAuthService.execute(request, callback).get();
 
-        assertEquals(expectedResponseBody, callback.response.getBody());
+        assertEquals(expectedResponseBody, callback.getResponse().getBody());
 
         server.shutdown();
     }
@@ -167,11 +165,11 @@ public abstract class AbstractClientTest {
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, baseUrl.toString());
 
-        final TestCallback<Response> callback = new TestCallback<>();
+        final TestCallback callback = new TestCallback();
         final Response response = oAuthService.execute(request, callback).get();
 
         assertEquals(500, response.getCode());
-        assertEquals(500, callback.response.getCode());
+        assertEquals(500, callback.getResponse().getCode());
 
         server.shutdown();
     }
