@@ -17,7 +17,7 @@ import java.io.IOException;
 public final class FacebookAsyncNingExample {
 
     private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.8/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.11/me";
 
     private FacebookAsyncNingExample() {
     }

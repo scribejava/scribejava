@@ -10,7 +10,7 @@ import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
 
 /**
- * Facebook v2.8 API
+ * Facebook v2.11 API
  */
 public class FacebookApi extends DefaultApi20 {
 
@@ -33,7 +33,7 @@ public class FacebookApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://graph.facebook.com/v2.8/oauth/access_token";
+        return "https://graph.facebook.com/v2.11/oauth/access_token";
     }
 
     @Override
@@ -43,7 +43,7 @@ public class FacebookApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "https://www.facebook.com/v2.8/dialog/oauth";
+        return "https://www.facebook.com/v2.11/dialog/oauth";
     }
 
     @Override

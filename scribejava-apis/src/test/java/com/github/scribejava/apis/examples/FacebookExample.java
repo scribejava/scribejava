@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 public final class FacebookExample {
 
     private static final String NETWORK_NAME = "Facebook";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.8/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.11/me";
 
     private FacebookExample() {
     }
