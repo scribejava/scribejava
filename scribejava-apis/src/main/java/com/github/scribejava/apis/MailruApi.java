@@ -2,8 +2,7 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.apis.service.MailruOAuthServiceImpl;
-import com.github.scribejava.core.oauth.OAuth20Service;
+import com.github.scribejava.apis.service.MailruOAuthService;
 
 public class MailruApi extends DefaultApi20 {
 
@@ -29,7 +28,7 @@ public class MailruApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(OAuthConfig config) {
-        return new MailruOAuthServiceImpl(this, config);
+    public MailruOAuthService createService(OAuthConfig config) {
+        return new MailruOAuthService(this, config);
     }
 }

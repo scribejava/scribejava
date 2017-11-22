@@ -1,10 +1,12 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
+import com.github.scribejava.apis.service.FacebookService;
 import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
 
 /**
@@ -52,5 +54,10 @@ public class FacebookApi extends DefaultApi20 {
     @Override
     public ClientAuthenticationType getClientAuthenticationType() {
         return ClientAuthenticationType.REQUEST_BODY;
+    }
+
+    @Override
+    public FacebookService createService(OAuthConfig config) {
+        return new FacebookService(this, config);
     }
 }

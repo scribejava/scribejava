@@ -1,11 +1,10 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.service.ImgurOAuthServiceImpl;
+import com.github.scribejava.apis.service.ImgurOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.ParameterList;
-import com.github.scribejava.core.oauth.OAuth20Service;
 import java.util.Map;
 
 public class ImgurApi extends DefaultApi20 {
@@ -56,8 +55,8 @@ public class ImgurApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(OAuthConfig config) {
-        return new ImgurOAuthServiceImpl(this, config);
+    public ImgurOAuthService createService(OAuthConfig config) {
+        return new ImgurOAuthService(this, config);
     }
 
     public static boolean isOob(OAuthConfig config) {

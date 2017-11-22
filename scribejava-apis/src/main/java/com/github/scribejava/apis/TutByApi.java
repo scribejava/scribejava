@@ -1,9 +1,8 @@
 package com.github.scribejava.apis;
 
+import com.github.scribejava.apis.service.TutByOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.apis.service.TutByOAuthServiceImpl;
-import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class TutByApi extends DefaultApi20 {
 
@@ -29,7 +28,7 @@ public class TutByApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth20Service createService(OAuthConfig config) {
-        return new TutByOAuthServiceImpl(this, config);
+    public TutByOAuthService createService(OAuthConfig config) {
+        return new TutByOAuthService(this, config);
     }
 }
