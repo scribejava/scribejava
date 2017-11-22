@@ -86,7 +86,8 @@ public class Google20RevokeExample {
         System.out.println("Revoking token...");
         service.revokeToken(accessToken.getAccessToken());
         System.out.println("done.");
-        System.out.println("After revoke we should fail requesting any data...");
+        System.out.println("After revoke we should fail requesting any data... Press enter to try");
+        in.nextLine();
         //Google Note: Following a successful revocation response,
         //it might take some time before the revocation has full effect.
         while (response.getCode() == 200) {

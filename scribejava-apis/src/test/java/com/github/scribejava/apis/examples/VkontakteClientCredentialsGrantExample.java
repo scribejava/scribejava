@@ -29,7 +29,7 @@ public final class VkontakteClientCredentialsGrantExample {
         final OAuth2AccessToken accessToken = service.getAccessTokenClientCredentialsGrant();
 
         System.out.println("Got the Access Token!");
-        System.out.println(accessToken);
+        System.out.println(accessToken.getRawResponse());
         System.out.println();
 
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
