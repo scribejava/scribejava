@@ -12,8 +12,7 @@ public enum PKCECodeChallengeMethod {
         @Override
         public String transform2CodeChallenge(String codeVerifier) throws NoSuchAlgorithmException {
             return base64Encoder.encodeToString(
-                    MessageDigest.getInstance("SHA-256").digest(
-                            codeVerifier.getBytes(StandardCharsets.US_ASCII)));
+                    MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.US_ASCII)));
         }
     },
     plain {

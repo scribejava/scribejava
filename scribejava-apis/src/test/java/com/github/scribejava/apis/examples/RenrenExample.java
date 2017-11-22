@@ -15,6 +15,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
+import java.util.Formatter;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -96,15 +97,13 @@ public final class RenrenExample {
         try {
             final MessageDigest md = MessageDigest.getInstance("MD5");
             final byte[] array = md.digest(orgString.getBytes(Charset.forName("UTF-8")));
-            final StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            final Formatter builder = new Formatter();
+            for (byte b : array) {
+                builder.format("%02x", b);
             }
-            return sb.toString();
+            return builder.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("MD5 is unsupported?", e);
         }
-        return null;
     }
-
 }

@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * drop optional dependency on Apache commons-codec
+
 [5.0.0]
  * drop Java 7 backward compatibility support, become Java 8 only
  * add JSON token extractor for OAuth 1.0a (thanks to https://github.com/evstropovv)

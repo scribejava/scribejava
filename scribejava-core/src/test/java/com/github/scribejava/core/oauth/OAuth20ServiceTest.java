@@ -4,7 +4,6 @@ import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.github.scribejava.core.services.Base64Encoder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
@@ -13,10 +12,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class OAuth20ServiceTest {
+
+    private final Base64.Encoder base64Encoder = Base64.getEncoder();
 
     @Test
     public void shouldProduceCorrectRequestSync() throws IOException, InterruptedException, ExecutionException {
@@ -35,8 +37,8 @@ public class OAuth20ServiceTest {
         assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
-        final String authorize = Base64Encoder.getInstance()
-                .encode(String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
+        final String authorize = base64Encoder.encodeToString(
+                String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
                         .getBytes(Charset.forName("UTF-8")));
 
         assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
@@ -63,8 +65,8 @@ public class OAuth20ServiceTest {
         assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
-        final String authorize = Base64Encoder.getInstance()
-                .encode(String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
+        final String authorize = base64Encoder.encodeToString(
+                String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
                         .getBytes(Charset.forName("UTF-8")));
 
         assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));

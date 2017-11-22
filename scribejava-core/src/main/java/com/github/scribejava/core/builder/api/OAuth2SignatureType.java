@@ -1,6 +1,5 @@
 package com.github.scribejava.core.builder.api;
 
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 
@@ -25,17 +24,6 @@ public enum OAuth2SignatureType {
         }
 
     };
-
-    /**
-     *
-     * @param accessToken accessToken
-     * @param request request
-     * @deprecated use {@link #signRequest(java.lang.String, com.github.scribejava.core.model.OAuthRequest)}
-     */
-    @Deprecated
-    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
-        signRequest(accessToken == null ? null : accessToken.getAccessToken(), request);
-    }
 
     public abstract void signRequest(String accessToken, OAuthRequest request);
 }
