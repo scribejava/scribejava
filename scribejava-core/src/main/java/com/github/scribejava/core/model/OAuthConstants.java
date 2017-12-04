@@ -46,5 +46,4 @@ public interface OAuthConstants {
     String AUTHORIZATION = "Authorization";
     String BEARER = "Bearer ";
     String ACCEPT = "Accept";
-    String APPLICATION_JSON_ODATA_MINIMALMETADATA_STREAMING_TRUE_CHARSET_UTF_8 = "application/json; odata=minimalmetadata; streaming=true; charset=utf-8";
 }
