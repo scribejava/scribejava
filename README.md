@@ -38,6 +38,7 @@ ScribeJava support out-of-box several HTTP clients:
 
 * AWeber (http://www.aweber.com/)
 * Box (https://www.box.com/)
+* Dataporten (https://docs.dataporten.no/)
 * Digg (http://digg.com/)
 * Доктор на работе (https://www.doktornarabote.ru/)
 * Etsy (https://www.etsy.com/)
