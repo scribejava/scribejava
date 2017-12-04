@@ -71,10 +71,11 @@ public class AzureActiveDirectoryApi extends DefaultApi20 {
     @Override
     public String getAuthorizationUrl(OAuthConfig config, Map<String, String> additionalParams) {
 
-        String scope = config.getScope();
+        final String scope = config.getScope();
 
-        if ( scope == null ) {
-            return MSFT_LOGIN_URL + SLASH + COMMON + SLASH + AUTH_URI + String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(),
+        if (scope == null) {
+            return MSFT_LOGIN_URL + SLASH + COMMON + SLASH + AUTH_URI
+                    + String.format(SCOPED_AUTHORIZE_URL, config.getApiKey(),
                     OAuthEncoder.encode(config.getCallback()), OAuthEncoder.encode(config.getScope()));
         } else {
             return MSFT_LOGIN_URL + SLASH + COMMON + SLASH + AUTH_URI

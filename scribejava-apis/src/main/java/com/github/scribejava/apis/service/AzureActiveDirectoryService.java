@@ -8,8 +8,9 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class AzureActiveDirectoryService extends OAuth20Service {
 
+    private static final String ACCEPTED_FORMAT = "application/json; " +
+            "odata=minimalmetadata; streaming=true; charset=utf-8";
     private final DefaultApi20 api;
-    String ACCEPTED_FORMAT = "application/json; odata=minimalmetadata; streaming=true; charset=utf-8";
 
     public AzureActiveDirectoryService(DefaultApi20 api, OAuthConfig config) {
         super(api, config);
