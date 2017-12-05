@@ -6,7 +6,6 @@ import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.utils.OAuthEncoder;
 
 import java.util.Map;
@@ -51,11 +50,6 @@ public class AzureActiveDirectoryApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return MSFT_LOGIN_URL + SLASH + COMMON + SLASH + AUTH_URI;
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override
