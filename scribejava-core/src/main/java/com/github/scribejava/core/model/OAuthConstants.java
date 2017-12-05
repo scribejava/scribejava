@@ -41,5 +41,9 @@ public interface OAuthConstants {
 
     //not OAuth specific
     String USER_AGENT_HEADER_NAME = "User-Agent";
-
+    String CONTENT_TYPE = "Content-Type";
+    String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+    String AUTHORIZATION = "Authorization";
+    String BEARER = "Bearer ";
+    String ACCEPT = "Accept";
 }
