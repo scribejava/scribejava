@@ -54,6 +54,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Imgur (http://imgur.com/)
 * Kaixin 开心网 (http://www.kaixin001.com/)
 * LinkedIn (https://www.linkedin.com/)
+* Microsoft Azure Active Directory (Azure AD) (http://azure.microsoft.com/)
 * Microsoft Live (https://login.live.com/)
 * Mail.Ru (https://mail.ru/)
 * Meetup (http://www.meetup.com/)

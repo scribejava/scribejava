@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.examples;
 
-import com.github.scribejava.apis.AzureActiveDirectoryApi;
+import com.github.scribejava.apis.MicrosoftAzureActiveDirectoryApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -12,14 +12,12 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-
-
-public class MicrosoftAzureExample {
+public class MicrosoftAzureActiveDirectoryExample {
 
     private static final String NETWORK_NAME = "Microsoft Azure Active Directory";
     private static final String PROTECTED_RESOURCE_URL = "https://graph.windows.net/me?api-version=1.6";
 
-    private MicrosoftAzureExample(){
+    private MicrosoftAzureActiveDirectoryExample() {
 
     }
 
@@ -31,7 +29,7 @@ public class MicrosoftAzureExample {
                 .apiSecret(clientSecret)
                 .scope("openid")
                 .callback("http://www.example.com/oauth_callback/")
-                .build(AzureActiveDirectoryApi.instance());
+                .build(MicrosoftAzureActiveDirectoryApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");

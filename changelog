@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * drop optional dependency on Apache commons-codec
  * add API - Dataporten (https://docs.dataporten.no/) (thanks to https://github.com/xibriz)
+ * add API - Microsoft Azure Active Directory (Azure AD) (thanks to https://github.com/kaushalmall)
 
 [5.0.0]
  * drop Java 7 backward compatibility support, become Java 8 only
