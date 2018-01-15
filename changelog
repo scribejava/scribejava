@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * allow 'null' as callback. It's an optional parameter. Remove "oob" as default (thanks to https://github.com/massongit)
+
 [5.1.0]
  * drop optional dependency on Apache commons-codec
  * add API - Dataporten (https://docs.dataporten.no/) (thanks to https://github.com/xibriz)

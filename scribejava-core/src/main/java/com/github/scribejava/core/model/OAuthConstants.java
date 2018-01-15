@@ -17,7 +17,6 @@ public interface OAuthConstants {
     String PARAM_PREFIX = "oauth_";
     String TOKEN = "oauth_token";
     String TOKEN_SECRET = "oauth_token_secret";
-    String OUT_OF_BAND = "oob";
     String VERIFIER = "oauth_verifier";
     String HEADER = "Authorization";
     String SCOPE = "scope";

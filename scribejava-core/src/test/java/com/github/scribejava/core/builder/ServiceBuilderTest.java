@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class ServiceBuilderTest {
@@ -26,7 +25,7 @@ public class ServiceBuilderTest {
         final OAuthConfig config = api.getConfig();
         assertEquals(config.getApiKey(), "key");
         assertEquals(config.getApiSecret(), "secret");
-        assertEquals(config.getCallback(), OAuthConstants.OUT_OF_BAND);
+        assertEquals(config.getCallback(), null);
     }
 
     @Test
@@ -39,8 +38,8 @@ public class ServiceBuilderTest {
         assertEquals(config.getCallback(), "http://example.com");
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldNotAcceptNullAsCallback() {
+    @Test
+    public void shouldAcceptNullAsCallback() {
         builder.apiKey("key").apiSecret("secret").callback(null).build(api);
     }
 

@@ -4,7 +4,6 @@ import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -15,7 +14,7 @@ import java.io.OutputStream;
  */
 public class ServiceBuilder {
 
-    private String callback = OAuthConstants.OUT_OF_BAND;
+    private String callback;
     private String apiKey;
     private String apiSecret;
     private String scope;
@@ -38,7 +37,6 @@ public class ServiceBuilder {
      * @return the {@link ServiceBuilder} instance for method chaining
      */
     public ServiceBuilder callback(String callback) {
-        Preconditions.checkNotNull(callback, "Callback can't be null");
         this.callback = callback;
         return this;
     }
