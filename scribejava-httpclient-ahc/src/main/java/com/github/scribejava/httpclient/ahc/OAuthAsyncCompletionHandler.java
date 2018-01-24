@@ -22,7 +22,9 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
     @Override
     public T onCompleted(org.asynchttpclient.Response ahcResponse) throws IOException {
         final Map<String, String> headersMap = new HashMap<>();
-        ahcResponse.getHeaders().forEach(header -> headersMap.put(header.getKey(), header.getValue()));
+        for (Map.Entry<String, String> header : ahcResponse.getHeaders()) {
+            headersMap.put(header.getKey(), header.getValue());
+        }
 
         final Response response = new Response(ahcResponse.getStatusCode(), ahcResponse.getStatusText(), headersMap,
                 ahcResponse.getResponseBodyAsStream());

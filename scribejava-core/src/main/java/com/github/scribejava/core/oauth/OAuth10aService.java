@@ -11,6 +11,7 @@ import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -55,7 +56,12 @@ public class OAuth10aService extends OAuthService {
         final OAuthConfig config = getConfig();
         config.log("async obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = prepareRequestTokenRequest();
-        return execute(request, callback, response -> getApi().getRequestTokenExtractor().extract(response));
+        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1RequestToken>() {
+            @Override
+            public OAuth1RequestToken convert(Response response) throws IOException {
+                return getApi().getRequestTokenExtractor().extract(response);
+            }
+        });
     }
 
     protected OAuthRequest prepareRequestTokenRequest() {
@@ -110,7 +116,12 @@ public class OAuth10aService extends OAuthService {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
-        return execute(request, callback, response -> getApi().getAccessTokenExtractor().extract(response));
+        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1AccessToken>() {
+            @Override
+            public OAuth1AccessToken convert(Response response) throws IOException {
+                return getApi().getAccessTokenExtractor().extract(response);
+            }
+        });
     }
 
     protected OAuthRequest prepareAccessTokenRequest(OAuth1RequestToken requestToken, String oauthVerifier) {
@@ -176,7 +187,9 @@ public class OAuth10aService extends OAuthService {
             case QueryString:
                 config.log("using Querystring signature");
 
-                request.getOauthParameters().forEach((key, value) -> request.addQuerystringParameter(key, value));
+                for (Map.Entry<String, String> oauthParameter : request.getOauthParameters().entrySet()) {
+                    request.addQuerystringParameter(oauthParameter.getKey(), oauthParameter.getValue());
+                }
                 break;
             default:
                 throw new IllegalStateException("Unknown new Signature Type '" + signatureType + "'.");

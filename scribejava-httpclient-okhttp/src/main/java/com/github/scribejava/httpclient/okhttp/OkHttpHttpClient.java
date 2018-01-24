@@ -18,9 +18,8 @@ import java.util.concurrent.Future;
 
 import com.github.scribejava.core.model.Response;
 import java.io.File;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import okhttp3.Cache;
 import okhttp3.Headers;
 import okhttp3.ResponseBody;
@@ -130,7 +129,9 @@ public class OkHttpHttpClient implements HttpClient {
         requestBuilder.method(method, body);
 
         // fill headers
-        headers.forEach((key, value) -> requestBuilder.addHeader(key, value));
+        for (Map.Entry<String, String> header : headers.entrySet()) {
+            requestBuilder.addHeader(header.getKey(), header.getValue());
+        }
 
         if (userAgent != null) {
             requestBuilder.header(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
@@ -165,8 +166,10 @@ public class OkHttpHttpClient implements HttpClient {
 
     static Response convertResponse(okhttp3.Response okHttpResponse) {
         final Headers headers = okHttpResponse.headers();
-        final Map<String, String> headersMap = headers.names().stream()
-                .collect(Collectors.toMap(Function.identity(), headers::get));
+        final Map<String, String> headersMap = new HashMap<>();
+        for (String headerName : headers.names()) {
+            headersMap.put(headerName, headers.get(headerName));
+        }
 
         final ResponseBody body = okHttpResponse.body();
         return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,

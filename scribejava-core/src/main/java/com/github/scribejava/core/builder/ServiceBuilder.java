@@ -129,11 +129,11 @@ public class ServiceBuilder {
     }
 
     /**
-     * Returns the fully configured {@link S}
+     * Returns the fully configured {@link OAuthService}
      *
      * @param <S> OAuthService implementation (OAuth1/OAuth2/any API specific)
      * @param api will build Service for this API
-     * @return fully configured {@link S}
+     * @return fully configured {@link OAuthService}
      */
     public <S extends OAuthService> S build(BaseApi<S> api) {
         return api.createService(new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType,

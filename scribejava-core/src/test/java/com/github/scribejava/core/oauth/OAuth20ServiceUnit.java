@@ -6,6 +6,7 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Parameter;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -37,7 +38,9 @@ class OAuth20ServiceUnit extends OAuth20Service {
         response.putAll(request.getHeaders());
         response.putAll(request.getOauthParameters());
 
-        request.getBodyParams().getParams().forEach(p -> response.put("query-" + p.getKey(), p.getValue()));
+        for (Parameter param : request.getBodyParams().getParams()) {
+            response.put("query-" + param.getKey(), param.getValue());
+        }
 
         return json.toJson(response);
     }

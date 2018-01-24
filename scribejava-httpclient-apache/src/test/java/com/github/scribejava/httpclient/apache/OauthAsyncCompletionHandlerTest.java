@@ -1,6 +1,8 @@
 package com.github.scribejava.httpclient.apache;
 
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.entity.BasicHttpEntity;
@@ -21,6 +23,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class OauthAsyncCompletionHandlerTest {
+
+    private static final AllGoodResponseConverter ALL_GOOD_RESPONSE_CONVERTER = new AllGoodResponseConverter();
+    private static final ExceptionResponseConverter EXCEPTION_RESPONSE_CONVERTER = new ExceptionResponseConverter();
 
     private OAuthAsyncCompletionHandler<String> handler;
     private TestCallback callback;
@@ -57,7 +62,7 @@ public class OauthAsyncCompletionHandlerTest {
 
     @Test
     public void shouldReleaseLatchOnSuccess() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, response -> "All good");
+        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
         final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
                 new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
@@ -72,9 +77,7 @@ public class OauthAsyncCompletionHandlerTest {
 
     @Test
     public void shouldReleaseLatchOnIOException() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, response -> {
-            throw new IOException("Failed to convert");
-        });
+        handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER);
         final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
                 new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
@@ -95,7 +98,7 @@ public class OauthAsyncCompletionHandlerTest {
 
     @Test
     public void shouldReleaseLatchOnCancel() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, response -> "All good");
+        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
         final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
                 new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
@@ -116,7 +119,7 @@ public class OauthAsyncCompletionHandlerTest {
 
     @Test
     public void shouldReleaseLatchOnFailure() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, response -> "All good");
+        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
         final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
                 new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
@@ -132,6 +135,22 @@ public class OauthAsyncCompletionHandlerTest {
             fail();
         } catch (ExecutionException expected) {
             // expected
+        }
+    }
+
+    private static class AllGoodResponseConverter implements OAuthRequest.ResponseConverter<String> {
+
+        @Override
+        public String convert(Response response) throws IOException {
+            return "All good";
+        }
+    }
+
+    private static class ExceptionResponseConverter implements OAuthRequest.ResponseConverter<String> {
+
+        @Override
+        public String convert(Response response) throws IOException {
+            throw new IOException("Failed to convert");
         }
     }
 }

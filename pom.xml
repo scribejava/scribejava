@@ -110,7 +110,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.7</version>
+                            <version>6.19</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -129,8 +129,8 @@
                 <version>3.7.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
@@ -192,6 +192,7 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
+                            <excludes>main/java/com/github/scribejava/core/java8/*</excludes>
                             <sourceDirectory>${basedir}/src</sourceDirectory>
                             <configLocation>checkstyle.xml</configLocation>
                             <encoding>UTF-8</encoding>

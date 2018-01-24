@@ -1,8 +1,8 @@
 package com.github.scribejava.core.pkce;
 
+import com.github.scribejava.core.java8.Base64;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Base64;
 
 /**
  * Used to implement Proof Key for Code Exchange by OAuth Public Clients https://tools.ietf.org/html/rfc7636

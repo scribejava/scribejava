@@ -8,14 +8,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.concurrent.FutureCallback;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.stream.Collectors;
 import org.apache.http.StatusLine;
 
 public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpResponse> {
@@ -35,8 +34,10 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
     @Override
     public void completed(HttpResponse httpResponse) {
         try {
-            final Map<String, String> headersMap = Arrays.stream(httpResponse.getAllHeaders())
-                    .collect(Collectors.toMap(Header::getName, Header::getValue));
+            final Map<String, String> headersMap = new HashMap<>();
+            for (Header header : httpResponse.getAllHeaders()) {
+                headersMap.put(header.getName(), header.getValue());
+            }
 
             final StatusLine statusLine = httpResponse.getStatusLine();
 

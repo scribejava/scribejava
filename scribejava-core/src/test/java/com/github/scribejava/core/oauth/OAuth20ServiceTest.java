@@ -1,6 +1,7 @@
 package com.github.scribejava.core.oauth;
 
 import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.java8.Base64;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -12,7 +13,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
-import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 

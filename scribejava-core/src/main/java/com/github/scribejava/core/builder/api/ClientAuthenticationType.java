@@ -1,10 +1,10 @@
 package com.github.scribejava.core.builder.api;
 
+import com.github.scribejava.core.java8.Base64;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import java.nio.charset.Charset;
-import java.util.Base64;
 
 /**
  * Represents<br>

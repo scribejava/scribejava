@@ -1,6 +1,7 @@
 package com.github.scribejava.httpclient.ning;
 
 import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
+import com.github.scribejava.core.java8.Consumer;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -12,7 +13,6 @@ import java.util.concurrent.Future;
 
 import com.ning.http.client.AsyncHttpClientConfig;
 import java.io.File;
-import java.util.function.Consumer;
 
 public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
 
@@ -46,26 +46,29 @@ public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+            final byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
 
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
-                requestBuilder -> requestBuilder.setBody(bodyContents), callback, converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new ByteArrayConsumer(bodyContents), callback,
+                converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+            final String bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
 
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
-                requestBuilder -> requestBuilder.setBody(bodyContents), callback, converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new StringConsumer(bodyContents), callback,
+                converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+            final File bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
 
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
-                requestBuilder -> requestBuilder.setBody(bodyContents), callback, converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new FileConsumer(bodyContents), callback,
+                converter);
     }
 
     private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
@@ -96,12 +99,56 @@ public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
             bodySetter.accept(boundRequestBuilder);
         }
 
-        headers.forEach((headerKey, headerValue) -> boundRequestBuilder.addHeader(headerKey, headerValue));
+        for (Map.Entry<String, String> header : headers.entrySet()) {
+            boundRequestBuilder.addHeader(header.getKey(), header.getValue());
+        }
 
         if (userAgent != null) {
             boundRequestBuilder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
         }
 
         return boundRequestBuilder.execute(new OAuthAsyncCompletionHandler<>(callback, converter));
+    }
+
+    private static class ByteArrayConsumer implements Consumer<AsyncHttpClient.BoundRequestBuilder> {
+
+        private final byte[] bodyContents;
+
+        private ByteArrayConsumer(byte[] bodyContents) {
+            this.bodyContents = bodyContents;
+        }
+
+        @Override
+        public void accept(AsyncHttpClient.BoundRequestBuilder requestBuilder) {
+            requestBuilder.setBody(bodyContents);
+        }
+    }
+
+    private static class StringConsumer implements Consumer<AsyncHttpClient.BoundRequestBuilder> {
+
+        private final String bodyContents;
+
+        private StringConsumer(String bodyContents) {
+            this.bodyContents = bodyContents;
+        }
+
+        @Override
+        public void accept(AsyncHttpClient.BoundRequestBuilder requestBuilder) {
+            requestBuilder.setBody(bodyContents);
+        }
+    }
+
+    private static class FileConsumer implements Consumer<AsyncHttpClient.BoundRequestBuilder> {
+
+        private final File bodyContents;
+
+        private FileConsumer(File bodyContents) {
+            this.bodyContents = bodyContents;
+        }
+
+        @Override
+        public void accept(AsyncHttpClient.BoundRequestBuilder requestBuilder) {
+            requestBuilder.setBody(bodyContents);
+        }
     }
 }

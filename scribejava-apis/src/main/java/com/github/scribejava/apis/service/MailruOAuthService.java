@@ -12,7 +12,6 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
-import java.util.stream.Collectors;
 
 public class MailruOAuthService extends OAuth20Service {
 
@@ -37,10 +36,15 @@ public class MailruOAuthService extends OAuth20Service {
                     final String[] parts = param.split("=");
                     map.put(parts[0], (parts.length == 1) ? "" : parts[1]);
                 }
-                final String urlNew = map.entrySet().stream()
-                        .map(entry -> entry.getKey() + '=' + entry.getValue())
-                        .collect(Collectors.joining());
-                final String sigSource = URLDecoder.decode(urlNew, "UTF-8") + clientSecret;
+
+                final StringBuilder urlNew = new StringBuilder();
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    urlNew.append(entry.getKey());
+                    urlNew.append('=');
+                    urlNew.append(entry.getValue());
+                }
+
+                final String sigSource = URLDecoder.decode(urlNew.toString(), "UTF-8") + clientSecret;
                 request.addQuerystringParameter("sig", md5(sigSource));
             }
         } catch (UnsupportedEncodingException e) {

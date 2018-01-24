@@ -15,7 +15,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Formatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OdnoklassnikiOAuthService extends OAuth20Service {
 
@@ -35,11 +34,14 @@ public class OdnoklassnikiOAuthService extends OAuth20Service {
 
             Collections.sort(allParams);
 
-            final String stringParams = allParams.stream()
-                    .map(param -> param.getKey() + '=' + param.getValue())
-                    .collect(Collectors.joining());
+            final StringBuilder stringParams = new StringBuilder();
+            for (Parameter param : allParams) {
+                stringParams.append(param.getKey())
+                        .append('=')
+                        .append(param.getValue());
+            }
 
-            final String sigSource = URLDecoder.decode(stringParams, "UTF-8") + tokenDigest;
+            final String sigSource = URLDecoder.decode(stringParams.toString(), "UTF-8") + tokenDigest;
             request.addQuerystringParameter("sig", md5(sigSource).toLowerCase());
 
             super.signRequest(accessToken, request);

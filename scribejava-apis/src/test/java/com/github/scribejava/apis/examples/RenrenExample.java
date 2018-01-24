@@ -15,10 +15,11 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Formatter;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class RenrenExample {
 
@@ -68,17 +69,20 @@ public final class RenrenExample {
         parameters.put("format", "json");
         parameters.put("v", "1.0");
 
-        parameters.forEach((key, value) -> request.addQuerystringParameter(key, value));
+        final List<String> sigString = new ArrayList<>(parameters.size() + 1);
+        for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+            request.addQuerystringParameter(parameter.getKey(), parameter.getValue());
+            sigString.add(String.format("%s=%s", parameter.getKey(), parameter.getValue()));
+        }
+        sigString.add(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken()));
+        Collections.sort(sigString);
+        final StringBuilder sigBuilder = new StringBuilder();
+        for (String param : sigString) {
+            sigBuilder.append(param);
+        }
+        sigBuilder.append(apiSecret);
 
-        final String sig = Stream.concat(
-                Stream.concat(
-                        parameters.entrySet().stream()
-                                .map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue())),
-                        Stream.of(String.format("%s=%s", OAuthConstants.ACCESS_TOKEN, accessToken.getAccessToken())))
-                        .sorted(),
-                Stream.of(apiSecret))
-                .collect(Collectors.joining());
-
+        final String sig = sigBuilder.toString();
         System.out.println("Sig string: " + sig);
         request.addQuerystringParameter("sig", md5(sig));
         service.signRequest(accessToken, request);

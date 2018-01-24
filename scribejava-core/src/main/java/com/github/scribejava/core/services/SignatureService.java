@@ -1,6 +1,6 @@
 package com.github.scribejava.core.services;
 
-import java.util.Base64;
+import com.github.scribejava.core.java8.Base64;
 
 /**
  * Signs a base string, returning the OAuth signature

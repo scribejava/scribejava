@@ -80,7 +80,9 @@ public class ApacheHttpClient extends AbstractAsyncOnlyHttpClient {
             builder.setEntity(entity);
         }
 
-        headers.forEach((headerKey, headerValue) -> builder.addHeader(headerKey, headerValue));
+        for (Map.Entry<String, String> header : headers.entrySet()) {
+            builder.addHeader(header.getKey(), header.getValue());
+        }
 
         if (userAgent != null) {
             builder.setHeader(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
