@@ -24,6 +24,10 @@ Working runnable examples are [here](https://github.com/scribejava/scribejava/tr
 
 Hit ScribeJava as hard and with many threads as you like.
 
+### Java 7 compatible
+
+That's it. You can use it in old environments and in android apps.
+
 ### Async and other HTTP clients
 
 ScribeJava support out-of-box several HTTP clients:
