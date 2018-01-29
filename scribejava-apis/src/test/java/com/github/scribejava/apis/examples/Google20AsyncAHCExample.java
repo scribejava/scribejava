@@ -83,13 +83,13 @@ public final class Google20AsyncAHCExample {
             System.out.println("Trading the Request Token for an Access Token...");
             OAuth2AccessToken accessToken = service.getAccessToken(code);
             System.out.println("Got the Access Token!");
-            System.out.println("(if your curious the raw answer looks like this: " + accessToken.getRawResponse()
+            System.out.println("(The raw response looks like this: " + accessToken.getRawResponse()
                     + "')");
 
             System.out.println("Refreshing the Access Token...");
             accessToken = service.refreshAccessToken(accessToken.getRefreshToken());
             System.out.println("Refreshed the Access Token!");
-            System.out.println("(if your curious the raw answer looks like this: " + accessToken.getRawResponse()
+            System.out.println("(The raw response looks like this: " + accessToken.getRawResponse()
                     + "')");
             System.out.println();
 

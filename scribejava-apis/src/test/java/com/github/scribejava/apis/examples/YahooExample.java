@@ -46,7 +46,7 @@ public class YahooExample {
         System.out.println("Trading the Request Token for an Access Token...");
         final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, oauthVerifier);
         System.out.println("Got the Access Token!");
-        System.out.println("(if your curious the raw answer looks like this: " + accessToken.getRawResponse() + "')");
+        System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
         System.out.println();
 
         // Now let's go and ask for a protected resource!
