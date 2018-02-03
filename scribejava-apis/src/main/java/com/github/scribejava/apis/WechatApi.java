@@ -14,9 +14,6 @@ import java.util.Map;
 
 import static com.github.scribejava.apis.wechat.WechatOAuth2Constants.*;
 
-/**
- * http://www.wechat.com/   https://mp.weixin.qq.com/
- */
 public class WechatApi extends DefaultApi20 {
 
     protected WechatApi() {
