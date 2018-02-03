@@ -1,6 +1,7 @@
 package com.github.scribejava.apis.examples;
 
 import com.github.scribejava.apis.WechatApi;
+import com.github.scribejava.apis.wechat.WechatOAuth2AccessToken;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -16,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 public class WechatExample {
 
     private static final String NETWORK_NAME = "WeChat";
-    private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.11/me";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.weixin.qq.com/sns/userinfo";
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
@@ -60,7 +61,7 @@ public class WechatExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(code);
+        final WechatOAuth2AccessToken accessToken = (WechatOAuth2AccessToken) service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
         System.out.println();
@@ -68,6 +69,7 @@ public class WechatExample {
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        request.addParameter("openid", accessToken.getOpenid());
         service.signRequest(accessToken, request);
         final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
