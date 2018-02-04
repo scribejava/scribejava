@@ -1,5 +1,6 @@
 package com.github.scribejava.apis.service;
 
+import com.github.scribejava.apis.wechat.WechatOAuth2Constants;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -7,8 +8,6 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 import java.util.Map;
-
-import static com.github.scribejava.apis.wechat.WechatOAuth2Constants.*;
 
 
 public class WechatService extends OAuth20Service {
@@ -26,11 +25,11 @@ public class WechatService extends OAuth20Service {
         final OAuthRequest request = new OAuthRequest(getApi().getAccessTokenVerb(), getApi().getAccessTokenEndpoint());
         final OAuthConfig config = getConfig();
 
-        request.addParameter(CLIENT_ID, config.getApiKey());
-        request.addParameter(CLIENT_SECRET, config.getApiSecret());
+        request.addParameter(WechatOAuth2Constants.CLIENT_ID, config.getApiKey());
+        request.addParameter(WechatOAuth2Constants.CLIENT_SECRET, config.getApiSecret());
 
-        request.addParameter(CODE, code);
-        request.addParameter(GRANT_TYPE, AUTHORIZATION_CODE);
+        request.addParameter(WechatOAuth2Constants.CODE, code);
+        request.addParameter(WechatOAuth2Constants.GRANT_TYPE, WechatOAuth2Constants.AUTHORIZATION_CODE);
 
         return request;
     }
@@ -44,12 +43,13 @@ public class WechatService extends OAuth20Service {
         if (refreshToken == null || refreshToken.isEmpty()) {
             throw new IllegalArgumentException("The refreshToken cannot be null or empty");
         }
-        final OAuthRequest request = new OAuthRequest(getApi().getAccessTokenVerb(), getApi().getRefreshTokenEndpoint());
+        final OAuthRequest request = new OAuthRequest(getApi().getAccessTokenVerb(),
+                getApi().getRefreshTokenEndpoint());
 
-        request.addParameter(CLIENT_ID, getConfig().getApiKey());
+        request.addParameter(WechatOAuth2Constants.CLIENT_ID, getConfig().getApiKey());
 
-        request.addParameter(OAuthConstants.GRANT_TYPE, REFRESH_TOKEN);
-        request.addParameter(REFRESH_TOKEN, refreshToken);
+        request.addParameter(OAuthConstants.GRANT_TYPE, WechatOAuth2Constants.REFRESH_TOKEN);
+        request.addParameter(WechatOAuth2Constants.REFRESH_TOKEN, refreshToken);
 
         return request;
     }

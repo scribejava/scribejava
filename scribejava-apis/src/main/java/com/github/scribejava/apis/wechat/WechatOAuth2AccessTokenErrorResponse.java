@@ -42,7 +42,7 @@ public class WechatOAuth2AccessTokenErrorResponse extends OAuthException {
             return false;
         }
 
-        WechatOAuth2AccessTokenErrorResponse that = (WechatOAuth2AccessTokenErrorResponse) o;
+        final WechatOAuth2AccessTokenErrorResponse that = (WechatOAuth2AccessTokenErrorResponse) o;
 
         if (errcode != null ? !errcode.equals(that.errcode) : that.errcode != null) {
             return false;

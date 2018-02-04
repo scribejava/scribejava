@@ -43,17 +43,20 @@ public class WechatOAuth2AccessTokenJsonExtractor extends OAuth2AccessTokenJsonE
         final String errmsg = extractParameter(response, ERRMSG_REGEX_PATTERN, false);
 
         if (errcode != null || errmsg != null) {
-            throw new WechatOAuth2AccessTokenErrorResponse("Obtaining WeChat OAuth2 access_token failed.", errcode, errmsg, response);
+            throw new WechatOAuth2AccessTokenErrorResponse("Obtaining WeChat OAuth2 access_token failed.",
+                    errcode, errmsg, response);
         }
     }
 
     @Override
     public void generateError(String response) {
-        throw new WechatOAuth2AccessTokenErrorResponse("An unknown failure occurred while obtaining the WeChat OAuth2 access_token.");
+        throw new WechatOAuth2AccessTokenErrorResponse("An unknown failure occurred" +
+                " while obtaining the WeChat OAuth2 access_token.");
     }
 
     @Override
-    protected WechatOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn, String refreshToken, String scope, String response) {
+    protected WechatOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
+                                                  String refreshToken, String scope, String response) {
         final String openid = extractParameter(response, OPENID_REGEX_PATTERN, true);
         return new WechatOAuth2AccessToken(accessToken, expiresIn, refreshToken, scope, openid, response);
     }

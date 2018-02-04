@@ -6,7 +6,8 @@ public class WechatOAuth2AccessToken extends OAuth2AccessToken {
 
     private final String openid;
 
-    public WechatOAuth2AccessToken(String accessToken, Integer expiresIn, String refreshToken, String scope, String openid, String response) {
+    public WechatOAuth2AccessToken(String accessToken, Integer expiresIn, String refreshToken, String scope,
+                                   String openid, String response) {
         super(accessToken, null, expiresIn, refreshToken, scope, response);
         this.openid = openid;
     }
@@ -27,7 +28,7 @@ public class WechatOAuth2AccessToken extends OAuth2AccessToken {
             return false;
         }
 
-        WechatOAuth2AccessToken that = (WechatOAuth2AccessToken) o;
+        final WechatOAuth2AccessToken that = (WechatOAuth2AccessToken) o;
 
         return openid.equals(that.openid);
 

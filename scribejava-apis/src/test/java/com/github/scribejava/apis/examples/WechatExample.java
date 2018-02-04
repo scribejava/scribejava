@@ -3,7 +3,6 @@ package com.github.scribejava.apis.examples;
 import com.github.scribejava.apis.WechatApi;
 import com.github.scribejava.apis.wechat.WechatOAuth2AccessToken;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -19,6 +18,9 @@ public class WechatExample {
     private static final String NETWORK_NAME = "WeChat";
     private static final String PROTECTED_RESOURCE_URL = "https://api.weixin.qq.com/sns/userinfo";
 
+    private WechatExample() {
+    }
+
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
@@ -28,7 +30,7 @@ public class WechatExample {
                 .apiSecret(clientSecret)
                 .scope("snsapi_base")
                 .state(secretState)
-                .callback("http://www.example.com/oauth_callback/")
+                .callback("http://www.example.com/oauth_callback")
                 .build(WechatApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");
