@@ -64,8 +64,15 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
             errorUri = null;
         }
 
-        throw new OAuth2AccessTokenErrorResponse(OAuth2AccessTokenErrorResponse.ErrorCode.valueOf(errorInString),
-                errorDescription, errorUri, response);
+        OAuth2AccessTokenErrorResponse.ErrorCode errorCode;
+        try {
+            errorCode = OAuth2AccessTokenErrorResponse.ErrorCode.valueOf(errorInString);
+        } catch (IllegalArgumentException iaE) {
+            //non oauth standard error code
+            errorCode = null;
+        }
+
+        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription, errorUri, response);
     }
 
     private OAuth2AccessToken createToken(String response) {

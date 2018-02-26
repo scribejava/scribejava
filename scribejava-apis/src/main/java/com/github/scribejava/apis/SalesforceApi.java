@@ -3,6 +3,7 @@ package com.github.scribejava.apis;
 import javax.net.ssl.SSLContext;
 
 import com.github.scribejava.apis.salesforce.SalesforceJsonTokenExtractor;
+import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -128,5 +129,10 @@ public class SalesforceApi extends DefaultApi20 {
 
         context.init(null, null, null);
         SSLContext.setDefault(context);
+    }
+
+    @Override
+    public ClientAuthenticationType getClientAuthenticationType() {
+        return ClientAuthenticationType.REQUEST_BODY;
     }
 }

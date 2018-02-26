@@ -27,9 +27,6 @@ public class OAuth2AccessTokenErrorResponse extends OAuthException {
     public OAuth2AccessTokenErrorResponse(ErrorCode errorCode, String errorDescription, URI errorUri,
             String rawResponse) {
         super(rawResponse);
-        if (errorCode == null) {
-            throw new IllegalArgumentException("errorCode must not be null");
-        }
         this.errorCode = errorCode;
         this.errorDescription = errorDescription;
         this.errorUri = errorUri;

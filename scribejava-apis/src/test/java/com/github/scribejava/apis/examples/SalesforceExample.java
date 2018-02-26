@@ -94,6 +94,7 @@ public final class SalesforceExample {
         System.out.println("Full URL: " + url);
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, url);
+        service.signRequest(salesforceAccessToken, request);
         final Response response = service.execute(request);
         System.out.println();
         System.out.println(response.getCode());
