@@ -33,7 +33,7 @@ public class OAuth10aService extends OAuthService {
         this.api = api;
     }
 
-    public final OAuth1RequestToken getRequestToken() throws IOException, InterruptedException, ExecutionException {
+    public OAuth1RequestToken getRequestToken() throws IOException, InterruptedException, ExecutionException {
         final OAuthConfig config = getConfig();
         config.log("obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = prepareRequestTokenRequest();
@@ -47,12 +47,11 @@ public class OAuth10aService extends OAuthService {
         return api.getRequestTokenExtractor().extract(response);
     }
 
-    public final Future<OAuth1RequestToken> getRequestTokenAsync() {
+    public Future<OAuth1RequestToken> getRequestTokenAsync() {
         return getRequestTokenAsync(null);
     }
 
-    public final Future<OAuth1RequestToken> getRequestTokenAsync(
-            OAuthAsyncRequestCallback<OAuth1RequestToken> callback) {
+    public Future<OAuth1RequestToken> getRequestTokenAsync(OAuthAsyncRequestCallback<OAuth1RequestToken> callback) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining request token from " + api.getRequestTokenEndpoint());
         final OAuthRequest request = prepareRequestTokenRequest();
@@ -90,7 +89,7 @@ public class OAuth10aService extends OAuthService {
         config.log("appended additional OAuth parameters: " + request.getOauthParameters());
     }
 
-    public final OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
+    public OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
             throws IOException, InterruptedException, ExecutionException {
         getConfig().log("obtaining access token from " + api.getAccessTokenEndpoint());
         final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
@@ -98,7 +97,7 @@ public class OAuth10aService extends OAuthService {
         return api.getAccessTokenExtractor().extract(response);
     }
 
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier) {
+    public Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier) {
         return getAccessTokenAsync(requestToken, oauthVerifier, null);
     }
 
@@ -111,7 +110,7 @@ public class OAuth10aService extends OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public final Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
+    public Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
             OAuthAsyncRequestCallback<OAuth1AccessToken> callback) {
         final OAuthConfig config = getConfig();
         config.log("async obtaining access token from " + api.getAccessTokenEndpoint());

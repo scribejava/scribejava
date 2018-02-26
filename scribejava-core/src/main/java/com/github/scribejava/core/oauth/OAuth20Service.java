@@ -60,20 +60,19 @@ public class OAuth20Service extends OAuthService {
         });
     }
 
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code) {
+    public Future<OAuth2AccessToken> getAccessTokenAsync(String code) {
         return getAccessToken(code, null, null);
     }
 
-    public final Future<OAuth2AccessToken> getAccessTokenAsync(String code, String pkceCodeVerifier) {
+    public Future<OAuth2AccessToken> getAccessTokenAsync(String code, String pkceCodeVerifier) {
         return getAccessToken(code, null, pkceCodeVerifier);
     }
 
-    public final OAuth2AccessToken getAccessToken(String code)
-            throws IOException, InterruptedException, ExecutionException {
+    public OAuth2AccessToken getAccessToken(String code) throws IOException, InterruptedException, ExecutionException {
         return getAccessToken(code, (String) null);
     }
 
-    public final OAuth2AccessToken getAccessToken(String code, String pkceCodeVerifier)
+    public OAuth2AccessToken getAccessToken(String code, String pkceCodeVerifier)
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createAccessTokenRequest(code, pkceCodeVerifier);
 
@@ -89,14 +88,14 @@ public class OAuth20Service extends OAuthService {
      * @param pkceCodeVerifier pkce Code Verifier
      * @return Future
      */
-    public final Future<OAuth2AccessToken> getAccessToken(String code,
-            OAuthAsyncRequestCallback<OAuth2AccessToken> callback, String pkceCodeVerifier) {
+    public Future<OAuth2AccessToken> getAccessToken(String code, OAuthAsyncRequestCallback<OAuth2AccessToken> callback,
+            String pkceCodeVerifier) {
         final OAuthRequest request = createAccessTokenRequest(code, pkceCodeVerifier);
 
         return sendAccessTokenRequestAsync(request, callback);
     }
 
-    public final Future<OAuth2AccessToken> getAccessToken(String code,
+    public Future<OAuth2AccessToken> getAccessToken(String code,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
 
         return getAccessToken(code, callback, null);
@@ -126,18 +125,18 @@ public class OAuth20Service extends OAuthService {
         return request;
     }
 
-    public final Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken) {
+    public Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken) {
         return refreshAccessToken(refreshToken, null);
     }
 
-    public final OAuth2AccessToken refreshAccessToken(String refreshToken)
+    public OAuth2AccessToken refreshAccessToken(String refreshToken)
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken);
 
         return sendAccessTokenRequestSync(request);
     }
 
-    public final Future<OAuth2AccessToken> refreshAccessToken(String refreshToken,
+    public Future<OAuth2AccessToken> refreshAccessToken(String refreshToken,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken);
 
@@ -157,14 +156,14 @@ public class OAuth20Service extends OAuthService {
         return request;
     }
 
-    public final OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password)
+    public OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password)
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password);
 
         return sendAccessTokenRequestSync(request);
     }
 
-    public final Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password) {
+    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password) {
         return getAccessTokenPasswordGrantAsync(uname, password, null);
     }
 
@@ -176,7 +175,7 @@ public class OAuth20Service extends OAuthService {
      * @param callback Optional callback
      * @return Future
      */
-    public final Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password,
+    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
         final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password);
 
@@ -201,11 +200,11 @@ public class OAuth20Service extends OAuthService {
         return request;
     }
 
-    public final Future<OAuth2AccessToken> getAccessTokenClientCredentialsGrantAsync() {
+    public Future<OAuth2AccessToken> getAccessTokenClientCredentialsGrantAsync() {
         return getAccessTokenClientCredentialsGrant(null);
     }
 
-    public final OAuth2AccessToken getAccessTokenClientCredentialsGrant()
+    public OAuth2AccessToken getAccessTokenClientCredentialsGrant()
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest();
 
@@ -219,7 +218,7 @@ public class OAuth20Service extends OAuthService {
      * @param callback optional callback
      * @return Future
      */
-    public final Future<OAuth2AccessToken> getAccessTokenClientCredentialsGrant(
+    public Future<OAuth2AccessToken> getAccessTokenClientCredentialsGrant(
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
         final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest();
 
@@ -252,15 +251,15 @@ public class OAuth20Service extends OAuthService {
         api.getSignatureType().signRequest(accessToken, request);
     }
 
-    public final void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
+    public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {
         signRequest(accessToken == null ? null : accessToken.getAccessToken(), request);
     }
 
-    public final AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE() {
+    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE() {
         return getAuthorizationUrlWithPKCE(null);
     }
 
-    public final AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(Map<String, String> additionalParams) {
+    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(Map<String, String> additionalParams) {
         final PKCE pkce = PKCE_SERVICE.generatePKCE();
         return new AuthorizationUrlWithPKCE(pkce, getAuthorizationUrl(additionalParams, pkce));
     }
@@ -270,7 +269,7 @@ public class OAuth20Service extends OAuthService {
      *
      * @return the URL where you should redirect your users
      */
-    public final String getAuthorizationUrl() {
+    public String getAuthorizationUrl() {
         return getAuthorizationUrl(null, null);
     }
 
@@ -280,11 +279,11 @@ public class OAuth20Service extends OAuthService {
      * @param additionalParams any additional GET params to add to the URL
      * @return the URL where you should redirect your users
      */
-    public final String getAuthorizationUrl(Map<String, String> additionalParams) {
+    public String getAuthorizationUrl(Map<String, String> additionalParams) {
         return getAuthorizationUrl(additionalParams, null);
     }
 
-    public final String getAuthorizationUrl(PKCE pkce) {
+    public String getAuthorizationUrl(PKCE pkce) {
         return getAuthorizationUrl(null, pkce);
     }
 
@@ -315,30 +314,30 @@ public class OAuth20Service extends OAuthService {
         return request;
     }
 
-    public final Future<Void> revokeTokenAsync(String tokenToRevoke) {
+    public Future<Void> revokeTokenAsync(String tokenToRevoke) {
         return revokeTokenAsync(tokenToRevoke, null);
     }
 
-    public final Future<Void> revokeTokenAsync(String tokenToRevoke, TokenTypeHint tokenTypeHint) {
+    public Future<Void> revokeTokenAsync(String tokenToRevoke, TokenTypeHint tokenTypeHint) {
         return revokeToken(tokenToRevoke, null, tokenTypeHint);
     }
 
-    public final void revokeToken(String tokenToRevoke) throws IOException, InterruptedException, ExecutionException {
+    public void revokeToken(String tokenToRevoke) throws IOException, InterruptedException, ExecutionException {
         revokeToken(tokenToRevoke, (TokenTypeHint) null);
     }
 
-    public final void revokeToken(String tokenToRevoke, TokenTypeHint tokenTypeHint)
+    public void revokeToken(String tokenToRevoke, TokenTypeHint tokenTypeHint)
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createRevokeTokenRequest(tokenToRevoke, tokenTypeHint);
 
         checkForErrorRevokeToken(execute(request));
     }
 
-    public final Future<Void> revokeToken(String tokenToRevoke, OAuthAsyncRequestCallback<Void> callback) {
+    public Future<Void> revokeToken(String tokenToRevoke, OAuthAsyncRequestCallback<Void> callback) {
         return revokeToken(tokenToRevoke, callback, null);
     }
 
-    public final Future<Void> revokeToken(String tokenToRevoke, OAuthAsyncRequestCallback<Void> callback,
+    public Future<Void> revokeToken(String tokenToRevoke, OAuthAsyncRequestCallback<Void> callback,
             TokenTypeHint tokenTypeHint) {
         final OAuthRequest request = createRevokeTokenRequest(tokenToRevoke, tokenTypeHint);
 

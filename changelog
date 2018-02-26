@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * fix Salesforce API (thanks to https://github.com/jhorowitz-firedrum)
+ * remove 'final' from methods in OAuth[10a|20]Service to allow mocking it
 
 [5.2.0-java7again]
  * allow 'null' as callback. It's an optional parameter. Remove "oob" as default (thanks to https://github.com/massongit)
