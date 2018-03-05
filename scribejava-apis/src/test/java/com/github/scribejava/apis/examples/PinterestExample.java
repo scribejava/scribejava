@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 public final class PinterestExample {
 
-    private static final String PROTECTED_RESOURCE_URL = "https://api.pinterest.com/v1/me/?access_token?access_token=";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.pinterest.com/v1/me/";
 
     private PinterestExample() {
     }
@@ -26,7 +26,7 @@ public final class PinterestExample {
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .scope("read_public,write_public,read_relationships,write_relationships")
-                .callback("https://localhost:9000/") // Add as valid callback in developer portal
+                .callback("https://localhost/") // Add as valid callback in developer portal
                 .build(PinterestApi.instance());
         final Scanner in = new Scanner(System.in);
 
@@ -53,7 +53,7 @@ public final class PinterestExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL + accessToken.getAccessToken());
+        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
         final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");
