@@ -1,11 +1,10 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.OAuth1RequestToken;
 
 public class XingApi extends DefaultApi10a {
 
-    private static final String AUTHORIZE_URL = "https://api.xing.com/v1/authorize?oauth_token=%s";
+    private static final String AUTHORIZE_URL = "https://api.xing.com/v1/authorize";
 
     protected XingApi() {
     }
@@ -29,8 +28,8 @@ public class XingApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        return String.format(AUTHORIZE_URL, requestToken.getToken());
+    public String getAuthorizationBaseUrl() {
+        return AUTHORIZE_URL;
     }
 
 }

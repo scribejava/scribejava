@@ -1,11 +1,10 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.OAuth1RequestToken;
 
 public class Px500Api extends DefaultApi10a {
 
-    private static final String AUTHORIZATION_URL = "https://api.500px.com/v1/oauth/authorize?oauth_token=%s";
+    private static final String AUTHORIZATION_URL = "https://api.500px.com/v1/oauth/authorize";
 
     protected Px500Api() {
     }
@@ -29,7 +28,7 @@ public class Px500Api extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        return String.format(AUTHORIZATION_URL, requestToken.getToken());
+    public String getAuthorizationBaseUrl() {
+        return AUTHORIZATION_URL;
     }
 }

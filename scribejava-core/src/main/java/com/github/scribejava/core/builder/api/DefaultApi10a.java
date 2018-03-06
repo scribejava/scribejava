@@ -16,6 +16,8 @@ import com.github.scribejava.core.services.TimestampServiceImpl;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
+import com.github.scribejava.core.model.OAuthConstants;
+import com.github.scribejava.core.model.ParameterList;
 
 /**
  * Default implementation of the OAuth protocol, version 1.0a
@@ -125,13 +127,19 @@ public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
      */
     public abstract String getAccessTokenEndpoint();
 
+    protected abstract String getAuthorizationBaseUrl();
+
     /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
      * @param requestToken the request token you need to authorize
      * @return the URL where you should redirect your users
      */
-    public abstract String getAuthorizationUrl(OAuth1RequestToken requestToken);
+    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
+        final ParameterList parameters = new ParameterList();
+        parameters.add(OAuthConstants.TOKEN, requestToken.getToken());
+        return parameters.appendTo(getAuthorizationBaseUrl());
+    }
 
     @Override
     public OAuth10aService createService(OAuthConfig config) {

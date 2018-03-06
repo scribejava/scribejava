@@ -1,11 +1,10 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.OAuth1RequestToken;
 
 public class LinkedInApi extends DefaultApi10a {
 
-    private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate?oauth_token=%s";
+    private static final String AUTHORIZE_URL = "https://api.linkedin.com/uas/oauth/authenticate";
     private static final String REQUEST_TOKEN_URL = "https://api.linkedin.com/uas/oauth/requestToken";
 
     private final String scopesAsString;
@@ -46,7 +45,7 @@ public class LinkedInApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        return String.format(AUTHORIZE_URL, requestToken.getToken());
+    public String getAuthorizationBaseUrl() {
+        return AUTHORIZE_URL;
     }
 }

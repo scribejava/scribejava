@@ -8,7 +8,7 @@ import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 
 public class UcozApi extends DefaultApi10a {
-    private static final String AUTHORIZE_URL = "http://uapi.ucoz.com/accounts/oauthauthorizetoken?oauth_token=%s";
+    private static final String AUTHORIZE_URL = "http://uapi.ucoz.com/accounts/oauthauthorizetoken";
 
     protected UcozApi() {
     }
@@ -32,8 +32,8 @@ public class UcozApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        return String.format(AUTHORIZE_URL, requestToken.getToken());
+    public String getAuthorizationBaseUrl() {
+        return AUTHORIZE_URL;
     }
 
     @Override

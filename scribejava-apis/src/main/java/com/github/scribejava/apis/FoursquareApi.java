@@ -1,11 +1,10 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.OAuth1RequestToken;
 
 public class FoursquareApi extends DefaultApi10a {
 
-    private static final String AUTHORIZATION_URL = "http://foursquare.com/oauth/authorize?oauth_token=%s";
+    private static final String AUTHORIZATION_URL = "http://foursquare.com/oauth/authorize";
 
     protected FoursquareApi() {
     }
@@ -29,7 +28,7 @@ public class FoursquareApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        return String.format(AUTHORIZATION_URL, requestToken.getToken());
+    public String getAuthorizationBaseUrl() {
+        return AUTHORIZATION_URL;
     }
 }

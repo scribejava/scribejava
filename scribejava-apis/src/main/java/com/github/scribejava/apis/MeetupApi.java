@@ -1,14 +1,13 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi10a;
-import com.github.scribejava.core.model.OAuth1RequestToken;
 
 /**
  * OAuth access to the Meetup.com API. For more information visit http://www.meetup.com/api
  */
 public class MeetupApi extends DefaultApi10a {
 
-    private static final String AUTHORIZE_URL = "http://www.meetup.com/authenticate?oauth_token=%s";
+    private static final String AUTHORIZE_URL = "http://www.meetup.com/authenticate";
 
     protected MeetupApi() {
     }
@@ -32,7 +31,7 @@ public class MeetupApi extends DefaultApi10a {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuth1RequestToken requestToken) {
-        return String.format(AUTHORIZE_URL, requestToken.getToken());
+    public String getAuthorizationBaseUrl() {
+        return AUTHORIZE_URL;
     }
 }
