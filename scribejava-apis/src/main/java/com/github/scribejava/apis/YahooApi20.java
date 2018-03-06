@@ -1,9 +1,6 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.openid.OpenIdJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.extractors.TokenExtractor;
-import com.github.scribejava.core.model.OAuth2AccessToken;
 
 public class YahooApi20 extends DefaultApi20 {
 
@@ -27,10 +24,4 @@ public class YahooApi20 extends DefaultApi20 {
     protected String getAuthorizationBaseUrl() {
         return "https://api.login.yahoo.com/oauth2/request_auth";
     }
-
-    @Override
-    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return OpenIdJsonTokenExtractor.instance();
-    }
-
 }

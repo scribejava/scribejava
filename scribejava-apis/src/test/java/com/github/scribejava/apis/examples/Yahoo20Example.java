@@ -22,9 +22,8 @@ import java.util.concurrent.ExecutionException;
  */
 public class Yahoo20Example {
 
-    // Update PROTECTED_RESOURCE_URL to a secure URL only you could reach = your profile, or private fantasy sports
     private static final String PROTECTED_RESOURCE_URL
-            = "https://baseball.fantasysports.yahoo.com/b1/ ADD TEAM HERE!!!!";
+            = "https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games/teams";
 
     private Yahoo20Example() {
     }
