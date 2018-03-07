@@ -7,6 +7,8 @@ import com.github.scribejava.core.model.Verb;
 
 public class VkontakteApi extends DefaultApi20 {
 
+    public static final String VERSION = "5.73";
+
     protected VkontakteApi() {
     }
 
@@ -30,7 +32,7 @@ public class VkontakteApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "https://oauth.vk.com/authorize";
+        return "https://oauth.vk.com/authorize?v=" + VERSION;
     }
 
     @Override
