@@ -4,6 +4,7 @@
  * fix Pinterest API (thanks to https://github.com/sschwieb)
  * add Yahoo2 API (thanks to https://github.com/javatestcase)
  * fix Tumblr urls, convert to https (thanks to https://github.com/highthunder)
+ * fix: allow spaces in scope param in OAuth2Accesstoken response
 
 [5.2.0-java7again]
  * allow 'null' as callback. It's an optional parameter. Remove "oob" as default (thanks to https://github.com/massongit)
