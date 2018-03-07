@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[5.3.0]
  * fix Salesforce API (thanks to https://github.com/jhorowitz-firedrum)
  * remove 'final' from methods in OAuth[10a|20]Service to allow mocking it
  * fix Pinterest API (thanks to https://github.com/sschwieb)
