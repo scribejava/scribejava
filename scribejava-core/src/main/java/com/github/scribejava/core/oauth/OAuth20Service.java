@@ -148,8 +148,14 @@ public class OAuth20Service extends OAuthService {
             throw new IllegalArgumentException("The refreshToken cannot be null or empty");
         }
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint());
+        final OAuthConfig config = getConfig();
 
-        api.getClientAuthenticationType().addClientAuthentication(request, getConfig());
+        api.getClientAuthenticationType().addClientAuthentication(request, config);
+
+        final String scope = config.getScope();
+        if (scope != null) {
+            request.addParameter(OAuthConstants.SCOPE, scope);
+        }
 
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
