@@ -24,6 +24,7 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
     private static final Pattern ERROR_DESCRIPTION_REGEX_PATTERN
             = Pattern.compile("\"error_description\"\\s*:\\s*\"([^\"]*?)\"");
     private static final Pattern ERROR_URI_REGEX_PATTERN = Pattern.compile("\"error_uri\"\\s*:\\s*\"(\\S*?)\"");
+    private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile("\"email\"\\s*:\\s*\"(\\S*?)\"");
 
     protected OAuth2AccessTokenJsonExtractor() {
     }
@@ -87,13 +88,14 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
         }
         final String refreshToken = extractParameter(response, REFRESH_TOKEN_REGEX_PATTERN, false);
         final String scope = extractParameter(response, SCOPE_REGEX_PATTERN, false);
+        final String email = extractParameter(response, EMAIL_REGEX_PATTERN, false);
 
-        return createToken(accessToken, tokenType, expiresIn, refreshToken, scope, response);
+        return createToken(accessToken, tokenType, expiresIn, refreshToken, scope, email, response);
     }
 
     protected OAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
-            String refreshToken, String scope, String response) {
-        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, response);
+            String refreshToken, String scope, String email, String response) {
+        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, email, response);
     }
 
     protected static String extractParameter(String response, Pattern regexPattern, boolean required)

@@ -53,7 +53,7 @@ public class OAuth2AccessTokenExtractor implements TokenExtractor<OAuth2AccessTo
         final String refreshToken = extractParameter(body, REFRESH_TOKEN_REGEX_PATTERN, false);
         final String scope = extractParameter(body, SCOPE_REGEX_PATTERN, false);
 
-        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, body);
+        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, null, body);
     }
 
     private static String extractParameter(String response, Pattern regexPattern, boolean required)

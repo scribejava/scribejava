@@ -54,16 +54,24 @@ public class OAuth2AccessToken extends Token {
      */
     private String scope;
 
+    /**
+     * email
+     * <p>
+     * OPTIONAL. It's provided by VK only. See https://vk.com/dev/auth_sites for details.
+     * </p>
+     */
+    private String email;
+
     public OAuth2AccessToken(String accessToken) {
         this(accessToken, null);
     }
 
     public OAuth2AccessToken(String accessToken, String rawResponse) {
-        this(accessToken, null, null, null, null, rawResponse);
+        this(accessToken, null, null, null, null, null, rawResponse);
     }
 
     public OAuth2AccessToken(String accessToken, String tokenType, Integer expiresIn, String refreshToken, String scope,
-            String rawResponse) {
+                             String email, String rawResponse) {
         super(rawResponse);
         Preconditions.checkNotNull(accessToken, "access_token can't be null");
         this.accessToken = accessToken;
@@ -71,6 +79,7 @@ public class OAuth2AccessToken extends Token {
         this.expiresIn = expiresIn;
         this.refreshToken = refreshToken;
         this.scope = scope;
+        this.email = email;
     }
 
 
@@ -94,6 +103,10 @@ public class OAuth2AccessToken extends Token {
         return scope;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -102,6 +115,7 @@ public class OAuth2AccessToken extends Token {
         hash = 41 * hash + Objects.hashCode(expiresIn);
         hash = 41 * hash + Objects.hashCode(refreshToken);
         hash = 41 * hash + Objects.hashCode(scope);
+        hash = 41 * hash + Objects.hashCode(email);
         return hash;
     }
 
@@ -129,6 +143,10 @@ public class OAuth2AccessToken extends Token {
         if (!Objects.equals(scope, other.getScope())) {
             return false;
         }
+        if (!Objects.equals(email, other.getEmail())) {
+            return false;
+        }
+
         return Objects.equals(expiresIn, other.getExpiresIn());
     }
 }
