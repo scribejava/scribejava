@@ -45,6 +45,19 @@ public class OAuth2AccessTokenJsonExtractorTest {
         assertEquals("refresh_token1", token.getRefreshToken());
     }
 
+    @Test
+    public void shouldParseEmailFromResponse() throws IOException {
+        final String body = "{" +
+                "\"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T7X\", " +
+                "\"email\":\"test@mail.com\"" +
+                "}";
+        final OAuth2AccessToken token = extractor.extract(ok(body));
+
+        assertEquals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T7X", token.getAccessToken());
+        assertEquals("test@mail.com", token.getEmail());
+    }
+
+
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfForNullParameters() throws IOException {
         extractor.extract(ok(null));
