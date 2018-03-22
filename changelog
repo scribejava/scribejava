@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * fix missing support for scope for refresh_token grant_type [thanks to https://github.com/tlxtellef]
+
 [5.3.0]
  * fix Salesforce API (thanks to https://github.com/jhorowitz-firedrum)
  * remove 'final' from methods in OAuth[10a|20]Service to allow mocking it
