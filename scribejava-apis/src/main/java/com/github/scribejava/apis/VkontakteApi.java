@@ -1,8 +1,11 @@
 package com.github.scribejava.apis;
 
+import com.github.scribejava.apis.vk.VKJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.builder.api.OAuth2SignatureType;
+import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
 
 public class VkontakteApi extends DefaultApi20 {
@@ -13,6 +16,7 @@ public class VkontakteApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final VkontakteApi INSTANCE = new VkontakteApi();
     }
 
@@ -43,5 +47,10 @@ public class VkontakteApi extends DefaultApi20 {
     @Override
     public ClientAuthenticationType getClientAuthenticationType() {
         return ClientAuthenticationType.REQUEST_BODY;
+    }
+
+    @Override
+    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
+        return VKJsonTokenExtractor.instance();
     }
 }

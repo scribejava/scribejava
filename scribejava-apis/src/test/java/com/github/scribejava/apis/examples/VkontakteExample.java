@@ -3,6 +3,7 @@ package com.github.scribejava.apis.examples;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.VkontakteApi;
+import com.github.scribejava.apis.vk.VKOAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
@@ -26,7 +27,7 @@ public final class VkontakteExample {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("wall,offline") // replace with desired scope
+                .scope("wall,offline,email") // replace with desired scope
                 .callback("http://your.site.com/callback")
                 .build(VkontakteApi.instance());
         final Scanner in = new Scanner(System.in);
@@ -50,6 +51,10 @@ public final class VkontakteExample {
         final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
+        if (accessToken instanceof VKOAuth2AccessToken) {
+            System.out.println("it's a VKOAuth2AccessToken, it has email field = '"
+                    + ((VKOAuth2AccessToken) accessToken).getEmail() + "'.");
+        }
         System.out.println();
 
         // Now let's go and ask for a protected resource!

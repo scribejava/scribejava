@@ -73,7 +73,6 @@ public class OAuth2AccessToken extends Token {
         this.scope = scope;
     }
 
-
     public String getAccessToken() {
         return accessToken;
     }
