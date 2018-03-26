@@ -8,6 +8,7 @@ import com.github.scribejava.core.utils.Preconditions;
 
 /**
  * Default implementation of {@link BaseStringExtractor}. Conforms to OAuth 1.0a
+ * https://tools.ietf.org/html/rfc5849#section-3.4.1.1
  */
 public class BaseStringExtractorImpl implements BaseStringExtractor {
 
@@ -29,6 +30,9 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
         return request.getVerb().name();
     }
 
+    /**
+     * https://tools.ietf.org/html/rfc5849#section-3.4.1.2
+     */
     protected String getUrl(OAuthRequest request) {
         return request.getSanitizedUrl();
     }

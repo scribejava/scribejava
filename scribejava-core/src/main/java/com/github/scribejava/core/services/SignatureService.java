@@ -4,6 +4,7 @@ import com.github.scribejava.core.java8.Base64;
 
 /**
  * Signs a base string, returning the OAuth signature
+ * https://tools.ietf.org/html/rfc5849#section-3.4
  */
 public interface SignatureService {
     Base64.Encoder BASE_64_ENCODER = Base64.getEncoder();
