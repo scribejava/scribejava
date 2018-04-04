@@ -2,11 +2,6 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractor;
-import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import com.github.scribejava.core.extractors.TokenExtractor;
-import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.Verb;
 
 public class AutomaticAPI extends DefaultApi20 {
 
@@ -18,16 +13,12 @@ public class AutomaticAPI extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final AutomaticAPI INSTANCE = new AutomaticAPI();
     }
 
     public static AutomaticAPI instance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override
@@ -43,11 +34,6 @@ public class AutomaticAPI extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return AUTHORIZE_URL;
-    }
-
-    @Override
-    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return OAuth2AccessTokenJsonExtractor.instance();
     }
 
     @Override

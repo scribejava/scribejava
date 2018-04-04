@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * fix missing support for scope for refresh_token grant_type (thanks to https://github.com/tlxtellef)
  * add email field to VKOAuth2AccessToken (thanks to https://github.com/grouzen)
+ * add new API - Automatic (https://www.automatic.com/) (thanks to https://github.com/ramsrib)
 
 [5.3.0]
  * fix Salesforce API (thanks to https://github.com/jhorowitz-firedrum)

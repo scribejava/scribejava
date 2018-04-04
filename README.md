@@ -40,7 +40,7 @@ ScribeJava support out-of-box several HTTP clients:
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
-* Automatic (http://www.automatic.com/)
+* Automatic (https://www.automatic.com/)
 * AWeber (http://www.aweber.com/)
 * Box (https://www.box.com/)
 * Dataporten (https://docs.dataporten.no/)
