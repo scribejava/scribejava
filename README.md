@@ -48,6 +48,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Доктор на работе (https://www.doktornarabote.ru/)
 * Etsy (https://www.etsy.com/)
 * Facebook (https://www.facebook.com/)
+* Fitbit (https://www.fitbit.com/)
 * Flickr (https://www.flickr.com/)
 * Foursquare (https://foursquare.com/)
 * Frappe (https://github.com/frappe/frappe)
