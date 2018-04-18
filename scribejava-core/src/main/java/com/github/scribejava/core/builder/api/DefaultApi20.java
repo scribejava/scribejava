@@ -84,7 +84,6 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
-     * @param config OAuth 2.0 configuration param object
      * @param additionalParams any additional GET params to add to the URL
      * @return the URL where you should redirect your users
      */

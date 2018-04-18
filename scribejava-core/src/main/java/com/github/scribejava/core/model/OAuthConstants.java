@@ -23,6 +23,10 @@ public interface OAuthConstants {
     String BASIC = "Basic";
 
     // OAuth 1.0
+    /**
+     * to indicate an out-of-band configuration
+     * @see <a href="https://tools.ietf.org/html/rfc5849#section-2.1">The OAuth 1.0 Protocol</a>
+     */
     String OOB = "oob";
 
     // OAuth 2.0
