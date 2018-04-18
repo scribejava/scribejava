@@ -1,11 +1,14 @@
 package com.github.scribejava.apis.service;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Parameter;
 import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.net.URLDecoder;
@@ -18,15 +21,31 @@ import java.util.List;
 
 public class OdnoklassnikiOAuthService extends OAuth20Service {
 
+    /**
+     * @deprecated use {@link #OdnoklassnikiOAuthService(com.github.scribejava.core.builder.api.DefaultApi20,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String,
+     * java.lang.String, java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
     public OdnoklassnikiOAuthService(DefaultApi20 api, OAuthConfig config) {
-        super(api, config);
+        this(api, config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
+    }
+
+    public OdnoklassnikiOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent, httpClientConfig,
+                httpClient);
     }
 
     @Override
     public void signRequest(String accessToken, OAuthRequest request) {
         //sig = lower(md5( sorted_request_params_composed_string + md5(access_token + application_secret_key)))
         try {
-            final String tokenDigest = md5(accessToken + getConfig().getApiSecret());
+            final String tokenDigest = md5(accessToken + getApiSecret());
 
             final ParameterList queryParams = request.getQueryStringParams();
             queryParams.addAll(request.getBodyParams());

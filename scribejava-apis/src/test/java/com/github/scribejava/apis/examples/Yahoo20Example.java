@@ -3,6 +3,7 @@ package com.github.scribejava.apis.examples;
 import com.github.scribejava.apis.YahooApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -35,7 +36,7 @@ public class Yahoo20Example {
 
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .callback("oob")
+                .callback(OAuthConstants.OOB)
                 .build(YahooApi20.instance());
         final Scanner in = new Scanner(System.in);
 

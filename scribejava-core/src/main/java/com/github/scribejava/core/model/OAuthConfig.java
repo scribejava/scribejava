@@ -7,7 +7,11 @@ import java.io.OutputStream;
 
 /**
  * Parameter object that groups OAuth config values
+ *
+ * @deprecated use service.getXXX() instead of service.getConfigXXX() and service.method(...) instead of
+ * service.method(config)
  */
+@Deprecated
 public class OAuthConfig {
 
     private final String apiKey;
@@ -18,9 +22,8 @@ public class OAuthConfig {
     private final String state;
     private final String responseType;
     private final String userAgent;
-
-    private HttpClientConfig httpClientConfig;
-    private HttpClient httpClient;
+    private final HttpClientConfig httpClientConfig;
+    private final HttpClient httpClient;
 
     public OAuthConfig(String key, String secret) {
         this(key, secret, null, null, null, null, null, null, null, null);
@@ -86,5 +89,9 @@ public class OAuthConfig {
 
     public HttpClient getHttpClient() {
         return httpClient;
+    }
+
+    public OutputStream getDebugStream() {
+        return debugStream;
     }
 }

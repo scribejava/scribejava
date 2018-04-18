@@ -14,10 +14,13 @@ import com.github.scribejava.core.services.SignatureService;
 import com.github.scribejava.core.services.TimestampService;
 import com.github.scribejava.core.services.TimestampServiceImpl;
 import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.ParameterList;
+import java.io.OutputStream;
 
 /**
  * Default implementation of the OAuth protocol, version 1.0a
@@ -141,9 +144,25 @@ public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
         return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
+    /**
+     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.io.OutputStream, java.lang.String, java.lang.String, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
     @Override
     public OAuth10aService createService(OAuthConfig config) {
-        return new OAuth10aService(this, config);
+        return createService(config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
+    }
+
+    @Override
+    public OAuth10aService createService(String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        return new OAuth10aService(this, apiKey, apiSecret, callback, scope, debugStream, state, responseType,
+                userAgent, httpClientConfig, httpClient);
     }
 
     /**

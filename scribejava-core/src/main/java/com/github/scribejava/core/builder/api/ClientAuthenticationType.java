@@ -18,9 +18,7 @@ public enum ClientAuthenticationType {
         private final Base64.Encoder base64Encoder = Base64.getEncoder();
 
         @Override
-        public void addClientAuthentication(OAuthRequest request, OAuthConfig config) {
-            final String apiKey = config.getApiKey();
-            final String apiSecret = config.getApiSecret();
+        public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
             if (apiKey != null && apiSecret != null) {
                 request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + ' '
                         + base64Encoder.encodeToString(
@@ -30,14 +28,22 @@ public enum ClientAuthenticationType {
     },
     REQUEST_BODY {
         @Override
-        public void addClientAuthentication(OAuthRequest request, OAuthConfig config) {
-            request.addParameter(OAuthConstants.CLIENT_ID, config.getApiKey());
-            final String apiSecret = config.getApiSecret();
+        public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
+            request.addParameter(OAuthConstants.CLIENT_ID, apiKey);
             if (apiSecret != null) {
                 request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
             }
         }
     };
 
-    public abstract void addClientAuthentication(OAuthRequest request, OAuthConfig config);
+    public abstract void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret);
+
+    /**
+     * @deprecated use {@link #addClientAuthentication(com.github.scribejava.core.model.OAuthRequest, java.lang.String,
+     * java.lang.String)}
+     */
+    @Deprecated
+    public void addClientAuthentication(OAuthRequest request, OAuthConfig config) {
+        addClientAuthentication(request, config.getApiKey(), config.getApiSecret());
+    }
 }

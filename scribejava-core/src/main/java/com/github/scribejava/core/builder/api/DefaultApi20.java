@@ -2,12 +2,15 @@ package com.github.scribejava.core.builder.api;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -69,28 +72,36 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     protected abstract String getAuthorizationBaseUrl();
 
     /**
+     * @deprecated use {@link #getAuthorizationUrl(java.lang.String, java.lang.String, java.lang.String,
+     * java.lang.String, java.lang.String, java.util.Map)}
+     */
+    @Deprecated
+    public String getAuthorizationUrl(OAuthConfig config, Map<String, String> additionalParams) {
+        return getAuthorizationUrl(config.getResponseType(), config.getApiKey(), config.getCallback(),
+                config.getScope(), config.getState(), additionalParams);
+    }
+
+    /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
      * @param config OAuth 2.0 configuration param object
      * @param additionalParams any additional GET params to add to the URL
      * @return the URL where you should redirect your users
      */
-    public String getAuthorizationUrl(OAuthConfig config, Map<String, String> additionalParams) {
+    public String getAuthorizationUrl(String responseType, String apiKey, String callback, String scope, String state,
+            Map<String, String> additionalParams) {
         final ParameterList parameters = new ParameterList(additionalParams);
-        parameters.add(OAuthConstants.RESPONSE_TYPE, config.getResponseType());
-        parameters.add(OAuthConstants.CLIENT_ID, config.getApiKey());
+        parameters.add(OAuthConstants.RESPONSE_TYPE, responseType);
+        parameters.add(OAuthConstants.CLIENT_ID, apiKey);
 
-        final String callback = config.getCallback();
         if (callback != null) {
             parameters.add(OAuthConstants.REDIRECT_URI, callback);
         }
 
-        final String scope = config.getScope();
         if (scope != null) {
             parameters.add(OAuthConstants.SCOPE, scope);
         }
 
-        final String state = config.getState();
         if (state != null) {
             parameters.add(OAuthConstants.STATE, state);
         }
@@ -98,9 +109,25 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
         return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
+    /**
+     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.io.OutputStream, java.lang.String, java.lang.String, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
     @Override
     public OAuth20Service createService(OAuthConfig config) {
-        return new OAuth20Service(this, config);
+        return createService(config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
+    }
+
+    @Override
+    public OAuth20Service createService(String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        return new OAuth20Service(this, apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
+                httpClientConfig, httpClient);
     }
 
     public OAuth2SignatureType getSignatureType() {

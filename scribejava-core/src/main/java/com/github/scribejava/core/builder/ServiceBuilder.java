@@ -3,7 +3,6 @@ package com.github.scribejava.core.builder;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -33,7 +32,8 @@ public class ServiceBuilder {
     /**
      * Adds an OAuth callback url
      *
-     * @param callback callback url. Must be a valid url or 'oob' for out of band OAuth
+     * @param callback callback url. Must be a valid url or 'oob'
+     * ({@link com.github.scribejava.core.model.OAuthConstants#OOB} for out of band OAuth
      * @return the {@link ServiceBuilder} instance for method chaining
      */
     public ServiceBuilder callback(String callback) {
@@ -136,7 +136,7 @@ public class ServiceBuilder {
      * @return fully configured {@link OAuthService}
      */
     public <S extends OAuthService> S build(BaseApi<S> api) {
-        return api.createService(new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType,
-                userAgent, httpClientConfig, httpClient));
+        return api.createService(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
+                httpClientConfig, httpClient);
     }
 }

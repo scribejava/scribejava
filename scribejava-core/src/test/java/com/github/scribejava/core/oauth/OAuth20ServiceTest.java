@@ -38,8 +38,7 @@ public class OAuth20ServiceTest {
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
         final String authorize = base64Encoder.encodeToString(
-                String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
-                        .getBytes(Charset.forName("UTF-8")));
+                String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
         assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
 
@@ -66,8 +65,7 @@ public class OAuth20ServiceTest {
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
         final String authorize = base64Encoder.encodeToString(
-                String.format("%s:%s", service.getConfig().getApiKey(), service.getConfig().getApiSecret())
-                        .getBytes(Charset.forName("UTF-8")));
+                String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
         assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
 

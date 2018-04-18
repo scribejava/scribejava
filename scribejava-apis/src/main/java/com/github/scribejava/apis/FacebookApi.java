@@ -5,9 +5,12 @@ import com.github.scribejava.apis.service.FacebookService;
 import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.Verb;
+import java.io.OutputStream;
 
 /**
  * Facebook API
@@ -68,7 +71,23 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     @Override
+    public FacebookService createService(String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        return new FacebookService(this, apiKey, apiSecret, callback, scope, debugStream, state, responseType,
+                userAgent, httpClientConfig, httpClient);
+    }
+
+    /**
+     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.io.OutputStream, java.lang.String, java.lang.String, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    @Override
     public FacebookService createService(OAuthConfig config) {
-        return new FacebookService(this, config);
+        return createService(config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
     }
 }

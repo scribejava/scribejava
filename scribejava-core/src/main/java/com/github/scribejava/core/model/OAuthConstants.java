@@ -22,6 +22,9 @@ public interface OAuthConstants {
     String SCOPE = "scope";
     String BASIC = "Basic";
 
+    // OAuth 1.0
+    String OOB = "oob";
+
     // OAuth 2.0
     String ACCESS_TOKEN = "access_token";
     String CLIENT_ID = "client_id";

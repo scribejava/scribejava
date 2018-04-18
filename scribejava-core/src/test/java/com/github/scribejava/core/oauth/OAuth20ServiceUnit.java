@@ -1,13 +1,15 @@
 package com.github.scribejava.core.oauth;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Parameter;
 import com.google.gson.Gson;
+import java.io.OutputStream;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +21,11 @@ class OAuth20ServiceUnit extends OAuth20Service {
     static final String STATE = "123";
     static final String EXPIRES = "3600";
 
-    OAuth20ServiceUnit(DefaultApi20 api, OAuthConfig config) {
-        super(api, config);
+    OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent, httpClientConfig,
+                httpClient);
     }
 
     @Override

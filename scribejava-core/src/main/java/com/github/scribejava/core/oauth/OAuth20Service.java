@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
@@ -19,21 +21,38 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import com.github.scribejava.core.revoke.TokenTypeHint;
+import java.io.OutputStream;
 
 public class OAuth20Service extends OAuthService {
 
     private static final String VERSION = "2.0";
     private static final PKCEService PKCE_SERVICE = new PKCEService();
     private final DefaultApi20 api;
+    private final String responseType;
+    private final String state;
 
     /**
-     * Default constructor
-     *
      * @param api OAuth2.0 api information
      * @param config OAuth 2.0 configuration param object
+     * @deprecated use {@link #OAuth20Service(com.github.scribejava.core.builder.api.DefaultApi20, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String, java.lang.String,
+     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
      */
+    @Deprecated
     public OAuth20Service(DefaultApi20 api, OAuthConfig config) {
-        super(config);
+        this(api, config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
+    }
+
+    public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent, httpClientConfig,
+                httpClient);
+        this.responseType = responseType;
+        this.state = state;
         this.api = api;
     }
 
@@ -103,13 +122,12 @@ public class OAuth20Service extends OAuthService {
 
     protected OAuthRequest createAccessTokenRequest(String code) {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-        final OAuthConfig config = getConfig();
 
-        api.getClientAuthenticationType().addClientAuthentication(request, config);
+        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         request.addParameter(OAuthConstants.CODE, code);
-        request.addParameter(OAuthConstants.REDIRECT_URI, config.getCallback());
-        final String scope = config.getScope();
+        request.addParameter(OAuthConstants.REDIRECT_URI, getCallback());
+        final String scope = getScope();
         if (scope != null) {
             request.addParameter(OAuthConstants.SCOPE, scope);
         }
@@ -148,11 +166,10 @@ public class OAuth20Service extends OAuthService {
             throw new IllegalArgumentException("The refreshToken cannot be null or empty");
         }
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint());
-        final OAuthConfig config = getConfig();
 
-        api.getClientAuthenticationType().addClientAuthentication(request, config);
+        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
 
-        final String scope = config.getScope();
+        final String scope = getScope();
         if (scope != null) {
             request.addParameter(OAuthConstants.SCOPE, scope);
         }
@@ -190,18 +207,17 @@ public class OAuth20Service extends OAuthService {
 
     protected OAuthRequest createAccessTokenPasswordGrantRequest(String username, String password) {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-        final OAuthConfig config = getConfig();
         request.addParameter(OAuthConstants.USERNAME, username);
         request.addParameter(OAuthConstants.PASSWORD, password);
 
-        final String scope = config.getScope();
+        final String scope = getScope();
         if (scope != null) {
             request.addParameter(OAuthConstants.SCOPE, scope);
         }
 
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
 
-        api.getClientAuthenticationType().addClientAuthentication(request, config);
+        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         return request;
     }
@@ -233,11 +249,10 @@ public class OAuth20Service extends OAuthService {
 
     protected OAuthRequest createAccessTokenClientCredentialsGrantRequest() {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
-        final OAuthConfig config = getConfig();
 
-        api.getClientAuthenticationType().addClientAuthentication(request, config);
+        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
 
-        final String scope = config.getScope();
+        final String scope = getScope();
         if (scope != null) {
             request.addParameter(OAuthConstants.SCOPE, scope);
         }
@@ -301,7 +316,7 @@ public class OAuth20Service extends OAuthService {
             params = additionalParams == null ? new HashMap<String, String>() : new HashMap<>(additionalParams);
             params.putAll(pkce.getAuthorizationUrlParams());
         }
-        return api.getAuthorizationUrl(getConfig(), params);
+        return api.getAuthorizationUrl(getResponseType(), getApiKey(), getCallback(), getScope(), getState(), params);
     }
 
     public DefaultApi20 getApi() {
@@ -311,7 +326,7 @@ public class OAuth20Service extends OAuthService {
     protected OAuthRequest createRevokeTokenRequest(String tokenToRevoke, TokenTypeHint tokenTypeHint) {
         final OAuthRequest request = new OAuthRequest(Verb.POST, api.getRevokeTokenEndpoint());
 
-        api.getClientAuthenticationType().addClientAuthentication(request, getConfig());
+        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         request.addParameter("token", tokenToRevoke);
         if (tokenTypeHint != null) {
@@ -383,5 +398,13 @@ public class OAuth20Service extends OAuthService {
             }
         }
         return authorization;
+    }
+
+    public String getResponseType() {
+        return responseType;
+    }
+
+    public String getState() {
+        return state;
     }
 }

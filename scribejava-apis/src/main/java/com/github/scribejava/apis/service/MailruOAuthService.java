@@ -4,9 +4,12 @@ import java.net.URLDecoder;
 import java.util.Map;
 import java.util.TreeMap;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -15,19 +18,36 @@ import java.util.Formatter;
 
 public class MailruOAuthService extends OAuth20Service {
 
+    /**
+     * @deprecated use {@link #MailruOAuthService(com.github.scribejava.core.builder.api.DefaultApi20, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String, java.lang.String,
+     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
     public MailruOAuthService(DefaultApi20 api, OAuthConfig config) {
-        super(api, config);
+        this(api, config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
     }
+
+    public MailruOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent, httpClientConfig,
+                httpClient);
+    }
+
 
     @Override
     public void signRequest(String accessToken, OAuthRequest request) {
         // sig = md5(params + secret_key)
         request.addQuerystringParameter("session_key", accessToken);
-        request.addQuerystringParameter("app_id", getConfig().getApiKey());
+        request.addQuerystringParameter("app_id", getApiKey());
         final String completeUrl = request.getCompleteUrl();
 
         try {
-            final String clientSecret = getConfig().getApiSecret();
+            final String clientSecret = getApiSecret();
             final int queryIndex = completeUrl.indexOf('?');
             if (queryIndex != -1) {
                 final String urlPart = completeUrl.substring(queryIndex + 1);

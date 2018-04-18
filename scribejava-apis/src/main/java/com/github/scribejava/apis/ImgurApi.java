@@ -2,9 +2,12 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.service.ImgurOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.ParameterList;
+import java.io.OutputStream;
 import java.util.Map;
 
 public class ImgurApi extends DefaultApi20 {
@@ -26,22 +29,20 @@ public class ImgurApi extends DefaultApi20 {
     }
 
     @Override
-    public String getAuthorizationUrl(OAuthConfig config, Map<String, String> additionalParams) {
+    public String getAuthorizationUrl(String responseType, String apiKey, String callback, String scope, String state,
+            Map<String, String> additionalParams) {
         final ParameterList parameters = new ParameterList(additionalParams);
-        parameters.add(OAuthConstants.RESPONSE_TYPE, isOob(config) ? "pin" : "code");
-        parameters.add(OAuthConstants.CLIENT_ID, config.getApiKey());
+        parameters.add(OAuthConstants.RESPONSE_TYPE, isOob(callback) ? "pin" : "code");
+        parameters.add(OAuthConstants.CLIENT_ID, apiKey);
 
-        final String callback = config.getCallback();
         if (callback != null) {
             parameters.add(OAuthConstants.REDIRECT_URI, callback);
         }
 
-        final String scope = config.getScope();
         if (scope != null) {
             parameters.add(OAuthConstants.SCOPE, scope);
         }
 
-        final String state = config.getState();
         if (state != null) {
             parameters.add(OAuthConstants.STATE, state);
         }
@@ -55,11 +56,27 @@ public class ImgurApi extends DefaultApi20 {
     }
 
     @Override
-    public ImgurOAuthService createService(OAuthConfig config) {
-        return new ImgurOAuthService(this, config);
+    public ImgurOAuthService createService(String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String state, String responseType, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        return new ImgurOAuthService(this, apiKey, apiSecret, callback, scope, debugStream, state, responseType,
+                userAgent, httpClientConfig, httpClient);
     }
 
-    public static boolean isOob(OAuthConfig config) {
-        return "oob".equals(config.getCallback());
+    /**
+     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.io.OutputStream, java.lang.String, java.lang.String, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    @Override
+    public ImgurOAuthService createService(OAuthConfig config) {
+        return createService(config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
+    }
+
+    public static boolean isOob(String callback) {
+        return OAuthConstants.OOB.equals(callback);
     }
 }

@@ -2,7 +2,6 @@ package com.github.scribejava.core;
 
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
@@ -45,8 +44,8 @@ public abstract class AbstractClientTest {
 
     @Before
     public void setUp() {
-        oAuthService = new OAuth20Service(null,
-                new OAuthConfig("test", "test", null, null, null, null, null, null, null, createNewClient()));
+        oAuthService = new OAuth20Service(null, "test", "test", null, null, null, null, null, null, null,
+                createNewClient());
     }
 
     @After

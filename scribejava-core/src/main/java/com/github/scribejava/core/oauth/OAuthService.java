@@ -13,25 +13,55 @@ import java.io.Closeable;
 import java.io.File;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public abstract class OAuthService implements Closeable {
 
-    private final OAuthConfig config;
+    private final String apiKey;
+    private final String apiSecret;
+    private final String callback;
+    private final String scope;
+    private final String userAgent;
     private final HttpClient httpClient;
 
-    public OAuthService(OAuthConfig config) {
-        this.config = config;
-        final HttpClientConfig httpClientConfig = config.getHttpClientConfig();
-        final HttpClient externalHttpClient = config.getHttpClient();
+    /**
+     *
+     * @deprecated use all members directly from this class
+     */
+    @Deprecated
+    private final OAuthConfig oAuthConfig;
 
-        if (httpClientConfig == null && externalHttpClient == null) {
-            httpClient = new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
+    public OAuthService(String apiKey, String apiSecret, String callback, String scope, OutputStream debugStream,
+            String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        this.apiKey = apiKey;
+        this.apiSecret = apiSecret;
+        this.callback = callback;
+        this.scope = scope;
+        this.userAgent = userAgent;
+
+        if (httpClientConfig == null && httpClient == null) {
+            this.httpClient = new JDKHttpClient(JDKHttpClientConfig.defaultConfig());
         } else {
-            httpClient = externalHttpClient == null ? getClient(httpClientConfig) : externalHttpClient;
+            this.httpClient = httpClient == null ? getClient(httpClientConfig) : httpClient;
         }
+        oAuthConfig = new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
+                httpClientConfig, httpClient);
+    }
+
+    /**
+     * @deprecated use {@link #OAuthService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.io.OutputStream, java.lang.String, java.lang.String, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    public OAuthService(OAuthConfig config) {
+        this(config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
+                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
+                config.getHttpClientConfig(), config.getHttpClient());
     }
 
     private static HttpClient getClient(HttpClientConfig config) {
@@ -49,8 +79,28 @@ public abstract class OAuthService implements Closeable {
         httpClient.close();
     }
 
+    /**
+     * @deprecated use direct getXXX() instead of getConfig().getXXX()
+     */
+    @Deprecated
     public OAuthConfig getConfig() {
-        return config;
+        return oAuthConfig;
+    }
+
+    public String getApiKey() {
+        return apiKey;
+    }
+
+    public String getApiSecret() {
+        return apiSecret;
+    }
+
+    public String getCallback() {
+        return callback;
+    }
+
+    public String getScope() {
+        return scope;
     }
 
     /**
@@ -73,28 +123,28 @@ public abstract class OAuthService implements Closeable {
 
         final File filePayload = request.getFilePayload();
         if (filePayload != null) {
-            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), filePayload, callback, converter);
+            return httpClient.executeAsync(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
+                    filePayload, callback, converter);
         } else if (request.getStringPayload() != null) {
-            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), request.getStringPayload(), callback, converter);
+            return httpClient.executeAsync(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
+                    request.getStringPayload(), callback, converter);
         } else {
-            return httpClient.executeAsync(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), request.getByteArrayPayload(), callback, converter);
+            return httpClient.executeAsync(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
+                    request.getByteArrayPayload(), callback, converter);
         }
     }
 
     public Response execute(OAuthRequest request) throws InterruptedException, ExecutionException, IOException {
         final File filePayload = request.getFilePayload();
         if (filePayload != null) {
-            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), filePayload);
+            return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
+                    filePayload);
         } else if (request.getStringPayload() != null) {
-            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), request.getStringPayload());
+            return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
+                    request.getStringPayload());
         } else {
-            return httpClient.execute(config.getUserAgent(), request.getHeaders(), request.getVerb(),
-                    request.getCompleteUrl(), request.getByteArrayPayload());
+            return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
+                    request.getByteArrayPayload());
         }
     }
 }
