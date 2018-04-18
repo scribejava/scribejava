@@ -1,7 +1,6 @@
 package com.github.scribejava.core.builder.api;
 
 import com.github.scribejava.core.java8.Base64;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import java.nio.charset.Charset;
@@ -37,13 +36,4 @@ public enum ClientAuthenticationType {
     };
 
     public abstract void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret);
-
-    /**
-     * @deprecated use {@link #addClientAuthentication(com.github.scribejava.core.model.OAuthRequest, java.lang.String,
-     * java.lang.String)}
-     */
-    @Deprecated
-    public void addClientAuthentication(OAuthRequest request, OAuthConfig config) {
-        addClientAuthentication(request, config.getApiKey(), config.getApiSecret());
-    }
 }

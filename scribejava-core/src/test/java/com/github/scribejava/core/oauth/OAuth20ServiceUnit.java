@@ -9,7 +9,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Parameter;
 import com.google.gson.Gson;
-import java.io.OutputStream;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +20,9 @@ class OAuth20ServiceUnit extends OAuth20Service {
     static final String STATE = "123";
     static final String EXPIRES = "3600";
 
-    OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent, httpClientConfig,
-                httpClient);
+    OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope, String state,
+            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, scope, state, responseType, userAgent, httpClientConfig, httpClient);
     }
 
     @Override

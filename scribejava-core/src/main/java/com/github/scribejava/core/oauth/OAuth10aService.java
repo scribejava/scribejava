@@ -9,7 +9,6 @@ import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
@@ -28,22 +27,19 @@ public class OAuth10aService extends OAuthService {
 
     /**
      * @deprecated use {@link #OAuth10aService(com.github.scribejava.core.builder.api.DefaultApi10a, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String, java.lang.String,
-     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
-     * com.github.scribejava.core.httpclient.HttpClient)}
+     * java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
      */
     @Deprecated
-    public OAuth10aService(DefaultApi10a api, OAuthConfig config) {
-        this(api, config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
-                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
-                config.getHttpClientConfig(), config.getHttpClient());
-    }
-
     public OAuth10aService(DefaultApi10a api, String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent,
             HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent, httpClientConfig,
-                httpClient);
+        this(api, apiKey, apiSecret, callback, scope, debugStream, userAgent, httpClientConfig, httpClient);
+    }
+
+    public OAuth10aService(DefaultApi10a api, String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
         this.debugStream = debugStream;
         this.api = api;
     }

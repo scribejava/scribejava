@@ -9,7 +9,6 @@ import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
@@ -32,25 +31,21 @@ public class OAuth20Service extends OAuthService {
     private final String state;
 
     /**
-     * @param api OAuth2.0 api information
-     * @param config OAuth 2.0 configuration param object
      * @deprecated use {@link #OAuth20Service(com.github.scribejava.core.builder.api.DefaultApi20, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String, java.lang.String,
-     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
-     * com.github.scribejava.core.httpclient.HttpClient)}
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
      */
     @Deprecated
-    public OAuth20Service(DefaultApi20 api, OAuthConfig config) {
-        this(api, config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
-                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
-                config.getHttpClientConfig(), config.getHttpClient());
-    }
-
     public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent,
             HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent, httpClientConfig,
-                httpClient);
+        this(api, apiKey, apiSecret, callback, scope, state, responseType, userAgent, httpClientConfig, httpClient);
+    }
+
+    public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+            String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        super(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
         this.responseType = responseType;
         this.state = state;
         this.api = api;

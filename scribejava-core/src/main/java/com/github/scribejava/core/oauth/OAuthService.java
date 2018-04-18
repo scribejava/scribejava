@@ -6,7 +6,6 @@ import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.httpclient.jdk.JDKHttpClient;
 import com.github.scribejava.core.httpclient.jdk.JDKHttpClientConfig;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import java.io.Closeable;
@@ -27,16 +26,8 @@ public abstract class OAuthService implements Closeable {
     private final String userAgent;
     private final HttpClient httpClient;
 
-    /**
-     *
-     * @deprecated use all members directly from this class
-     */
-    @Deprecated
-    private final OAuthConfig oAuthConfig;
-
-    public OAuthService(String apiKey, String apiSecret, String callback, String scope, OutputStream debugStream,
-            String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
-            HttpClient httpClient) {
+    public OAuthService(String apiKey, String apiSecret, String callback, String scope, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
@@ -48,20 +39,18 @@ public abstract class OAuthService implements Closeable {
         } else {
             this.httpClient = httpClient == null ? getClient(httpClientConfig) : httpClient;
         }
-        oAuthConfig = new OAuthConfig(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
-                httpClientConfig, httpClient);
     }
 
     /**
      * @deprecated use {@link #OAuthService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-     * java.io.OutputStream, java.lang.String, java.lang.String, java.lang.String,
-     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
      */
     @Deprecated
-    public OAuthService(OAuthConfig config) {
-        this(config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
-                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
-                config.getHttpClientConfig(), config.getHttpClient());
+    public OAuthService(String apiKey, String apiSecret, String callback, String scope, OutputStream debugStream,
+            String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        this(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
     }
 
     private static HttpClient getClient(HttpClientConfig config) {
@@ -77,14 +66,6 @@ public abstract class OAuthService implements Closeable {
     @Override
     public void close() throws IOException {
         httpClient.close();
-    }
-
-    /**
-     * @deprecated use direct getXXX() instead of getConfig().getXXX()
-     */
-    @Deprecated
-    public OAuthConfig getConfig() {
-        return oAuthConfig;
     }
 
     public String getApiKey() {

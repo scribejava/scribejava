@@ -5,7 +5,6 @@ import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.OAuthConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.model.Verb;
@@ -72,16 +71,6 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     protected abstract String getAuthorizationBaseUrl();
 
     /**
-     * @deprecated use {@link #getAuthorizationUrl(java.lang.String, java.lang.String, java.lang.String,
-     * java.lang.String, java.lang.String, java.util.Map)}
-     */
-    @Deprecated
-    public String getAuthorizationUrl(OAuthConfig config, Map<String, String> additionalParams) {
-        return getAuthorizationUrl(config.getResponseType(), config.getApiKey(), config.getCallback(),
-                config.getScope(), config.getState(), additionalParams);
-    }
-
-    /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
      * @param additionalParams any additional GET params to add to the URL
@@ -108,24 +97,11 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
         return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
-    /**
-     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-     * java.io.OutputStream, java.lang.String, java.lang.String, java.lang.String,
-     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
-     */
-    @Deprecated
-    @Override
-    public OAuth20Service createService(OAuthConfig config) {
-        return createService(config.getApiKey(), config.getApiSecret(), config.getCallback(), config.getScope(),
-                config.getDebugStream(), config.getState(), config.getResponseType(), config.getUserAgent(),
-                config.getHttpClientConfig(), config.getHttpClient());
-    }
-
     @Override
     public OAuth20Service createService(String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent,
             HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new OAuth20Service(this, apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
+        return new OAuth20Service(this, apiKey, apiSecret, callback, scope, state, responseType, userAgent,
                 httpClientConfig, httpClient);
     }
 

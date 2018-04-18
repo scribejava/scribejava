@@ -44,7 +44,7 @@ public abstract class AbstractClientTest {
 
     @Before
     public void setUp() {
-        oAuthService = new OAuth20Service(null, "test", "test", null, null, null, null, null, null, null,
+        oAuthService = new OAuth20Service(null, "test", "test", null, null, null, null, null, null,
                 createNewClient());
     }
 
