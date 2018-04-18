@@ -78,7 +78,10 @@ public class OAuth10aService extends OAuthService {
 
     protected OAuthRequest prepareRequestTokenRequest() {
         final OAuthRequest request = new OAuthRequest(api.getRequestTokenVerb(), api.getRequestTokenEndpoint());
-        final String callback = getCallback();
+        String callback = getCallback();
+        if (callback == null) {
+            callback = OAuthConstants.OOB;
+        }
         log("setting oauth_callback to " + callback);
         request.addOAuthParameter(OAuthConstants.CALLBACK, callback);
         addOAuthParams(request, "");

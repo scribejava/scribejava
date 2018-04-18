@@ -4,6 +4,7 @@
  * add new API - Automatic (https://www.automatic.com/) (thanks to https://github.com/ramsrib)
  * add new API - Fitbit (https://www.fitbit.com/) (thanks to https://github.com/JustinLawler and https://github.com/alexthered)
  * deprecate OAuthConfig
+ * OAuth1.0: send "oob" instead of null callback while requesting RequestToken (thanks to https://github.com/Rafaelsk)
 
 [5.3.0]
  * fix Salesforce API (thanks to https://github.com/jhorowitz-firedrum)
