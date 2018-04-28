@@ -27,6 +27,9 @@ public interface HttpClient extends Closeable {
 
     Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException;
+    
+    Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            OAuthRequest.MultipartPayloads multipartPayloads) throws InterruptedException, ExecutionException, IOException;
 
     Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents) throws InterruptedException, ExecutionException, IOException;

@@ -4,6 +4,7 @@ import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.OAuthRequest.MultipartPayloads;
 import com.github.scribejava.core.model.Verb;
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -11,11 +12,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
-
 import com.github.scribejava.core.model.Response;
 import java.io.File;
 import java.util.HashMap;
@@ -101,6 +100,12 @@ public class OkHttpHttpClient implements HttpClient {
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents);
     }
 
+	@Override
+	public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+			MultipartPayloads multipartPayloads) throws InterruptedException, ExecutionException, IOException {
+		throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
+	}
+    
     private Response doExecute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             BodyType bodyType, Object bodyContents) throws IOException {
         final Call call = createCall(userAgent, headers, httpVerb, completeUrl, bodyType, bodyContents);
@@ -174,6 +179,6 @@ public class OkHttpHttpClient implements HttpClient {
         final ResponseBody body = okHttpResponse.body();
         return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
                 body == null ? null : body.byteStream());
-
     }
+
 }

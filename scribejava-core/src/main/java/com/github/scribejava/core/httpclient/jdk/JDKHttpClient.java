@@ -9,6 +9,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -73,7 +74,7 @@ public class JDKHttpClient implements HttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
-        throw new UnsupportedOperationException("JDKHttpClient do not support File payload for the moment");
+        throw new UnsupportedOperationException("JDKHttpClient does not support File payload for the moment");
     }
 
     @Override
@@ -94,6 +95,12 @@ public class JDKHttpClient implements HttpClient {
         throw new UnsupportedOperationException("JDKHttpClient do not support File payload for the moment");
     }
 
+	@Override
+	public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+			OAuthRequest.MultipartPayloads multipartPayloads) throws InterruptedException, ExecutionException, IOException {
+        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.MULTIPART, multipartPayloads);
+	}
+	
     private Response doExecute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             BodyType bodyType, Object bodyContents) throws IOException {
         final HttpURLConnection connection = (HttpURLConnection) new URL(completeUrl).openConnection();
@@ -128,6 +135,12 @@ public class JDKHttpClient implements HttpClient {
                 addBody(connection, (byte[]) bodyContents, requiresBody);
             }
         },
+        MULTIPART {
+			@Override
+            void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody) throws IOException {
+                addBody(connection, (OAuthRequest.MultipartPayloads) bodyContents, requiresBody);
+            }
+        },
         STRING {
             @Override
             void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody) throws IOException {
@@ -137,6 +150,7 @@ public class JDKHttpClient implements HttpClient {
 
         abstract void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody)
                 throws IOException;
+        
     }
 
     private static Map<String, String> parseHeaders(HttpURLConnection conn) {
@@ -164,11 +178,35 @@ public class JDKHttpClient implements HttpClient {
         }
     }
 
+    /*
+     *	Multipart implementation supporting more than one payload
+     *
+     */
+    private static void addBody(HttpURLConnection connection, OAuthRequest.MultipartPayloads multipartPayloads, boolean requiresBody) throws IOException {
+    	int contentLength = multipartPayloads.getContentLength();
+    	System.out.println("length: " + contentLength);
+        if (requiresBody || contentLength > 0) {
+            connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength)); 
+            if (connection.getRequestProperty(CONTENT_TYPE) == null) {
+                connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+            }
+        	System.out.println("content-length: " + connection.getRequestProperty(CONTENT_TYPE));
+            connection.setDoOutput(true);
+            OutputStream os = connection.getOutputStream();
+
+            int totalParts = multipartPayloads.getMultipartPayloadList().size();
+        	for (int i = 0; i < totalParts; i++) {
+        		os.write(multipartPayloads.getStartBoundary(i));
+                os.write(multipartPayloads.getMultipartPayloadList().get(i).getPayload(), 0, multipartPayloads.getMultipartPayloadList().get(i).getLength());
+                os.write(multipartPayloads.getEndBoundary(i));
+        	}
+        }    	
+    }
+        
     private static void addBody(HttpURLConnection connection, byte[] content, boolean requiresBody) throws IOException {
         final int contentLength = content.length;
         if (requiresBody || contentLength > 0) {
             connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength));
-
             if (connection.getRequestProperty(CONTENT_TYPE) == null) {
                 connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             }
@@ -176,4 +214,5 @@ public class JDKHttpClient implements HttpClient {
             connection.getOutputStream().write(content);
         }
     }
+    
 }
