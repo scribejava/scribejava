@@ -21,7 +21,7 @@ import java.util.Formatter;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public final class RenrenExample {
+public class RenrenExample {
 
     private static final String NETWORK_NAME = "Renren";
     private static final String PROTECTED_RESOURCE_URL = "http://api.renren.com/restserver.do";

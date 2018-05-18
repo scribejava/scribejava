@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class LinkedInExample {
+public class LinkedInExample {
 
     private static final String PROTECTED_RESOURCE_URL
             = "http://api.linkedin.com/v1/people/~/connections:(id,last-name)";

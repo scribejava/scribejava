@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class FreelancerExample {
+public class FreelancerExample {
 
     private static final String NETWORK_NAME = "Freelancer";
     private static final String AUTHORIZE_URL

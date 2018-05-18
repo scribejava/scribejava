@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class Px500Example {
+public class Px500Example {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.500px.com/v1/";
 

@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class NaverExample {
+public class NaverExample {
 
     private static final String NETWORK_NAME = "Naver";
     private static final String PROTECTED_RESOURCE_URL = "https://openapi.naver.com/v1/nid/me";

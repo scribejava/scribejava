@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 
-public final class Google20AsyncAHCExample {
+public class Google20AsyncAHCExample {
 
     private static final String NETWORK_NAME = "G+ Async";
     private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";

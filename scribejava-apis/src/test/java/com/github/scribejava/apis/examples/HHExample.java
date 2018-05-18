@@ -13,7 +13,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class HHExample {
+public class HHExample {
 
     private static final String NETWORK_NAME = "hh.ru";
     private static final String PROTECTED_RESOURCE_URL = "https://api.hh.ru/me";

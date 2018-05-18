@@ -41,7 +41,7 @@ public class Response {
         return body;
     }
 
-    public final boolean isSuccessful() {
+    public boolean isSuccessful() {
         return code >= 200 && code < 400;
     }
 
@@ -64,7 +64,7 @@ public class Response {
      *
      * @return the status code
      */
-    public final int getCode() {
+    public int getCode() {
         return code;
     }
 

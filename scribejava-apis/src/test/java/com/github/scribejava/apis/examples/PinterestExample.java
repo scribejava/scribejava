@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class PinterestExample {
+public class PinterestExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.pinterest.com/v1/me/";
 

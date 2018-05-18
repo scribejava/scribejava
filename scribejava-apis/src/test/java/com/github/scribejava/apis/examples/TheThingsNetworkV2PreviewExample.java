@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class TheThingsNetworkV2PreviewExample {
+public class TheThingsNetworkV2PreviewExample {
 
     private static final String NETWORK_NAME = "TTNv2preview";
     private static final String PROTECTED_RESOURCE_URL =

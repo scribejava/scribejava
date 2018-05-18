@@ -14,7 +14,7 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 
-public final class FacebookAsyncNingExample {
+public class FacebookAsyncNingExample {
 
     private static final String NETWORK_NAME = "Facebook";
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.11/me";

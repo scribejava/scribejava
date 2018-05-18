@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class LiveExample {
+public class LiveExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://apis.live.net/v5.0/me";
 

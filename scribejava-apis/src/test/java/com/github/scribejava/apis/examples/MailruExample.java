@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class MailruExample {
+public class MailruExample {
 
     private static final String NETWORK_NAME = "Mail.ru";
     private static final String PROTECTED_RESOURCE_URL

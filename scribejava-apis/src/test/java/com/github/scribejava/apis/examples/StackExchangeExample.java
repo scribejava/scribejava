@@ -13,7 +13,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class StackExchangeExample {
+public class StackExchangeExample {
 
     private static final String NETWORK_NAME = "Stack Exchange";
     private static final String PROTECTED_RESOURCE_URL = "https://api.stackexchange.com/2.2/me";

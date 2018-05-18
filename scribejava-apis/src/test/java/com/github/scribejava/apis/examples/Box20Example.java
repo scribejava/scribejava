@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public final class Box20Example {
+public class Box20Example {
 
     private static final String NETWORK_NAME = "Box";
     private static final String PROTECTED_RESOURCE_URL = "https://api.box.com/2.0/users/me";

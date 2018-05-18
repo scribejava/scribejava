@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class ViadeoExample {
+public class ViadeoExample {
 
     private static final String NETWORK_NAME = "Viadeo";
     private static final String PROTECTED_RESOURCE_URL = "https://api.viadeo.com/me?user_detail=full";

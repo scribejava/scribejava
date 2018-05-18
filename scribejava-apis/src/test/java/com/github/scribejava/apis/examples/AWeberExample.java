@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class AWeberExample {
+public class AWeberExample {
 
     //To get your consumer key/secret, and view API docs, see https://labs.aweber.com/docs
     private static final String ACCOUNT_RESOURCE_URL = "https://api.aweber.com/1.0/accounts/";

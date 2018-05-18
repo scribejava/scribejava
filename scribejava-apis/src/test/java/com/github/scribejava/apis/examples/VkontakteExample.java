@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class VkontakteExample {
+public class VkontakteExample {
 
     private static final String NETWORK_NAME = "Vkontakte.ru";
     private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/users.get?v="

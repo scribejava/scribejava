@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class MisfitExample {
+public class MisfitExample {
 
     private static final String NETWORK_NAME = "Misfit";
     private static final String PROTECTED_RESOURCE_URL

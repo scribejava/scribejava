@@ -13,7 +13,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class TutByExample {
+public class TutByExample {
 
     private static final String NETWORK_NAME = "Tut.by";
     private static final String PROTECTED_RESOURCE_URL = "http://profile.tut.by/getInfo";

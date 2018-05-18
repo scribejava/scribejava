@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class LinkedIn20Example {
+public class LinkedIn20Example {
 
     private static final String NETWORK_NAME = "LinkedIn";
     private static final String PROTECTED_RESOURCE_URL = "https://api.linkedin.com/v1/people/~:(%s)";

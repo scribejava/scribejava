@@ -20,7 +20,7 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
-public final class SalesforceNingAsyncExample {
+public class SalesforceNingAsyncExample {
 
     private static final String NETWORK_NAME = "Salesforce";
 

@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class Foursquare2Example {
+public class Foursquare2Example {
 
     private static final String PROTECTED_RESOURCE_URL
             = "https://api.foursquare.com/v2/users/self/friends?oauth_token=";

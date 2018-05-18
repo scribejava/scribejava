@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class TheThingsNetworkV1StagingExample {
+public class TheThingsNetworkV1StagingExample {
 
     private static final String NETWORK_NAME = "TTNv1staging";
     private static final String PROTECTED_RESOURCE_URL = "https://account.thethingsnetwork.org/applications";

@@ -13,7 +13,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.httpclient.apache.ApacheHttpClientConfig;
 import java.io.IOException;
 
-public final class FacebookAsyncApacheExample {
+public class FacebookAsyncApacheExample {
 
     private static final String NETWORK_NAME = "Facebook";
     private static final String PROTECTED_RESOURCE_URL = "https://graph.facebook.com/v2.11/me";

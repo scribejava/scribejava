@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class MeetupExample {
+public class MeetupExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.meetup.com/2/member/self";
 

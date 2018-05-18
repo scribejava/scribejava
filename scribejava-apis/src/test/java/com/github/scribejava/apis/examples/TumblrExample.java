@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class TumblrExample {
+public class TumblrExample {
 
     private static final String PROTECTED_RESOURCE_URL = "http://api.tumblr.com/v2/user/info";
 

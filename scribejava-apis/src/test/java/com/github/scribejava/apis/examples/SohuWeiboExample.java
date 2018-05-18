@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class SohuWeiboExample {
+public class SohuWeiboExample {
 
     private static final String NETWORK_NAME = "SohuWeibo";
     private static final String PROTECTED_RESOURCE_URL = "http://api.t.sohu.com/account/verify_credentials.json";

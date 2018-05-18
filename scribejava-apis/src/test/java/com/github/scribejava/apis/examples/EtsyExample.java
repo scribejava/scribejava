@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class EtsyExample {
+public class EtsyExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://openapi.etsy.com/v2/users/__SELF__";
 

@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class Kaixin20Example {
+public class Kaixin20Example {
 
     private static final String NETWORK_NAME = "Kaixin";
     private static final String PROTECTED_RESOURCE_URL = "https://api.kaixin001.com/users/me.json";

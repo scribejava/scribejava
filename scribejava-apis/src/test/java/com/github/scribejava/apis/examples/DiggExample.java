@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class DiggExample {
+public class DiggExample {
 
     private static final String NETWORK_NAME = "Digg";
     private static final String PROTECTED_RESOURCE_URL = "http://services.digg.com/2.0/comment.digg";

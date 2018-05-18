@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class TrelloExample {
+public class TrelloExample {
 
     private static final String API_KEY = "your_api_key";
     private static final String API_SECRET = "your_api_secret";

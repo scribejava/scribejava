@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class GeniusExample {
+public class GeniusExample {
 
     private static final String NETWORK_NAME = "Genius";
     private static final String PROTECTED_RESOURCE_URL = "https://api.genius.com/songs/378195";

@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class SkyrockExample {
+public class SkyrockExample {
 
     private static final String PROTECTED_RESOURCE_URL = "https://api.skyrock.com/v2/user/get.json";
 

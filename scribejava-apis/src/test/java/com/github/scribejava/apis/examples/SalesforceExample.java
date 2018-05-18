@@ -17,7 +17,7 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 
-public final class SalesforceExample {
+public class SalesforceExample {
 
     private static final String NETWORK_NAME = "Salesforce";
 

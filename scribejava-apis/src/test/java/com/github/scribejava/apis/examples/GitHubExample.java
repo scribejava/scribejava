@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class GitHubExample {
+public class GitHubExample {
 
     private static final String NETWORK_NAME = "GitHub";
     private static final String PROTECTED_RESOURCE_URL = "https://api.github.com/user";

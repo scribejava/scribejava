@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class GitHubAsyncOkHttpExample {
+public class GitHubAsyncOkHttpExample {
 
     private static final String NETWORK_NAME = "GitHub";
     private static final String PROTECTED_RESOURCE_URL = "https://api.github.com/user";

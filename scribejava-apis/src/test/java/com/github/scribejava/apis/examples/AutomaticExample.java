@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class AutomaticExample {
+public class AutomaticExample {
 
     private static final String NETWORK_NAME = "Automatic";
     private static final String PROTECTED_RESOURCE_URL = "https://api.automatic.com/user/me/";

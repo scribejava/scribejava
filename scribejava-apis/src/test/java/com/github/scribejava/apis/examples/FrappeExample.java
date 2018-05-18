@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class FrappeExample {
+public class FrappeExample {
 
     private static final String NETWORK_NAME = "Frappe";
     private static final String PROTECTED_RESOURCE_PATH = "/api/method/frappe.integrations.oauth2.openid_profile";

@@ -11,7 +11,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class SinaWeibo2Example {
+public class SinaWeibo2Example {
 
     private static final String NETWORK_NAME = "SinaWeibo";
     private static final String PROTECTED_RESOURCE_URL = "https://api.weibo.com/2/account/get_uid.json";

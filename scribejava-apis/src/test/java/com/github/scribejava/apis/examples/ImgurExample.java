@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class ImgurExample {
+public class ImgurExample {
 
     private static final String NETWORK_NAME = "Imgur";
     private static final String PROTECTED_RESOURCE_URL = "https://api.imgur.com/3/account/me";
