@@ -1,5 +1,7 @@
 [SNAPSHOT]
  * fix error parsing for Fitbit (thanks to https://github.com/danmana)
+ * optimize debug log performance impact on prod in OAuth1 and fix
+   NoClassDefFoundError on Android device with SDK 18 and lower (thanks to https://github.com/arcao)
 
 [5.4.0]
  * fix missing support for scope for refresh_token grant_type (thanks to https://github.com/tlxtellef)
