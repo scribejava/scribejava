@@ -58,7 +58,7 @@ public class FitbitApi20Example {
 
         if (!(oauth2AccessToken instanceof FitBitOAuth2AccessToken)) {
             System.out.println("oauth2AccessToken is not instance of FitBitOAuth2AccessToken. Strange enough. exit.");
-            System.exit(0);
+            return;
         }
 
         final FitBitOAuth2AccessToken accessToken = (FitBitOAuth2AccessToken) oauth2AccessToken;

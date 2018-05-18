@@ -4,7 +4,6 @@ import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse.ErrorCode;
 
 import org.hamcrest.FeatureMatcher;
-import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -29,34 +28,33 @@ public class FitBitJsonTokenExtractorTest {
         final FitBitJsonTokenExtractor extractor = new FitBitJsonTokenExtractor();
 
         thrown.expect(OAuth2AccessTokenErrorResponse.class);
-        thrown.expect(errorCode(ErrorCode.invalid_grant));
-        thrown.expect(errorDescription(ERROR_DESCRIPTION));
+        thrown.expect(new ErrorCodeFeatureMatcher(ErrorCode.invalid_grant));
+        thrown.expect(new ErrorDescriptionFeatureMatcher(ERROR_DESCRIPTION));
 
         extractor.generateError(ERROR_JSON);
-
     }
 
-    private Matcher<OAuth2AccessTokenErrorResponse> errorCode(ErrorCode expected) {
-        return new FeatureMatcher<OAuth2AccessTokenErrorResponse, ErrorCode>(
-                equalTo(expected),
-                "a response with errorCode",
-                "errorCode") {
-            @Override
-            protected ErrorCode featureValueOf(OAuth2AccessTokenErrorResponse actual) {
-                return actual.getErrorCode();
-            }
-        };
+    private static class ErrorCodeFeatureMatcher extends FeatureMatcher<OAuth2AccessTokenErrorResponse, ErrorCode> {
+
+        private ErrorCodeFeatureMatcher(ErrorCode expected) {
+            super(equalTo(expected), "a response with errorCode", "errorCode");
+        }
+
+        @Override
+        protected ErrorCode featureValueOf(OAuth2AccessTokenErrorResponse actual) {
+            return actual.getErrorCode();
+        }
     }
 
-    private Matcher<OAuth2AccessTokenErrorResponse> errorDescription(String expected) {
-        return new FeatureMatcher<OAuth2AccessTokenErrorResponse, String>(
-                equalTo(expected),
-                "a response with errorDescription",
-                "errorDescription") {
-            @Override
-            protected String featureValueOf(OAuth2AccessTokenErrorResponse actual) {
-                return actual.getErrorDescription();
-            }
-        };
+    private static class ErrorDescriptionFeatureMatcher extends FeatureMatcher<OAuth2AccessTokenErrorResponse, String> {
+
+        private ErrorDescriptionFeatureMatcher(String expected) {
+            super(equalTo(expected), "a response with errorDescription", "errorDescription");
+        }
+
+        @Override
+        protected String featureValueOf(OAuth2AccessTokenErrorResponse actual) {
+            return actual.getErrorDescription();
+        }
     }
 }

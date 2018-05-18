@@ -3,7 +3,6 @@ package com.github.scribejava.apis.fitbit;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 
-import java.net.URI;
 import java.util.regex.Pattern;
 
 public class FitBitJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
@@ -30,11 +29,13 @@ public class FitBitJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
                 extractParameter(response, USER_ID_REGEX_PATTERN, false), response);
     }
 
+    /**
+     * Related documentation: https://dev.fitbit.com/build/reference/web-api/oauth2/
+     */
     @Override
     public void generateError(String response) {
         final String errorInString = extractParameter(response, ERROR_REGEX_PATTERN, true);
         final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX_PATTERN, false);
-        final URI errorUri = URI.create("https://dev.fitbit.com/build/reference/web-api/oauth2/");
 
         OAuth2AccessTokenErrorResponse.ErrorCode errorCode;
         try {
@@ -44,6 +45,6 @@ public class FitBitJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
             errorCode = null;
         }
 
-        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription, errorUri, response);
+        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription, null, response);
     }
 }
