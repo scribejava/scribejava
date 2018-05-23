@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[5.5.0]
  * fix error parsing for Fitbit (thanks to https://github.com/danmana)
  * optimize debug log performance impact on prod in OAuth1 and fix
    NoClassDefFoundError on Android device with SDK 18 and lower (thanks to https://github.com/arcao)
