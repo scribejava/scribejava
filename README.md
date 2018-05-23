@@ -63,6 +63,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Microsoft Azure Active Directory (Azure AD) (http://azure.microsoft.com/)
 * Microsoft Live (https://login.live.com/)
 * Mail.Ru (https://mail.ru/)
+* MediaWiki (https://www.mediawiki.org/)
 * Meetup (http://www.meetup.com/)
 * NAVER (http://www.naver.com/)
 * NetEase (http://www.163.com/)
