@@ -12,7 +12,6 @@ import java.io.Closeable;
 import java.io.File;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -39,18 +38,6 @@ public abstract class OAuthService implements Closeable {
         } else {
             this.httpClient = httpClient == null ? getClient(httpClientConfig) : httpClient;
         }
-    }
-
-    /**
-     * @deprecated use {@link #OAuthService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
-     * com.github.scribejava.core.httpclient.HttpClient)}
-     */
-    @Deprecated
-    public OAuthService(String apiKey, String apiSecret, String callback, String scope, OutputStream debugStream,
-            String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
-            HttpClient httpClient) {
-        this(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
     }
 
     private static HttpClient getClient(HttpClientConfig config) {

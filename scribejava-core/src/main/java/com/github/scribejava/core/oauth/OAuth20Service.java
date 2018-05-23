@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import com.github.scribejava.core.revoke.TokenTypeHint;
-import java.io.OutputStream;
 
 public class OAuth20Service extends OAuthService {
 
@@ -29,18 +28,6 @@ public class OAuth20Service extends OAuthService {
     private final DefaultApi20 api;
     private final String responseType;
     private final String state;
-
-    /**
-     * @deprecated use {@link #OAuth20Service(com.github.scribejava.core.builder.api.DefaultApi20, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
-     */
-    @Deprecated
-    public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        this(api, apiKey, apiSecret, callback, scope, state, responseType, userAgent, httpClientConfig, httpClient);
-    }
 
     public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
             String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,

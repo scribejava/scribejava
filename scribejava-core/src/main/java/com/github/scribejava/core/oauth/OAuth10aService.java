@@ -25,18 +25,6 @@ public class OAuth10aService extends OAuthService {
     private final OutputStream debugStream;
     private final DefaultApi10a api;
 
-    /**
-     * @deprecated use {@link #OAuth10aService(com.github.scribejava.core.builder.api.DefaultApi10a, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String,
-     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
-     */
-    @Deprecated
-    public OAuth10aService(DefaultApi10a api, String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        this(api, apiKey, apiSecret, callback, scope, debugStream, userAgent, httpClientConfig, httpClient);
-    }
-
     public OAuth10aService(DefaultApi10a api, String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
         super(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
