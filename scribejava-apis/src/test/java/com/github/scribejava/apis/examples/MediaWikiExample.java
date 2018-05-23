@@ -12,14 +12,14 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-public final class MediaWikiExample {
+public class MediaWikiExample {
 
     // To get your consumer key/secret, see https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose
     private static final String CONSUMER_KEY = "";
     private static final String CONSUMER_SECRET = "";
 
-    private static final String API_USERINFO_URL =
-        "https://meta.wikimedia.org/w/api.php?action=query&format=json&meta=userinfo";
+    private static final String API_USERINFO_URL
+            = "https://meta.wikimedia.org/w/api.php?action=query&format=json&meta=userinfo";
 
     private MediaWikiExample() {
     }
@@ -27,7 +27,7 @@ public final class MediaWikiExample {
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)
-                .build(MediaWikiApi.wikimediaInstance());
+                .build(MediaWikiApi.instance());
 
         final Scanner in = new Scanner(System.in);
 
