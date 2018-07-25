@@ -7,15 +7,79 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 
 /**
  * The representation of an OAuth HttpRequest.
  */
 public class OAuthRequest {
+	/*
+	 * The class containing more than one payload of multipart/form-data request
+	 */
+	public class MultipartPayloads {
+		private String boundary;
+		private int contentLength;
+		private List<MultipartPayload> multipartPayloadList;
 
-    private static final String OAUTH_PREFIX = "oauth_";
+		public MultipartPayloads(String boundary) {
+			this.boundary = boundary;
+			this.multipartPayloadList = new ArrayList<>();
+		}
+		
+		public byte[] getStartBoundary(int index) {
+			MultipartPayload multipartPaayLoad = multipartPayloadList.get(index);
+			byte[] bytes = ("--" + boundary +"\r\n"
+					+ "Content-Disposition: " + multipartPaayLoad.contentDisposition + "\r\n"
+					+ (multipartPaayLoad == null ? "" : "Content-Type: " + multipartPaayLoad.contentType + "\r\n")
+					+ "\r\n").getBytes();
+			return bytes;
+		}
+
+		public byte[] getEndBoundary(int index) {
+			return ("\r\n"
+					+ "--" + boundary + "--\r\n").getBytes();
+		}
+
+		public int getContentLength() {
+			return contentLength;
+		}
+
+		public void addContentLength(int length) {
+			this.contentLength += length;
+		}
+
+		public List<MultipartPayload> getMultipartPayloadList() {
+			return multipartPayloadList;
+		}
+	}
+	
+	public class MultipartPayload {
+		private String contentDisposition;
+		private  String contentType;
+		private byte[] payload;
+		private int length;
+
+		public MultipartPayload(String contentDisposition, String contentType, byte[] payload, int length) {
+			this.contentDisposition = contentDisposition;
+			this.contentType = contentType;
+			this.payload = payload;
+			this.length = length;
+		}
+
+		public byte[] getPayload() {
+			return payload;
+		}
+		
+		public int getLength() {
+			return length;
+		}
+	}
+
+	private static final String OAUTH_PREFIX = "oauth_";
 
     private final String url;
     private final Verb verb;
@@ -28,6 +92,7 @@ public class OAuthRequest {
     private String stringPayload;
     private byte[] byteArrayPayload;
     private File filePayload;
+    private MultipartPayloads multipartPayloads;
 
     private final Map<String, String> oauthParameters = new HashMap<>();
 
@@ -123,7 +188,43 @@ public class OAuthRequest {
             querystringParams.add(key, value);
         }
     }
+   
 
+    /*
+     * Set boundary of multipart request
+     * 
+     * @param boundary can be any string
+     */
+    public void setMultipartBoundary(String boundary) {
+    	multipartPayloads = new MultipartPayloads(boundary);
+    }
+    
+    
+    /* 
+     * Add one multipart form-data payload to the request & increase the current Content-Length
+     * 
+     * @param contentDisposition value of Content-Disposition header
+     * @param contentType value of Content-Type header
+     * @param payload data array containing the data to send
+     * @param length the max no of bytes to send
+     * 
+     * Remarks:
+     * 57 and 37 are the length of constant portions of contentDisposition and/or contentType headers
+     * refer getStartBoundary and getEndBoundary for the constant
+     * 
+     * Must be called after setMultipartBoundary method
+     */ 
+    public void addMultipartPayload(String contentDisposition, String contentType, byte[] payload, int length) {
+    	int contentLenght;
+    	if (contentType == null) 
+    		contentLenght = 37 + multipartPayloads.boundary.length() * 2 + contentDisposition.length() + payload.length;
+    	else
+    		contentLenght = 53 + multipartPayloads.boundary.length() * 2 + contentDisposition.length() + + contentType.length() +  payload.length;
+    	multipartPayloads.addContentLength(contentLenght);
+    	
+    	multipartPayloads.getMultipartPayloadList().add(new MultipartPayload(contentDisposition, contentType, payload, length));
+    }
+    
     /**
      * Set body payload. This method is used when the HTTP body is not a form-url-encoded string, but another thing.
      * Like for example XML. Note: The contents are not part of the OAuth signature
@@ -159,6 +260,7 @@ public class OAuthRequest {
         stringPayload = null;
         byteArrayPayload = null;
         filePayload = null;
+        multipartPayloads = null;
     }
 
     /**
@@ -235,6 +337,10 @@ public class OAuthRequest {
         } catch (UnsupportedEncodingException uee) {
             throw new OAuthException("Unsupported Charset: " + getCharset(), uee);
         }
+    }
+
+    public MultipartPayloads getMultipartPayloads() {
+    	return multipartPayloads;
     }
 
     public File getFilePayload() {
