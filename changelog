@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * add Multipart functionality to JDK Http Client (thanks to https://github.com/eos1d3)
+
 [5.5.0]
  * fix error parsing for Fitbit (thanks to https://github.com/danmana)
  * optimize debug log performance impact on prod in OAuth1 and fix

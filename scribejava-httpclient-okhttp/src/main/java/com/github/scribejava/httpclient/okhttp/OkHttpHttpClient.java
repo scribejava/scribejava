@@ -1,10 +1,10 @@
 package com.github.scribejava.httpclient.okhttp;
 
 import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.MultipartPayload;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.OAuthRequest.MultipartPayloads;
 import com.github.scribejava.core.model.Verb;
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -55,13 +55,23 @@ public class OkHttpHttpClient implements HttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents, callback,
                 converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
+
+        throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents, callback,
                 converter);
     }
@@ -69,6 +79,7 @@ public class OkHttpHttpClient implements HttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents, callback,
                 converter);
     }
@@ -85,27 +96,31 @@ public class OkHttpHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents);
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload bodyContents) throws InterruptedException, ExecutionException, IOException {
+
+        throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
+    }
+
+    @Override
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents);
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents);
     }
 
-	@Override
-	public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-			MultipartPayloads multipartPayloads) throws InterruptedException, ExecutionException, IOException {
-		throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
-	}
-    
     private Response doExecute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             BodyType bodyType, Object bodyContents) throws IOException {
         final Call call = createCall(userAgent, headers, httpVerb, completeUrl, bodyType, bodyContents);

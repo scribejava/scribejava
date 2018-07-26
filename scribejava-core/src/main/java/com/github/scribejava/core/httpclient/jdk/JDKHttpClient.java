@@ -1,7 +1,9 @@
 package com.github.scribejava.core.httpclient.jdk;
 
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.httpclient.BodyPartPayload;
 import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.MultipartPayload;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -38,37 +40,26 @@ public class JDKHttpClient implements HttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
-        try {
-            final Response response = execute(userAgent, headers, httpVerb, completeUrl, bodyContents);
-            @SuppressWarnings("unchecked")
-            final T t = converter == null ? (T) response : converter.convert(response);
-            if (callback != null) {
-                callback.onCompleted(t);
-            }
-            return new JDKHttpFuture<>(t);
-        } catch (InterruptedException | ExecutionException | IOException e) {
-            callback.onThrowable(e);
-            return new JDKHttpFuture<>(e);
-        }
+
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents, callback,
+                converter);
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
+
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.MULTIPART, bodyContents, callback,
+                converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
-        try {
-            final Response response = execute(userAgent, headers, httpVerb, completeUrl, bodyContents);
-            @SuppressWarnings("unchecked")
-            final T t = converter == null ? (T) response : converter.convert(response);
-            if (callback != null) {
-                callback.onCompleted(t);
-            }
-            return new JDKHttpFuture<>(t);
-        } catch (InterruptedException | ExecutionException | IOException e) {
-            if (callback != null) {
-                callback.onThrowable(e);
-            }
-            return new JDKHttpFuture<>(e);
-        }
+
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents, callback,
+                converter);
     }
 
     @Override
@@ -77,10 +68,35 @@ public class JDKHttpClient implements HttpClient {
         throw new UnsupportedOperationException("JDKHttpClient does not support File payload for the moment");
     }
 
+    private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
+            String completeUrl, BodyType bodyType, Object bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
+        try {
+            final Response response = doExecute(userAgent, headers, httpVerb, completeUrl, bodyType, bodyContents);
+            @SuppressWarnings("unchecked")
+            final T t = converter == null ? (T) response : converter.convert(response);
+            if (callback != null) {
+                callback.onCompleted(t);
+            }
+            return new JDKHttpFuture<>(t);
+        } catch (IOException e) {
+            if (callback != null) {
+                callback.onThrowable(e);
+            }
+            return new JDKHttpFuture<>(e);
+        }
+    }
+
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents);
+    }
+
+    @Override
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload multipartPayloads) throws InterruptedException, ExecutionException, IOException {
+        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.MULTIPART, multipartPayloads);
     }
 
     @Override
@@ -92,15 +108,9 @@ public class JDKHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents) throws InterruptedException, ExecutionException, IOException {
-        throw new UnsupportedOperationException("JDKHttpClient do not support File payload for the moment");
+        throw new UnsupportedOperationException("JDKHttpClient does not support File payload for the moment");
     }
 
-	@Override
-	public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-			OAuthRequest.MultipartPayloads multipartPayloads) throws InterruptedException, ExecutionException, IOException {
-        return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.MULTIPART, multipartPayloads);
-	}
-	
     private Response doExecute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             BodyType bodyType, Object bodyContents) throws IOException {
         final HttpURLConnection connection = (HttpURLConnection) new URL(completeUrl).openConnection();
@@ -136,9 +146,9 @@ public class JDKHttpClient implements HttpClient {
             }
         },
         MULTIPART {
-			@Override
+            @Override
             void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody) throws IOException {
-                addBody(connection, (OAuthRequest.MultipartPayloads) bodyContents, requiresBody);
+                addBody(connection, (MultipartPayload) bodyContents, requiresBody);
             }
         },
         STRING {
@@ -150,7 +160,6 @@ public class JDKHttpClient implements HttpClient {
 
         abstract void setBody(HttpURLConnection connection, Object bodyContents, boolean requiresBody)
                 throws IOException;
-        
     }
 
     private static Map<String, String> parseHeaders(HttpURLConnection conn) {
@@ -178,41 +187,41 @@ public class JDKHttpClient implements HttpClient {
         }
     }
 
-    /*
-     *	Multipart implementation supporting more than one payload
-     *
+    /**
+     * Multipart implementation supporting more than one payload
      */
-    private static void addBody(HttpURLConnection connection, OAuthRequest.MultipartPayloads multipartPayloads, boolean requiresBody) throws IOException {
-    	int contentLength = multipartPayloads.getContentLength();
-    	System.out.println("length: " + contentLength);
-        if (requiresBody || contentLength > 0) {
-            connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength)); 
-            if (connection.getRequestProperty(CONTENT_TYPE) == null) {
-                connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-            }
-        	System.out.println("content-length: " + connection.getRequestProperty(CONTENT_TYPE));
-            connection.setDoOutput(true);
-            OutputStream os = connection.getOutputStream();
+    private static void addBody(HttpURLConnection connection, MultipartPayload multipartPayload, boolean requiresBody)
+            throws IOException {
 
-            int totalParts = multipartPayloads.getMultipartPayloadList().size();
-        	for (int i = 0; i < totalParts; i++) {
-        		os.write(multipartPayloads.getStartBoundary(i));
-                os.write(multipartPayloads.getMultipartPayloadList().get(i).getPayload(), 0, multipartPayloads.getMultipartPayloadList().get(i).getLength());
-                os.write(multipartPayloads.getEndBoundary(i));
-        	}
-        }    	
+        final int contentLength = multipartPayload.getContentLength();
+        if (requiresBody || contentLength > 0) {
+            final OutputStream os = prepareConnectionForBodyAndGetOutputStream(connection, contentLength);
+
+            for (BodyPartPayload bodyPart : multipartPayload.getBodyParts()) {
+                os.write(multipartPayload.getStartBoundary(bodyPart));
+                os.write(bodyPart.getPayload());
+                os.write(multipartPayload.getEndBoundary());
+            }
+        }
     }
-        
+
     private static void addBody(HttpURLConnection connection, byte[] content, boolean requiresBody) throws IOException {
         final int contentLength = content.length;
         if (requiresBody || contentLength > 0) {
-            connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength));
-            if (connection.getRequestProperty(CONTENT_TYPE) == null) {
-                connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
-            }
-            connection.setDoOutput(true);
-            connection.getOutputStream().write(content);
+            prepareConnectionForBodyAndGetOutputStream(connection, contentLength).write(content);
         }
     }
-    
+
+    private static OutputStream prepareConnectionForBodyAndGetOutputStream(HttpURLConnection connection,
+            int contentLength) throws IOException {
+
+        connection.setRequestProperty(CONTENT_LENGTH, String.valueOf(contentLength));
+        if (connection.getRequestProperty(CONTENT_TYPE) == null) {
+            connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
+
+        }
+        connection.setDoOutput(true);
+        return connection.getOutputStream();
+    }
+
 }

@@ -111,10 +111,9 @@ public abstract class OAuthService implements Closeable {
             return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
                     request.getStringPayload());
         } else if (request.getMultipartPayloads() != null) {
-        	return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
-        			request.getMultipartPayloads());
-        }
-        else {
+            return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
+                    request.getMultipartPayloads());
+        } else {
             return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
                     request.getByteArrayPayload());
         }

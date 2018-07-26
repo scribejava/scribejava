@@ -1,6 +1,7 @@
 package com.github.scribejava.httpclient.apache;
 
 import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
+import com.github.scribejava.core.httpclient.MultipartPayload;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -51,6 +52,14 @@ public class ApacheHttpClient extends AbstractAsyncOnlyHttpClient {
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
         final HttpEntity entity = bodyContents == null ? null : new ByteArrayEntity(bodyContents);
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, entity, callback, converter);
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
+
+        throw new UnsupportedOperationException("ApacheHttpClient does not support MultipartPayload yet.");
     }
 
     @Override
