@@ -71,7 +71,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>3.10.0</version>
+            <version>3.11.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -81,7 +81,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.5.1</version>
                     <executions>
                         <execution>
                             <id>bundle-manifest</id>
@@ -171,7 +171,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
