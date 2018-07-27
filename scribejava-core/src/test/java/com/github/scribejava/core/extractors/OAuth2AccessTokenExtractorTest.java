@@ -59,6 +59,12 @@ public class OAuth2AccessTokenExtractorTest {
     }
 
     @Test(expected = OAuthException.class)
+    public void shouldThrowExceptionIfErrorResponse() throws IOException {
+        final String response = "";
+        this.extractor.extract(error(response));
+    }
+
+    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfTokenIsAbsent() throws IOException {
         final String response = "&expires=5108";
         extractor.extract(ok(response));
@@ -77,5 +83,9 @@ public class OAuth2AccessTokenExtractorTest {
 
     private static Response ok(String body) {
         return new Response(200, /* message */ null, /* headers */ Collections.<String, String>emptyMap(), body);
+    }
+
+    private static Response error(final String body) {
+        return new Response(400, /* message */ null, /* headers */ Collections.<String, String>emptyMap(), body);
     }
 }
