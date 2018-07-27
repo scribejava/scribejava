@@ -35,12 +35,17 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
         final Response response = new Response(ningResponse.getStatusCode(), ningResponse.getStatusText(), headersMap,
                 ningResponse.getResponseBodyAsStream());
 
-        @SuppressWarnings("unchecked")
-        final T t = converter == null ? (T) response : converter.convert(response);
-        if (callback != null) {
-            callback.onCompleted(t);
+        try {
+            @SuppressWarnings("unchecked")
+            final T t = converter == null ? (T) response : converter.convert(response);
+            if (callback != null) {
+                callback.onCompleted(t);
+            }
+            return t;
+        } catch (Throwable t) {
+            onThrowable(t);
+            return null;
         }
-        return t;
     }
 
     @Override
@@ -49,4 +54,4 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
             callback.onThrowable(t);
         }
     }
-};
+}
