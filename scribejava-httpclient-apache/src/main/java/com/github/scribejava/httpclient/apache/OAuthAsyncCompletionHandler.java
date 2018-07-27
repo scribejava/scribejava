@@ -1,13 +1,5 @@
 package com.github.scribejava.httpclient.apache;
 
-import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthRequest.ResponseConverter;
-import com.github.scribejava.core.model.Response;
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.concurrent.FutureCallback;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
@@ -15,7 +7,15 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.concurrent.FutureCallback;
+
+import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
+import com.github.scribejava.core.model.OAuthRequest.ResponseConverter;
+import com.github.scribejava.core.model.Response;
 
 public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpResponse> {
 
@@ -23,7 +23,7 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
     private final ResponseConverter<T> converter;
     private final CountDownLatch latch;
     private T result;
-    private Exception exception;
+    private Throwable exception;
 
     public OAuthAsyncCompletionHandler(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
         this.callback = callback;
@@ -41,8 +41,9 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
 
             final StatusLine statusLine = httpResponse.getStatusLine();
 
-            final Response response = new Response(statusLine.getStatusCode(), statusLine.getReasonPhrase(),
-                    headersMap, httpResponse.getEntity().getContent());
+            final Response response =
+                    new Response(statusLine.getStatusCode(), statusLine.getReasonPhrase(), headersMap,
+                            httpResponse.getEntity().getContent());
 
             @SuppressWarnings("unchecked")
             final T t = converter == null ? (T) response : converter.convert(response);
@@ -50,7 +51,7 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
             if (callback != null) {
                 callback.onCompleted(result);
             }
-        } catch (IOException e) {
+        } catch (Throwable e) {
             exception = e;
             if (callback != null) {
                 callback.onThrowable(e);

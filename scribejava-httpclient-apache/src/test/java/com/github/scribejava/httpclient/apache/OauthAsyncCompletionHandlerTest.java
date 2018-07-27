@@ -1,8 +1,16 @@
 package com.github.scribejava.httpclient.apache;
 
-import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
-import com.github.scribejava.core.model.OAuthRequest;
-import com.github.scribejava.core.model.Response;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.entity.BasicHttpEntity;
@@ -11,21 +19,17 @@ import org.apache.http.message.BasicStatusLine;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
 
 public class OauthAsyncCompletionHandlerTest {
 
     private static final AllGoodResponseConverter ALL_GOOD_RESPONSE_CONVERTER = new AllGoodResponseConverter();
     private static final ExceptionResponseConverter EXCEPTION_RESPONSE_CONVERTER = new ExceptionResponseConverter();
+    private static final OAuthExceptionResponseConverter OAUTH_EXCEPTION_RESPONSE_CONVERTER =
+            new OAuthExceptionResponseConverter();
 
     private OAuthAsyncCompletionHandler<String> handler;
     private TestCallback callback;
@@ -63,8 +67,8 @@ public class OauthAsyncCompletionHandlerTest {
     @Test
     public void shouldReleaseLatchOnSuccess() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
-        final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
-                new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final HttpResponse response =
+                new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
@@ -78,8 +82,8 @@ public class OauthAsyncCompletionHandlerTest {
     @Test
     public void shouldReleaseLatchOnIOException() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER);
-        final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
-                new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final HttpResponse response =
+                new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
@@ -97,10 +101,31 @@ public class OauthAsyncCompletionHandlerTest {
     }
 
     @Test
+    public void shouldReportOAuthException() throws Exception {
+        handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER);
+        final HttpResponse response =
+                new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(new byte[0]));
+        response.setEntity(entity);
+        handler.completed(response);
+        assertNull(callback.getResponse());
+        assertNotNull(callback.getThrowable());
+        assertTrue(callback.getThrowable() instanceof OAuthException);
+        // verify latch is released
+        try {
+            handler.getResult();
+            fail();
+        } catch (ExecutionException expected) {
+            // expected
+        }
+    }
+
+    @Test
     public void shouldReleaseLatchOnCancel() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
-        final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
-                new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final HttpResponse response =
+                new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
@@ -120,8 +145,8 @@ public class OauthAsyncCompletionHandlerTest {
     @Test
     public void shouldReleaseLatchOnFailure() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
-        final HttpResponse response = new BasicHttpResponse(new BasicStatusLine(
-                new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final HttpResponse response =
+                new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
         final BasicHttpEntity entity = new BasicHttpEntity();
         entity.setContent(new ByteArrayInputStream(new byte[0]));
         response.setEntity(entity);
@@ -151,6 +176,14 @@ public class OauthAsyncCompletionHandlerTest {
         @Override
         public String convert(Response response) throws IOException {
             throw new IOException("Failed to convert");
+        }
+    }
+
+    private static class OAuthExceptionResponseConverter implements OAuthRequest.ResponseConverter<String> {
+
+        @Override
+        public String convert(Response response) throws IOException {
+            throw new OAuthException("bad oauth");
         }
     }
 }
