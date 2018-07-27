@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import okhttp3.Call;
 
 public class OkHttpFuture<T> implements Future<T> {
@@ -12,6 +13,7 @@ public class OkHttpFuture<T> implements Future<T> {
     private final CountDownLatch latch = new CountDownLatch(1);
     private final Call call;
     private T result;
+    private Throwable t;
 
     public OkHttpFuture(Call call) {
         this.call = call;
@@ -33,19 +35,28 @@ public class OkHttpFuture<T> implements Future<T> {
         return call.isExecuted();
     }
 
+    public void setError(Throwable t) {
+        this.t = t;
+    }
+
     @Override
     public T get() throws InterruptedException, ExecutionException {
         latch.await();
+        if (t != null) {
+            throw new ExecutionException(t);
+        }
         return result;
     }
 
     @Override
     public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         if (latch.await(timeout, unit)) {
+            if (t != null) {
+                throw new ExecutionException(t);
+            }
             return result;
-        } else {
-            throw new TimeoutException();
         }
+        throw new TimeoutException();
     }
 
     void finish() {
