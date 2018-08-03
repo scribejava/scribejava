@@ -1,11 +1,12 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.service.OdnoklassnikiOAuthService;
-import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.builder.api.OAuth2SignatureType;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 import java.io.OutputStream;
 
 public class OdnoklassnikiApi extends DefaultApi20 {
@@ -45,7 +46,7 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.REQUEST_BODY;
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 }

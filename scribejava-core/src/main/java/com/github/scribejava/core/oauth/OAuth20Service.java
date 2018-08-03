@@ -105,7 +105,7 @@ public class OAuth20Service extends OAuthService {
     protected OAuthRequest createAccessTokenRequest(String code) {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
 
-        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
+        api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         request.addParameter(OAuthConstants.CODE, code);
         request.addParameter(OAuthConstants.REDIRECT_URI, getCallback());
@@ -149,7 +149,7 @@ public class OAuth20Service extends OAuthService {
         }
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getRefreshTokenEndpoint());
 
-        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
+        api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         final String scope = getScope();
         if (scope != null) {
@@ -199,7 +199,7 @@ public class OAuth20Service extends OAuthService {
 
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
 
-        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
+        api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         return request;
     }
@@ -232,7 +232,7 @@ public class OAuth20Service extends OAuthService {
     protected OAuthRequest createAccessTokenClientCredentialsGrantRequest() {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
 
-        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
+        api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         final String scope = getScope();
         if (scope != null) {
@@ -308,7 +308,7 @@ public class OAuth20Service extends OAuthService {
     protected OAuthRequest createRevokeTokenRequest(String tokenToRevoke, TokenTypeHint tokenTypeHint) {
         final OAuthRequest request = new OAuthRequest(Verb.POST, api.getRevokeTokenEndpoint());
 
-        api.getClientAuthenticationType().addClientAuthentication(request, getApiKey(), getApiSecret());
+        api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         request.addParameter("token", tokenToRevoke);
         if (tokenTypeHint != null) {

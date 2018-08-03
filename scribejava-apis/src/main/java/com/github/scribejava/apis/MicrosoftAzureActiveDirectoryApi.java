@@ -1,10 +1,11 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.service.MicrosoftAzureActiveDirectoryService;
-import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 import java.io.OutputStream;
 
 /**
@@ -57,7 +58,7 @@ public class MicrosoftAzureActiveDirectoryApi extends DefaultApi20 {
     }
 
     @Override
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.REQUEST_BODY;
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 }

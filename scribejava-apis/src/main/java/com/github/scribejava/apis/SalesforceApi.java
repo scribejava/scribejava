@@ -3,11 +3,12 @@ package com.github.scribejava.apis;
 import javax.net.ssl.SSLContext;
 
 import com.github.scribejava.apis.salesforce.SalesforceJsonTokenExtractor;
-import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -132,7 +133,7 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     @Override
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.REQUEST_BODY;
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 }

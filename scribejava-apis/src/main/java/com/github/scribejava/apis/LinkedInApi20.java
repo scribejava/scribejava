@@ -1,7 +1,8 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
 public class LinkedInApi20 extends DefaultApi20 {
 
@@ -27,7 +28,7 @@ public class LinkedInApi20 extends DefaultApi20 {
     }
 
     @Override
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.REQUEST_BODY;
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 }

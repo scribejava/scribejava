@@ -1,9 +1,8 @@
 package com.github.scribejava.core.builder.api;
 
-import com.github.scribejava.core.java8.Base64;
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
-import java.nio.charset.Charset;
+import com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
 /**
  * Represents<br>
@@ -11,37 +10,32 @@ import java.nio.charset.Charset;
  * https://tools.ietf.org/html/rfc6749#section-2.3 <br>
  * in it's part 2.3.1. Client Password<br>
  * https://tools.ietf.org/html/rfc6749#section-2.3.1
+ *
+ * @deprecated use {@link com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication}
  */
-public abstract class ClientAuthenticationType {
+@Deprecated
+public enum ClientAuthenticationType {
+    /**
+     * @deprecated use {@link com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme}
+     */
+    @Deprecated
+    HTTP_BASIC_AUTHENTICATION_SCHEME {
 
-    public static final ClientAuthenticationType HTTP_BASIC_AUTHENTICATION_SCHEME =
-            new ClientAuthenticationType() {
-                private final Base64.Encoder base64Encoder = Base64.getEncoder();
+        @Override
+        public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
+            HttpBasicAuthenticationScheme.instance().addClientAuthentication(request, apiKey, apiSecret);
+        }
+    },
+    /**
+     * @deprecated use {@link com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme}
+     */
+    @Deprecated
+    REQUEST_BODY {
+        @Override
+        public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
+            RequestBodyAuthenticationScheme.instance().addClientAuthentication(request, apiKey, apiSecret);
+        }
+    };
 
-                @Override
-                public void addClientAuthentication(OAuthRequest request, String apiKey,
-                                                    String apiSecret) {
-                    if (apiKey != null && apiSecret != null) {
-                        request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + ' '
-                                + base64Encoder.encodeToString(
-                                String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
-                    }
-                }
-            };
-
-    public static final ClientAuthenticationType REQUEST_BODY =
-            new ClientAuthenticationType() {
-
-                @Override
-                public void addClientAuthentication(OAuthRequest request, String apiKey,
-                                                    String apiSecret) {
-                    request.addParameter(OAuthConstants.CLIENT_ID, apiKey);
-                    if (apiSecret != null) {
-                        request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
-                    }
-                }
-            };
-
-    public abstract void addClientAuthentication(OAuthRequest request, String apiKey,
-                                                 String apiSecret);
+    public abstract void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret);
 }
