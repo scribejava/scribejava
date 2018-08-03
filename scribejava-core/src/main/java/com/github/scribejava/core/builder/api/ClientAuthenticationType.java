@@ -12,28 +12,36 @@ import java.nio.charset.Charset;
  * in it's part 2.3.1. Client Password<br>
  * https://tools.ietf.org/html/rfc6749#section-2.3.1
  */
-public enum ClientAuthenticationType {
-    HTTP_BASIC_AUTHENTICATION_SCHEME {
-        private final Base64.Encoder base64Encoder = Base64.getEncoder();
+public abstract class ClientAuthenticationType {
 
-        @Override
-        public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
-            if (apiKey != null && apiSecret != null) {
-                request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + ' '
-                        + base64Encoder.encodeToString(
+    public static final ClientAuthenticationType HTTP_BASIC_AUTHENTICATION_SCHEME =
+            new ClientAuthenticationType() {
+                private final Base64.Encoder base64Encoder = Base64.getEncoder();
+
+                @Override
+                public void addClientAuthentication(OAuthRequest request, String apiKey,
+                                                    String apiSecret) {
+                    if (apiKey != null && apiSecret != null) {
+                        request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + ' '
+                                + base64Encoder.encodeToString(
                                 String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
-            }
-        }
-    },
-    REQUEST_BODY {
-        @Override
-        public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
-            request.addParameter(OAuthConstants.CLIENT_ID, apiKey);
-            if (apiSecret != null) {
-                request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
-            }
-        }
-    };
+                    }
+                }
+            };
 
-    public abstract void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret);
+    public static final ClientAuthenticationType REQUEST_BODY =
+            new ClientAuthenticationType() {
+
+                @Override
+                public void addClientAuthentication(OAuthRequest request, String apiKey,
+                                                    String apiSecret) {
+                    request.addParameter(OAuthConstants.CLIENT_ID, apiKey);
+                    if (apiSecret != null) {
+                        request.addParameter(OAuthConstants.CLIENT_SECRET, apiSecret);
+                    }
+                }
+            };
+
+    public abstract void addClientAuthentication(OAuthRequest request, String apiKey,
+                                                 String apiSecret);
 }
