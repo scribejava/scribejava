@@ -1,4 +1,5 @@
 [SNAPSHOT]
+ * remove support for obsolete NetEase (http://www.163.com/) and sohu 搜狐 (http://www.sohu.com/) (thanks to https://github.com/zawn)
  * add Multipart functionality to JDK Http Client (thanks to https://github.com/eos1d3)
  * switch OAuth2 ClientAuthenticationType from enum to interface to be extensible according to
    https://tools.ietf.org/html/rfc6749#section-2.3.2 (thanks to https://github.com/zawn)
