@@ -7,7 +7,7 @@ import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthent
 /**
  * OAuth2 API for HiOrg-Server
  *
- * @see https://wiki.hiorg-server.de/admin/oauth2
+ * @see <a href="https://wiki.hiorg-server.de/admin/oauth2">HiOrg-Server OAuth API documentation</a>
  */
 public class HiOrgServerApi20 extends DefaultApi20 {
 
