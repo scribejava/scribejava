@@ -11,10 +11,10 @@ import java.util.concurrent.TimeoutException;
  */
 public class JDKHttpFuture<V> implements Future<V> {
 
-    private final Exception exception;
+    private final Throwable exception;
     private final V response;
 
-    public JDKHttpFuture(Exception exception) {
+    public JDKHttpFuture(Throwable exception) {
         this(null, exception);
     }
 
@@ -22,7 +22,7 @@ public class JDKHttpFuture<V> implements Future<V> {
         this(response, null);
     }
 
-    private JDKHttpFuture(V response, Exception exception) {
+    private JDKHttpFuture(V response, Throwable exception) {
         this.response = response;
         this.exception = exception;
     }

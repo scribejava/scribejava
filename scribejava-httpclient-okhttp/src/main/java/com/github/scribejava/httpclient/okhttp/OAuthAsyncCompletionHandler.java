@@ -24,6 +24,7 @@ class OAuthAsyncCompletionHandler<T> implements Callback {
     @Override
     public void onFailure(Call call, IOException e) {
         try {
+            this.okHttpFuture.setError(e);
             if (callback != null) {
                 callback.onThrowable(e);
             }
@@ -37,12 +38,18 @@ class OAuthAsyncCompletionHandler<T> implements Callback {
         try {
 
             final Response response = OkHttpHttpClient.convertResponse(okHttpResponse);
-
-            @SuppressWarnings("unchecked")
-            final T t = converter == null ? (T) response : converter.convert(response);
-            okHttpFuture.setResult(t);
-            if (callback != null) {
-                callback.onCompleted(t);
+           try {
+                @SuppressWarnings("unchecked")
+                final T t = converter == null ? (T) response : converter.convert(response);
+                okHttpFuture.setResult(t);
+                if (callback != null) {
+                    callback.onCompleted(t);
+                }
+            } catch (Throwable t) {
+                okHttpFuture.setError(t);
+                if (callback != null) {
+                    callback.onThrowable(t);
+                }
             }
         } finally {
             okHttpFuture.finish();
