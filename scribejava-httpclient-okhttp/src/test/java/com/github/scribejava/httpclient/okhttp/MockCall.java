@@ -1,66 +1,54 @@
 package com.github.scribejava.httpclient.okhttp;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
-/**
- * the only reason, this is a dynamic proxy is, that checkstyle forbids implementing clone()!
- */
-public class MockCall implements InvocationHandler {
+public class MockCall implements Call {
 
-    private final Collection<Callback> callbacks;
+    private final Collection<Callback> callbacks = new ArrayList<>();
     private boolean canceled;
 
-    public MockCall() {
-        this(new ArrayList<Callback>());
-    }
-
-    private MockCall(Collection<Callback> callbacks) {
-        this.callbacks = new ArrayList<>(callbacks);
-    }
-
+    @Override
     public void enqueue(Callback responseCallback) {
         callbacks.add(responseCallback);
     }
 
-    public void cancel(Call proxy) {
+    @Override
+    public void cancel() {
         canceled = true;
         for (Callback callback : callbacks) {
-            callback.onFailure(proxy, new IOException("Canceled"));
+            callback.onFailure(this, new IOException("Canceled"));
         }
     }
 
+    @Override
     public boolean isCanceled() {
         return canceled;
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        switch (method.getName()) {
-        case "enqueue":
-            enqueue((Callback) args[0]);
-            return null;
-        case "cancel":
-            cancel((Call) proxy);
-            return null;
-        case "isCanceled":
-            return isCanceled();
-        default:
-            throw new UnsupportedOperationException(method.toString());
-        }
+    public Request request() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /**
-     * @return
-     */
-    public static Call create() {
-        return (Call) Proxy.newProxyInstance(Call.class.getClassLoader(), new Class[] { Call.class }, new MockCall());
+    @Override
+    public Response execute() throws IOException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isExecuted() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Call clone() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

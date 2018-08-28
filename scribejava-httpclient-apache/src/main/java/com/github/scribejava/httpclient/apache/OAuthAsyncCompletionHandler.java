@@ -16,6 +16,7 @@ import org.apache.http.concurrent.FutureCallback;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequest.ResponseConverter;
 import com.github.scribejava.core.model.Response;
+import java.io.IOException;
 
 public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpResponse> {
 
@@ -23,7 +24,7 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
     private final ResponseConverter<T> converter;
     private final CountDownLatch latch;
     private T result;
-    private Throwable exception;
+    private Exception exception;
 
     public OAuthAsyncCompletionHandler(OAuthAsyncRequestCallback<T> callback, ResponseConverter<T> converter) {
         this.callback = callback;
@@ -41,9 +42,8 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
 
             final StatusLine statusLine = httpResponse.getStatusLine();
 
-            final Response response =
-                    new Response(statusLine.getStatusCode(), statusLine.getReasonPhrase(), headersMap,
-                            httpResponse.getEntity().getContent());
+            final Response response = new Response(statusLine.getStatusCode(), statusLine.getReasonPhrase(), headersMap,
+                    httpResponse.getEntity().getContent());
 
             @SuppressWarnings("unchecked")
             final T t = converter == null ? (T) response : converter.convert(response);
@@ -51,7 +51,7 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
             if (callback != null) {
                 callback.onCompleted(result);
             }
-        } catch (Throwable e) {
+        } catch (IOException | RuntimeException e) {
             exception = e;
             if (callback != null) {
                 callback.onThrowable(e);

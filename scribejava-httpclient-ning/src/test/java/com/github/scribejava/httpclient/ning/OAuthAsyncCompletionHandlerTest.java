@@ -16,11 +16,11 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.ning.http.client.FluentCaseInsensitiveStringsMap;
 
-public class OauthAsyncCompletionHandlerTest {
+public class OAuthAsyncCompletionHandlerTest {
 
     private static final AllGoodResponseConverter ALL_GOOD_RESPONSE_CONVERTER = new AllGoodResponseConverter();
-    private static final OAuthExceptionResponseConverter OAUTH_EXCEPTION_RESPONSE_CONVERTER =
-            new OAuthExceptionResponseConverter();
+    private static final OAuthExceptionResponseConverter OAUTH_EXCEPTION_RESPONSE_CONVERTER
+            = new OAuthExceptionResponseConverter();
 
     private OAuthAsyncCompletionHandler<String> handler;
     private TestCallback callback;
@@ -59,8 +59,8 @@ public class OauthAsyncCompletionHandlerTest {
     public void shouldReleaseLatchOnSuccess() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
 
-        final com.ning.http.client.Response response =
-                new MockResponse(200, "ok", new FluentCaseInsensitiveStringsMap(), new byte[0]);
+        final com.ning.http.client.Response response
+                = new MockResponse(200, "ok", new FluentCaseInsensitiveStringsMap(), new byte[0]);
         handler.onCompleted(response);
         assertNotNull(callback.getResponse());
         assertNull(callback.getThrowable());
@@ -72,8 +72,8 @@ public class OauthAsyncCompletionHandlerTest {
     public void shouldReportOAuthException() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER);
 
-        final com.ning.http.client.Response response =
-                new MockResponse(200, "ok", new FluentCaseInsensitiveStringsMap(), new byte[0]);
+        final com.ning.http.client.Response response
+                = new MockResponse(200, "ok", new FluentCaseInsensitiveStringsMap(), new byte[0]);
         handler.onCompleted(response);
         assertNull(callback.getResponse());
         assertNotNull(callback.getThrowable());

@@ -3,6 +3,8 @@
  * add Multipart functionality to JDK Http Client (thanks to https://github.com/eos1d3)
  * switch OAuth2 ClientAuthenticationType from enum to interface to be extensible according to
    https://tools.ietf.org/html/rfc6749#section-2.3.2 (thanks to https://github.com/zawn)
+ * add RuntimeException processing in async http clients (delivered to onError callbacks) (thanks to https://github.com/jochen314)
+ * check 200 status code from response in OAuth2AccessTokenExtractor (thanks to https://github.com/jochen314)
 
 [5.5.0]
  * fix error parsing for Fitbit (thanks to https://github.com/danmana)

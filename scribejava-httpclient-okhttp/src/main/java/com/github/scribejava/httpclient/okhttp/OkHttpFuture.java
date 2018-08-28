@@ -13,7 +13,7 @@ public class OkHttpFuture<T> implements Future<T> {
     private final CountDownLatch latch = new CountDownLatch(1);
     private final Call call;
     private T result;
-    private Throwable t;
+    private Exception exception;
 
     public OkHttpFuture(Call call) {
         this.call = call;
@@ -35,15 +35,15 @@ public class OkHttpFuture<T> implements Future<T> {
         return call.isExecuted();
     }
 
-    public void setError(Throwable t) {
-        this.t = t;
+    public void setException(Exception exception) {
+        this.exception = exception;
     }
 
     @Override
     public T get() throws InterruptedException, ExecutionException {
         latch.await();
-        if (t != null) {
-            throw new ExecutionException(t);
+        if (exception != null) {
+            throw new ExecutionException(exception);
         }
         return result;
     }
@@ -51,8 +51,8 @@ public class OkHttpFuture<T> implements Future<T> {
     @Override
     public T get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
         if (latch.await(timeout, unit)) {
-            if (t != null) {
-                throw new ExecutionException(t);
+            if (exception != null) {
+                throw new ExecutionException(exception);
             }
             return result;
         }

@@ -11,9 +11,6 @@ import com.ning.http.client.Response;
 import com.ning.http.client.cookie.Cookie;
 import com.ning.http.client.uri.Uri;
 
-/**
- *
- */
 public class MockResponse implements Response {
 
     private final int statusCode;
@@ -21,14 +18,7 @@ public class MockResponse implements Response {
     private final FluentCaseInsensitiveStringsMap headers;
     private final byte[] body;
 
-    /**
-     * @param statusCode
-     * @param statusText
-     * @param body
-     */
-    public MockResponse(int statusCode, String statusText, FluentCaseInsensitiveStringsMap headers,
-            byte[] body) {
-        super();
+    public MockResponse(int statusCode, String statusText, FluentCaseInsensitiveStringsMap headers, byte[] body) {
         this.statusCode = statusCode;
         this.statusText = statusText;
         this.headers = headers;

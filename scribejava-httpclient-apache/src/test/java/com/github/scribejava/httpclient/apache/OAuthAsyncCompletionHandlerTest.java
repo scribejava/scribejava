@@ -1,4 +1,4 @@
-package com.github.scribejava.httpclient.okhttp;
+package com.github.scribejava.httpclient.apache;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,9 +6,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.message.BasicStatusLine;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,22 +24,14 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.Protocol;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
-
-public class OauthAsyncCompletionHandlerTest {
+public class OAuthAsyncCompletionHandlerTest {
 
     private static final AllGoodResponseConverter ALL_GOOD_RESPONSE_CONVERTER = new AllGoodResponseConverter();
     private static final ExceptionResponseConverter EXCEPTION_RESPONSE_CONVERTER = new ExceptionResponseConverter();
-    private static final OAuthExceptionResponseConverter OAUTH_EXCEPTION_RESPONSE_CONVERTER =
-            new OAuthExceptionResponseConverter();
+    private static final OAuthExceptionResponseConverter OAUTH_EXCEPTION_RESPONSE_CONVERTER
+            = new OAuthExceptionResponseConverter();
 
     private OAuthAsyncCompletionHandler<String> handler;
-    private Call call;
-    private OkHttpFuture<String> future;
     private TestCallback callback;
 
     private static class TestCallback implements OAuthAsyncRequestCallback<String> {
@@ -63,42 +62,38 @@ public class OauthAsyncCompletionHandlerTest {
     @Before
     public void setUp() {
         callback = new TestCallback();
-        call = MockCall.create();
-        future = new OkHttpFuture<>(call);
     }
 
     @Test
     public void shouldReleaseLatchOnSuccess() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
-        call.enqueue(handler);
-
-        final okhttp3.Request request = new Request.Builder().url("http://localhost/").build();
-        final okhttp3.Response response =
-                new okhttp3.Response.Builder().request(request).protocol(Protocol.HTTP_1_1).code(200).message("ok")
-                        .body(ResponseBody.create(MediaType.get("text/plain"), new byte[0])).build();
-        handler.onResponse(call, response);
+        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
+        final HttpResponse response
+                = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(new byte[0]));
+        response.setEntity(entity);
+        handler.completed(response);
         assertNotNull(callback.getResponse());
         assertNull(callback.getThrowable());
         // verify latch is released
-        assertEquals("All good", future.get());
+        assertEquals("All good", handler.getResult());
     }
 
     @Test
     public void shouldReleaseLatchOnIOException() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER, future);
-        call.enqueue(handler);
-
-        final okhttp3.Request request = new Request.Builder().url("http://localhost/").build();
-        final okhttp3.Response response =
-                new okhttp3.Response.Builder().request(request).protocol(Protocol.HTTP_1_1).code(200).message("ok")
-                        .body(ResponseBody.create(MediaType.get("text/plain"), new byte[0])).build();
-        handler.onResponse(call, response);
+        handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER);
+        final HttpResponse response
+                = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(new byte[0]));
+        response.setEntity(entity);
+        handler.completed(response);
         assertNull(callback.getResponse());
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
         try {
-            future.get();
+            handler.getResult();
             fail();
         } catch (ExecutionException expected) {
             // expected
@@ -107,20 +102,19 @@ public class OauthAsyncCompletionHandlerTest {
 
     @Test
     public void shouldReportOAuthException() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER, future);
-        call.enqueue(handler);
-
-        final okhttp3.Request request = new Request.Builder().url("http://localhost/").build();
-        final okhttp3.Response response =
-                new okhttp3.Response.Builder().request(request).protocol(Protocol.HTTP_1_1).code(200).message("ok")
-                        .body(ResponseBody.create(MediaType.get("text/plain"), new byte[0])).build();
-        handler.onResponse(call, response);
+        handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER);
+        final HttpResponse response
+                = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(new byte[0]));
+        response.setEntity(entity);
+        handler.completed(response);
         assertNull(callback.getResponse());
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof OAuthException);
         // verify latch is released
         try {
-            future.get();
+            handler.getResult();
             fail();
         } catch (ExecutionException expected) {
             // expected
@@ -129,16 +123,19 @@ public class OauthAsyncCompletionHandlerTest {
 
     @Test
     public void shouldReleaseLatchOnCancel() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
-        call.enqueue(handler);
-
-        future.cancel(true);
+        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
+        final HttpResponse response
+                = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(new byte[0]));
+        response.setEntity(entity);
+        handler.cancelled();
         assertNull(callback.getResponse());
         assertNotNull(callback.getThrowable());
-        assertTrue(callback.getThrowable() instanceof IOException);
+        assertTrue(callback.getThrowable() instanceof CancellationException);
         // verify latch is released
         try {
-            future.get();
+            handler.getResult();
             fail();
         } catch (ExecutionException expected) {
             // expected
@@ -147,16 +144,19 @@ public class OauthAsyncCompletionHandlerTest {
 
     @Test
     public void shouldReleaseLatchOnFailure() throws Exception {
-        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
-        call.enqueue(handler);
-
-        handler.onFailure(call, new IOException());
+        handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
+        final HttpResponse response
+                = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
+        final BasicHttpEntity entity = new BasicHttpEntity();
+        entity.setContent(new ByteArrayInputStream(new byte[0]));
+        response.setEntity(entity);
+        handler.failed(new RuntimeException());
         assertNull(callback.getResponse());
         assertNotNull(callback.getThrowable());
-        assertTrue(callback.getThrowable() instanceof IOException);
+        assertTrue(callback.getThrowable() instanceof RuntimeException);
         // verify latch is released
         try {
-            future.get();
+            handler.getResult();
             fail();
         } catch (ExecutionException expected) {
             // expected

@@ -20,21 +20,26 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
     }
 
     @Override
-    public T onCompleted(org.asynchttpclient.Response ahcResponse) throws IOException {
-        final Map<String, String> headersMap = new HashMap<>();
-        for (Map.Entry<String, String> header : ahcResponse.getHeaders()) {
-            headersMap.put(header.getKey(), header.getValue());
-        }
+    public T onCompleted(org.asynchttpclient.Response ahcResponse) {
+        try {
+            final Map<String, String> headersMap = new HashMap<>();
+            for (Map.Entry<String, String> header : ahcResponse.getHeaders()) {
+                headersMap.put(header.getKey(), header.getValue());
+            }
 
-        final Response response = new Response(ahcResponse.getStatusCode(), ahcResponse.getStatusText(), headersMap,
-                ahcResponse.getResponseBodyAsStream());
+            final Response response = new Response(ahcResponse.getStatusCode(), ahcResponse.getStatusText(), headersMap,
+                    ahcResponse.getResponseBodyAsStream());
 
-        @SuppressWarnings("unchecked")
-        final T t = converter == null ? (T) response : converter.convert(response);
-        if (callback != null) {
-            callback.onCompleted(t);
+            @SuppressWarnings("unchecked")
+            final T t = converter == null ? (T) response : converter.convert(response);
+            if (callback != null) {
+                callback.onCompleted(t);
+            }
+            return t;
+        } catch (IOException | RuntimeException e) {
+            onThrowable(e);
+            return null;
         }
-        return t;
     }
 
     @Override

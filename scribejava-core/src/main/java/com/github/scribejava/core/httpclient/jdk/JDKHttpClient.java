@@ -79,7 +79,7 @@ public class JDKHttpClient implements HttpClient {
                 callback.onCompleted(t);
             }
             return new JDKHttpFuture<>(t);
-        } catch (Throwable e) {
+        } catch (IOException | RuntimeException e) {
             if (callback != null) {
                 callback.onThrowable(e);
             }
