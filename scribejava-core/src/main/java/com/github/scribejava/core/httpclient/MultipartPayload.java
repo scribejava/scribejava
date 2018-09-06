@@ -18,7 +18,8 @@ public class MultipartPayload {
     public byte[] getStartBoundary(BodyPartPayload bodyPart) {
         return ("--" + boundary + "\r\n"
                 + "Content-Disposition: " + bodyPart.getContentDisposition() + "\r\n"
-                + (bodyPart.getContentType() == null ? "" : "Content-Type: " + bodyPart.getContentType() + "\r\n")
+                + (bodyPart.getContentType() == null
+                ? "" : HttpClient.CONTENT_TYPE + ": " + bodyPart.getContentType() + "\r\n")
                 + "\r\n").getBytes();
     }
 

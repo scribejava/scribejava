@@ -5,6 +5,7 @@
    https://tools.ietf.org/html/rfc6749#section-2.3.2 (thanks to https://github.com/zawn)
  * add RuntimeException processing in async http clients (delivered to onError callbacks) (thanks to https://github.com/jochen314)
  * check 200 status code from response in OAuth2AccessTokenExtractor (thanks to https://github.com/jochen314)
+ * fix case sensitive Http Headers comparison and sending Content-Type header along with content-type (thanks to https://github.com/marnix)
 
 [5.5.0]
  * fix error parsing for Fitbit (thanks to https://github.com/danmana)

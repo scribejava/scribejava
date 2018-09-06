@@ -10,6 +10,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The representation of an OAuth HttpRequest.
@@ -22,7 +23,7 @@ public class OAuthRequest {
     private final Verb verb;
     private final ParameterList querystringParams = new ParameterList();
     private final ParameterList bodyParams = new ParameterList();
-    private final Map<String, String> headers = new HashMap<>();
+    private final Map<String, String> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     private String charset;
 
@@ -95,7 +96,7 @@ public class OAuthRequest {
      * @param value the header value
      */
     public void addHeader(String key, String value) {
-        this.headers.put(key, value);
+        headers.put(key, value);
     }
 
     /**
@@ -105,7 +106,7 @@ public class OAuthRequest {
      * @param value the parameter value
      */
     public void addBodyParameter(String key, String value) {
-        this.bodyParams.add(key, value);
+        bodyParams.add(key, value);
     }
 
     /**
@@ -115,7 +116,7 @@ public class OAuthRequest {
      * @param value the parameter value
      */
     public void addQuerystringParameter(String key, String value) {
-        this.querystringParams.add(key, value);
+        querystringParams.add(key, value);
     }
 
     public void addParameter(String key, String value) {
