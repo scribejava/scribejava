@@ -1,6 +1,5 @@
 The MIT License
 
-Copyright (c) 2013 hh.ru
 Copyright (c) 2010 Pablo Fernandez
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
