@@ -41,15 +41,12 @@
         <developer>
             <id>kullfar</id>
             <name>Stas Gromov</name>
-            <email>s.gromov@hh.ru</email>
-            <organization>hh.ru</organization>
-            <organizationUrl>http://hh.ru</organizationUrl>
+            <email>kullfar@gmail.com</email>
             <roles>
                 <role>all</role>
             </roles>
             <timezone>+3</timezone>
             <properties>
-                <secondEmail>kullfar@gmail.com</secondEmail>
                 <mobile>+7-909-677-11-16</mobile>
             </properties>
         </developer>
