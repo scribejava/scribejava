@@ -11,7 +11,6 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme;
-import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 import java.io.OutputStream;
 import java.util.Map;
 
@@ -113,21 +112,6 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     }
 
     public ClientAuthentication getClientAuthentication() {
-        switch (getClientAuthenticationType()) {
-            case HTTP_BASIC_AUTHENTICATION_SCHEME:
-                return HttpBasicAuthenticationScheme.instance();
-            case REQUEST_BODY:
-                return RequestBodyAuthenticationScheme.instance();
-            default:
-                throw new IllegalStateException("there was no such Client Authentication Type");
-        }
-    }
-
-    /**
-     * @deprecated use {@link #getClientAuthentication() }
-     */
-    @Deprecated
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.HTTP_BASIC_AUTHENTICATION_SCHEME;
+        return HttpBasicAuthenticationScheme.instance();
     }
 }
