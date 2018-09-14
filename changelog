@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * make redirect_uri optional while Access Token requesting on OAuth 2.0 (thanks to https://github.com/computerlove)
+
 [5.6.0]
  * remove support for obsolete NetEase (http://www.163.com/) and sohu 搜狐 (http://www.sohu.com/) (thanks to https://github.com/zawn)
  * add Multipart functionality to JDK Http Client (thanks to https://github.com/eos1d3)
