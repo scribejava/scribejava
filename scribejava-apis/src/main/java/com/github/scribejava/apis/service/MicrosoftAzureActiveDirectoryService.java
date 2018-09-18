@@ -8,18 +8,18 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class MicrosoftAzureActiveDirectoryService extends OAuth20Service {
 
-    private static final String ACCEPTED_FORMAT
-            = "application/json; odata=minimalmetadata; streaming=true; charset=utf-8";
+    private final String acceptedFormat;
 
     public MicrosoftAzureActiveDirectoryService(DefaultApi20 api, String apiKey, String apiSecret, String callback,
             String scope, String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
-            HttpClient httpClient) {
+            HttpClient httpClient, String acceptedFormat) {
         super(api, apiKey, apiSecret, callback, scope, state, responseType, userAgent, httpClientConfig, httpClient);
+        this.acceptedFormat = acceptedFormat;
     }
 
     @Override
     public void signRequest(String accessToken, OAuthRequest request) {
         super.signRequest(accessToken, request);
-        request.addHeader("Accept", ACCEPTED_FORMAT);
+        request.addHeader("Accept", acceptedFormat);
     }
 }
