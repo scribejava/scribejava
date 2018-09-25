@@ -1,7 +1,0 @@
-dist: trusty
-language: java
-script: mvn clean package
-jdk:
-  - openjdk7
-os:
-  - linux

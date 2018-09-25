@@ -1,6 +1,5 @@
 # Welcome to the home of ScribeJava, the simple OAuth client Java lib!
 
-[![Build Status](https://travis-ci.org/scribejava/scribejava.svg?branch=master)](https://travis-ci.org/scribejava/scribejava)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava)
 
 
