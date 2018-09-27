@@ -147,6 +147,9 @@ public class OAuthRequest {
 
     /**
      * you can invoke {@link #initMultipartBoundary(java.lang.String) } to set custom boundary
+     * @param contentDisposition contentDisposition
+     * @param contentType contentType
+     * @param payload payload
      */
     public void addMultipartPayload(String contentDisposition, String contentType, byte[] payload) {
         if (multipartPayload == null) {

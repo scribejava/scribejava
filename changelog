@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * make redirect_uri optional while Access Token requesting on OAuth 2.0 (thanks to https://github.com/computerlove)
+ * switch to java 9+ (from java 7 only) for compilation. Runtime is still java 7+. Complement README with links and RFC descriptions.
 
 [5.6.0]
  * remove support for obsolete NetEase (http://www.163.com/) and sohu 搜狐 (http://www.sohu.com/) (thanks to https://github.com/zawn)
@@ -205,8 +206,7 @@
 
 [2.0]
  * merge back SubScribe fork to the ScribeJava
- 
+
 for previous changes see
 v1-changelog - changelog for 1.x version
 v2pre-changelog - changelog for SubScribe fork
-

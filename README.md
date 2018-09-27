@@ -18,6 +18,7 @@ OAuthService service = new ServiceBuilder(YOUR_API_KEY)
 That **single line** (added newlines for readability) is the only thing you need to configure ScribeJava with LinkedIn's OAuth API for example.
 
 Working runnable examples are [here](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
+Common usage: [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20Example.java)
 
 ### Threadsafe
 
@@ -26,16 +27,26 @@ Hit ScribeJava as hard and with many threads as you like.
 ### Java 7 compatible
 
 That's it. You can use it in old environments and in android apps.
+note: To compile from sources you will need Java 9 or newer
 
 ### Async and other HTTP clients
 
 ScribeJava support out-of-box several HTTP clients:
- * ning async http client 1.9.x (maven module scribejava-httpclient-ning)
- * Async Http Client asynchttpclient 2.x (maven module scribejava-httpclient-ahc)
- * OkHttp (maven module scribejava-httpclient-okhttp)
- * Apache HttpComponents HttpClient (maven module scribejava-httpclient-apache)
+ * ning async http client 1.9.x (maven module scribejava-httpclient-ning) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/FacebookAsyncNingExample.java)
+ * Async Http Client asynchttpclient 2.x (maven module scribejava-httpclient-ahc) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20AsyncAHCExample.java)
+ * OkHttp (maven module scribejava-httpclient-okhttp) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/GitHubAsyncOkHttpExample.java)
+ * Apache HttpComponents HttpClient (maven module scribejava-httpclient-apache) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/FacebookAsyncApacheExample.java)
+ * any externally created HTTP client [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteExternalHttpExample.java)
 
  just add corresponding maven modules to your pom
+
+### Supports many flows and additional features
+
+  * RFC 6749 The OAuth 2.0 Authorization Framework, Authorization Code Authorization Grant [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20Example.java)
+  * RFC 6749 The OAuth 2.0 Authorization Framework, Client Credentials Authorization Grant [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteClientCredentialsGrantExample.java)
+  * RFC 6749 The OAuth 2.0 Authorization Framework, Resource Owner Password Credentials Authorization Grant
+  * RFC 7636 Proof Key for Code Exchange by OAuth Public Clients (PKCE) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20WithPKCEExample.java)
+  * RFC 7009 OAuth 2.0 Token Revocation [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20RevokeExample.java)
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 

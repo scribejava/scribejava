@@ -32,6 +32,8 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
 
     /**
      * https://tools.ietf.org/html/rfc5849#section-3.4.1.2
+     * @param request request
+     * @return url
      */
     protected String getUrl(OAuthRequest request) {
         return request.getSanitizedUrl();

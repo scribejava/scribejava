@@ -40,19 +40,19 @@ import java.util.Objects;
  * <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>.
  *
  * <ul>
- * <li><a name="basic"><b>Basic</b></a>
+ * <li><a id="basic"><b>Basic</b></a>
  * <p>
  * Uses "The Base64 Alphabet" as specified in Table 1 of RFC 4648 and RFC 2045 for encoding and decoding operation. The
  * encoder does not add any line feed (line separator) character. The decoder rejects data that contains characters
  * outside the base64 alphabet.</p></li>
  *
- * <li><a name="url"><b>URL and Filename safe</b></a>
+ * <li><a id="url"><b>URL and Filename safe</b></a>
  * <p>
  * Uses the "URL and Filename safe Base64 Alphabet" as specified in Table 2 of RFC 4648 for encoding and decoding. The
  * encoder does not add any line feed (line separator) character. The decoder rejects data that contains characters
  * outside the base64 alphabet.</p></li>
  *
- * <li><a name="mime"><b>MIME</b></a>
+ * <li><a id="mime"><b>MIME</b></a>
  * <p>
  * Uses the "The Base64 Alphabet" as specified in Table 1 of RFC 2045 for encoding and decoding operation. The encoded
  * output must be represented in lines of no more than 76 characters each and uses a carriage return {@code '\r'}
@@ -629,7 +629,8 @@ public class Base64 {
                         len -= (sl - sp + 1);
                         break;
                     }
-                    if ((b = base64[b]) == -1) {
+                    b = base64[b];
+                    if (b == -1) {
                         n++;
                     }
                 }
@@ -655,7 +656,8 @@ public class Base64 {
             int shiftto = 18;       // pos of first byte of 4-byte atom
             while (sp < sl) {
                 int b = src[sp++] & 0xff;
-                if ((b = base64[b]) < 0) {
+                b = base64[b];
+                if (b < 0) {
                     if (b == -2) {         // padding byte '='
                         // =     shiftto==18 unnecessary padding
                         // x=    shiftto==12 a dangling single x
@@ -689,15 +691,20 @@ public class Base64 {
                 }
             }
             // reached end of byte array or hit padding '=' characters.
-            if (shiftto == 6) {
-                dst[dp++] = (byte) (bits >> 16);
-            } else if (shiftto == 0) {
-                dst[dp++] = (byte) (bits >> 16);
-                dst[dp++] = (byte) (bits >> 8);
-            } else if (shiftto == 12) {
-                // dangling single "x", incorrectly encoded.
-                throw new IllegalArgumentException(
-                        "Last unit does not have enough valid bits");
+            switch (shiftto) {
+                case 6:
+                    dst[dp++] = (byte) (bits >> 16);
+                    break;
+                case 0:
+                    dst[dp++] = (byte) (bits >> 16);
+                    dst[dp++] = (byte) (bits >> 8);
+                    break;
+                case 12:
+                    // dangling single "x", incorrectly encoded.
+                    throw new IllegalArgumentException(
+                            "Last unit does not have enough valid bits");
+                default:
+                    break;
             }
             // anything left is invalid, if is not MIME.
             // if MIME, ignore all non-base64 character
@@ -929,7 +936,8 @@ public class Base64 {
                     eof = true;
                     break;
                 }
-                if ((v = base64[v]) == -1) {
+                v = base64[v];
+                if (v == -1) {
                     if (isMIME) // skip if for rfc2045
                     {
                         continue;

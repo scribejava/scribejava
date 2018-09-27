@@ -75,7 +75,12 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
+     * @param responseType responseType
+     * @param apiKey apiKey
      * @param additionalParams any additional GET params to add to the URL
+     * @param callback callback
+     * @param state state
+     * @param scope scope
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl(String responseType, String apiKey, String callback, String scope, String state,

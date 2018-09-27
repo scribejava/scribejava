@@ -36,10 +36,12 @@ public class MediaWikiApi extends DefaultApi10a {
     }
 
     /**
-     * The instance for wikis hosted by the Wikimedia Foundation. Consumers are requested on
+     * The instance for wikis hosted by the Wikimedia Foundation.Consumers are requested on
      * <a href="https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose">
      * Special:OAuthConsumerRegistration/propose
      * </a>.
+     *
+     * @return instance
      */
     public static MediaWikiApi instance() {
         return InstanceHolder.INSTANCE;
@@ -50,6 +52,8 @@ public class MediaWikiApi extends DefaultApi10a {
      * <a href="https://meta.wikimedia.beta.wmflabs.org/wiki/Special:OAuthConsumerRegistration/propose">
      * Special:OAuthConsumerRegistration/propose
      * </a>.
+     *
+     * @return instanceBeta
      */
     public static MediaWikiApi instanceBeta() {
         return BetaInstanceHolder.BETA_INSTANCE;
