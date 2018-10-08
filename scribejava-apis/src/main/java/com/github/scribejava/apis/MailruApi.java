@@ -1,7 +1,7 @@
 package com.github.scribejava.apis;
 
+import com.github.scribejava.apis.mailru.MailruOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.apis.service.MailruOAuthService;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import java.io.OutputStream;

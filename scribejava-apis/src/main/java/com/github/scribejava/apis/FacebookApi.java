@@ -1,7 +1,7 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
-import com.github.scribejava.apis.service.FacebookService;
+import com.github.scribejava.apis.facebook.FacebookService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;

@@ -1,6 +1,6 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.service.ImgurOAuthService;
+import com.github.scribejava.apis.imgur.ImgurOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;

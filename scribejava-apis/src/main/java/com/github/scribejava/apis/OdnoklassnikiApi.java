@@ -1,6 +1,6 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.service.OdnoklassnikiOAuthService;
+import com.github.scribejava.apis.odnoklassniki.OdnoklassnikiOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
