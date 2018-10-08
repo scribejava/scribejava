@@ -1,4 +1,4 @@
-package com.github.scribejava.apis.service;
+package com.github.scribejava.apis.wunderlist;
 
 import com.github.scribejava.apis.WunderlistAPI;
 import com.github.scribejava.core.httpclient.HttpClient;

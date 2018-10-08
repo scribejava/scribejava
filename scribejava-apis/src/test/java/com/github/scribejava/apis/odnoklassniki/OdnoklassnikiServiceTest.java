@@ -1,4 +1,4 @@
-package com.github.scribejava.apis.service;
+package com.github.scribejava.apis.odnoklassniki;
 
 import com.github.scribejava.apis.OdnoklassnikiApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
