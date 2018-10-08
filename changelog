@@ -1,11 +1,12 @@
 [SNAPSHOT]
  * make redirect_uri optional while Access Token requesting on OAuth 2.0 (thanks to https://github.com/computerlove)
  * switch to java 9+ (from java 7 only) for compilation. Runtime is still java 7+. Complement README with links and RFC descriptions.
+ * switch OAuth2 Bearer Token Usage from enum OAuth2SignatureType to interface BearerSignature to be extensible
 
 [5.6.0]
  * remove support for obsolete NetEase (http://www.163.com/) and sohu 搜狐 (http://www.sohu.com/) (thanks to https://github.com/zawn)
  * add Multipart functionality to JDK Http Client (thanks to https://github.com/eos1d3)
- * switch OAuth2 ClientAuthenticationType from enum to interface to be extensible according to
+ * switch OAuth2 ClientAuthenticationType from enum to interface ClientAuthentication to be extensible according to
    https://tools.ietf.org/html/rfc6749#section-2.3.2 (thanks to https://github.com/zawn)
  * add RuntimeException processing in async http clients (delivered to onError callbacks) (thanks to https://github.com/jochen314)
  * check 200 status code from response in OAuth2AccessTokenExtractor (thanks to https://github.com/jochen314)

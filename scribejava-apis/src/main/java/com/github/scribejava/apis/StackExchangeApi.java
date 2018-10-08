@@ -1,10 +1,11 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.builder.api.OAuth2SignatureType;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQueryParameter;
 
 /**
  * Stack Exchange authentication via OAuth 2.0  (stackoverflow.com,
@@ -39,7 +40,7 @@ public class StackExchangeApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth2SignatureType getSignatureType() {
-        return OAuth2SignatureType.BEARER_URI_QUERY_PARAMETER;
+    public BearerSignature getBearerSignature() {
+        return BearerSignatureURIQueryParameter.instance();
     }
 }

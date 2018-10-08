@@ -254,7 +254,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public void signRequest(String accessToken, OAuthRequest request) {
-        api.getSignatureType().signRequest(accessToken, request);
+        api.getBearerSignature().signRequest(accessToken, request);
     }
 
     public void signRequest(OAuth2AccessToken accessToken, OAuthRequest request) {

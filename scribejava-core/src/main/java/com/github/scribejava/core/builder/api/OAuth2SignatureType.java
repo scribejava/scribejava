@@ -1,28 +1,35 @@
 package com.github.scribejava.core.builder.api;
 
-import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureAuthorizationRequestHeaderField;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQueryParameter;
 
+/**
+ * @deprecated use {@link com.github.scribejava.core.oauth2.bearersignature.BearerSignature}
+ */
+@Deprecated
 public enum OAuth2SignatureType {
     /**
-     * https://tools.ietf.org/html/rfc6750#section-2.1
+     * @deprecated use
+     * {@link com.github.scribejava.core.oauth2.bearersignature.BearerSignatureAuthorizationRequestHeaderField}
      */
+    @Deprecated
     BEARER_AUTHORIZATION_REQUEST_HEADER_FIELD {
         @Override
         public void signRequest(String accessToken, OAuthRequest request) {
-            request.addHeader("Authorization", "Bearer " + accessToken);
+            BearerSignatureAuthorizationRequestHeaderField.instance().signRequest(accessToken, request);
         }
 
     },
     /**
-     * https://tools.ietf.org/html/rfc6750#section-2.3
+     * @deprecated use {@link com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQueryParameter}
      */
+    @Deprecated
     BEARER_URI_QUERY_PARAMETER {
         @Override
         public void signRequest(String accessToken, OAuthRequest request) {
-            request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken);
+            BearerSignatureURIQueryParameter.instance().signRequest(accessToken, request);
         }
-
     };
 
     public abstract void signRequest(String accessToken, OAuthRequest request);

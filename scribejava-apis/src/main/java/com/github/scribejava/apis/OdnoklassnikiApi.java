@@ -2,9 +2,10 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.service.OdnoklassnikiOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.builder.api.OAuth2SignatureType;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQueryParameter;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 import java.io.OutputStream;
@@ -41,8 +42,8 @@ public class OdnoklassnikiApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth2SignatureType getSignatureType() {
-        return OAuth2SignatureType.BEARER_URI_QUERY_PARAMETER;
+    public BearerSignature getBearerSignature() {
+        return BearerSignatureURIQueryParameter.instance();
     }
 
     @Override

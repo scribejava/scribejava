@@ -45,6 +45,7 @@ ScribeJava support out-of-box several HTTP clients:
   * RFC 6749 The OAuth 2.0 Authorization Framework, Authorization Code Authorization Grant [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20Example.java)
   * RFC 6749 The OAuth 2.0 Authorization Framework, Client Credentials Authorization Grant [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteClientCredentialsGrantExample.java)
   * RFC 6749 The OAuth 2.0 Authorization Framework, Resource Owner Password Credentials Authorization Grant
+  * RFC 6750 The OAuth 2.0 Authorization Framework: Bearer Token Usage
   * RFC 7636 Proof Key for Code Exchange by OAuth Public Clients (PKCE) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20WithPKCEExample.java)
   * RFC 7009 OAuth 2.0 Token Revocation [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20RevokeExample.java)
 
