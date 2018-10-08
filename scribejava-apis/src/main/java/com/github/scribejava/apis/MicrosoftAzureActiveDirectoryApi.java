@@ -1,14 +1,10 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.microsoftazureactivedirectory.MicrosoftAzureActiveDirectoryBearerSignature;
-import com.github.scribejava.apis.service.MicrosoftAzureActiveDirectoryService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.httpclient.HttpClient;
-import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
-import java.io.OutputStream;
 
 /**
  * Microsoft Azure Active Directory Api
@@ -49,18 +45,6 @@ public class MicrosoftAzureActiveDirectoryApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return MSFT_LOGIN_URL + SLASH + COMMON + SLASH + AUTH_URI;
-    }
-
-    /**
-     * @deprecated moved to {@link #getBearerSignature() }
-     */
-    @Deprecated
-    @Override
-    public MicrosoftAzureActiveDirectoryService createService(String apiKey, String apiSecret, String callback,
-            String scope, OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new MicrosoftAzureActiveDirectoryService(this, apiKey, apiSecret, callback, scope, state, responseType,
-                userAgent, httpClientConfig, httpClient);
     }
 
     @Override

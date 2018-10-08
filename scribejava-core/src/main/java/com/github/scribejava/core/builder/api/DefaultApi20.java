@@ -11,7 +11,6 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureAuthorizationRequestHeaderField;
-import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQueryParameter;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme;
 import java.io.OutputStream;
@@ -115,24 +114,8 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
                 httpClientConfig, httpClient);
     }
 
-    /**
-     * @return OAuth2SignatureType
-     * @deprecated use {@link #getBearerSignature() }
-     */
-    @Deprecated
-    public OAuth2SignatureType getSignatureType() {
-        return OAuth2SignatureType.BEARER_AUTHORIZATION_REQUEST_HEADER_FIELD;
-    }
-
     public BearerSignature getBearerSignature() {
-        switch (getSignatureType()) {
-            case BEARER_AUTHORIZATION_REQUEST_HEADER_FIELD:
-                return BearerSignatureAuthorizationRequestHeaderField.instance();
-            case BEARER_URI_QUERY_PARAMETER:
-                return BearerSignatureURIQueryParameter.instance();
-            default:
-                throw new IllegalStateException("unknown OAuth2SignatureType");
-        }
+        return BearerSignatureAuthorizationRequestHeaderField.instance();
     }
 
     public ClientAuthentication getClientAuthentication() {
