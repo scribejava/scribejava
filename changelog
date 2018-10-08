@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[6.0.0]
  * make redirect_uri optional while Access Token requesting on OAuth 2.0 (thanks to https://github.com/computerlove)
  * switch to java 9+ (from java 7 only) for compilation. Runtime is still java 7+. Complement README with links and RFC descriptions.
  * switch OAuth2 Bearer Token Usage from enum OAuth2SignatureType to interface BearerSignature to be extensible
