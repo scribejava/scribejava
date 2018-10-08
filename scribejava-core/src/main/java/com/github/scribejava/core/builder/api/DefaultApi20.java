@@ -116,6 +116,7 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     }
 
     /**
+     * @return OAuth2SignatureType
      * @deprecated use {@link #getBearerSignature() }
      */
     @Deprecated
