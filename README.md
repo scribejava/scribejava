@@ -74,6 +74,7 @@ ScribeJava support out-of-box several HTTP clients:
 * LinkedIn (https://www.linkedin.com/)
 * Microsoft Azure Active Directory (Azure AD) (http://azure.microsoft.com/)
 * Microsoft Live (https://login.live.com/)
+* Misfit (http://misfit.com/)
 * Mail.Ru (https://mail.ru/)
 * MediaWiki (https://www.mediawiki.org/)
 * Meetup (http://www.meetup.com/)
@@ -94,9 +95,9 @@ ScribeJava support out-of-box several HTTP clients:
 * uCoz (https://www.ucoz.com/)
 * Viadeo (http://viadeo.com/)
 * VK ВКонтакте (http://vk.com/)
+* Wunderlist (https://www.wunderlist.com/)
 * XING (https://www.xing.com/)
 * Yahoo (https://www.yahoo.com/)
-* Misfit (http://misfit.com/)
 * check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)
 
 ### Small and modular

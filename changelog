@@ -2,6 +2,7 @@
  * make redirect_uri optional while Access Token requesting on OAuth 2.0 (thanks to https://github.com/computerlove)
  * switch to java 9+ (from java 7 only) for compilation. Runtime is still java 7+. Complement README with links and RFC descriptions.
  * switch OAuth2 Bearer Token Usage from enum OAuth2SignatureType to interface BearerSignature to be extensible
+ * add new API Wunderlist (https://www.wunderlist.com/) (thanks to https://github.com/M-F-K)
 
 [5.6.0]
  * remove support for obsolete NetEase (http://www.163.com/) and sohu 搜狐 (http://www.sohu.com/) (thanks to https://github.com/zawn)
