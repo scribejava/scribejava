@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.examples;
 
-import com.github.scribejava.apis.KeyloackApi;
+import com.github.scribejava.apis.KeycloakApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class KeyloackExample {
+public final class KeycloakExample {
 
     private static final String BASE_URL = "https://sicas.setcce.si";
 
@@ -20,14 +20,14 @@ public final class KeyloackExample {
 
     private static final String PROTECTED_RESOURCE_URL = BASE_URL + "/auth/realms/" + REALM + "/protocol/openid-connect/userinfo";
 
-    private KeyloackExample() {
+    private KeycloakExample() {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key and secret
         final String apiKey = "TEST_SP";
-        final String apiSecret = "c9e04342-23e2-433a-a644-5af2a6c5d015";
-        final KeyloackApi keyloackApi = KeyloackApi.instance();
+        final String apiSecret = "a8fe62c9-c3a1-4545-81ca-fda5df1c032b";
+        final KeycloakApi keyloackApi = KeycloakApi.instance();
         keyloackApi.setBaseUrl(BASE_URL);
         keyloackApi.setRealm(REALM);
         final OAuth20Service service = new ServiceBuilder(apiKey)

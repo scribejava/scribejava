@@ -2,11 +2,10 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.openid.OpenIdJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.builder.api.OAuth2SignatureType;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
-public class KeyloackApi extends DefaultApi20 {
+public class KeycloakApi extends DefaultApi20 {
 
     private String baseUrl = "http://localhost:8080";
     private String realm = "master";
@@ -19,15 +18,15 @@ public class KeyloackApi extends DefaultApi20 {
         this.realm = realm;
     }
 
-    protected KeyloackApi() {
+    protected KeycloakApi() {
     }
 
     private static class InstanceHolder {
-        private static final KeyloackApi INSTANCE = new KeyloackApi();
+        private static final KeycloakApi INSTANCE = new KeycloakApi();
     }
 
-    public static KeyloackApi instance() {
-        return KeyloackApi.InstanceHolder.INSTANCE;
+    public static KeycloakApi instance() {
+        return KeycloakApi.InstanceHolder.INSTANCE;
     }
 
     @Override
@@ -38,11 +37,6 @@ public class KeyloackApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return baseUrl + "auth/realms/" + realm + "/protocol/openid-connect/auth";
-    }
-
-    @Override
-    public OAuth2SignatureType getSignatureType() {
-        return OAuth2SignatureType.BEARER_AUTHORIZATION_REQUEST_HEADER_FIELD;
     }
 
     @Override
