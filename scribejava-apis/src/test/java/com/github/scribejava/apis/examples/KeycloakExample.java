@@ -27,14 +27,11 @@ public final class KeycloakExample {
         // Replace these with your own api key and secret
         final String apiKey = "TEST_SP";
         final String apiSecret = "a8fe62c9-c3a1-4545-81ca-fda5df1c032b";
-        final KeycloakApi keyloackApi = KeycloakApi.instance();
-        keyloackApi.setBaseUrl(BASE_URL);
-        keyloackApi.setRealm(REALM);
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .scope("openid")
                 .callback("http://najdi.si")
-                .build(keyloackApi);
+                .build(KeycloakApi.instance(BASE_URL, REALM));
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Keyloack's OAuth Workflow ===");

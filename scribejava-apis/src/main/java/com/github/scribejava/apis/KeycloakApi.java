@@ -5,38 +5,47 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 public class KeycloakApi extends DefaultApi20 {
 
-    private String baseUrl = "http://localhost:8080";
-    private String realm = "master";
+    private final String baseUrlWithRealm;
 
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl + (baseUrl.endsWith("/")? "" : "/");
-    }
+    private static final ConcurrentMap<String, KeycloakApi> INSTANCES = new ConcurrentHashMap<>();
 
-    public void setRealm(String realm) {
-        this.realm = realm;
-    }
-
-    protected KeycloakApi() {
-    }
-
-    private static class InstanceHolder {
-        private static final KeycloakApi INSTANCE = new KeycloakApi();
+    protected KeycloakApi(String baseUrlWithRealm) {
+        this.baseUrlWithRealm = baseUrlWithRealm;
     }
 
     public static KeycloakApi instance() {
-        return KeycloakApi.InstanceHolder.INSTANCE;
+        return instance("http://localhost:8080/", "master");
+    }
+
+    public static KeycloakApi instance(String baseUrl, String realm) {
+        final String defaultBaseUrlWithRealm = composeBaseUrlWithRealm(baseUrl, realm);
+
+        //java8: switch to ConcurrentMap::computeIfAbsent
+        KeycloakApi api = INSTANCES.get(defaultBaseUrlWithRealm);
+        if (api == null) {
+            api = new KeycloakApi(defaultBaseUrlWithRealm);
+            INSTANCES.putIfAbsent(defaultBaseUrlWithRealm, api);
+        }
+        return api;
+    }
+
+    protected static String composeBaseUrlWithRealm(String baseUrl, String realm) {
+        return baseUrl + (baseUrl.endsWith("/") ? "" : "/") + "auth/realms/" + realm;
     }
 
     @Override
     public String getAccessTokenEndpoint() {
-        return baseUrl + "auth/realms/" + realm + "/protocol/openid-connect/token";
+        return baseUrlWithRealm + "/protocol/openid-connect/token";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return baseUrl + "auth/realms/" + realm + "/protocol/openid-connect/auth";
+        return baseUrlWithRealm + "/protocol/openid-connect/auth";
     }
 
     @Override
