@@ -10,9 +10,9 @@ import java.util.concurrent.ConcurrentMap;
 
 public class KeycloakApi extends DefaultApi20 {
 
-    private final String baseUrlWithRealm;
-
     private static final ConcurrentMap<String, KeycloakApi> INSTANCES = new ConcurrentHashMap<>();
+
+    private final String baseUrlWithRealm;
 
     protected KeycloakApi(String baseUrlWithRealm) {
         this.baseUrlWithRealm = baseUrlWithRealm;
@@ -29,7 +29,10 @@ public class KeycloakApi extends DefaultApi20 {
         KeycloakApi api = INSTANCES.get(defaultBaseUrlWithRealm);
         if (api == null) {
             api = new KeycloakApi(defaultBaseUrlWithRealm);
-            INSTANCES.putIfAbsent(defaultBaseUrlWithRealm, api);
+            final KeycloakApi alreadyCreatedApi = INSTANCES.putIfAbsent(defaultBaseUrlWithRealm, api);
+            if (alreadyCreatedApi != null) {
+                return alreadyCreatedApi;
+            }
         }
         return api;
     }

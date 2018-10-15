@@ -12,26 +12,26 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class KeycloakExample {
-
-    private static final String BASE_URL = "https://sicas.setcce.si";
-
-    private static final String REALM = "TEST_SP";
-
-    private static final String PROTECTED_RESOURCE_URL = BASE_URL + "/auth/realms/" + REALM + "/protocol/openid-connect/userinfo";
+public class KeycloakExample {
 
     private KeycloakExample() {
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        // Replace these with your own api key and secret
-        final String apiKey = "TEST_SP";
-        final String apiSecret = "a8fe62c9-c3a1-4545-81ca-fda5df1c032b";
+        // Replace these with your own api key, secret, callback, base url and realm
+        final String apiKey = "your_api_key";
+        final String apiSecret = "your_api_secret";
+        final String callback = "your_callback";
+        final String baseUrl = "your_base_url";
+        final String realm = "your_realm";
+
+        final String protectedResourceUrl = baseUrl + "/auth/realms/" + realm + "/protocol/openid-connect/userinfo";
+
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .scope("openid")
-                .callback("http://najdi.si")
-                .build(KeycloakApi.instance(BASE_URL, REALM));
+                .callback(callback)
+                .build(KeycloakApi.instance(baseUrl, realm));
         final Scanner in = new Scanner(System.in);
 
         System.out.println("=== Keyloack's OAuth Workflow ===");
@@ -57,7 +57,7 @@ public final class KeycloakExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
+        final OAuthRequest request = new OAuthRequest(Verb.GET, protectedResourceUrl);
         service.signRequest(accessToken, request);
         final Response response = service.execute(request);
         System.out.println("Got it! Lets see what we found...");

@@ -71,6 +71,7 @@ ScribeJava support out-of-box several HTTP clients:
 * HiOrg-Server (https://www.hiorg-server.de/)
 * Imgur (http://imgur.com/)
 * Kaixin 开心网 (http://www.kaixin001.com/)
+* Keycloak (https://www.keycloak.org/)
 * LinkedIn (https://www.linkedin.com/)
 * Microsoft Azure Active Directory (Azure AD) (http://azure.microsoft.com/)
 * Microsoft Live (https://login.live.com/)
