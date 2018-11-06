@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * add new API Keycloak (https://www.keycloak.org/) (thanks to https://github.com/JureZelic)
+ * add new API Discord (https://discordapp.com/) (thanks to https://github.com/Jokuni)
 
 [6.0.0]
  * make redirect_uri optional while Access Token requesting on OAuth 2.0 (thanks to https://github.com/computerlove)

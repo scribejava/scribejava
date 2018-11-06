@@ -1,5 +1,6 @@
 package com.github.scribejava.core.oauth2.bearersignature;
 
+import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 
 /**
@@ -23,6 +24,6 @@ public class BearerSignatureAuthorizationRequestHeaderField implements BearerSig
 
     @Override
     public void signRequest(String accessToken, OAuthRequest request) {
-        request.addHeader("Authorization", "Bearer " + accessToken);
+        request.addHeader(OAuthConstants.HEADER, "Bearer " + accessToken);
     }
 }

@@ -56,7 +56,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Box (https://www.box.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Box20Example.java)
 * Dataporten (https://docs.dataporten.no/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DataportenExample.java)
 * Digg (http://digg.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DiggExample.java)
-* Discord (https://discordapp.com/)
+* Discord (https://discordapp.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DiscordExample.java)
 * Доктор на работе (https://www.doktornarabote.ru/)
 * Etsy (https://www.etsy.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/EtsyExample.java)
 * Facebook (https://www.facebook.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/FacebookExample.java), [example with Async Apache HTTP client](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/FacebookAsyncApacheExample.java), [example with Async Ning HTTP client](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/FacebookAsyncNingExample.java)

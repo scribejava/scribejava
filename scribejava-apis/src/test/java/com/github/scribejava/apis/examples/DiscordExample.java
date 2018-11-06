@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
-public final class DiscordExample {
+public class DiscordExample {
 
     private static final String NETWORK_NAME = "Discord";
     private static final String PROTECTED_RESOURCE_URL = "https://discordapp.com/api/users/@me";

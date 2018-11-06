@@ -35,6 +35,7 @@ public class ImgurOAuthService extends OAuth20Service {
 
     @Override
     public void signRequest(String accessToken, OAuthRequest request) {
-        request.addHeader("Authorization", accessToken == null ? "Client-ID " + getApiKey() : "Bearer " + accessToken);
+        request.addHeader(OAuthConstants.HEADER,
+                accessToken == null ? "Client-ID " + getApiKey() : "Bearer " + accessToken);
     }
 }
