@@ -1,10 +1,6 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.microsoftazureactivedirectory.MicrosoftAzureActiveDirectoryBearerSignature;
-import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
-import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
-import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
+import com.github.scribejava.apis.microsoftazureactivedirectory.BaseMicrosoftAzureActiveDirectoryApi;
 
 /**
  * Microsoft Azure Active Directory Api
@@ -18,15 +14,11 @@ import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthent
  * Azure AD Graph API Operations on the Signed-in User</a>
  * @see <a href="https://portal.azure.com">https://portal.azure.com</a>
  */
-public class MicrosoftAzureActiveDirectoryApi extends DefaultApi20 {
+public class MicrosoftAzureActiveDirectoryApi extends BaseMicrosoftAzureActiveDirectoryApi {
 
-    private static final String MSFT_GRAPH_URL = "https://graph.windows.net";
-
-    private static final String MSFT_LOGIN_URL = "https://login.microsoftonline.com";
-    private static final String SLASH = "/";
-    private static final String COMMON = "common";
-    private static final String TOKEN_URI = "oauth2/token";
-    private static final String AUTH_URI = "oauth2/authorize?resource=" + MSFT_GRAPH_URL;
+    protected MicrosoftAzureActiveDirectoryApi() {
+        super(MicrosoftAzureActiveDirectoryVersion.V_1_0);
+    }
 
     private static class InstanceHolder {
 
@@ -35,25 +27,5 @@ public class MicrosoftAzureActiveDirectoryApi extends DefaultApi20 {
 
     public static MicrosoftAzureActiveDirectoryApi instance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    @Override
-    public String getAccessTokenEndpoint() {
-        return MSFT_LOGIN_URL + SLASH + COMMON + SLASH + TOKEN_URI;
-    }
-
-    @Override
-    protected String getAuthorizationBaseUrl() {
-        return MSFT_LOGIN_URL + SLASH + COMMON + SLASH + AUTH_URI;
-    }
-
-    @Override
-    public ClientAuthentication getClientAuthentication() {
-        return RequestBodyAuthenticationScheme.instance();
-    }
-
-    @Override
-    public BearerSignature getBearerSignature() {
-        return MicrosoftAzureActiveDirectoryBearerSignature.instance();
     }
 }

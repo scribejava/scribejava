@@ -78,6 +78,7 @@ ScribeJava support out-of-box several HTTP clients:
 * MediaWiki (https://www.mediawiki.org/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/MediaWikiExample.java)
 * Meetup (http://www.meetup.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/MeetupExample.java)
 * Microsoft Azure Active Directory (Azure AD) (http://azure.microsoft.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/MicrosoftAzureActiveDirectoryExample.java)
+* Microsoft Azure Active Directory (Azure AD) 2.0 (http://azure.microsoft.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/MicrosoftAzureActiveDirectory20Example.java)
 * Microsoft Live (https://login.live.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/LiveExample.java)
 * Misfit (http://misfit.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/MisfitExample.java)
 * NAVER (http://www.naver.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/NaverExample.java)
