@@ -195,11 +195,15 @@ public class JDKHttpClient implements HttpClient {
 
         final int contentLength = multipartPayload.getContentLength();
         if (requiresBody || contentLength > 0) {
+            connection.setRequestProperty(CONTENT_TYPE,
+                    "multipart/" + multipartPayload.getSubtype() + "; boundary=" + multipartPayload.getBoundary());
             final OutputStream os = prepareConnectionForBodyAndGetOutputStream(connection, contentLength);
 
             for (BodyPartPayload bodyPart : multipartPayload.getBodyParts()) {
                 os.write(multipartPayload.getStartBoundary(bodyPart));
                 os.write(bodyPart.getPayload());
+            }
+            if (!multipartPayload.getBodyParts().isEmpty()) {
                 os.write(multipartPayload.getEndBoundary());
             }
         }

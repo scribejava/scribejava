@@ -8,15 +8,17 @@ import java.util.List;
  */
 public class MultipartPayload {
 
+    private final String subtype;
     private final String boundary;
     private final List<BodyPartPayload> bodyParts = new ArrayList<>();
 
-    public MultipartPayload(String boundary) {
+    public MultipartPayload(String subtype, String boundary) {
+        this.subtype = subtype;
         this.boundary = boundary;
     }
 
     public byte[] getStartBoundary(BodyPartPayload bodyPart) {
-        return ("--" + boundary + "\r\n"
+        return ("\r\n--" + boundary + "\r\n"
                 + "Content-Disposition: " + bodyPart.getContentDisposition() + "\r\n"
                 + (bodyPart.getContentType() == null
                 ? "" : HttpClient.CONTENT_TYPE + ": " + bodyPart.getContentType() + "\r\n")
@@ -30,19 +32,21 @@ public class MultipartPayload {
     public int getContentLength() {
         int contentLength = 0;
         for (BodyPartPayload bodyPart : bodyParts) {
-            contentLength += bodyPart.getPayload().length
-                    + bodyPart.getContentDisposition().length();
-            if (bodyPart.getContentType() != null) {
-                contentLength += 16 //length of constant portions of contentType header
-                        + bodyPart.getContentType().length();
-            }
+            contentLength += getStartBoundary(bodyPart).length + bodyPart.getPayload().length;
         }
 
-        contentLength += (37 //length of constant portions of contentDisposition header,
-                //see getStartBoundary and getEndBoundary methods
-                + boundary.length() * 2 //twice. start and end parts
-                ) * bodyParts.size(); //for every part
+        if (!bodyParts.isEmpty()) {
+            contentLength += getEndBoundary().length;
+        }
         return contentLength;
+    }
+
+    public String getSubtype() {
+        return subtype;
+    }
+
+    public String getBoundary() {
+        return boundary;
     }
 
     public List<BodyPartPayload> getBodyParts() {

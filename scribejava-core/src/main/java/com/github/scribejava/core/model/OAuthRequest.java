@@ -128,32 +128,61 @@ public class OAuthRequest {
     }
 
     /**
-     * Set boundary of multipart request
+     * Set subtype and boundary of multipart request
      *
-     * @param boundary can be any string
+     * @param subtype subtype of multipart content-type
+     * @param boundary can be any string between 1 and 70 characters long using alphanumeric characters and any of
+     *  "'" / "(" / ")" / "+" / "_" / "," / "-" / "." / "/" / ":" / "=" / "?" / " ", but must not end with white space
      */
-    public void initMultipartBoundary(String boundary) {
-        multipartPayload = new MultipartPayload(boundary == null
-                ? Long.toString(System.currentTimeMillis())
+    public void initMultipartPayload(String subtype, String boundary) {
+        multipartPayload = new MultipartPayload(subtype == null ? "mixed" : subtype, boundary == null
+                ? "---------------------------" + Long.toString(System.currentTimeMillis())
                 : boundary);
     }
 
     /**
-     * init boundary of multipart request with default boundary
+     * Init multipart request with given subtype and default boundary
+     *
+     * @param subtype subtype of multipart content-type
      */
-    public void initMultipartBoundary() {
-        initMultipartBoundary(null);
+    public void initMultipartPayload(String subtype) {
+        initMultipartPayload(subtype, null);
     }
 
     /**
-     * you can invoke {@link #initMultipartBoundary(java.lang.String) } to set custom boundary
+     * Init multipart request with default values for subtype and boundary
+     */
+    public void initMultipartPayload() {
+        initMultipartPayload(null, null);
+    }
+
+    /**
+     * Init multipart request with given boundary and default subtype
+     *
+     * @param boundary can be any string between 1 and 70 characters long using alphanumeric characters and any of
+     *  "'" / "(" / ")" / "+" / "_" / "," / "-" / "." / "/" / ":" / "=" / "?" / " ", but must not end with white space
+     */
+    public void initMultipartBoundary(String boundary) {
+        initMultipartPayload(null, boundary);
+    }
+
+    /**
+     * Init multipart request with default values for subtype and boundary
+     */
+    public void initMultipartBoundary() {
+        initMultipartPayload(null, null);
+    }
+
+    /**
+     * Can invoke {@link #initMultipartBoundary(java.lang.String)} to set custom boundary
+     * or {@link #initMultipartPayload(java.lang.String, java.lang.String)} to set subtype and boundary
      * @param contentDisposition contentDisposition
      * @param contentType contentType
      * @param payload payload
      */
     public void addMultipartPayload(String contentDisposition, String contentType, byte[] payload) {
         if (multipartPayload == null) {
-            initMultipartBoundary();
+            initMultipartPayload();
         }
         multipartPayload.addMultipartPayload(contentDisposition, contentType, payload);
     }
