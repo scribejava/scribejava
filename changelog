@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[6.2.0]
  * add new API Microsoft Azure Active Directory (Azure AD) 2.0 (thanks to https://github.com/rzukow and https://github.com/dgrudenic)
 
 [6.1.0]
