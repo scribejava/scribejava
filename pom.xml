@@ -68,7 +68,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>3.11.0</version>
+            <version>3.12.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -107,7 +107,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.14</version>
+                            <version>8.15</version>
                         </dependency>
                     </dependencies>
                 </plugin>

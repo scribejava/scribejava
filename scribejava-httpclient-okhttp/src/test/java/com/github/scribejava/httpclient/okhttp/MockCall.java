@@ -8,6 +8,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.Timeout;
 
 public class MockCall implements Call {
 
@@ -49,6 +50,11 @@ public class MockCall implements Call {
 
     @Override
     public Call clone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Timeout timeout() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
