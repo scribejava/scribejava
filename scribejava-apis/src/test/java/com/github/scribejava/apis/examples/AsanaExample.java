@@ -36,9 +36,7 @@ public class AsanaExample {
         // Obtain Auth URL
         System.out.println("Fetching the Authorication URL...");
         System.out.println("Got the Authorization URL!");
-        final Map<String, String> additionalParams = new HashMap<>();
-        additionalParams.put("access_type", "offline");
-        final String authorizationUrl = service.getAuthorizationUrl(additionalParams);
+        final String authorizationUrl = service.getAuthorizationUrl();
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");
