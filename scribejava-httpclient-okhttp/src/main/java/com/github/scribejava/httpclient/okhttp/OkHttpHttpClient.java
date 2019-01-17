@@ -1,7 +1,7 @@
 package com.github.scribejava.httpclient.okhttp;
 
 import com.github.scribejava.core.httpclient.HttpClient;
-import com.github.scribejava.core.httpclient.MultipartPayload;
+import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -60,6 +60,18 @@ public class OkHttpHttpClient implements HttpClient {
                 converter);
     }
 
+    /**
+     * @deprecated {@inheritDoc}
+     */
+    @Override
+    @Deprecated
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            com.github.scribejava.core.httpclient.MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
+
+        throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
+    }
+
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
@@ -103,6 +115,18 @@ public class OkHttpHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             MultipartPayload bodyContents) throws InterruptedException, ExecutionException, IOException {
+
+        throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
+    }
+
+    /**
+     * @deprecated {@inheritDoc}
+     */
+    @Override
+    @Deprecated
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            com.github.scribejava.core.httpclient.MultipartPayload bodyContents)
+            throws InterruptedException, ExecutionException, IOException {
 
         throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
     }

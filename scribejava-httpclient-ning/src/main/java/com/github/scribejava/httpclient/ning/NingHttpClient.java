@@ -1,7 +1,7 @@
 package com.github.scribejava.httpclient.ning;
 
 import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
-import com.github.scribejava.core.httpclient.MultipartPayload;
+import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
 import com.github.scribejava.core.java8.Consumer;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -52,6 +52,18 @@ public class NingHttpClient extends AbstractAsyncOnlyHttpClient {
 
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new ByteArrayConsumer(bodyContents), callback,
                 converter);
+    }
+
+    /**
+     * @deprecated {@inheritDoc}
+     */
+    @Override
+    @Deprecated
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            com.github.scribejava.core.httpclient.MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
+
+        throw new UnsupportedOperationException("NingHttpClient does not support MultipartPayload yet.");
     }
 
     @Override

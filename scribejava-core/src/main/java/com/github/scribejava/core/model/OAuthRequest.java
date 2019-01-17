@@ -1,7 +1,8 @@
 package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.httpclient.MultipartPayload;
+import com.github.scribejava.core.httpclient.multipart.FileByteArrayBodyPartPayload;
+import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -30,6 +31,7 @@ public class OAuthRequest {
     private String stringPayload;
     private byte[] byteArrayPayload;
     private File filePayload;
+    private com.github.scribejava.core.httpclient.MultipartPayload oldMultipartPayload;
     private MultipartPayload multipartPayload;
 
     private final Map<String, String> oauthParameters = new HashMap<>();
@@ -128,43 +130,190 @@ public class OAuthRequest {
     }
 
     /**
-     * Set boundary of multipart request
-     *
-     * @param boundary can be any string
+     * @param boundary boundary
+     * @deprecated create {@link #initMultipartPayload(java.lang.String) }
      */
+    @Deprecated
     public void initMultipartBoundary(String boundary) {
-        multipartPayload = new MultipartPayload(boundary == null
+        oldMultipartPayload = new com.github.scribejava.core.httpclient.MultipartPayload(boundary == null
                 ? Long.toString(System.currentTimeMillis())
                 : boundary);
     }
 
     /**
-     * init boundary of multipart request with default boundary
+     * @deprecated use {@link #initMultipartPayload()}
      */
+    @Deprecated
     public void initMultipartBoundary() {
         initMultipartBoundary(null);
     }
 
     /**
-     * you can invoke {@link #initMultipartBoundary(java.lang.String) } to set custom boundary
      * @param contentDisposition contentDisposition
      * @param contentType contentType
      * @param payload payload
+     * @deprecated use {@link #addFileByteArrayBodyPartPayloadInMultipartPayload(java.lang.String, byte[],
+     * java.lang.String, java.lang.String)}
      */
+    @Deprecated
     public void addMultipartPayload(String contentDisposition, String contentType, byte[] payload) {
-        if (multipartPayload == null) {
+        if (oldMultipartPayload == null) {
             initMultipartBoundary();
         }
-        multipartPayload.addMultipartPayload(contentDisposition, contentType, payload);
+        oldMultipartPayload.addMultipartPayload(contentDisposition, contentType, payload);
     }
 
+    public MultipartPayload getMultipartPayload() {
+        return multipartPayload;
+    }
+
+    /**
+     * @param contentDisposition contentDisposition
+     * @param contentType contentType
+     * @param payload payload
+     * @deprecated use {@link #setFileByteArrayBodyPartPayloadInMultipartPayload(java.lang.String, byte[],
+     * java.lang.String, java.lang.String)}
+     */
+    @Deprecated
     public void setMultipartPayload(String contentDisposition, String contentType, byte[] payload) {
         setMultipartPayload(null, contentDisposition, contentType, payload);
     }
 
+    /**
+     * @param boundary boundary
+     * @param contentDisposition contentDisposition
+     * @param contentType contentType
+     * @param payload payload
+     * @deprecated use {@link #initMultipartPayload(java.lang.String) }
+     * and then {@link #setFileByteArrayBodyPartPayloadInMultipartPayload(java.lang.String, byte[], java.lang.String,
+     * java.lang.String)}
+     */
+    @Deprecated
     public void setMultipartPayload(String boundary, String contentDisposition, String contentType, byte[] payload) {
         initMultipartBoundary(boundary);
-        multipartPayload.addMultipartPayload(contentDisposition, contentType, payload);
+        oldMultipartPayload.addMultipartPayload(contentDisposition, contentType, payload);
+    }
+
+    public void setMultipartPayload(MultipartPayload multipartPayload) {
+        this.multipartPayload = multipartPayload;
+    }
+
+    public void initMultipartPayload() {
+        this.multipartPayload = new MultipartPayload();
+    }
+
+    public void initMultipartPayload(String boundary) {
+        this.multipartPayload = new MultipartPayload(boundary);
+    }
+
+    public void initMultipartPayload(String subtype, String boundary) {
+        this.multipartPayload = new MultipartPayload(subtype, boundary);
+    }
+
+    public void initMultipartPayload(Map<String, String> headers) {
+        this.multipartPayload = new MultipartPayload(headers);
+    }
+
+    public void initMultipartPayload(String boundary, Map<String, String> headers) {
+        this.multipartPayload = new MultipartPayload(boundary, headers);
+    }
+
+    public void initMultipartPayload(String subtype, String boundary, Map<String, String> headers) {
+        this.multipartPayload = new MultipartPayload(subtype, boundary, headers);
+    }
+
+    public void setByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload) {
+        initMultipartPayload();
+        addByteArrayBodyPartPayloadInMultipartPayload(bodyPartPayload);
+    }
+
+    public void setByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, String contentType) {
+        initMultipartPayload();
+        addByteArrayBodyPartPayloadInMultipartPayload(bodyPartPayload, contentType);
+    }
+
+    public void setByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, Map<String, String> headers) {
+        initMultipartPayload();
+        addByteArrayBodyPartPayloadInMultipartPayload(bodyPartPayload, headers);
+    }
+
+    public void addByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload) {
+        multipartPayload.addBodyPart(bodyPartPayload);
+    }
+
+    public void addByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, String contentType) {
+        multipartPayload.addBodyPart(bodyPartPayload, contentType);
+    }
+
+    public void addByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, Map<String, String> headers) {
+        multipartPayload.addBodyPart(bodyPartPayload, headers);
+    }
+
+    public void setFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent) {
+        initMultipartPayload();
+        addFileByteArrayBodyPartPayloadInMultipartPayload(fileContent);
+    }
+
+    public void setFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent) {
+        initMultipartPayload();
+        addFileByteArrayBodyPartPayloadInMultipartPayload(contentType, fileContent);
+    }
+
+    public void setFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name) {
+        initMultipartPayload();
+        addFileByteArrayBodyPartPayloadInMultipartPayload(fileContent, name);
+    }
+
+    public void setFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name) {
+        initMultipartPayload();
+        addFileByteArrayBodyPartPayloadInMultipartPayload(contentType, fileContent, name);
+    }
+
+    public void setFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name, String filename) {
+        initMultipartPayload();
+        addFileByteArrayBodyPartPayloadInMultipartPayload(fileContent, name, filename);
+    }
+
+    public void setFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name,
+            String filename) {
+        initMultipartPayload();
+        addFileByteArrayBodyPartPayloadInMultipartPayload(contentType, fileContent, name, filename);
+    }
+
+    public void setFileByteArrayBodyPartPayloadInMultipartPayload(
+            FileByteArrayBodyPartPayload fileByteArrayBodyPartPayload) {
+        initMultipartPayload();
+        addFileByteArrayBodyPartPayloadInMultipartPayload(fileByteArrayBodyPartPayload);
+    }
+
+    public void addFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent) {
+        multipartPayload.addFileBodyPart(fileContent);
+    }
+
+    public void addFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent) {
+        multipartPayload.addFileBodyPart(contentType, fileContent);
+    }
+
+    public void addFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name) {
+        multipartPayload.addFileBodyPart(fileContent, name);
+    }
+
+    public void addFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name) {
+        multipartPayload.addFileBodyPart(contentType, fileContent, name);
+    }
+
+    public void addFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name, String filename) {
+        multipartPayload.addFileBodyPart(fileContent, name, filename);
+    }
+
+    public void addFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name,
+            String filename) {
+        multipartPayload.addFileBodyPart(contentType, fileContent, name, filename);
+    }
+
+    public void addFileByteArrayBodyPartPayloadInMultipartPayload(
+            FileByteArrayBodyPartPayload fileByteArrayBodyPartPayload) {
+        multipartPayload.addBodyPart(fileByteArrayBodyPartPayload);
     }
 
     /**
@@ -202,6 +351,7 @@ public class OAuthRequest {
         stringPayload = null;
         byteArrayPayload = null;
         filePayload = null;
+        oldMultipartPayload = null;
         multipartPayload = null;
     }
 
@@ -281,8 +431,13 @@ public class OAuthRequest {
         }
     }
 
-    public MultipartPayload getMultipartPayloads() {
-        return multipartPayload;
+    /**
+     * @return return
+     * @deprecated use {@link #getMultipartPayload() }
+     */
+    @Deprecated
+    public com.github.scribejava.core.httpclient.MultipartPayload getMultipartPayloads() {
+        return oldMultipartPayload;
     }
 
     public File getFilePayload() {
