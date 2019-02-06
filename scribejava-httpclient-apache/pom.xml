@@ -8,7 +8,7 @@
         <version>6.2.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-httpclient-apache</artifactId>
     <name>ScribeJava Apache HttpComponents HttpClient support</name>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.6</version>
+            <version>4.5.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
