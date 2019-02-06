@@ -1,6 +1,8 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.microsoftazureactivedirectory.BaseMicrosoftAzureActiveDirectoryApi;
+import com.github.scribejava.apis.microsoftazureactivedirectory.MicrosoftAzureActiveDirectory20BearerSignature;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 
 /**
  * Microsoft Azure Active Directory Api v 2.0
@@ -14,7 +16,11 @@ import com.github.scribejava.apis.microsoftazureactivedirectory.BaseMicrosoftAzu
 public class MicrosoftAzureActiveDirectory20Api extends BaseMicrosoftAzureActiveDirectoryApi {
 
     protected MicrosoftAzureActiveDirectory20Api() {
-        super(MicrosoftAzureActiveDirectoryVersion.V_2_0);
+        this(COMMON_TENANT);
+    }
+
+    protected MicrosoftAzureActiveDirectory20Api(String tenant) {
+        super(tenant);
     }
 
     private static class InstanceHolder {
@@ -24,5 +30,19 @@ public class MicrosoftAzureActiveDirectory20Api extends BaseMicrosoftAzureActive
 
     public static MicrosoftAzureActiveDirectory20Api instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public static MicrosoftAzureActiveDirectory20Api custom(String tenant) {
+        return new MicrosoftAzureActiveDirectory20Api(tenant);
+    }
+
+    @Override
+    public BearerSignature getBearerSignature() {
+        return MicrosoftAzureActiveDirectory20BearerSignature.instance();
+    }
+
+    @Override
+    protected String getEndpointVersionPath() {
+        return "/v2.0";
     }
 }

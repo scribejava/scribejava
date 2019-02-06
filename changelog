@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * fix Muplipart request model and implement it for a jdk HTTP client (thanks to https://github.com/NTPape)
  * remove any Google+ mention (switch to clean Google OAuth2) (thanks to https://github.com/fvasco)
+ * fix Microsoft Azure AD v1.0 and v2.0 (thanks to https://github.com/kenpusney and https://github.com/oscararias)
 
 [6.2.0]
  * add new API Microsoft Azure Active Directory (Azure AD) 2.0 (thanks to https://github.com/rzukow and https://github.com/dgrudenic)

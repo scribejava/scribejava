@@ -1,6 +1,8 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.microsoftazureactivedirectory.BaseMicrosoftAzureActiveDirectoryApi;
+import com.github.scribejava.apis.microsoftazureactivedirectory.MicrosoftAzureActiveDirectoryBearerSignature;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 
 /**
  * Microsoft Azure Active Directory Api
@@ -16,8 +18,15 @@ import com.github.scribejava.apis.microsoftazureactivedirectory.BaseMicrosoftAzu
  */
 public class MicrosoftAzureActiveDirectoryApi extends BaseMicrosoftAzureActiveDirectoryApi {
 
+    private final String resource;
+
     protected MicrosoftAzureActiveDirectoryApi() {
-        super(MicrosoftAzureActiveDirectoryVersion.V_1_0);
+        this(COMMON_TENANT, null);
+    }
+
+    protected MicrosoftAzureActiveDirectoryApi(String tenant, String resource) {
+        super(tenant);
+        this.resource = resource;
     }
 
     private static class InstanceHolder {
@@ -27,5 +36,29 @@ public class MicrosoftAzureActiveDirectoryApi extends BaseMicrosoftAzureActiveDi
 
     public static MicrosoftAzureActiveDirectoryApi instance() {
         return InstanceHolder.INSTANCE;
+    }
+
+    public static MicrosoftAzureActiveDirectoryApi customTenant(String tenant) {
+        return new MicrosoftAzureActiveDirectoryApi(tenant, null);
+    }
+
+    public static MicrosoftAzureActiveDirectoryApi customResource(String resource) {
+        return new MicrosoftAzureActiveDirectoryApi(COMMON_TENANT, resource);
+    }
+
+    public static MicrosoftAzureActiveDirectoryApi custom(String tenant, String resource) {
+        return new MicrosoftAzureActiveDirectoryApi(tenant, resource);
+    }
+
+    @Override
+    protected String getAuthorizationBaseUrl() {
+        final String authorizationBaseUrl = super.getAuthorizationBaseUrl();
+        return resource == null || resource.isEmpty() ? authorizationBaseUrl
+                : authorizationBaseUrl + "?resource=" + resource;
+    }
+
+    @Override
+    public BearerSignature getBearerSignature() {
+        return MicrosoftAzureActiveDirectoryBearerSignature.instance();
     }
 }
