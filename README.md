@@ -42,12 +42,13 @@ ScribeJava support out-of-box several HTTP clients:
 
 ### Supports many flows and additional features
 
-  * RFC 6749 The OAuth 2.0 Authorization Framework, Authorization Code Authorization Grant [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20Example.java)
-  * RFC 6749 The OAuth 2.0 Authorization Framework, Client Credentials Authorization Grant [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteClientCredentialsGrantExample.java)
-  * RFC 6749 The OAuth 2.0 Authorization Framework, Resource Owner Password Credentials Authorization Grant
-  * RFC 6750 The OAuth 2.0 Authorization Framework: Bearer Token Usage
-  * RFC 7636 Proof Key for Code Exchange by OAuth Public Clients (PKCE) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20WithPKCEExample.java)
-  * RFC 7009 OAuth 2.0 Token Revocation [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20RevokeExample.java)
+  * [RFC 6749](https://tools.ietf.org/html/rfc6749) The OAuth 2.0 Authorization Framework, [Authorization Code Authorization Grant](https://tools.ietf.org/html/rfc6749#section-4.1) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20Example.java)
+  * [RFC 6749](https://tools.ietf.org/html/rfc6749) The OAuth 2.0 Authorization Framework, [Client Credentials Authorization Grant](https://tools.ietf.org/html/rfc6749#section-4.4) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteClientCredentialsGrantExample.java)
+  * [RFC 6749](https://tools.ietf.org/html/rfc6749) The OAuth 2.0 Authorization Framework, [Resource Owner Password Credentials Authorization Grant](https://tools.ietf.org/html/rfc6749#section-4.3)
+  * [RFC 6749](https://tools.ietf.org/html/rfc6749) The OAuth 2.0 Authorization Framework, [Refreshing an Access Token](https://tools.ietf.org/html/rfc6749#section-6) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20Example.java#L77)
+  * [RFC 6750](https://tools.ietf.org/html/rfc6750) The OAuth 2.0 Authorization Framework: Bearer Token Usage
+  * [RFC 7636](https://tools.ietf.org/html/rfc7636) Proof Key for Code Exchange by OAuth Public Clients (PKCE) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20WithPKCEExample.java)
+  * [RFC 7009](https://tools.ietf.org/html/rfc7009) OAuth 2.0 Token Revocation [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20RevokeExample.java)
 
 ### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
 
