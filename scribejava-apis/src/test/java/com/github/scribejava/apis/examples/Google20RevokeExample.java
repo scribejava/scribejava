@@ -16,8 +16,8 @@ import java.util.concurrent.ExecutionException;
 
 public class Google20RevokeExample {
 
-    private static final String NETWORK_NAME = "G+";
-    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
+    private static final String NETWORK_NAME = "Google";
+    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
     private Google20RevokeExample() {
     }
