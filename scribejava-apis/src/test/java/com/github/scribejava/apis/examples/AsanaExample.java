@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.examples;
 
-import com.github.scribejava.apis.Asana20;
+import com.github.scribejava.apis.Asana20Api;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -9,8 +9,6 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
@@ -20,7 +18,6 @@ public class AsanaExample {
     private static final String PROTECTED_RESOURCE_URL = "https://app.asana.com/api/1.0/users/me";
 
     private AsanaExample() {
-
     }
 
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
@@ -30,7 +27,8 @@ public class AsanaExample {
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback("https://localhost/")
-                .build(Asana20.instance());
+                .state(secretState)
+                .build(Asana20Api.instance());
         final Scanner in = new Scanner(System.in);
 
         // Obtain Auth URL
@@ -81,5 +79,4 @@ public class AsanaExample {
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
     }
-
 }
