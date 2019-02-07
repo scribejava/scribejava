@@ -9,7 +9,7 @@ public abstract class BaseMicrosoftAzureActiveDirectoryApi extends DefaultApi20 
     protected static final String COMMON_TENANT = "common";
 
     private static final String MSFT_LOGIN_URL = "https://login.microsoftonline.com/";
-    private static final String TOKEN_URI = "/oauth2/token";
+    private static final String OAUTH_2 = "/oauth2";
     private final String tenant;
 
     protected BaseMicrosoftAzureActiveDirectoryApi() {
@@ -22,12 +22,12 @@ public abstract class BaseMicrosoftAzureActiveDirectoryApi extends DefaultApi20 
 
     @Override
     public String getAccessTokenEndpoint() {
-        return MSFT_LOGIN_URL + tenant + TOKEN_URI;
+        return MSFT_LOGIN_URL + tenant + OAUTH_2 + getEndpointVersionPath() + "/token";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return MSFT_LOGIN_URL + tenant + getEndpointVersionPath() + "/oauth2/authorize";
+        return MSFT_LOGIN_URL + tenant + OAUTH_2 + getEndpointVersionPath() + "/authorize";
     }
 
     @Override
