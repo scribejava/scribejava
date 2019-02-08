@@ -40,7 +40,8 @@ public class Google20AsyncAHCExample {
         try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
-                .callback("http://example.com/callback")                .httpClientConfig(clientConfig)
+                .callback("http://example.com/callback")
+                .httpClientConfig(clientConfig)
                 .build(GoogleApi20.instance())) {
             final Scanner in = new Scanner(System.in, "UTF-8");
 
