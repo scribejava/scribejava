@@ -21,9 +21,9 @@ class OAuth20ApiUnit extends DefaultApi20 {
 
     @Override
     public OAuth20ServiceUnit createService(String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new OAuth20ServiceUnit(this, apiKey, apiSecret, callback, scope, state, responseType, userAgent,
+            OutputStream debugStream, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new OAuth20ServiceUnit(this, apiKey, apiSecret, callback, scope, responseType, userAgent,
                 httpClientConfig, httpClient);
     }
 

@@ -3,6 +3,7 @@ package com.github.scribejava.core.builder;
 import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth.OAuthService;
 import com.github.scribejava.core.utils.Preconditions;
 
@@ -78,11 +79,14 @@ public class ServiceBuilder {
     }
 
     /**
+     * /**
      * Configures the anti forgery session state. This is available in some APIs (like Google's).
      *
      * @param state The OAuth state
      * @return the {@link ServiceBuilder} instance for method chaining
+     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
      */
+    @Deprecated
     public ServiceBuilder state(String state) {
         Preconditions.checkEmptyString(state, "Invalid OAuth state");
         this.state = state;
@@ -136,7 +140,11 @@ public class ServiceBuilder {
      * @return fully configured {@link OAuthService}
      */
     public <S extends OAuthService> S build(BaseApi<S> api) {
-        return api.createService(apiKey, apiSecret, callback, scope, debugStream, state, responseType, userAgent,
+        final S service = api.createService(apiKey, apiSecret, callback, scope, debugStream, responseType, userAgent,
                 httpClientConfig, httpClient);
+        if (service instanceof OAuth20Service) {
+            ((OAuth20Service) service).setState(state);
+        }
+        return service;
     }
 }

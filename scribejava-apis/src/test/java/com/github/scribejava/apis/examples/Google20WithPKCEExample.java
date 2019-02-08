@@ -31,7 +31,6 @@ public class Google20WithPKCEExample {
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .scope("profile") // replace with desired scope
-                .state(secretState)
                 .callback("http://example.com/callback")
                 .build(GoogleApi20.instance());
 
@@ -49,7 +48,8 @@ public class Google20WithPKCEExample {
         //force to reget refresh token (if usera are asked not the first time)
         additionalParams.put("prompt", "consent");
 
-        final AuthorizationUrlWithPKCE authUrlWithPKCE = service.getAuthorizationUrlWithPKCE(additionalParams);
+        final AuthorizationUrlWithPKCE authUrlWithPKCE
+                = service.getAuthorizationUrlWithPKCE(secretState, additionalParams);
 
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");

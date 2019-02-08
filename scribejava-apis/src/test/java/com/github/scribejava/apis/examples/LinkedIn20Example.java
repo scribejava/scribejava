@@ -27,7 +27,6 @@ public class LinkedIn20Example {
                 .apiSecret(clientSecret)
                 .scope("r_basicprofile r_emailaddress") // replace with desired scope
                 .callback("http://example.com/callback")
-                .state("some_params")
                 .build(LinkedInApi20.instance());
         final Scanner in = new Scanner(System.in);
 
@@ -36,7 +35,7 @@ public class LinkedIn20Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String authorizationUrl = service.getAuthorizationUrl("some_params");
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);

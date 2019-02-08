@@ -31,7 +31,6 @@ public class HiOrgServerExample {
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .scope("basic eigenedaten")
-                .state(secretState)
                 .callback(CALLBACK_URL)
                 .build(HiOrgServerApi20.instance());
 
@@ -42,7 +41,7 @@ public class HiOrgServerExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String authorizationUrl = service.getAuthorizationUrl(secretState);
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);

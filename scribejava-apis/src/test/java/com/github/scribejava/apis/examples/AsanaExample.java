@@ -27,14 +27,13 @@ public class AsanaExample {
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback("https://localhost/")
-                .state(secretState)
                 .build(Asana20Api.instance());
         final Scanner in = new Scanner(System.in);
 
         // Obtain Auth URL
         System.out.println("Fetching the Authorication URL...");
         System.out.println("Got the Authorization URL!");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String authorizationUrl = service.getAuthorizationUrl(secretState);
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
         System.out.println("And paste the authorization code here");

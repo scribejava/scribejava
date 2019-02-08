@@ -20,9 +20,9 @@ class OAuth20ServiceUnit extends OAuth20Service {
     static final String STATE = "123";
     static final String EXPIRES = "3600";
 
-    OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope, String state,
+    OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
             String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, scope, state, responseType, userAgent, httpClientConfig, httpClient);
+        super(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
     }
 
     @Override

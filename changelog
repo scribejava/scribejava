@@ -3,6 +3,8 @@
  * remove any Google+ mention (switch to clean Google OAuth2) (thanks to https://github.com/fvasco)
  * fix Microsoft Azure AD v1.0 and v2.0 (thanks to https://github.com/kenpusney and https://github.com/oscararias)
  * add new API Asana (https://asana.com/) (thanks to https://github.com/joestazak)
+ * state param should be used only for authorization url generation, for v2 only, for Authorization Code Grant only,
+   and it should be set per request, not per created OAuthService
 
 [6.2.0]
  * add new API Microsoft Azure Active Directory (Azure AD) 2.0 (thanks to https://github.com/rzukow and https://github.com/dgrudenic)

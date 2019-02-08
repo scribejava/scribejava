@@ -27,14 +27,33 @@ public class OAuth20Service extends OAuthService {
     private static final PKCEService PKCE_SERVICE = new PKCEService();
     private final DefaultApi20 api;
     private final String responseType;
-    private final String state;
+    private String state;
 
+    /**
+     * @param api api
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param scope scope
+     * @param state state
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
+     */
+    @Deprecated
     public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
             String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
+        this(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
+        this.state = state;
+    }
+
+    public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
         super(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
         this.responseType = responseType;
-        this.state = state;
         this.api = api;
     }
 
@@ -262,12 +281,20 @@ public class OAuth20Service extends OAuthService {
     }
 
     public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE() {
-        return getAuthorizationUrlWithPKCE(null);
+        return getAuthorizationUrlWithPKCE(getState());
+    }
+
+    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(String state) {
+        return getAuthorizationUrlWithPKCE(state, null);
     }
 
     public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(Map<String, String> additionalParams) {
+        return getAuthorizationUrlWithPKCE(getState(), additionalParams);
+    }
+
+    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(String state, Map<String, String> additionalParams) {
         final PKCE pkce = PKCE_SERVICE.generatePKCE();
-        return new AuthorizationUrlWithPKCE(pkce, getAuthorizationUrl(additionalParams, pkce));
+        return new AuthorizationUrlWithPKCE(pkce, getAuthorizationUrl(state, additionalParams, pkce));
     }
 
     /**
@@ -276,7 +303,11 @@ public class OAuth20Service extends OAuthService {
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl() {
-        return getAuthorizationUrl(null, null);
+        return getAuthorizationUrl(getState());
+    }
+
+    public String getAuthorizationUrl(String state) {
+        return getAuthorizationUrl(state, null, null);
     }
 
     /**
@@ -286,14 +317,26 @@ public class OAuth20Service extends OAuthService {
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl(Map<String, String> additionalParams) {
-        return getAuthorizationUrl(additionalParams, null);
+        return getAuthorizationUrl(getState(), additionalParams);
+    }
+
+    public String getAuthorizationUrl(String state, Map<String, String> additionalParams) {
+        return getAuthorizationUrl(state, additionalParams, null);
     }
 
     public String getAuthorizationUrl(PKCE pkce) {
-        return getAuthorizationUrl(null, pkce);
+        return getAuthorizationUrl(getState(), pkce);
+    }
+
+    public String getAuthorizationUrl(String state, PKCE pkce) {
+        return getAuthorizationUrl(state, null, pkce);
     }
 
     public String getAuthorizationUrl(Map<String, String> additionalParams, PKCE pkce) {
+        return getAuthorizationUrl(getState(), additionalParams, pkce);
+    }
+
+    public String getAuthorizationUrl(String state, Map<String, String> additionalParams, PKCE pkce) {
         final Map<String, String> params;
         if (pkce == null) {
             params = additionalParams;
@@ -301,7 +344,7 @@ public class OAuth20Service extends OAuthService {
             params = additionalParams == null ? new HashMap<String, String>() : new HashMap<>(additionalParams);
             params.putAll(pkce.getAuthorizationUrlParams());
         }
-        return api.getAuthorizationUrl(getResponseType(), getApiKey(), getCallback(), getScope(), getState(), params);
+        return api.getAuthorizationUrl(getResponseType(), getApiKey(), getCallback(), getScope(), state, params);
     }
 
     public DefaultApi20 getApi() {
@@ -389,7 +432,21 @@ public class OAuth20Service extends OAuthService {
         return responseType;
     }
 
+    /**
+     * @return state
+     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
+     */
+    @Deprecated
     public String getState() {
         return state;
+    }
+
+    /**
+     * @param state state
+     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
+     */
+    @Deprecated
+    public void setState(String state) {
+        this.state = state;
     }
 }

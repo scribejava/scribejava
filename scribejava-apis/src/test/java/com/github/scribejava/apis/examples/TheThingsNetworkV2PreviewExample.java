@@ -31,7 +31,6 @@ public class TheThingsNetworkV2PreviewExample {
 
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .state(secretState)
                 .callback(redirectURI)
                 .build(TheThingsNetworkV2PreviewApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
@@ -41,7 +40,7 @@ public class TheThingsNetworkV2PreviewExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String authorizationUrl = service.getAuthorizationUrl(secretState);
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);

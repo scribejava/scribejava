@@ -70,11 +70,34 @@ public class FacebookApi extends DefaultApi20 {
         return RequestBodyAuthenticationScheme.instance();
     }
 
+    /**
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param scope scope
+     * @param debugStream debugStream
+     * @param state state
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @return return
+     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
+     */
+    @Deprecated
     @Override
     public FacebookService createService(String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String state, String responseType, String userAgent,
             HttpClientConfig httpClientConfig, HttpClient httpClient) {
         return new FacebookService(this, apiKey, apiSecret, callback, scope, state, responseType, userAgent,
+                httpClientConfig, httpClient);
+    }
+
+    @Override
+    public FacebookService createService(String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return createService(apiKey, apiSecret, callback, scope, debugStream, null, responseType, userAgent,
                 httpClientConfig, httpClient);
     }
 }

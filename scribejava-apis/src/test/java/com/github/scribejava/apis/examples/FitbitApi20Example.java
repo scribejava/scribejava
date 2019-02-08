@@ -30,7 +30,6 @@ public class FitbitApi20Example {
                 .scope("activity profile") // replace with desired scope
                 //your callback URL to store and handle the authorization code sent by Fitbit
                 .callback("http://www.example.com/oauth_callback/")
-                .state("some_params")
                 .build(FitbitApi20.instance());
         final Scanner in = new Scanner(System.in);
 
@@ -39,7 +38,7 @@ public class FitbitApi20Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String authorizationUrl = service.getAuthorizationUrl("some_params");
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);

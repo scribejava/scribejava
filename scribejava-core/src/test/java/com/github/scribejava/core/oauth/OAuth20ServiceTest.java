@@ -34,7 +34,6 @@ public class OAuth20ServiceTest {
         final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
 
         assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
-        assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
         final String authorize = base64Encoder.encodeToString(
@@ -61,7 +60,6 @@ public class OAuth20ServiceTest {
         final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
 
         assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
-        assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
 
         final String authorize = base64Encoder.encodeToString(

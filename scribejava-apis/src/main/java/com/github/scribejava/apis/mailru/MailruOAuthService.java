@@ -16,10 +16,29 @@ import java.util.Formatter;
 
 public class MailruOAuthService extends OAuth20Service {
 
+    /**
+     * @param api api
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param scope scope
+     * @param state state
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
+     */
+    @Deprecated
     public MailruOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
             String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
         super(api, apiKey, apiSecret, callback, scope, state, responseType, userAgent, httpClientConfig, httpClient);
+    }
+
+    public MailruOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
     }
 
 

@@ -29,7 +29,6 @@ public class FacebookAsyncApacheExample {
 
         try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .state(secretState)
                 .callback("http://www.example.com/oauth_callback/")
                 .httpClientConfig(ApacheHttpClientConfig.defaultConfig())
                 .build(FacebookApi.instance())) {
@@ -40,7 +39,7 @@ public class FacebookAsyncApacheExample {
 
             // Obtain the Authorization URL
             System.out.println("Fetching the Authorization URL...");
-            final String authorizationUrl = service.getAuthorizationUrl();
+            final String authorizationUrl = service.getAuthorizationUrl(secretState);
             System.out.println("Got the Authorization URL!");
             System.out.println("Now go and authorize ScribeJava here:");
             System.out.println(authorizationUrl);
