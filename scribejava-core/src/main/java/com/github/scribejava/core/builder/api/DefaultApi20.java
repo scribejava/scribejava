@@ -110,31 +110,8 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     public OAuth20Service createService(String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String responseType, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
-        return createService(apiKey, apiSecret, callback, scope, debugStream, null, responseType, userAgent,
-                httpClientConfig, httpClient);
-    }
-
-    /**
-     * @param apiKey apiKey
-     * @param apiSecret apiSecret
-     * @param callback callback
-     * @param scope scope
-     * @param debugStream debugStream
-     * @param state state
-     * @param responseType responseType
-     * @param userAgent userAgent
-     * @param httpClientConfig httpClientConfig
-     * @param httpClient httpClient
-     * @return return
-     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
-     */
-    @Deprecated
-    @Override
-    public OAuth20Service createService(String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new OAuth20Service(this, apiKey, apiSecret, callback, scope, state, responseType, userAgent,
-                httpClientConfig, httpClient);
+        return new OAuth20Service(this, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig,
+                httpClient);
     }
 
     public BearerSignature getBearerSignature() {

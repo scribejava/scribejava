@@ -48,18 +48,6 @@ public class AhcHttpClient extends AbstractAsyncOnlyHttpClient {
                 converter);
     }
 
-    /**
-     * @deprecated {@inheritDoc}
-     */
-    @Override
-    @Deprecated
-    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            com.github.scribejava.core.httpclient.MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequest.ResponseConverter<T> converter) {
-
-        throw new UnsupportedOperationException("AhcHttpClient does not support MultipartPayload yet.");
-    }
-
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,

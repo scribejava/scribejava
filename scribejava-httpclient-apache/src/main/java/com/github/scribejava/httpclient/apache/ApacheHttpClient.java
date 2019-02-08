@@ -54,18 +54,6 @@ public class ApacheHttpClient extends AbstractAsyncOnlyHttpClient {
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, entity, callback, converter);
     }
 
-    /**
-     * @deprecated {@inheritDoc}
-     */
-    @Override
-    @Deprecated
-    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            com.github.scribejava.core.httpclient.MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequest.ResponseConverter<T> converter) {
-
-        throw new UnsupportedOperationException("ApacheHttpClient does not support MultipartPayload yet.");
-    }
-
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,

@@ -27,28 +27,6 @@ public class OAuth20Service extends OAuthService {
     private static final PKCEService PKCE_SERVICE = new PKCEService();
     private final DefaultApi20 api;
     private final String responseType;
-    private String state;
-
-    /**
-     * @param api api
-     * @param apiKey apiKey
-     * @param apiSecret apiSecret
-     * @param callback callback
-     * @param scope scope
-     * @param state state
-     * @param responseType responseType
-     * @param userAgent userAgent
-     * @param httpClientConfig httpClientConfig
-     * @param httpClient httpClient
-     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
-     */
-    @Deprecated
-    public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
-            String state, String responseType, String userAgent, HttpClientConfig httpClientConfig,
-            HttpClient httpClient) {
-        this(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
-        this.state = state;
-    }
 
     public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
             String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
@@ -281,7 +259,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE() {
-        return getAuthorizationUrlWithPKCE(getState());
+        return getAuthorizationUrlWithPKCE(null, null);
     }
 
     public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(String state) {
@@ -289,7 +267,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(Map<String, String> additionalParams) {
-        return getAuthorizationUrlWithPKCE(getState(), additionalParams);
+        return getAuthorizationUrlWithPKCE(null, additionalParams);
     }
 
     public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(String state, Map<String, String> additionalParams) {
@@ -303,7 +281,7 @@ public class OAuth20Service extends OAuthService {
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl() {
-        return getAuthorizationUrl(getState());
+        return getAuthorizationUrl(null, null, null);
     }
 
     public String getAuthorizationUrl(String state) {
@@ -317,7 +295,7 @@ public class OAuth20Service extends OAuthService {
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl(Map<String, String> additionalParams) {
-        return getAuthorizationUrl(getState(), additionalParams);
+        return getAuthorizationUrl(null, additionalParams);
     }
 
     public String getAuthorizationUrl(String state, Map<String, String> additionalParams) {
@@ -325,7 +303,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public String getAuthorizationUrl(PKCE pkce) {
-        return getAuthorizationUrl(getState(), pkce);
+        return getAuthorizationUrl(null, null, pkce);
     }
 
     public String getAuthorizationUrl(String state, PKCE pkce) {
@@ -333,7 +311,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public String getAuthorizationUrl(Map<String, String> additionalParams, PKCE pkce) {
-        return getAuthorizationUrl(getState(), additionalParams, pkce);
+        return getAuthorizationUrl(null, additionalParams, pkce);
     }
 
     public String getAuthorizationUrl(String state, Map<String, String> additionalParams, PKCE pkce) {
@@ -430,23 +408,5 @@ public class OAuth20Service extends OAuthService {
 
     public String getResponseType() {
         return responseType;
-    }
-
-    /**
-     * @return state
-     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
-     */
-    @Deprecated
-    public String getState() {
-        return state;
-    }
-
-    /**
-     * @param state state
-     * @deprecated use one of getAuthorizationUrl method in {@link com.github.scribejava.core.oauth.OAuth20Service}
-     */
-    @Deprecated
-    public void setState(String state) {
-        this.state = state;
     }
 }

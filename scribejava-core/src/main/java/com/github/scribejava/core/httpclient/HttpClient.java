@@ -21,27 +21,6 @@ public interface HttpClient extends Closeable {
     <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter);
 
-    /**
-     * @param <T> T
-     * @param userAgent userAgent
-     * @param headers headers
-     * @param httpVerb httpVerb
-     * @param completeUrl completeUrl
-     * @param bodyContents bodyContents
-     * @param callback callback
-     * @param converter converter
-     * @return return
-     *
-     * @deprecated use {@link #executeAsync(java.lang.String, java.util.Map, com.github.scribejava.core.model.Verb,
-     * java.lang.String, com.github.scribejava.core.httpclient.multipart.MultipartPayload,
-     * com.github.scribejava.core.model.OAuthAsyncRequestCallback,
-     * com.github.scribejava.core.model.OAuthRequest.ResponseConverter)}
-     */
-    @Deprecated
-    <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            com.github.scribejava.core.httpclient.MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequest.ResponseConverter<T> converter);
-
     <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequest.ResponseConverter<T> converter);
@@ -54,24 +33,6 @@ public interface HttpClient extends Closeable {
 
     Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException;
-
-    /**
-     * @param userAgent userAgent
-     * @param headers headers
-     * @param httpVerb httpVerb
-     * @param completeUrl completeUrl
-     * @param bodyContents bodyContents
-     * @return return
-     * @throws InterruptedException InterruptedException
-     * @throws ExecutionException ExecutionException
-     * @throws IOException IOException
-     * @deprecated use {@link #execute(java.lang.String, java.util.Map, com.github.scribejava.core.model.Verb,
-     * java.lang.String, com.github.scribejava.core.httpclient.multipart.MultipartPayload)}
-     */
-    @Deprecated
-    Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
-            com.github.scribejava.core.httpclient.MultipartPayload bodyContents)
-            throws InterruptedException, ExecutionException, IOException;
 
     Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             MultipartPayload bodyContents) throws InterruptedException, ExecutionException, IOException;

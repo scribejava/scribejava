@@ -31,7 +31,6 @@ public class OAuthRequest {
     private String stringPayload;
     private byte[] byteArrayPayload;
     private File filePayload;
-    private com.github.scribejava.core.httpclient.MultipartPayload oldMultipartPayload;
     private MultipartPayload multipartPayload;
 
     private final Map<String, String> oauthParameters = new HashMap<>();
@@ -129,69 +128,8 @@ public class OAuthRequest {
         }
     }
 
-    /**
-     * @param boundary boundary
-     * @deprecated create {@link #initMultipartPayload(java.lang.String) }
-     */
-    @Deprecated
-    public void initMultipartBoundary(String boundary) {
-        oldMultipartPayload = new com.github.scribejava.core.httpclient.MultipartPayload(boundary == null
-                ? Long.toString(System.currentTimeMillis())
-                : boundary);
-    }
-
-    /**
-     * @deprecated use {@link #initMultipartPayload()}
-     */
-    @Deprecated
-    public void initMultipartBoundary() {
-        initMultipartBoundary(null);
-    }
-
-    /**
-     * @param contentDisposition contentDisposition
-     * @param contentType contentType
-     * @param payload payload
-     * @deprecated use {@link #addFileByteArrayBodyPartPayloadInMultipartPayload(java.lang.String, byte[],
-     * java.lang.String, java.lang.String)}
-     */
-    @Deprecated
-    public void addMultipartPayload(String contentDisposition, String contentType, byte[] payload) {
-        if (oldMultipartPayload == null) {
-            initMultipartBoundary();
-        }
-        oldMultipartPayload.addMultipartPayload(contentDisposition, contentType, payload);
-    }
-
     public MultipartPayload getMultipartPayload() {
         return multipartPayload;
-    }
-
-    /**
-     * @param contentDisposition contentDisposition
-     * @param contentType contentType
-     * @param payload payload
-     * @deprecated use {@link #setFileByteArrayBodyPartPayloadInMultipartPayload(java.lang.String, byte[],
-     * java.lang.String, java.lang.String)}
-     */
-    @Deprecated
-    public void setMultipartPayload(String contentDisposition, String contentType, byte[] payload) {
-        setMultipartPayload(null, contentDisposition, contentType, payload);
-    }
-
-    /**
-     * @param boundary boundary
-     * @param contentDisposition contentDisposition
-     * @param contentType contentType
-     * @param payload payload
-     * @deprecated use {@link #initMultipartPayload(java.lang.String) }
-     * and then {@link #setFileByteArrayBodyPartPayloadInMultipartPayload(java.lang.String, byte[], java.lang.String,
-     * java.lang.String)}
-     */
-    @Deprecated
-    public void setMultipartPayload(String boundary, String contentDisposition, String contentType, byte[] payload) {
-        initMultipartBoundary(boundary);
-        oldMultipartPayload.addMultipartPayload(contentDisposition, contentType, payload);
     }
 
     public void setMultipartPayload(MultipartPayload multipartPayload) {
@@ -351,7 +289,6 @@ public class OAuthRequest {
         stringPayload = null;
         byteArrayPayload = null;
         filePayload = null;
-        oldMultipartPayload = null;
         multipartPayload = null;
     }
 
@@ -429,15 +366,6 @@ public class OAuthRequest {
         } catch (UnsupportedEncodingException uee) {
             throw new OAuthException("Unsupported Charset: " + getCharset(), uee);
         }
-    }
-
-    /**
-     * @return return
-     * @deprecated use {@link #getMultipartPayload() }
-     */
-    @Deprecated
-    public com.github.scribejava.core.httpclient.MultipartPayload getMultipartPayloads() {
-        return oldMultipartPayload;
     }
 
     public File getFilePayload() {
