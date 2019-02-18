@@ -143,7 +143,7 @@ And in case you need just core classes (that's it, without any external API (FB,
 
 ## How can I help ScribeJava
 
-First of all, Pull Requests are welcome, Second option is [donations](https://github.com/scribejava/scribejava/blob/master/donate.md).
+First of all, Pull Requests are welcome, the second option is [donations](https://github.com/scribejava/scribejava/blob/master/donate.md).
 
 ## Getting started in less than 2 minutes
 
