@@ -149,6 +149,8 @@ First of all, Pull Requests are welcome, the second option is [donations](https:
 
 Check the [Getting Started](https://github.com/scribejava/scribejava/wiki/getting-started) page and start rocking! Please Read the [FAQ](https://github.com/scribejava/scribejava/wiki/faq) before creating an issue :)
 
+Some useful info and answers you can find on the [wiki](https://github.com/scribejava/scribejava/wiki)
+
 Also, remember to read the [fantastic tutorial](http://akoskm.github.io/2015/07/31/twitter-sign-in-for-web-apps.html) that [@akoskm](https://twitter.com/akoskm) wrote to easily integrate a server side app with an API (twitter in this case).
 
 ## Questions?
