@@ -8,6 +8,6 @@ Thanks in advance!
 
 ps.If you can't for any reason to use above methods, let me know, we will find the way out.
 
-Hall of fame "Donors" (in alphabetical order, if you don't want to be here, just put a note along with the donation):
-1.Be the first one!
+Hall of fame "Donors" (in alphabetical order, if you don't want to be here, just put a note along with the donation):<br/>
+1.Be the first one!<br/>
 2.Your name can be here.
