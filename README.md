@@ -1,6 +1,6 @@
 # Welcome to the home of ScribeJava, the simple OAuth client Java lib!
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava)
+[![Donate](https://www.paypalobjects.com/en_US/RU/i/btn/btn_donateCC_LG.gif)](https://github.com/scribejava/scribejava/blob/master/donate.md) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.scribejava/scribejava)
 
 
 # Why use ScribeJava?
@@ -140,6 +140,10 @@ And in case you need just core classes (that's it, without any external API (FB,
     <version>6.3.0</version>
 </dependency>
 ```
+
+## How can I help ScribeJava
+
+First of all, Pull Requests are welcome, Second option is [donations](https://github.com/scribejava/scribejava/blob/master/donate.md).
 
 ## Getting started in less than 2 minutes
 
