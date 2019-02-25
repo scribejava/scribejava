@@ -29,7 +29,7 @@ public class SalesforceExample {
         // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        //IT's important! Salesforce upper require TLS v1.1 or 1.2.
+        //IT's important! Salesforce upper require TLS v1.1 or higher.
         //They are enabled in Java 8 by default, but not in Java 7
         SalesforceApi.initTLSv11orUpper();
 

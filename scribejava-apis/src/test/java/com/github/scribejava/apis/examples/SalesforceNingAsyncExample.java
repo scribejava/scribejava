@@ -42,7 +42,7 @@ public class SalesforceNingAsyncExample {
                 .setReadTimeout(10_000)
                 .build());
 
-        //IT's important! Salesforce upper require TLS v1.1 or 1.2
+        //IT's important! Salesforce upper require TLS v1.1 or higher
         SalesforceApi.initTLSv11orUpper();
         try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)

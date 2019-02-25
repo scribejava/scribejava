@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * support TLS 1.3 in JDK 11 for Salesforce
+
 [6.3.0]
  * fix Muplipart request model and implement it for a jdk HTTP client (thanks to https://github.com/NTPape)
  * remove any Google+ mention (switch to clean Google OAuth2) (thanks to https://github.com/fvasco)
