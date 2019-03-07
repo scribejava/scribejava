@@ -2,6 +2,9 @@ package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.microsoftazureactivedirectory.BaseMicrosoftAzureActiveDirectoryApi;
 import com.github.scribejava.apis.microsoftazureactivedirectory.MicrosoftAzureActiveDirectory20BearerSignature;
+import com.github.scribejava.apis.openid.OpenIdJsonTokenExtractor;
+import com.github.scribejava.core.extractors.TokenExtractor;
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 
 /**
@@ -39,6 +42,11 @@ public class MicrosoftAzureActiveDirectory20Api extends BaseMicrosoftAzureActive
     @Override
     public BearerSignature getBearerSignature() {
         return MicrosoftAzureActiveDirectory20BearerSignature.instance();
+    }
+
+    @Override
+    public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
+        return OpenIdJsonTokenExtractor.instance();
     }
 
     @Override
