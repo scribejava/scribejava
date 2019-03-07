@@ -17,6 +17,7 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequest.ResponseConverter;
 import com.github.scribejava.core.model.Response;
 import java.io.IOException;
+import org.apache.http.HttpEntity;
 
 public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpResponse> {
 
@@ -42,8 +43,9 @@ public class OAuthAsyncCompletionHandler<T> implements FutureCallback<HttpRespon
 
             final StatusLine statusLine = httpResponse.getStatusLine();
 
+            final HttpEntity httpEntity = httpResponse.getEntity();
             final Response response = new Response(statusLine.getStatusCode(), statusLine.getReasonPhrase(), headersMap,
-                    httpResponse.getEntity().getContent());
+                    httpEntity == null ? null : httpEntity.getContent());
 
             @SuppressWarnings("unchecked")
             final T t = converter == null ? (T) response : converter.convert(response);
