@@ -145,6 +145,12 @@ And in case you need just core classes (that's it, without any external API (FB,
 
 First of all, Pull Requests are welcome, the second option is [donations](https://github.com/scribejava/scribejava/blob/master/donate.md).
 
+## When will ScribeJava support XXX (new RFC, custom functionality, new API etc.)
+
+When you will send the pull request. That's the way for a majority of changes here.
+Or you can ask someone to make the paid job for you.
+In some cases, when I'm interested in changes (technicaly or financialey), I can implement the request myself.
+
 ## Getting started in less than 2 minutes
 
 Check the [Getting Started](https://github.com/scribejava/scribejava/wiki/getting-started) page and start rocking! Please Read the [FAQ](https://github.com/scribejava/scribejava/wiki/faq) before creating an issue :)
