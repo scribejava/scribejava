@@ -19,9 +19,10 @@ import java.util.List;
 
 public class OdnoklassnikiOAuthService extends OAuth20Service {
 
-    public OdnoklassnikiOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
+    public OdnoklassnikiOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback,
+            String defaultScope, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig, httpClient);
     }
 
     @Override

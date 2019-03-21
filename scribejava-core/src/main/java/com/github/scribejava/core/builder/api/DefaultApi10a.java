@@ -143,10 +143,32 @@ public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
         return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
+    /**
+     *
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param scope scope
+     * @param debugStream debugStream
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @return service
+     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.io.OutputStream, java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
     @Override
     public OAuth10aService createService(String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String responseType, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
+        return createService(apiKey, apiSecret, callback, scope, debugStream, userAgent, httpClientConfig, httpClient);
+    }
+
+    public OAuth10aService createService(String apiKey, String apiSecret, String callback, String scope,
+            OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
         return new OAuth10aService(this, apiKey, apiSecret, callback, scope, debugStream, userAgent, httpClientConfig,
                 httpClient);
     }

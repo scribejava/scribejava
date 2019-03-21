@@ -8,9 +8,10 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class WunderlistOAuthService extends OAuth20Service {
 
-    public WunderlistOAuthService(WunderlistAPI api, String apiKey, String apiSecret, String callback, String scope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
+    public WunderlistOAuthService(WunderlistAPI api, String apiKey, String apiSecret, String callback,
+            String defaultScope, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig, httpClient);
     }
 
     @Override

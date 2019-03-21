@@ -16,9 +16,9 @@ import java.util.Formatter;
 
 public class MailruOAuthService extends OAuth20Service {
 
-    public MailruOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+    public MailruOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
+        super(api, apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig, httpClient);
     }
 
     @Override

@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * support TLS 1.3 in JDK 11 for Salesforce
  * fix NPE in Apache HTTP client in case of empty body in HTTP response (e.g. with 204 response code) (thanks to https://github.com/SainagNeelamPatnaik)
+ * separate OAuth1.0a and OAuth2.0 classes
 
 [6.3.0]
  * fix Muplipart request model and implement it for a jdk HTTP client (thanks to https://github.com/NTPape)

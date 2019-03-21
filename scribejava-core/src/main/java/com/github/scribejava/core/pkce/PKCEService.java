@@ -28,6 +28,15 @@ public class PKCEService {
         this(32);
     }
 
+    private static class DefaultInstanceHolder {
+
+        private static final PKCEService INSTANCE = new PKCEService();
+    }
+
+    public static PKCEService defaultInstance() {
+        return DefaultInstanceHolder.INSTANCE;
+    }
+
     public PKCE generatePKCE() {
         final byte[] bytes = new byte[numberOFOctets];
         RANDOM.nextBytes(bytes);

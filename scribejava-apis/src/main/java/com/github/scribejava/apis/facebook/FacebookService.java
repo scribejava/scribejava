@@ -13,9 +13,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class FacebookService extends OAuth20Service {
 
-    public FacebookService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+    public FacebookService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
+        super(api, apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig, httpClient);
     }
 
     @Override

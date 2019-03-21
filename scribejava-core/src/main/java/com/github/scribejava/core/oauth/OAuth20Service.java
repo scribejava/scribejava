@@ -24,15 +24,16 @@ import com.github.scribejava.core.revoke.TokenTypeHint;
 public class OAuth20Service extends OAuthService {
 
     private static final String VERSION = "2.0";
-    private static final PKCEService PKCE_SERVICE = new PKCEService();
     private final DefaultApi20 api;
     private final String responseType;
+    private final String defaultScope;
 
-    public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+    public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
+        super(apiKey, apiSecret, callback, userAgent, httpClientConfig, httpClient);
         this.responseType = responseType;
         this.api = api;
+        this.defaultScope = defaultScope;
     }
 
     //protected to facilitate mocking
@@ -109,9 +110,8 @@ public class OAuth20Service extends OAuthService {
         if (callback != null) {
             request.addParameter(OAuthConstants.REDIRECT_URI, callback);
         }
-        final String scope = getScope();
-        if (scope != null) {
-            request.addParameter(OAuthConstants.SCOPE, scope);
+        if (defaultScope != null) {
+            request.addParameter(OAuthConstants.SCOPE, defaultScope);
         }
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
         return request;
@@ -151,9 +151,8 @@ public class OAuth20Service extends OAuthService {
 
         api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
-        final String scope = getScope();
-        if (scope != null) {
-            request.addParameter(OAuthConstants.SCOPE, scope);
+        if (defaultScope != null) {
+            request.addParameter(OAuthConstants.SCOPE, defaultScope);
         }
 
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
@@ -192,9 +191,8 @@ public class OAuth20Service extends OAuthService {
         request.addParameter(OAuthConstants.USERNAME, username);
         request.addParameter(OAuthConstants.PASSWORD, password);
 
-        final String scope = getScope();
-        if (scope != null) {
-            request.addParameter(OAuthConstants.SCOPE, scope);
+        if (defaultScope != null) {
+            request.addParameter(OAuthConstants.SCOPE, defaultScope);
         }
 
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.PASSWORD);
@@ -234,9 +232,8 @@ public class OAuth20Service extends OAuthService {
 
         api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
-        final String scope = getScope();
-        if (scope != null) {
-            request.addParameter(OAuthConstants.SCOPE, scope);
+        if (defaultScope != null) {
+            request.addParameter(OAuthConstants.SCOPE, defaultScope);
         }
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.CLIENT_CREDENTIALS);
         return request;
@@ -271,7 +268,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(String state, Map<String, String> additionalParams) {
-        final PKCE pkce = PKCE_SERVICE.generatePKCE();
+        final PKCE pkce = PKCEService.defaultInstance().generatePKCE();
         return new AuthorizationUrlWithPKCE(pkce, getAuthorizationUrl(state, additionalParams, pkce));
     }
 
@@ -322,7 +319,7 @@ public class OAuth20Service extends OAuthService {
             params = additionalParams == null ? new HashMap<String, String>() : new HashMap<>(additionalParams);
             params.putAll(pkce.getAuthorizationUrlParams());
         }
-        return api.getAuthorizationUrl(getResponseType(), getApiKey(), getCallback(), getScope(), state, params);
+        return api.getAuthorizationUrl(getResponseType(), getApiKey(), getCallback(), defaultScope, state, params);
     }
 
     public DefaultApi20 getApi() {

@@ -10,9 +10,9 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 
 public class ImgurOAuthService extends OAuth20Service {
 
-    public ImgurOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String scope,
+    public ImgurOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig, httpClient);
+        super(api, apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig, httpClient);
     }
 
     @Override

@@ -24,12 +24,14 @@ public class OAuth10aService extends OAuthService {
     private static final String VERSION = "1.0";
     private final OutputStream debugStream;
     private final DefaultApi10a api;
+    private final String scope;
 
     public OAuth10aService(DefaultApi10a api, String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(apiKey, apiSecret, callback, scope, userAgent, httpClientConfig, httpClient);
+        super(apiKey, apiSecret, callback, userAgent, httpClientConfig, httpClient);
         this.debugStream = debugStream;
         this.api = api;
+        this.scope = scope;
     }
 
     public OAuth1RequestToken getRequestToken() throws IOException, InterruptedException, ExecutionException {
@@ -79,7 +81,6 @@ public class OAuth10aService extends OAuthService {
         request.addOAuthParameter(OAuthConstants.CONSUMER_KEY, getApiKey());
         request.addOAuthParameter(OAuthConstants.SIGN_METHOD, api.getSignatureService().getSignatureMethod());
         request.addOAuthParameter(OAuthConstants.VERSION, getVersion());
-        final String scope = getScope();
         if (scope != null) {
             request.addOAuthParameter(OAuthConstants.SCOPE, scope);
         }
