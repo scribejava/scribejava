@@ -4,12 +4,13 @@ import java.util.Random;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.GoogleApi20;
+import com.github.scribejava.core.oauth.AuthorizationUrlBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.AccessTokenRequestParams;
 import com.github.scribejava.core.oauth.OAuth20Service;
-import com.github.scribejava.core.pkce.AuthorizationUrlWithPKCE;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class Google20WithPKCEExample {
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("profile") // replace with desired scope
+                .defaultScope("profile") // replace with desired scope
                 .callback("http://example.com/callback")
                 .build(GoogleApi20.instance());
 
@@ -48,12 +49,14 @@ public class Google20WithPKCEExample {
         //force to reget refresh token (if usera are asked not the first time)
         additionalParams.put("prompt", "consent");
 
-        final AuthorizationUrlWithPKCE authUrlWithPKCE
-                = service.getAuthorizationUrlWithPKCE(secretState, additionalParams);
+        final AuthorizationUrlBuilder authorizationUrlBuilder = service.createAuthorizationUrlBuilder()
+                .state(secretState)
+                .additionalParams(additionalParams)
+                .initPKCE();
 
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
-        System.out.println(authUrlWithPKCE.getAuthorizationUrl());
+        System.out.println(authorizationUrlBuilder.build());
         System.out.println("And paste the authorization code here");
         System.out.print(">>");
         final String code = in.nextLine();
@@ -73,7 +76,8 @@ public class Google20WithPKCEExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        OAuth2AccessToken accessToken = service.getAccessToken(code, authUrlWithPKCE.getPkce().getCodeVerifier());
+        OAuth2AccessToken accessToken = service.getAccessToken(AccessTokenRequestParams.create(code)
+                .pkceCodeVerifier(authorizationUrlBuilder.getPkce().getCodeVerifier()));
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
 

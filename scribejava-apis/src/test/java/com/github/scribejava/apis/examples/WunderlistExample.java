@@ -31,7 +31,6 @@ public class WunderlistExample {
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
                 .callback(callbackUrl)
-                .debug()
                 .build(WunderlistAPI.instance());
 
         final String code;

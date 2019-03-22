@@ -29,7 +29,7 @@ public class KeycloakExample {
 
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
-                .scope("openid")
+                .defaultScope("openid")
                 .callback(callback)
                 .build(KeycloakApi.instance(baseUrl, realm));
         final Scanner in = new Scanner(System.in);

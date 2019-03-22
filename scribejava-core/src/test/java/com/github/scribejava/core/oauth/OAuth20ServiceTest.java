@@ -52,7 +52,7 @@ public class OAuth20ServiceTest {
                 .apiSecret("your_api_secret")
                 .build(new OAuth20ApiUnit());
 
-        final OAuth2AccessToken token = service.getAccessTokenPasswordGrantAsync("user1", "password1", null).get();
+        final OAuth2AccessToken token = service.getAccessTokenPasswordGrantAsync("user1", "password1").get();
         final Gson json = new Gson();
 
         assertNotNull(token);

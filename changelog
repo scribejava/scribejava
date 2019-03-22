@@ -1,3 +1,8 @@
+[SNAPSHOT]
+ * separate OAuth1.0a and OAuth2.0 ServiceBuilders,
+   introduce AuthorizationUrlBuilder (along with deprecation of AuthorizationUrlWithPKCE)
+   add possibility to provide different scopes for each Access Token request
+
 [6.4.1]
  * support TLS 1.3 in JDK 11 for Salesforce
  * fix NPE in Apache HTTP client in case of empty body in HTTP response (e.g. with 204 response code) (thanks to https://github.com/SainagNeelamPatnaik)

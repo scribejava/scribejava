@@ -35,7 +35,7 @@ public class RenrenExample {
         final String apiSecret = "your api secret";
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
-                .scope("status_update publish_feed")
+                .defaultScope("status_update publish_feed")
                 .callback("http://your.doman.com/oauth/renren")
                 .build(RenrenApi.instance());
         final Scanner in = new Scanner(System.in);

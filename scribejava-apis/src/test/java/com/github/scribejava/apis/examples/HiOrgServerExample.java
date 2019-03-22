@@ -30,7 +30,7 @@ public class HiOrgServerExample {
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("basic eigenedaten")
+                .defaultScope("basic eigenedaten")
                 .callback(CALLBACK_URL)
                 .build(HiOrgServerApi20.instance());
 

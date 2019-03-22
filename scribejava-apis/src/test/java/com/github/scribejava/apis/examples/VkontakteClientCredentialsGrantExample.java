@@ -20,7 +20,7 @@ public class VkontakteClientCredentialsGrantExample {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("wall,offline") // replace with desired scope
+                .defaultScope("wall,offline") // replace with desired scope
                 .callback("http://your.site.com/callback")
                 .build(VkontakteApi.instance());
 

@@ -29,7 +29,7 @@ public class Google20RevokeExample {
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("profile") // replace with desired scope
+                .defaultScope("profile") // replace with desired scope
                 .callback("http://example.com/callback")
                 .build(GoogleApi20.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
@@ -45,7 +45,10 @@ public class Google20RevokeExample {
         additionalParams.put("access_type", "offline");
         //force to reget refresh token (if usera are asked not the first time)
         additionalParams.put("prompt", "consent");
-        final String authorizationUrl = service.getAuthorizationUrl(secretState, additionalParams);
+        final String authorizationUrl = service.createAuthorizationUrlBuilder()
+                .state(secretState)
+                .additionalParams(additionalParams)
+                .build();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);

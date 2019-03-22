@@ -27,7 +27,7 @@ public class FitbitApi20Example {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("activity profile") // replace with desired scope
+                .defaultScope("activity profile") // replace with desired scope
                 //your callback URL to store and handle the authorization code sent by Fitbit
                 .callback("http://www.example.com/oauth_callback/")
                 .build(FitbitApi20.instance());

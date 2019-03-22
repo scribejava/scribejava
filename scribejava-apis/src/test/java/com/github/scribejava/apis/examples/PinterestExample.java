@@ -25,7 +25,7 @@ public class PinterestExample {
         final String apiSecret = "your_app_secret";
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
-                .scope("read_public,write_public,read_relationships,write_relationships")
+                .defaultScope("read_public,write_public,read_relationships,write_relationships")
                 .callback("https://localhost/") // Add as valid callback in developer portal
                 .build(PinterestApi.instance());
         final Scanner in = new Scanner(System.in);

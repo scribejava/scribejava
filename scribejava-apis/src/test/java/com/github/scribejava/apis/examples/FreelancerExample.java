@@ -26,7 +26,7 @@ public class FreelancerExample {
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder("your client id")
                 .apiSecret("your client secret")
-                .scope(SCOPE)
+                .withScope(SCOPE)
                 .build(FreelancerApi.Sandbox.instance());
         final Scanner in = new Scanner(System.in);
 

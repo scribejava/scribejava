@@ -8,6 +8,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.AccessTokenRequestParams;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +28,7 @@ public class VkontakteExample {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("wall,offline,email") // replace with desired scope
+                .defaultScope("wall,offline") // replace with desired scope
                 .callback("http://your.site.com/callback")
                 .build(VkontakteApi.instance());
         final Scanner in = new Scanner(System.in);
@@ -37,7 +38,10 @@ public class VkontakteExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String customScope = "wall,offline,email";
+        final String authorizationUrl = service.createAuthorizationUrlBuilder()
+                .scope(customScope)
+                .build();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -48,7 +52,8 @@ public class VkontakteExample {
 
         // Trade the Request Token and Verfier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
-        final OAuth2AccessToken accessToken = service.getAccessToken(code);
+        final OAuth2AccessToken accessToken = service.getAccessToken(AccessTokenRequestParams.create(code)
+                .scope(customScope));
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
         if (accessToken instanceof VKOAuth2AccessToken) {

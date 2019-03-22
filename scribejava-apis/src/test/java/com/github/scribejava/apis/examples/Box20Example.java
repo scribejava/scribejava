@@ -43,7 +43,10 @@ public class Box20Example {
         additionalParams.put("access_type", "offline");
         //force to reget refresh token (if usera are asked not the first time)
         additionalParams.put("prompt", "consent");
-        final String authorizationUrl = service.getAuthorizationUrl(secretState, additionalParams);
+        final String authorizationUrl = service.createAuthorizationUrlBuilder()
+                .state(secretState)
+                .additionalParams(additionalParams)
+                .build();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);

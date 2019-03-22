@@ -39,7 +39,7 @@ public class Google20AsyncAHCExample {
 
         try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("profile") // replace with desired scope
+                .defaultScope("profile") // replace with desired scope
                 .callback("http://example.com/callback")
                 .httpClientConfig(clientConfig)
                 .build(GoogleApi20.instance())) {
@@ -56,7 +56,10 @@ public class Google20AsyncAHCExample {
             additionalParams.put("access_type", "offline");
             //force to reget refresh token (if usera are asked not the first time)
             additionalParams.put("prompt", "consent");
-            final String authorizationUrl = service.getAuthorizationUrl(secretState, additionalParams);
+            final String authorizationUrl = service.createAuthorizationUrlBuilder()
+                    .state(secretState)
+                    .additionalParams(additionalParams)
+                    .build();
             System.out.println("Got the Authorization URL!");
             System.out.println("Now go and authorize ScribeJava here:");
             System.out.println(authorizationUrl);

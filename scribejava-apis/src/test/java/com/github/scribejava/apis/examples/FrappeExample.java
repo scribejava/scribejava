@@ -26,7 +26,7 @@ public class FrappeExample {
         final String clientDomain = "https://example.com";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("openid all")
+                .defaultScope("openid all")
                 .callback("https://example.com/callback")
                 .build(FrappeApi.instance(clientDomain));
         final Scanner in = new Scanner(System.in, "UTF-8");

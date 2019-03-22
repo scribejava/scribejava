@@ -14,7 +14,7 @@ import java.io.OutputStream;
 /**
  * Implementation of the Builder pattern, with a fluent interface that creates a {@link OAuthService}
  */
-public class ServiceBuilder {
+public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAuth20 {
 
     private String callback;
     private String apiKey;
@@ -31,36 +31,20 @@ public class ServiceBuilder {
         apiKey(apiKey);
     }
 
-    /**
-     * Adds an OAuth callback url
-     *
-     * @param callback callback url. Must be a valid url or 'oob'
-     * ({@link com.github.scribejava.core.model.OAuthConstants#OOB} for out of band OAuth
-     * @return the {@link ServiceBuilder} instance for method chaining
-     */
+    @Override
     public ServiceBuilder callback(String callback) {
         this.callback = callback;
         return this;
     }
 
-    /**
-     * Configures the api key
-     *
-     * @param apiKey The api key for your application
-     * @return the {@link ServiceBuilder} instance for method chaining
-     */
+    @Override
     public final ServiceBuilder apiKey(String apiKey) {
         Preconditions.checkEmptyString(apiKey, "Invalid Api key");
         this.apiKey = apiKey;
         return this;
     }
 
-    /**
-     * Configures the api secret
-     *
-     * @param apiSecret The api secret for your application
-     * @return the {@link ServiceBuilder} instance for method chaining
-     */
+    @Override
     public ServiceBuilder apiSecret(String apiSecret) {
         Preconditions.checkEmptyString(apiSecret, "Invalid Api secret");
         this.apiSecret = apiSecret;
@@ -68,61 +52,72 @@ public class ServiceBuilder {
     }
 
     /**
-     * Configures the OAuth scope. This is only necessary in some APIs (like Google's).
-     *
-     * @param scope The OAuth scope
-     * @return the {@link ServiceBuilder} instance for method chaining
+     * @deprecated use {@link ServiceBuilderOAuth20#defaultScope(java.lang.String)} or
+     * {@link ServiceBuilderOAuth10a#withScope(java.lang.String)}
      */
+    @Override
+    @Deprecated
     public ServiceBuilder scope(String scope) {
         Preconditions.checkEmptyString(scope, "Invalid OAuth scope");
         this.scope = scope;
         return this;
     }
 
-    public ServiceBuilder debugStream(OutputStream debugStream) {
+    @Override
+    public ServiceBuilderOAuth20 defaultScope(String defaultScope) {
+        return scope(defaultScope);
+    }
+
+    @Override
+    public ServiceBuilderOAuth10a withScope(String scope) {
+        return scope(scope);
+    }
+
+    @Override
+    public ServiceBuilderOAuth10a debugStream(OutputStream debugStream) {
         Preconditions.checkNotNull(debugStream, "debug stream can't be null");
         this.debugStream = debugStream;
         return this;
     }
 
-    public ServiceBuilder responseType(String responseType) {
+    @Override
+    public ServiceBuilderOAuth20 responseType(String responseType) {
         Preconditions.checkEmptyString(responseType, "Invalid OAuth responseType");
         this.responseType = responseType;
         return this;
     }
 
+    @Override
     public ServiceBuilder httpClientConfig(HttpClientConfig httpClientConfig) {
         Preconditions.checkNotNull(httpClientConfig, "httpClientConfig can't be null");
         this.httpClientConfig = httpClientConfig;
         return this;
     }
 
-    /**
-     * takes precedence over httpClientConfig
-     *
-     * @param httpClient externally created HTTP client
-     * @return the {@link ServiceBuilder} instance for method chaining
-     */
+    @Override
     public ServiceBuilder httpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
         return this;
     }
 
+    @Override
     public ServiceBuilder userAgent(String userAgent) {
         this.userAgent = userAgent;
         return this;
     }
 
-    public ServiceBuilder debug() {
-        debugStream(System.out);
-        return this;
+    @Override
+    public ServiceBuilderOAuth10a debug() {
+        return debugStream(System.out);
     }
 
+    @Override
     public OAuth10aService build(DefaultApi10a api) {
         return api.createService(apiKey, apiSecret, callback, scope, debugStream, userAgent, httpClientConfig,
                 httpClient);
     }
 
+    @Override
     public OAuth20Service build(DefaultApi20 api) {
         return api.createService(apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig,
                 httpClient);

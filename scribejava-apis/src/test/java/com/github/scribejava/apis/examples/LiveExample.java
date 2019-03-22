@@ -24,7 +24,7 @@ public class LiveExample {
         final String apiSecret = "";
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)
-                .scope("wl.basic")
+                .defaultScope("wl.basic")
                 .callback("http://localhost:9000/")
                 .build(LiveApi.instance());
         final Scanner in = new Scanner(System.in);

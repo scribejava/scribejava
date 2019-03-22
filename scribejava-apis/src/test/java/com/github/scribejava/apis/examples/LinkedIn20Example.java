@@ -25,7 +25,7 @@ public class LinkedIn20Example {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("r_basicprofile r_emailaddress") // replace with desired scope
+                .defaultScope("r_basicprofile r_emailaddress") // replace with desired scope
                 .callback("http://example.com/callback")
                 .build(LinkedInApi20.instance());
         final Scanner in = new Scanner(System.in);

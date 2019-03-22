@@ -27,7 +27,7 @@ public class GeniusExample {
         final String secretState = "100";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("me")
+                .defaultScope("me")
                 .callback("com.scribejavatest://callback")
                 .userAgent("ScribeJava")
                 .build(GeniusApi.instance());

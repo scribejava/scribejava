@@ -43,7 +43,7 @@ public class VkontakteExternalHttpExample {
             final OAuth20Service service = new ServiceBuilder(clientId)
                     .httpClient(wrappedAHCHttpClient)
                     .apiSecret(clientSecret)
-                    .scope("wall,offline") // replace with desired scope
+                    .defaultScope("wall,offline") // replace with desired scope
                     .callback("http://your.site.com/callback")
                     .build(VkontakteApi.instance());
             final Scanner in = new Scanner(System.in);

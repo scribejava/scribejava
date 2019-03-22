@@ -19,7 +19,7 @@ public class OdnoklassnikiServiceTest {
 
     private final OAuth20Service service = new ServiceBuilder("0000000000")
             .apiSecret("CCCCCCCCCCCCCCCCCCCCCCCC")
-            .scope("VALUABLE_ACCESS")
+            .defaultScope("VALUABLE_ACCESS")
             .callback("http://your.site.com/callback")
             .build(OdnoklassnikiApi.instance());
 

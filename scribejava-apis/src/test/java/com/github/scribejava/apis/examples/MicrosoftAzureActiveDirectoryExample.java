@@ -27,7 +27,7 @@ public class MicrosoftAzureActiveDirectoryExample {
         final String clientSecret = "client secret here";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("openid")
+                .defaultScope("openid")
                 .callback("http://www.example.com/oauth_callback/")
                 .build(MicrosoftAzureActiveDirectoryApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");

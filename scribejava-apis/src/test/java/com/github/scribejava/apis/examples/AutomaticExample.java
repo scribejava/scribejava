@@ -29,7 +29,7 @@ public class AutomaticExample {
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .callback("http://www.example.com/oauth_callback/")
-                .scope("scope:user:profile").debug()
+                .defaultScope("scope:user:profile")
                 .build(AutomaticAPI.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 

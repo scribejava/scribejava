@@ -6,7 +6,9 @@ import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.oauth.AccessTokenRequestParams;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import com.github.scribejava.core.pkce.PKCE;
 
 public class ImgurOAuthService extends OAuth20Service {
 
@@ -16,12 +18,13 @@ public class ImgurOAuthService extends OAuth20Service {
     }
 
     @Override
-    protected OAuthRequest createAccessTokenRequest(String oauthVerifier) {
+    protected OAuthRequest createAccessTokenRequest(AccessTokenRequestParams params) {
         final DefaultApi20 api = getApi();
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
         request.addBodyParameter(OAuthConstants.CLIENT_ID, getApiKey());
         request.addBodyParameter(OAuthConstants.CLIENT_SECRET, getApiSecret());
 
+        final String oauthVerifier = params.getCode();
         if (ImgurApi.isOob(getCallback())) {
             request.addBodyParameter(OAuthConstants.GRANT_TYPE, "pin");
             request.addBodyParameter("pin", oauthVerifier);
@@ -29,6 +32,12 @@ public class ImgurOAuthService extends OAuth20Service {
             request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
             request.addBodyParameter(OAuthConstants.CODE, oauthVerifier);
         }
+
+        final String pkceCodeVerifier = params.getPkceCodeVerifier();
+        if (pkceCodeVerifier != null) {
+            request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
+        }
+
         return request;
     }
 
