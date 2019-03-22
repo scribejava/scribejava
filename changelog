@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[6.5.0]
  * separate OAuth1.0a and OAuth2.0 ServiceBuilders,
    introduce AuthorizationUrlBuilder (along with deprecation of AuthorizationUrlWithPKCE)
    add possibility to provide different scopes for each Access Token request
