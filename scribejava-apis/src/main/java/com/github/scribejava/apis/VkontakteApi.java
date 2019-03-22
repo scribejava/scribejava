@@ -12,7 +12,7 @@ import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthent
 
 public class VkontakteApi extends DefaultApi20 {
 
-    public static final String VERSION = "5.73";
+    public static final String VERSION = "5.92";
 
     protected VkontakteApi() {
     }
