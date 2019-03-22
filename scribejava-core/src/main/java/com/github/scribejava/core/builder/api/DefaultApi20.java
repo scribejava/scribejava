@@ -13,7 +13,6 @@ import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureAuthorizationRequestHeaderField;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme;
-import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -29,7 +28,7 @@ import java.util.Map;
  * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
  */
-public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
+public abstract class DefaultApi20 {
 
     /**
      * Returns the access token extractor.
@@ -104,31 +103,6 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
         }
 
         return parameters.appendTo(getAuthorizationBaseUrl());
-    }
-
-    /**
-     *
-     * @param apiKey apiKey
-     * @param apiSecret apiSecret
-     * @param callback callback
-     * @param defaultScope defaultScope
-     * @param debugStream debugStream
-     * @param responseType responseType
-     * @param userAgent userAgent
-     * @param httpClientConfig httpClientConfig
-     * @param httpClient httpClient
-     * @return service
-     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-     * java.lang.String, java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
-     * com.github.scribejava.core.httpclient.HttpClient) }
-     */
-    @Deprecated
-    @Override
-    public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
-            OutputStream debugStream, String responseType, String userAgent, HttpClientConfig httpClientConfig,
-            HttpClient httpClient) {
-        return createService(apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig,
-                httpClient);
     }
 
     public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,

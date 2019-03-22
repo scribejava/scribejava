@@ -1,6 +1,5 @@
 package com.github.scribejava.core.builder;
 
-import com.github.scribejava.core.builder.api.BaseApi;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
@@ -117,21 +116,6 @@ public class ServiceBuilder {
     public ServiceBuilder debug() {
         debugStream(System.out);
         return this;
-    }
-
-    /**
-     * Returns the fully configured {@link OAuthService}
-     *
-     * @param <S> OAuthService implementation (OAuth1/OAuth2/any API specific)
-     * @param api will build Service for this API
-     * @return fully configured {@link OAuthService}
-     * @deprecated use {@link #build(com.github.scribejava.core.builder.api.DefaultApi10a) }
-     * or {@link #build(com.github.scribejava.core.builder.api.DefaultApi20)}
-     */
-    @Deprecated
-    public <S extends OAuthService> S build(BaseApi<S> api) {
-        return api.createService(apiKey, apiSecret, callback, scope, debugStream, responseType, userAgent,
-                httpClientConfig, httpClient);
     }
 
     public OAuth10aService build(DefaultApi10a api) {
