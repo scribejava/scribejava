@@ -19,7 +19,7 @@ public class FacebookApi extends DefaultApi20 {
     private final String version;
 
     protected FacebookApi() {
-        this("2.11");
+        this("3.2");
     }
 
     protected FacebookApi(String version) {
