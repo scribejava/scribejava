@@ -34,17 +34,6 @@ public interface ServiceBuilderCommon {
      */
     ServiceBuilderCommon apiSecret(String apiSecret);
 
-    /**
-     * Configures the OAuth scope. This is only necessary in some APIs (like Google's).
-     *
-     * @param scope The OAuth scope
-     * @return the {@link ServiceBuilder} instance for method chaining
-     * @deprecated use {@link ServiceBuilderOAuth20#defaultScope(java.lang.String)} or
-     * {@link ServiceBuilderOAuth10a#withScope(java.lang.String)}
-     */
-    @Deprecated
-    ServiceBuilderCommon scope(String scope);
-
     ServiceBuilderCommon httpClientConfig(HttpClientConfig httpClientConfig);
 
     /**

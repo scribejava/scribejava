@@ -16,13 +16,6 @@ public interface ServiceBuilderOAuth20 extends ServiceBuilderCommon {
     @Override
     ServiceBuilderOAuth20 apiSecret(String apiSecret);
 
-    /**
-     * @deprecated use {@link #defaultScope(java.lang.String) }
-     */
-    @Override
-    @Deprecated
-    ServiceBuilderOAuth20 scope(String scope);
-
     @Override
     ServiceBuilderOAuth20 httpClientConfig(HttpClientConfig httpClientConfig);
 

@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * cleanup deprecates methods
+
 [6.5.0]
  * separate OAuth1.0a and OAuth2.0 ServiceBuilders,
    introduce AuthorizationUrlBuilder (along with deprecation of AuthorizationUrlWithPKCE)

@@ -51,13 +51,7 @@ public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAu
         return this;
     }
 
-    /**
-     * @deprecated use {@link ServiceBuilderOAuth20#defaultScope(java.lang.String)} or
-     * {@link ServiceBuilderOAuth10a#withScope(java.lang.String)}
-     */
-    @Override
-    @Deprecated
-    public ServiceBuilder scope(String scope) {
+    private ServiceBuilder setScope(String scope) {
         Preconditions.checkEmptyString(scope, "Invalid OAuth scope");
         this.scope = scope;
         return this;
@@ -65,12 +59,12 @@ public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAu
 
     @Override
     public ServiceBuilderOAuth20 defaultScope(String defaultScope) {
-        return scope(defaultScope);
+        return setScope(defaultScope);
     }
 
     @Override
     public ServiceBuilderOAuth10a withScope(String scope) {
-        return scope(scope);
+        return setScope(scope);
     }
 
     @Override

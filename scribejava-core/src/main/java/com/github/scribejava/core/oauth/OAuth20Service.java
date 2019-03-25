@@ -13,7 +13,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.pkce.AuthorizationUrlWithPKCE;
 import com.github.scribejava.core.pkce.PKCE;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -58,18 +57,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public Future<OAuth2AccessToken> getAccessTokenAsync(String code) {
-        return getAccessToken(code, null, null);
-    }
-
-    /**
-     * @param code code
-     * @param pkceCodeVerifier pkceCodeVerifier
-     * @return future
-     * @deprecated use {@link #getAccessTokenAsync(com.github.scribejava.core.oauth.AccessTokenRequestParams) }
-     */
-    @Deprecated
-    public Future<OAuth2AccessToken> getAccessTokenAsync(String code, String pkceCodeVerifier) {
-        return getAccessToken(code, null, pkceCodeVerifier);
+        return getAccessToken(AccessTokenRequestParams.create(code), null);
     }
 
     public Future<OAuth2AccessToken> getAccessTokenAsync(AccessTokenRequestParams params) {
@@ -77,25 +65,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public OAuth2AccessToken getAccessToken(String code) throws IOException, InterruptedException, ExecutionException {
-        return getAccessToken(code, (String) null);
-    }
-
-    /**
-     * @param code code
-     * @param pkceCodeVerifier pkceCodeVerifier
-     * @return token
-     * @throws IOException IOException
-     * @throws InterruptedException InterruptedException
-     * @throws ExecutionException ExecutionException
-     *
-     * @deprecated use {@link #getAccessToken(com.github.scribejava.core.oauth.AccessTokenRequestParams) }
-     */
-    @Deprecated
-    public OAuth2AccessToken getAccessToken(String code, String pkceCodeVerifier)
-            throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createAccessTokenRequest(code, pkceCodeVerifier);
-
-        return sendAccessTokenRequestSync(request);
+        return getAccessToken(AccessTokenRequestParams.create(code));
     }
 
     public OAuth2AccessToken getAccessToken(AccessTokenRequestParams params)
@@ -116,51 +86,9 @@ public class OAuth20Service extends OAuthService {
         return sendAccessTokenRequestAsync(createAccessTokenRequest(params), callback);
     }
 
-    /**
-     * @param code code
-     * @param callback callback
-     * @param pkceCodeVerifier pkceCodeVerifier
-     * @return future
-     *
-     * @deprecated use {@link #getAccessToken(com.github.scribejava.core.oauth.AccessTokenRequestParams,
-     * com.github.scribejava.core.model.OAuthAsyncRequestCallback) }
-     */
-    @Deprecated
-    public Future<OAuth2AccessToken> getAccessToken(String code, OAuthAsyncRequestCallback<OAuth2AccessToken> callback,
-            String pkceCodeVerifier) {
-        final OAuthRequest request = createAccessTokenRequest(code, pkceCodeVerifier);
-
-        return sendAccessTokenRequestAsync(request, callback);
-    }
-
     public Future<OAuth2AccessToken> getAccessToken(String code,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-
-        return getAccessToken(code, callback, null);
-    }
-
-    /**
-     * @param code code
-     * @return request
-     *
-     * @deprecated use {@link #createAccessTokenRequest(com.github.scribejava.core.oauth.AccessTokenRequestParams)}
-     */
-    @Deprecated
-    protected OAuthRequest createAccessTokenRequest(String code) {
-        return createAccessTokenRequest(AccessTokenRequestParams.create(code));
-    }
-
-    /**
-     *
-     * @param code code
-     * @param pkceCodeVerifier pkceCodeVerifier
-     * @return request
-     *
-     * @deprecated use {@link #createAccessTokenRequest(com.github.scribejava.core.oauth.AccessTokenRequestParams)}
-     */
-    @Deprecated
-    protected OAuthRequest createAccessTokenRequest(String code, String pkceCodeVerifier) {
-        return createAccessTokenRequest(AccessTokenRequestParams.create(code).pkceCodeVerifier(pkceCodeVerifier));
+        return getAccessToken(AccessTokenRequestParams.create(code), callback);
     }
 
     protected OAuthRequest createAccessTokenRequest(AccessTokenRequestParams params) {
@@ -198,7 +126,7 @@ public class OAuth20Service extends OAuthService {
 
     public OAuth2AccessToken refreshAccessToken(String refreshToken)
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken);
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken, null);
 
         return sendAccessTokenRequestSync(request);
     }
@@ -212,7 +140,7 @@ public class OAuth20Service extends OAuthService {
 
     public Future<OAuth2AccessToken> refreshAccessToken(String refreshToken,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken);
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken, null);
 
         return sendAccessTokenRequestAsync(request, callback);
     }
@@ -222,17 +150,6 @@ public class OAuth20Service extends OAuthService {
         final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope);
 
         return sendAccessTokenRequestAsync(request, callback);
-    }
-
-    /**
-     * @param refreshToken refreshToken
-     * @return request
-     *
-     * @deprecated use {@link #createRefreshTokenRequest(java.lang.String, java.lang.String) }
-     */
-    @Deprecated
-    protected OAuthRequest createRefreshTokenRequest(String refreshToken) {
-        return createRefreshTokenRequest(refreshToken, null);
     }
 
     protected OAuthRequest createRefreshTokenRequest(String refreshToken, String scope) {
@@ -254,62 +171,49 @@ public class OAuth20Service extends OAuthService {
         return request;
     }
 
-    public OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password)
+    public OAuth2AccessToken getAccessTokenPasswordGrant(String username, String password)
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password);
+        final OAuthRequest request = createAccessTokenPasswordGrantRequest(username, password, null);
 
         return sendAccessTokenRequestSync(request);
     }
 
-    public OAuth2AccessToken getAccessTokenPasswordGrant(String uname, String password, String scope)
+    public OAuth2AccessToken getAccessTokenPasswordGrant(String username, String password, String scope)
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password, scope);
+        final OAuthRequest request = createAccessTokenPasswordGrantRequest(username, password, scope);
 
         return sendAccessTokenRequestSync(request);
     }
 
-    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password) {
-        return getAccessTokenPasswordGrantAsync(uname, password, (OAuthAsyncRequestCallback<OAuth2AccessToken>) null);
+    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String username, String password) {
+        return getAccessTokenPasswordGrantAsync(username, password,
+                (OAuthAsyncRequestCallback<OAuth2AccessToken>) null);
     }
 
-    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password, String scope) {
-        return getAccessTokenPasswordGrantAsync(uname, password, scope, null);
+    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String username, String password, String scope) {
+        return getAccessTokenPasswordGrantAsync(username, password, scope, null);
     }
 
     /**
      * Request Access Token Password Grant async version
      *
-     * @param uname User name
+     * @param username User name
      * @param password User password
      * @param callback Optional callback
      * @return Future
      */
-    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password,
+    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String username, String password,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password);
+        final OAuthRequest request = createAccessTokenPasswordGrantRequest(username, password, null);
 
         return sendAccessTokenRequestAsync(request, callback);
     }
 
-    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String uname, String password, String scope,
+    public Future<OAuth2AccessToken> getAccessTokenPasswordGrantAsync(String username, String password, String scope,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createAccessTokenPasswordGrantRequest(uname, password, scope);
+        final OAuthRequest request = createAccessTokenPasswordGrantRequest(username, password, scope);
 
         return sendAccessTokenRequestAsync(request, callback);
-    }
-
-    /**
-     *
-     * @param username username
-     * @param password password
-     * @return request
-     *
-     * @deprecated use {@link #createAccessTokenPasswordGrantRequest(java.lang.String, java.lang.String,
-     * java.lang.String) }
-     */
-    @Deprecated
-    protected OAuthRequest createAccessTokenPasswordGrantRequest(String username, String password) {
-        return createAccessTokenPasswordGrantRequest(username, password, null);
     }
 
     protected OAuthRequest createAccessTokenPasswordGrantRequest(String username, String password, String scope) {
@@ -340,7 +244,7 @@ public class OAuth20Service extends OAuthService {
 
     public OAuth2AccessToken getAccessTokenClientCredentialsGrant()
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest();
+        final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest(null);
 
         return sendAccessTokenRequestSync(request);
     }
@@ -361,7 +265,7 @@ public class OAuth20Service extends OAuthService {
      */
     public Future<OAuth2AccessToken> getAccessTokenClientCredentialsGrant(
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest();
+        final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest(null);
 
         return sendAccessTokenRequestAsync(request, callback);
     }
@@ -371,16 +275,6 @@ public class OAuth20Service extends OAuthService {
         final OAuthRequest request = createAccessTokenClientCredentialsGrantRequest(scope);
 
         return sendAccessTokenRequestAsync(request, callback);
-    }
-
-    /**
-     * @return request
-     *
-     * @deprecated use {@link #createAccessTokenClientCredentialsGrantRequest(java.lang.String) }
-     */
-    @Deprecated
-    protected OAuthRequest createAccessTokenClientCredentialsGrantRequest() {
-        return createAccessTokenClientCredentialsGrantRequest(null);
     }
 
     protected OAuthRequest createAccessTokenClientCredentialsGrantRequest(String scope) {
@@ -414,66 +308,6 @@ public class OAuth20Service extends OAuthService {
     }
 
     /**
-     * @return AuthorizationUrlWithPKCE
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE() {
-        final AuthorizationUrlBuilder authorizationUrlBuilder = createAuthorizationUrlBuilder()
-                .initPKCE();
-
-        return new AuthorizationUrlWithPKCE(authorizationUrlBuilder.getPkce(), authorizationUrlBuilder.build());
-    }
-
-    /**
-     * @param state state
-     * @return AuthorizationUrlWithPKCE
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(String state) {
-        final AuthorizationUrlBuilder authorizationUrlBuilder = createAuthorizationUrlBuilder()
-                .state(state)
-                .initPKCE();
-
-        return new AuthorizationUrlWithPKCE(authorizationUrlBuilder.getPkce(), authorizationUrlBuilder.build());
-    }
-
-    /**
-     * @param additionalParams additionalParams
-     * @return AuthorizationUrlWithPKCE
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(Map<String, String> additionalParams) {
-        final AuthorizationUrlBuilder authorizationUrlBuilder = createAuthorizationUrlBuilder()
-                .additionalParams(additionalParams)
-                .initPKCE();
-
-        return new AuthorizationUrlWithPKCE(authorizationUrlBuilder.getPkce(), authorizationUrlBuilder.build());
-    }
-
-    /**
-     * @param state state
-     * @param additionalParams additionalParams
-     * @return AuthorizationUrlWithPKCE
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public AuthorizationUrlWithPKCE getAuthorizationUrlWithPKCE(String state, Map<String, String> additionalParams) {
-        final AuthorizationUrlBuilder authorizationUrlBuilder = createAuthorizationUrlBuilder()
-                .state(state)
-                .additionalParams(additionalParams)
-                .initPKCE();
-
-        return new AuthorizationUrlWithPKCE(authorizationUrlBuilder.getPkce(), authorizationUrlBuilder.build());
-    }
-
-    /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
      * @return the URL where you should redirect your users
@@ -500,72 +334,8 @@ public class OAuth20Service extends OAuthService {
                 .build();
     }
 
-    /**
-     *
-     * @param state state
-     * @param additionalParams additionalParams
-     * @return url
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public String getAuthorizationUrl(String state, Map<String, String> additionalParams) {
-        return createAuthorizationUrlBuilder()
-                .state(state)
-                .additionalParams(additionalParams)
-                .build();
-    }
-
     public String getAuthorizationUrl(PKCE pkce) {
         return createAuthorizationUrlBuilder()
-                .pkce(pkce)
-                .build();
-    }
-
-    /**
-     * @param state state
-     * @param pkce pkce
-     * @return url
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public String getAuthorizationUrl(String state, PKCE pkce) {
-        return createAuthorizationUrlBuilder()
-                .state(state)
-                .pkce(pkce)
-                .build();
-    }
-
-    /**
-     * @param additionalParams additionalParams
-     * @param pkce pkce
-     * @return url
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public String getAuthorizationUrl(Map<String, String> additionalParams, PKCE pkce) {
-        return createAuthorizationUrlBuilder()
-                .additionalParams(additionalParams)
-                .pkce(pkce)
-                .build();
-    }
-
-    /**
-     *
-     * @param state state
-     * @param additionalParams additionalParams
-     * @param pkce pkce
-     * @return url
-     *
-     * @deprecated use new builder pattern {@link AuthorizationUrlBuilder}
-     */
-    @Deprecated
-    public String getAuthorizationUrl(String state, Map<String, String> additionalParams, PKCE pkce) {
-        return createAuthorizationUrlBuilder()
-                .state(state)
-                .additionalParams(additionalParams)
                 .pkce(pkce)
                 .build();
     }
