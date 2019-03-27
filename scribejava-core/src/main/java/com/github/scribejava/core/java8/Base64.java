@@ -566,7 +566,8 @@ public class Base64 {
             int pos0 = buffer.position();
             try {
                 byte[] src;
-                int sp, sl;
+                int sp;
+                int sl;
                 if (buffer.hasArray()) {
                     src = buffer.array();
                     sp = buffer.arrayOffset() + buffer.position();
@@ -725,7 +726,9 @@ public class Base64 {
     private static class EncOutputStream extends FilterOutputStream {
 
         private int leftover;
-        private int b0, b1, b2;
+        private int b0;
+        private int b1;
+        private int b2;
         private boolean closed;
 
         private final char[] base64;    // byte->base64 mapping
