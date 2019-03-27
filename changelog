@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * add PMD checks on compile
+
 [6.5.1]
  * cleanup deprecates methods
 

@@ -39,7 +39,7 @@ public class OAuth20ServiceTest {
         final String authorize = base64Encoder.encodeToString(
                 String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
-        assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
+        assertEquals(OAuthConstants.BASIC + ' ' + authorize, map.get(OAuthConstants.HEADER));
 
         assertEquals("user1", map.get("query-username"));
         assertEquals("password1", map.get("query-password"));
@@ -65,7 +65,7 @@ public class OAuth20ServiceTest {
         final String authorize = base64Encoder.encodeToString(
                 String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
-        assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
+        assertEquals(OAuthConstants.BASIC + ' ' + authorize, map.get(OAuthConstants.HEADER));
 
         assertEquals("user1", map.get("query-username"));
         assertEquals("password1", map.get("query-password"));

@@ -147,7 +147,7 @@
                 <version>3.8.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <release>7</release>
+                    <release>${java.release}</release>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
@@ -225,8 +225,57 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.11.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-core</artifactId>
+                        <version>${pmdVersion}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-java</artifactId>
+                        <version>${pmdVersion}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-javascript</artifactId>
+                        <version>${pmdVersion}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-jsp</artifactId>
+                        <version>${pmdVersion}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetJdk>1.${java.release}</targetJdk>
+                    <linkXRef>false</linkXRef>
+                    <rulesets>
+                        <ruleset>../pmd.xml</ruleset>
+                    </rulesets>
+                    <verbose>true</verbose>
+                    <analysisCache>true</analysisCache>
+                    <includeTests>true</includeTests>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <java.release>7</java.release>
+        <pmdVersion>6.12.0</pmdVersion>
+    </properties>
 
     <profiles>
         <profile>
