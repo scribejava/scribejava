@@ -21,6 +21,7 @@ public class WunderlistExample {
     private WunderlistExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own values
         final String apiKey = "apiKey";

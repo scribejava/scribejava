@@ -16,4 +16,5 @@
         </properties>
     </rule>
     <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
+    <rule ref="category/java/bestpractices.xml/SystemPrintln" />
 </ruleset>

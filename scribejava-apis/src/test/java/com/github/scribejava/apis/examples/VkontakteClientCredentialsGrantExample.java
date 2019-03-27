@@ -14,6 +14,7 @@ public class VkontakteClientCredentialsGrantExample {
     private VkontakteClientCredentialsGrantExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your client id";

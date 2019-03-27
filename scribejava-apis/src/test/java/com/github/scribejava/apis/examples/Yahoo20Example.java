@@ -29,6 +29,7 @@ public class Yahoo20Example {
     private Yahoo20Example() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Add your personal information here
         final String clientId = "ADD CLIENT ID HERE!!!!";

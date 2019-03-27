@@ -21,6 +21,7 @@ public class StackExchangeExample {
     private StackExchangeExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id, secret, application key and
         // optionally site name

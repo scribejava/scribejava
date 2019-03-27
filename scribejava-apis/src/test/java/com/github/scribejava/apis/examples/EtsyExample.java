@@ -20,6 +20,7 @@ public class EtsyExample {
     private EtsyExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String[] args) throws InterruptedException, ExecutionException, IOException {
         // Replace with your api and secret key
         final OAuth10aService service = new ServiceBuilder("your api key")

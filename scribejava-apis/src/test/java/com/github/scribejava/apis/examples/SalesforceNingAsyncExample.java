@@ -27,7 +27,7 @@ public class SalesforceNingAsyncExample {
     private SalesforceNingAsyncExample() {
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes", "PMD.SystemPrintln"})
     public static void main(String... args) throws InterruptedException, ExecutionException,
             UnsupportedEncodingException, IOException, NoSuchAlgorithmException, KeyManagementException {
         // Replace these with your client id and secret

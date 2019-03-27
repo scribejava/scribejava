@@ -23,6 +23,7 @@ public class AWeberExample {
     private AWeberExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)

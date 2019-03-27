@@ -20,6 +20,7 @@ public class AsanaExample {
     private AsanaExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final String apiKey = "your client id";
         final String apiSecret = "your client secret";

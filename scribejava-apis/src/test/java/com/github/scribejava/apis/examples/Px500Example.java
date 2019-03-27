@@ -19,6 +19,7 @@ public class Px500Example {
     private Px500Example() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder("your-api-key")
                 .apiSecret("your-api-secret")

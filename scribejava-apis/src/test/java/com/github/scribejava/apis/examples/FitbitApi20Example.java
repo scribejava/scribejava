@@ -20,6 +20,7 @@ public class FitbitApi20Example {
     private FitbitApi20Example() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws Exception {
 
         // Replace these with your client id and secret fron your app

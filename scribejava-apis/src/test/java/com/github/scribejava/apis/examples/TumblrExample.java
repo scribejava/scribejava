@@ -19,6 +19,7 @@ public class TumblrExample {
     private TumblrExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder("MY_CONSUMER_KEY")
                 .apiSecret("MY_CONSUMER_SECRET")

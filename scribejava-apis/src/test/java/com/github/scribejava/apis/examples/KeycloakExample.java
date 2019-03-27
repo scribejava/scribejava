@@ -17,6 +17,7 @@ public class KeycloakExample {
     private KeycloakExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key, secret, callback, base url and realm
         final String apiKey = "your_api_key";

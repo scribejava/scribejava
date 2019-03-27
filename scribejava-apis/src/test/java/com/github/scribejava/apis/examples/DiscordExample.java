@@ -21,6 +21,7 @@ public class DiscordExample {
     private DiscordExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, ExecutionException, InterruptedException {
         // Replace these with your client id and secret
         final String clientId = "client id";

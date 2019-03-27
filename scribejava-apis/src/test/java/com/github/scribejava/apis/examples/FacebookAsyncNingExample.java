@@ -22,6 +22,7 @@ public class FacebookAsyncNingExample {
     private FacebookAsyncNingExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws InterruptedException, ExecutionException, IOException {
         // Replace these with your client id and secret
         final String clientId = "your client id";

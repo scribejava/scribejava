@@ -19,6 +19,7 @@ public class Kaixin20Example {
     private Kaixin20Example() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key and secret
         final String apiKey = "your api key";

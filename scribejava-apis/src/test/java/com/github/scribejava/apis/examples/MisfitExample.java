@@ -21,6 +21,7 @@ public class MisfitExample {
     private MisfitExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key and secret
         final String apiKey = "your client id";

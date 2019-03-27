@@ -22,6 +22,7 @@ public class TheThingsNetworkV1StagingExample {
     private TheThingsNetworkV1StagingExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your_client_id";

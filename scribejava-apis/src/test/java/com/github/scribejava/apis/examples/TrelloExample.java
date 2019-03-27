@@ -21,6 +21,7 @@ public class TrelloExample {
     private TrelloExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder(API_KEY)
                 .apiSecret(API_SECRET)
