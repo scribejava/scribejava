@@ -8,4 +8,5 @@
         This ruleset defines the PMD rules for project "ScribeJava".
     </description>
 
+    <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
 </ruleset>
