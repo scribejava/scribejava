@@ -18,4 +18,5 @@
     <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
     <rule ref="category/java/bestpractices.xml/SystemPrintln" />
     <rule ref="category/java/bestpractices.xml/UnusedImports" />
+    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
 </ruleset>
