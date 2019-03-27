@@ -15,4 +15,5 @@
             <property name="strictMode">true</property>
         </properties>
     </rule>
+    <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
 </ruleset>
