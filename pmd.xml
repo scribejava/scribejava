@@ -21,4 +21,5 @@
     <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
     <rule ref="category/java/bestpractices.xml/UseAssertNullInsteadOfAssertTrue" />
     <rule ref="category/java/bestpractices.xml/UseAssertSameInsteadOfAssertTrue" />
+    <rule ref="category/java/bestpractices.xml/UseAssertTrueInsteadOfAssertEquals" />
 </ruleset>
