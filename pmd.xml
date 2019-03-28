@@ -26,4 +26,5 @@
     <rule ref="category/java/bestpractices.xml/UseTryWithResources" />
 
     <rule ref="category/java/codestyle.xml/AvoidDollarSigns" />
+    <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
 </ruleset>
