@@ -12,11 +12,31 @@ public class OAuth2AccessTokenErrorResponse extends OAuthException {
     private static final long serialVersionUID = 2309424849700276816L;
 
     public enum ErrorCode {
-        invalid_request, invalid_client, invalid_grant, unauthorized_client, unsupported_grant_type, invalid_scope,
+        INVALID_REQUEST("invalid_request"),
+        INVALID_CLIENT("invalid_client"),
+        INVALID_GRANT("invalid_grant"),
+        UNAUTHORIZED_CLIENT("unauthorized_client"),
+        UNSUPPORTED_GRANT_TYPE("unsupported_grant_type"),
+        INVALID_SCOPE("invalid_scope"),
         /**
          * @see <a href="https://tools.ietf.org/html/rfc7009#section-2.2.1">RFC 7009, 2.2.1. Error Response</a>
          */
-        unsupported_token_type
+        UNSUPPORTED_TOKEN_TYPE("unsupported_token_type");
+
+        private final String errorCodeString;
+
+        ErrorCode(String errorCodeString) {
+            this.errorCodeString = errorCodeString;
+        }
+
+        public static ErrorCode parseFrom(String errorCodeString) {
+            for (ErrorCode errorCode : ErrorCode.values()) {
+                if (errorCode.errorCodeString.equals(errorCodeString)) {
+                    return errorCode;
+                }
+            }
+            throw new IllegalArgumentException("there is no knowlege about '" + errorCodeString + "' ErrorCode");
+        }
     }
 
     private final ErrorCode errorCode;

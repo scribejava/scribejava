@@ -28,7 +28,7 @@ public class FitBitJsonTokenExtractorTest {
         final FitBitJsonTokenExtractor extractor = new FitBitJsonTokenExtractor();
 
         thrown.expect(OAuth2AccessTokenErrorResponse.class);
-        thrown.expect(new ErrorCodeFeatureMatcher(ErrorCode.invalid_grant));
+        thrown.expect(new ErrorCodeFeatureMatcher(ErrorCode.INVALID_GRANT));
         thrown.expect(new ErrorDescriptionFeatureMatcher(ERROR_DESCRIPTION));
 
         extractor.generateError(ERROR_JSON);

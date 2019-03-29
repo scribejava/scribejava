@@ -51,9 +51,9 @@ public class PKCEService {
         try {
             pkce.setCodeChallenge(pkce.getCodeChallengeMethod().transform2CodeChallenge(codeVerifier));
         } catch (NoSuchAlgorithmException nsaE) {
-            pkce.setCodeChallengeMethod(PKCECodeChallengeMethod.plain);
+            pkce.setCodeChallengeMethod(PKCECodeChallengeMethod.PLAIN);
             try {
-                pkce.setCodeChallenge(PKCECodeChallengeMethod.plain.transform2CodeChallenge(codeVerifier));
+                pkce.setCodeChallenge(PKCECodeChallengeMethod.PLAIN.transform2CodeChallenge(codeVerifier));
             } catch (NoSuchAlgorithmException unrealE) {
                 throw new IllegalStateException("It's just cannot be", unrealE);
             }

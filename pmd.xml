@@ -37,4 +37,5 @@
     <rule ref="category/java/codestyle.xml/DontImportJavaLang" />
     <rule ref="category/java/codestyle.xml/DuplicateImports" />
     <rule ref="category/java/codestyle.xml/ExtendsObject" />
+    <rule ref="category/java/codestyle.xml/FieldNamingConventions" />
 </ruleset>

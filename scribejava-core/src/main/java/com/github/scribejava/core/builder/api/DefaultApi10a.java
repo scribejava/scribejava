@@ -85,7 +85,7 @@ public abstract class DefaultApi10a {
      * @return the signature type, choose between header, querystring, etc. Defaults to Header
      */
     public OAuth1SignatureType getSignatureType() {
-        return OAuth1SignatureType.Header;
+        return OAuth1SignatureType.HEADER;
     }
 
     /**

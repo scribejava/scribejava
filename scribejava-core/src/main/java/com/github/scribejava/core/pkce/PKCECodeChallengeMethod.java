@@ -15,7 +15,7 @@ public enum PKCECodeChallengeMethod {
                     MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.US_ASCII)));
         }
     },
-    plain {
+    PLAIN {
         @Override
         public String transform2CodeChallenge(String codeVerifier) {
             return codeVerifier;

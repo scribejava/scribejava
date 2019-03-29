@@ -66,7 +66,7 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
 
         OAuth2AccessTokenErrorResponse.ErrorCode errorCode;
         try {
-            errorCode = OAuth2AccessTokenErrorResponse.ErrorCode.valueOf(errorInString);
+            errorCode = OAuth2AccessTokenErrorResponse.ErrorCode.parseFrom(errorInString);
         } catch (IllegalArgumentException iaE) {
             //non oauth standard error code
             errorCode = null;

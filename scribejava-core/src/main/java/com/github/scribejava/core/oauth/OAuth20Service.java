@@ -355,7 +355,7 @@ public class OAuth20Service extends OAuthService {
 
         request.addParameter("token", tokenToRevoke);
         if (tokenTypeHint != null) {
-            request.addParameter("token_type_hint", tokenTypeHint.toString());
+            request.addParameter("token_type_hint", tokenTypeHint.getValue());
         }
         return request;
     }
