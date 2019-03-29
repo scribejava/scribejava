@@ -36,4 +36,5 @@
     <rule ref="category/java/codestyle.xml/ControlStatementBraces" />
     <rule ref="category/java/codestyle.xml/DontImportJavaLang" />
     <rule ref="category/java/codestyle.xml/DuplicateImports" />
+    <rule ref="category/java/codestyle.xml/ExtendsObject" />
 </ruleset>
