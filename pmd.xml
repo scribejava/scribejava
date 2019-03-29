@@ -34,4 +34,5 @@
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/ControlStatementBraces" />
+    <rule ref="category/java/codestyle.xml/DontImportJavaLang" />
 </ruleset>
