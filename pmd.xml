@@ -42,4 +42,5 @@
     <rule ref="category/java/codestyle.xml/FormalParameterNamingConventions" />
     <rule ref="category/java/codestyle.xml/IdenticalCatchBranches" />
     <rule ref="category/java/codestyle.xml/LocalVariableNamingConventions" />
+    <rule ref="category/java/codestyle.xml/MethodNamingConventions" />
 </ruleset>
