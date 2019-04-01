@@ -28,7 +28,7 @@
     <rule ref="category/java/codestyle.xml/AvoidDollarSigns" />
     <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
     <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
-    <rule ref="category/java/codestyle.xml/BooleanGetMethodName" >
+    <rule ref="category/java/codestyle.xml/BooleanGetMethodName">
         <properties>
             <property name="checkParameterizedMethods">true</property>
         </properties>
@@ -41,4 +41,5 @@
     <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop" />
     <rule ref="category/java/codestyle.xml/FormalParameterNamingConventions" />
     <rule ref="category/java/codestyle.xml/IdenticalCatchBranches" />
+    <rule ref="category/java/codestyle.xml/LocalVariableNamingConventions" />
 </ruleset>
