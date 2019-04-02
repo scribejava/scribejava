@@ -10,9 +10,6 @@ public class NaverApi extends DefaultApi20 {
 
     private static class InstanceHolder {
         private static final NaverApi INSTANCE = new NaverApi();
-
-        private InstanceHolder() {
-        }
     }
 
     public static NaverApi instance() {

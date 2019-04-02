@@ -46,4 +46,5 @@
     <rule ref="category/java/codestyle.xml/NoPackage" />
     <rule ref="category/java/codestyle.xml/PackageCase" />
     <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryConstructor" />
 </ruleset>

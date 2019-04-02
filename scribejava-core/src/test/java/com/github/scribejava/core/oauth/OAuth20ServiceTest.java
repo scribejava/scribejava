@@ -121,9 +121,5 @@ public class OAuth20ServiceTest {
     }
 
     private static class TypeTokenImpl extends TypeToken<Map<String, String>> {
-
-        private TypeTokenImpl() {
-        }
     }
-
 }
