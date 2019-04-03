@@ -72,7 +72,7 @@ public class OAuthAsyncCompletionHandlerTest {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
 
-        final okhttp3.Request request = new Request.Builder().url("http://localhost/").build();
+        final Request request = new Request.Builder().url("http://localhost/").build();
         final okhttp3.Response response = new okhttp3.Response.Builder()
                 .request(request)
                 .protocol(Protocol.HTTP_1_1)
@@ -92,7 +92,7 @@ public class OAuthAsyncCompletionHandlerTest {
         handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
 
-        final okhttp3.Request request = new Request.Builder().url("http://localhost/").build();
+        final Request request = new Request.Builder().url("http://localhost/").build();
         final okhttp3.Response response = new okhttp3.Response.Builder()
                 .request(request)
                 .protocol(Protocol.HTTP_1_1)
@@ -118,7 +118,7 @@ public class OAuthAsyncCompletionHandlerTest {
         handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
 
-        final okhttp3.Request request = new Request.Builder().url("http://localhost/").build();
+        final Request request = new Request.Builder().url("http://localhost/").build();
         final okhttp3.Response response = new okhttp3.Response.Builder()
                 .request(request)
                 .protocol(Protocol.HTTP_1_1)
