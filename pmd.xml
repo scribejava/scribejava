@@ -54,4 +54,5 @@
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
     <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod" />
     <rule ref="category/java/design.xml/AvoidThrowingNewInstanceOfSameException" />
+    <rule ref="category/java/design.xml/CollapsibleIfStatements" />
 </ruleset>
