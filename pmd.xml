@@ -52,4 +52,5 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryReturn" />
     <rule ref="category/java/codestyle.xml/UselessParentheses" />
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
+    <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod" />
 </ruleset>
