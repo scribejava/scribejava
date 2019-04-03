@@ -627,7 +627,7 @@ public class Base64 {
                 while (sp < sl) {
                     int b = src[sp++] & 0xff;
                     if (b == '=') {
-                        len -= (sl - sp + 1);
+                        len -= sl - sp + 1;
                         break;
                     }
                     b = base64[b];
