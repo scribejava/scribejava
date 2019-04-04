@@ -67,4 +67,5 @@
     <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" />
     <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
     <rule ref="category/java/errorprone.xml/AvoidEnumAsIdentifier" />
+    <rule ref="category/java/errorprone.xml/AvoidLosingExceptionInformation" />
 </ruleset>
