@@ -59,4 +59,5 @@
     <rule ref="category/java/design.xml/LogicInversion" />
     <rule ref="category/java/design.xml/SimplifiedTernary" />
     <rule ref="category/java/design.xml/SimplifyBooleanAssertion" />
+    <rule ref="category/java/design.xml/SimplifyBooleanExpressions" />
 </ruleset>
