@@ -72,4 +72,5 @@
     <rule ref="category/java/errorprone.xml/BrokenNullCheck" />
     <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray" />
     <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
+    <rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable" />
 </ruleset>
