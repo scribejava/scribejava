@@ -60,4 +60,5 @@
     <rule ref="category/java/design.xml/SimplifiedTernary" />
     <rule ref="category/java/design.xml/SimplifyBooleanAssertion" />
     <rule ref="category/java/design.xml/SimplifyBooleanExpressions" />
+    <rule ref="category/java/design.xml/SimplifyBooleanReturns" />
 </ruleset>
