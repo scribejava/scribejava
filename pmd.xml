@@ -71,4 +71,5 @@
     <rule ref="category/java/errorprone.xml/AvoidMultipleUnaryOperators" />
     <rule ref="category/java/errorprone.xml/BrokenNullCheck" />
     <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray" />
+    <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
 </ruleset>
