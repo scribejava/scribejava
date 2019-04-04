@@ -63,4 +63,5 @@
     <rule ref="category/java/design.xml/SimplifyBooleanReturns" />
     <rule ref="category/java/design.xml/SimplifyConditional" />
     <rule ref="category/java/design.xml/UseUtilityClass" />
+    <rule ref="category/java/errorprone.xml/AvoidAssertAsIdentifier" />
 </ruleset>
