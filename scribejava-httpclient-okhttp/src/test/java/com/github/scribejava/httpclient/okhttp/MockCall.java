@@ -49,7 +49,7 @@ public class MockCall implements Call {
     }
 
     @Override
-    public Call clone() {
+    public MockCall clone() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

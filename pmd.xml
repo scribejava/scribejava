@@ -73,4 +73,5 @@
     <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray" />
     <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
     <rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable" />
+    <rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName" />
 </ruleset>
