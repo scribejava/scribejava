@@ -103,4 +103,5 @@
     <rule ref="category/java/multithreading.xml/DoubleCheckedLocking" />
     <rule ref="category/java/multithreading.xml/NonThreadSafeSingleton" />
     <rule ref="category/java/multithreading.xml/UnsynchronizedStaticFormatter" />
+    <rule ref="category/java/performance.xml/AddEmptyString" />
 </ruleset>
