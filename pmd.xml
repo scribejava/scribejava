@@ -97,4 +97,5 @@
     <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass" />
     <rule ref="category/java/errorprone.xml/StringBufferInstantiationWithChar" />
     <rule ref="category/java/errorprone.xml/UnconditionalIfStatement" />
+    <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion" />
 </ruleset>
