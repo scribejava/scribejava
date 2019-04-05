@@ -89,4 +89,5 @@
     <rule ref="category/java/errorprone.xml/EqualsNull" />
     <rule ref="category/java/errorprone.xml/FinalizeDoesNotCallSuperFinalize" />
     <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize" />
+    <rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected" />
 </ruleset>
