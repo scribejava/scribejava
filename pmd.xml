@@ -98,4 +98,5 @@
     <rule ref="category/java/errorprone.xml/StringBufferInstantiationWithChar" />
     <rule ref="category/java/errorprone.xml/UnconditionalIfStatement" />
     <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion" />
+    <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary" />
 </ruleset>
