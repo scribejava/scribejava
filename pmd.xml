@@ -113,4 +113,5 @@
     <rule ref="category/java/performance.xml/ConsecutiveLiteralAppends" />
     <rule ref="category/java/performance.xml/InefficientEmptyStringCheck" />
     <rule ref="category/java/performance.xml/IntegerInstantiation" />
+    <rule ref="category/java/performance.xml/LongInstantiation" />
 </ruleset>
