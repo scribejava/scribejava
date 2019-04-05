@@ -90,4 +90,5 @@
     <rule ref="category/java/errorprone.xml/FinalizeDoesNotCallSuperFinalize" />
     <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize" />
     <rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected" />
+    <rule ref="category/java/errorprone.xml/IdempotentOperations" />
 </ruleset>
