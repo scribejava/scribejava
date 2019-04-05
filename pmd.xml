@@ -99,4 +99,5 @@
     <rule ref="category/java/errorprone.xml/UnconditionalIfStatement" />
     <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion" />
     <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary" />
+    <rule ref="category/java/errorprone.xml/UselessOperationOnImmutable" />
 </ruleset>
