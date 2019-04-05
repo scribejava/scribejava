@@ -86,4 +86,5 @@
     <rule ref="category/java/errorprone.xml/EmptySwitchStatements" />
     <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
     <rule ref="category/java/errorprone.xml/EmptyWhileStmt" />
+    <rule ref="category/java/errorprone.xml/EqualsNull" />
 </ruleset>
