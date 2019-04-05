@@ -106,4 +106,5 @@
     <rule ref="category/java/performance.xml/AddEmptyString" />
     <rule ref="category/java/performance.xml/AppendCharacterWithChar" />
     <rule ref="category/java/performance.xml/AvoidArrayLoops" />
+    <rule ref="category/java/performance.xml/BigIntegerInstantiation" />
 </ruleset>
