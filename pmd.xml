@@ -92,4 +92,5 @@
     <rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected" />
     <rule ref="category/java/errorprone.xml/IdempotentOperations" />
     <rule ref="category/java/errorprone.xml/ImportFromSamePackage" />
+    <rule ref="category/java/errorprone.xml/InstantiationToGetClass" />
 </ruleset>
