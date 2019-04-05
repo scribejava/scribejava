@@ -100,4 +100,5 @@
     <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion" />
     <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary" />
     <rule ref="category/java/errorprone.xml/UselessOperationOnImmutable" />
+    <rule ref="category/java/multithreading.xml/DoubleCheckedLocking" />
 </ruleset>
