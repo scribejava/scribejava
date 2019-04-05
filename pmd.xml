@@ -96,4 +96,5 @@
     <rule ref="category/java/errorprone.xml/InvalidSlf4jMessageFormat" />
     <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass" />
     <rule ref="category/java/errorprone.xml/StringBufferInstantiationWithChar" />
+    <rule ref="category/java/errorprone.xml/UnconditionalIfStatement" />
 </ruleset>
