@@ -112,4 +112,5 @@
     <rule ref="category/java/performance.xml/ConsecutiveAppendsShouldReuse" />
     <rule ref="category/java/performance.xml/ConsecutiveLiteralAppends" />
     <rule ref="category/java/performance.xml/InefficientEmptyStringCheck" />
+    <rule ref="category/java/performance.xml/IntegerInstantiation" />
 </ruleset>
