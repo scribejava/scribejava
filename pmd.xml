@@ -84,4 +84,5 @@
     <rule ref="category/java/errorprone.xml/EmptyStatementBlock" />
     <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop" />
     <rule ref="category/java/errorprone.xml/EmptySwitchStatements" />
+    <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
 </ruleset>
