@@ -77,4 +77,5 @@
     <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod" />
     <rule ref="category/java/errorprone.xml/DoNotExtendJavaLangThrowable" />
     <rule ref="category/java/errorprone.xml/DontImportSun" />
+    <rule ref="category/java/errorprone.xml/EmptyFinalizer" />
 </ruleset>
