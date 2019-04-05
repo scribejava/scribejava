@@ -48,4 +48,4 @@ public class OAuthAsyncCompletionHandler<T> extends AsyncCompletionHandler<T> {
             callback.onThrowable(t);
         }
     }
-};
+}
