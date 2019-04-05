@@ -76,4 +76,5 @@
     <rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName" />
     <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod" />
     <rule ref="category/java/errorprone.xml/DoNotExtendJavaLangThrowable" />
+    <rule ref="category/java/errorprone.xml/DontImportSun" />
 </ruleset>
