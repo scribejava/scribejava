@@ -110,4 +110,5 @@
     <rule ref="category/java/performance.xml/BooleanInstantiation" />
     <rule ref="category/java/performance.xml/ByteInstantiation" />
     <rule ref="category/java/performance.xml/ConsecutiveAppendsShouldReuse" />
+    <rule ref="category/java/performance.xml/ConsecutiveLiteralAppends" />
 </ruleset>
