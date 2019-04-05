@@ -87,4 +87,5 @@
     <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
     <rule ref="category/java/errorprone.xml/EmptyWhileStmt" />
     <rule ref="category/java/errorprone.xml/EqualsNull" />
+    <rule ref="category/java/errorprone.xml/FinalizeDoesNotCallSuperFinalize" />
 </ruleset>
