@@ -119,4 +119,5 @@
     <rule ref="category/java/performance.xml/ShortInstantiation" />
     <rule ref="category/java/performance.xml/StringInstantiation" />
     <rule ref="category/java/performance.xml/StringToString" />
+    <rule ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation" />
 </ruleset>
