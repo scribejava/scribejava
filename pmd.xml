@@ -115,4 +115,5 @@
     <rule ref="category/java/performance.xml/IntegerInstantiation" />
     <rule ref="category/java/performance.xml/LongInstantiation" />
     <rule ref="category/java/performance.xml/OptimizableToArrayCall" />
+    <rule ref="category/java/performance.xml/RedundantFieldInitializer" />
 </ruleset>
