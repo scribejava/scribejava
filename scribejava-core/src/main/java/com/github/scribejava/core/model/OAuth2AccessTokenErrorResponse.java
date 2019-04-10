@@ -15,6 +15,7 @@ public class OAuth2AccessTokenErrorResponse extends OAuthException {
         INVALID_REQUEST("invalid_request"),
         INVALID_CLIENT("invalid_client"),
         INVALID_GRANT("invalid_grant"),
+        INVALID_TOKEN("invalid_token"),
         UNAUTHORIZED_CLIENT("unauthorized_client"),
         UNSUPPORTED_GRANT_TYPE("unsupported_grant_type"),
         INVALID_SCOPE("invalid_scope"),
