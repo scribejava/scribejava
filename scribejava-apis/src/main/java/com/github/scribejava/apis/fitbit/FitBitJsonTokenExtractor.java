@@ -2,6 +2,7 @@ package com.github.scribejava.apis.fitbit;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
+import com.github.scribejava.core.oauth2.OAuth2Error;
 
 import java.util.regex.Pattern;
 
@@ -37,9 +38,9 @@ public class FitBitJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
         final String errorInString = extractParameter(response, ERROR_REGEX_PATTERN, true);
         final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX_PATTERN, false);
 
-        OAuth2AccessTokenErrorResponse.ErrorCode errorCode;
+        OAuth2Error errorCode;
         try {
-            errorCode = OAuth2AccessTokenErrorResponse.ErrorCode.parseFrom(errorInString);
+            errorCode = OAuth2Error.parseFrom(errorInString);
         } catch (IllegalArgumentException iaE) {
             //non oauth standard error code
             errorCode = null;

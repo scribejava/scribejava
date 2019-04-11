@@ -8,6 +8,7 @@ import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.oauth2.OAuth2Error;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
@@ -64,9 +65,9 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
             errorUri = null;
         }
 
-        OAuth2AccessTokenErrorResponse.ErrorCode errorCode;
+        OAuth2Error errorCode;
         try {
-            errorCode = OAuth2AccessTokenErrorResponse.ErrorCode.parseFrom(errorInString);
+            errorCode = OAuth2Error.parseFrom(errorInString);
         } catch (IllegalArgumentException iaE) {
             //non oauth standard error code
             errorCode = null;

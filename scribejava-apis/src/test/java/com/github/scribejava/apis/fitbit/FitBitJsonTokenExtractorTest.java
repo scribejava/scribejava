@@ -1,7 +1,7 @@
 package com.github.scribejava.apis.fitbit;
 
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
-import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse.ErrorCode;
+import com.github.scribejava.core.oauth2.OAuth2Error;
 
 import org.hamcrest.FeatureMatcher;
 import org.junit.Rule;
@@ -28,21 +28,21 @@ public class FitBitJsonTokenExtractorTest {
         final FitBitJsonTokenExtractor extractor = new FitBitJsonTokenExtractor();
 
         thrown.expect(OAuth2AccessTokenErrorResponse.class);
-        thrown.expect(new ErrorCodeFeatureMatcher(ErrorCode.INVALID_GRANT));
+        thrown.expect(new ErrorCodeFeatureMatcher(OAuth2Error.INVALID_GRANT));
         thrown.expect(new ErrorDescriptionFeatureMatcher(ERROR_DESCRIPTION));
 
         extractor.generateError(ERROR_JSON);
     }
 
-    private static class ErrorCodeFeatureMatcher extends FeatureMatcher<OAuth2AccessTokenErrorResponse, ErrorCode> {
+    private static class ErrorCodeFeatureMatcher extends FeatureMatcher<OAuth2AccessTokenErrorResponse, OAuth2Error> {
 
-        private ErrorCodeFeatureMatcher(ErrorCode expected) {
+        private ErrorCodeFeatureMatcher(OAuth2Error expected) {
             super(equalTo(expected), "a response with errorCode", "errorCode");
         }
 
         @Override
-        protected ErrorCode featureValueOf(OAuth2AccessTokenErrorResponse actual) {
-            return actual.getErrorCode();
+        protected OAuth2Error featureValueOf(OAuth2AccessTokenErrorResponse actual) {
+            return actual.getError();
         }
     }
 

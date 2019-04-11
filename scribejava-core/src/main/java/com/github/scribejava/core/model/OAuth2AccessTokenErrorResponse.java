@@ -1,6 +1,7 @@
 package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.oauth2.OAuth2Error;
 
 import java.net.URI;
 
@@ -11,6 +12,10 @@ public class OAuth2AccessTokenErrorResponse extends OAuthException {
 
     private static final long serialVersionUID = 2309424849700276816L;
 
+    /**
+     * @deprecated use {@link com.github.scribejava.core.oauth2.OAuth2Error}
+     */
+    @Deprecated
     public enum ErrorCode {
         INVALID_REQUEST("invalid_request"),
         INVALID_CLIENT("invalid_client"),
@@ -40,19 +45,55 @@ public class OAuth2AccessTokenErrorResponse extends OAuthException {
     }
 
     private final ErrorCode errorCode;
+    private final OAuth2Error error;
     private final String errorDescription;
     private final URI errorUri;
     private final String rawResponse;
 
+    /**
+     * @param errorCode errorCode
+     * @param errorDescription errorDescription
+     * @param errorUri errorUri
+     * @param rawResponse rawResponse
+     * @deprecated use {@link #OAuth2AccessTokenErrorResponse(com.github.scribejava.core.oauth2.OAuth2Error,
+     * java.lang.String, java.net.URI, java.lang.String)}
+     */
+    @Deprecated
     public OAuth2AccessTokenErrorResponse(ErrorCode errorCode, String errorDescription, URI errorUri,
             String rawResponse) {
         super(rawResponse);
         this.errorCode = errorCode;
+        this.error = OAuth2Error.parseFrom(errorCode.errorCodeString);
         this.errorDescription = errorDescription;
         this.errorUri = errorUri;
         this.rawResponse = rawResponse;
     }
 
+    public OAuth2AccessTokenErrorResponse(OAuth2Error error, String errorDescription, URI errorUri,
+            String rawResponse) {
+        super(rawResponse);
+        ErrorCode oldErrorCode;
+        try {
+            oldErrorCode = ErrorCode.parseFrom(error.getErrorString());
+        } catch (IllegalArgumentException iaE) {
+            oldErrorCode = null;
+        }
+        this.errorCode = oldErrorCode;
+        this.error = error;
+        this.errorDescription = errorDescription;
+        this.errorUri = errorUri;
+        this.rawResponse = rawResponse;
+    }
+
+    public OAuth2Error getError() {
+        return error;
+    }
+
+    /**
+     * @return error code
+     * @deprecated use {@link #getError() }
+     */
+    @Deprecated
     public ErrorCode getErrorCode() {
         return errorCode;
     }

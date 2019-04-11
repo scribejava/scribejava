@@ -3,6 +3,7 @@ package com.github.scribejava.core.extractors;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.oauth2.OAuth2Error;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -66,6 +67,7 @@ public class OAuth2AccessTokenJsonExtractorTest {
             fail();
         } catch (OAuth2AccessTokenErrorResponse oaer) {
             assertEquals(OAuth2AccessTokenErrorResponse.ErrorCode.INVALID_GRANT, oaer.getErrorCode());
+            assertEquals(OAuth2Error.INVALID_GRANT, oaer.getError());
             assertEquals("unknown, invalid, or expired refresh token", oaer.getErrorDescription());
         }
     }
