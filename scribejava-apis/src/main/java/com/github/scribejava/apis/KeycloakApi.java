@@ -4,6 +4,8 @@ import com.github.scribejava.apis.openid.OpenIdJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -59,5 +61,10 @@ public class KeycloakApi extends DefaultApi20 {
     @Override
     public String getRevokeTokenEndpoint() {
         throw new RuntimeException("Not implemented yet");
+    }
+
+    @Override
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 }
