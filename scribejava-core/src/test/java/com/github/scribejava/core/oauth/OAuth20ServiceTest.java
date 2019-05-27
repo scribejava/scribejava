@@ -1,12 +1,11 @@
 package com.github.scribejava.core.oauth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.java8.Base64;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -18,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 
 public class OAuth20ServiceTest {
 
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private final Base64.Encoder base64Encoder = Base64.getEncoder();
 
     @Test
@@ -27,11 +27,10 @@ public class OAuth20ServiceTest {
                 .build(new OAuth20ApiUnit());
 
         final OAuth2AccessToken token = service.getAccessTokenPasswordGrant("user1", "password1");
-        final Gson json = new Gson();
-
         assertNotNull(token);
 
-        final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
+        @SuppressWarnings("unchecked")
+        final Map<String, String> map = OBJECT_MAPPER.readValue(token.getRawResponse(), Map.class);
 
         assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
@@ -47,17 +46,17 @@ public class OAuth20ServiceTest {
     }
 
     @Test
-    public void shouldProduceCorrectRequestAsync() throws ExecutionException, InterruptedException {
+    public void shouldProduceCorrectRequestAsync() throws ExecutionException, InterruptedException, IOException {
         final OAuth20Service service = new ServiceBuilder("your_api_key")
                 .apiSecret("your_api_secret")
                 .build(new OAuth20ApiUnit());
 
         final OAuth2AccessToken token = service.getAccessTokenPasswordGrantAsync("user1", "password1").get();
-        final Gson json = new Gson();
 
         assertNotNull(token);
 
-        final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
+        @SuppressWarnings("unchecked")
+        final Map<String, String> map = OBJECT_MAPPER.readValue(token.getRawResponse(), Map.class);
 
         assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
         assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
@@ -117,9 +116,5 @@ public class OAuth20ServiceTest {
         authorization = service.extractAuthorization("https://cl.ex.com/cb");
         assertEquals(null, authorization.getCode());
         assertEquals(null, authorization.getState());
-
-    }
-
-    private static class TypeTokenImpl extends TypeToken<Map<String, String>> {
     }
 }

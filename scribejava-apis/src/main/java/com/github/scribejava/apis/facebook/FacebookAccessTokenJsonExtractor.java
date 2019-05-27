@@ -1,17 +1,13 @@
 package com.github.scribejava.apis.facebook;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * non standard Facebook Extractor
  */
 public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtractor {
-
-    private static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("\"message\"\\s*:\\s*\"([^\"]*?)\"");
-    private static final Pattern TYPE_REGEX_PATTERN = Pattern.compile("\"type\"\\s*:\\s*\"([^\"]*?)\"");
-    private static final Pattern CODE_REGEX_PATTERN = Pattern.compile("\"code\"\\s*:\\s*\"?([^\",}]*?)[\",}]");
-    private static final Pattern FBTRACE_ID_REGEX_PATTERN = Pattern.compile("\"fbtrace_id\"\\s*:\\s*\"([^\"]*?)\"");
 
     protected FacebookAccessTokenJsonExtractor() {
     }
@@ -35,13 +31,13 @@ public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtra
      * ID.","type":"OAuthException","code":101,"fbtrace_id":"CvDR+X4WWIx"}}'
      */
     @Override
-    public void generateError(String response) {
-        extractParameter(response, MESSAGE_REGEX_PATTERN, false);
+    public void generateError(String rawResponse) throws IOException {
+        @SuppressWarnings("unchecked")
+        final Map<String, String> response = OAuth2AccessTokenJsonExtractor.OBJECT_MAPPER
+                .readValue(rawResponse, Map.class);
 
-        throw new FacebookAccessTokenErrorResponse(extractParameter(response, MESSAGE_REGEX_PATTERN, false),
-                extractParameter(response, TYPE_REGEX_PATTERN, false),
-                extractParameter(response, CODE_REGEX_PATTERN, false),
-                extractParameter(response, FBTRACE_ID_REGEX_PATTERN, false), response);
+        throw new FacebookAccessTokenErrorResponse(response.get("message"), response.get("type"), response.get("code"),
+                response.get("fbtrace_id"), rawResponse);
     }
 
 }

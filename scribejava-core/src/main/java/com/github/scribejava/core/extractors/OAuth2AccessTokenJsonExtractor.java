@@ -1,5 +1,6 @@
 package com.github.scribejava.core.extractors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
 import java.util.regex.Matcher;
@@ -7,24 +8,18 @@ import java.util.regex.Pattern;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
+import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.oauth2.OAuth2Error;
 import com.github.scribejava.core.utils.Preconditions;
+import java.util.Map;
 
 /**
  * JSON (default) implementation of {@link TokenExtractor} for OAuth 2.0
  */
 public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2AccessToken> {
 
-    private static final Pattern ACCESS_TOKEN_REGEX_PATTERN = Pattern.compile("\"access_token\"\\s*:\\s*\"(\\S*?)\"");
-    private static final Pattern TOKEN_TYPE_REGEX_PATTERN = Pattern.compile("\"token_type\"\\s*:\\s*\"(\\S*?)\"");
-    private static final Pattern EXPIRES_IN_REGEX_PATTERN = Pattern.compile("\"expires_in\"\\s*:\\s*\"?(\\d*?)\"?\\D");
-    private static final Pattern REFRESH_TOKEN_REGEX_PATTERN = Pattern.compile("\"refresh_token\"\\s*:\\s*\"(\\S*?)\"");
-    private static final Pattern SCOPE_REGEX_PATTERN = Pattern.compile("\"scope\"\\s*:\\s*\"([^\"]*?)\"");
-    private static final Pattern ERROR_REGEX_PATTERN = Pattern.compile("\"error\"\\s*:\\s*\"(\\S*?)\"");
-    private static final Pattern ERROR_DESCRIPTION_REGEX_PATTERN
-            = Pattern.compile("\"error_description\"\\s*:\\s*\"([^\"]*?)\"");
-    private static final Pattern ERROR_URI_REGEX_PATTERN = Pattern.compile("\"error_uri\"\\s*:\\s*\"(\\S*?)\"");
+    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     protected OAuth2AccessTokenJsonExtractor() {
     }
@@ -52,12 +47,14 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
     /**
      * Related documentation: https://tools.ietf.org/html/rfc6749#section-5.2
      *
-     * @param response response
+     * @param rawResponse response
+     * @throws IOException IOException
      */
-    public void generateError(String response) {
-        final String errorInString = extractParameter(response, ERROR_REGEX_PATTERN, true);
-        final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX_PATTERN, false);
-        final String errorUriInString = extractParameter(response, ERROR_URI_REGEX_PATTERN, false);
+    public void generateError(String rawResponse) throws IOException {
+        @SuppressWarnings("unchecked")
+        final Map<String, String> response = OBJECT_MAPPER.readValue(rawResponse, Map.class);
+
+        final String errorUriInString = response.get("error_uri");
         URI errorUri;
         try {
             errorUri = errorUriInString == null ? null : URI.create(errorUriInString);
@@ -67,36 +64,67 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
 
         OAuth2Error errorCode;
         try {
-            errorCode = OAuth2Error.parseFrom(errorInString);
+            errorCode = OAuth2Error.parseFrom(extractRequiredParameter(response, "error", rawResponse));
         } catch (IllegalArgumentException iaE) {
             //non oauth standard error code
             errorCode = null;
         }
 
-        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription, errorUri, response);
+        throw new OAuth2AccessTokenErrorResponse(errorCode, response.get("error_description"), errorUri, rawResponse);
     }
 
-    private OAuth2AccessToken createToken(String response) {
-        final String accessToken = extractParameter(response, ACCESS_TOKEN_REGEX_PATTERN, true);
-        final String tokenType = extractParameter(response, TOKEN_TYPE_REGEX_PATTERN, false);
-        final String expiresInString = extractParameter(response, EXPIRES_IN_REGEX_PATTERN, false);
+    private OAuth2AccessToken createToken(String rawResponse) throws IOException {
+
+        @SuppressWarnings("unchecked")
+        final Map<String, String> response = OBJECT_MAPPER.readValue(rawResponse, Map.class);
+
+        final String expiresInString = response.get("expires_in");
         Integer expiresIn;
         try {
             expiresIn = expiresInString == null ? null : Integer.valueOf(expiresInString);
         } catch (NumberFormatException nfe) {
             expiresIn = null;
         }
-        final String refreshToken = extractParameter(response, REFRESH_TOKEN_REGEX_PATTERN, false);
-        final String scope = extractParameter(response, SCOPE_REGEX_PATTERN, false);
 
-        return createToken(accessToken, tokenType, expiresIn, refreshToken, scope, response);
+        return createToken(extractRequiredParameter(response, OAuthConstants.ACCESS_TOKEN, rawResponse),
+                response.get("token_type"), expiresIn, response.get(OAuthConstants.REFRESH_TOKEN),
+                response.get(OAuthConstants.SCOPE), response, rawResponse);
     }
 
     protected OAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
-            String refreshToken, String scope, String response) {
-        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, response);
+            String refreshToken, String scope, Map<String, String> response, String rawResponse) {
+        return createToken(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
     }
 
+    /**
+     *
+     * @param accessToken accessToken
+     * @param tokenType tokenType
+     * @param expiresIn expiresIn
+     * @param refreshToken refreshToken
+     * @param scope scope
+     * @param rawResponse rawResponse
+     * @return OAuth2AccessToken
+     * @deprecated use {@link #createToken(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String,
+     * java.lang.String, java.util.Map, java.lang.String)}
+     */
+    @Deprecated
+    protected OAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
+            String refreshToken, String scope, String rawResponse) {
+        return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
+    }
+
+    /**
+     *
+     * @param response response
+     * @param regexPattern regexPattern
+     * @param required required
+     * @return parameter value
+     * @throws OAuthException OAuthException
+     * @deprecated use {@link #extractRequiredParameter(java.util.Map, java.lang.String, java.lang.String) } or
+     * {@link java.util.Map#get(java.lang.Object) }
+     */
+    @Deprecated
     protected static String extractParameter(String response, Pattern regexPattern, boolean required)
             throws OAuthException {
         final Matcher matcher = regexPattern.matcher(response);
@@ -110,5 +138,17 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
         }
 
         return null;
+    }
+
+    protected static String extractRequiredParameter(Map<String, String> response, String parameterName,
+            String rawResponse) throws OAuthException {
+        final String value = response.get(parameterName);
+
+        if (value == null) {
+            throw new OAuthException("Response body is incorrect. Can't extract a '" + parameterName
+                    + "' from this: '" + rawResponse + "'", null);
+        }
+
+        return value;
     }
 }

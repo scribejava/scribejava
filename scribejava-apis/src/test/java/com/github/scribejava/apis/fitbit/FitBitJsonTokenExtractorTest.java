@@ -2,6 +2,7 @@ package com.github.scribejava.apis.fitbit;
 
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.oauth2.OAuth2Error;
+import java.io.IOException;
 
 import org.hamcrest.FeatureMatcher;
 import org.junit.Rule;
@@ -23,7 +24,7 @@ public class FitBitJsonTokenExtractorTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testErrorExtraction() {
+    public void testErrorExtraction() throws IOException {
 
         final FitBitJsonTokenExtractor extractor = new FitBitJsonTokenExtractor();
 

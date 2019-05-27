@@ -2,6 +2,7 @@
  * add PMD checks on compile
  * add all OAuth error codes from supported RFCs (incl. "invalid_token") (thanks to https://github.com/echorebel)
  * Update LinkedIn Example to API v2 (thanks to https://github.com/peternees)
+ * switch to jackson dependency to parse json responses (thanks to https://github.com/galimru)
 
 [6.5.1]
  * cleanup deprecates methods

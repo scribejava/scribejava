@@ -72,6 +72,12 @@ public class OAuth2AccessTokenJsonExtractorTest {
         }
     }
 
+    @Test
+    public void testEscapedJsonInResponse() throws IOException {
+        final OAuth2AccessToken token = extractor.extract(ok("{ \"access_token\":\"I0122HKLEM2\\/MV3ABKFTDT3T5X\"}"));
+        assertEquals("I0122HKLEM2/MV3ABKFTDT3T5X", token.getAccessToken());
+    }
+
     private static Response ok(String body) {
         return new Response(200, /* message */ null, /* headers */ Collections.<String, String>emptyMap(), body);
     }

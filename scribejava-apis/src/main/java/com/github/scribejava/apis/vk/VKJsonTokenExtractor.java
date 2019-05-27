@@ -1,14 +1,12 @@
 package com.github.scribejava.apis.vk;
 
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import java.util.regex.Pattern;
+import java.util.Map;
 
 /**
  * additionally parses email
  */
 public class VKJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
-
-    private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile("\"email\"\\s*:\\s*\"(\\S*?)\"");
 
     protected VKJsonTokenExtractor() {
     }
@@ -24,8 +22,8 @@ public class VKJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
     @Override
     protected VKOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
-            String refreshToken, String scope, String response) {
-        return new VKOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
-                extractParameter(response, EMAIL_REGEX_PATTERN, false), response);
+            String refreshToken, String scope, Map<String, String> response, String rawResponse) {
+        return new VKOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, response.get("email"),
+                rawResponse);
     }
 }
