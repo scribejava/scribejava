@@ -1,4 +1,4 @@
-[6.6.1]
+[6.6.2]
  * add PMD checks on compile
  * add all OAuth error codes from supported RFCs (incl. "invalid_token") (thanks to https://github.com/echorebel)
  * Update LinkedIn Example to API v2 (thanks to https://github.com/peternees)
