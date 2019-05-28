@@ -48,8 +48,7 @@ public class FitbitApi20Example {
         final String code = in.nextLine();
         System.out.println();
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         final OAuth2AccessToken oauth2AccessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + oauth2AccessToken

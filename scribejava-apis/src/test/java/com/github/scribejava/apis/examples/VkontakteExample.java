@@ -51,8 +51,7 @@ public class VkontakteExample {
         final String code = in.nextLine();
         System.out.println();
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         final OAuth2AccessToken accessToken = service.getAccessToken(AccessTokenRequestParams.create(code)
                 .scope(customScope));
         System.out.println("Got the Access Token!");

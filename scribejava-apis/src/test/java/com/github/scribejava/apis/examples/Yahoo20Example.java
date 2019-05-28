@@ -56,8 +56,7 @@ public class Yahoo20Example {
         final String oauthVerifier = in.nextLine();
         System.out.println();
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         final OAuth2AccessToken accessToken = service.getAccessToken(oauthVerifier);
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");

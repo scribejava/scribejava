@@ -1,8 +1,8 @@
 package com.github.scribejava.apis.facebook;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * non standard Facebook Extractor
@@ -32,12 +32,10 @@ public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtra
      */
     @Override
     public void generateError(String rawResponse) throws IOException {
-        @SuppressWarnings("unchecked")
-        final Map<String, String> response = OAuth2AccessTokenJsonExtractor.OBJECT_MAPPER
-                .readValue(rawResponse, Map.class);
+        final JsonNode errorNode = OAuth2AccessTokenJsonExtractor.OBJECT_MAPPER.readTree(rawResponse).get("error");
 
-        throw new FacebookAccessTokenErrorResponse(response.get("message"), response.get("type"), response.get("code"),
-                response.get("fbtrace_id"), rawResponse);
+        throw new FacebookAccessTokenErrorResponse(errorNode.get("message").asText(), errorNode.get("type").asText(),
+                errorNode.get("code").asInt(), errorNode.get("fbtrace_id").asText(), rawResponse);
     }
 
 }

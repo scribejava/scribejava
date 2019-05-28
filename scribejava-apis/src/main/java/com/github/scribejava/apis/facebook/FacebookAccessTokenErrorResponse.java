@@ -19,15 +19,34 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
     private static final long serialVersionUID = -1277129766099856895L;
 
     private final String type;
-    private final String code;
+    private final int codeInt;
     private final String fbtraceId;
     private final String rawResponse;
 
+    /**
+     * @param message message
+     * @param type type
+     * @param code code
+     * @param fbtraceId fbtraceId
+     * @param rawResponse rawResponse
+     * @deprecated use {@link #FacebookAccessTokenErrorResponse(java.lang.String, java.lang.String, int,
+     * java.lang.String, java.lang.String)}
+     */
+    @Deprecated
     public FacebookAccessTokenErrorResponse(String message, String type, String code, String fbtraceId,
             String rawResponse) {
         super(message);
         this.type = type;
-        this.code = code;
+        this.codeInt = Integer.parseInt(code);
+        this.fbtraceId = fbtraceId;
+        this.rawResponse = rawResponse;
+    }
+
+    public FacebookAccessTokenErrorResponse(String message, String type, int code, String fbtraceId,
+            String rawResponse) {
+        super(message);
+        this.type = type;
+        this.codeInt = code;
         this.fbtraceId = fbtraceId;
         this.rawResponse = rawResponse;
     }
@@ -36,8 +55,17 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
         return type;
     }
 
+    /**
+     * @return code
+     * @deprecated use {@link #getCodeInt() }
+     */
+    @Deprecated
     public String getCode() {
-        return code;
+        return Integer.toString(codeInt);
+    }
+
+    public int getCodeInt() {
+        return codeInt;
     }
 
     public String getFbtraceId() {
@@ -54,7 +82,7 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
         hash = 83 * hash + Objects.hashCode(rawResponse);
         hash = 83 * hash + Objects.hashCode(getMessage());
         hash = 83 * hash + Objects.hashCode(type);
-        hash = 83 * hash + Objects.hashCode(code);
+        hash = 83 * hash + Objects.hashCode(codeInt);
         hash = 83 * hash + Objects.hashCode(fbtraceId);
         return hash;
     }
@@ -80,7 +108,7 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
         if (!Objects.equals(type, other.getType())) {
             return false;
         }
-        if (!Objects.equals(code, other.getCode())) {
+        if (codeInt != other.getCodeInt()) {
             return false;
         }
         return Objects.equals(fbtraceId, other.getFbtraceId());
@@ -88,7 +116,7 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
 
     @Override
     public String toString() {
-        return "FacebookAccessTokenErrorResponse{'type'='" + type + "', 'code'='" + code
+        return "FacebookAccessTokenErrorResponse{'type'='" + type + "', 'codeInt'='" + codeInt
                 + "', 'fbtraceId'='" + fbtraceId + "', 'rawResponse'='" + rawResponse
                 + "', 'message'='" + getMessage() + "'}";
     }

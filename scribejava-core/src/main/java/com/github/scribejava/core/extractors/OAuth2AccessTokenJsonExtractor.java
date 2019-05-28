@@ -1,5 +1,6 @@
 package com.github.scribejava.core.extractors;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
@@ -12,7 +13,6 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.oauth2.OAuth2Error;
 import com.github.scribejava.core.utils.Preconditions;
-import java.util.Map;
 
 /**
  * JSON (default) implementation of {@link TokenExtractor} for OAuth 2.0
@@ -51,48 +51,47 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
      * @throws IOException IOException
      */
     public void generateError(String rawResponse) throws IOException {
-        @SuppressWarnings("unchecked")
-        final Map<String, String> response = OBJECT_MAPPER.readValue(rawResponse, Map.class);
+        final JsonNode response = OBJECT_MAPPER.readTree(rawResponse);
 
-        final String errorUriInString = response.get("error_uri");
+        final JsonNode errorUriInString = response.get("error_uri");
         URI errorUri;
         try {
-            errorUri = errorUriInString == null ? null : URI.create(errorUriInString);
+            errorUri = errorUriInString == null ? null : URI.create(errorUriInString.asText());
         } catch (IllegalArgumentException iae) {
             errorUri = null;
         }
 
         OAuth2Error errorCode;
         try {
-            errorCode = OAuth2Error.parseFrom(extractRequiredParameter(response, "error", rawResponse));
+            errorCode = OAuth2Error.parseFrom(extractRequiredParameter(response, "error", rawResponse).asText());
         } catch (IllegalArgumentException iaE) {
             //non oauth standard error code
             errorCode = null;
         }
 
-        throw new OAuth2AccessTokenErrorResponse(errorCode, response.get("error_description"), errorUri, rawResponse);
+        final JsonNode errorDescription = response.get("error_description");
+
+        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription == null ? null : errorDescription.asText(),
+                errorUri, rawResponse);
     }
 
     private OAuth2AccessToken createToken(String rawResponse) throws IOException {
 
-        @SuppressWarnings("unchecked")
-        final Map<String, String> response = OBJECT_MAPPER.readValue(rawResponse, Map.class);
+        final JsonNode response = OBJECT_MAPPER.readTree(rawResponse);
 
-        final String expiresInString = response.get("expires_in");
-        Integer expiresIn;
-        try {
-            expiresIn = expiresInString == null ? null : Integer.valueOf(expiresInString);
-        } catch (NumberFormatException nfe) {
-            expiresIn = null;
-        }
+        final JsonNode expiresInNode = response.get("expires_in");
+        final JsonNode refreshToken = response.get(OAuthConstants.REFRESH_TOKEN);
+        final JsonNode scope = response.get(OAuthConstants.SCOPE);
+        final JsonNode tokenType = response.get("token_type");
 
-        return createToken(extractRequiredParameter(response, OAuthConstants.ACCESS_TOKEN, rawResponse),
-                response.get("token_type"), expiresIn, response.get(OAuthConstants.REFRESH_TOKEN),
-                response.get(OAuthConstants.SCOPE), response, rawResponse);
+        return createToken(extractRequiredParameter(response, OAuthConstants.ACCESS_TOKEN, rawResponse).asText(),
+                tokenType == null ? null : tokenType.asText(), expiresInNode == null ? null : expiresInNode.asInt(),
+                refreshToken == null ? null : refreshToken.asText(), scope == null ? null : scope.asText(), response,
+                rawResponse);
     }
 
     protected OAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
-            String refreshToken, String scope, Map<String, String> response, String rawResponse) {
+            String refreshToken, String scope, JsonNode response, String rawResponse) {
         return createToken(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
     }
 
@@ -106,7 +105,7 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
      * @param rawResponse rawResponse
      * @return OAuth2AccessToken
      * @deprecated use {@link #createToken(java.lang.String, java.lang.String, java.lang.Integer, java.lang.String,
-     * java.lang.String, java.util.Map, java.lang.String)}
+     * java.lang.String, com.fasterxml.jackson.databind.JsonNode, java.lang.String)}
      */
     @Deprecated
     protected OAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
@@ -121,8 +120,8 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
      * @param required required
      * @return parameter value
      * @throws OAuthException OAuthException
-     * @deprecated use {@link #extractRequiredParameter(java.util.Map, java.lang.String, java.lang.String) } or
-     * {@link java.util.Map#get(java.lang.Object) }
+     * @deprecated use {@link #extractRequiredParameter(com.fasterxml.jackson.databind.JsonNode, java.lang.String,
+     * java.lang.String)}
      */
     @Deprecated
     protected static String extractParameter(String response, Pattern regexPattern, boolean required)
@@ -140,9 +139,9 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
         return null;
     }
 
-    protected static String extractRequiredParameter(Map<String, String> response, String parameterName,
-            String rawResponse) throws OAuthException {
-        final String value = response.get(parameterName);
+    protected static JsonNode extractRequiredParameter(JsonNode errorNode, String parameterName, String rawResponse)
+            throws OAuthException {
+        final JsonNode value = errorNode.get(parameterName);
 
         if (value == null) {
             throw new OAuthException("Response body is incorrect. Can't extract a '" + parameterName

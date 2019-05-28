@@ -61,8 +61,7 @@ public class DiscordExample {
             System.out.println();
         }
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + accessToken

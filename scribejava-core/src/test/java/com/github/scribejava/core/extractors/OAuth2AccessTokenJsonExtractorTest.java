@@ -19,7 +19,8 @@ public class OAuth2AccessTokenJsonExtractorTest {
     @Test
     public void shouldParseResponse() throws IOException {
         final OAuth2AccessToken token = extractor.extract(
-                ok("{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X\"}"));
+                ok("{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X\", "
+                        + "\"token_type\":\"example\"}"));
         assertEquals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T3X", token.getAccessToken());
     }
 
@@ -27,18 +28,21 @@ public class OAuth2AccessTokenJsonExtractorTest {
     public void shouldParseScopeFromResponse() throws IOException {
         OAuth2AccessToken token = extractor.extract(
                 ok("{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T4X\", "
+                        + "\"token_type\":\"example\","
                         + "\"scope\":\"s1\"}"));
         assertEquals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T4X", token.getAccessToken());
         assertEquals("s1", token.getScope());
 
         token = extractor.extract(
                 ok("{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X\", "
+                        + "\"token_type\":\"example\","
                         + "\"scope\":\"s1 s2\"}"));
         assertEquals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T5X", token.getAccessToken());
         assertEquals("s1 s2", token.getScope());
 
         token = extractor.extract(
                 ok("{ \"access_token\":\"I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X\", "
+                        + "\"token_type\":\"example\","
                         + "\"scope\":\"s3 s4\", "
                         + "\"refresh_token\":\"refresh_token1\"}"));
         assertEquals("I0122HHJKLEM21F3WLPYHDKGKZULAUO4SGMV3ABKFTDT3T6X", token.getAccessToken());
@@ -74,7 +78,8 @@ public class OAuth2AccessTokenJsonExtractorTest {
 
     @Test
     public void testEscapedJsonInResponse() throws IOException {
-        final OAuth2AccessToken token = extractor.extract(ok("{ \"access_token\":\"I0122HKLEM2\\/MV3ABKFTDT3T5X\"}"));
+        final OAuth2AccessToken token = extractor.extract(ok("{ \"access_token\":\"I0122HKLEM2\\/MV3ABKFTDT3T5X\","
+                + "\"token_type\":\"example\"}"));
         assertEquals("I0122HKLEM2/MV3ABKFTDT3T5X", token.getAccessToken());
     }
 

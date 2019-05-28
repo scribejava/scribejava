@@ -19,7 +19,7 @@ class OAuth20ServiceUnit extends OAuth20Service {
 
     static final String TOKEN = "ae82980abab675c646a070686d5558ad";
     static final String STATE = "123";
-    static final String EXPIRES = "3600";
+    static final int EXPIRES = 3600;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
@@ -33,7 +33,7 @@ class OAuth20ServiceUnit extends OAuth20Service {
     }
 
     private String prepareRawResponse(OAuthRequest request) {
-        final Map<String, String> response = new HashMap<>();
+        final Map<String, Object> response = new HashMap<>();
         response.put(OAuthConstants.ACCESS_TOKEN, TOKEN);
         response.put(OAuthConstants.STATE, STATE);
         response.put("expires_in", EXPIRES);

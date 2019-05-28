@@ -17,6 +17,8 @@ import com.github.scribejava.core.pkce.PKCE;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import com.github.scribejava.core.revoke.TokenTypeHint;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public class OAuth20Service extends OAuthService {
 
@@ -411,14 +413,18 @@ public class OAuth20Service extends OAuthService {
         for (String param : redirectLocation.substring(redirectLocation.indexOf('?') + 1, end).split("&")) {
             final String[] keyValue = param.split("=");
             if (keyValue.length == 2) {
-                switch (keyValue[0]) {
-                    case "code":
-                        authorization.setCode(keyValue[1]);
-                        break;
-                    case "state":
-                        authorization.setState(keyValue[1]);
-                        break;
-                    default: //just ignore any other param;
+                try {
+                    switch (keyValue[0]) {
+                        case "code":
+                            authorization.setCode(URLDecoder.decode(keyValue[1], "UTF-8"));
+                            break;
+                        case "state":
+                            authorization.setState(URLDecoder.decode(keyValue[1], "UTF-8"));
+                            break;
+                        default: //just ignore any other param;
+                    }
+                } catch (UnsupportedEncodingException ueE) {
+                    throw new IllegalStateException("jvm without UTF-8, really?", ueE);
                 }
             }
         }

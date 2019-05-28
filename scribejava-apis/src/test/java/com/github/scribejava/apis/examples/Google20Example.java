@@ -44,7 +44,7 @@ public class Google20Example {
         //https://developers.google.com/identity/protocols/OAuth2WebServer#preparing-to-start-the-oauth-20-flow
         final Map<String, String> additionalParams = new HashMap<>();
         additionalParams.put("access_type", "offline");
-        //force to reget refresh token (if usera are asked not the first time)
+        //force to reget refresh token (if user are asked not the first time)
         additionalParams.put("prompt", "consent");
         final String authorizationUrl = service.createAuthorizationUrlBuilder()
                 .state(secretState)
@@ -70,8 +70,7 @@ public class Google20Example {
             System.out.println();
         }
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
