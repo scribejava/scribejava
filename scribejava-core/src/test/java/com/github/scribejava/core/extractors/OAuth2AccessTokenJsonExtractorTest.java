@@ -70,7 +70,6 @@ public class OAuth2AccessTokenJsonExtractorTest {
             extractor.extract(error(body));
             fail();
         } catch (OAuth2AccessTokenErrorResponse oaer) {
-            assertEquals(OAuth2AccessTokenErrorResponse.ErrorCode.INVALID_GRANT, oaer.getErrorCode());
             assertEquals(OAuth2Error.INVALID_GRANT, oaer.getError());
             assertEquals("unknown, invalid, or expired refresh token", oaer.getErrorDescription());
         }

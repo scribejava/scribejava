@@ -23,25 +23,6 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
     private final String fbtraceId;
     private final String rawResponse;
 
-    /**
-     * @param message message
-     * @param type type
-     * @param code code
-     * @param fbtraceId fbtraceId
-     * @param rawResponse rawResponse
-     * @deprecated use {@link #FacebookAccessTokenErrorResponse(java.lang.String, java.lang.String, int,
-     * java.lang.String, java.lang.String)}
-     */
-    @Deprecated
-    public FacebookAccessTokenErrorResponse(String message, String type, String code, String fbtraceId,
-            String rawResponse) {
-        super(message);
-        this.type = type;
-        this.codeInt = Integer.parseInt(code);
-        this.fbtraceId = fbtraceId;
-        this.rawResponse = rawResponse;
-    }
-
     public FacebookAccessTokenErrorResponse(String message, String type, int code, String fbtraceId,
             String rawResponse) {
         super(message);
@@ -53,15 +34,6 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
 
     public String getType() {
         return type;
-    }
-
-    /**
-     * @return code
-     * @deprecated use {@link #getCodeInt() }
-     */
-    @Deprecated
-    public String getCode() {
-        return Integer.toString(codeInt);
     }
 
     public int getCodeInt() {

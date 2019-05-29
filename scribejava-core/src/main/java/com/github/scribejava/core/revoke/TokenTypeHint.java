@@ -20,16 +20,4 @@ public enum TokenTypeHint {
     public String getValue() {
         return value;
     }
-
-    /**
-     * @return value
-     * @deprecated use {@link #getValue() } to get a lower-cased value as in reference (RFC7009), otherwise you can
-     * continue using this method. Note, that returned value will be UPPER-cased (not overrided toString method) in the
-     * next release.
-     */
-    @Override
-    @Deprecated
-    public String toString() {
-        return value;
-    }
 }
