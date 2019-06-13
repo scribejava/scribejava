@@ -23,7 +23,8 @@ public class OpenIdJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
     @Override
     protected OpenIdOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
             String refreshToken, String scope, JsonNode response, String rawResponse) {
+        final JsonNode idToken = response.get("id_token");
         return new OpenIdOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
-                response.get("id_token").asText(), rawResponse);
+                idToken == null ? null : idToken.asText(), rawResponse);
     }
 }

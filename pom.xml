@@ -101,12 +101,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.20</version>
+                            <version>8.21</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -273,7 +273,7 @@
 
     <properties>
         <java.release>7</java.release>
-        <pmdVersion>6.14.0</pmdVersion>
+        <pmdVersion>6.15.0</pmdVersion>
     </properties>
 
     <profiles>
