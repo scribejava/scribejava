@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * Add OAuth2 support for Meetup.com
+
 [6.6.3]
  * fix NPE for OpenId providers
 
