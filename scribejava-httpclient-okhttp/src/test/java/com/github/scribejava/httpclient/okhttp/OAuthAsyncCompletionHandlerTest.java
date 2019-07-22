@@ -78,7 +78,7 @@ public class OAuthAsyncCompletionHandlerTest {
                 .protocol(Protocol.HTTP_1_1)
                 .code(200)
                 .message("ok")
-                .body(ResponseBody.create(MediaType.get("text/plain"), new byte[0]))
+                .body(ResponseBody.create(new byte[0], MediaType.get("text/plain")))
                 .build();
         handler.onResponse(call, response);
         assertNotNull(callback.getResponse());
@@ -98,7 +98,7 @@ public class OAuthAsyncCompletionHandlerTest {
                 .protocol(Protocol.HTTP_1_1)
                 .code(200)
                 .message("ok")
-                .body(ResponseBody.create(MediaType.get("text/plain"), new byte[0]))
+                .body(ResponseBody.create(new byte[0], MediaType.get("text/plain")))
                 .build();
         handler.onResponse(call, response);
         assertNull(callback.getResponse());
@@ -124,7 +124,7 @@ public class OAuthAsyncCompletionHandlerTest {
                 .protocol(Protocol.HTTP_1_1)
                 .code(200)
                 .message("ok")
-                .body(ResponseBody.create(MediaType.get("text/plain"), new byte[0]))
+                .body(ResponseBody.create(new byte[0], MediaType.get("text/plain")))
                 .build();
         handler.onResponse(call, response);
         assertNull(callback.getResponse());

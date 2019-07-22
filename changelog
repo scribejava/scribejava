@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * Add OAuth2 support for Meetup.com (thanks to https://github.com/stevedes77)
+ * upgrade okhttp to 4.0.1 and security fix for jackson-databind 2.9.9.1
 
 [6.6.3]
  * fix NPE for OpenId providers

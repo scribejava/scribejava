@@ -165,19 +165,19 @@ public class OkHttpHttpClient implements HttpClient {
         BYTE_ARRAY {
             @Override
             RequestBody createBody(MediaType mediaType, Object bodyContents) {
-                return RequestBody.create(mediaType, (byte[]) bodyContents);
+                return RequestBody.create((byte[]) bodyContents, mediaType);
             }
         },
         STRING {
             @Override
             RequestBody createBody(MediaType mediaType, Object bodyContents) {
-                return RequestBody.create(mediaType, (String) bodyContents);
+                return RequestBody.create((String) bodyContents, mediaType);
             }
         },
         FILE {
             @Override
             RequestBody createBody(MediaType mediaType, Object bodyContents) {
-                return RequestBody.create(mediaType, (File) bodyContents);
+                return RequestBody.create((File) bodyContents, mediaType);
             }
         };
 
