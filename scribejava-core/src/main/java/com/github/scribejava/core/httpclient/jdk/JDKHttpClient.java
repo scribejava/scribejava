@@ -192,7 +192,10 @@ public class JDKHttpClient implements HttpClient {
     private static void addBody(HttpURLConnection connection, byte[] content, boolean requiresBody) throws IOException {
         final int contentLength = content.length;
         if (requiresBody || contentLength > 0) {
-            prepareConnectionForBodyAndGetOutputStream(connection, contentLength).write(content);
+            final OutputStream outputStream = prepareConnectionForBodyAndGetOutputStream(connection, contentLength);
+            if (contentLength > 0) {
+                outputStream.write(content);
+            }
         }
     }
 
@@ -205,9 +208,10 @@ public class JDKHttpClient implements HttpClient {
 
         if (requiresBody) {
             final ByteArrayOutputStream os = getPayload(multipartPayload);
-
-            if (os.size() > 0) {
-                os.writeTo(prepareConnectionForBodyAndGetOutputStream(connection, os.size()));
+            final int contentLength = os.size();
+            final OutputStream outputStream = prepareConnectionForBodyAndGetOutputStream(connection, contentLength);
+            if (contentLength > 0) {
+                os.writeTo(outputStream);
             }
         }
     }
@@ -261,8 +265,11 @@ public class JDKHttpClient implements HttpClient {
         if (connection.getRequestProperty(CONTENT_TYPE) == null) {
             connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
         }
-        connection.setDoOutput(true);
-        return connection.getOutputStream();
+        if (contentLength > 0) {
+            connection.setDoOutput(true);
+            return connection.getOutputStream();
+        } else {
+            return null;
+        }
     }
-
 }
