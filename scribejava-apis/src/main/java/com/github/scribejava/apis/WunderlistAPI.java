@@ -1,5 +1,7 @@
 package com.github.scribejava.apis;
 
+import java.io.OutputStream;
+
 import com.github.scribejava.apis.wunderlist.WunderlistOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
@@ -49,8 +51,9 @@ public class WunderlistAPI extends DefaultApi20 {
 
     @Override
     public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new WunderlistOAuthService(this, apiKey, apiSecret, callback, defaultScope, responseType, userAgent,
-                httpClientConfig, httpClient);
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new WunderlistOAuthService(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
+                userAgent, httpClientConfig, httpClient);
     }
 }

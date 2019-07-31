@@ -68,7 +68,7 @@ public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAu
     }
 
     @Override
-    public ServiceBuilderOAuth10a debugStream(OutputStream debugStream) {
+    public ServiceBuilder debugStream(OutputStream debugStream) {
         Preconditions.checkNotNull(debugStream, "debug stream can't be null");
         this.debugStream = debugStream;
         return this;
@@ -101,7 +101,7 @@ public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAu
     }
 
     @Override
-    public ServiceBuilderOAuth10a debug() {
+    public ServiceBuilder debug() {
         return debugStream(System.out);
     }
 
@@ -113,7 +113,7 @@ public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAu
 
     @Override
     public OAuth20Service build(DefaultApi20 api) {
-        return api.createService(apiKey, apiSecret, callback, scope, responseType, userAgent, httpClientConfig,
-                httpClient);
+        return api.createService(apiKey, apiSecret, callback, scope, responseType, debugStream, userAgent,
+                httpClientConfig, httpClient);
     }
 }

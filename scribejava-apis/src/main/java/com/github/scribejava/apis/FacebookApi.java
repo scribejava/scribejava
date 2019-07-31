@@ -1,5 +1,7 @@
 package com.github.scribejava.apis;
 
+import java.io.OutputStream;
+
 import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
 import com.github.scribejava.apis.facebook.FacebookService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
@@ -71,8 +73,9 @@ public class FacebookApi extends DefaultApi20 {
 
     @Override
     public FacebookService createService(String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new FacebookService(this, apiKey, apiSecret, callback, defaultScope, responseType, userAgent,
-                httpClientConfig, httpClient);
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new FacebookService(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
+                userAgent, httpClientConfig, httpClient);
     }
 }

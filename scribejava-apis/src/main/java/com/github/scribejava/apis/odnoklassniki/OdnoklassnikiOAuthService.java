@@ -7,6 +7,8 @@ import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Parameter;
 import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.oauth.OAuth20Service;
+
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 import java.net.URLDecoder;
@@ -20,9 +22,10 @@ import java.util.List;
 public class OdnoklassnikiOAuthService extends OAuth20Service {
 
     public OdnoklassnikiOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback,
-            String defaultScope, String responseType, String userAgent, HttpClientConfig httpClientConfig,
-            HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig, httpClient);
+            String defaultScope, String responseType, OutputStream debugStream, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent, httpClientConfig,
+                httpClient);
     }
 
     @Override

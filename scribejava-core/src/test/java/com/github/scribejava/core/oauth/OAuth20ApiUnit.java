@@ -1,5 +1,7 @@
 package com.github.scribejava.core.oauth;
 
+import java.io.OutputStream;
+
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
@@ -20,9 +22,10 @@ class OAuth20ApiUnit extends DefaultApi20 {
 
     @Override
     public OAuth20ServiceUnit createService(String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new OAuth20ServiceUnit(this, apiKey, apiSecret, callback, defaultScope, responseType, userAgent,
-                httpClientConfig, httpClient);
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new OAuth20ServiceUnit(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
+                userAgent, httpClientConfig, httpClient);
     }
 
     @Override

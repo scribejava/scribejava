@@ -1,6 +1,7 @@
 package com.github.scribejava.core.oauth;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
@@ -28,8 +29,9 @@ public class OAuth20Service extends OAuthService {
     private final String defaultScope;
 
     public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(apiKey, apiSecret, callback, userAgent, httpClientConfig, httpClient);
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        super(apiKey, apiSecret, callback, debugStream, userAgent, httpClientConfig, httpClient);
         this.responseType = responseType;
         this.api = api;
         this.defaultScope = defaultScope;

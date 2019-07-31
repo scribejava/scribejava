@@ -1,5 +1,7 @@
 package com.github.scribejava.apis.imgur;
 
+import java.io.OutputStream;
+
 import com.github.scribejava.apis.ImgurApi;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
@@ -13,8 +15,10 @@ import com.github.scribejava.core.pkce.PKCE;
 public class ImgurOAuthService extends OAuth20Service {
 
     public ImgurOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(api, apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig, httpClient);
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        super(api, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent, httpClientConfig,
+                httpClient);
     }
 
     @Override
