@@ -132,8 +132,9 @@ public class OAuth20Service extends OAuthService {
             request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
         }
 
-        log("created access token request with body params [%s], query string params [%s]", request.getBodyParams(),
-                request.getQueryStringParams());
+        log("created access token request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
         return request;
     }
 
@@ -190,8 +191,9 @@ public class OAuth20Service extends OAuthService {
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
 
-        log("created refresh token request with body params [%s], query string params [%s]", request.getBodyParams(),
-                request.getQueryStringParams());
+        log("created refresh token request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
 
         return request;
     }
@@ -257,7 +259,8 @@ public class OAuth20Service extends OAuthService {
         api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
         log("created access token password grant request with body params [%s], query string params [%s]",
-                request.getBodyParams(), request.getQueryStringParams());
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
 
         return request;
     }
@@ -318,7 +321,8 @@ public class OAuth20Service extends OAuthService {
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.CLIENT_CREDENTIALS);
 
         log("created access token client credentials grant request with body params [%s], query string params [%s]",
-                request.getBodyParams(), request.getQueryStringParams());
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
 
         return request;
     }
@@ -390,8 +394,9 @@ public class OAuth20Service extends OAuthService {
             request.addParameter("token_type_hint", tokenTypeHint.getValue());
         }
 
-        log("created revoke token request with body params [%s], query string params [%s]", request.getBodyParams(),
-                request.getQueryStringParams());
+        log("created revoke token request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
 
         return request;
     }
