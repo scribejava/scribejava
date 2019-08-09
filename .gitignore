@@ -1,15 +1,15 @@
-
 # Eclipse specific settings
-
 .classpath
 .project
 .settings
 
 # IntelliJ Idea settings
-
 .idea
-scribe.iml
+*.iml
+
+# Netbeans settings
+nb-configuration.xml
+nbproject
 
 # Binaries
-
 target

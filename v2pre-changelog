@@ -1,0 +1,57 @@
+[SNAPSHOT]
+ * prepare to merge back to the ScribeJava
+ * backport 'news' from scribejava
+
+[3.4]
+ * add doktornarabote.ru API support
+
+[3.3]
+ * upgrade ning async http client 1.9.20 -> 1.9.26
+ * add possibility to use ProxyServer per-request (async only)
+ * rename maven modules, add "subscribe-" prefix
+ * backport anything new from scribe-java
+
+[3.2]
+ * add possibility to set non-default httpProvider Class Name for ning async http client
+
+[3.1]
+ * update FaceBook API version from 2.0 to 2.2
+ * update ning dependency for async functionality
+ * allow 'realm' parameter in OAuthParameters
+
+[3.0]
+ * make compilable with OpenJDK8 
+ * add async functionality
+ * add GitHub API
+ * split on two maven modules (+repackaging)
+
+[2.3]
+
+ * add state parameter in LinkedInAPI 2.0
+ * update FB Graph API to version 2.0
+ * add tut.by OAuth API
+ * add default parameter grant_type for Google, LinkedIn and Mail.ru
+ * update host for requests in VkontakteExample
+ * add Yinxiang Biji endpoint in EvernoteApi
+ * switch Flickr and Twitter to https
+ * update domain for LiveAPI
+ * add support for the Authorization parameter 'realm'
+ * add TumblrExample
+ * update TwitterExample to v1.1
+ * merge Request class in OAuthRequest. No need in separate Request class.
+     No planned usages of 'clean' http requests.
+ * add required OAuthService parameter in constructor for OAuthRequest,
+     so it can use OAuthConfig always (Default timeouts for all OAuthRequests
+     per OAuthService instance are now possible 'from-the-box').
+ * remove messy RequestTuner. Use OAuthConfig instead of it.
+
+[2.1]
+
+ * add OpenID id_token parsing from response to GoogleAPI 2.0
+ * add optional OAuth 'state' request parameter
+ * Add hh api support
+ * fix Mailru API
+
+[2.0]
+
+ * New release. First release. Formalizations of new project.
