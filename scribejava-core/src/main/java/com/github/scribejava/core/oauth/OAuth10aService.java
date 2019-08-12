@@ -22,14 +22,12 @@ import java.util.concurrent.ExecutionException;
 public class OAuth10aService extends OAuthService {
 
     private static final String VERSION = "1.0";
-    private final OutputStream debugStream;
     private final DefaultApi10a api;
     private final String scope;
 
     public OAuth10aService(DefaultApi10a api, String apiKey, String apiSecret, String callback, String scope,
             OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(apiKey, apiSecret, callback, userAgent, httpClientConfig, httpClient);
-        this.debugStream = debugStream;
+        super(apiKey, apiSecret, callback, debugStream, userAgent, httpClientConfig, httpClient);
         this.api = api;
         this.scope = scope;
     }
@@ -191,16 +189,5 @@ public class OAuth10aService extends OAuthService {
 
     public DefaultApi10a getApi() {
         return api;
-    }
-
-    public void log(String messagePattern, Object... params) {
-        if (debugStream != null) {
-            final String message = String.format(messagePattern, params) + '\n';
-            try {
-                debugStream.write(message.getBytes("UTF8"));
-            } catch (IOException | RuntimeException e) {
-                throw new RuntimeException("there were problems while writting to the debug stream", e);
-            }
-        }
     }
 }

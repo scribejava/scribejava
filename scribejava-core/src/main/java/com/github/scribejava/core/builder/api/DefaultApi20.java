@@ -13,6 +13,8 @@ import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureAuthorizationRequestHeaderField;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme;
+
+import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -106,8 +108,9 @@ public abstract class DefaultApi20 {
     }
 
     public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new OAuth20Service(this, apiKey, apiSecret, callback, defaultScope, responseType, userAgent,
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new OAuth20Service(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent,
                 httpClientConfig, httpClient);
     }
 

@@ -1,5 +1,7 @@
 package com.github.scribejava.apis;
 
+import java.io.OutputStream;
+
 import com.github.scribejava.apis.mailru.MailruOAuthService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
@@ -30,8 +32,9 @@ public class MailruApi extends DefaultApi20 {
 
     @Override
     public MailruOAuthService createService(String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new MailruOAuthService(this, apiKey, apiSecret, callback, defaultScope, responseType, userAgent,
-                httpClientConfig, httpClient);
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new MailruOAuthService(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
+                userAgent, httpClientConfig, httpClient);
     }
 }

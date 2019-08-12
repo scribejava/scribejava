@@ -12,6 +12,7 @@ import java.io.Closeable;
 import java.io.File;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -23,12 +24,14 @@ public abstract class OAuthService implements Closeable {
     private final String callback;
     private final String userAgent;
     private final HttpClient httpClient;
+    private final OutputStream debugStream;
 
-    public OAuthService(String apiKey, String apiSecret, String callback, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+    public OAuthService(String apiKey, String apiSecret, String callback, OutputStream debugStream,
+            String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
         this.apiKey = apiKey;
         this.apiSecret = apiSecret;
         this.callback = callback;
+        this.debugStream = debugStream;
         this.userAgent = userAgent;
 
         if (httpClientConfig == null && httpClient == null) {
@@ -110,6 +113,17 @@ public abstract class OAuthService implements Closeable {
         } else {
             return httpClient.execute(userAgent, request.getHeaders(), request.getVerb(), request.getCompleteUrl(),
                     request.getByteArrayPayload());
+        }
+    }
+
+    public void log(String messagePattern, Object... params) {
+        if (debugStream != null) {
+            final String message = String.format(messagePattern, params) + '\n';
+            try {
+                debugStream.write(message.getBytes("UTF8"));
+            } catch (IOException | RuntimeException e) {
+                throw new RuntimeException("there were problems while writting to the debug stream", e);
+            }
         }
     }
 }

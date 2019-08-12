@@ -1,6 +1,7 @@
 package com.github.scribejava.core.oauth;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
@@ -28,8 +29,9 @@ public class OAuth20Service extends OAuthService {
     private final String defaultScope;
 
     public OAuth20Service(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        super(apiKey, apiSecret, callback, userAgent, httpClientConfig, httpClient);
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        super(apiKey, apiSecret, callback, debugStream, userAgent, httpClientConfig, httpClient);
         this.responseType = responseType;
         this.api = api;
         this.defaultScope = defaultScope;
@@ -38,7 +40,15 @@ public class OAuth20Service extends OAuthService {
     //protected to facilitate mocking
     protected OAuth2AccessToken sendAccessTokenRequestSync(OAuthRequest request)
             throws IOException, InterruptedException, ExecutionException {
-        return api.getAccessTokenExtractor().extract(execute(request));
+        log("send request for access token synchronously to %s", request.getCompleteUrl());
+
+        final Response response = execute(request);
+        final String body = response.getBody();
+
+        log("response status code: %s", response.getCode());
+        log("response body: %s", body);
+
+        return api.getAccessTokenExtractor().extract(response);
     }
 
     //protected to facilitate mocking
@@ -49,10 +59,16 @@ public class OAuth20Service extends OAuthService {
     //protected to facilitate mocking
     protected Future<OAuth2AccessToken> sendAccessTokenRequestAsync(OAuthRequest request,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
+        log("send request for access token asynchronously to %s", request.getCompleteUrl());
 
         return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth2AccessToken>() {
             @Override
             public OAuth2AccessToken convert(Response response) throws IOException {
+                log("received response for access token");
+                final String body = response.getBody();
+
+                log("response status code: %s", response.getCode());
+                log("response body: %s", body);
                 return getApi().getAccessTokenExtractor().extract(response);
             }
         });
@@ -115,6 +131,10 @@ public class OAuth20Service extends OAuthService {
         if (pkceCodeVerifier != null) {
             request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
         }
+
+        log("created access token request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
         return request;
     }
 
@@ -170,6 +190,11 @@ public class OAuth20Service extends OAuthService {
 
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
+
+        log("created refresh token request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
+
         return request;
     }
 
@@ -233,6 +258,10 @@ public class OAuth20Service extends OAuthService {
 
         api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
+        log("created access token password grant request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
+
         return request;
     }
 
@@ -290,6 +319,11 @@ public class OAuth20Service extends OAuthService {
             request.addParameter(OAuthConstants.SCOPE, defaultScope);
         }
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.CLIENT_CREDENTIALS);
+
+        log("created access token client credentials grant request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
+
         return request;
     }
 
@@ -359,6 +393,11 @@ public class OAuth20Service extends OAuthService {
         if (tokenTypeHint != null) {
             request.addParameter("token_type_hint", tokenTypeHint.getValue());
         }
+
+        log("created revoke token request with body params [%s], query string params [%s]",
+                request.getBodyParams().asFormUrlEncodedString(),
+                request.getQueryStringParams().asFormUrlEncodedString());
+
         return request;
     }
 
