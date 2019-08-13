@@ -26,6 +26,24 @@ public abstract class OAuthService implements Closeable {
     private final HttpClient httpClient;
     private final OutputStream debugStream;
 
+    /**
+     *
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @deprecated use {@link #OAuthService(java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream,
+     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    public OAuthService(String apiKey, String apiSecret, String callback, String userAgent,
+            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        this(apiKey, apiSecret, callback, null, userAgent, httpClientConfig, httpClient);
+    }
+
     public OAuthService(String apiKey, String apiSecret, String callback, OutputStream debugStream,
             String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
         this.apiKey = apiKey;
@@ -116,14 +134,33 @@ public abstract class OAuthService implements Closeable {
         }
     }
 
-    public void log(String messagePattern, Object... params) {
+    /**
+     * No need to wrap usages in {@link #isDebug()}.
+     *
+     * @param message message to log
+     */
+    public void log(String message) {
         if (debugStream != null) {
-            final String message = String.format(messagePattern, params) + '\n';
-            try {
-                debugStream.write(message.getBytes("UTF8"));
-            } catch (IOException | RuntimeException e) {
-                throw new RuntimeException("there were problems while writting to the debug stream", e);
-            }
+            log(message, (Object[]) null);
         }
+    }
+
+    /**
+     * Wrap usages in {@link #isDebug()}. It was made for optimization - to not calculate "params" in production mode.
+     *
+     * @param messagePattern messagePattern
+     * @param params params
+     */
+    public void log(String messagePattern, Object... params) {
+        final String message = String.format(messagePattern, params) + '\n';
+        try {
+            debugStream.write(message.getBytes("UTF8"));
+        } catch (IOException | RuntimeException e) {
+            throw new RuntimeException("there were problems while writting to the debug stream", e);
+        }
+    }
+
+    protected boolean isDebug() {
+        return debugStream != null;
     }
 }

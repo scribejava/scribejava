@@ -107,6 +107,28 @@ public abstract class DefaultApi20 {
         return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
+    /**
+     *
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param defaultScope defaultScope
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @return OAuth20Service
+     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.lang.String, java.io.OutputStream, java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
+            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        return createService(apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig,
+                httpClient);
+    }
+
     public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {

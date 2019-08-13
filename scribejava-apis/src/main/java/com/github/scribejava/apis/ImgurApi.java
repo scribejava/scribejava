@@ -16,6 +16,7 @@ public class ImgurApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final ImgurApi INSTANCE = new ImgurApi();
     }
 
@@ -53,6 +54,28 @@ public class ImgurApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         throw new UnsupportedOperationException("use getAuthorizationUrl instead");
+    }
+
+    /**
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param defaultScope defaultScope
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @return ImgurOAuthService
+     * @deprecated use {@link #createService(java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+     * java.lang.String, java.io.OutputStream, java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
+     * com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    @Override
+    public ImgurOAuthService createService(String apiKey, String apiSecret, String callback, String defaultScope,
+            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        return createService(apiKey, apiSecret, callback, defaultScope, responseType, null, userAgent, httpClientConfig,
+                httpClient);
     }
 
     @Override

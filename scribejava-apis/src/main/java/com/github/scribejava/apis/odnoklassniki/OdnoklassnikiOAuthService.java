@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.odnoklassniki;
 
-import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.apis.OdnoklassnikiApi;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -21,7 +21,29 @@ import java.util.List;
 
 public class OdnoklassnikiOAuthService extends OAuth20Service {
 
-    public OdnoklassnikiOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback,
+    /**
+     * @param api api
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param defaultScope defaultScope
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @deprecated use {@link #OdnoklassnikiOAuthService(com.github.scribejava.apis.OdnoklassnikiApi, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient) }
+     */
+    @Deprecated
+    public OdnoklassnikiOAuthService(OdnoklassnikiApi api, String apiKey, String apiSecret, String callback,
+            String defaultScope, String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        this(api, apiKey, apiSecret, callback, defaultScope, responseType, null, userAgent, httpClientConfig,
+                httpClient);
+    }
+
+    public OdnoklassnikiOAuthService(OdnoklassnikiApi api, String apiKey, String apiSecret, String callback,
             String defaultScope, String responseType, OutputStream debugStream, String userAgent,
             HttpClientConfig httpClientConfig, HttpClient httpClient) {
         super(api, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent, httpClientConfig,

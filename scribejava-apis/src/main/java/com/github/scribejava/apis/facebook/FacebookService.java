@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.facebook;
 
-import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -15,7 +15,28 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class FacebookService extends OAuth20Service {
 
-    public FacebookService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
+    /**
+     * @param api api
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param defaultScope defaultScope
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @deprecated use {@link #FacebookService(com.github.scribejava.apis.FacebookApi, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient) }
+     */
+    @Deprecated
+    public FacebookService(FacebookApi api, String apiKey, String apiSecret, String callback, String defaultScope,
+            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        this(api, apiKey, apiSecret, callback, defaultScope, responseType, null, userAgent, httpClientConfig,
+                httpClient);
+    }
+
+    public FacebookService(FacebookApi api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
         super(api, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent, httpClientConfig,

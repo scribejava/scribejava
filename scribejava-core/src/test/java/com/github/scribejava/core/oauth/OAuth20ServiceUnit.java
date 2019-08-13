@@ -23,6 +23,28 @@ class OAuth20ServiceUnit extends OAuth20Service {
     static final int EXPIRES = 3600;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    /**
+     * @param api api
+     * @param apiKey apiKey
+     * @param apiSecret apiSecret
+     * @param callback callback
+     * @param defaultScope defaultScope
+     * @param responseType responseType
+     * @param userAgent userAgent
+     * @param httpClientConfig httpClientConfig
+     * @param httpClient httpClient
+     * @deprecated use {@link #OAuth20ServiceUnit(com.github.scribejava.core.builder.api.DefaultApi20, java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String,
+     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient)}
+     */
+    @Deprecated
+    OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
+            String responseType, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        this(api, apiKey, apiSecret, callback, defaultScope, responseType, null, userAgent, httpClientConfig,
+                httpClient);
+    }
+
     OAuth20ServiceUnit(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {

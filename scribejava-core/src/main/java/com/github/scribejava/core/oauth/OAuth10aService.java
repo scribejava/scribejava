@@ -33,15 +33,18 @@ public class OAuth10aService extends OAuthService {
     }
 
     public OAuth1RequestToken getRequestToken() throws IOException, InterruptedException, ExecutionException {
-        log("obtaining request token from %s", api.getRequestTokenEndpoint());
+        if (isDebug()) {
+            log("obtaining request token from %s", api.getRequestTokenEndpoint());
+        }
         final OAuthRequest request = prepareRequestTokenRequest();
 
         log("sending request...");
         final Response response = execute(request);
-        final String body = response.getBody();
-
-        log("response status code: %s", response.getCode());
-        log("response body: %s", body);
+        if (isDebug()) {
+            final String body = response.getBody();
+            log("response status code: %s", response.getCode());
+            log("response body: %s", body);
+        }
         return api.getRequestTokenExtractor().extract(response);
     }
 
@@ -50,7 +53,9 @@ public class OAuth10aService extends OAuthService {
     }
 
     public Future<OAuth1RequestToken> getRequestTokenAsync(OAuthAsyncRequestCallback<OAuth1RequestToken> callback) {
-        log("async obtaining request token from %s", api.getRequestTokenEndpoint());
+        if (isDebug()) {
+            log("async obtaining request token from %s", api.getRequestTokenEndpoint());
+        }
         final OAuthRequest request = prepareRequestTokenRequest();
         return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1RequestToken>() {
             @Override
@@ -66,7 +71,9 @@ public class OAuth10aService extends OAuthService {
         if (callback == null) {
             callback = OAuthConstants.OOB;
         }
-        log("setting oauth_callback to %s", callback);
+        if (isDebug()) {
+            log("setting oauth_callback to %s", callback);
+        }
         request.addOAuthParameter(OAuthConstants.CALLBACK, callback);
         addOAuthParams(request, "");
         appendSignature(request);
@@ -84,12 +91,16 @@ public class OAuth10aService extends OAuthService {
         }
         request.addOAuthParameter(OAuthConstants.SIGNATURE, getSignature(request, tokenSecret));
 
-        log("appended additional OAuth parameters: %s", request.getOauthParameters());
+        if (isDebug()) {
+            log("appended additional OAuth parameters: %s", request.getOauthParameters());
+        }
     }
 
     public OAuth1AccessToken getAccessToken(OAuth1RequestToken requestToken, String oauthVerifier)
             throws IOException, InterruptedException, ExecutionException {
-        log("obtaining access token from %s", api.getAccessTokenEndpoint());
+        if (isDebug()) {
+            log("obtaining access token from %s", api.getAccessTokenEndpoint());
+        }
         final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
         final Response response = execute(request);
         return api.getAccessTokenExtractor().extract(response);
@@ -110,7 +121,9 @@ public class OAuth10aService extends OAuthService {
      */
     public Future<OAuth1AccessToken> getAccessTokenAsync(OAuth1RequestToken requestToken, String oauthVerifier,
             OAuthAsyncRequestCallback<OAuth1AccessToken> callback) {
-        log("async obtaining access token from %s", api.getAccessTokenEndpoint());
+        if (isDebug()) {
+            log("async obtaining access token from %s", api.getAccessTokenEndpoint());
+        }
         final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
         return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1AccessToken>() {
             @Override
@@ -124,19 +137,25 @@ public class OAuth10aService extends OAuthService {
         final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
         request.addOAuthParameter(OAuthConstants.TOKEN, requestToken.getToken());
         request.addOAuthParameter(OAuthConstants.VERIFIER, oauthVerifier);
-        log("setting token to: %s and verifier to: %s", requestToken, oauthVerifier);
+        if (isDebug()) {
+            log("setting token to: %s and verifier to: %s", requestToken, oauthVerifier);
+        }
         addOAuthParams(request, requestToken.getTokenSecret());
         appendSignature(request);
         return request;
     }
 
     public void signRequest(OAuth1AccessToken token, OAuthRequest request) {
-        log("signing request: %s", request.getCompleteUrl());
+        if (isDebug()) {
+            log("signing request: %s", request.getCompleteUrl());
+        }
 
         if (!token.isEmpty() || api.isEmptyOAuthTokenParamIsRequired()) {
             request.addOAuthParameter(OAuthConstants.TOKEN, token.getToken());
         }
-        log("setting token to: %s", token);
+        if (isDebug()) {
+            log("setting token to: %s", token);
+        }
         addOAuthParams(request, token.getTokenSecret());
         appendSignature(request);
     }
@@ -161,8 +180,10 @@ public class OAuth10aService extends OAuthService {
         final String baseString = api.getBaseStringExtractor().extract(request);
         final String signature = api.getSignatureService().getSignature(baseString, getApiSecret(), tokenSecret);
 
-        log("base string is: %s", baseString);
-        log("signature is: %s", signature);
+        if (isDebug()) {
+            log("base string is: %s", baseString);
+            log("signature is: %s", signature);
+        }
         return signature;
     }
 
