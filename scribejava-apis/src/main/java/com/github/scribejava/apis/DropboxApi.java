@@ -11,6 +11,7 @@ public class DropboxApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final DropboxApi INSTANCE = new DropboxApi();
     }
 

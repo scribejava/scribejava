@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * Add debug output to OAuth2Service (thanks to https://github.com/rbarbey)
+ * Add Dropbox API (https://www.dropbox.com/) (thanks to https://github.com/petrkopotev)
 
 [6.7.0]
  * Add OAuth2 support for Meetup.com (thanks to https://github.com/stevedes77)

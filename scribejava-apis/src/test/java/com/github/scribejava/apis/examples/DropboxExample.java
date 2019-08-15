@@ -15,12 +15,15 @@ import java.util.concurrent.ExecutionException;
 public class DropboxExample {
 
     private static final String NETWORK_NAME = "Dropbox.com";
-    private static final String PROTECTED_RESOURCE_URL
-            = "https://api.dropboxapi.com/2/users/get_space_usage";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.dropboxapi.com/2/users/get_space_usage";
     private static final String PAYLOAD = "null";
     private static final String CONTENT_TYPE_NAME = "Content-Type";
     private static final String CONTENT_TYPE_VALUE = "application/json";
 
+    private DropboxExample() {
+    }
+
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "client id";
