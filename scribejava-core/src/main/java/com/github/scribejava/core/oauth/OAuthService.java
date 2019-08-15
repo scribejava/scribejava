@@ -26,24 +26,6 @@ public abstract class OAuthService implements Closeable {
     private final HttpClient httpClient;
     private final OutputStream debugStream;
 
-    /**
-     *
-     * @param apiKey apiKey
-     * @param apiSecret apiSecret
-     * @param callback callback
-     * @param userAgent userAgent
-     * @param httpClientConfig httpClientConfig
-     * @param httpClient httpClient
-     * @deprecated use {@link #OAuthService(java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream,
-     * java.lang.String, com.github.scribejava.core.httpclient.HttpClientConfig,
-     * com.github.scribejava.core.httpclient.HttpClient)}
-     */
-    @Deprecated
-    public OAuthService(String apiKey, String apiSecret, String callback, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        this(apiKey, apiSecret, callback, null, userAgent, httpClientConfig, httpClient);
-    }
-
     public OAuthService(String apiKey, String apiSecret, String callback, OutputStream debugStream,
             String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
         this.apiKey = apiKey;

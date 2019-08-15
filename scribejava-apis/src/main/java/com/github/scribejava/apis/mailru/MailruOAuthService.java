@@ -18,27 +18,6 @@ import java.util.Formatter;
 
 public class MailruOAuthService extends OAuth20Service {
 
-    /**
-     * @param api api
-     * @param apiKey apiKey
-     * @param apiSecret apiSecret
-     * @param callback callback
-     * @param defaultScope defaultScope
-     * @param responseType responseType
-     * @param userAgent userAgent
-     * @param httpClientConfig httpClientConfig
-     * @param httpClient httpClient
-     * @deprecated use {@link #MailruOAuthService(com.github.scribejava.apis.MailruApi, java.lang.String,
-     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.io.OutputStream, java.lang.String,
-     * com.github.scribejava.core.httpclient.HttpClientConfig, com.github.scribejava.core.httpclient.HttpClient) }
-     */
-    @Deprecated
-    public MailruOAuthService(MailruApi api, String apiKey, String apiSecret, String callback, String defaultScope,
-            String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        this(api, apiKey, apiSecret, callback, defaultScope, responseType, null, userAgent, httpClientConfig,
-                httpClient);
-    }
-
     public MailruOAuthService(MailruApi api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
