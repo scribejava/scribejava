@@ -125,7 +125,7 @@ public abstract class DefaultApi20 {
     @Deprecated
     public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return createService(apiKey, apiSecret, callback, defaultScope, responseType, userAgent, httpClientConfig,
+        return createService(apiKey, apiSecret, callback, defaultScope, responseType, null, userAgent, httpClientConfig,
                 httpClient);
     }
 
