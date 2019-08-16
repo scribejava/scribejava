@@ -5,6 +5,12 @@ import java.io.InputStream;
 import java.util.Map;
 import com.github.scribejava.core.utils.StreamUtils;
 
+/**
+ * An HTTP response.
+ *
+ * <p>This response may contain a non-null body stream of the HttpUrlConnection. If so, this body must be closed to
+ * avoid leaking resources. Use either {@code getBody()} or {@code getStream().close()} to close the body.
+ */
 public class Response {
 
     private final int code;
@@ -45,6 +51,9 @@ public class Response {
         return code >= 200 && code < 400;
     }
 
+    /**
+     * Returns the response body as a string, closing the stream that backs it. Idempotent.
+     */
     public String getBody() throws IOException {
         return body == null ? parseBodyContents() : body;
     }
