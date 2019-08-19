@@ -89,6 +89,7 @@ public class XeroExample {
         System.out.println(connResp.getBody());
         System.out.println();
         System.out.println("Your Xero tenant id is ...." + tenantList.get(0).get("tenantId"));
+        System.out.println();
         
         // GET protected Resource
         System.out.println("Now we're going to access a protected resource...");
