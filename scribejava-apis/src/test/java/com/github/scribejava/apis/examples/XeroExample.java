@@ -1,7 +1,12 @@
 package com.github.scribejava.apis.examples;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -10,30 +15,6 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
-/*
- * This full example needs a library to parse
- * the JSON response and obtain a Xero Tenant Id
- * in order to access protected resources.
- * 
- * If you add the following dependency, you can then
- * uncomment the rest of the example code to access
- * the Xero Organisation and other protected resources
- * 
- * <dependency>
-        <groupId>com.googlecode.json-simple</groupId>
-        <artifactId>json-simple</artifactId>
-        <version>1.1.1</version>
-    </dependency>
- * 
- */
-
-/*
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-*/
 
 public class XeroExample {
 
@@ -46,10 +27,11 @@ public class XeroExample {
 
     @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        // Replace these with your client id, secret and redirect uri
+        // Replace these with your client id and secret
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
-        final String callback = "your redirect uri";        
+        final String callback = "your callback url";
+        
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
@@ -90,31 +72,28 @@ public class XeroExample {
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
         System.out.println();
         
-        // GET the Xero Tenant ID
+        //First GET the Xero Tenant ID
         System.out.println("Getting Xero tenant id...");
         final OAuthRequest requestConn = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         requestConn.addHeader("Accept", "application/json");
         service.signRequest(accessToken.getAccessToken(), requestConn);
-        final Response responseConn = service.execute(requestConn);
-        System.out.println();
-        System.out.println(responseConn.getCode());
-        System.out.println(responseConn.getBody());
-        /*
-        JSONParser parser = new JSONParser();
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = (JSONArray) parser.parse(responseConn.getBody());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        final Response connResp = service.execute(requestConn);
         
-        JSONObject jsonObject = (JSONObject) jsonArray.get(0);
-        System.out.println("Your Xero tenant id is ...." + jsonObject.get("tenantId"));
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        @SuppressWarnings("rawtypes")
+        List<Map> tenantList = objectMapper.readValue(connResp.getBody(), typeFactory.constructCollectionType(List.class, Map.class));
+        
+        System.out.println();
+        System.out.println(connResp.getCode());
+        System.out.println(connResp.getBody());
+        System.out.println();
+        System.out.println("Your Xero tenant id is ...." + tenantList.get(0).get("tenantId"));
         
         // GET protected Resource
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_ORGANISATION_URL);
-        request.addHeader("xero-tenant-id",jsonObject.get("tenantId").toString());
+        request.addHeader("xero-tenant-id",tenantList.get(0).get("tenantId").toString());
         service.signRequest(accessToken.getAccessToken(), request);
         final Response response = service.execute(request);
         
@@ -123,7 +102,7 @@ public class XeroExample {
         System.out.println();
         System.out.println(response.getCode());
         System.out.println(response.getBody());
-        */
+
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
     }
