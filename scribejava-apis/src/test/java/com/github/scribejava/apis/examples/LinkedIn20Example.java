@@ -60,11 +60,11 @@ public class LinkedIn20Example {
         emailRequest.addHeader("x-li-format", "json");
         emailRequest.addHeader("Accept-Language", "ru-RU");
         service.signRequest(accessToken, emailRequest);
-        final Response emailResponse = service.execute(emailRequest);
         System.out.println();
-        System.out.println(emailResponse.getCode());
-        System.out.println(emailResponse.getBody());
-
+        try (Response emailResponse = service.execute(emailRequest)) {
+            System.out.println(emailResponse.getCode());
+            System.out.println(emailResponse.getBody());
+        }
         System.out.println();
 
         System.out.println("Now we're going to access a protected profile resource...");
@@ -73,10 +73,11 @@ public class LinkedIn20Example {
         request.addHeader("x-li-format", "json");
         request.addHeader("Accept-Language", "ru-RU");
         service.signRequest(accessToken, request);
-        final Response response = service.execute(request);
         System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
+        try (Response response = service.execute(request)) {
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
 
         System.out.println();
     }

@@ -66,9 +66,10 @@ public abstract class AbstractClientTest {
         final HttpUrl baseUrl = server.url("/testUrl");
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, baseUrl.toString());
-        final Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
 
-        assertEquals(expectedResponseBody, response.getBody());
+        try (Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS)) {
+            assertEquals(expectedResponseBody, response.getBody());
+        }
 
         final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("GET", recordedRequest.getMethod());
@@ -91,9 +92,9 @@ public abstract class AbstractClientTest {
         // request with body
         OAuthRequest request = new OAuthRequest(Verb.POST, baseUrl.toString());
         request.setPayload(expectedRequestBody);
-        Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
-
-        assertEquals(expectedResponseBody, response.getBody());
+        try (Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS)) {
+            assertEquals(expectedResponseBody, response.getBody());
+        }
 
         RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("POST", recordedRequest.getMethod());
@@ -101,9 +102,9 @@ public abstract class AbstractClientTest {
 
         // request with empty body
         request = new OAuthRequest(Verb.POST, baseUrl.toString());
-        response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
-
-        assertEquals(expectedResponseBody, response.getBody());
+        try (Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS)) {
+            assertEquals(expectedResponseBody, response.getBody());
+        }
 
         recordedRequest = server.takeRequest();
         assertEquals("POST", recordedRequest.getMethod());
@@ -123,9 +124,9 @@ public abstract class AbstractClientTest {
         final HttpUrl baseUrl = server.url("/testUrl");
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, baseUrl.toString());
-        final Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS);
-
-        assertEquals(expectedResponseBody, StreamUtils.getStreamContents(response.getStream()));
+        try (Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS)) {
+            assertEquals(expectedResponseBody, StreamUtils.getStreamContents(response.getStream()));
+        }
 
         final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("GET", recordedRequest.getMethod());
@@ -165,10 +166,11 @@ public abstract class AbstractClientTest {
         final OAuthRequest request = new OAuthRequest(Verb.GET, baseUrl.toString());
 
         final TestCallback callback = new TestCallback();
-        final Response response = oAuthService.execute(request, callback).get();
+        try (Response response = oAuthService.execute(request, callback).get()) {
 
-        assertEquals(500, response.getCode());
-        assertEquals(500, callback.getResponse().getCode());
+            assertEquals(500, response.getCode());
+            assertEquals(500, callback.getResponse().getCode());
+        }
 
         server.shutdown();
     }

@@ -50,7 +50,7 @@ public class TheThingsNetworkV1StagingExample {
 
         // TTN v1staging does not have URL safe keys, so we have to decode it
         final String code = URLDecoder.decode(in.nextLine(), "UTF-8");
-        System.out.println("Using code: "+code);
+        System.out.println("Using code: " + code);
         System.out.println();
 
         System.out.println("And paste the state from server here. We have set 'secretState'='" + secretState + "'.");
@@ -78,19 +78,20 @@ public class TheThingsNetworkV1StagingExample {
 
         service.signRequest(accessToken, request);
         request.addHeader("Accept", "application/json");
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-
-        if (response.getCode() == 401) {
-            System.out.println("Not authorised: "+response.getBody());
-        } else {
-            System.out.println("You should see a JSON array of your registered applications:");
-            System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
             System.out.println();
-            System.out.println("That's it man! Go and build something awesome with ScribeJava! :)");
+            System.out.println(response.getCode());
+
+            if (response.getCode() == 401) {
+                System.out.println("Not authorised: " + response.getBody());
+            } else {
+                System.out.println("You should see a JSON array of your registered applications:");
+                System.out.println(response.getBody());
+
+                System.out.println();
+                System.out.println("That's it man! Go and build something awesome with ScribeJava! :)");
+            }
         }
     }
 }

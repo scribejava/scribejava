@@ -114,11 +114,11 @@ public class Google20AsyncAHCExample {
 
                 final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
                 service.signRequest(accessToken, request);
-                final Response response = service.execute(request);
                 System.out.println();
-                System.out.println(response.getCode());
-                System.out.println(response.getBody());
-
+                try (Response response = service.execute(request)) {
+                    System.out.println(response.getCode());
+                    System.out.println(response.getBody());
+                }
                 System.out.println();
             }
         }

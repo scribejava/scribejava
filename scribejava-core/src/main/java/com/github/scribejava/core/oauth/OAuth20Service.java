@@ -43,14 +43,15 @@ public class OAuth20Service extends OAuthService {
         if (isDebug()) {
             log("send request for access token synchronously to %s", request.getCompleteUrl());
         }
-        final Response response = execute(request);
-        if (isDebug()) {
-            log("response status code: %s", response.getCode());
-            final String body = response.getBody();
-            log("response body: %s", body);
-        }
+        try (Response response = execute(request)) {
+            if (isDebug()) {
+                log("response status code: %s", response.getCode());
+                final String body = response.getBody();
+                log("response body: %s", body);
+            }
 
-        return api.getAccessTokenExtractor().extract(response);
+            return api.getAccessTokenExtractor().extract(response);
+        }
     }
 
     //protected to facilitate mocking
@@ -427,7 +428,9 @@ public class OAuth20Service extends OAuthService {
             throws IOException, InterruptedException, ExecutionException {
         final OAuthRequest request = createRevokeTokenRequest(tokenToRevoke, tokenTypeHint);
 
-        checkForErrorRevokeToken(execute(request));
+        try (Response response = execute(request)) {
+            checkForErrorRevokeToken(response);
+        }
     }
 
     public Future<Void> revokeToken(String tokenToRevoke, OAuthAsyncRequestCallback<Void> callback) {

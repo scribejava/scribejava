@@ -91,10 +91,11 @@ public class SalesforceNingAsyncExample {
             System.out.println();
             System.out.println("Full URL: " + url);
             final OAuthRequest request = new OAuthRequest(Verb.GET, url);
-            final Response response = service.execute(request);
             System.out.println();
-            System.out.println(response.getCode());
-            System.out.println(response.getBody());
+            try (Response response = service.execute(request)) {
+                System.out.println(response.getCode());
+                System.out.println(response.getBody());
+            }
         }
     }
 }

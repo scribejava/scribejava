@@ -71,11 +71,11 @@ public class FitbitApi20Example {
 
         service.signRequest(accessToken, request);
 
-        final Response response = service.execute(request);
         System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println();
     }
 }

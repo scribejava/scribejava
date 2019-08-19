@@ -18,8 +18,8 @@ public class FacebookAccessTokenJsonExtractorTest {
                 + "\"type\":\"OAuthException\","
                 + "\"code\":100,"
                 + "\"fbtrace_id\":\"DtxvtGRaxbB\"}}";
-        try {
-            extractor.extract(error(body));
+        try (Response response = error(body)) {
+            extractor.extract(response);
             fail();
         } catch (FacebookAccessTokenErrorResponse fateR) {
             assertEquals("This authorization code has been used.", fateR.getMessage());

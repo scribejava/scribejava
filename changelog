@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * make Response implements Closeable (thanks to https://github.com/omaric)
+
 [6.8.0]
  * Add debug output to OAuth2Service (thanks to https://github.com/rbarbey)
  * Add Dropbox API (https://www.dropbox.com/) (thanks to https://github.com/petrkopotev)

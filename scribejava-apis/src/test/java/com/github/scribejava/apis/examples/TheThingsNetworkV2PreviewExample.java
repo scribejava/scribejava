@@ -16,8 +16,8 @@ import java.util.concurrent.ExecutionException;
 public class TheThingsNetworkV2PreviewExample {
 
     private static final String NETWORK_NAME = "TTNv2preview";
-    private static final String PROTECTED_RESOURCE_URL =
-            "https://preview.account.thethingsnetwork.org/api/v2/applications";
+    private static final String PROTECTED_RESOURCE_URL
+            = "https://preview.account.thethingsnetwork.org/api/v2/applications";
 
     private TheThingsNetworkV2PreviewExample() {
     }
@@ -75,19 +75,20 @@ public class TheThingsNetworkV2PreviewExample {
 
         service.signRequest(accessToken, request);
         request.addHeader("Accept", "application/json");
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-
-        if (response.getCode() == 401) {
-            System.out.println("Not authorised: "+response.getBody());
-        } else {
-            System.out.println("You should see a JSON array of your registered applications:");
-            System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
             System.out.println();
-            System.out.println("That's it man! Go and build something awesome with ScribeJava! :)");
+            System.out.println(response.getCode());
+
+            if (response.getCode() == 401) {
+                System.out.println("Not authorised: " + response.getBody());
+            } else {
+                System.out.println("You should see a JSON array of your registered applications:");
+                System.out.println(response.getBody());
+
+                System.out.println();
+                System.out.println("That's it man! Go and build something awesome with ScribeJava! :)");
+            }
         }
     }
 }

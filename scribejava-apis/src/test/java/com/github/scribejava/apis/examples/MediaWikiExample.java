@@ -59,10 +59,11 @@ public class MediaWikiExample {
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, API_USERINFO_URL);
         service.signRequest(accessToken, request);
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getBody());
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
+            System.out.println();
+            System.out.println(response.getBody());
+        }
 
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with MediaWiki and ScribeJava! :)");

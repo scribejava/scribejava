@@ -39,7 +39,6 @@ public class SalesforceExample {
         //
         // When you plan to connect to a Sandbox environment you've to use SalesforceApi.sandbox() API instance
         // new ServiceBuilder.....build(SalesforceApi.sandbox());
-
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
                 .callback("https://www.example.com/callback")
@@ -96,9 +95,10 @@ public class SalesforceExample {
 
         final OAuthRequest request = new OAuthRequest(Verb.GET, url);
         service.signRequest(salesforceAccessToken, request);
-        final Response response = service.execute(request);
         System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
+        try (Response response = service.execute(request)) {
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
     }
 }

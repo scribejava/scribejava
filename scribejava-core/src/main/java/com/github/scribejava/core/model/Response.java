@@ -4,14 +4,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import com.github.scribejava.core.utils.StreamUtils;
+import java.io.Closeable;
 
 /**
  * An HTTP response.
  *
- * <p>This response may contain a non-null body stream of the HttpUrlConnection. If so, this body must be closed to
- * avoid leaking resources. Use either {@code getBody()} or {@code getStream().close()} to close the body.
+ * <p>
+ * This response may contain a non-null body stream of the HttpUrlConnection. If so, this body must be closed to avoid
+ * leaking resources. Use either {@link #getBody()} or {@link #close()} to close the body.
  */
-public class Response {
+public class Response implements Closeable {
 
     private final int code;
     private final String message;
@@ -109,11 +111,18 @@ public class Response {
 
     @Override
     public String toString() {
-        return "Response{" +
-            "code=" + code +
-            ", message='" + message + '\'' +
-            ", body='" + body + '\'' +
-            ", headers=" + headers +
-            '}';
+        return "Response{"
+                + "code=" + code
+                + ", message='" + message + '\''
+                + ", body='" + body + '\''
+                + ", headers=" + headers
+                + '}';
+    }
+
+    @Override
+    public void close() throws IOException {
+        if (stream != null) {
+            stream.close();
+        }
     }
 }

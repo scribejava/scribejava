@@ -79,12 +79,12 @@ public class Google20RevokeExample {
         System.out.println("Now we're going to access a protected resource...");
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        Response response = service.execute(request);
         System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
+        try (Response response = service.execute(request)) {
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println();
-
         System.out.println("Revoking token...");
         service.revokeToken(accessToken.getAccessToken());
         System.out.println("done.");
@@ -92,15 +92,18 @@ public class Google20RevokeExample {
         in.nextLine();
         //Google Note: Following a successful revocation response,
         //it might take some time before the revocation has full effect.
-        while (response.getCode() == 200) {
+        int responseCode;
+        do {
             Thread.sleep(1000);
             request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
-            response = service.execute(request);
             System.out.println();
-            System.out.println(response.getCode());
-            System.out.println(response.getBody());
+            try (Response response = service.execute(request)) {
+                responseCode = response.getCode();
+                System.out.println(responseCode);
+                System.out.println(response.getBody());
+            }
             System.out.println();
-        }
+        } while (responseCode == 200);
     }
 }
