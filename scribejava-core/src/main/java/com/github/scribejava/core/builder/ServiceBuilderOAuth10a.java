@@ -9,22 +9,22 @@ import java.io.OutputStream;
 public interface ServiceBuilderOAuth10a extends ServiceBuilderCommon {
 
     @Override
-    ServiceBuilderOAuth20 callback(String callback);
+    ServiceBuilderOAuth10a callback(String callback);
 
     @Override
-    ServiceBuilderOAuth20 apiKey(String apiKey);
+    ServiceBuilderOAuth10a apiKey(String apiKey);
 
     @Override
-    ServiceBuilderOAuth20 apiSecret(String apiSecret);
+    ServiceBuilderOAuth10a apiSecret(String apiSecret);
 
     @Override
-    ServiceBuilderOAuth20 httpClientConfig(HttpClientConfig httpClientConfig);
+    ServiceBuilderOAuth10a httpClientConfig(HttpClientConfig httpClientConfig);
 
     @Override
-    ServiceBuilderOAuth20 httpClient(HttpClient httpClient);
+    ServiceBuilderOAuth10a httpClient(HttpClient httpClient);
 
     @Override
-    ServiceBuilderOAuth20 userAgent(String userAgent);
+    ServiceBuilderOAuth10a userAgent(String userAgent);
 
     ServiceBuilderOAuth10a debugStream(OutputStream debugStream);
 
