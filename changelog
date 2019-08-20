@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * make Response implements Closeable (thanks to https://github.com/omaric)
+ * fix Type resolution for builder pattern in ServiceBuilderOAuth10a (thanks to https://github.com/mgyucht)
 
 [6.8.0]
  * Add debug output to OAuth2Service (thanks to https://github.com/rbarbey)

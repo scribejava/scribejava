@@ -3,6 +3,7 @@ package com.github.scribejava.core.builder;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.oauth.OAuthService;
+import java.io.OutputStream;
 
 /**
  * Implementation of the Builder pattern, with a fluent interface that creates a {@link OAuthService}
@@ -45,4 +46,8 @@ public interface ServiceBuilderCommon {
     ServiceBuilderCommon httpClient(HttpClient httpClient);
 
     ServiceBuilderCommon userAgent(String userAgent);
+
+    ServiceBuilderCommon debugStream(OutputStream debugStream);
+
+    ServiceBuilderCommon debug();
 }

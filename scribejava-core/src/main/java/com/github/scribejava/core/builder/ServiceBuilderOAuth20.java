@@ -4,6 +4,7 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import java.io.OutputStream;
 
 public interface ServiceBuilderOAuth20 extends ServiceBuilderCommon {
 
@@ -24,6 +25,12 @@ public interface ServiceBuilderOAuth20 extends ServiceBuilderCommon {
 
     @Override
     ServiceBuilderOAuth20 userAgent(String userAgent);
+
+    @Override
+    ServiceBuilderOAuth20 debugStream(OutputStream debugStream);
+
+    @Override
+    ServiceBuilderOAuth20 debug();
 
     ServiceBuilderOAuth20 responseType(String responseType);
 

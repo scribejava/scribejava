@@ -26,8 +26,10 @@ public interface ServiceBuilderOAuth10a extends ServiceBuilderCommon {
     @Override
     ServiceBuilderOAuth10a userAgent(String userAgent);
 
+    @Override
     ServiceBuilderOAuth10a debugStream(OutputStream debugStream);
 
+    @Override
     ServiceBuilderOAuth10a debug();
 
     /**
