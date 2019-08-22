@@ -55,6 +55,9 @@ public class Response implements Closeable {
 
     /**
      * Returns the response body as a string, closing the stream that backs it. Idempotent.
+     *
+     * @return body as string
+     * @throws IOException IO Exception
      */
     public String getBody() throws IOException {
         return body == null ? parseBodyContents() : body;
