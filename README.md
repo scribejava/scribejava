@@ -51,7 +51,7 @@ ScribeJava support out-of-box several HTTP clients:
   * [RFC 7009](https://tools.ietf.org/html/rfc7009) OAuth 2.0 Token Revocation, [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20RevokeExample.java)
   * [RFC 5849](https://tools.ietf.org/html/rfc5849) The OAuth 1.0 Protocol, [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/TwitterExample.java)
 
-### Supports all major 1.0a and 2.0 OAuth APIs out-of-the-box
+### Supports all (50+) major 1.0a and 2.0 OAuth APIs out-of-the-box
 
 * Asana (https://asana.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/AsanaExample.java)
 * Automatic (https://www.automatic.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/AutomaticExample.java)
@@ -103,6 +103,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Viadeo (http://viadeo.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/ViadeoExample.java)
 * VK ВКонтакте (http://vk.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteExample.java), [example Client Credentials Grant](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteClientCredentialsGrantExample.java), [example with External HTTP Client](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/VkontakteExternalHttpExample.java)
 * Wunderlist (https://www.wunderlist.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/WunderlistExample.java)
+* Xero (https://www.xero.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/XeroExample.java)
 * XING (https://www.xing.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/XingExample.java)
 * Yahoo (https://www.yahoo.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Yahoo20Example.java), [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/YahooExample.java)
 * check the [examples folder](https://github.com/scribejava/scribejava/tree/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples)

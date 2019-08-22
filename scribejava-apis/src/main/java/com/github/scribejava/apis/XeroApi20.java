@@ -1,8 +1,6 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
-import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
 /**
  * Xero.com Api
@@ -13,6 +11,7 @@ public class XeroApi20 extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final XeroApi20 INSTANCE = new XeroApi20();
     }
 
@@ -28,10 +27,5 @@ public class XeroApi20 extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return "https://login.xero.com/identity/connect/authorize";
-    }
-
-    @Override
-    public ClientAuthentication getClientAuthentication() {
-        return RequestBodyAuthenticationScheme.instance();
     }
 }

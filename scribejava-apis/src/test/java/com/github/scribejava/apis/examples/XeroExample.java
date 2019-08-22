@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.github.scribejava.apis.XeroApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -31,13 +31,14 @@ public class XeroExample {
         final String clientId = "your client id";
         final String clientSecret = "your client secret";
         final String callback = "your callback url";
-        
+
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .defaultScope("openid email profile offline_access accounting.settings accounting.transactions") // replace with desired scope
+                // replace with desired scope
+                .defaultScope("openid email profile offline_access accounting.settings accounting.transactions")
                 .callback(callback)
-                .build(Xero20Api.instance());
+                .build(XeroApi20.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
 
         System.out.println("=== " + NETWORK_NAME + "'s OAuth Workflow ===");
@@ -71,33 +72,32 @@ public class XeroExample {
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
         System.out.println();
-        
+
         //First GET the Xero Tenant ID
         System.out.println("Getting Xero tenant id...");
         final OAuthRequest requestConn = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         requestConn.addHeader("Accept", "application/json");
         service.signRequest(accessToken.getAccessToken(), requestConn);
         final Response connResp = service.execute(requestConn);
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-        TypeFactory typeFactory = objectMapper.getTypeFactory();
-        @SuppressWarnings("rawtypes")
-        List<Map> tenantList = objectMapper.readValue(connResp.getBody(), typeFactory.constructCollectionType(List.class, Map.class));
-        
+
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final List<Map<String, String>> tenantList = objectMapper.readValue(connResp.getBody(),
+                objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class));
+
         System.out.println();
         System.out.println(connResp.getCode());
         System.out.println(connResp.getBody());
         System.out.println();
         System.out.println("Your Xero tenant id is ...." + tenantList.get(0).get("tenantId"));
         System.out.println();
-        
+
         // GET protected Resource
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_ORGANISATION_URL);
-        request.addHeader("xero-tenant-id",tenantList.get(0).get("tenantId").toString());
+        request.addHeader("xero-tenant-id", tenantList.get(0).get("tenantId"));
         service.signRequest(accessToken.getAccessToken(), request);
         final Response response = service.execute(request);
-        
+
         // Now let's go and ask for a protected resource!
         System.out.println("Got it! Lets see what we found...");
         System.out.println();
