@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[6.8.1]
  * make Response implements Closeable (thanks to https://github.com/omaric)
  * fix Type resolution for builder pattern in ServiceBuilderOAuth10a (thanks to https://github.com/mgyucht)
  * fix no Content-length errors (thanks to https://github.com/mikita-herasiutsin and https://github.com/iankurverma)
