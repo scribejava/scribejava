@@ -265,11 +265,7 @@ public class JDKHttpClient implements HttpClient {
         if (connection.getRequestProperty(CONTENT_TYPE) == null) {
             connection.setRequestProperty(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
         }
-        if (contentLength > 0) {
-            connection.setDoOutput(true);
-            return connection.getOutputStream();
-        } else {
-            return null;
-        }
+        connection.setDoOutput(true);
+        return connection.getOutputStream();
     }
 }
