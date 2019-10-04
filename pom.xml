@@ -56,7 +56,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.9.3</version>
+            <version>2.10.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -67,7 +67,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -77,7 +77,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>4.2.0</version>
+                    <version>4.2.1</version>
                     <executions>
                         <execution>
                             <id>bundle-manifest</id>
@@ -106,7 +106,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.23</version>
+                            <version>8.25</version>
                         </dependency>
                     </dependencies>
                 </plugin>
