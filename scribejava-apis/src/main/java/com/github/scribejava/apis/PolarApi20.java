@@ -5,8 +5,8 @@ import com.github.scribejava.core.builder.api.DefaultApi20;
 
 
 /**
- * Fitbit's OAuth2 client's implementation
- * source: https://dev.fitbit.com/docs/oauth2/
+ * Polar's OAuth2 client's implementation
+ * source: https://www.polar.com/accesslink-api/#polar-accesslink-api
  */
 public class PolarApi20 extends DefaultApi20 {
 
