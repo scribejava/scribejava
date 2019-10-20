@@ -24,16 +24,16 @@ public class PolarOAuth20Service extends OAuth20Service {
 
 		getApi().getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
-		request.addBodyParameter(OAuthConstants.CODE, params.getCode());
+		request.addParameter(OAuthConstants.CODE, params.getCode());
 		final String callback = getCallback();
 		if (callback != null) {
-			request.addBodyParameter(OAuthConstants.REDIRECT_URI, callback);
+			request.addParameter(OAuthConstants.REDIRECT_URI, callback);
 		}
-		request.addBodyParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
+		request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.AUTHORIZATION_CODE);
 
 		final String pkceCodeVerifier = params.getPkceCodeVerifier();
 		if (pkceCodeVerifier != null) {
-			request.addBodyParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
+			request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
 		}
 		if (isDebug()) {
 			log("created access token request with body params [%s], query string params [%s]",

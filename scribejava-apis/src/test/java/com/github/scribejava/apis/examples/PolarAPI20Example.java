@@ -28,10 +28,10 @@ public class PolarAPI20Example {
 	public static void main(String... args) throws Exception {
 
 		// Replace these with your client id and secret fron your app
-		final String clientId = "1a86ac29-7ea3-473a-81d9-8ea582214558";
-		final String clientSecret = "0dc23e1d-b677-4da0-bb14-311949898a95";
+		final String clientId = "your api client";
+		final String clientSecret = "your api secret";
 		final String scope = "accesslink.read_all";
-		final String callback = "http://localhost";
+		final String callback = "your api callback";
 		final OAuth20Service service = new ServiceBuilder(clientId).apiSecret(clientSecret).defaultScope(scope)
 			//your callback URL to store and handle the authorization code sent by Polar
 			.callback(callback).build(PolarAPI20.instance());
