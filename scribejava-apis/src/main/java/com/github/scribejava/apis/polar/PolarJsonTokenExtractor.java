@@ -25,9 +25,9 @@ public class PolarJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
     }
 
     @Override
-    protected PolarOauth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
+    protected PolarOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
             String refreshToken, String scope, JsonNode response, String rawResponse) {
-        return new PolarOauth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
+        return new PolarOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
                 response.get("x_user_id").asText(), rawResponse);
     }
 

@@ -87,6 +87,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Misfit (http://misfit.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/MisfitExample.java)
 * NAVER (http://www.naver.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/NaverExample.java)
 * Odnoklassniki Одноклассники (http://ok.ru/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/OdnoklassnikiExample.java)
+* Polar (https://www.polar.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/PolarAPIExample.java)
 * Pinterest (https://www.pinterest.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/PinterestExample.java)
 * 500px (https://500px.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Px500Example.java)
 * Renren (http://renren.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/RenrenExample.java)
