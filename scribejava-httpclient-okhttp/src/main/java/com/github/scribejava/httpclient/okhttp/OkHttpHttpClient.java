@@ -191,9 +191,10 @@ public class OkHttpHttpClient implements HttpClient {
             headersMap.put(headerName, headers.get(headerName));
         }
 
-        final ResponseBody body = okHttpResponse.body();
-        return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
-                body == null ? null : body.byteStream());
+        try (ResponseBody body = okHttpResponse.body()) {
+            return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
+                    body == null ? null : body.byteStream());
+        }
     }
 
 }
