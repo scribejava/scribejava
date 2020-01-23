@@ -115,7 +115,12 @@ public class JDKHttpClient implements HttpClient {
 
     private Response doExecute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             BodyType bodyType, Object bodyContents) throws IOException {
-        final HttpURLConnection connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+        final HttpURLConnection connection;
+        if (config.getProxy() == null) {
+            connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+        }else {
+            connection = (HttpURLConnection) new URL(completeUrl).openConnection(config.getProxy());
+        }
         connection.setInstanceFollowRedirects(config.isFollowRedirects());
         connection.setRequestMethod(httpVerb.name());
         if (config.getConnectTimeout() != null) {
