@@ -1,16 +1,13 @@
 package com.github.scribejava.core.httpclient.multipart;
 
-import org.hamcrest.core.StringStartsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import org.junit.Rule;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.function.ThrowingRunnable;
 
 public class MultipartPayloadTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testValidCheckBoundarySyntax() {
@@ -22,47 +19,27 @@ public class MultipartPayloadTest {
 
     @Test
     public void testNonValidLastWhiteSpaceCheckBoundarySyntax() {
-        final String boundary = "0aA'()+_,-./:=? ";
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(
-                StringStartsWith.startsWith("{'boundary'='" + boundary + "'} has invaid syntax. Should be '"));
-        MultipartPayload.checkBoundarySyntax(boundary);
+        testBoundary("0aA'()+_,-./:=? ");
     }
 
     @Test
     public void testNonValidEmptyCheckBoundarySyntax() {
-        final String boundary = "";
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(
-                StringStartsWith.startsWith("{'boundary'='" + boundary + "'} has invaid syntax. Should be '"));
-        MultipartPayload.checkBoundarySyntax(boundary);
+        testBoundary("");
     }
 
     @Test
     public void testNonValidIllegalSymbolCheckBoundarySyntax() {
-        final String boundary = "0aA'()+_;,-./:=? ";
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(
-                StringStartsWith.startsWith("{'boundary'='" + boundary + "'} has invaid syntax. Should be '"));
-        MultipartPayload.checkBoundarySyntax(boundary);
+        testBoundary("0aA'()+_;,-./:=? ");
     }
 
     @Test
     public void testNonValidTooLongCheckBoundarySyntax() {
-        final String boundary = "12345678901234567890123456789012345678901234567890123456789012345678901";
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(
-                StringStartsWith.startsWith("{'boundary'='" + boundary + "'} has invaid syntax. Should be '"));
-        MultipartPayload.checkBoundarySyntax(boundary);
+        testBoundary("12345678901234567890123456789012345678901234567890123456789012345678901");
     }
 
     @Test
     public void testNonValidNullCheckBoundarySyntax() {
-        final String boundary = null;
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage(
-                StringStartsWith.startsWith("{'boundary'='" + boundary + "'} has invaid syntax. Should be '"));
-        MultipartPayload.checkBoundarySyntax(boundary);
+        testBoundary(null);
     }
 
     @Test
@@ -117,5 +94,15 @@ public class MultipartPayloadTest {
         assertNull(MultipartPayload.parseBoundaryFromHeader("multipart/subtype; boundary=\"\""));
         assertNull(MultipartPayload.parseBoundaryFromHeader("multipart/subtype; boundary=;123"));
         assertNull(MultipartPayload.parseBoundaryFromHeader("multipart/subtype; boundary=\"\"123"));
+    }
+
+    private static void testBoundary(final String boundary) {
+        final IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                MultipartPayload.checkBoundarySyntax(boundary);
+            }
+        });
+        assertTrue(thrown.getMessage().startsWith("{'boundary'='" + boundary + "'} has invalid syntax. Should be '"));
     }
 }
