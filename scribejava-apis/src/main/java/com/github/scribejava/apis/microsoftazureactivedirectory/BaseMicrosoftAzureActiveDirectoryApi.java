@@ -36,6 +36,6 @@ public abstract class BaseMicrosoftAzureActiveDirectoryApi extends DefaultApi20 
     }
 
     protected String getEndpointVersionPath() {
-        return "";
+        return "/v2";
     }
 }
