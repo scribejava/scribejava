@@ -101,6 +101,15 @@ public class OAuthRequest {
     }
 
     /**
+     * Add a collection of HTTP Headers to the Request.
+     *
+     * @param headers a key-value map of HTTP headers
+     */
+    public void addHeaders(Map<String, String> headers) {
+        this.headers.putAll(headers);
+    }
+
+    /**
      * Add a body Parameter (for POST/ PUT Requests)
      *
      * @param key the parameter name

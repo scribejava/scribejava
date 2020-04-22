@@ -1,9 +1,13 @@
 package com.github.scribejava.core.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OAuthRequestTest {
 
@@ -46,5 +50,13 @@ public class OAuthRequestTest {
         assertEquals("last", request.getHeaders().get("HEADER-NAME"));
         assertEquals("last", request.getHeaders().get("header-name"));
         assertEquals("last", request.getHeaders().get("Header-Name"));
+    }
+    @Test
+    public void shouldAddMultipleHeaders() {
+        final Map<String, String> dummyHeaderMap = new HashMap<>(2);
+        dummyHeaderMap.put("key1", "value1");
+        dummyHeaderMap.put("key2", "value2");
+        request.addHeaders(dummyHeaderMap);
+        assertEquals(2L, request.getHeaders().size());
     }
 }
