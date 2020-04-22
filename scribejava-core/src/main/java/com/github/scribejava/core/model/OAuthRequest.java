@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -70,7 +71,7 @@ public class OAuthRequest {
     }
 
     public Map<String, String> getOauthParameters() {
-        return oauthParameters;
+        return Collections.unmodifiableMap(oauthParameters);
     }
 
     public void setRealm(String realm) {
@@ -391,7 +392,7 @@ public class OAuthRequest {
     }
 
     public Map<String, String> getHeaders() {
-        return headers;
+        return Collections.unmodifiableMap(headers);
     }
 
     public String getCharset() {

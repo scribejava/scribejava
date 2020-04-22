@@ -51,6 +51,17 @@ public class OAuthRequestTest {
         assertEquals("last", request.getHeaders().get("header-name"));
         assertEquals("last", request.getHeaders().get("Header-Name"));
     }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void shouldEnforceImmutableHeaders() {
+        request.getHeaders().put("dummyKey", "dummyValue");
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void shouldEnforceImmutableOauthParameters() {
+        request.getOauthParameters().put("dummyKey", "dummyValue");
+    }
+
     @Test
     public void shouldAddMultipleHeaders() {
         final Map<String, String> dummyHeaderMap = new HashMap<>(2);
