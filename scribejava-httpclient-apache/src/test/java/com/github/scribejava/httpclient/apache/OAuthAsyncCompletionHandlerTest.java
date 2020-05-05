@@ -167,6 +167,7 @@ public class OAuthAsyncCompletionHandlerTest {
 
         @Override
         public String convert(Response response) throws IOException {
+            response.close();
             return "All good";
         }
     }
@@ -175,6 +176,7 @@ public class OAuthAsyncCompletionHandlerTest {
 
         @Override
         public String convert(Response response) throws IOException {
+            response.close();
             throw new IOException("Failed to convert");
         }
     }
@@ -183,6 +185,7 @@ public class OAuthAsyncCompletionHandlerTest {
 
         @Override
         public String convert(Response response) throws IOException {
+            response.close();
             throw new OAuthException("bad oauth");
         }
     }

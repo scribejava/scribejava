@@ -38,15 +38,15 @@ class OAuthAsyncCompletionHandler<T> implements Callback {
         try {
 
             final Response response = OkHttpHttpClient.convertResponse(okHttpResponse);
-           try {
+            try {
                 @SuppressWarnings("unchecked")
                 final T t = converter == null ? (T) response : converter.convert(response);
                 okHttpFuture.setResult(t);
                 if (callback != null) {
                     callback.onCompleted(t);
                 }
-           } catch (IOException | RuntimeException e) {
-               okHttpFuture.setException(e);
+            } catch (IOException | RuntimeException e) {
+                okHttpFuture.setException(e);
                 if (callback != null) {
                     callback.onThrowable(e);
                 }

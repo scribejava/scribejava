@@ -400,6 +400,15 @@ public class OAuthRequest {
 
     public interface ResponseConverter<T> {
 
+        /**
+         * Implementations of this method should close provided Response in case response is not included in the return
+         * Object of type &lt;T&gt; Then responsibility to close response is in on the
+         * {@link com.github.scribejava.core.model.OAuthAsyncRequestCallback#onCompleted(java.lang.Object) }
+         *
+         * @param response
+         * @return T
+         * @throws IOException
+         */
         T convert(Response response) throws IOException;
     }
 
