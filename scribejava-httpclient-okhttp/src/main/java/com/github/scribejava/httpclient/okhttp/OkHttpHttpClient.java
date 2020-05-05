@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.Future;
 import com.github.scribejava.core.model.Response;
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import okhttp3.Cache;
@@ -192,8 +193,9 @@ public class OkHttpHttpClient implements HttpClient {
         }
 
         final ResponseBody body = okHttpResponse.body();
-        return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
-                body == null ? null : body.byteStream());
+        final InputStream bodyStream = body == null ? null : body.byteStream();
+        return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap, bodyStream, bodyStream, body,
+                okHttpResponse);
     }
 
 }

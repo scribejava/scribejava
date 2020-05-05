@@ -61,7 +61,9 @@ public class OAuth10aService extends OAuthService {
         return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1RequestToken>() {
             @Override
             public OAuth1RequestToken convert(Response response) throws IOException {
-                return getApi().getRequestTokenExtractor().extract(response);
+                final OAuth1RequestToken token = getApi().getRequestTokenExtractor().extract(response);
+                response.close();
+                return token;
             }
         });
     }
@@ -130,7 +132,9 @@ public class OAuth10aService extends OAuthService {
         return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth1AccessToken>() {
             @Override
             public OAuth1AccessToken convert(Response response) throws IOException {
-                return getApi().getAccessTokenExtractor().extract(response);
+                final OAuth1AccessToken token = getApi().getAccessTokenExtractor().extract(response);
+                response.close();
+                return token;
             }
         });
     }

@@ -75,7 +75,9 @@ public class OAuth20Service extends OAuthService {
                     final String body = response.getBody();
                     log("response body: %s", body);
                 }
-                return getApi().getAccessTokenExtractor().extract(response);
+                final OAuth2AccessToken token = getApi().getAccessTokenExtractor().extract(response);
+                response.close();
+                return token;
             }
         });
     }
@@ -445,6 +447,7 @@ public class OAuth20Service extends OAuthService {
             @Override
             public Void convert(Response response) throws IOException {
                 checkForErrorRevokeToken(response);
+                response.close();
                 return null;
             }
         });
