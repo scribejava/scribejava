@@ -405,9 +405,9 @@ public class OAuthRequest {
          * Object of type &lt;T&gt; Then responsibility to close response is in on the
          * {@link com.github.scribejava.core.model.OAuthAsyncRequestCallback#onCompleted(java.lang.Object) }
          *
-         * @param response
+         * @param response response
          * @return T
-         * @throws IOException
+         * @throws IOException IOException
          */
         T convert(Response response) throws IOException;
     }
