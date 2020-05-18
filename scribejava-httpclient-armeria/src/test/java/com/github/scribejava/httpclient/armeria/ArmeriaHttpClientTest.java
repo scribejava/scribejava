@@ -2,6 +2,8 @@ package com.github.scribejava.httpclient.armeria;
 
 import com.github.scribejava.core.AbstractClientTest;
 import com.github.scribejava.core.httpclient.HttpClient;
+import com.linecorp.armeria.client.ClientFactory;
+import com.linecorp.armeria.common.HttpStatus;
 import io.netty.channel.EventLoopGroup;
 import io.netty.resolver.AbstractAddressResolver;
 import io.netty.resolver.AddressResolver;
@@ -22,10 +24,12 @@ public class ArmeriaHttpClientTest extends AbstractClientTest {
     // simulate DNS resolution for a mock address ("kubernetes.docker.internal")
     final Function<? super EventLoopGroup, ? extends AddressResolverGroup<? extends InetSocketAddress>>
         addressResolverGroupFactory = eventLoopGroup -> new MockAddressResolverGroup();
-    config.setFactoryOptions(// No-Op DNS resolver to avoid resolution issues in the unit test
-        Collections.singletonMap("ADDRESS_RESOLVER_GROUP_FACTORY", addressResolverGroupFactory));
+    // No-Op DNS resolver to avoid resolution issues in the unit test
+    ClientFactory.builder().addressResolverGroupFactory(addressResolverGroupFactory);
     // enable client-side HTTP tracing
-    config.setLogging(true);
+    config.logging("HTTP_TRACE", "INFO", "INFO", "WARN");
+    // enable request retry
+    config.retry("exponential=200:10000,jitter=0.2,maxAttempts=5", HttpStatus.SERVICE_UNAVAILABLE);
     return new ArmeriaHttpClient(config);
   }
 
