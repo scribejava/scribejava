@@ -1,7 +1,8 @@
 package com.github.scribejava.httpclient.armeria;
 
+import static java.util.Objects.requireNonNull;
+
 import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
-import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
 import com.github.scribejava.core.httpclient.multipart.MultipartUtils;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
@@ -9,27 +10,18 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
-import com.linecorp.armeria.client.ClientFactory;
-import com.linecorp.armeria.client.ClientFactoryBuilder;
-import com.linecorp.armeria.client.ClientFactoryOptionValue;
-import com.linecorp.armeria.client.ClientOptions;
-import com.linecorp.armeria.client.Endpoint;
 import com.linecorp.armeria.client.WebClient;
-import com.linecorp.armeria.client.WebClientBuilder;
-import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.AggregatedHttpResponse;
 import com.linecorp.armeria.common.HttpData;
 import com.linecorp.armeria.common.HttpMethod;
 import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.common.RequestHeaders;
 import com.linecorp.armeria.common.RequestHeadersBuilder;
-import com.linecorp.armeria.common.SessionProtocol;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -38,10 +30,23 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 
+/**
+ * An implementation of {@link AbstractAsyncOnlyHttpClient} based on
+ * <a href="https://line.github.io/armeria/">Armeria HTTP client</a>.
+ */
 public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
 
-  private final ArmeriaHttpClientConfig config;
+  /**
+   * A builder of new instances of Armeria's {@link WebClient}
+   */
+  private final ArmeriaWebClientBuilder clientBuilder;
+  /**
+   * A list of cached Endpoints. It helps avoiding building a new Endpoint per each request.
+   */
   private final Map<String, WebClient> httpClients = new HashMap<>();
+  /**
+   * A read/write lock to access the list of cached Endpoints concurrently.
+   */
   private final ReentrantReadWriteLock httpClientsLock = new ReentrantReadWriteLock();
 
   public ArmeriaHttpClient() {
@@ -49,15 +54,11 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
   }
 
   public ArmeriaHttpClient(ArmeriaHttpClientConfig config) {
-    this.config = config;
-  }
-
-  public HttpClientConfig getConfig() {
-    return config;
+    this.clientBuilder = config.builder();
   }
 
   /**
-   * Cleans up HTTP clients collection.
+   * Cleans up the list of cached Endpoints.
    */
   @Override
   public void close() {
@@ -112,7 +113,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
     final String path = getServicePath(uri);
 
     // Fetch/Create WebClient instance for a given Endpoint
-    final WebClient client = getHttpClient(uri);
+    final WebClient client = getClient(uri);
 
     // Build HTTP request
     final RequestHeadersBuilder headersBuilder =
@@ -148,55 +149,19 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
   //------------------------------------------------------------------------------------------------
 
   /**
-   * Extracts Protocol + Host + Port part from a given endpoint {@link URI}
-   * @param uri an endpoint {@link URI}
-   * @return a portion of {@link URI} including a combination of Protocol + Host + Port
-   * @see #getHttpClient(URI uri)
-   */
-  private String getHostUri(final URI uri) {
-    final StringBuilder builder = new StringBuilder();
-    builder.append(uri.getScheme()).append("://").append(uri.getHost());
-    final int port = uri.getPort();
-    if (port > 0) {
-      builder.append(":").append(port);
-    }
-    return builder.toString();
-  }
-
-  /**
-   * Extracts service path from a given endpoint {@link URI}
-   * @param uri an endpoint {@link URI}
-   * @return service path portion of the {@link URI}
-   */
-  private static String getServicePath(final URI uri) {
-    final StringBuilder builder = new StringBuilder();
-    final String path = uri.getRawPath();
-    if (path != null && path.length() > 0) {
-      builder.append(path);
-    } else {
-      builder.append("/");
-    }
-    final String query = uri.getRawQuery();
-    if (query != null && query.length() > 0) {
-      builder.append("?").append(query);
-    }
-    return builder.toString();
-  }
-
-  /**
-   * Provides and instance of {@link WebClient} for a given endpoint {@link URI} based on
-   * a combination of Protocol + Host + Port.
+   * Provides an instance of {@link WebClient} for a given endpoint {@link URI} based on an endpoint
+   * as {@code scheme://authority}.
    * @param uri an endpoint {@link URI}
    * @return {@link WebClient} instance
    */
-  private WebClient getHttpClient(final URI uri) {
-    final String hostUri = getHostUri(uri);
+  private WebClient getClient(final URI uri) {
+    final String endpoint = getEndPoint(uri);
 
     WebClient client;
     final Lock readLock = httpClientsLock.readLock();
     readLock.lock();
     try {
-      client = httpClients.get(hostUri);
+      client = httpClients.get(endpoint);
     } finally {
       readLock.unlock();
     }
@@ -205,16 +170,18 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
       return client;
     }
 
-    client = buildNewHttpClient(uri);
+    client = clientBuilder.newWebClient(
+        requireNonNull(uri.getScheme(), "scheme"),
+        requireNonNull(uri.getAuthority(), "authority"));
 
     final Lock writeLock = httpClientsLock.writeLock();
     writeLock.lock();
     try {
-      if (!httpClients.containsKey(hostUri)) {
-        httpClients.put(hostUri, client);
+      if (!httpClients.containsKey(endpoint)) {
+        httpClients.put(endpoint, client);
         return client;
       } else {
-        return httpClients.get(hostUri);
+        return httpClients.get(endpoint);
       }
     } finally {
       writeLock.unlock();
@@ -222,63 +189,35 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
   }
 
   /**
-   * Builds a brand-new instance of {@link WebClient} for a given endpoint {@link URI}.
-   * Uses {@link ArmeriaHttpClientConfig} to configure the builder and the client.
-   * @param uri an endpoint {@link URI}
-   * @return Brand-new {@link WebClient} instance
+   * Extracts {@code scheme} and {@code authority} portion of the {@link URI}.
+   * Assuming the {@link URI} as the following:
+   * {@code URI = scheme:[//authority]path[?query][#fragment]}
    */
-  private WebClient buildNewHttpClient(final URI uri) {
-    // Build the client and the headers
-    WebClientBuilder clientBuilder =
-        getHttpClientBuilder(uri, config.getSessionProtocolPreference());
-
-    final ClientOptions clientOptions = config.getClientOptions();
-    if (clientOptions != null) {
-      clientBuilder.options(clientOptions);
-    }
-
-    final ClientFactoryBuilder clientFactoryBuilder = ClientFactory.builder();
-    final Collection<ClientFactoryOptionValue<?>> clientFactoryOptions = config.getClientFactoryOptions();
-    if (clientFactoryOptions != null && !clientFactoryOptions.isEmpty()) {
-      clientFactoryOptions.forEach(clientFactoryBuilder::option);
-    }
-    clientBuilder.factory(clientFactoryBuilder.build());
-
-    if (config.isLogging()) {
-      clientBuilder = clientBuilder.decorator(LoggingClient.newDecorator());
-    }
-
-    return clientBuilder.build();
+  @SuppressWarnings("StringBufferReplaceableByString")
+  private static String getEndPoint(final URI uri) {
+    final StringBuilder builder = new StringBuilder()
+        .append(requireNonNull(uri.getScheme(), "scheme"))
+        .append("://").append(requireNonNull(uri.getAuthority(), "authority"));
+    return builder.toString();
   }
 
   /**
-   * Provides an instance of {@link WebClientBuilder} for a given endpoint {@link URI}
-   * @param uri an endpoint {@link URI}
-   * @param protocolPreference an HTTP protocol generation preference; acceptable values: "h1" or "h2".
-   * @return {@link WebClientBuilder} instance to build a new {@link WebClient}
+   * Extracts {@code path}, {@code query) and {@code fragment} portion of the {@link URI}.
+   * Assuming the {@link URI} as the following:
+   * {@code URI = scheme:[//authority]path[?query][#fragment]}
    */
-  private WebClientBuilder getHttpClientBuilder(final URI uri, final SessionProtocol protocolPreference) {
-    final SessionProtocol sessionProtocol = SessionProtocol.of(uri.getScheme());
-    final String host = uri.getHost();
-    final int port = uri.getPort();
-    final Endpoint endpoint = (port > 0) ? Endpoint.of(host, port) : Endpoint.of(host);
-    switch(sessionProtocol) {
-      case HTTP:
-        if (protocolPreference == SessionProtocol.H1) {
-          // enforce HTTP/1 protocol
-          return WebClient.builder(SessionProtocol.H1C, endpoint);
-        }
-        break;
-      case HTTPS:
-        if (protocolPreference == SessionProtocol.H1) {
-          // enforce HTTP/1 protocol
-          return WebClient.builder(SessionProtocol.H1, endpoint);
-        }
-        break;
-      default:
-        break;
+  private static String getServicePath(final URI uri) {
+    final StringBuilder builder = new StringBuilder()
+        .append(requireNonNull(uri.getPath(), "path"));
+    final String query = uri.getQuery();
+    if (query != null) {
+      builder.append('?').append(query);
     }
-    return WebClient.builder(sessionProtocol, endpoint);
+    final String fragment = uri.getFragment();
+    if (fragment != null) {
+      builder.append('#').append(fragment);
+    }
+    return builder.toString();
   }
 
   /**
@@ -286,7 +225,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
    * @param httpVerb a {@link Verb} to match with {@link HttpMethod}
    * @return {@link HttpMethod} corresponding to the parameter
    */
-  private HttpMethod getHttpMethod(final Verb httpVerb) {
+  private static HttpMethod getHttpMethod(final Verb httpVerb) {
     switch (httpVerb) {
       case GET:
         return HttpMethod.GET;
