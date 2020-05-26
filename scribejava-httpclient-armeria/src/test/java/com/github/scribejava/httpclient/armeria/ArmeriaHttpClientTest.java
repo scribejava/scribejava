@@ -20,12 +20,13 @@ public class ArmeriaHttpClientTest extends AbstractClientTest {
 
   @Override
   protected HttpClient createNewClient() {
-    final ArmeriaHttpClientConfig config = ArmeriaHttpClientConfig.defaultConfig();
     // simulate DNS resolution for a mock address ("kubernetes.docker.internal")
     final Function<? super EventLoopGroup, ? extends AddressResolverGroup<? extends InetSocketAddress>>
         addressResolverGroupFactory = eventLoopGroup -> new MockAddressResolverGroup();
     // No-Op DNS resolver to avoid resolution issues in the unit test
-    ClientFactory.builder().addressResolverGroupFactory(addressResolverGroupFactory);
+    final ClientFactory clientFactory =
+        ClientFactory.builder().addressResolverGroupFactory(addressResolverGroupFactory).build();
+    final ArmeriaHttpClientConfig config = new ArmeriaHttpClientConfig(null, clientFactory);
     // enable client-side HTTP tracing
     config.logging("HTTP_TRACE", "INFO", "INFO", "WARN");
     // enable request retry
