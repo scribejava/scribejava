@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 public class DiscordExample {
 
     private static final String NETWORK_NAME = "Discord";
-    private static final String PROTECTED_RESOURCE_URL = "https://discordapp.com/api/users/@me";
+    private static final String PROTECTED_RESOURCE_URL = "https://discord.com/api/users/@me";
 
     private DiscordExample() {
     }

@@ -17,16 +17,16 @@ public class DiscordApi extends DefaultApi20 {
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "https://discordapp.com/api/oauth2/authorize";
+        return "https://discord.com/api/oauth2/authorize";
     }
 
     @Override
     public String getRevokeTokenEndpoint() {
-        return "https://discordapp.com/api/oauth2/token/revoke";
+        return "https://discord.com/api/oauth2/token/revoke";
     }
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://discordapp.com/api/oauth2/token";
+        return "https://discord.com/api/oauth2/token";
     }
 }

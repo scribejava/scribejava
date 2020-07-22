@@ -59,7 +59,7 @@ ScribeJava support out-of-box several HTTP clients:
 * Box (https://www.box.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Box20Example.java)
 * Dataporten (https://docs.dataporten.no/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DataportenExample.java)
 * Digg (http://digg.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DiggExample.java)
-* Discord (https://discordapp.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DiscordExample.java)
+* Discord (https://discord.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DiscordExample.java)
 * Доктор на работе (https://www.doktornarabote.ru/)
 * Dropbox (https://www.dropbox.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/DropboxExample.java)
 * Etsy (https://www.etsy.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/EtsyExample.java)
