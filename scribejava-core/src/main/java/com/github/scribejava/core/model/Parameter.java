@@ -16,6 +16,10 @@ public class Parameter implements Comparable<Parameter> {
         return OAuthEncoder.encode(key).concat("=").concat(OAuthEncoder.encode(value));
     }
 
+    public String asPair() {
+        return key + '=' + value;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {

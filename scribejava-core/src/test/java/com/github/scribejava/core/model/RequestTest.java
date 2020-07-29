@@ -29,8 +29,7 @@ public class RequestTest {
 
     @Test
     public void shouldSetBodyParamsAndAddContentLength() {
-        assertEquals("param=value&param%20with%20spaces=value%20with%20spaces",
-                new String(postRequest.getByteArrayPayload()));
+        assertEquals("param=value&param with spaces=value with spaces", new String(postRequest.getByteArrayPayload()));
     }
 
     @Test

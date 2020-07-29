@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * Add Polar API (https://www.polar.com/) (thanks to https://github.com/vidi42)
  * make Response accept resources to autoclose and autoclose it (thanks to https://github.com/drei01)
+ * fix url encoding in POST payload, it wasn't needed (thanks to https://github.com/max904-github)
 
 [6.9.0]
  * Add Xero API (https://www.xero.com/) (thanks to https://github.com/SidneyAllen)
