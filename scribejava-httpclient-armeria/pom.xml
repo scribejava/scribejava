@@ -9,6 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-httpclient-armeria</artifactId>
     <name>ScribeJava Async Armeria Client support</name>
     <packaging>jar</packaging>
@@ -22,13 +23,7 @@
         <dependency>
             <groupId>com.linecorp.armeria</groupId>
             <artifactId>armeria</artifactId>
-            <version>0.99.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.scribejava</groupId>
-            <artifactId>scribejava-apis</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
+            <version>0.99.8</version>
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
@@ -37,25 +32,10 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.30</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <release>8</release>
-                    <showDeprecation>true</showDeprecation>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -66,4 +46,8 @@
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <java.release>8</java.release>
+    </properties>
 </project>

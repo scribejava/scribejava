@@ -5,16 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MultipartPayload extends BodyPartPayload {
-    private static final String B_CHARS_NO_SPACE_PATTERN = "0-9a-zA-Z'()+_,-./:=?";
-    private static final String B_CHARS_PATTERN = B_CHARS_NO_SPACE_PATTERN + " ";
-    private static final String BOUNDARY_PATTERN = '[' + B_CHARS_PATTERN + "]{0,69}[" + B_CHARS_NO_SPACE_PATTERN + ']';
-    private static final Pattern BOUNDARY_REGEXP = Pattern.compile(BOUNDARY_PATTERN);
-    private static final Pattern BOUNDARY_FROM_HEADER_REGEXP
-            = Pattern.compile("; boundary=\"?(" + BOUNDARY_PATTERN + ")\"?");
 
     private static final String DEFAULT_SUBTYPE = "form-data";
 
@@ -24,7 +16,7 @@ public class MultipartPayload extends BodyPartPayload {
     private String epilogue;
 
     public MultipartPayload() {
-        this(null, generateDefaultBoundary(), null);
+        this(null, MultipartUtils.generateDefaultBoundary(), null);
     }
 
     public MultipartPayload(String boundary) {
@@ -50,7 +42,7 @@ public class MultipartPayload extends BodyPartPayload {
 
     private static Map<String, String> composeHeaders(String subtype, String boundary, Map<String, String> headersIn)
             throws IllegalArgumentException {
-        checkBoundarySyntax(boundary);
+        MultipartUtils.checkBoundarySyntax(boundary);
         final Map<String, String> headersOut;
         String contentTypeHeader = headersIn == null ? null : headersIn.get(HttpClient.CONTENT_TYPE);
         if (contentTypeHeader == null) {
@@ -64,7 +56,7 @@ public class MultipartPayload extends BodyPartPayload {
             }
         } else {
             headersOut = headersIn;
-            final String parsedBoundary = parseBoundaryFromHeader(contentTypeHeader);
+            final String parsedBoundary = MultipartUtils.parseBoundaryFromHeader(contentTypeHeader);
             if (parsedBoundary == null) {
                 headersOut.put(HttpClient.CONTENT_TYPE, contentTypeHeader + "; boundary=\"" + boundary + '"');
             } else if (!parsedBoundary.equals(boundary)) {
@@ -75,28 +67,32 @@ public class MultipartPayload extends BodyPartPayload {
         return headersOut;
     }
 
+    /**
+     *
+     * @param boundary boundary
+     * @deprecated use
+     * {@link com.github.scribejava.core.httpclient.multipart.MultipartUtils#checkBoundarySyntax(java.lang.String)}
+     */
+    @Deprecated
     static void checkBoundarySyntax(String boundary) {
-        if (boundary == null || !BOUNDARY_REGEXP.matcher(boundary).matches()) {
-            throw new IllegalArgumentException("{'boundary'='" + boundary + "'} has invalid syntax. Should be '"
-                    + BOUNDARY_PATTERN + "'.");
-        }
+        MultipartUtils.checkBoundarySyntax(boundary);
     }
 
     private static String parseOrGenerateBoundary(Map<String, String> headers) {
-        final String parsedBoundary = parseBoundaryFromHeader(headers.get(HttpClient.CONTENT_TYPE));
-        return parsedBoundary == null ? generateDefaultBoundary() : parsedBoundary;
+        final String parsedBoundary = MultipartUtils.parseBoundaryFromHeader(headers.get(HttpClient.CONTENT_TYPE));
+        return parsedBoundary == null ? MultipartUtils.generateDefaultBoundary() : parsedBoundary;
     }
 
-    private static String generateDefaultBoundary() {
-        return "----ScribeJava----" + System.currentTimeMillis();
-    }
-
+    /**
+     *
+     * @param contentTypeHeader contentTypeHeader
+     * @return String
+     * @deprecated use
+     * {@link com.github.scribejava.core.httpclient.multipart.MultipartUtils#parseBoundaryFromHeader(java.lang.String)}
+     */
+    @Deprecated
     static String parseBoundaryFromHeader(String contentTypeHeader) {
-        if (contentTypeHeader == null) {
-            return null;
-        }
-        final Matcher matcher = BOUNDARY_FROM_HEADER_REGEXP.matcher(contentTypeHeader);
-        return matcher.find() ? matcher.group(1) : null;
+        return MultipartUtils.parseBoundaryFromHeader(contentTypeHeader);
     }
 
     public void addFileBodyPart(byte[] fileContent) {

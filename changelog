@@ -2,7 +2,8 @@
  * Add Polar API (https://www.polar.com/) (thanks to https://github.com/vidi42)
  * make Response accept resources to autoclose and autoclose it (thanks to https://github.com/drei01)
  * fix url encoding in POST payload (it's needed for 'application/x-www-form-urlencoded' Content-Type)
-     + unit tests (thanks to https://github.com/max904-github) 
+     + unit tests (thanks to https://github.com/max904-github)
+ * Add Armeria HTTP client (thanks to https://github.com/max904-github)
 
 [6.9.0]
  * Add Xero API (https://www.xero.com/) (thanks to https://github.com/SidneyAllen)

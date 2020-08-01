@@ -146,6 +146,9 @@
                     <encoding>UTF-8</encoding>
                     <release>${java.release}</release>
                     <showDeprecation>true</showDeprecation>
+                    <compilerArgs>
+                        <arg>-Xlint:-options</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

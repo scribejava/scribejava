@@ -15,11 +15,14 @@ import com.linecorp.armeria.common.AggregatedHttpResponse;
 import com.linecorp.armeria.common.HttpData;
 import com.linecorp.armeria.common.HttpMethod;
 import com.linecorp.armeria.common.HttpResponse;
+import com.linecorp.armeria.common.HttpStatus;
+import com.linecorp.armeria.common.MediaType;
 import com.linecorp.armeria.common.RequestHeaders;
 import com.linecorp.armeria.common.RequestHeadersBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -54,7 +57,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
     }
 
     public ArmeriaHttpClient(ArmeriaHttpClientConfig config) {
-        this.clientBuilder = config.builder();
+        clientBuilder = config.createClientBuilder();
     }
 
     /**
@@ -72,41 +75,36 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
     }
 
     @Override
-    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
-            String completeUrl, byte[] bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequest.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
-                new BytesBody(bodyContents), callback, converter);
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new BytesBody(bodyContents), callback,
+                converter);
     }
 
     @Override
-    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
-            String completeUrl, MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequest.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
-                new MultipartBody(bodyContents), callback, converter);
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new MultipartBody(bodyContents), callback,
+                converter);
     }
 
     @Override
-    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
-            String completeUrl, String bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequest.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
-                new StringBody(bodyContents), callback, converter);
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new StringBody(bodyContents), callback,
+                converter);
     }
 
     @Override
-    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
-            String completeUrl, File bodyContents, OAuthAsyncRequestCallback<T> callback,
-            OAuthRequest.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl,
-                new FileBody(bodyContents), callback, converter);
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new FileBody(bodyContents), callback,
+                converter);
     }
 
-    private <T> CompletableFuture<T> doExecuteAsync(String userAgent,
-            Map<String, String> headers, Verb httpVerb,
-            String completeUrl, Supplier<HttpData> contentSupplier,
-            OAuthAsyncRequestCallback<T> callback,
+    private <T> CompletableFuture<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
+            String completeUrl, Supplier<HttpData> contentSupplier, OAuthAsyncRequestCallback<T> callback,
             OAuthRequest.ResponseConverter<T> converter) {
         // Get the URI and Path
         final URI uri = URI.create(completeUrl);
@@ -116,8 +114,8 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
         final WebClient client = getClient(uri);
 
         // Build HTTP request
-        final RequestHeadersBuilder headersBuilder
-                = RequestHeaders.of(getHttpMethod(httpVerb), path).toBuilder();
+        final RequestHeadersBuilder headersBuilder = RequestHeaders.of(getHttpMethod(httpVerb), path).toBuilder();
+
         headersBuilder.add(headers.entrySet());
         if (userAgent != null) {
             headersBuilder.add(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
@@ -128,9 +126,13 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
         if (httpVerb.isPermitBody()) { // POST, PUT, PATCH and DELETE methods
             final HttpData contents = contentSupplier.get();
             if (httpVerb.isRequiresBody() && contents == null) { // POST or PUT methods
-                throw new IllegalArgumentException(
-                        "Contents missing for request method " + httpVerb.name());
+                throw new IllegalArgumentException("Contents missing for request method " + httpVerb.name());
             }
+
+            if (headersBuilder.contentType() == null) {
+                headersBuilder.contentType(MediaType.FORM_DATA);
+            }
+
             if (contents != null) {
                 response = client.execute(headersBuilder.build(), contents);
             } else {
@@ -142,11 +144,10 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
 
         // Aggregate HTTP response (asynchronously) and return the result Future
         return response.aggregate()
-                .thenApply(r -> whenResponseComplete(callback, converter, r))
-                .exceptionally(e -> completeExceptionally(callback, e));
+                .thenApply(aggregatedResponse -> whenResponseComplete(callback, converter, aggregatedResponse))
+                .exceptionally(throwable -> completeExceptionally(callback, throwable));
     }
 
-    //------------------------------------------------------------------------------------------------
     /**
      * Provides an instance of {@link WebClient} for a given endpoint {@link URI} based on an endpoint as
      * {@code scheme://authority}.
@@ -154,7 +155,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
      * @param uri an endpoint {@link URI}
      * @return {@link WebClient} instance
      */
-    private WebClient getClient(final URI uri) {
+    private WebClient getClient(URI uri) {
         final String endpoint = getEndPoint(uri);
 
         WebClient client;
@@ -189,23 +190,20 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
     }
 
     /**
-     * Extracts {@code scheme} and {@code authority} portion of the {@link URI}. Assuming the {@link URI} as the
-     * following: {@code URI = scheme:[//authority]path[?query][#fragment]}
+     * Extracts {@code scheme} and {@code authority} portion of the {@link URI}.
+     *
+     * Assuming the {@link URI} as the following: {@code URI = scheme:[//authority]path[?query][#fragment]}
      */
-    @SuppressWarnings("StringBufferReplaceableByString")
-    private static String getEndPoint(final URI uri) {
-        final StringBuilder builder = new StringBuilder()
-                .append(requireNonNull(uri.getScheme(), "scheme"))
-                .append("://").append(requireNonNull(uri.getAuthority(), "authority"));
-        return builder.toString();
+    private static String getEndPoint(URI uri) {
+        return requireNonNull(uri.getScheme(), "scheme") + "://" + requireNonNull(uri.getAuthority(), "authority");
     }
 
     /**
-     * Extracts {@code path}, {@code query) and {@code fragment} portion of the {@link URI}.
-     * Assuming the {@link URI} as the following:
-     * {@code URI = scheme:[//authority]path[?query][#fragment]}
+     * Extracts {@code path}, {@code query} and {@code fragment} portion of the {@link URI}.
+     *
+     * Assuming the {@link URI} as the following: {@code URI = scheme:[//authority]path[?query][#fragment]}
      */
-    private static String getServicePath(final URI uri) {
+    private static String getServicePath(URI uri) {
         final StringBuilder builder = new StringBuilder()
                 .append(requireNonNull(uri.getPath(), "path"));
         final String query = uri.getQuery();
@@ -225,7 +223,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
      * @param httpVerb a {@link Verb} to match with {@link HttpMethod}
      * @return {@link HttpMethod} corresponding to the parameter
      */
-    private static HttpMethod getHttpMethod(final Verb httpVerb) {
+    private static HttpMethod getHttpMethod(Verb httpVerb) {
         switch (httpVerb) {
             case GET:
                 return HttpMethod.GET;
@@ -249,7 +247,6 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
         }
     }
 
-    //------------------------------------------------------------------------------------------------
     // Response asynchronous handlers
     /**
      * Converts {@link AggregatedHttpResponse} to {@link Response}
@@ -257,13 +254,14 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
      * @param aggregatedResponse an instance of {@link AggregatedHttpResponse} to convert to {@link Response}
      * @return a {@link Response} converted from {@link AggregatedHttpResponse}
      */
-    private Response convertResponse(final AggregatedHttpResponse aggregatedResponse) {
-        final Map<String, String> headersMap = new HashMap<>(aggregatedResponse.headers().size());
-        aggregatedResponse.headers()
-                .forEach((header, value) -> headersMap.put(header.toString(), value));
-        return new Response(aggregatedResponse.status().code(),
-                aggregatedResponse.status().reasonPhrase(),
-                headersMap, aggregatedResponse.content().toInputStream());
+    private Response convertResponse(AggregatedHttpResponse aggregatedResponse) {
+        final Map<String, String> headersMap = new HashMap<>();
+        aggregatedResponse.headers().forEach((header, value) -> headersMap.put(header.toString(), value));
+
+        final HttpStatus status = aggregatedResponse.status();
+        final InputStream inputStream = aggregatedResponse.content().toInputStream();
+
+        return new Response(status.code(), status.reasonPhrase(), headersMap, inputStream, inputStream);
     }
 
     /**
@@ -281,8 +279,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
         final Response response = convertResponse(aggregatedResponse);
         try {
             @SuppressWarnings("unchecked")
-            final T t
-                    = converter == null ? (T) response : converter.convert(response);
+            final T t = converter == null ? (T) response : converter.convert(response);
             if (callback != null) {
                 callback.onCompleted(t);
             }
@@ -307,13 +304,12 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
         return null;
     }
 
-    //------------------------------------------------------------------------------------------------
     // Body type suppliers
     private static class BytesBody implements Supplier<HttpData> {
 
         private final byte[] bodyContents;
 
-        BytesBody(final byte[] bodyContents) {
+        BytesBody(byte[] bodyContents) {
             this.bodyContents = bodyContents;
         }
 
@@ -327,7 +323,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
 
         private final String bodyContents;
 
-        StringBody(final String bodyContents) {
+        StringBody(String bodyContents) {
             this.bodyContents = bodyContents;
         }
 
@@ -341,7 +337,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
 
         private final File bodyContents;
 
-        FileBody(final File bodyContents) {
+        FileBody(File bodyContents) {
             this.bodyContents = bodyContents;
         }
 
@@ -351,8 +347,8 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
                 return (bodyContents != null)
                         ? HttpData.wrap(Files.readAllBytes(bodyContents.toPath()))
                         : null;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (IOException ioE) {
+                throw new RuntimeException(ioE);
             }
         }
     }
@@ -361,7 +357,7 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
 
         private final MultipartPayload bodyContents;
 
-        MultipartBody(final MultipartPayload bodyContents) {
+        MultipartBody(MultipartPayload bodyContents) {
             this.bodyContents = bodyContents;
         }
 
@@ -371,11 +367,9 @@ public class ArmeriaHttpClient extends AbstractAsyncOnlyHttpClient {
                 return (bodyContents != null)
                         ? HttpData.wrap(MultipartUtils.getPayload(bodyContents).toByteArray())
                         : null;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } catch (IOException ioE) {
+                throw new RuntimeException(ioE);
             }
         }
     }
-
-    //------------------------------------------------------------------------------------------------
 }

@@ -1,10 +1,9 @@
 package com.github.scribejava.core.httpclient.jdk;
 
 import com.github.scribejava.core.exceptions.OAuthException;
-import com.github.scribejava.core.httpclient.multipart.BodyPartPayload;
 import com.github.scribejava.core.httpclient.HttpClient;
-import com.github.scribejava.core.httpclient.multipart.ByteArrayBodyPartPayload;
 import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
+import com.github.scribejava.core.httpclient.multipart.MultipartUtils;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -207,7 +206,7 @@ public class JDKHttpClient implements HttpClient {
         }
 
         if (requiresBody) {
-            final ByteArrayOutputStream os = getPayload(multipartPayload);
+            final ByteArrayOutputStream os = MultipartUtils.getPayload(multipartPayload);
             final int contentLength = os.size();
             final OutputStream outputStream = prepareConnectionForBodyAndGetOutputStream(connection, contentLength);
             if (contentLength > 0) {
@@ -216,46 +215,16 @@ public class JDKHttpClient implements HttpClient {
         }
     }
 
+    /**
+     * @param multipartPayload multipartPayload
+     * @return ByteArrayOutputStream
+     * @throws IOException
+     * @deprecated use {@link com.github.scribejava.core.httpclient.multipart.MultipartUtils#getPayload(
+     * com.github.scribejava.core.httpclient.multipart.MultipartPayload) }
+     */
+    @Deprecated
     static ByteArrayOutputStream getPayload(MultipartPayload multipartPayload) throws IOException {
-        final ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-        final String preamble = multipartPayload.getPreamble();
-        if (preamble != null) {
-            os.write(preamble.getBytes());
-        }
-        final List<BodyPartPayload> bodyParts = multipartPayload.getBodyParts();
-        if (!bodyParts.isEmpty()) {
-            final String boundary = multipartPayload.getBoundary();
-            final byte[] startBoundary = ("\r\n--" + boundary + "\r\n").getBytes();
-
-            for (BodyPartPayload bodyPart : bodyParts) {
-                os.write(startBoundary);
-
-                final Map<String, String> bodyPartHeaders = bodyPart.getHeaders();
-                if (bodyPartHeaders != null) {
-                    for (Map.Entry<String, String> header : bodyPartHeaders.entrySet()) {
-                        os.write((header.getKey() + ": " + header.getValue() + "\r\n").getBytes());
-                    }
-                }
-
-                if (bodyPart instanceof MultipartPayload) {
-                    getPayload((MultipartPayload) bodyPart).writeTo(os);
-                } else if (bodyPart instanceof ByteArrayBodyPartPayload) {
-                    os.write("\r\n".getBytes());
-                    os.write(((ByteArrayBodyPartPayload) bodyPart).getPayload());
-                } else {
-                    throw new AssertionError(bodyPart.getClass());
-                }
-            }
-
-            os.write(("\r\n--" + boundary + "--\r\n").getBytes());
-            final String epilogue = multipartPayload.getEpilogue();
-            if (epilogue != null) {
-                os.write((epilogue + "\r\n").getBytes());
-            }
-
-        }
-        return os;
+        return MultipartUtils.getPayload(multipartPayload);
     }
 
     private static OutputStream prepareConnectionForBodyAndGetOutputStream(HttpURLConnection connection,
