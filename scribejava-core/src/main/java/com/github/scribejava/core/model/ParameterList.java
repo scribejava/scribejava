@@ -65,18 +65,6 @@ public class ParameterList {
         return builder.substring(1);
     }
 
-    public String asString() {
-        if (params.isEmpty()) {
-            return EMPTY_STRING;
-        }
-
-        final StringBuilder builder = new StringBuilder();
-        for (Parameter p : params) {
-            builder.append(PARAM_SEPARATOR).append(p.asPair());
-        }
-        return builder.substring(1);
-    }
-
     public void addAll(ParameterList other) {
         params.addAll(other.getParams());
     }

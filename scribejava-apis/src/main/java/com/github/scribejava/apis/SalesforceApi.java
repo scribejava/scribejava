@@ -17,10 +17,9 @@ import javax.net.ssl.SSLSocket;
 
 /**
  * This class is an implementation of the Salesforce OAuth2 API.
- * The default implementation connects to the Salesforce
- * production environment.
- * If you want to connect to a Sandbox environment you've to use {@link #sandbox()} method to
- * get sandbox instance of this API
+ *
+ * The default implementation connects to the Salesforce production environment. If you want to connect to a Sandbox
+ * environment you've to use {@link #sandbox()} method to get sandbox instance of this API
  */
 public class SalesforceApi extends DefaultApi20 {
 
@@ -52,6 +51,7 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final SalesforceApi INSTANCE = new SalesforceApi(PRODUCTION_HOST);
     }
 

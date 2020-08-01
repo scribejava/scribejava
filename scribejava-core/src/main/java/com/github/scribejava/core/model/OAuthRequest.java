@@ -360,7 +360,7 @@ public class OAuthRequest {
         if (byteArrayPayload != null) {
             return byteArrayPayload;
         }
-        final String body = bodyParams.asString();
+        final String body = bodyParams.asFormUrlEncodedString();
         try {
             return body.getBytes(getCharset());
         } catch (UnsupportedEncodingException uee) {

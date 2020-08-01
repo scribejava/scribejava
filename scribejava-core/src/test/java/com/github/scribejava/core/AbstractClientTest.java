@@ -19,6 +19,8 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
 
 public abstract class AbstractClientTest {
 
@@ -78,6 +80,24 @@ public abstract class AbstractClientTest {
     }
 
     @Test
+    public void shouldSendPostWithApplicationXWwwFormUrlencodedRequestContentTypeHeader() throws Exception {
+        final MockWebServer server = new MockWebServer();
+        server.enqueue(new MockResponse());
+        server.start();
+
+        final HttpUrl baseUrl = server.url("/testUrl");
+
+        final OAuthRequest request = new OAuthRequest(Verb.POST, baseUrl.toString());
+        oAuthService.execute(request, null).get(30, TimeUnit.SECONDS).close();
+
+        final RecordedRequest recordedRequest = server.takeRequest();
+        assertEquals("POST", recordedRequest.getMethod());
+        assertEquals(HttpClient.DEFAULT_CONTENT_TYPE, recordedRequest.getHeader(HttpClient.CONTENT_TYPE));
+
+        server.shutdown();
+    }
+
+    @Test
     public void shouldSendPostRequestWithEmptyBody() throws Exception {
         final String expectedResponseBody = "response body for test shouldSendPostRequest";
         final String expectedRequestBody = "";
@@ -96,6 +116,7 @@ public abstract class AbstractClientTest {
         final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("POST", recordedRequest.getMethod());
         assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
+        assertEquals(HttpClient.DEFAULT_CONTENT_TYPE, recordedRequest.getHeader(HttpClient.CONTENT_TYPE));
 
         server.shutdown();
     }
@@ -120,30 +141,9 @@ public abstract class AbstractClientTest {
         final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("POST", recordedRequest.getMethod());
         assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
-
-        server.shutdown();
-    }
-
-    @Test
-    public void shouldSendPostRequestWithStringBodyWithSpecialChars() throws Exception {
-        final String expectedResponseBody = "response body for test shouldSendPostRequest";
-        final String expectedRequestBody = "~/!@#$%^&*()_+//\r\n%2F&amp;";
-
-        final MockWebServer server = new MockWebServer();
-        server.enqueue(new MockResponse().setBody(expectedResponseBody));
-        server.start();
-
-        final HttpUrl baseUrl = server.url("/testUrl");
-
-        final OAuthRequest request = new OAuthRequest(Verb.POST, baseUrl.toString());
-        request.setPayload(expectedRequestBody);
-        try (Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS)) {
-            assertEquals(expectedResponseBody, response.getBody());
-        }
-
-        final RecordedRequest recordedRequest = server.takeRequest();
-        assertEquals("POST", recordedRequest.getMethod());
-        assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
+        final String contentTypeHeader = recordedRequest.getHeader(HttpClient.CONTENT_TYPE);
+        assertNotNull(contentTypeHeader);
+        assertTrue(contentTypeHeader.startsWith(HttpClient.DEFAULT_CONTENT_TYPE));
 
         server.shutdown();
     }
@@ -168,30 +168,7 @@ public abstract class AbstractClientTest {
         final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("POST", recordedRequest.getMethod());
         assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
-
-        server.shutdown();
-    }
-
-    @Test
-    public void shouldSendPostRequestWithByteBodyWithSpecialChars() throws Exception {
-        final String expectedResponseBody = "response body for test shouldSendPostRequest";
-        final String expectedRequestBody = "~/!@#$%^&*()_+//\r\n%2F&amp;";
-
-        final MockWebServer server = new MockWebServer();
-        server.enqueue(new MockResponse().setBody(expectedResponseBody));
-        server.start();
-
-        final HttpUrl baseUrl = server.url("/testUrl");
-
-        final OAuthRequest request = new OAuthRequest(Verb.POST, baseUrl.toString());
-        request.setPayload(expectedRequestBody.getBytes());
-        try (Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS)) {
-            assertEquals(expectedResponseBody, response.getBody());
-        }
-
-        final RecordedRequest recordedRequest = server.takeRequest();
-        assertEquals("POST", recordedRequest.getMethod());
-        assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
+        assertEquals(HttpClient.DEFAULT_CONTENT_TYPE, recordedRequest.getHeader(HttpClient.CONTENT_TYPE));
 
         server.shutdown();
     }
@@ -199,8 +176,8 @@ public abstract class AbstractClientTest {
     @Test
     public void shouldSendPostRequestWithBodyParamsBody() throws Exception {
         final String expectedResponseBody = "response body for test shouldSendPostRequest";
-        final String expectedRequestBodyParamName = "request body param name";
-        final String expectedRequestBodyParamValue = "request body param value";
+        final String expectedRequestBodyParamName = "request_body_param_name";
+        final String expectedRequestBodyParamValue = "request_body_param_value";
         final String expectedRequestBody = expectedRequestBodyParamName + '=' + expectedRequestBodyParamValue;
 
         final MockWebServer server = new MockWebServer();
@@ -218,32 +195,7 @@ public abstract class AbstractClientTest {
         final RecordedRequest recordedRequest = server.takeRequest();
         assertEquals("POST", recordedRequest.getMethod());
         assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
-
-        server.shutdown();
-    }
-
-    @Test
-    public void shouldSendPostRequestWithBodyParamsBodyWithSpecialChars() throws Exception {
-        final String expectedResponseBody = "response body for test shouldSendPostRequest";
-        final String expectedRequestBodyParamName = "~/!@#$%^&*()_+//\r\n%2F&amp;name";
-        final String expectedRequestBodyParamValue = "~/!@#$%^&*()_+//\r\n%2F&amp;value";
-        final String expectedRequestBody = expectedRequestBodyParamName + '=' + expectedRequestBodyParamValue;
-
-        final MockWebServer server = new MockWebServer();
-        server.enqueue(new MockResponse().setBody(expectedResponseBody));
-        server.start();
-
-        final HttpUrl baseUrl = server.url("/testUrl");
-
-        final OAuthRequest request = new OAuthRequest(Verb.POST, baseUrl.toString());
-        request.addBodyParameter(expectedRequestBodyParamName, expectedRequestBodyParamValue);
-        try (Response response = oAuthService.execute(request, null).get(30, TimeUnit.SECONDS)) {
-            assertEquals(expectedResponseBody, response.getBody());
-        }
-
-        final RecordedRequest recordedRequest = server.takeRequest();
-        assertEquals("POST", recordedRequest.getMethod());
-        assertEquals(expectedRequestBody, recordedRequest.getBody().readUtf8());
+        assertEquals(HttpClient.DEFAULT_CONTENT_TYPE, recordedRequest.getHeader(HttpClient.CONTENT_TYPE));
 
         server.shutdown();
     }
