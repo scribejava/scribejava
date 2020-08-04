@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[7.0.0]
  * Add Polar API (https://www.polar.com/) (thanks to https://github.com/vidi42)
  * make Response accept resources to autoclose and autoclose it (thanks to https://github.com/drei01)
  * fix url encoding in POST payload (it's needed for 'application/x-www-form-urlencoded' Content-Type)
