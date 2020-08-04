@@ -67,32 +67,9 @@ public class MultipartPayload extends BodyPartPayload {
         return headersOut;
     }
 
-    /**
-     *
-     * @param boundary boundary
-     * @deprecated use
-     * {@link com.github.scribejava.core.httpclient.multipart.MultipartUtils#checkBoundarySyntax(java.lang.String)}
-     */
-    @Deprecated
-    static void checkBoundarySyntax(String boundary) {
-        MultipartUtils.checkBoundarySyntax(boundary);
-    }
-
     private static String parseOrGenerateBoundary(Map<String, String> headers) {
         final String parsedBoundary = MultipartUtils.parseBoundaryFromHeader(headers.get(HttpClient.CONTENT_TYPE));
         return parsedBoundary == null ? MultipartUtils.generateDefaultBoundary() : parsedBoundary;
-    }
-
-    /**
-     *
-     * @param contentTypeHeader contentTypeHeader
-     * @return String
-     * @deprecated use
-     * {@link com.github.scribejava.core.httpclient.multipart.MultipartUtils#parseBoundaryFromHeader(java.lang.String)}
-     */
-    @Deprecated
-    static String parseBoundaryFromHeader(String contentTypeHeader) {
-        return MultipartUtils.parseBoundaryFromHeader(contentTypeHeader);
     }
 
     public void addFileBodyPart(byte[] fileContent) {

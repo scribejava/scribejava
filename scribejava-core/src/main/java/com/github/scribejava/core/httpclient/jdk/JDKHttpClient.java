@@ -215,18 +215,6 @@ public class JDKHttpClient implements HttpClient {
         }
     }
 
-    /**
-     * @param multipartPayload multipartPayload
-     * @return ByteArrayOutputStream
-     * @throws IOException
-     * @deprecated use {@link com.github.scribejava.core.httpclient.multipart.MultipartUtils#getPayload(
-     * com.github.scribejava.core.httpclient.multipart.MultipartPayload) }
-     */
-    @Deprecated
-    static ByteArrayOutputStream getPayload(MultipartPayload multipartPayload) throws IOException {
-        return MultipartUtils.getPayload(multipartPayload);
-    }
-
     private static OutputStream prepareConnectionForBodyAndGetOutputStream(HttpURLConnection connection,
             int contentLength) throws IOException {
 
