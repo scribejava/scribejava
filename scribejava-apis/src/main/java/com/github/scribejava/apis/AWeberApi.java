@@ -12,6 +12,7 @@ public class AWeberApi extends DefaultApi10a {
     }
 
     private static class InstanceHolder {
+
         private static final AWeberApi INSTANCE = new AWeberApi();
     }
 

@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class PolarOAuth2AccessToken extends OAuth2AccessToken {
 
+    private static final long serialVersionUID = 1L;
+
     private final String userId;
 
     public PolarOAuth2AccessToken(String accessToken, String tokenType, Integer expiresIn, String refreshToken,

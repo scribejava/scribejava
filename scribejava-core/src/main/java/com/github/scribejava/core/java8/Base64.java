@@ -448,6 +448,7 @@ public class Base64 {
          *
          */
         private static final int[] FROM_BASE_64 = new int[256];
+
         static {
             Arrays.fill(FROM_BASE_64, -1);
             for (int i = 0; i < Encoder.TO_BASE_64.length; i++) {
@@ -460,6 +461,7 @@ public class Base64 {
          * Lookup table for decoding "URL and Filename safe Base64 Alphabet" as specified in Table2 of the RFC 4648.
          */
         private static final int[] FROM_BASE_64_URL = new int[256];
+
         static {
             Arrays.fill(FROM_BASE_64_URL, -1);
             for (int i = 0; i < Encoder.TO_BASE_64_URL.length; i++) {

@@ -23,6 +23,7 @@ public class EtsyApi extends DefaultApi10a {
     }
 
     private static class InstanceHolder {
+
         private static final EtsyApi INSTANCE = new EtsyApi();
     }
 
