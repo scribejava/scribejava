@@ -87,7 +87,7 @@ public class OAuthAsyncCompletionHandlerTest {
         assertEquals("All good", future.get());
     }
 
-    @Test
+    @Test(expected = ExecutionException.class)
     public void shouldReleaseLatchOnIOException() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
@@ -105,15 +105,10 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        future.get();
     }
 
-    @Test
+    @Test(expected = ExecutionException.class)
     public void shouldReportOAuthException() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
@@ -131,15 +126,10 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof OAuthException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        future.get();
     }
 
-    @Test
+    @Test(expected = ExecutionException.class)
     public void shouldReleaseLatchOnCancel() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
@@ -149,15 +139,10 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        future.get();
     }
 
-    @Test
+    @Test(expected = ExecutionException.class)
     public void shouldReleaseLatchOnFailure() throws Exception {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
@@ -167,12 +152,7 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        future.get();
     }
 
     private static class AllGoodResponseConverter implements OAuthRequest.ResponseConverter<String> {
