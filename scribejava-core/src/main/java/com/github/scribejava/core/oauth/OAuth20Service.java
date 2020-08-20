@@ -330,6 +330,8 @@ public class OAuth20Service extends OAuthService {
         }
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.CLIENT_CREDENTIALS);
 
+        request.addParameter("resource", "https://graph.microsoft.com"); // necessary for correct audience claim
+        
         if (isDebug()) {
             log("created access token client credentials grant request with body params [%s], query string params [%s]",
                     request.getBodyParams().asFormUrlEncodedString(),

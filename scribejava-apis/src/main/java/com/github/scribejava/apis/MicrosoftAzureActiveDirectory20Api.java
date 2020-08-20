@@ -43,6 +43,7 @@ public class MicrosoftAzureActiveDirectory20Api extends BaseMicrosoftAzureActive
 
     @Override
     protected String getEndpointVersionPath() {
-        return "/v2.0";
+        return "";
     }
+    
 }

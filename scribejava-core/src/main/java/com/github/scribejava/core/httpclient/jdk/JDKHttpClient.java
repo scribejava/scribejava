@@ -189,6 +189,7 @@ public class JDKHttpClient implements HttpClient {
     }
 
     private static void addBody(HttpURLConnection connection, byte[] content, boolean requiresBody) throws IOException {
+    	if (!requiresBody && content==null) return;
         final int contentLength = content.length;
         if (requiresBody || contentLength > 0) {
             final OutputStream outputStream = prepareConnectionForBodyAndGetOutputStream(connection, contentLength);
