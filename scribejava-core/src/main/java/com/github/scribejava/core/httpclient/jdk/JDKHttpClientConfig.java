@@ -1,5 +1,7 @@
 package com.github.scribejava.core.httpclient.jdk;
 
+import java.net.Proxy;
+
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 
 public class JDKHttpClientConfig implements HttpClientConfig {
@@ -7,6 +9,7 @@ public class JDKHttpClientConfig implements HttpClientConfig {
     private Integer connectTimeout;
     private Integer readTimeout;
     private boolean followRedirects = true;
+    private Proxy proxy;
 
     @Override
     public JDKHttpClientConfig createDefaultConfig() {
@@ -35,6 +38,14 @@ public class JDKHttpClientConfig implements HttpClientConfig {
 
     public boolean isFollowRedirects() {
         return followRedirects;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public Proxy getProxy() {
+        return proxy;
     }
 
     /**
