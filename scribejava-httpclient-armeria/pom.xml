@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.linecorp.armeria</groupId>
             <artifactId>armeria</artifactId>
-            <version>0.99.9</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
