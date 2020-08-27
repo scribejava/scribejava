@@ -20,6 +20,11 @@ public class NingHttpClientConfig implements HttpClientConfig {
         this.ningAsyncHttpProviderClassName = ningAsyncHttpProviderClassName;
     }
 
+    public NingHttpClientConfig withNingAsyncHttpProviderClassName(String ningAsyncHttpProviderClassName) {
+        this.ningAsyncHttpProviderClassName = ningAsyncHttpProviderClassName;
+        return this;
+    }
+
     public AsyncHttpClientConfig getConfig() {
         return config;
     }

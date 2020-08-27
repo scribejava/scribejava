@@ -33,6 +33,8 @@ public class ArmeriaHttpClientConfig implements HttpClientConfig {
 
     /**
      * Creates new {@link HttpClientConfig} using default settings.
+     *
+     * @return new {@link HttpClientConfig} using default settings.
      */
     @Override
     public HttpClientConfig createDefaultConfig() {
@@ -62,12 +64,27 @@ public class ArmeriaHttpClientConfig implements HttpClientConfig {
         this.protocolPreference = protocolPreference;
     }
 
+    public ArmeriaHttpClientConfig withProtocolPreference(SessionProtocol protocolPreference) {
+        setProtocolPreference(protocolPreference);
+        return this;
+    }
+
     public void setRetry(Function<? super HttpClient, RetryingClient> retry) {
         this.retry = retry;
     }
 
+    public ArmeriaHttpClientConfig withRetry(Function<? super HttpClient, RetryingClient> retry) {
+        this.retry = retry;
+        return this;
+    }
+
     public void setLogging(Function<? super HttpClient, LoggingClient> logging) {
         this.logging = logging;
+    }
+
+    public ArmeriaHttpClientConfig withLogging(Function<? super HttpClient, LoggingClient> logging) {
+        this.logging = logging;
+        return this;
     }
 
     ArmeriaWebClientBuilder createClientBuilder() {

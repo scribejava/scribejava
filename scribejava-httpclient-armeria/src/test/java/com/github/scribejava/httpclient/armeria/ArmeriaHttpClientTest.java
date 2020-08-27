@@ -47,9 +47,8 @@ public class ArmeriaHttpClientTest extends AbstractClientTest {
                 .onStatus(HttpStatus.SERVICE_UNAVAILABLE)
                 .onUnprocessed()
                 .thenBackoff(retryBackoff);
-        config.setRetry(RetryingClient.newDecorator(retryRule));
 
-        return new ArmeriaHttpClient(config);
+        return new ArmeriaHttpClient(config.withRetry(RetryingClient.newDecorator(retryRule)));
     }
 
     // No-Op DNS resolver to avoid resolution issues in the unit test
