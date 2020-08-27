@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * add Proxy support (via config's option) to internal JDKHttpClient (thanks to https://github.com/bjournaud)
+ * fix typo (change "Verfier" to "Verifier") (thanks to https://github.com/afkbrb)
 
 [7.0.0]
  * Add Polar API (https://www.polar.com/) (thanks to https://github.com/vidi42)
