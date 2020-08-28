@@ -43,12 +43,12 @@ public class MultipartUtils {
 
         final String preamble = multipartPayload.getPreamble();
         if (preamble != null) {
-            os.write(preamble.getBytes());
+            os.write((preamble + "\r\n").getBytes());
         }
         final List<BodyPartPayload> bodyParts = multipartPayload.getBodyParts();
         if (!bodyParts.isEmpty()) {
             final String boundary = multipartPayload.getBoundary();
-            final byte[] startBoundary = ("\r\n--" + boundary + "\r\n").getBytes();
+            final byte[] startBoundary = ("--" + boundary + "\r\n").getBytes();
 
             for (BodyPartPayload bodyPart : bodyParts) {
                 os.write(startBoundary);
@@ -60,20 +60,21 @@ public class MultipartUtils {
                     }
                 }
 
+                os.write("\r\n".getBytes());
                 if (bodyPart instanceof MultipartPayload) {
                     getPayload((MultipartPayload) bodyPart).writeTo(os);
                 } else if (bodyPart instanceof ByteArrayBodyPartPayload) {
-                    os.write("\r\n".getBytes());
                     os.write(((ByteArrayBodyPartPayload) bodyPart).getPayload());
                 } else {
                     throw new AssertionError(bodyPart.getClass());
                 }
+                os.write("\r\n".getBytes()); //CRLF for the next (starting or closing) boundary
             }
 
-            os.write(("\r\n--" + boundary + "--\r\n").getBytes());
+            os.write(("--" + boundary + "--").getBytes());
             final String epilogue = multipartPayload.getEpilogue();
             if (epilogue != null) {
-                os.write((epilogue + "\r\n").getBytes());
+                os.write(("\r\n" + epilogue).getBytes());
             }
 
         }

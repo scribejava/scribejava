@@ -18,16 +18,18 @@ public class MultipartUtilsTest {
     public void testEmptyMultipartPayload() throws IOException {
         final MultipartPayload mP = new MultipartPayload();
 
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder headersString = new StringBuilder();
         for (Map.Entry<String, String> header : mP.getHeaders().entrySet()) {
-            sb.append(header.getKey())
+            headersString.append(header.getKey())
                     .append(": ")
                     .append(header.getValue())
                     .append("\r\n");
         }
 
-        sb.append("\r\n").append(MultipartUtils.getPayload(mP).toString());
-        assertEquals("Content-Type: multipart/form-data; boundary=\"" + mP.getBoundary() + "\"\r\n\r\n", sb.toString());
+        assertEquals("Content-Type: multipart/form-data; boundary=\"" + mP.getBoundary() + "\"\r\n",
+                headersString.toString());
+
+        assertEquals("", MultipartUtils.getPayload(mP).toString());
     }
 
     @Test
@@ -51,36 +53,34 @@ public class MultipartUtilsTest {
 
         mP.setEpilogue("This is the epilogue.  It is also to be ignored.");
 
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder headersString = new StringBuilder();
         for (Map.Entry<String, String> header : mP.getHeaders().entrySet()) {
-            sb.append(header.getKey())
+            headersString.append(header.getKey())
                     .append(": ")
                     .append(header.getValue())
                     .append("\r\n");
         }
-        sb.append("\r\n").append(MultipartUtils.getPayload(mP).toString());
+
         assertEquals("X-Header: X-Value\r\n"
                 + "Content-Disposition: Content-Disposition-Value\r\n"
-                + "Content-Type: multipart/mixed; boundary=\"simple boundary\"\r\n"
-                + "\r\n"
-                + "This is the preamble.  It is to be ignored, though it\n"
+                + "Content-Type: multipart/mixed; boundary=\"simple boundary\"\r\n",
+                headersString.toString());
+
+        assertEquals("This is the preamble.  It is to be ignored, though it\n"
                 + "is a handy place for composition agents to include an\n"
                 + "explanatory note to non-MIME conformant readers."
-                + "\r\n"
-                + "--simple boundary\r\n"
+                + "\r\n--simple boundary\r\n"
                 + "\r\n"
                 + "This is implicitly typed plain US-ASCII text.\n"
                 + "It does NOT end with a linebreak."
-                + "\r\n"
-                + "--simple boundary\r\n"
+                + "\r\n--simple boundary\r\n"
                 + "Content-Type: text/plain; charset=us-ascii\r\n"
                 + "\r\n"
                 + "This is explicitly typed plain US-ASCII text.\n"
                 + "It DOES end with a linebreak.\n"
-                + "\r\n"
-                + "--simple boundary--\r\n"
-                + "This is the epilogue.  It is also to be ignored.\r\n",
-                sb.toString());
+                + "\r\n--simple boundary--"
+                + "\r\nThis is the epilogue.  It is also to be ignored.",
+                MultipartUtils.getPayload(mP).toString());
     }
 
     @Test
@@ -92,39 +92,33 @@ public class MultipartUtilsTest {
         mP.addBodyPart("It does end with a \\r\\n linebreak.\r\n".getBytes());
         mP.addBodyPart("the last one".getBytes());
 
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder headersString = new StringBuilder();
         for (Map.Entry<String, String> header : mP.getHeaders().entrySet()) {
-            sb.append(header.getKey())
+            headersString.append(header.getKey())
                     .append(": ")
                     .append(header.getValue())
                     .append("\r\n");
         }
-        sb.append("\r\n").append(MultipartUtils.getPayload(mP).toString());
-        assertEquals("Content-Type: multipart/form-data; boundary=\"simple-boundary\"\r\n"
-                + "\r\n"
-                + "\r\n"
-                + "--simple-boundary\r\n"
+
+        assertEquals("Content-Type: multipart/form-data; boundary=\"simple-boundary\"\r\n", headersString.toString());
+
+        assertEquals("--simple-boundary\r\n"
                 + "\r\n"
                 + "It does NOT end with a linebreak."
-                + "\r\n"
-                + "--simple-boundary\r\n"
+                + "\r\n--simple-boundary\r\n"
                 + "\r\n"
                 + "It does end with a \\r linebreak.\r"
-                + "\r\n"
-                + "--simple-boundary\r\n"
+                + "\r\n--simple-boundary\r\n"
                 + "\r\n"
                 + "It does end with a \\n linebreak.\n"
-                + "\r\n"
-                + "--simple-boundary\r\n"
+                + "\r\n--simple-boundary\r\n"
                 + "\r\n"
                 + "It does end with a \\r\\n linebreak.\r\n"
-                + "\r\n"
-                + "--simple-boundary\r\n"
+                + "\r\n--simple-boundary\r\n"
                 + "\r\n"
                 + "the last one"
-                + "\r\n"
-                + "--simple-boundary--\r\n",
-                sb.toString());
+                + "\r\n--simple-boundary--",
+                MultipartUtils.getPayload(mP).toString());
     }
 
     @Test
@@ -132,27 +126,24 @@ public class MultipartUtilsTest {
         final MultipartPayload mP = new MultipartPayload("testFileByteArrayBodyPartPayloadMultipartPayload boundary");
         mP.addBodyPart(new FileByteArrayBodyPartPayload("fileContent".getBytes(), "name", "filename.ext"));
 
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder headersString = new StringBuilder();
         for (Map.Entry<String, String> header : mP.getHeaders().entrySet()) {
-            sb.append(header.getKey())
+            headersString.append(header.getKey())
                     .append(": ")
                     .append(header.getValue())
                     .append("\r\n");
         }
 
-        sb.append("\r\n").append(MultipartUtils.getPayload(mP).toString());
         assertEquals("Content-Type: multipart/form-data; "
-                + "boundary=\"testFileByteArrayBodyPartPayloadMultipartPayload boundary\"\r\n"
-                + "\r\n"
-                + "\r\n"
-                + "--testFileByteArrayBodyPartPayloadMultipartPayload boundary\r\n"
+                + "boundary=\"testFileByteArrayBodyPartPayloadMultipartPayload boundary\"\r\n",
+                headersString.toString());
+
+        assertEquals("--testFileByteArrayBodyPartPayloadMultipartPayload boundary\r\n"
                 + "Content-Disposition: form-data; name=\"name\"; filename=\"filename.ext\"\r\n"
                 + "\r\n"
                 + "fileContent"
-                + "\r\n"
-                + "--testFileByteArrayBodyPartPayloadMultipartPayload boundary--\r\n",
-                sb.toString()
-        );
+                + "\r\n--testFileByteArrayBodyPartPayloadMultipartPayload boundary--",
+                MultipartUtils.getPayload(mP).toString());
     }
 
     @Test
@@ -201,54 +192,46 @@ public class MultipartUtilsTest {
                 + "\n"
                 + "... Additional text in ISO-8859-1 goes here ...\n").getBytes(), "message/rfc822");
 
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder headersString = new StringBuilder();
         for (Map.Entry<String, String> header : mP.getHeaders().entrySet()) {
-            sb.append(header.getKey())
+            headersString.append(header.getKey())
                     .append(": ")
                     .append(header.getValue())
                     .append("\r\n");
         }
-        sb.append("\r\n").append(MultipartUtils.getPayload(mP).toString());
-        assertEquals("Content-Type: multipart/mixed; boundary=\"unique-boundary-1\"\r\n"
-                + "\r\n"
-                + "This is the preamble area of a multipart message.\n"
+        assertEquals("Content-Type: multipart/mixed; boundary=\"unique-boundary-1\"\r\n", headersString.toString());
+
+        assertEquals("This is the preamble area of a multipart message.\n"
                 + "Mail readers that understand multipart format\n"
                 + "should ignore this preamble.\n"
                 + "\n"
                 + "If you are reading this text, you might want to\n"
                 + "consider changing to a mail reader that understands\n"
                 + "how to properly display multipart messages.\n"
-                + "\r\n"
-                + "--unique-boundary-1\r\n"
+                + "\r\n--unique-boundary-1\r\n"
                 + "\r\n"
                 + "... Some text appears here ..."
-                + "\r\n"
-                + "--unique-boundary-1\r\n"
+                + "\r\n--unique-boundary-1\r\n"
                 + "Content-Type: text/plain; charset=US-ASCII\r\n"
                 + "\r\n"
                 + "This could have been part of the previous part, but\n"
                 + "illustrates explicit versus implicit typing of body\n"
                 + "parts.\n"
-                + "\r\n"
-                + "--unique-boundary-1\r\n"
+                + "\r\n--unique-boundary-1\r\n"
                 + "Content-Type: multipart/parallel; boundary=\"unique-boundary-2\"\r\n"
-                + "\r\n"
-                + "--unique-boundary-2\r\n"
+                + "\r\n--unique-boundary-2\r\n"
                 + "Content-Type: audio/basic\r\n"
                 + "Content-Transfer-Encoding: base64\r\n"
                 + "\r\n"
                 + "... base64-encoded 8000 Hz single-channel\n"
                 + "    mu-law-format audio data goes here ..."
-                + "\r\n"
-                + "--unique-boundary-2\r\n"
+                + "\r\n--unique-boundary-2\r\n"
                 + "Content-Type: image/jpeg\r\n"
                 + "Content-Transfer-Encoding: base64\r\n"
                 + "\r\n"
                 + "... base64-encoded image data goes here ..."
-                + "\r\n"
-                + "--unique-boundary-2--\r\n"
-                + "\r\n"
-                + "--unique-boundary-1\r\n"
+                + "\r\n--unique-boundary-2--"
+                + "\r\n--unique-boundary-1\r\n"
                 + "Content-Type: text/enriched\r\n"
                 + "\r\n"
                 + "This is <bold><italic>enriched.</italic></bold>\n"
@@ -256,8 +239,7 @@ public class MultipartUtilsTest {
                 + "\n"
                 + "Isn't it\n"
                 + "<bigger><bigger>cool?</bigger></bigger>\n"
-                + "\r\n"
-                + "--unique-boundary-1\r\n"
+                + "\r\n--unique-boundary-1\r\n"
                 + "Content-Type: message/rfc822\r\n"
                 + "\r\n"
                 + "From: (mailbox in US-ASCII)\n"
@@ -267,9 +249,8 @@ public class MultipartUtilsTest {
                 + "Content-Transfer-Encoding: Quoted-printable\n"
                 + "\n"
                 + "... Additional text in ISO-8859-1 goes here ...\n"
-                + "\r\n"
-                + "--unique-boundary-1--\r\n",
-                sb.toString());
+                + "\r\n--unique-boundary-1--",
+                MultipartUtils.getPayload(mP).toString());
     }
 
     @Test
