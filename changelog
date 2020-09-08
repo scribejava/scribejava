@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[7.1.1]
  * add Proxy support (via config's option) to internal JDKHttpClient (thanks to https://github.com/bjournaud)
  * fix typo (change "Verfier" to "Verifier") (thanks to https://github.com/afkbrb)
  * fix Multipart support in JDKHttpClient (thanks to https://github.com/eos1d3)
