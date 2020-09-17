@@ -22,7 +22,7 @@ public class KakaoExample {
 
     @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
-        // Replace these with your client id and secret
+        // Replace this with your client id
         final String clientId = "your client id";
 
         final OAuth20Service service = new ServiceBuilder(clientId)

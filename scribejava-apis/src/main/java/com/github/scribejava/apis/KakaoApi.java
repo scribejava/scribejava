@@ -10,6 +10,7 @@ public class KakaoApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final KakaoApi INSTANCE = new KakaoApi();
     }
 

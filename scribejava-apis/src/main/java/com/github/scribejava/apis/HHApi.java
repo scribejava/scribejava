@@ -10,6 +10,7 @@ public class HHApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final HHApi INSTANCE = new HHApi();
     }
 
