@@ -1,6 +1,7 @@
 package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.httpclient.multipart.BodyPartPayload;
 import com.github.scribejava.core.httpclient.multipart.FileByteArrayBodyPartPayload;
 import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
 import java.io.File;
@@ -160,98 +161,266 @@ public class OAuthRequest {
         this.multipartPayload = new MultipartPayload(subtype, boundary, headers);
     }
 
+    /**
+     *
+     * @param bodyPartPayload bodyPartPayload
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload) {
         initMultipartPayload();
         addByteArrayBodyPartPayloadInMultipartPayload(bodyPartPayload);
     }
 
+    /**
+     *
+     * @param bodyPartPayload bodyPartPayload
+     * @param contentType contentType
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, String contentType) {
         initMultipartPayload();
         addByteArrayBodyPartPayloadInMultipartPayload(bodyPartPayload, contentType);
     }
 
+    /**
+     *
+     * @param bodyPartPayload bodyPartPayload
+     * @param headers headers
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, Map<String, String> headers) {
         initMultipartPayload();
         addByteArrayBodyPartPayloadInMultipartPayload(bodyPartPayload, headers);
     }
 
+    /**
+     *
+     * @param bodyPartPayload bodyPartPayload
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload) {
         multipartPayload.addBodyPart(bodyPartPayload);
     }
 
+    /**
+     *
+     * @param bodyPartPayload bodyPartPayload
+     * @param contentType contentType
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, String contentType) {
         multipartPayload.addBodyPart(bodyPartPayload, contentType);
     }
 
+    /**
+     *
+     * @param bodyPartPayload bodyPartPayload
+     * @param headers headers
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addByteArrayBodyPartPayloadInMultipartPayload(byte[] bodyPartPayload, Map<String, String> headers) {
         multipartPayload.addBodyPart(bodyPartPayload, headers);
     }
 
+    /**
+     *
+     * @param fileContent fileContent
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent) {
         initMultipartPayload();
         addFileByteArrayBodyPartPayloadInMultipartPayload(fileContent);
     }
 
+    /**
+     *
+     * @param contentType contentType
+     * @param fileContent fileContent
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent) {
         initMultipartPayload();
         addFileByteArrayBodyPartPayloadInMultipartPayload(contentType, fileContent);
     }
 
+    /**
+     *
+     * @param fileContent fileContent
+     * @param name name
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name) {
         initMultipartPayload();
         addFileByteArrayBodyPartPayloadInMultipartPayload(fileContent, name);
     }
 
+    /**
+     *
+     * @param contentType contentType
+     * @param fileContent fileContent
+     * @param name name
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name) {
         initMultipartPayload();
         addFileByteArrayBodyPartPayloadInMultipartPayload(contentType, fileContent, name);
     }
 
+    /**
+     *
+     * @param fileContent fileContent
+     * @param name name
+     * @param filename filename
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name, String filename) {
         initMultipartPayload();
         addFileByteArrayBodyPartPayloadInMultipartPayload(fileContent, name, filename);
     }
 
+    /**
+     *
+     * @param contentType contentType
+     * @param fileContent fileContent
+     * @param name name
+     * @param filename filename
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name,
             String filename) {
         initMultipartPayload();
         addFileByteArrayBodyPartPayloadInMultipartPayload(contentType, fileContent, name, filename);
     }
 
+    /**
+     *
+     * @param fileByteArrayBodyPartPayload fileByteArrayBodyPartPayload
+     * @deprecated use
+     * {@link #setBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void setFileByteArrayBodyPartPayloadInMultipartPayload(
             FileByteArrayBodyPartPayload fileByteArrayBodyPartPayload) {
-        initMultipartPayload();
-        addFileByteArrayBodyPartPayloadInMultipartPayload(fileByteArrayBodyPartPayload);
+        setBodyPartPayloadInMultipartPayload(fileByteArrayBodyPartPayload);
     }
 
+    public void setBodyPartPayloadInMultipartPayload(BodyPartPayload bodyPartPayload) {
+        initMultipartPayload();
+        addBodyPartPayloadInMultipartPayload(bodyPartPayload);
+    }
+
+    /**
+     *
+     * @param fileContent fileContent
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent) {
         multipartPayload.addFileBodyPart(fileContent);
     }
 
+    /**
+     *
+     * @param contentType contentType
+     * @param fileContent fileContent
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent) {
         multipartPayload.addFileBodyPart(contentType, fileContent);
     }
 
+    /**
+     *
+     * @param fileContent fileContent
+     * @param name name
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name) {
         multipartPayload.addFileBodyPart(fileContent, name);
     }
 
+    /**
+     * @param contentType contentType
+     * @param fileContent fileContent
+     * @param name name
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name) {
         multipartPayload.addFileBodyPart(contentType, fileContent, name);
     }
 
+    /**
+     *
+     * @param fileContent fileContent
+     * @param name name
+     * @param filename filename
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addFileByteArrayBodyPartPayloadInMultipartPayload(byte[] fileContent, String name, String filename) {
         multipartPayload.addFileBodyPart(fileContent, name, filename);
     }
 
+    /**
+     * @param contentType contentType
+     * @param fileContent fileContent
+     * @param name name
+     * @param filename filename
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addFileByteArrayBodyPartPayloadInMultipartPayload(String contentType, byte[] fileContent, String name,
             String filename) {
         multipartPayload.addFileBodyPart(contentType, fileContent, name, filename);
     }
 
+    /**
+     *
+     * @param fileByteArrayBodyPartPayload fileByteArrayBodyPartPayload
+     * @deprecated use
+     * {@link #addBodyPartPayloadInMultipartPayload(com.github.scribejava.core.httpclient.multipart.BodyPartPayload)}
+     */
+    @Deprecated
     public void addFileByteArrayBodyPartPayloadInMultipartPayload(
             FileByteArrayBodyPartPayload fileByteArrayBodyPartPayload) {
         multipartPayload.addBodyPart(fileByteArrayBodyPartPayload);
+    }
+
+    public void addBodyPartPayloadInMultipartPayload(BodyPartPayload bodyPartPayload) {
+        multipartPayload.addBodyPart(bodyPartPayload);
     }
 
     /**

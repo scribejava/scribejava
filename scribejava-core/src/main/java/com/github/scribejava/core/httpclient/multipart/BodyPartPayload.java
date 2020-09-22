@@ -13,7 +13,7 @@ public abstract class BodyPartPayload {
     }
 
     public BodyPartPayload(String contentType) {
-        this(contentType == null ? null : Collections.singletonMap(HttpClient.CONTENT_TYPE, contentType));
+        this(convertContentTypeToHeaders(contentType));
     }
 
     public BodyPartPayload(Map<String, String> headers) {
@@ -22,5 +22,9 @@ public abstract class BodyPartPayload {
 
     public Map<String, String> getHeaders() {
         return headers;
+    }
+
+    protected static Map<String, String> convertContentTypeToHeaders(String contentType) {
+        return contentType == null ? null : Collections.singletonMap(HttpClient.CONTENT_TYPE, contentType);
     }
 }

@@ -11,24 +11,49 @@ public class FileByteArrayBodyPartPayload extends ByteArrayBodyPartPayload {
         this(payload, null);
     }
 
+    public FileByteArrayBodyPartPayload(byte[] payload, int off, int len) {
+        this(payload, off, len, null);
+    }
+
     public FileByteArrayBodyPartPayload(byte[] payload, String name) {
         this(payload, name, null);
+    }
+
+    public FileByteArrayBodyPartPayload(byte[] payload, int off, int len, String name) {
+        this(payload, off, len, name, null);
     }
 
     public FileByteArrayBodyPartPayload(byte[] payload, String name, String filename) {
         this(null, payload, name, filename);
     }
 
+    public FileByteArrayBodyPartPayload(byte[] payload, int off, int len, String name, String filename) {
+        this(null, payload, off, len, name, filename);
+    }
+
     public FileByteArrayBodyPartPayload(String contentType, byte[] payload) {
         this(contentType, payload, null);
+    }
+
+    public FileByteArrayBodyPartPayload(String contentType, byte[] payload, int off, int len) {
+        this(contentType, payload, off, len, null);
     }
 
     public FileByteArrayBodyPartPayload(String contentType, byte[] payload, String name) {
         this(contentType, payload, name, null);
     }
 
+    public FileByteArrayBodyPartPayload(String contentType, byte[] payload, int off, int len, String name) {
+        this(contentType, payload, off, len, name, null);
+    }
+
     public FileByteArrayBodyPartPayload(String contentType, byte[] payload, String name, String filename) {
         super(payload, composeHeaders(contentType, name, filename));
+    }
+
+    public FileByteArrayBodyPartPayload(String contentType, byte[] payload, int off, int len, String name,
+            String filename) {
+        super(payload, off, len, composeHeaders(contentType, name, filename));
     }
 
     private static Map<String, String> composeHeaders(String contentType, String name, String filename) {

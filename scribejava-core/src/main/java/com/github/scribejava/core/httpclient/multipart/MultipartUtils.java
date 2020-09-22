@@ -64,7 +64,8 @@ public class MultipartUtils {
                 if (bodyPart instanceof MultipartPayload) {
                     getPayload((MultipartPayload) bodyPart).writeTo(os);
                 } else if (bodyPart instanceof ByteArrayBodyPartPayload) {
-                    os.write(((ByteArrayBodyPartPayload) bodyPart).getPayload());
+                    final ByteArrayBodyPartPayload byteArrayBodyPart = (ByteArrayBodyPartPayload) bodyPart;
+                    os.write(byteArrayBodyPart.getPayload(), byteArrayBodyPart.getOff(), byteArrayBodyPart.getLen());
                 } else {
                     throw new AssertionError(bodyPart.getClass());
                 }

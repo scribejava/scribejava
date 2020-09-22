@@ -42,8 +42,8 @@ public class MultipartUtilsTest {
                 + "is a handy place for composition agents to include an\n"
                 + "explanatory note to non-MIME conformant readers.");
 
-        mP.addBodyPart(("This is implicitly typed plain US-ASCII text.\n"
-                + "It does NOT end with a linebreak.").getBytes());
+        mP.addBodyPart(new ByteArrayBodyPartPayload(("This is implicitly typed plain US-ASCII text.\n"
+                + "It does NOT end with a linebreak.").getBytes()));
 
         final ByteArrayBodyPartPayload bP = new ByteArrayBodyPartPayload(
                 ("This is explicitly typed plain US-ASCII text.\n"
@@ -86,11 +86,11 @@ public class MultipartUtilsTest {
     @Test
     public void testCRLFMultipartPayload() throws IOException {
         final MultipartPayload mP = new MultipartPayload("simple-boundary");
-        mP.addBodyPart("It does NOT end with a linebreak.".getBytes());
-        mP.addBodyPart("It does end with a \\r linebreak.\r".getBytes());
-        mP.addBodyPart("It does end with a \\n linebreak.\n".getBytes());
-        mP.addBodyPart("It does end with a \\r\\n linebreak.\r\n".getBytes());
-        mP.addBodyPart("the last one".getBytes());
+        mP.addBodyPart(new ByteArrayBodyPartPayload("It does NOT end with a linebreak.".getBytes()));
+        mP.addBodyPart(new ByteArrayBodyPartPayload("It does end with a \\r linebreak.\r".getBytes()));
+        mP.addBodyPart(new ByteArrayBodyPartPayload("It does end with a \\n linebreak.\n".getBytes()));
+        mP.addBodyPart(new ByteArrayBodyPartPayload("It does end with a \\r\\n linebreak.\r\n".getBytes()));
+        mP.addBodyPart(new ByteArrayBodyPartPayload("the last one".getBytes()));
 
         final StringBuilder headersString = new StringBuilder();
         for (Map.Entry<String, String> header : mP.getHeaders().entrySet()) {
@@ -158,11 +158,11 @@ public class MultipartUtilsTest {
                 + "consider changing to a mail reader that understands\n"
                 + "how to properly display multipart messages.\n");
 
-        mP.addBodyPart("... Some text appears here ...".getBytes());
+        mP.addBodyPart(new ByteArrayBodyPartPayload("... Some text appears here ...".getBytes()));
 
-        mP.addBodyPart(("This could have been part of the previous part, but\n"
+        mP.addBodyPart(new ByteArrayBodyPartPayload(("This could have been part of the previous part, but\n"
                 + "illustrates explicit versus implicit typing of body\n"
-                + "parts.\n").getBytes(), "text/plain; charset=US-ASCII");
+                + "parts.\n").getBytes(), "text/plain; charset=US-ASCII"));
 
         final MultipartPayload innerMP = new MultipartPayload("parallel", "unique-boundary-2");
         mP.addBodyPart(innerMP);
@@ -170,27 +170,28 @@ public class MultipartUtilsTest {
         final Map<String, String> audioHeaders = new LinkedHashMap<>();
         audioHeaders.put("Content-Type", "audio/basic");
         audioHeaders.put("Content-Transfer-Encoding", "base64");
-        innerMP.addBodyPart(("... base64-encoded 8000 Hz single-channel\n"
-                + "    mu-law-format audio data goes here ...").getBytes(), audioHeaders);
+        innerMP.addBodyPart(new ByteArrayBodyPartPayload(("... base64-encoded 8000 Hz single-channel\n"
+                + "    mu-law-format audio data goes here ...").getBytes(), audioHeaders));
 
         final Map<String, String> imageHeaders = new LinkedHashMap<>();
         imageHeaders.put("Content-Type", "image/jpeg");
         imageHeaders.put("Content-Transfer-Encoding", "base64");
-        innerMP.addBodyPart("... base64-encoded image data goes here ...".getBytes(), imageHeaders);
+        innerMP.addBodyPart(new ByteArrayBodyPartPayload("... base64-encoded image data goes here ...".getBytes(),
+                imageHeaders));
 
-        mP.addBodyPart(("This is <bold><italic>enriched.</italic></bold>\n"
+        mP.addBodyPart(new ByteArrayBodyPartPayload(("This is <bold><italic>enriched.</italic></bold>\n"
                 + "<smaller>as defined in RFC 1896</smaller>\n"
                 + "\n"
                 + "Isn't it\n"
-                + "<bigger><bigger>cool?</bigger></bigger>\n").getBytes(), "text/enriched");
+                + "<bigger><bigger>cool?</bigger></bigger>\n").getBytes(), "text/enriched"));
 
-        mP.addBodyPart(("From: (mailbox in US-ASCII)\n"
+        mP.addBodyPart(new ByteArrayBodyPartPayload(("From: (mailbox in US-ASCII)\n"
                 + "To: (address in US-ASCII)\n"
                 + "Subject: (subject in US-ASCII)\n"
                 + "Content-Type: Text/plain; charset=ISO-8859-1\n"
                 + "Content-Transfer-Encoding: Quoted-printable\n"
                 + "\n"
-                + "... Additional text in ISO-8859-1 goes here ...\n").getBytes(), "message/rfc822");
+                + "... Additional text in ISO-8859-1 goes here ...\n").getBytes(), "message/rfc822"));
 
         final StringBuilder headersString = new StringBuilder();
         for (Map.Entry<String, String> header : mP.getHeaders().entrySet()) {
