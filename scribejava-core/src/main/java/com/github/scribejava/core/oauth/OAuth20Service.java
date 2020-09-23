@@ -1,27 +1,38 @@
 package com.github.scribejava.core.oauth;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.concurrent.Future;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
+import com.github.scribejava.core.model.DeviceCode;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth2.OAuth2Error;
 import com.github.scribejava.core.pkce.PKCE;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import com.github.scribejava.core.revoke.TokenTypeHint;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+import static com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor.extractRequiredParameter;
+import static com.github.scribejava.core.oauth2.OAuth2Error.AUTHORIZATION_PENDING;
+import static com.github.scribejava.core.oauth2.OAuth2Error.SLOW_DOWN;
+import static java.lang.Thread.sleep;
 
 public class OAuth20Service extends OAuthService {
+    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private static final String VERSION = "2.0";
     private final DefaultApi20 api;
@@ -492,5 +503,84 @@ public class OAuth20Service extends OAuthService {
 
     public String getDefaultScope() {
         return defaultScope;
+    }
+
+    /**
+     * Requests a device code from a server.
+     *
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3">rfc8628</a>
+     * @see <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code">
+     *     azure v2-oauth2-device-code</a>
+     */
+    public DeviceCode getDeviceCode() throws InterruptedException, ExecutionException, IOException {
+        final OAuthRequest request = new OAuthRequest(Verb.POST, api.getDeviceAuthorizationUrl());
+        request.addBodyParameter(OAuthConstants.CLIENT_ID, getApiKey());
+        request.addBodyParameter(OAuthConstants.SCOPE, getDefaultScope());
+        try (Response response = execute(request)) {
+            final String body = response.getBody();
+            if (response.getCode() == 200) {
+                final JsonNode n = OBJECT_MAPPER.readTree(body);
+                return new DeviceCode(
+                        extractRequiredParameter(n, "device_code", body).textValue(),
+                        extractRequiredParameter(n, "user_code", body).textValue(),
+                        extractRequiredParameter(n, "verification_uri", body).textValue(),
+                        n.path("interval").asInt(5),
+                        extractRequiredParameter(n, "expires_in", body).intValue());
+            } else {
+                OAuth2AccessTokenJsonExtractor.instance().generateError(body);
+                throw new IllegalStateException(); // generateError() always throws an exception
+            }
+        }
+    }
+
+    /**
+     * Attempts to get a token from a server.
+     * Function {@link #pollDeviceAccessToken(DeviceCode)} is usually used instead of this.
+     *
+     * @return token
+     * @throws OAuth2AccessTokenErrorResponse
+     *      If {@link OAuth2AccessTokenErrorResponse#getError()} is
+     *      {@link OAuth2Error#AUTHORIZATION_PENDING} or {@link OAuth2Error#SLOW_DOWN},
+     *      another attempt should be made after a while.
+     *
+     * @see #getDeviceCode()
+     */
+    public OAuth2AccessToken getAccessTokenDeviceCodeGrant(DeviceCode deviceCode)
+            throws IOException, InterruptedException, ExecutionException {
+        final OAuthRequest request = new OAuthRequest(Verb.POST, api.getAccessTokenEndpoint());
+        request.addParameter(OAuthConstants.GRANT_TYPE, "urn:ietf:params:oauth:grant-type:device_code");
+        request.addBodyParameter(OAuthConstants.CLIENT_ID, getApiKey());
+        request.addParameter("device_code", deviceCode.getDeviceCode());
+        try (Response response = execute(request)) {
+            return api.getAccessTokenExtractor().extract(response);
+        }
+    }
+
+    /**
+     * Periodically tries to get a token from a server (waiting for the user to give consent).
+     *
+     * @return token
+     * @throws OAuth2AccessTokenErrorResponse
+     *      Indicates OAuth error.
+     *
+     * @see #getDeviceCode()
+     */
+    public OAuth2AccessToken pollDeviceAccessToken(DeviceCode deviceCode)
+            throws InterruptedException, ExecutionException, IOException {
+        long intervalMillis = deviceCode.getIntervalSeconds() * 1000;
+        while (true) {
+            try {
+                return getAccessTokenDeviceCodeGrant(deviceCode);
+            } catch (OAuth2AccessTokenErrorResponse e) {
+                if (e.getError() != AUTHORIZATION_PENDING) {
+                    if (e.getError() == SLOW_DOWN) {
+                        intervalMillis += 5000;
+                    } else {
+                        throw e;
+                    }
+                }
+            }
+            sleep(intervalMillis);
+        }
     }
 }

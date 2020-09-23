@@ -121,4 +121,8 @@ public abstract class DefaultApi20 {
     public ClientAuthentication getClientAuthentication() {
         return HttpBasicAuthenticationScheme.instance();
     }
+
+    public String getDeviceAuthorizationUrl() {
+        return null;
+    }
 }

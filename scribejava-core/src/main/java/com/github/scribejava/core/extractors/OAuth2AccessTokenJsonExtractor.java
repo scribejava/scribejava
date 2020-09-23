@@ -93,7 +93,7 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
         return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
     }
 
-    protected static JsonNode extractRequiredParameter(JsonNode errorNode, String parameterName, String rawResponse)
+    public static JsonNode extractRequiredParameter(JsonNode errorNode, String parameterName, String rawResponse)
             throws OAuthException {
         final JsonNode value = errorNode.get(parameterName);
 

@@ -1,5 +1,10 @@
 package com.github.scribejava.core.oauth2;
 
+import java.util.EnumSet;
+import java.util.Set;
+
+import static java.util.Collections.unmodifiableSet;
+
 public enum OAuth2Error {
     /**
      * @see <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">RFC 6749, 4.1.2.1 Error Response</a>
@@ -67,7 +72,29 @@ public enum OAuth2Error {
      * @see <a href="https://tools.ietf.org/html/rfc7009#section-4.1">RFC 7009, 4.1. OAuth Extensions Error
      * Registration</a>
      */
-    UNSUPPORTED_TOKEN_TYPE("unsupported_token_type");
+    UNSUPPORTED_TOKEN_TYPE("unsupported_token_type"),
+
+    /**
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">rfc8628#section-3.5</a>
+     */
+    AUTHORIZATION_PENDING("authorization_pending"),
+
+    /**
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">rfc8628#section-3.5</a>
+     */
+    SLOW_DOWN("slow_down"),
+
+    /**
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">rfc8628#section-3.5</a>
+     */
+    EXPIRED_TOKEN("expired_token"),
+    ;
+
+    /**
+     * Unlike {@link #values()} which creates a new array every time, this always
+     * returns the same immutable object.
+     */
+    public static final Set<OAuth2Error> VALUES = unmodifiableSet(EnumSet.allOf(OAuth2Error.class));
 
     private final String errorString;
 
@@ -76,7 +103,7 @@ public enum OAuth2Error {
     }
 
     public static OAuth2Error parseFrom(String errorString) {
-        for (OAuth2Error error : OAuth2Error.values()) {
+        for (OAuth2Error error : VALUES) {
             if (error.errorString.equals(errorString)) {
                 return error;
             }
