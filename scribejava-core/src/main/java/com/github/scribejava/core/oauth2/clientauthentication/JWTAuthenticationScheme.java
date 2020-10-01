@@ -46,28 +46,27 @@ public class JWTAuthenticationScheme implements ClientAuthentication {
 
   @Override
   public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
-    String token = this.createJwtSignedHMAC(apiKey);
+    final String token = this.createJwtSignedHMAC(apiKey);
     request.getBodyParams().add(OAuthConstants.CLIENT_ASSERTION_TYPE, OAuthConstants.CLIENT_ASSERTION_TYPE_JWT);
     request.getBodyParams().add(OAuthConstants.CLIENT_ASSERTION, token);
   }
 
   public String createJwtSignedHMAC(String apiKey) {
-    Algorithm algorithm = Algorithm.RSA256(null, privateKey);
-    Calendar c = Calendar.getInstance();
-    Date now = c.getTime();
+    final Algorithm algorithm = Algorithm.RSA256(null, privateKey);
+    final Calendar c = Calendar.getInstance();
+    final Date now = c.getTime();
     c.add(Calendar.SECOND, 60);
-    Date exp = c.getTime();
+    final Date exp = c.getTime();
 
-    String token = JWT.create()
-                      .withKeyId(keyId)
-                      .withIssuer(apiKey)
-                      .withSubject(apiKey)
-                      .withJWTId(UUID.randomUUID().toString())
-                      .withAudience(this.audience)
-                      .withIssuedAt(now)
-                      .withNotBefore(now)
-                      .withExpiresAt(exp)
-                      .sign(algorithm);
-    return token;
+    return JWT.create()
+    .withKeyId(keyId)
+    .withIssuer(apiKey)
+    .withSubject(apiKey)
+    .withJWTId(UUID.randomUUID().toString())
+    .withAudience(this.audience)
+    .withIssuedAt(now)
+    .withNotBefore(now)
+    .withExpiresAt(exp)
+    .sign(algorithm);
   }
 }

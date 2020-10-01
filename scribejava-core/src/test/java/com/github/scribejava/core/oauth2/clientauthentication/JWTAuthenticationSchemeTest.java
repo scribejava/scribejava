@@ -13,7 +13,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.github.scribejava.core.builder.api.OAuth1SignatureType;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Parameter;
@@ -25,30 +24,32 @@ public class JWTAuthenticationSchemeTest {
 
   @Test
   public void shouldInjectSignedJWT() throws NoSuchAlgorithmException {
-    KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+    final KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
     keyGen.initialize(512);
-    KeyPair keyPair = keyGen.genKeyPair();
-    RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+    final KeyPair keyPair = keyGen.genKeyPair();
+    final RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
     final String audience = "test";
     final String clientId = "test";
     final String keyId = "test";
 
     final JWTAuthenticationScheme scheme = JWTAuthenticationScheme.instance(privateKey, audience, keyId);
 
-    OAuthRequest request = new OAuthRequest(Verb.GET, "https://localhost");
+    final OAuthRequest request = new OAuthRequest(Verb.GET, "https://localhost");
     scheme.addClientAuthentication(request, clientId, clientId);
 
-    assertTrue("Missing or wrong client assertion type", request.getBodyParams().contains(new Parameter(OAuthConstants.CLIENT_ASSERTION_TYPE, OAuthConstants.CLIENT_ASSERTION_TYPE_JWT)));
+    assertTrue("Missing or wrong client assertion type",
+                request.getBodyParams().contains(new Parameter(OAuthConstants.CLIENT_ASSERTION_TYPE,
+                                                                OAuthConstants.CLIENT_ASSERTION_TYPE_JWT)));
     String jwt = null;
-    for(Parameter param : request.getBodyParams().getParams()) {
-      if(param.getKey().equals(OAuthConstants.CLIENT_ASSERTION)) {
+    for (Parameter param : request.getBodyParams().getParams()) {
+      if (param.getKey().equals(OAuthConstants.CLIENT_ASSERTION)) {
         jwt = param.getValue();
       }
     }
 
-    JWTVerifier verified = JWT.require(Algorithm.RSA256((RSAPublicKey) keyPair.getPublic(), null))
+    final JWTVerifier verified = JWT.require(Algorithm.RSA256((RSAPublicKey) keyPair.getPublic(), null))
             .build();
-    DecodedJWT decoded = verified.verify(jwt);
+    final DecodedJWT decoded = verified.verify(jwt);
     assertTrue("Failed to validate audience", decoded.getAudience().contains(audience));
     assertEquals(clientId, decoded.getSubject());
     assertEquals(clientId, decoded.getIssuer());

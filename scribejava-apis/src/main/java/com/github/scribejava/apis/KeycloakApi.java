@@ -75,7 +75,7 @@ public class KeycloakApi extends DefaultApi20 {
 
     @Override
     public ClientAuthentication getClientAuthentication() {
-        if(this.keyId != null && this.privateKey != null) {
+        if (this.keyId != null && this.privateKey != null) {
             return JWTAuthenticationScheme.instance(privateKey, baseUrlWithRealm, keyId);
         }
         return HttpBasicAuthenticationScheme.instance();
