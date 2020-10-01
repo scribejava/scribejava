@@ -45,6 +45,13 @@ public interface OAuthConstants {
     String RESPONSE_TYPE = "response_type";
     String RESPONSE_TYPE_CODE = "code";
 
+    // https://tools.ietf.org/html/rfc7523#section-2.2
+    String CLIENT_ASSERTION_TYPE = "client_assertion_type";
+    String CLIENT_ASSERTION = "client_assertion";
+
+    // https://tools.ietf.org/html/rfc7523#section-8.1
+    String CLIENT_ASSERTION_TYPE_JWT = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+
     //not OAuth specific
     String USER_AGENT_HEADER_NAME = "User-Agent";
 }
