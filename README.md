@@ -50,6 +50,7 @@ ScribeJava support out-of-box several HTTP clients:
   * [RFC 6750](https://tools.ietf.org/html/rfc6750) The OAuth 2.0 Authorization Framework: Bearer Token Usage
   * [RFC 7636](https://tools.ietf.org/html/rfc7636) Proof Key for Code Exchange by OAuth Public Clients (PKCE), [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20WithPKCEExample.java)
   * [RFC 7009](https://tools.ietf.org/html/rfc7009) OAuth 2.0 Token Revocation, [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20RevokeExample.java)
+  * [RFC 8628](https://tools.ietf.org/html/rfc8628) OAuth 2.0 Device Authorization Grant [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Google20DeviceAuthorizationGrantExample.java)
   * [RFC 5849](https://tools.ietf.org/html/rfc5849) The OAuth 1.0 Protocol, [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/TwitterExample.java)
 
 ### Supports all (50+) major 1.0a and 2.0 OAuth APIs out-of-the-box

@@ -31,11 +31,6 @@ public abstract class BaseMicrosoftAzureActiveDirectoryApi extends DefaultApi20 
     }
 
     @Override
-    public String getDeviceAuthorizationUrl() {
-        return MSFT_LOGIN_URL + tenant + OAUTH_2 + getEndpointVersionPath() + "/devicecode";
-    }
-
-    @Override
     public ClientAuthentication getClientAuthentication() {
         return RequestBodyAuthenticationScheme.instance();
     }

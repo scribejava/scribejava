@@ -1,5 +1,6 @@
 package com.github.scribejava.core.builder.api;
 
+import com.github.scribejava.core.extractors.DeviceAuthorizationJsonExtractor;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
@@ -122,7 +123,18 @@ public abstract class DefaultApi20 {
         return HttpBasicAuthenticationScheme.instance();
     }
 
-    public String getDeviceAuthorizationUrl() {
-        return null;
+    /**
+     * RFC 8628 OAuth 2.0 Device Authorization Grant
+     *
+     * @see <a href="https://tools.ietf.org/html/rfc8628">RFC 8628</a>
+     * @return the device authorization endpoint
+     */
+    public String getDeviceAuthorizationEndpoint() {
+        throw new UnsupportedOperationException(
+                "This API doesn't support Device Authorization Grant or we have no info about this");
+    }
+
+    public DeviceAuthorizationJsonExtractor getDeviceAuthorizationExtractor() {
+        return DeviceAuthorizationJsonExtractor.instance();
     }
 }

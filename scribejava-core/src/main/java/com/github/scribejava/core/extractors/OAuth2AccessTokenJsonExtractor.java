@@ -1,10 +1,8 @@
 package com.github.scribejava.core.extractors;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URI;
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -15,9 +13,7 @@ import com.github.scribejava.core.utils.Preconditions;
 /**
  * JSON (default) implementation of {@link TokenExtractor} for OAuth 2.0
  */
-public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2AccessToken> {
-
-    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+public class OAuth2AccessTokenJsonExtractor extends AbstractJsonExtractor implements TokenExtractor<OAuth2AccessToken> {
 
     protected OAuth2AccessTokenJsonExtractor() {
     }
@@ -91,17 +87,5 @@ public class OAuth2AccessTokenJsonExtractor implements TokenExtractor<OAuth2Acce
     protected OAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
             String refreshToken, String scope, JsonNode response, String rawResponse) {
         return new OAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, rawResponse);
-    }
-
-    public static JsonNode extractRequiredParameter(JsonNode errorNode, String parameterName, String rawResponse)
-            throws OAuthException {
-        final JsonNode value = errorNode.get(parameterName);
-
-        if (value == null) {
-            throw new OAuthException("Response body is incorrect. Can't extract a '" + parameterName
-                    + "' from this: '" + rawResponse + "'", null);
-        }
-
-        return value;
     }
 }

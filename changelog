@@ -1,6 +1,7 @@
 [SNAPSHOT]
  * add Kakao API (https://kakao.com/) (thanks to https://github.com/v0o0v)
  * support chunks in JDKHttpClient's Multipart (thanks to https://github.com/eos1d3)
+ * add support for OAuth 2.0 Device Authorization Grant (RFC 8628) (thanks to https://github.com/rebarbora-mckvak)
 
 [7.1.1]
  * add Proxy support (via config's option) to internal JDKHttpClient (thanks to https://github.com/bjournaud)

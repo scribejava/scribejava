@@ -3,8 +3,6 @@ package com.github.scribejava.core.oauth2;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static java.util.Collections.unmodifiableSet;
-
 public enum OAuth2Error {
     /**
      * @see <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">RFC 6749, 4.1.2.1 Error Response</a>
@@ -23,6 +21,7 @@ public enum OAuth2Error {
     /**
      * @see <a href="https://tools.ietf.org/html/rfc6749#section-4.1.2.1">RFC 6749, 4.1.2.1 Error Response</a>
      * @see <a href="https://tools.ietf.org/html/rfc6749#section-4.2.2.1">RFC 6749, 4.2.2.1 Error Response</a>
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">RFC 8628, 3.5. Device Access Token Response</a>
      */
     ACCESS_DENIED("access_denied"),
     /**
@@ -73,28 +72,20 @@ public enum OAuth2Error {
      * Registration</a>
      */
     UNSUPPORTED_TOKEN_TYPE("unsupported_token_type"),
-
     /**
-     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">rfc8628#section-3.5</a>
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">RFC 8628, 3.5. Device Access Token Response</a>
      */
     AUTHORIZATION_PENDING("authorization_pending"),
-
     /**
-     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">rfc8628#section-3.5</a>
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">RFC 8628, 3.5. Device Access Token Response</a>
      */
     SLOW_DOWN("slow_down"),
-
     /**
-     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">rfc8628#section-3.5</a>
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">RFC 8628, 3.5. Device Access Token Response</a>
      */
-    EXPIRED_TOKEN("expired_token"),
-    ;
+    EXPIRED_TOKEN("expired_token");
 
-    /**
-     * Unlike {@link #values()} which creates a new array every time, this always
-     * returns the same immutable object.
-     */
-    public static final Set<OAuth2Error> VALUES = unmodifiableSet(EnumSet.allOf(OAuth2Error.class));
+    private static final Set<OAuth2Error> VALUES = EnumSet.allOf(OAuth2Error.class);
 
     private final String errorString;
 

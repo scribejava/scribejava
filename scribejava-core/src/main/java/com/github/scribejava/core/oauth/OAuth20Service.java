@@ -1,12 +1,10 @@
 package com.github.scribejava.core.oauth;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
-import com.github.scribejava.core.model.DeviceCode;
+import com.github.scribejava.core.model.DeviceAuthorization;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
 import com.github.scribejava.core.model.OAuth2Authorization;
@@ -26,13 +24,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import static com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor.extractRequiredParameter;
-import static com.github.scribejava.core.oauth2.OAuth2Error.AUTHORIZATION_PENDING;
-import static com.github.scribejava.core.oauth2.OAuth2Error.SLOW_DOWN;
-import static java.lang.Thread.sleep;
-
 public class OAuth20Service extends OAuthService {
-    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private static final String VERSION = "2.0";
     private final DefaultApi20 api;
@@ -57,8 +49,7 @@ public class OAuth20Service extends OAuthService {
         try (Response response = execute(request)) {
             if (isDebug()) {
                 log("response status code: %s", response.getCode());
-                final String body = response.getBody();
-                log("response body: %s", body);
+                log("response body: %s", response.getBody());
             }
 
             return api.getAccessTokenExtractor().extract(response);
@@ -83,10 +74,9 @@ public class OAuth20Service extends OAuthService {
                 log("received response for access token");
                 if (isDebug()) {
                     log("response status code: %s", response.getCode());
-                    final String body = response.getBody();
-                    log("response body: %s", body);
+                    log("response body: %s", response.getBody());
                 }
-                final OAuth2AccessToken token = getApi().getAccessTokenExtractor().extract(response);
+                final OAuth2AccessToken token = api.getAccessTokenExtractor().extract(response);
                 response.close();
                 return token;
             }
@@ -150,11 +140,7 @@ public class OAuth20Service extends OAuthService {
         if (pkceCodeVerifier != null) {
             request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
         }
-        if (isDebug()) {
-            log("created access token request with body params [%s], query string params [%s]",
-                    request.getBodyParams().asFormUrlEncodedString(),
-                    request.getQueryStringParams().asFormUrlEncodedString());
-        }
+        logRequestWithParams("access token", request);
         return request;
     }
 
@@ -168,9 +154,7 @@ public class OAuth20Service extends OAuthService {
 
     public OAuth2AccessToken refreshAccessToken(String refreshToken)
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken, null);
-
-        return sendAccessTokenRequestSync(request);
+        return refreshAccessToken(refreshToken, (String) null);
     }
 
     public OAuth2AccessToken refreshAccessToken(String refreshToken, String scope)
@@ -210,11 +194,9 @@ public class OAuth20Service extends OAuthService {
 
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
-        if (isDebug()) {
-            log("created refresh token request with body params [%s], query string params [%s]",
-                    request.getBodyParams().asFormUrlEncodedString(),
-                    request.getQueryStringParams().asFormUrlEncodedString());
-        }
+
+        logRequestWithParams("refresh token", request);
+
         return request;
     }
 
@@ -278,11 +260,8 @@ public class OAuth20Service extends OAuthService {
 
         api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
 
-        if (isDebug()) {
-            log("created access token password grant request with body params [%s], query string params [%s]",
-                    request.getBodyParams().asFormUrlEncodedString(),
-                    request.getQueryStringParams().asFormUrlEncodedString());
-        }
+        logRequestWithParams("access token password grant", request);
+
         return request;
     }
 
@@ -341,11 +320,8 @@ public class OAuth20Service extends OAuthService {
         }
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.CLIENT_CREDENTIALS);
 
-        if (isDebug()) {
-            log("created access token client credentials grant request with body params [%s], query string params [%s]",
-                    request.getBodyParams().asFormUrlEncodedString(),
-                    request.getQueryStringParams().asFormUrlEncodedString());
-        }
+        logRequestWithParams("access token client credentials grant", request);
+
         return request;
     }
 
@@ -416,11 +392,7 @@ public class OAuth20Service extends OAuthService {
             request.addParameter("token_type_hint", tokenTypeHint.getValue());
         }
 
-        if (isDebug()) {
-            log("created revoke token request with body params [%s], query string params [%s]",
-                    request.getBodyParams().asFormUrlEncodedString(),
-                    request.getQueryStringParams().asFormUrlEncodedString());
-        }
+        logRequestWithParams("revoke token", request);
 
         return request;
     }
@@ -505,82 +477,183 @@ public class OAuth20Service extends OAuthService {
         return defaultScope;
     }
 
-    /**
-     * Requests a device code from a server.
-     *
-     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3">rfc8628</a>
-     * @see <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code">
-     *     azure v2-oauth2-device-code</a>
-     */
-    public DeviceCode getDeviceCode() throws InterruptedException, ExecutionException, IOException {
-        final OAuthRequest request = new OAuthRequest(Verb.POST, api.getDeviceAuthorizationUrl());
-        request.addBodyParameter(OAuthConstants.CLIENT_ID, getApiKey());
-        request.addBodyParameter(OAuthConstants.SCOPE, getDefaultScope());
-        try (Response response = execute(request)) {
-            final String body = response.getBody();
-            if (response.getCode() == 200) {
-                final JsonNode n = OBJECT_MAPPER.readTree(body);
-                return new DeviceCode(
-                        extractRequiredParameter(n, "device_code", body).textValue(),
-                        extractRequiredParameter(n, "user_code", body).textValue(),
-                        extractRequiredParameter(n, "verification_uri", body).textValue(),
-                        n.path("interval").asInt(5),
-                        extractRequiredParameter(n, "expires_in", body).intValue());
-            } else {
-                OAuth2AccessTokenJsonExtractor.instance().generateError(body);
-                throw new IllegalStateException(); // generateError() always throws an exception
-            }
+    protected OAuthRequest createDeviceAuthorizationCodesRequest(String scope) {
+        final OAuthRequest request = new OAuthRequest(Verb.POST, api.getDeviceAuthorizationEndpoint());
+        request.addParameter(OAuthConstants.CLIENT_ID, getApiKey());
+        if (scope != null) {
+            request.addParameter(OAuthConstants.SCOPE, scope);
+        } else if (defaultScope != null) {
+            request.addParameter(OAuthConstants.SCOPE, defaultScope);
         }
+
+        logRequestWithParams("Device Authorization Codes", request);
+
+        return request;
+    }
+
+    /**
+     * Requests a set of verification codes from the authorization server with the default scope
+     *
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.1">RFC 8628</a>
+     *
+     * @return DeviceAuthorization
+     * @throws InterruptedException InterruptedException
+     * @throws ExecutionException ExecutionException
+     * @throws IOException IOException
+     */
+    public DeviceAuthorization getDeviceAuthorizationCodes()
+            throws InterruptedException, ExecutionException, IOException {
+        return getDeviceAuthorizationCodes((String) null);
+    }
+
+    /**
+     * Requests a set of verification codes from the authorization server
+     *
+     * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.1">RFC 8628</a>
+     *
+     * @param scope scope
+     * @return DeviceAuthorization
+     * @throws InterruptedException InterruptedException
+     * @throws ExecutionException ExecutionException
+     * @throws IOException IOException
+     */
+    public DeviceAuthorization getDeviceAuthorizationCodes(String scope)
+            throws InterruptedException, ExecutionException, IOException {
+        final OAuthRequest request = createDeviceAuthorizationCodesRequest(scope);
+
+        try (Response response = execute(request)) {
+            if (isDebug()) {
+                log("got DeviceAuthorizationCodes response");
+                log("response status code: %s", response.getCode());
+                log("response body: %s", response.getBody());
+            }
+            return api.getDeviceAuthorizationExtractor().extract(response);
+        }
+    }
+
+    public Future<DeviceAuthorization> getDeviceAuthorizationCodes(
+            OAuthAsyncRequestCallback<DeviceAuthorization> callback) {
+        return getDeviceAuthorizationCodes(null, callback);
+    }
+
+    public Future<DeviceAuthorization> getDeviceAuthorizationCodes(String scope,
+            OAuthAsyncRequestCallback<DeviceAuthorization> callback) {
+        final OAuthRequest request = createDeviceAuthorizationCodesRequest(scope);
+
+        return execute(request, callback, new OAuthRequest.ResponseConverter<DeviceAuthorization>() {
+            @Override
+            public DeviceAuthorization convert(Response response) throws IOException {
+                final DeviceAuthorization deviceAuthorization = api.getDeviceAuthorizationExtractor().extract(response);
+                response.close();
+                return deviceAuthorization;
+            }
+        });
+    }
+
+    public Future<DeviceAuthorization> getDeviceAuthorizationCodesAsync() {
+        return getDeviceAuthorizationCodesAsync(null);
+    }
+
+    public Future<DeviceAuthorization> getDeviceAuthorizationCodesAsync(String scope) {
+        return getDeviceAuthorizationCodes(scope, null);
+    }
+
+    protected OAuthRequest createAccessTokenDeviceAuthorizationGrantRequest(DeviceAuthorization deviceAuthorization) {
+        final OAuthRequest request = new OAuthRequest(api.getAccessTokenVerb(), api.getAccessTokenEndpoint());
+        request.addParameter(OAuthConstants.GRANT_TYPE, "urn:ietf:params:oauth:grant-type:device_code");
+        request.addParameter("device_code", deviceAuthorization.getDeviceCode());
+        api.getClientAuthentication().addClientAuthentication(request, getApiKey(), getApiSecret());
+        return request;
     }
 
     /**
      * Attempts to get a token from a server.
-     * Function {@link #pollDeviceAccessToken(DeviceCode)} is usually used instead of this.
      *
+     * Function {@link #pollAccessTokenDeviceAuthorizationGrant(com.github.scribejava.core.model.DeviceAuthorization)}
+     * is usually used instead of this.
+     *
+     * @param deviceAuthorization deviceAuthorization
      * @return token
-     * @throws OAuth2AccessTokenErrorResponse
-     *      If {@link OAuth2AccessTokenErrorResponse#getError()} is
-     *      {@link OAuth2Error#AUTHORIZATION_PENDING} or {@link OAuth2Error#SLOW_DOWN},
-     *      another attempt should be made after a while.
      *
-     * @see #getDeviceCode()
+     * @throws java.lang.InterruptedException InterruptedException
+     * @throws java.util.concurrent.ExecutionException ExecutionException
+     * @throws java.io.IOException IOException
+     * @throws OAuth2AccessTokenErrorResponse If {@link OAuth2AccessTokenErrorResponse#getError()} is
+     * {@link com.github.scribejava.core.oauth2.OAuth2Error#AUTHORIZATION_PENDING} or
+     * {@link com.github.scribejava.core.oauth2.OAuth2Error#SLOW_DOWN}, another attempt should be made after a while.
+     *
+     * @see #getDeviceAuthorizationCodes()
      */
-    public OAuth2AccessToken getAccessTokenDeviceCodeGrant(DeviceCode deviceCode)
-            throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = new OAuthRequest(Verb.POST, api.getAccessTokenEndpoint());
-        request.addParameter(OAuthConstants.GRANT_TYPE, "urn:ietf:params:oauth:grant-type:device_code");
-        request.addBodyParameter(OAuthConstants.CLIENT_ID, getApiKey());
-        request.addParameter("device_code", deviceCode.getDeviceCode());
+    public OAuth2AccessToken getAccessTokenDeviceAuthorizationGrant(DeviceAuthorization deviceAuthorization)
+            throws InterruptedException, ExecutionException, IOException {
+        final OAuthRequest request = createAccessTokenDeviceAuthorizationGrantRequest(deviceAuthorization);
+
         try (Response response = execute(request)) {
+            if (isDebug()) {
+                log("got AccessTokenDeviceAuthorizationGrant response");
+                log("response status code: %s", response.getCode());
+                log("response body: %s", response.getBody());
+            }
             return api.getAccessTokenExtractor().extract(response);
         }
     }
 
+    public Future<OAuth2AccessToken> getAccessTokenDeviceAuthorizationGrant(DeviceAuthorization deviceAuthorization,
+            OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
+        final OAuthRequest request = createAccessTokenDeviceAuthorizationGrantRequest(deviceAuthorization);
+
+        return execute(request, callback, new OAuthRequest.ResponseConverter<OAuth2AccessToken>() {
+            @Override
+            public OAuth2AccessToken convert(Response response) throws IOException {
+                final OAuth2AccessToken accessToken = api.getAccessTokenExtractor().extract(response);
+                response.close();
+                return accessToken;
+            }
+        });
+    }
+
+    public Future<OAuth2AccessToken> getAccessTokenDeviceAuthorizationGrantAsync(
+            DeviceAuthorization deviceAuthorization) {
+        return getAccessTokenDeviceAuthorizationGrant(deviceAuthorization, null);
+    }
+
     /**
-     * Periodically tries to get a token from a server (waiting for the user to give consent).
+     * Periodically tries to get a token from a server (waiting for the user to give consent). Sync only version. No
+     * Async variants yet, one should implement async scenarios themselves.
      *
+     * @param deviceAuthorization deviceAuthorization
      * @return token
-     * @throws OAuth2AccessTokenErrorResponse
-     *      Indicates OAuth error.
+     * @throws java.lang.InterruptedException InterruptedException
+     * @throws java.util.concurrent.ExecutionException ExecutionException
+     * @throws java.io.IOException IOException
+     * @throws OAuth2AccessTokenErrorResponse Indicates OAuth error.
      *
-     * @see #getDeviceCode()
+     * @see #getDeviceAuthorizationCodes()
      */
-    public OAuth2AccessToken pollDeviceAccessToken(DeviceCode deviceCode)
+    public OAuth2AccessToken pollAccessTokenDeviceAuthorizationGrant(DeviceAuthorization deviceAuthorization)
             throws InterruptedException, ExecutionException, IOException {
-        long intervalMillis = deviceCode.getIntervalSeconds() * 1000;
+        long intervalMillis = deviceAuthorization.getIntervalSeconds() * 1000;
         while (true) {
             try {
-                return getAccessTokenDeviceCodeGrant(deviceCode);
+                return getAccessTokenDeviceAuthorizationGrant(deviceAuthorization);
             } catch (OAuth2AccessTokenErrorResponse e) {
-                if (e.getError() != AUTHORIZATION_PENDING) {
-                    if (e.getError() == SLOW_DOWN) {
+                if (e.getError() != OAuth2Error.AUTHORIZATION_PENDING) {
+                    if (e.getError() == OAuth2Error.SLOW_DOWN) {
                         intervalMillis += 5000;
                     } else {
                         throw e;
                     }
                 }
             }
-            sleep(intervalMillis);
+            Thread.sleep(intervalMillis);
+        }
+    }
+
+    private void logRequestWithParams(String requestDescription, OAuthRequest request) {
+        if (isDebug()) {
+            log("created " + requestDescription + " request with body params [%s], query string params [%s]",
+                    request.getBodyParams().asFormUrlEncodedString(),
+                    request.getQueryStringParams().asFormUrlEncodedString());
         }
     }
 }
