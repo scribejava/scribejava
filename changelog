@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[8.0.0]
  * add Kakao API (https://kakao.com/) (thanks to https://github.com/v0o0v)
  * support chunks in JDKHttpClient's Multipart (thanks to https://github.com/eos1d3)
  * add support for OAuth 2.0 Device Authorization Grant (RFC 8628) (thanks to https://github.com/rebarbora-mckvak)
