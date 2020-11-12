@@ -26,7 +26,7 @@ public class FacebookAccessTokenJsonExtractorTest {
             assertEquals("OAuthException", fateR.getType());
             assertEquals(100, fateR.getCodeInt());
             assertEquals("DtxvtGRaxbB", fateR.getFbtraceId());
-            assertEquals(body, fateR.getRawResponse());
+            assertEquals(body, fateR.getResponse().getBody());
         }
     }
 

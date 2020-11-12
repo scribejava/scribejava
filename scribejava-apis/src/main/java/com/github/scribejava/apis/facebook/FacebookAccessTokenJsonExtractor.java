@@ -2,6 +2,7 @@ package com.github.scribejava.apis.facebook;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
+import com.github.scribejava.core.model.Response;
 import java.io.IOException;
 
 /**
@@ -29,13 +30,17 @@ public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtra
      *
      * '{"error":{"message":"Error validating application. Invalid application
      * ID.","type":"OAuthException","code":101,"fbtrace_id":"CvDR+X4WWIx"}}'
+     *
+     * @param response response
      */
     @Override
-    public void generateError(String rawResponse) throws IOException {
-        final JsonNode errorNode = OAuth2AccessTokenJsonExtractor.OBJECT_MAPPER.readTree(rawResponse).get("error");
+    public void generateError(Response response) throws IOException {
+        final JsonNode errorNode = OAuth2AccessTokenJsonExtractor.OBJECT_MAPPER
+                .readTree(response.getBody())
+                .get("error");
 
         throw new FacebookAccessTokenErrorResponse(errorNode.get("message").asText(), errorNode.get("type").asText(),
-                errorNode.get("code").asInt(), errorNode.get("fbtrace_id").asText(), rawResponse);
+                errorNode.get("code").asInt(), errorNode.get("fbtrace_id").asText(), response);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.github.scribejava.apis.fitbit;
 
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
+import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.oauth2.OAuth2Error;
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class FitBitJsonTokenExtractorTest {
                 new ThrowingRunnable() {
             @Override
             public void run() throws Throwable {
-                extractor.generateError(ERROR_JSON);
+                extractor.generateError(new Response(403, null, null, ERROR_JSON));
             }
         });
         assertSame(OAuth2Error.INVALID_GRANT, thrown.getError());

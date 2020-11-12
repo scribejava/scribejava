@@ -438,7 +438,7 @@ public class OAuth20Service extends OAuthService {
 
     private void checkForErrorRevokeToken(Response response) throws IOException {
         if (response.getCode() != 200) {
-            OAuth2AccessTokenJsonExtractor.instance().generateError(response.getBody());
+            OAuth2AccessTokenJsonExtractor.instance().generateError(response);
         }
     }
 

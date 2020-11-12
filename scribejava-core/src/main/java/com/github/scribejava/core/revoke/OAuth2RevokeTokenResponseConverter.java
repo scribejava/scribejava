@@ -8,7 +8,7 @@ public class OAuth2RevokeTokenResponseConverter {
 
     public Void convert(Response response) throws IOException {
         if (response.getCode() != 200) {
-            OAuth2AccessTokenJsonExtractor.instance().generateError(response.getBody());
+            OAuth2AccessTokenJsonExtractor.instance().generateError(response);
         }
         return null;
     }
