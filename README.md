@@ -156,7 +156,10 @@ First of all, Pull Requests are welcome, the second option is [donations](https:
 
 When you will send the pull request. That's the way for a majority of changes here.
 Or you can ask someone to make the paid job for you.
-In some cases, when I'm interested in changes (technicaly or financialey), I can implement the request myself.
+In some cases, when I'm interested in changes (technically or financially), I can implement the request myself.
+
+## Paid consulting
+If you or your business depends on the Scribejava and you need any specific improvement or new feature not currently implemented in the Scribejava, consider contacting me about a paid job.
 
 ## Getting started in less than 2 minutes
 
