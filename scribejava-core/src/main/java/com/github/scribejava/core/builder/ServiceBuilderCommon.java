@@ -35,6 +35,16 @@ public interface ServiceBuilderCommon {
      */
     ServiceBuilderCommon apiSecret(String apiSecret);
 
+    /**
+     * Configures the api secret as "" (empty string).
+     *
+     * Used usually for a test environments or another strange cases. Not all providers support empty string as api key
+     * and will throw an Exception in such cases.
+     *
+     * @return the {@link ServiceBuilder} instance for method chaining
+     */
+    ServiceBuilderCommon apiSecretIsEmptyStringUnsafe();
+
     ServiceBuilderCommon httpClientConfig(HttpClientConfig httpClientConfig);
 
     /**

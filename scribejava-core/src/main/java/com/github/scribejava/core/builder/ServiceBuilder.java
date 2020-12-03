@@ -51,6 +51,12 @@ public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAu
         return this;
     }
 
+    @Override
+    public ServiceBuilder apiSecretIsEmptyStringUnsafe() {
+        apiSecret = "";
+        return this;
+    }
+
     private ServiceBuilder setScope(String scope) {
         Preconditions.checkEmptyString(scope, "Invalid OAuth scope");
         this.scope = scope;

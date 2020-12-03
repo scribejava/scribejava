@@ -1,5 +1,6 @@
 [SNAPSHOT]
  * add raw Response (with HTTP repsponse code and body) as member to the OAuth2AccessTokenErrorResponse
+ * add possibility to set "" (empty string) as apiSecret
 
 [8.0.0]
  * add Kakao API (https://kakao.com/) (thanks to https://github.com/v0o0v)

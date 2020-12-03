@@ -18,6 +18,9 @@ public interface ServiceBuilderOAuth20 extends ServiceBuilderCommon {
     ServiceBuilderOAuth20 apiSecret(String apiSecret);
 
     @Override
+    ServiceBuilderOAuth20 apiSecretIsEmptyStringUnsafe();
+
+    @Override
     ServiceBuilderOAuth20 httpClientConfig(HttpClientConfig httpClientConfig);
 
     @Override

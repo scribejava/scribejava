@@ -44,8 +44,7 @@ public class HMACSha1SignatureServiceTest {
         service.getSignature("base string", null, "tokenSecret");
     }
 
-    @Test(expected = OAuthException.class)
-    public void shouldThrowExceptionIfApiSecretIsEmpty() {
+    public void shouldNotThrowExceptionIfApiSecretIsEmpty() {
         service.getSignature("base string", "  ", "tokenSecret");
     }
 }
