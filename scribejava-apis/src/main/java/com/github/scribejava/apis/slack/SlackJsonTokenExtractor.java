@@ -19,14 +19,16 @@ public class SlackJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
     @Override
     protected SlackOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
-                                                  String refreshToken, String scope, JsonNode response, String rawResponse) {
-        String userAccessToken = "";
+            String refreshToken, String scope, JsonNode response, String rawResponse) {
+        final String userAccessToken;
         final JsonNode userAccessTokenNode = response.get("authed_user").get("access_token");
-        if (userAccessTokenNode != null) {
-           userAccessToken = userAccessTokenNode.asText();
+        if (userAccessTokenNode == null) {
+            userAccessToken = "";
+        } else {
+            userAccessToken = userAccessTokenNode.asText();
         }
 
-        return new SlackOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
-                userAccessToken, rawResponse);
+        return new SlackOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, userAccessToken,
+                rawResponse);
     }
 }

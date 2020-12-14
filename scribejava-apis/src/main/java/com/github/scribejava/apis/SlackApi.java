@@ -1,12 +1,10 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.fitbit.FitBitJsonTokenExtractor;
 import com.github.scribejava.apis.slack.SlackJsonTokenExtractor;
-import com.github.scribejava.apis.slack.SlackOAuth2AccessToken;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
 /**
- * Slack.com api
+ * Slack.com API
  */
 public class SlackApi extends DefaultApi20 {
 

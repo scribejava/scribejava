@@ -19,7 +19,7 @@ public class SlackExample {
 
     private static final String NETWORK_NAME = "Slack.com";
     private static final String BOT_RESOURCE_URL = "https://slack.com/api/channels.list";
-    private static final String BOT_SCOPE = "channels:read"
+    private static final String BOT_SCOPE = "channels:read";
     private static final String USER_RESOURCE_URL = "https://slack.com/api/users.list";
     private static final String USER_SCOPE = "users:read";
     private static final String PAYLOAD = "null";
@@ -86,7 +86,7 @@ public class SlackExample {
         final OAuthRequest userRequest = new OAuthRequest(Verb.GET, USER_RESOURCE_URL);
         userRequest.addHeader(CONTENT_TYPE_NAME, CONTENT_TYPE_VALUE);
         userRequest.setPayload(PAYLOAD);
-        SlackOAuth2AccessToken token = (SlackOAuth2AccessToken)accessToken;
+        final SlackOAuth2AccessToken token = (SlackOAuth2AccessToken) accessToken;
         service.signRequest(token.getUserAccessToken(), userRequest);
 
         try (Response response = service.execute(userRequest)) {
@@ -95,7 +95,6 @@ public class SlackExample {
             System.out.println(response.getCode());
             System.out.println(response.getBody());
         }
-
 
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
