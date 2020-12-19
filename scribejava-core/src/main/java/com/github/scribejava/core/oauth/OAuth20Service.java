@@ -140,6 +140,16 @@ public class OAuth20Service extends OAuthService {
         if (pkceCodeVerifier != null) {
             request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
         }
+
+        final String clientId = params.getClientId();
+        if (clientId != null) {
+            // OAuth2 access token API may require client id
+            // https://www.oauth.com/oauth2-servers/access-tokens/
+            request.addParameter(OAuthConstants.CLIENT_ID, clientId);
+        }
+        // TODO: remove
+        request.addHeader("x-decider-overrides", "tfe_route:hawkeye_oauth2_endpoints=on");
+
         logRequestWithParams("access token", request);
         return request;
     }
@@ -149,7 +159,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken, String scope) {
-        return refreshAccessToken(refreshToken, scope, null);
+        return refreshAccessToken(refreshToken, scope, (OAuthAsyncRequestCallback<OAuth2AccessToken>) null);
     }
 
     public OAuth2AccessToken refreshAccessToken(String refreshToken)
@@ -159,26 +169,33 @@ public class OAuth20Service extends OAuthService {
 
     public OAuth2AccessToken refreshAccessToken(String refreshToken, String scope)
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope);
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope, null);
+
+        return sendAccessTokenRequestSync(request);
+    }
+
+    public OAuth2AccessToken refreshAccessToken(String refreshToken, String scope, String clientId)
+        throws IOException, InterruptedException, ExecutionException {
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope, clientId);
 
         return sendAccessTokenRequestSync(request);
     }
 
     public Future<OAuth2AccessToken> refreshAccessToken(String refreshToken,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken, null);
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken, null, null);
 
         return sendAccessTokenRequestAsync(request, callback);
     }
 
     public Future<OAuth2AccessToken> refreshAccessToken(String refreshToken, String scope,
             OAuthAsyncRequestCallback<OAuth2AccessToken> callback) {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope);
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope, null);
 
         return sendAccessTokenRequestAsync(request, callback);
     }
 
-    protected OAuthRequest createRefreshTokenRequest(String refreshToken, String scope) {
+    protected OAuthRequest createRefreshTokenRequest(String refreshToken, String scope, String clientId) {
         if (refreshToken == null || refreshToken.isEmpty()) {
             throw new IllegalArgumentException("The refreshToken cannot be null or empty");
         }
@@ -194,6 +211,14 @@ public class OAuth20Service extends OAuthService {
 
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
+
+        if (clientId != null) {
+            // OAuth2 access token API may require client id
+            // https://www.oauth.com/oauth2-servers/access-tokens/
+            request.addParameter(OAuthConstants.CLIENT_ID, clientId);
+        }
+        // TODO: remove
+        request.addHeader("x-decider-overrides", "tfe_route:hawkeye_oauth2_endpoints=on");
 
         logRequestWithParams("refresh token", request);
 

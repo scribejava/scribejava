@@ -13,7 +13,7 @@ public class PKCE {
     public static final String PKCE_CODE_VERIFIER_PARAM = "code_verifier";
 
     private String codeChallenge;
-    private PKCECodeChallengeMethod codeChallengeMethod = PKCECodeChallengeMethod.S256;
+    private PKCECodeChallengeMethod codeChallengeMethod = PKCECodeChallengeMethod.PLAIN;
     private String codeVerifier;
 
     public String getCodeChallenge() {

@@ -49,6 +49,9 @@ public class PKCEService {
         final PKCE pkce = new PKCE();
         pkce.setCodeVerifier(codeVerifier);
         try {
+            String challange = pkce.getCodeChallengeMethod().transform2CodeChallenge(codeVerifier);
+            System.out.println("Code Verifier: " + codeVerifier);
+            System.out.println("Code Challenge: " + challange);
             pkce.setCodeChallenge(pkce.getCodeChallengeMethod().transform2CodeChallenge(codeVerifier));
         } catch (NoSuchAlgorithmException nsaE) {
             pkce.setCodeChallengeMethod(PKCECodeChallengeMethod.PLAIN);
