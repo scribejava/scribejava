@@ -1,5 +1,5 @@
-[SNAPSHOT]
- * add raw Response (with HTTP repsponse code and body) as member to the OAuth2AccessTokenErrorResponse
+[8.1.0]
+ * add raw Response (with HTTP response code and body) as member to the OAuth2AccessTokenErrorResponse
  * add possibility to set "" (empty string) as apiSecret
  * add Slack API (https://slack.com/) (thanks to https://github.com/petrkopotev)
 
