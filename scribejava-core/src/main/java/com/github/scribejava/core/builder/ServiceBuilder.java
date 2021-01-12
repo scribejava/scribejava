@@ -69,6 +69,11 @@ public class ServiceBuilder implements ServiceBuilderOAuth10a, ServiceBuilderOAu
     }
 
     @Override
+    public ServiceBuilderOAuth20 defaultScope(ScopeBuilder scopeBuilder) {
+        return setScope(scopeBuilder.build());
+    }
+
+    @Override
     public ServiceBuilderOAuth10a withScope(String scope) {
         return setScope(scope);
     }

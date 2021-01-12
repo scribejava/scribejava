@@ -3,6 +3,7 @@ package com.github.scribejava.apis.examples;
 import java.util.Scanner;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.apis.LinkedInApi20;
+import com.github.scribejava.core.builder.ScopeBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
@@ -29,7 +30,7 @@ public class LinkedIn20Example {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .defaultScope("r_liteprofile r_emailaddress") // replace with desired scope
+                .defaultScope(new ScopeBuilder("r_liteprofile", "r_emailaddress")) // replace with desired scope
                 .callback("http://example.com/callback")
                 .build(LinkedInApi20.instance());
         final Scanner in = new Scanner(System.in);

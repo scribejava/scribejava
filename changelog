@@ -1,3 +1,6 @@
+[SNAPSHOT]
+ * add ScopeBuilder to easily specify multiple scopes while requesting OAuth2.0 Access Tokens
+
 [8.1.0]
  * add raw Response (with HTTP response code and body) as member to the OAuth2AccessTokenErrorResponse
  * add possibility to set "" (empty string) as apiSecret

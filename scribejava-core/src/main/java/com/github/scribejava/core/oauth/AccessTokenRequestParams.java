@@ -1,6 +1,9 @@
 package com.github.scribejava.core.oauth;
 
+import com.github.scribejava.core.builder.ScopeBuilder;
+
 public class AccessTokenRequestParams {
+
     private final String code;
     private String pkceCodeVerifier;
     private String scope;
@@ -20,6 +23,11 @@ public class AccessTokenRequestParams {
 
     public AccessTokenRequestParams scope(String scope) {
         this.scope = scope;
+        return this;
+    }
+
+    public AccessTokenRequestParams scope(ScopeBuilder scope) {
+        this.scope = scope.build();
         return this;
     }
 
