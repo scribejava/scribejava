@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
+import org.junit.function.ThrowingRunnable;
 
 public class OAuth2AccessTokenJsonExtractorTest {
 
@@ -84,9 +85,13 @@ public class OAuth2AccessTokenJsonExtractorTest {
                 + "\"error\":\"invalid_grant\""
                 + "}";
         try (Response response = error(responseBody)) {
-            extractor.extract(response);
-            fail();
-        } catch (OAuth2AccessTokenErrorResponse oaer) {
+            final OAuth2AccessTokenErrorResponse oaer = assertThrows(OAuth2AccessTokenErrorResponse.class,
+                    new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
             assertEquals(OAuth2Error.INVALID_GRANT, oaer.getError());
             assertEquals("unknown, invalid, or expired refresh token", oaer.getErrorDescription());
         }

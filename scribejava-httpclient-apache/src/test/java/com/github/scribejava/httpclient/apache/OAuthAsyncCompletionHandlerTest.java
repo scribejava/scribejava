@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -23,6 +22,8 @@ import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
+import static org.junit.Assert.assertThrows;
+import org.junit.function.ThrowingRunnable;
 
 public class OAuthAsyncCompletionHandlerTest {
 
@@ -80,7 +81,7 @@ public class OAuthAsyncCompletionHandlerTest {
     }
 
     @Test
-    public void shouldReleaseLatchOnIOException() throws Exception {
+    public void shouldReleaseLatchOnIOException() {
         handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER);
         final HttpResponse response
                 = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
@@ -92,16 +93,16 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
-        try {
-            handler.getResult();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                handler.getResult();
+            }
+        });
     }
 
     @Test
-    public void shouldReportOAuthException() throws Exception {
+    public void shouldReportOAuthException() {
         handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER);
         final HttpResponse response
                 = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
@@ -113,16 +114,16 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof OAuthException);
         // verify latch is released
-        try {
-            handler.getResult();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                handler.getResult();
+            }
+        });
     }
 
     @Test
-    public void shouldReleaseLatchOnCancel() throws Exception {
+    public void shouldReleaseLatchOnCancel() {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
         final HttpResponse response
                 = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
@@ -134,16 +135,16 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof CancellationException);
         // verify latch is released
-        try {
-            handler.getResult();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                handler.getResult();
+            }
+        });
     }
 
     @Test
-    public void shouldReleaseLatchOnFailure() throws Exception {
+    public void shouldReleaseLatchOnFailure() {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER);
         final HttpResponse response
                 = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("4", 1, 1), 200, "ok"));
@@ -155,12 +156,12 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof RuntimeException);
         // verify latch is released
-        try {
-            handler.getResult();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                handler.getResult();
+            }
+        });
     }
 
     private static class AllGoodResponseConverter implements OAuthRequest.ResponseConverter<String> {
