@@ -2,7 +2,6 @@ package com.github.scribejava.httpclient.ahc;
 
 import com.github.scribejava.core.httpclient.AbstractAsyncOnlyHttpClient;
 import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
-import com.github.scribejava.core.java8.Consumer;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -43,7 +42,7 @@ public class AhcHttpClient extends AbstractAsyncOnlyHttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new ByteArrayConsumer(bodyContents), callback,
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.BYTE_ARRAY, bodyContents, callback,
                 converter);
     }
 
@@ -58,19 +57,19 @@ public class AhcHttpClient extends AbstractAsyncOnlyHttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new StringConsumer(bodyContents), callback,
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.STRING, bodyContents, callback,
                 converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
-        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, new FileConsumer(bodyContents), callback,
+        return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodySetter.FILE, bodyContents, callback,
                 converter);
     }
 
     private <T> Future<T> doExecuteAsync(String userAgent, Map<String, String> headers, Verb httpVerb,
-            String completeUrl, Consumer<BoundRequestBuilder> bodySetter, OAuthAsyncRequestCallback<T> callback,
+            String completeUrl, BodySetter bodySetter, Object bodyContents, OAuthAsyncRequestCallback<T> callback,
             OAuthRequest.ResponseConverter<T> converter) {
         final BoundRequestBuilder boundRequestBuilder;
         switch (httpVerb) {
@@ -94,7 +93,7 @@ public class AhcHttpClient extends AbstractAsyncOnlyHttpClient {
             if (!headers.containsKey(CONTENT_TYPE)) {
                 boundRequestBuilder.addHeader(CONTENT_TYPE, DEFAULT_CONTENT_TYPE);
             }
-            bodySetter.accept(boundRequestBuilder);
+            bodySetter.setBody(boundRequestBuilder, bodyContents);
         }
 
         for (Map.Entry<String, String> header : headers.entrySet()) {
@@ -108,45 +107,26 @@ public class AhcHttpClient extends AbstractAsyncOnlyHttpClient {
         return boundRequestBuilder.execute(new OAuthAsyncCompletionHandler<>(callback, converter));
     }
 
-    private static class ByteArrayConsumer implements Consumer<BoundRequestBuilder> {
+    private enum BodySetter {
+        BYTE_ARRAY {
+            @Override
+            BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents) {
+                return requestBuilder.setBody((byte[]) bodyContents);
+            }
+        },
+        STRING {
+            @Override
+            BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents) {
+                return requestBuilder.setBody((String) bodyContents);
+            }
+        },
+        FILE {
+            @Override
+            BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents) {
+                return requestBuilder.setBody((File) bodyContents);
+            }
+        };
 
-        private final byte[] bodyContents;
-
-        private ByteArrayConsumer(byte[] bodyContents) {
-            this.bodyContents = bodyContents;
-        }
-
-        @Override
-        public void accept(BoundRequestBuilder requestBuilder) {
-            requestBuilder.setBody(bodyContents);
-        }
-    }
-
-    private static class StringConsumer implements Consumer<BoundRequestBuilder> {
-
-        private final String bodyContents;
-
-        private StringConsumer(String bodyContents) {
-            this.bodyContents = bodyContents;
-        }
-
-        @Override
-        public void accept(BoundRequestBuilder requestBuilder) {
-            requestBuilder.setBody(bodyContents);
-        }
-    }
-
-    private static class FileConsumer implements Consumer<BoundRequestBuilder> {
-
-        private final File bodyContents;
-
-        private FileConsumer(File bodyContents) {
-            this.bodyContents = bodyContents;
-        }
-
-        @Override
-        public void accept(BoundRequestBuilder requestBuilder) {
-            requestBuilder.setBody(bodyContents);
-        }
+        abstract BoundRequestBuilder setBody(BoundRequestBuilder requestBuilder, Object bodyContents);
     }
 }
