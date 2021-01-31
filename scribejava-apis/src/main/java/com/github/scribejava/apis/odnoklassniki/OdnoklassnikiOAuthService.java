@@ -31,7 +31,6 @@ public class OdnoklassnikiOAuthService extends OAuth20Service {
     @Override
     public void signRequest(String accessToken, OAuthRequest request) {
         //sig = lower(md5( sorted_request_params_composed_string + md5(access_token + application_secret_key)))
-        try {
             final String tokenDigest = md5(accessToken + getApiSecret());
 
             final ParameterList queryParams = request.getQueryStringParams();
@@ -47,13 +46,10 @@ public class OdnoklassnikiOAuthService extends OAuth20Service {
                         .append(param.getValue());
             }
 
-            final String sigSource = URLDecoder.decode(stringParams.toString(), "UTF-8") + tokenDigest;
+            final String sigSource = stringParams + tokenDigest;
             request.addQuerystringParameter("sig", md5(sigSource).toLowerCase());
 
             super.signRequest(accessToken, request);
-        } catch (UnsupportedEncodingException unex) {
-            throw new IllegalStateException(unex);
-        }
     }
 
     public static String md5(String orgString) {

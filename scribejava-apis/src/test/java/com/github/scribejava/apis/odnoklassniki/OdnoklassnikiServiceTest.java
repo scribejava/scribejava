@@ -29,6 +29,16 @@ public class OdnoklassnikiServiceTest {
         final OAuthRequest request = new OAuthRequest(Verb.GET, URL);
         service.signRequest(accessToken, request);
         assertEquals("96127f5ca29a8351399e94bbd284ab16", findParam(request.getQueryStringParams(), "sig"));
+        
+        final OAuthRequest request2 = new OAuthRequest(Verb.GET, URL);
+        request2.addQuerystringParameter("testsimpleparam", "simplevalue");
+        service.signRequest(accessToken, request2);
+        assertEquals("b5355cfc4683869e802747d8aa8acf3f", findParam(request2.getQueryStringParams(), "sig"));
+        
+        final OAuthRequest request3 = new OAuthRequest(Verb.GET, URL);
+        request3.addQuerystringParameter("testsimpleparam", "complex+value%20");
+        service.signRequest(accessToken, request3);
+        assertEquals("229fd8a3fbc42cf545627e6ea719c57d", findParam(request3.getQueryStringParams(), "sig"));
     }
 
     private static String findParam(ParameterList list, String key) {
