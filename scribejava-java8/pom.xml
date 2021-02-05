@@ -10,17 +10,9 @@
     </parent>
 
     <groupId>com.github.scribejava</groupId>
-    <artifactId>scribejava-core</artifactId>
-    <name>ScribeJava Core</name>
+    <artifactId>scribejava-java8</artifactId>
+    <name>ScribeJava Java 8+ compatibility stuff</name>
     <packaging>jar</packaging>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.github.scribejava</groupId>
-            <artifactId>scribejava-java8</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -31,14 +23,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>test-jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <java.release>8</java.release>
+    </properties>
 </project>

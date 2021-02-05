@@ -1,6 +1,6 @@
 package com.github.scribejava.core.services;
 
-import com.github.scribejava.core.java8.Base64;
+import com.github.scribejava.core.base64.Base64;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -53,7 +53,7 @@ public class RSASha1SignatureServiceTest {
 
         try {
             final KeyFactory fac = KeyFactory.getInstance("RSA");
-            final PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.getMimeDecoder().decode(str));
+            final PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.decodeMime(str));
             return fac.generatePrivate(privKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);

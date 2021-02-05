@@ -16,6 +16,7 @@
 
     <modules>
         <module>scribejava-core</module>
+        <module>scribejava-java8</module>
         <module>scribejava-apis</module>
         <module>scribejava-httpclient-ahc</module>
         <module>scribejava-httpclient-ning</module>

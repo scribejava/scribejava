@@ -1,6 +1,6 @@
 package com.github.scribejava.core.oauth2.clientauthentication;
 
-import com.github.scribejava.core.java8.Base64;
+import com.github.scribejava.core.base64.Base64;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import java.nio.charset.Charset;
@@ -13,8 +13,6 @@ import java.nio.charset.Charset;
  * НTTP Basic authentication scheme
  */
 public class HttpBasicAuthenticationScheme implements ClientAuthentication {
-
-    private final Base64.Encoder base64Encoder = Base64.getEncoder();
 
     protected HttpBasicAuthenticationScheme() {
     }
@@ -32,8 +30,7 @@ public class HttpBasicAuthenticationScheme implements ClientAuthentication {
     public void addClientAuthentication(OAuthRequest request, String apiKey, String apiSecret) {
         if (apiKey != null && apiSecret != null) {
             request.addHeader(OAuthConstants.HEADER, OAuthConstants.BASIC + ' '
-                    + base64Encoder.encodeToString(
-                            String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
+                    + Base64.encode(String.format("%s:%s", apiKey, apiSecret).getBytes(Charset.forName("UTF-8"))));
         }
     }
 
