@@ -19,7 +19,11 @@ public abstract class Base64 {
     }
 
     private static Base64 createInstance() {
-        return new Java8Base64();
+        if (Java8Base64.isAvailable()) {
+            return new Java8Base64();
+        }
+        throw new IllegalStateException(
+                "No Base64 implementation was provided. Java 8 Base64, Apache commons codec or JAXB is needed");
     }
 
     public static void init(Base64 base64) {

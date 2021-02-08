@@ -20,4 +20,12 @@ public class Java8Base64 extends Base64 {
         return JAVA8_BASE64.internalDecodeMime(string);
     }
 
+    static boolean isAvailable() {
+        try {
+            Class.forName("java.util.Base64", false, Java8Base64.class.getClassLoader());
+            return true;
+        } catch (ClassNotFoundException cnfE) {
+            return false;
+        }
+    }
 }
