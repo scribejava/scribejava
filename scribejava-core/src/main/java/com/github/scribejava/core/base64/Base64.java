@@ -23,7 +23,7 @@ public abstract class Base64 {
             return new Java8Base64();
         }
         throw new IllegalStateException(
-                "No Base64 implementation was provided. Java 8 Base64, Apache commons codec or JAXB is needed");
+                "No Base64 implementation was provided. Java 8 Base64, Apache Commons Codec or JAXB is needed");
     }
 
     public static void init(Base64 base64) {
