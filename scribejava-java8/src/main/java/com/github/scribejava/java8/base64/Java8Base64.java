@@ -14,7 +14,4 @@ public class Java8Base64 {
         return BASE64_URL_ENCODER_WITHOUT_PADDING.encodeToString(bytes);
     }
 
-    public byte[] internalDecodeMime(String string) {
-        return java.util.Base64.getMimeDecoder().decode(string);
-    }
 }

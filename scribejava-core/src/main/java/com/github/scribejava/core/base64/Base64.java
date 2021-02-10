@@ -22,6 +22,9 @@ public abstract class Base64 {
         if (Java8Base64.isAvailable()) {
             return new Java8Base64();
         }
+        if (CommonsCodecBase64.isAvailable()) {
+            return new CommonsCodecBase64();
+        }
         throw new IllegalStateException(
                 "No Base64 implementation was provided. Java 8 Base64, Apache Commons Codec or JAXB is needed");
     }
@@ -40,13 +43,7 @@ public abstract class Base64 {
         return getInstance().internalEncodeUrlWithoutPadding(bytes);
     }
 
-    public static byte[] decodeMime(String string) {
-        return getInstance().internalDecodeMime(string);
-    }
-
     protected abstract String internalEncode(byte[] bytes);
 
     protected abstract String internalEncodeUrlWithoutPadding(byte[] bytes);
-
-    protected abstract byte[] internalDecodeMime(String string);
 }
