@@ -63,18 +63,26 @@ public class OAuth2AccessTokenJsonExtractorTest {
         assertEquals("refresh_token1", token3.getRefreshToken());
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfForNullParameters() throws IOException {
         try (Response response = ok(null)) {
-            extractor.extract(response);
+            assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfForEmptyStrings() throws IOException {
         final String responseBody = "";
         try (Response response = ok(responseBody)) {
-            extractor.extract(response);
+            assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 

@@ -4,8 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 public class StreamUtilsTest {
 
@@ -27,16 +28,22 @@ public class StreamUtilsTest {
         assertEquals("expected", decoded);
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldFailForNullParameter() throws IOException {
-        StreamUtils.getStreamContents(null);
-        fail("Must throw exception before getting here");
+        assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                StreamUtils.getStreamContents(null);
+            }
+        });
     }
 
-    @Test(expected = IOException.class)
     public void shouldFailWithBrokenStream() throws IOException {
-        // This object simulates problems with input stream.
-        StreamUtils.getStreamContents(ALLWAYS_ERROR_INPUT_STREAM);
-        fail("Must throw exception before getting here");
+        assertThrows(IOException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                // This object simulates problems with input stream.
+                StreamUtils.getStreamContents(ALLWAYS_ERROR_INPUT_STREAM);
+            }
+        });
     }
 }

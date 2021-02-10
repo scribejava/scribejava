@@ -7,6 +7,8 @@ import com.github.scribejava.core.ObjectMother;
 import com.github.scribejava.core.exceptions.OAuthParametersMissingException;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
+import static org.junit.Assert.assertThrows;
+import org.junit.function.ThrowingRunnable;
 
 public class BaseStringExtractorTest {
 
@@ -83,15 +85,23 @@ public class BaseStringExtractorTest {
         assertEquals(expected, baseString);
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfRquestIsNull() {
-        extractor.extract(null);
+        assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                extractor.extract(null);
+            }
+        });
     }
 
-    @Test(expected = OAuthParametersMissingException.class)
     public void shouldThrowExceptionIfRquestHasNoOAuthParameters() {
         final OAuthRequest request = new OAuthRequest(Verb.GET, "http://example.com");
-        extractor.extract(request);
+        assertThrows(OAuthParametersMissingException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                extractor.extract(request);
+            }
+        });
     }
 
     @Test

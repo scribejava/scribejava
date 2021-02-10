@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import com.github.scribejava.core.exceptions.OAuthException;
+import static org.junit.Assert.assertThrows;
+import org.junit.function.ThrowingRunnable;
 
 public class HMACSha1SignatureServiceTest {
 
@@ -29,19 +31,31 @@ public class HMACSha1SignatureServiceTest {
         assertEquals(signature, service.getSignature(baseString, apiSecret, tokenSecret));
     }
 
-    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfBaseStringIsNull() {
-        service.getSignature(null, "apiSecret", "tokenSecret");
+        assertThrows(OAuthException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                service.getSignature(null, "apiSecret", "tokenSecret");
+            }
+        });
     }
 
-    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfBaseStringIsEmpty() {
-        service.getSignature("  ", "apiSecret", "tokenSecret");
+        assertThrows(OAuthException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                service.getSignature("  ", "apiSecret", "tokenSecret");
+            }
+        });
     }
 
-    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfApiSecretIsNull() {
-        service.getSignature("base string", null, "tokenSecret");
+        assertThrows(OAuthException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                service.getSignature("base string", null, "tokenSecret");
+            }
+        });
     }
 
     public void shouldNotThrowExceptionIfApiSecretIsEmpty() {
