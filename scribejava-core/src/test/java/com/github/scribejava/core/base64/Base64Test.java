@@ -11,6 +11,7 @@ public class Base64Test {
     private Base64 java8Base64;
     private Base64 commonsCodecBase64;
     private Base64 jaxbBase64;
+    private Base64 jaxb230Base64;
     private byte[] helloWorldBytes;
     private byte[] helloWorldTwoLinesBytes;
     private byte[] helloWorldTwoLinesAndNewLineBytes;
@@ -57,6 +58,7 @@ public class Base64Test {
         java8Base64 = new Java8Base64();
         commonsCodecBase64 = new CommonsCodecBase64();
         jaxbBase64 = new JaxbBase64();
+        jaxb230Base64 = new Jaxb230Base64();
     }
 
     @Test
@@ -64,6 +66,7 @@ public class Base64Test {
         assertTrue(Java8Base64.isAvailable());
         assertTrue(CommonsCodecBase64.isAvailable());
         assertTrue(JaxbBase64.isAvailable());
+        assertTrue(Jaxb230Base64.isAvailable());
     }
 
     @Test
@@ -109,6 +112,13 @@ public class Base64Test {
         assertEquals(helloWorldTwoLinesAndNewLineEncoded, jaxbBase64.internalEncode(helloWorldTwoLinesAndNewLineBytes));
         assertEquals(helloWorldDifferentCharsEncoded, jaxbBase64.internalEncode(helloWorldDifferentCharsBytes));
         assertEquals(str, jaxbBase64.internalEncode(bytes));
+
+        assertEquals(helloWorldEncoded, jaxb230Base64.internalEncode(helloWorldBytes));
+        assertEquals(helloWorldTwoLinesEncoded, jaxb230Base64.internalEncode(helloWorldTwoLinesBytes));
+        assertEquals(helloWorldTwoLinesAndNewLineEncoded,
+                jaxb230Base64.internalEncode(helloWorldTwoLinesAndNewLineBytes));
+        assertEquals(helloWorldDifferentCharsEncoded, jaxb230Base64.internalEncode(helloWorldDifferentCharsBytes));
+        assertEquals(str, jaxb230Base64.internalEncode(bytes));
     }
 
     @Test
@@ -159,5 +169,13 @@ public class Base64Test {
         assertEquals(helloWorldDifferentCharsEncoded,
                 jaxbBase64.internalEncodeUrlWithoutPadding(helloWorldDifferentCharsBytes));
         assertEquals(str, jaxbBase64.internalEncodeUrlWithoutPadding(bytes));
+
+        assertEquals(helloWorldEncoded, jaxb230Base64.internalEncodeUrlWithoutPadding(helloWorldBytes));
+        assertEquals(helloWorldTwoLinesEncoded, jaxb230Base64.internalEncodeUrlWithoutPadding(helloWorldTwoLinesBytes));
+        assertEquals(helloWorldTwoLinesAndNewLineEncoded,
+                jaxb230Base64.internalEncodeUrlWithoutPadding(helloWorldTwoLinesAndNewLineBytes));
+        assertEquals(helloWorldDifferentCharsEncoded,
+                jaxb230Base64.internalEncodeUrlWithoutPadding(helloWorldDifferentCharsBytes));
+        assertEquals(str, jaxb230Base64.internalEncodeUrlWithoutPadding(bytes));
     }
 }
