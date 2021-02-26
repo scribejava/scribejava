@@ -7,6 +7,7 @@ public class AccessTokenRequestParams {
     private final String code;
     private String pkceCodeVerifier;
     private String scope;
+    private String clientId;
 
     public AccessTokenRequestParams(String code) {
         this.code = code;
@@ -21,13 +22,18 @@ public class AccessTokenRequestParams {
         return this;
     }
 
+    public AccessTokenRequestParams scope(ScopeBuilder scope) {
+        this.scope = scope.build();
+        return this;
+    }
+
     public AccessTokenRequestParams scope(String scope) {
         this.scope = scope;
         return this;
     }
 
-    public AccessTokenRequestParams scope(ScopeBuilder scope) {
-        this.scope = scope.build();
+    public AccessTokenRequestParams clientId(String clientId) {
+        this.clientId = clientId;
         return this;
     }
 
@@ -41,5 +47,9 @@ public class AccessTokenRequestParams {
 
     public String getScope() {
         return scope;
+    }
+
+    public String getClientId() {
+        return clientId;
     }
 }
