@@ -60,13 +60,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>4.9.0</version>
+            <version>4.9.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -100,12 +100,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.1.2</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.39</version>
+                            <version>8.40</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -271,7 +271,7 @@
 
     <properties>
         <java.release>7</java.release>
-        <pmdVersion>6.30.0</pmdVersion>
+        <pmdVersion>6.31.0</pmdVersion>
     </properties>
 
     <profiles>
