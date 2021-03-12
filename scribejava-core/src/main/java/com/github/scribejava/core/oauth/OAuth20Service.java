@@ -140,6 +140,14 @@ public class OAuth20Service extends OAuthService {
         if (pkceCodeVerifier != null) {
             request.addParameter(PKCE.PKCE_CODE_VERIFIER_PARAM, pkceCodeVerifier);
         }
+
+        final Map<String, String> extraParameters = params.getExtraParameters();
+        if (extraParameters != null && !extraParameters.isEmpty()) {
+            for (Map.Entry<String, String> extraParameter : extraParameters.entrySet()) {
+                request.addParameter(extraParameter.getKey(), extraParameter.getValue());
+            }
+        }
+
         logRequestWithParams("access token", request);
         return request;
     }

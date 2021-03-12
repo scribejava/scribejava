@@ -2,6 +2,9 @@
  * add ScopeBuilder to easily specify multiple scopes while requesting OAuth2.0 Access Tokens
  * make Base64 en/de-coding not dependent from java8 implementation (use three optional implementation
     (internal java 8+, Apache Commons Codec, JAXB) detected in runtime) (thanks to https://github.com/CodingFabian)
+ * implement possibility to add extra parameters to Access Token Request
+    (AccessTokenRequestParams#*ExtraParameters methods), https://github.com/scribejava/scribejava/issues/980
+    (thanks to https://github.com/pmorch)
 
 [8.1.0]
  * add raw Response (with HTTP response code and body) as member to the OAuth2AccessTokenErrorResponse
