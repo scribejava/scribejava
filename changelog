@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[8.2.0]
  * add ScopeBuilder to easily specify multiple scopes while requesting OAuth2.0 Access Tokens
  * make Base64 en/de-coding not dependent from java8 implementation (use three optional implementation
     (internal java 8+, Apache Commons Codec, JAXB) detected in runtime) (thanks to https://github.com/CodingFabian)
