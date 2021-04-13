@@ -17,20 +17,7 @@ public class ExampleUtils {
 
     public static void turnOfSSl() {
         try {
-            final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-
-                @Override
-                public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                }
-            }
+            final TrustManager[] trustAllCerts = new TrustManager[]{new TrustAllCertsManager()
             };
 
             final SSLContext sc = SSLContext.getInstance("SSL");
@@ -47,6 +34,22 @@ public class ExampleUtils {
             HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static class TrustAllCertsManager implements X509TrustManager {
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+
+        @Override
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
         }
     }
 }
