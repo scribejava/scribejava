@@ -77,6 +77,7 @@ ScribeJava support out-of-box several HTTP clients:
 * HeadHunter ХэдХантер (https://hh.ru/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/HHExample.java)
 * HiOrg-Server (https://www.hiorg-server.de/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/HiOrgServerExample.java)
 * Imgur (http://imgur.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/ImgurExample.java)
+* Instagram (https://www.instagram.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/InstagramExample.java)
 * Kaixin 开心网 (http://www.kaixin001.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Kaixin20Example.java)
 * Kakao (https://kakao.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/KakaoExample.java)
 * Keycloak (https://www.keycloak.org/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/KeycloakExample.java)
