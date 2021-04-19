@@ -28,17 +28,6 @@ public class DeviceAuthorizationJsonExtractor extends AbstractJsonExtractor {
         return createDeviceAuthorization(response.getBody());
     }
 
-    /**
-     *
-     * @param rawResponse rawResponse
-     * @throws java.io.IOException IOException
-     * @deprecated use {@link #generateError(com.github.scribejava.core.model.Response) }
-     */
-    @Deprecated
-    public void generateError(String rawResponse) throws IOException {
-        generateError(new Response(-1, null, null, rawResponse));
-    }
-
     public void generateError(Response response) throws IOException {
         OAuth2AccessTokenJsonExtractor.instance().generateError(response);
     }

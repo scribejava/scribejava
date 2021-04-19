@@ -1,3 +1,8 @@
+[8.3.0]
+ * add Instagram (https://www.instagram.com/) API (thanks to https://github.com/faent)
+ * add getErrorMessage method to FacebookAccessTokenErrorResponse. Should be used instead of general getMessage method
+   from the parent Exception
+
 [8.2.0]
  * add ScopeBuilder to easily specify multiple scopes while requesting OAuth2.0 Access Tokens
  * make Base64 en/de-coding not dependent from java8 implementation (use three optional implementation

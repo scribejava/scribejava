@@ -77,6 +77,7 @@ ScribeJava support out-of-box several HTTP clients:
 * HeadHunter ХэдХантер (https://hh.ru/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/HHExample.java)
 * HiOrg-Server (https://www.hiorg-server.de/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/HiOrgServerExample.java)
 * Imgur (http://imgur.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/ImgurExample.java)
+* Instagram (https://www.instagram.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/InstagramExample.java)
 * Kaixin 开心网 (http://www.kaixin001.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/Kaixin20Example.java)
 * Kakao (https://kakao.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/KakaoExample.java)
 * Keycloak (https://www.keycloak.org/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/KeycloakExample.java)
@@ -137,7 +138,7 @@ You can pull ScribeJava from the central maven repository, just add these to you
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-apis</artifactId>
-    <version>8.2.0</version>
+    <version>8.3.0</version>
 </dependency>
 ```
 
@@ -146,7 +147,7 @@ And in case you need just core classes (that's it, without any external API (FB,
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-core</artifactId>
-    <version>8.2.0</version>
+    <version>8.3.0</version>
 </dependency>
 ```
 

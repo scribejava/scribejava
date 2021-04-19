@@ -1,66 +1,47 @@
 package com.github.scribejava.apis;
 
 import java.io.OutputStream;
-
-import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
-import com.github.scribejava.apis.facebook.FacebookService;
+import com.github.scribejava.apis.instagram.InstagramAccessTokenJsonExtractor;
+import com.github.scribejava.apis.instagram.InstagramService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
-public class FacebookApi extends DefaultApi20 {
+public class InstagramApi extends DefaultApi20 {
 
-    private final String version;
-
-    protected FacebookApi() {
-        this("3.2");
-    }
-
-    protected FacebookApi(String version) {
-        this.version = version;
-    }
+    public static final String LONG_LIVED_ACCESS_TOKEN_ENDPOINT = "https://graph.instagram.com/access_token";
 
     private static class InstanceHolder {
 
-        private static final FacebookApi INSTANCE = new FacebookApi();
+        private static final InstagramApi INSTANCE = new InstagramApi();
     }
 
-    public static FacebookApi instance() {
+    public static InstagramApi instance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    public static FacebookApi customVersion(String version) {
-        return new FacebookApi(version);
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.GET;
     }
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://graph.facebook.com/v" + version + "/oauth/access_token";
+        return "https://api.instagram.com/oauth/access_token";
     }
 
     @Override
     public String getRefreshTokenEndpoint() {
-        throw new UnsupportedOperationException("Facebook doesn't support refreshing tokens");
+        return "https://graph.instagram.com/refresh_access_token";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "https://www.facebook.com/v" + version + "/dialog/oauth";
+        return "https://api.instagram.com/oauth/authorize";
     }
 
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-        return FacebookAccessTokenJsonExtractor.instance();
+        return InstagramAccessTokenJsonExtractor.instance();
     }
 
     @Override
@@ -69,10 +50,10 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     @Override
-    public FacebookService createService(String apiKey, String apiSecret, String callback, String defaultScope,
+    public InstagramService createService(String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
-        return new FacebookService(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
+        return new InstagramService(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
                 userAgent, httpClientConfig, httpClient);
     }
 }
