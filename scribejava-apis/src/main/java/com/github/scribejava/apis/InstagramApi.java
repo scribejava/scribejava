@@ -8,15 +8,12 @@ import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.github.scribejava.core.model.Verb;
-import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
-/**
- * Instagram API
- */
 public class InstagramApi extends DefaultApi20 {
+
+    public static final String LONG_LIVED_ACCESS_TOKEN_ENDPOINT = "https://graph.instagram.com/access_token";
 
     private static class InstanceHolder {
 
@@ -25,11 +22,6 @@ public class InstagramApi extends DefaultApi20 {
 
     public static InstagramApi instance() {
         return InstanceHolder.INSTANCE;
-    }
-
-    @Override
-    public Verb getAccessTokenVerb() {
-        return Verb.POST;
     }
 
     @Override
@@ -49,19 +41,19 @@ public class InstagramApi extends DefaultApi20 {
 
     @Override
     public TokenExtractor<OAuth2AccessToken> getAccessTokenExtractor() {
-      return InstagramAccessTokenJsonExtractor.instance();
+        return InstagramAccessTokenJsonExtractor.instance();
     }
 
     @Override
     public ClientAuthentication getClientAuthentication() {
-      return RequestBodyAuthenticationScheme.instance();
+        return RequestBodyAuthenticationScheme.instance();
     }
 
     @Override
-    public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
-        String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
-        HttpClient httpClient) {
-        return new InstagramService(this, apiKey, apiSecret, callback, defaultScope, responseType,
-            debugStream, userAgent, httpClientConfig, httpClient);
+    public InstagramService createService(String apiKey, String apiSecret, String callback, String defaultScope,
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new InstagramService(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
+                userAgent, httpClientConfig, httpClient);
     }
 }

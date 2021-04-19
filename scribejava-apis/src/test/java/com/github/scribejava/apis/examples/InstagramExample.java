@@ -16,8 +16,8 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 public class InstagramExample {
 
     private static final String NETWORK_NAME = "Instagram";
-    private static final String PROTECTED_RESOURCE_URL =
-        "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,username";
+    private static final String PROTECTED_RESOURCE_URL
+            = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,username";
 
     private InstagramExample() {
     }
@@ -29,10 +29,10 @@ public class InstagramExample {
         final String clientSecret = "client-secret";
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
-                  .apiSecret(clientSecret)
-                  .defaultScope("user_profile,user_media")
-                  .callback("http://example.com")
-                  .build(InstagramApi.instance());
+                .apiSecret(clientSecret)
+                .defaultScope("user_profile,user_media")
+                .callback("http://example.com")
+                .build(InstagramApi.instance());
 
         final Scanner in = new Scanner(System.in, "UTF-8");
 
@@ -81,15 +81,17 @@ public class InstagramExample {
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
 
-      InstagramService instagramService = (InstagramService) service;
-      System.out.println("Now let's exchange our short-lived token to long-lived access token...");
-      OAuth2AccessToken longLivedAccessToken = instagramService.getLongLivedAccessToken(accessToken);
-      System.out.println("Got the Access Token!");
-      System.out.println("(The access token raw response looks like this: " + longLivedAccessToken.getRawResponse() + "')");
+        final InstagramService instagramService = (InstagramService) service;
+        System.out.println("Now let's exchange our short-lived token to long-lived access token...");
+        final OAuth2AccessToken longLivedAccessToken = instagramService.getLongLivedAccessToken(accessToken);
+        System.out.println("Got the Access Token!");
+        System.out.println("(The access token raw response looks like this: " + longLivedAccessToken.getRawResponse()
+                + "')");
 
-      System.out.println("Now it's time to refresh long-lived token...");
-      OAuth2AccessToken refreshAccessToken = service.refreshAccessToken(longLivedAccessToken.getAccessToken());
-      System.out.println("Got the refreshed Access Token!");
-      System.out.println("(The refreshed access token raw response looks like this: " + refreshAccessToken.getRawResponse() + "')");
+        System.out.println("Now it's time to refresh long-lived token...");
+        final OAuth2AccessToken refreshAccessToken = service.refreshAccessToken(longLivedAccessToken.getAccessToken());
+        System.out.println("Got the refreshed Access Token!");
+        System.out.println("(The refreshed access token raw response looks like this: "
+                + refreshAccessToken.getRawResponse() + "')");
     }
 }

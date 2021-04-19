@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.polar;
 
-import com.github.scribejava.core.builder.api.DefaultApi20;
+import com.github.scribejava.apis.PolarAPI;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -13,7 +13,7 @@ import java.io.OutputStream;
 
 public class PolarOAuthService extends OAuth20Service {
 
-    public PolarOAuthService(DefaultApi20 api, String apiKey, String apiSecret, String callback, String defaultScope,
+    public PolarOAuthService(PolarAPI api, String apiKey, String apiSecret, String callback, String defaultScope,
             String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
             HttpClient httpClient) {
         super(api, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent, httpClientConfig,

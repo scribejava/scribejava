@@ -1,31 +1,32 @@
 package com.github.scribejava.apis.instagram;
 
+import com.github.scribejava.core.model.OAuthResponseException;
 import java.io.IOException;
 import java.util.Objects;
-import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.Response;
 
 /**
- * non standard Instagram replace for
- * {@link com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse}
+ * non standard Instagram replace for {@link com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse}
  *
  * examples:<br>
  *
  * '{"error_type": "OAuthException", "code": 400, "error_message": "Missing required field client_id"}'
  */
-public class InstagramAccessTokenErrorResponse extends OAuthException {
+public class InstagramAccessTokenErrorResponse extends OAuthResponseException {
 
-    private static final long serialVersionUID = -1277129766099856895L;
+    private static final long serialVersionUID = -1277129706699856895L;
 
     private final String errorType;
-    private final int codeInt;
+    private final int code;
+    private final String errorMessage;
     private final Response response;
 
-    public InstagramAccessTokenErrorResponse(String errorType, int code,
-       String errorMessage, Response response) {
-        super(errorMessage);
+    public InstagramAccessTokenErrorResponse(String errorType, int code, String errorMessage, Response response)
+            throws IOException {
+        super(response);
         this.errorType = errorType;
-        this.codeInt = code;
+        this.code = code;
+        this.errorMessage = errorMessage;
         this.response = response;
     }
 
@@ -33,54 +34,51 @@ public class InstagramAccessTokenErrorResponse extends OAuthException {
         return errorType;
     }
 
-    public int getCodeInt() {
-        return codeInt;
+    public int getCode() {
+        return code;
     }
 
-    /**
-     *
-     * @return body of response
-     * @throws IOException IOException
-     * @deprecated use {@link #getResponse()} and then {@link Response#getBody()}
-     */
-    @Deprecated
-    public String getRawResponse() throws IOException {
-        return response.getBody();
-    }
-
-    public Response getResponse() {
-        return response;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-          return true;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-        if (o == null || getClass() != o.getClass()) {
-          return false;
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
         }
-        InstagramAccessTokenErrorResponse that = (InstagramAccessTokenErrorResponse) o;
-        return codeInt == that.codeInt && Objects.equals(errorType, that.errorType)
-               && Objects.equals(response, that.response);
+        if (!super.equals(obj)) {
+            return false;
+        }
+
+        final InstagramAccessTokenErrorResponse that = (InstagramAccessTokenErrorResponse) obj;
+        if (!Objects.equals(errorMessage, that.getErrorMessage())) {
+            return false;
+        }
+        return code == that.code && Objects.equals(errorType, that.errorType)
+                && Objects.equals(response, that.response);
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = super.hashCode();
         hash = 83 * hash + Objects.hashCode(response);
-        hash = 83 * hash + Objects.hashCode(getMessage());
+        hash = 83 * hash + Objects.hashCode(errorMessage);
         hash = 83 * hash + Objects.hashCode(errorType);
-        hash = 83 * hash + Objects.hashCode(codeInt);
+        hash = 83 * hash + Objects.hashCode(code);
         return hash;
     }
 
     @Override
     public String toString() {
-        return "InstagramAccessTokenErrorResponse{" +
-               "errorType='" + errorType + '\'' +
-               ", codeInt=" + codeInt +
-               ", response=" + response +
-               '}';
+        return "InstagramAccessTokenErrorResponse{"
+                + "errorType='" + errorType
+                + "', code=" + code
+                + "', errorMessage='" + errorMessage
+                + "', response=" + response
+                + '}';
     }
 }

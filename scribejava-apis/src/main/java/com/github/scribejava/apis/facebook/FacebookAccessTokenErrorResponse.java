@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.facebook;
 
-import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.model.OAuthResponseException;
 import com.github.scribejava.core.model.Response;
 import java.io.IOException;
 import java.util.Objects;
@@ -16,39 +16,27 @@ import java.util.Objects;
  * '{"error":{"message":"Error validating application. Invalid application
  * ID.","type":"OAuthException","code":101,"fbtrace_id":"CvDR+X4WWIx"}}'
  */
-public class FacebookAccessTokenErrorResponse extends OAuthException {
+public class FacebookAccessTokenErrorResponse extends OAuthResponseException {
 
     private static final long serialVersionUID = -1277129766099856895L;
 
+    private final String errorMessage;
     private final String type;
     private final int codeInt;
     private final String fbtraceId;
-    private final Response response;
 
-    public FacebookAccessTokenErrorResponse(String message, String type, int code, String fbtraceId,
-            Response response) {
-        super(message);
+    public FacebookAccessTokenErrorResponse(String errorMessage, String type, int code, String fbtraceId,
+            Response response)
+            throws IOException {
+        super(response);
+        this.errorMessage = errorMessage;
         this.type = type;
         this.codeInt = code;
         this.fbtraceId = fbtraceId;
-        this.response = response;
     }
 
-    /**
-     *
-     * @param message message
-     * @param type type
-     * @param code code
-     * @param fbtraceId fbtraceId
-     * @param rawResponse rawResponse
-     * @deprecated use {@link #FacebookAccessTokenErrorResponse(java.lang.String, java.lang.String,
-     * int, java.lang.String, com.github.scribejava.core.model.Response)
-     * }
-     */
-    @Deprecated
-    public FacebookAccessTokenErrorResponse(String message, String type, int code, String fbtraceId,
-            String rawResponse) {
-        this(message, type, code, fbtraceId, new Response(-1, null, null, rawResponse));
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     public String getType() {
@@ -63,26 +51,10 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
         return fbtraceId;
     }
 
-    /**
-     *
-     * @return body of response
-     * @throws IOException IOException
-     * @deprecated use {@link #getResponse()} and then {@link Response#getBody()}
-     */
-    @Deprecated
-    public String getRawResponse() throws IOException {
-        return response.getBody();
-    }
-
-    public Response getResponse() {
-        return response;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 83 * hash + Objects.hashCode(response);
-        hash = 83 * hash + Objects.hashCode(getMessage());
+        int hash = super.hashCode();
+        hash = 83 * hash + Objects.hashCode(errorMessage);
         hash = 83 * hash + Objects.hashCode(type);
         hash = 83 * hash + Objects.hashCode(codeInt);
         hash = 83 * hash + Objects.hashCode(fbtraceId);
@@ -100,11 +72,13 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final FacebookAccessTokenErrorResponse other = (FacebookAccessTokenErrorResponse) obj;
-        if (!Objects.equals(response, other.getResponse())) {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!Objects.equals(getMessage(), other.getMessage())) {
+
+        final FacebookAccessTokenErrorResponse other = (FacebookAccessTokenErrorResponse) obj;
+
+        if (!Objects.equals(errorMessage, other.getErrorMessage())) {
             return false;
         }
         if (!Objects.equals(type, other.getType())) {
@@ -119,7 +93,7 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
     @Override
     public String toString() {
         return "FacebookAccessTokenErrorResponse{'type'='" + type + "', 'codeInt'='" + codeInt
-                + "', 'fbtraceId'='" + fbtraceId + "', 'response'='" + response
-                + "', 'message'='" + getMessage() + "'}";
+                + "', 'fbtraceId'='" + fbtraceId + "', 'response'='" + getResponse()
+                + "', 'errorMessage'='" + errorMessage + "'}";
     }
 }

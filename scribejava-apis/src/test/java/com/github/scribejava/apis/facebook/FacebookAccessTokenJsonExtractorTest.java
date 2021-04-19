@@ -29,7 +29,7 @@ public class FacebookAccessTokenJsonExtractorTest {
                 }
             });
 
-            assertEquals("This authorization code has been used.", fateR.getMessage());
+            assertEquals("This authorization code has been used.", fateR.getErrorMessage());
             assertEquals("OAuthException", fateR.getType());
             assertEquals(100, fateR.getCodeInt());
             assertEquals("DtxvtGRaxbB", fateR.getFbtraceId());
