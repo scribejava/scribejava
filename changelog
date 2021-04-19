@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[8.3.0]
  * add Instagram (https://www.instagram.com/) API (thanks to https://github.com/faent)
  * add getErrorMessage method to FacebookAccessTokenErrorResponse. Should be used instead of general getMessage method
    from the parent Exception
