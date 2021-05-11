@@ -105,7 +105,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.41.1</version>
+                            <version>8.42</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -271,7 +271,7 @@
 
     <properties>
         <java.release>7</java.release>
-        <pmdVersion>6.33.0</pmdVersion>
+        <pmdVersion>6.34.0</pmdVersion>
     </properties>
 
     <profiles>
@@ -288,7 +288,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
