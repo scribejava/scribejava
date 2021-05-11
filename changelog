@@ -1,4 +1,4 @@
-[SNAPSHOT]
+[8.3.1]
  * fix java.lang.NoClassDefFoundError for non-java8 runtimes (e.g. Android 7.1.1)
    (thanks to https://github.com/ChristopherGittner)
 
