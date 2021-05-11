@@ -2,10 +2,18 @@ package com.github.scribejava.core.base64;
 
 public class CommonsCodecBase64 extends Base64 {
 
-    private static final org.apache.commons.codec.binary.Base64 BASE64_ENCODER
-            = new org.apache.commons.codec.binary.Base64();
-    private static final org.apache.commons.codec.binary.Base64 BASE64_URL_ENCODER_WITHOUT_PADDING
-            = new org.apache.commons.codec.binary.Base64(0, null, true);
+    private static final org.apache.commons.codec.binary.Base64 BASE64_ENCODER;
+    private static final org.apache.commons.codec.binary.Base64 BASE64_URL_ENCODER_WITHOUT_PADDING;
+
+    static {
+        if (isAvailable()) {
+            BASE64_ENCODER = new org.apache.commons.codec.binary.Base64();
+            BASE64_URL_ENCODER_WITHOUT_PADDING = new org.apache.commons.codec.binary.Base64(0, null, true);
+        } else {
+            BASE64_ENCODER = null;
+            BASE64_URL_ENCODER_WITHOUT_PADDING = null;
+        }
+    }
 
     @Override
     protected String internalEncode(byte[] bytes) {

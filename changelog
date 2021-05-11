@@ -1,3 +1,7 @@
+[SNAPSHOT]
+ * fix java.lang.NoClassDefFoundError for non-java8 runtimes (e.g. Android 7.1.1)
+   (thanks to https://github.com/ChristopherGittner)
+
 [8.3.0]
  * add Instagram (https://www.instagram.com/) API (thanks to https://github.com/faent)
  * add getErrorMessage method to FacebookAccessTokenErrorResponse. Should be used instead of general getMessage method
