@@ -1,5 +1,6 @@
 package com.github.scribejava.apis.examples;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.NetSuiteApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth1AccessToken;
@@ -10,9 +11,13 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class NetSuiteExample {
+    private static final ObjectMapper jsonMapper = new ObjectMapper();
+
     // Replace these with your own account id, consumer key, consumer secret, token id, token secret and restlet domain
     private static final String ACCOUNT_ID = "your_account_id";
     private static final String CONSUMER_KEY = "your_consumer_key";
@@ -48,10 +53,19 @@ public class NetSuiteExample {
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
-        final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
-        request.addHeader("Content-Type", "application/json");
+        final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
         request.setRealm(ACCOUNT_ID);
         service.signRequest(accessToken, request);
+        request.addHeader("Content-Type", "application/json");
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("message", "your request body for POST and PUT");
+        String jsonRequestBody = jsonMapper.writer().writeValueAsString(requestBody);
+        request.setPayload(jsonRequestBody);
+
+        System.out.println("Request body to sent:");
+        System.out.println(jsonRequestBody);
+        System.out.println();
 
         try (Response response = service.execute(request)) {
             System.out.println("Got it! Let's see what we found...");
