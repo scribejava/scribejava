@@ -58,12 +58,12 @@ public class NetSuiteExample {
         service.signRequest(accessToken, request);
         request.addHeader("Content-Type", "application/json");
 
-        Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("message", "your request body for POST and PUT");
-        String jsonRequestBody = jsonMapper.writer().writeValueAsString(requestBody);
+        Map<String, String> requestMap = new HashMap<>();
+        requestMap.put("message", "your request body for POST and PUT");
+        String jsonRequestBody = jsonMapper.writer().writeValueAsString(requestMap);
         request.setPayload(jsonRequestBody);
 
-        System.out.println("Request body to sent:");
+        System.out.println("Request body to send:");
         System.out.println(jsonRequestBody);
         System.out.println();
 
