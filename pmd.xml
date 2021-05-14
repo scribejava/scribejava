@@ -17,7 +17,6 @@
     </rule>
     <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
     <rule ref="category/java/bestpractices.xml/SystemPrintln" />
-    <rule ref="category/java/bestpractices.xml/UnusedImports" />
     <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
     <rule ref="category/java/bestpractices.xml/UseAssertNullInsteadOfAssertTrue" />
     <rule ref="category/java/bestpractices.xml/UseAssertSameInsteadOfAssertTrue" />
@@ -34,8 +33,6 @@
         </properties>
     </rule>
     <rule ref="category/java/codestyle.xml/ControlStatementBraces" />
-    <rule ref="category/java/codestyle.xml/DontImportJavaLang" />
-    <rule ref="category/java/codestyle.xml/DuplicateImports" />
     <rule ref="category/java/codestyle.xml/ExtendsObject" />
     <rule ref="category/java/codestyle.xml/FieldNamingConventions" />
     <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop" />
@@ -48,6 +45,7 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement" />
     <rule ref="category/java/codestyle.xml/UnnecessaryConstructor" />
     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryImport" />
     <rule ref="category/java/codestyle.xml/UnnecessaryModifier" />
     <rule ref="category/java/codestyle.xml/UnnecessaryReturn" />
     <rule ref="category/java/codestyle.xml/UselessParentheses" />
@@ -91,7 +89,6 @@
     <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize" />
     <rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected" />
     <rule ref="category/java/errorprone.xml/IdempotentOperations" />
-    <rule ref="category/java/errorprone.xml/ImportFromSamePackage" />
     <rule ref="category/java/errorprone.xml/InstantiationToGetClass" />
     <rule ref="category/java/errorprone.xml/InvalidLogMessageFormat" />
     <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass" />
