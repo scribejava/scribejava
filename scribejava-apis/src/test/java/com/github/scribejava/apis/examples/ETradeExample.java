@@ -1,6 +1,7 @@
 package com.github.scribejava.apis.examples;
 
 import com.github.scribejava.apis.ETradeApi;
+import com.github.scribejava.apis.ETradeSandboxApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
@@ -28,7 +29,7 @@ public class ETradeExample {
         final OAuth10aService service = new ServiceBuilder(CONSUMER_KEY)
                 .apiSecret(CONSUMER_SECRET)
                 .debugStream(System.out)
-                .build(ETradeApi.instance());
+                .build(ETradeSandboxApi.instance());
 
         final Scanner in = new Scanner(System.in);
 
@@ -54,7 +55,6 @@ public class ETradeExample {
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
         System.out.println();
-
 
         // Now let's go and ask for a protected resource!
         System.out.println("Now we're going to access a protected resource...");
