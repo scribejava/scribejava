@@ -1,5 +1,6 @@
 package com.github.scribejava.core.services;
 
+import com.github.scribejava.core.base64.Base64;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -40,7 +41,7 @@ public class HMACSha1SignatureService implements SignatureService {
         final Mac mac = Mac.getInstance(HMAC_SHA1);
         mac.init(key);
         final byte[] bytes = mac.doFinal(toSign.getBytes(UTF8));
-        return BASE_64_ENCODER.encodeToString(bytes).replace(CARRIAGE_RETURN, EMPTY_STRING);
+        return Base64.encode(bytes).replace(CARRIAGE_RETURN, EMPTY_STRING);
     }
 
     /**

@@ -1,3 +1,20 @@
+[8.3.1]
+ * fix java.lang.NoClassDefFoundError for non-java8 runtimes (e.g. Android 7.1.1)
+   (thanks to https://github.com/ChristopherGittner)
+
+[8.3.0]
+ * add Instagram (https://www.instagram.com/) API (thanks to https://github.com/faent)
+ * add getErrorMessage method to FacebookAccessTokenErrorResponse. Should be used instead of general getMessage method
+   from the parent Exception
+
+[8.2.0]
+ * add ScopeBuilder to easily specify multiple scopes while requesting OAuth2.0 Access Tokens
+ * make Base64 en/de-coding not dependent from java8 implementation (use three optional implementation
+    (internal java 8+, Apache Commons Codec, JAXB) detected in runtime) (thanks to https://github.com/CodingFabian)
+ * implement possibility to add extra parameters to Access Token Request
+    (AccessTokenRequestParams#*ExtraParameters methods), https://github.com/scribejava/scribejava/issues/980
+    (thanks to https://github.com/pmorch)
+
 [8.1.0]
  * add raw Response (with HTTP response code and body) as member to the OAuth2AccessTokenErrorResponse
  * add possibility to set "" (empty string) as apiSecret
@@ -58,7 +75,8 @@
 
 [6.4.1]
  * support TLS 1.3 in JDK 11 for Salesforce
- * fix NPE in Apache HTTP client in case of empty body in HTTP response (e.g. with 204 response code) (thanks to https://github.com/SainagNeelamPatnaik)
+ * fix NPE in Apache HTTP client in case of empty body in HTTP response (e.g. with 204 response code)
+    (thanks to https://github.com/SainagNeelamPatnaik)
  * separate OAuth1.0a and OAuth2.0 classes
 
 [6.3.0]
@@ -70,7 +88,8 @@
    and it should be set per request, not per created OAuthService
 
 [6.2.0]
- * add new API Microsoft Azure Active Directory (Azure AD) 2.0 (thanks to https://github.com/rzukow and https://github.com/dgrudenic)
+ * add new API Microsoft Azure Active Directory (Azure AD) 2.0
+    (thanks to https://github.com/rzukow and https://github.com/dgrudenic)
 
 [6.1.0]
  * add new API Keycloak (https://www.keycloak.org/) (thanks to https://github.com/JureZelic)
@@ -78,18 +97,22 @@
 
 [6.0.0]
  * make redirect_uri optional while Access Token requesting on OAuth 2.0 (thanks to https://github.com/computerlove)
- * switch to java 9+ (from java 7 only) for compilation. Runtime is still java 7+. Complement README with links and RFC descriptions.
+ * switch to java 9+ (from java 7 only) for compilation. Runtime is still java 7+.
+    Complement README with links and RFC descriptions.
  * switch OAuth2 Bearer Token Usage from enum OAuth2SignatureType to interface BearerSignature to be extensible
  * add new API Wunderlist (https://www.wunderlist.com/) (thanks to https://github.com/M-F-K)
 
 [5.6.0]
- * remove support for obsolete NetEase (http://www.163.com/) and sohu 搜狐 (http://www.sohu.com/) (thanks to https://github.com/zawn)
+ * remove support for obsolete NetEase (http://www.163.com/) and sohu 搜狐 (http://www.sohu.com/)
+    (thanks to https://github.com/zawn)
  * add Multipart functionality to JDK Http Client (thanks to https://github.com/eos1d3)
  * switch OAuth2 ClientAuthenticationType from enum to interface ClientAuthentication to be extensible according to
    https://tools.ietf.org/html/rfc6749#section-2.3.2 (thanks to https://github.com/zawn)
- * add RuntimeException processing in async http clients (delivered to onError callbacks) (thanks to https://github.com/jochen314)
+ * add RuntimeException processing in async http clients (delivered to onError callbacks)
+    (thanks to https://github.com/jochen314)
  * check 200 status code from response in OAuth2AccessTokenExtractor (thanks to https://github.com/jochen314)
- * fix case sensitive Http Headers comparison and sending Content-Type header along with content-type (thanks to https://github.com/marnix)
+ * fix case sensitive Http Headers comparison and sending Content-Type header along with content-type
+    (thanks to https://github.com/marnix)
  * add HiOrg-Server (https://www.hiorg-server.de/) API (thanks to https://github.com/MartinBoehmer)
 
 [5.5.0]
@@ -102,7 +125,8 @@
  * fix missing support for scope for refresh_token grant_type (thanks to https://github.com/tlxtellef)
  * add email field to VKOAuth2AccessToken (thanks to https://github.com/grouzen)
  * add new API - Automatic (https://www.automatic.com/) (thanks to https://github.com/ramsrib)
- * add new API - Fitbit (https://www.fitbit.com/) (thanks to https://github.com/JustinLawler and https://github.com/alexthered)
+ * add new API - Fitbit (https://www.fitbit.com/)
+    (thanks to https://github.com/JustinLawler and https://github.com/alexthered)
  * deprecate OAuthConfig
  * OAuth1.0: send "oob" instead of null callback while requesting RequestToken (thanks to https://github.com/Rafaelsk)
 
@@ -116,7 +140,8 @@
  * add required param version to VK ВКонтакте (http://vk.com/) urls
 
 [5.2.0-java7again]
- * allow 'null' as callback. It's an optional parameter. Remove "oob" as default (thanks to https://github.com/massongit)
+ * allow 'null' as callback. It's an optional parameter. Remove "oob" as default
+    (thanks to https://github.com/massongit)
  * java7 compatible again!
 
 [5.1.0]
@@ -129,17 +154,20 @@
  * drop Java 7 backward compatibility support, become Java 8 only (was reverted in v5.2.0-java7again)
  * add JSON token extractor for OAuth 1.0a (thanks to https://github.com/evstropovv)
  * add new API - uCoz (https://www.ucoz.com/) (thanks to https://github.com/evstropovv)
- * add PKCE (RFC 7636) support (Proof Key for Code Exchange by OAuth Public Clients) (thanks for suggesting to https://github.com/dieseldjango)
+ * add PKCE (RFC 7636) support (Proof Key for Code Exchange by OAuth Public Clients)
+    (thanks for suggesting to https://github.com/dieseldjango)
  * switch to use HTTP Basic Authorization by default in requests with need of
    (2.3.  Client Authentication) https://tools.ietf.org/html/rfc6749#section-2.3 Can be overrided in API class
  * add support for client_credentials grant type (thanks to https://github.com/vivin)
  * add support for RFC 7009 OAuth 2.0 Token Revocation (thanks to https://github.com/vivin)
  * add OAuth2Service signRequest method accepting just String, not OAuth2 Access Token Object.
    Remove signRequest from abstract OAuthService. 2.0 and 1.0a will be a bit more different now.
- * drop toString method from *Tokens to prevent leak of sensible data (token ans secrets) (thanks to https://github.com/rcaa)
+ * drop toString method from *Tokens to prevent leak of sensible data (token ans secrets)
+    (thanks to https://github.com/rcaa)
  * add Apache HttpComponents HttpClient support in separate module (thanks to https://github.com/sschwieb)
  * add support for appsecret_proof in Facebook
- * update Facebook v2.8 -> v2.11 (version can be configured while constructing OAuthService - use FacebookApi.customVersion("2.11"))
+ * update Facebook v2.8 -> v2.11
+    (version can be configured while constructing OAuthService - use FacebookApi.customVersion("2.11"))
 
 [4.2.0]
  * DELETE in JdkClient permits, but not requires payload (thanks to https://github.com/miguelD73)
@@ -152,21 +180,27 @@
  * update Live API (thanks to https://github.com/typhoon17)
 
 [4.1.1]
- * omit the client_secret parameter if it is an empty string while refreshing token (thanks to https://github.com/KungfuPancake)
+ * omit the client_secret parameter if it is an empty string while refreshing token
+    (thanks to https://github.com/KungfuPancake)
  * allow perms to be specified in Flickr Api (read, write, or delete) (thanks to https://github.com/rogerhu)
- * OdnoklassnikiService should consider params in a body while signing the request (thanks to https://github.com/MrNeuronix)
+ * OdnoklassnikiService should consider params in a body while signing the request
+    (thanks to https://github.com/MrNeuronix)
  * do not open OutputStream for output while sending empty body in HTTP requests in the default JDK Http client
 
 [4.1.0]
- * make client_secret optional in OAuth2 while requesting AccessToken (if set to null, it's not required by OAuth2 specs)
+ * make client_secret optional in OAuth2 while requesting AccessToken
+    (if set to null, it's not required by OAuth2 specs)
  * move OAuth1 SignatureType from ServiceBuilder to API
  * add body for PATCH HTTP method
- * make addOAuthParams appendSignature methods protected in OAuth10aService (to override them in case of need) (thanks to https://github.com/vivin)
+ * make addOAuthParams appendSignature methods protected in OAuth10aService (to override them in case of need)
+    (thanks to https://github.com/vivin)
 
 [4.0.0]
- * Remove OAuthRequestAsync, just OAuthRequest. Request should know about sync vs async. Move default Http engine to JDKHttpClient.
+ * Remove OAuthRequestAsync, just OAuthRequest. Request should know about sync vs async.
+    Move default Http engine to JDKHttpClient.
  * introduce SignatureType for OAuth2.0 to implement Bearer signing for the requests
- * switch Google, GitHub, Facebook OAuth2.0 oauth requests signing to more secured recommended variant (GET-param -> header Bearer)
+ * switch Google, GitHub, Facebook OAuth2.0 oauth requests signing to more secured recommended variant
+    (GET-param -> header Bearer)
  * introduce custom nonstandard Facebook AccessTokenErrorResponse
 
 [3.4.1]
@@ -179,14 +213,16 @@
  * add support for byte[] and File (async only) payload in OAuth Requests (thanks to https://github.com/keijohyttinen)
  * add support for  HTTP verbs (thanks to https://github.com/keijohyttinen)
  * add OkHttp http client support (thanks to https://github.com/arcao)
- * add default HTTP client configs (to use like 'new ServiceBuilder().httpClientConfig(OkHttpHttpClientConfig.defaultConfig())')
+ * add default HTTP client configs
+    (to use like 'new ServiceBuilder().httpClientConfig(OkHttpHttpClientConfig.defaultConfig())')
  * you can use your own impl of AsyncHttpClient
 
 [3.3.0]
  * update Facebook v2.6 -> v2.8
  * add The Things Network API (v1-staging and v2-preview) (thanks to https://github.com/jpmeijers)
  * add Box (thanks to https://github.com/MclaughlinSteve)
- * fix: OAuth20Service::refreshAccessToken should use RefreshTokenEndpoint, not AccessTokenEndpoint (thanks to https://github.com/vivin)
+ * fix: OAuth20Service::refreshAccessToken should use RefreshTokenEndpoint, not AccessTokenEndpoint
+    (thanks to https://github.com/vivin)
  * move signRequest method to OAuthService (common for OAuth1 and OAuth2) (thanks to https://github.com/apomelov)
  * drop deprecated setConnectionKeepAlive method
 
@@ -195,14 +231,17 @@
  * handle OAuth2 error response for Issuing an Access Token (thanks to juherr)
 
 [3.1.0]
- * fix OdnoklassnikiServiceImpl signature, params for hash must be sorted in lexicographic order, see http://new.apiok.ru/dev/methods/
+ * fix OdnoklassnikiServiceImpl signature, params for hash must be sorted in lexicographic order,
+    see http://new.apiok.ru/dev/methods/
  * add posibility to use externally created http client
  * make ScribeJava compilable under jdk7 (checkstyle downgraded for jdk 1.7)
  * add travis CI (check [oracle|open]jdk7 oraclejdk8)
 
 [3.0.0]
- * create abstract HTTP Client layer to support different HTTP clients as plugins (AHC and Ning support becames maven submodules)
- * remove changing global JVM property http.keepAlive, deprecate controlling this property inside of ScribeJava (thanks to wldaunfr and rockihack)
+ * create abstract HTTP Client layer to support different HTTP clients as plugins
+    (AHC and Ning support becames maven submodules)
+ * remove changing global JVM property http.keepAlive, deprecate controlling this property inside of ScribeJava
+    (thanks to wldaunfr and rockihack)
 
 [2.8.1]
  * add Salesforce sandbox API support
@@ -243,8 +282,10 @@
 [2.5.2]
  * add Google Async Exmaple (with bugfix for it to work)
  * add OSGI manifest metadata
- * apiSecret is not mandatory parameter in config (to use on client sides and other flows without need of the API secret)
- * implement OAuth2 Authorization Response parsing in the OAuth20Service (to extract code and state from url, useful for Android)
+ * apiSecret is not mandatory parameter in config
+    (to use on client sides and other flows without need of the API secret)
+ * implement OAuth2 Authorization Response parsing in the OAuth20Service
+    (to extract code and state from url, useful for Android)
  * update ok.ru API urls, add 'state' support, add refresh token to the example
 
 [2.4.0]

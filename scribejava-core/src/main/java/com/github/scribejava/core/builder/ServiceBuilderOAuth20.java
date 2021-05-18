@@ -51,5 +51,7 @@ public interface ServiceBuilderOAuth20 extends ServiceBuilderCommon {
      */
     ServiceBuilderOAuth20 defaultScope(String defaultScope);
 
+    ServiceBuilderOAuth20 defaultScope(ScopeBuilder scopeBuilder);
+
     OAuth20Service build(DefaultApi20 api);
 }

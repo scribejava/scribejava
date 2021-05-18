@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import org.junit.function.ThrowingRunnable;
 
 public class OAuth2AccessTokenExtractorTest {
 
@@ -70,34 +72,50 @@ public class OAuth2AccessTokenExtractorTest {
         assertEquals("foo1234", extracted.getAccessToken());
     }
 
-    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfErrorResponse() throws IOException {
         final String responseBody = "";
         try (Response response = error(responseBody)) {
-            extractor.extract(response);
+            assertThrows(OAuthException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
-    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfTokenIsAbsent() throws IOException {
         final String responseBody = "&expires=5108";
         try (Response response = ok(responseBody)) {
-            extractor.extract(response);
+            assertThrows(OAuthException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfResponseIsNull() throws IOException {
         try (Response response = ok(null)) {
-            extractor.extract(response);
+            assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfResponseIsEmptyString() throws IOException {
         final String responseBody = "";
         try (Response response = ok(responseBody)) {
-            extractor.extract(response);
+            assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 

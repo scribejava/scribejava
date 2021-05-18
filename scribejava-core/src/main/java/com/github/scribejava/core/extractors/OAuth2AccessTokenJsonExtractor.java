@@ -40,17 +40,6 @@ public class OAuth2AccessTokenJsonExtractor extends AbstractJsonExtractor implem
     }
 
     /**
-     *
-     * @param rawResponse rawResponse
-     * @throws java.io.IOException IOException
-     * @deprecated use {@link #generateError(com.github.scribejava.core.model.Response) }
-     */
-    @Deprecated
-    public void generateError(String rawResponse) throws IOException {
-        generateError(new Response(-1, null, null, rawResponse));
-    }
-
-    /**
      * Related documentation: https://tools.ietf.org/html/rfc6749#section-5.2
      *
      * @param response response

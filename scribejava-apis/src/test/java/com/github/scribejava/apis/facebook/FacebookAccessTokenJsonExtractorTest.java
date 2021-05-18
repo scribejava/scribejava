@@ -4,8 +4,9 @@ import com.github.scribejava.core.model.Response;
 import java.io.IOException;
 import java.util.Collections;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 public class FacebookAccessTokenJsonExtractorTest {
 
@@ -19,10 +20,16 @@ public class FacebookAccessTokenJsonExtractorTest {
                 + "\"code\":100,"
                 + "\"fbtrace_id\":\"DtxvtGRaxbB\"}}";
         try (Response response = error(body)) {
-            extractor.extract(response);
-            fail();
-        } catch (FacebookAccessTokenErrorResponse fateR) {
-            assertEquals("This authorization code has been used.", fateR.getMessage());
+
+            final FacebookAccessTokenErrorResponse fateR = assertThrows(FacebookAccessTokenErrorResponse.class,
+                    new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
+
+            assertEquals("This authorization code has been used.", fateR.getErrorMessage());
             assertEquals("OAuthException", fateR.getType());
             assertEquals(100, fateR.getCodeInt());
             assertEquals("DtxvtGRaxbB", fateR.getFbtraceId());

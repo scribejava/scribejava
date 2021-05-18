@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import org.junit.function.ThrowingRunnable;
 
 public class OAuth1AccessTokenExtractorTest {
 
@@ -65,34 +67,50 @@ public class OAuth1AccessTokenExtractorTest {
         assertEquals("", extracted.getTokenSecret());
     }
 
-    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfTokenIsAbsent() throws IOException {
         final String responseBody = "oauth_secret=hh5s93j4hdidpola&callback_confirmed=true";
         try (Response response = ok(responseBody)) {
-            extractor.extract(response);
+            assertThrows(OAuthException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
-    @Test(expected = OAuthException.class)
     public void shouldThrowExceptionIfSecretIsAbsent() throws IOException {
         final String responseBody = "oauth_token=hh5s93j4hdidpola&callback_confirmed=true";
         try (Response response = ok(responseBody)) {
-            extractor.extract(response);
+            assertThrows(OAuthException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfResponseIsNull() throws IOException {
         try (Response response = ok(null)) {
-            extractor.extract(response);
+            assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionIfResponseIsEmptyString() throws IOException {
         final String responseBody = "";
         try (Response response = ok(responseBody)) {
-            extractor.extract(response);
+            assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+                @Override
+                public void run() throws Throwable {
+                    extractor.extract(response);
+                }
+            });
         }
     }
 
