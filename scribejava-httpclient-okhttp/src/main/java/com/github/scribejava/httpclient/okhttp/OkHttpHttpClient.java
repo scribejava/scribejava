@@ -29,6 +29,7 @@ public class OkHttpHttpClient implements HttpClient {
     private static final MediaType DEFAULT_CONTENT_TYPE_MEDIA_TYPE = MediaType.parse(DEFAULT_CONTENT_TYPE);
 
     private final OkHttpClient client;
+    private final OkHttpRequestDecorator decorator;
 
     public OkHttpHttpClient() {
         this(OkHttpHttpClientConfig.defaultConfig());
@@ -36,11 +37,19 @@ public class OkHttpHttpClient implements HttpClient {
 
     public OkHttpHttpClient(OkHttpHttpClientConfig config) {
         final OkHttpClient.Builder clientBuilder = config.getClientBuilder();
-        client = clientBuilder == null ? new OkHttpClient() : clientBuilder.build();
+
+        this.client = clientBuilder == null ? new OkHttpClient() : clientBuilder.build();
+        this.decorator = config.getDecorator();
     }
 
     public OkHttpHttpClient(OkHttpClient client) {
         this.client = client;
+        this.decorator = null;
+    }
+
+    public OkHttpHttpClient(OkHttpClient client, OkHttpRequestDecorator decorator) {
+        this.client = client;
+        this.decorator = decorator;
     }
 
     @Override
@@ -156,6 +165,10 @@ public class OkHttpHttpClient implements HttpClient {
 
         if (userAgent != null) {
             requestBuilder.header(OAuthConstants.USER_AGENT_HEADER_NAME, userAgent);
+        }
+
+        if (decorator != null) {
+            decorator.decorate(requestBuilder);
         }
 
         // create a new call
