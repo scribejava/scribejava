@@ -21,6 +21,12 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.69</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-httpclient-ahc</artifactId>
             <version>${project.version}</version>
