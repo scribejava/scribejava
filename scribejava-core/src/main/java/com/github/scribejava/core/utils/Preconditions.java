@@ -44,7 +44,7 @@ public abstract class Preconditions {
         return false;
     }
 
-    private static void check(boolean requirements, String error) {
+    public static void check(boolean requirements, String error) {
         if (!requirements) {
             throw new IllegalArgumentException(hasText(error) ? error : DEFAULT_MESSAGE);
         }
