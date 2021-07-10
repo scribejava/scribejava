@@ -2,12 +2,14 @@ package com.github.scribejava.core.extractors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
 import org.junit.Before;
 import org.junit.Test;
 import com.github.scribejava.core.exceptions.OAuthParametersMissingException;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.ObjectMother;
+import org.junit.function.ThrowingRunnable;
 
 public class HeaderExtractorTest {
 
@@ -36,21 +38,29 @@ public class HeaderExtractorTest {
         assertTrue(header.contains(timestamp));
         // Assert that header only contains the checked elements above and nothing else
         assertEquals(", , , ",
-               header.replaceFirst(oauth, "")
-                     .replaceFirst(callback, "")
-                     .replaceFirst(signature, "")
-                     .replaceFirst(key, "")
-                     .replaceFirst(timestamp, ""));
+                header.replaceFirst(oauth, "")
+                        .replaceFirst(callback, "")
+                        .replaceFirst(signature, "")
+                        .replaceFirst(key, "")
+                        .replaceFirst(timestamp, ""));
     }
 
-    @Test(expected = IllegalArgumentException.class)
     public void shouldExceptionIfRequestIsNull() {
-        extractor.extract(null);
+        assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                extractor.extract(null);
+            }
+        });
     }
 
-    @Test(expected = OAuthParametersMissingException.class)
     public void shouldExceptionIfRequestHasNoOAuthParams() {
         final OAuthRequest emptyRequest = new OAuthRequest(Verb.GET, "http://example.com");
-        extractor.extract(emptyRequest);
+        assertThrows(OAuthParametersMissingException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                extractor.extract(emptyRequest);
+            }
+        });
     }
 }

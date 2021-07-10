@@ -16,12 +16,13 @@ import java.util.concurrent.ExecutionException;
 
 public class Google20RevokeExample {
 
-    private static final String NETWORK_NAME = "G+";
-    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
+    private static final String NETWORK_NAME = "Google";
+    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
     private Google20RevokeExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
@@ -29,8 +30,7 @@ public class Google20RevokeExample {
         final String secretState = "secret" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("profile") // replace with desired scope
-                .state(secretState)
+                .defaultScope("profile") // replace with desired scope
                 .callback("http://example.com/callback")
                 .build(GoogleApi20.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
@@ -44,9 +44,12 @@ public class Google20RevokeExample {
         //https://developers.google.com/identity/protocols/OAuth2WebServer#preparing-to-start-the-oauth-20-flow
         final Map<String, String> additionalParams = new HashMap<>();
         additionalParams.put("access_type", "offline");
-        //force to reget refresh token (if usera are asked not the first time)
+        //force to reget refresh token (if user are asked not the first time)
         additionalParams.put("prompt", "consent");
-        final String authorizationUrl = service.getAuthorizationUrl(additionalParams);
+        final String authorizationUrl = service.createAuthorizationUrlBuilder()
+                .state(secretState)
+                .additionalParams(additionalParams)
+                .build();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -67,8 +70,7 @@ public class Google20RevokeExample {
             System.out.println();
         }
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
@@ -77,12 +79,12 @@ public class Google20RevokeExample {
         System.out.println("Now we're going to access a protected resource...");
         OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        Response response = service.execute(request);
         System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
+        try (Response response = service.execute(request)) {
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println();
-
         System.out.println("Revoking token...");
         service.revokeToken(accessToken.getAccessToken());
         System.out.println("done.");
@@ -90,15 +92,18 @@ public class Google20RevokeExample {
         in.nextLine();
         //Google Note: Following a successful revocation response,
         //it might take some time before the revocation has full effect.
-        while (response.getCode() == 200) {
+        int responseCode;
+        do {
             Thread.sleep(1000);
             request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
-            response = service.execute(request);
             System.out.println();
-            System.out.println(response.getCode());
-            System.out.println(response.getBody());
+            try (Response response = service.execute(request)) {
+                responseCode = response.getCode();
+                System.out.println(responseCode);
+                System.out.println(response.getBody());
+            }
             System.out.println();
-        }
+        } while (responseCode == 200);
     }
 }

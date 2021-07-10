@@ -1,24 +1,23 @@
 package com.github.scribejava.core.oauth;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.scribejava.core.base64.Base64;
 import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.java8.Base64;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthConstants;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import java.nio.charset.Charset;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class OAuth20ServiceTest {
 
-    private final Base64.Encoder base64Encoder = Base64.getEncoder();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Test
     public void shouldProduceCorrectRequestSync() throws IOException, InterruptedException, ExecutionException {
@@ -27,51 +26,46 @@ public class OAuth20ServiceTest {
                 .build(new OAuth20ApiUnit());
 
         final OAuth2AccessToken token = service.getAccessTokenPasswordGrant("user1", "password1");
-        final Gson json = new Gson();
-
         assertNotNull(token);
 
-        final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
+        final JsonNode response = OBJECT_MAPPER.readTree(token.getRawResponse());
 
-        assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
-        assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
-        assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
+        assertEquals(OAuth20ServiceUnit.TOKEN, response.get(OAuthConstants.ACCESS_TOKEN).asText());
+        assertEquals(OAuth20ServiceUnit.EXPIRES, response.get("expires_in").asInt());
 
-        final String authorize = base64Encoder.encodeToString(
+        final String authorize = Base64.encode(
                 String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
-        assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
+        assertEquals(OAuthConstants.BASIC + ' ' + authorize, response.get(OAuthConstants.HEADER).asText());
 
-        assertEquals("user1", map.get("query-username"));
-        assertEquals("password1", map.get("query-password"));
-        assertEquals("password", map.get("query-grant_type"));
+        assertEquals("user1", response.get("query-username").asText());
+        assertEquals("password1", response.get("query-password").asText());
+        assertEquals("password", response.get("query-grant_type").asText());
     }
 
     @Test
-    public void shouldProduceCorrectRequestAsync() throws ExecutionException, InterruptedException {
+    public void shouldProduceCorrectRequestAsync() throws ExecutionException, InterruptedException, IOException {
         final OAuth20Service service = new ServiceBuilder("your_api_key")
                 .apiSecret("your_api_secret")
                 .build(new OAuth20ApiUnit());
 
-        final OAuth2AccessToken token = service.getAccessTokenPasswordGrantAsync("user1", "password1", null).get();
-        final Gson json = new Gson();
+        final OAuth2AccessToken token = service.getAccessTokenPasswordGrantAsync("user1", "password1").get();
 
         assertNotNull(token);
 
-        final Map<String, String> map = json.fromJson(token.getRawResponse(), new TypeTokenImpl().getType());
+        final JsonNode response = OBJECT_MAPPER.readTree(token.getRawResponse());
 
-        assertEquals(OAuth20ServiceUnit.TOKEN, map.get(OAuthConstants.ACCESS_TOKEN));
-        assertEquals(OAuth20ServiceUnit.STATE, map.get(OAuthConstants.STATE));
-        assertEquals(OAuth20ServiceUnit.EXPIRES, map.get("expires_in"));
+        assertEquals(OAuth20ServiceUnit.TOKEN, response.get(OAuthConstants.ACCESS_TOKEN).asText());
+        assertEquals(OAuth20ServiceUnit.EXPIRES, response.get("expires_in").asInt());
 
-        final String authorize = base64Encoder.encodeToString(
+        final String authorize = Base64.encode(
                 String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
-        assertEquals(OAuthConstants.BASIC + " " + authorize, map.get(OAuthConstants.HEADER));
+        assertEquals(OAuthConstants.BASIC + ' ' + authorize, response.get(OAuthConstants.HEADER).asText());
 
-        assertEquals("user1", map.get("query-username"));
-        assertEquals("password1", map.get("query-password"));
-        assertEquals("password", map.get("query-grant_type"));
+        assertEquals("user1", response.get("query-username").asText());
+        assertEquals("password1", response.get("query-password").asText());
+        assertEquals("password", response.get("query-grant_type").asText());
     }
 
     @Test
@@ -119,13 +113,5 @@ public class OAuth20ServiceTest {
         authorization = service.extractAuthorization("https://cl.ex.com/cb");
         assertEquals(null, authorization.getCode());
         assertEquals(null, authorization.getState());
-
     }
-
-    private static class TypeTokenImpl extends TypeToken<Map<String, String>> {
-
-        private TypeTokenImpl() {
-        }
-    }
-
 }

@@ -1,14 +1,12 @@
 package com.github.scribejava.apis.openid;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import java.util.regex.Pattern;
 
 /**
  * additionally parses OpenID id_token
  */
 public class OpenIdJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
-
-    private static final Pattern ID_TOKEN_REGEX_PATTERN = Pattern.compile("\"id_token\"\\s*:\\s*\"(\\S*?)\"");
 
     protected OpenIdJsonTokenExtractor() {
     }
@@ -24,8 +22,9 @@ public class OpenIdJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
     @Override
     protected OpenIdOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
-            String refreshToken, String scope, String response) {
+            String refreshToken, String scope, JsonNode response, String rawResponse) {
+        final JsonNode idToken = response.get("id_token");
         return new OpenIdOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
-                extractParameter(response, ID_TOKEN_REGEX_PATTERN, false), response);
+                idToken == null ? null : idToken.asText(), rawResponse);
     }
 }

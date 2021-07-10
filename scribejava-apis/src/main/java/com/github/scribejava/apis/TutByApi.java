@@ -1,10 +1,8 @@
 package com.github.scribejava.apis;
 
-import com.github.scribejava.apis.service.TutByOAuthService;
+import com.github.scribejava.apis.tutby.TutByBearerSignature;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.httpclient.HttpClient;
-import com.github.scribejava.core.httpclient.HttpClientConfig;
-import java.io.OutputStream;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
 
 public class TutByApi extends DefaultApi20 {
 
@@ -30,10 +28,7 @@ public class TutByApi extends DefaultApi20 {
     }
 
     @Override
-    public TutByOAuthService createService(String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new TutByOAuthService(this, apiKey, apiSecret, callback, scope, state, responseType, userAgent,
-                httpClientConfig, httpClient);
+    public BearerSignature getBearerSignature() {
+        return TutByBearerSignature.instance();
     }
 }

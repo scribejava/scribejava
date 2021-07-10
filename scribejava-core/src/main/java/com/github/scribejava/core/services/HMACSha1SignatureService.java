@@ -1,5 +1,6 @@
 package com.github.scribejava.core.services;
 
+import com.github.scribejava.core.base64.Base64;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -10,8 +11,7 @@ import com.github.scribejava.core.utils.OAuthEncoder;
 import com.github.scribejava.core.utils.Preconditions;
 
 /**
- * HMAC-SHA1 implementation of {@link SignatureService}
- * https://tools.ietf.org/html/rfc5849#section-3.4.2
+ * HMAC-SHA1 implementation of {@link SignatureService} https://tools.ietf.org/html/rfc5849#section-3.4.2
  */
 public class HMACSha1SignatureService implements SignatureService {
 
@@ -27,8 +27,8 @@ public class HMACSha1SignatureService implements SignatureService {
     @Override
     public String getSignature(String baseString, String apiSecret, String tokenSecret) {
         try {
-            Preconditions.checkEmptyString(baseString, "Base string cant be null or empty string");
-            Preconditions.checkEmptyString(apiSecret, "Api secret cant be null or empty string");
+            Preconditions.checkEmptyString(baseString, "Base string can't be null or empty string");
+            Preconditions.checkNotNull(apiSecret, "Api secret can't be null");
             return doSign(baseString, OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret));
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | InvalidKeyException | RuntimeException e) {
             throw new OAuthSignatureException(baseString, e);
@@ -41,7 +41,7 @@ public class HMACSha1SignatureService implements SignatureService {
         final Mac mac = Mac.getInstance(HMAC_SHA1);
         mac.init(key);
         final byte[] bytes = mac.doFinal(toSign.getBytes(UTF8));
-        return BASE_64_ENCODER.encodeToString(bytes).replace(CARRIAGE_RETURN, EMPTY_STRING);
+        return Base64.encode(bytes).replace(CARRIAGE_RETURN, EMPTY_STRING);
     }
 
     /**

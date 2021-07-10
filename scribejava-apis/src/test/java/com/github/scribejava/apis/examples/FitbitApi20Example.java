@@ -20,6 +20,7 @@ public class FitbitApi20Example {
     private FitbitApi20Example() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws Exception {
 
         // Replace these with your client id and secret fron your app
@@ -27,10 +28,9 @@ public class FitbitApi20Example {
         final String clientSecret = "your client secret";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("activity profile") // replace with desired scope
+                .defaultScope("activity profile") // replace with desired scope
                 //your callback URL to store and handle the authorization code sent by Fitbit
                 .callback("http://www.example.com/oauth_callback/")
-                .state("some_params")
                 .build(FitbitApi20.instance());
         final Scanner in = new Scanner(System.in);
 
@@ -39,7 +39,7 @@ public class FitbitApi20Example {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String authorizationUrl = service.getAuthorizationUrl("some_params");
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -48,8 +48,7 @@ public class FitbitApi20Example {
         final String code = in.nextLine();
         System.out.println();
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         final OAuth2AccessToken oauth2AccessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(if your curious it looks like this: " + oauth2AccessToken
@@ -72,11 +71,11 @@ public class FitbitApi20Example {
 
         service.signRequest(accessToken, request);
 
-        final Response response = service.execute(request);
         System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println();
     }
 }

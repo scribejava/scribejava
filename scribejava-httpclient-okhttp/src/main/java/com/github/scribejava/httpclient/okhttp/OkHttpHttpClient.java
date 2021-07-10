@@ -1,6 +1,7 @@
 package com.github.scribejava.httpclient.okhttp;
 
 import com.github.scribejava.core.httpclient.HttpClient;
+import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
 import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
@@ -11,13 +12,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
-
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Future;
-
 import com.github.scribejava.core.model.Response;
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import okhttp3.Cache;
@@ -56,13 +56,23 @@ public class OkHttpHttpClient implements HttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents, callback,
                 converter);
     }
 
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload bodyContents, OAuthAsyncRequestCallback<T> callback,
+            OAuthRequest.ResponseConverter<T> converter) {
+
+        throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
+    }
+
+    @Override
+    public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents, callback,
                 converter);
     }
@@ -70,6 +80,7 @@ public class OkHttpHttpClient implements HttpClient {
     @Override
     public <T> Future<T> executeAsync(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents, OAuthAsyncRequestCallback<T> callback, OAuthRequest.ResponseConverter<T> converter) {
+
         return doExecuteAsync(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents, callback,
                 converter);
     }
@@ -86,18 +97,28 @@ public class OkHttpHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.BYTE_ARRAY, bodyContents);
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            MultipartPayload bodyContents) throws InterruptedException, ExecutionException, IOException {
+
+        throw new UnsupportedOperationException("OKHttpClient does not support Multipart payload for the moment");
+    }
+
+    @Override
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.STRING, bodyContents);
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return doExecute(userAgent, headers, httpVerb, completeUrl, BodyType.FILE, bodyContents);
     }
 
@@ -145,19 +166,19 @@ public class OkHttpHttpClient implements HttpClient {
         BYTE_ARRAY {
             @Override
             RequestBody createBody(MediaType mediaType, Object bodyContents) {
-                return RequestBody.create(mediaType, (byte[]) bodyContents);
+                return RequestBody.create((byte[]) bodyContents, mediaType);
             }
         },
         STRING {
             @Override
             RequestBody createBody(MediaType mediaType, Object bodyContents) {
-                return RequestBody.create(mediaType, (String) bodyContents);
+                return RequestBody.create((String) bodyContents, mediaType);
             }
         },
         FILE {
             @Override
             RequestBody createBody(MediaType mediaType, Object bodyContents) {
-                return RequestBody.create(mediaType, (File) bodyContents);
+                return RequestBody.create((File) bodyContents, mediaType);
             }
         };
 
@@ -172,8 +193,9 @@ public class OkHttpHttpClient implements HttpClient {
         }
 
         final ResponseBody body = okHttpResponse.body();
-        return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap,
-                body == null ? null : body.byteStream());
-
+        final InputStream bodyStream = body == null ? null : body.byteStream();
+        return new Response(okHttpResponse.code(), okHttpResponse.message(), headersMap, bodyStream, bodyStream, body,
+                okHttpResponse);
     }
+
 }

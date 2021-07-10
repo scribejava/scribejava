@@ -1,5 +1,6 @@
 package com.github.scribejava.core.services;
 
+import com.github.scribejava.core.base64.Base64;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
@@ -32,9 +33,9 @@ public class RSASha1SignatureService implements SignatureService {
             final Signature signature = Signature.getInstance(RSA_SHA1);
             signature.initSign(privateKey);
             signature.update(baseString.getBytes(UTF8));
-            return BASE_64_ENCODER.encodeToString(signature.sign());
-        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | UnsupportedEncodingException |
-                RuntimeException e) {
+            return Base64.encode(signature.sign());
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | UnsupportedEncodingException
+                | RuntimeException e) {
             throw new OAuthSignatureException(baseString, e);
         }
     }

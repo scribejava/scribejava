@@ -1,21 +1,19 @@
 package com.github.scribejava.core.pkce;
 
-import com.github.scribejava.core.java8.Base64;
+import com.github.scribejava.core.base64.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public enum PKCECodeChallengeMethod {
     S256 {
-        private final Base64.Encoder base64Encoder = Base64.getUrlEncoder().withoutPadding();
-
         @Override
         public String transform2CodeChallenge(String codeVerifier) throws NoSuchAlgorithmException {
-            return base64Encoder.encodeToString(
+            return Base64.encodeUrlWithoutPadding(
                     MessageDigest.getInstance("SHA-256").digest(codeVerifier.getBytes(StandardCharsets.US_ASCII)));
         }
     },
-    plain {
+    PLAIN {
         @Override
         public String transform2CodeChallenge(String codeVerifier) {
             return codeVerifier;

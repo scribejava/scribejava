@@ -1,5 +1,6 @@
 package com.github.scribejava.core.builder.api;
 
+import com.github.scribejava.core.extractors.DeviceAuthorizationJsonExtractor;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
@@ -9,6 +10,11 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.ParameterList;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureAuthorizationRequestHeaderField;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.HttpBasicAuthenticationScheme;
+
 import java.io.OutputStream;
 import java.util.Map;
 
@@ -25,7 +31,7 @@ import java.util.Map;
  * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
  */
-public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
+public abstract class DefaultApi20 {
 
     /**
      * Returns the access token extractor.
@@ -73,7 +79,12 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
     /**
      * Returns the URL where you should redirect your users to authenticate your application.
      *
+     * @param responseType responseType
+     * @param apiKey apiKey
      * @param additionalParams any additional GET params to add to the URL
+     * @param callback callback
+     * @param state state
+     * @param scope scope
      * @return the URL where you should redirect your users
      */
     public String getAuthorizationUrl(String responseType, String apiKey, String callback, String scope, String state,
@@ -97,19 +108,33 @@ public abstract class DefaultApi20 implements BaseApi<OAuth20Service> {
         return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
-    @Override
-    public OAuth20Service createService(String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new OAuth20Service(this, apiKey, apiSecret, callback, scope, state, responseType, userAgent,
+    public OAuth20Service createService(String apiKey, String apiSecret, String callback, String defaultScope,
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new OAuth20Service(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream, userAgent,
                 httpClientConfig, httpClient);
     }
 
-    public OAuth2SignatureType getSignatureType() {
-        return OAuth2SignatureType.BEARER_AUTHORIZATION_REQUEST_HEADER_FIELD;
+    public BearerSignature getBearerSignature() {
+        return BearerSignatureAuthorizationRequestHeaderField.instance();
     }
 
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.HTTP_BASIC_AUTHENTICATION_SCHEME;
+    public ClientAuthentication getClientAuthentication() {
+        return HttpBasicAuthenticationScheme.instance();
+    }
+
+    /**
+     * RFC 8628 OAuth 2.0 Device Authorization Grant
+     *
+     * @see <a href="https://tools.ietf.org/html/rfc8628">RFC 8628</a>
+     * @return the device authorization endpoint
+     */
+    public String getDeviceAuthorizationEndpoint() {
+        throw new UnsupportedOperationException(
+                "This API doesn't support Device Authorization Grant or we have no info about this");
+    }
+
+    public DeviceAuthorizationJsonExtractor getDeviceAuthorizationExtractor() {
+        return DeviceAuthorizationJsonExtractor.instance();
     }
 }

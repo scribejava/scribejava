@@ -1,6 +1,8 @@
 package com.github.scribejava.core.model;
 
 import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.httpclient.multipart.BodyPartPayload;
+import com.github.scribejava.core.httpclient.multipart.MultipartPayload;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -9,6 +11,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The representation of an OAuth HttpRequest.
@@ -21,13 +24,14 @@ public class OAuthRequest {
     private final Verb verb;
     private final ParameterList querystringParams = new ParameterList();
     private final ParameterList bodyParams = new ParameterList();
-    private final Map<String, String> headers = new HashMap<>();
+    private final Map<String, String> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     private String charset;
 
     private String stringPayload;
     private byte[] byteArrayPayload;
     private File filePayload;
+    private MultipartPayload multipartPayload;
 
     private final Map<String, String> oauthParameters = new HashMap<>();
 
@@ -93,7 +97,7 @@ public class OAuthRequest {
      * @param value the header value
      */
     public void addHeader(String key, String value) {
-        this.headers.put(key, value);
+        headers.put(key, value);
     }
 
     /**
@@ -103,7 +107,7 @@ public class OAuthRequest {
      * @param value the parameter value
      */
     public void addBodyParameter(String key, String value) {
-        this.bodyParams.add(key, value);
+        bodyParams.add(key, value);
     }
 
     /**
@@ -113,7 +117,7 @@ public class OAuthRequest {
      * @param value the parameter value
      */
     public void addQuerystringParameter(String key, String value) {
-        this.querystringParams.add(key, value);
+        querystringParams.add(key, value);
     }
 
     public void addParameter(String key, String value) {
@@ -122,6 +126,47 @@ public class OAuthRequest {
         } else {
             querystringParams.add(key, value);
         }
+    }
+
+    public MultipartPayload getMultipartPayload() {
+        return multipartPayload;
+    }
+
+    public void setMultipartPayload(MultipartPayload multipartPayload) {
+        this.multipartPayload = multipartPayload;
+    }
+
+    public void initMultipartPayload() {
+        this.multipartPayload = new MultipartPayload();
+    }
+
+    public void initMultipartPayload(String boundary) {
+        this.multipartPayload = new MultipartPayload(boundary);
+    }
+
+    public void initMultipartPayload(String subtype, String boundary) {
+        this.multipartPayload = new MultipartPayload(subtype, boundary);
+    }
+
+    public void initMultipartPayload(Map<String, String> headers) {
+        this.multipartPayload = new MultipartPayload(headers);
+    }
+
+    public void initMultipartPayload(String boundary, Map<String, String> headers) {
+        this.multipartPayload = new MultipartPayload(boundary, headers);
+    }
+
+    public void initMultipartPayload(String subtype, String boundary, Map<String, String> headers) {
+        this.multipartPayload = new MultipartPayload(subtype, boundary, headers);
+    }
+
+    public void setBodyPartPayloadInMultipartPayload(BodyPartPayload bodyPartPayload) {
+        initMultipartPayload();
+        addBodyPartPayloadInMultipartPayload(bodyPartPayload);
+    }
+
+    public void addBodyPartPayloadInMultipartPayload(BodyPartPayload bodyPartPayload) {
+        multipartPayload.addBodyPart(bodyPartPayload);
     }
 
     /**
@@ -159,6 +204,7 @@ public class OAuthRequest {
         stringPayload = null;
         byteArrayPayload = null;
         filePayload = null;
+        multipartPayload = null;
     }
 
     /**
@@ -269,6 +315,15 @@ public class OAuthRequest {
 
     public interface ResponseConverter<T> {
 
+        /**
+         * Implementations of this method should close provided Response in case response is not included in the return
+         * Object of type &lt;T&gt; Then responsibility to close response is in on the
+         * {@link com.github.scribejava.core.model.OAuthAsyncRequestCallback#onCompleted(java.lang.Object) }
+         *
+         * @param response response
+         * @return T
+         * @throws IOException IOException
+         */
         T convert(Response response) throws IOException;
     }
 

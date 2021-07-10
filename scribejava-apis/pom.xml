@@ -5,10 +5,10 @@
     <parent>
         <groupId>com.github.scribejava</groupId>
         <artifactId>scribejava</artifactId>
-        <version>5.5.1-SNAPSHOT</version>
+        <version>8.3.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-apis</artifactId>
     <name>ScribeJava APIs</name>
@@ -41,6 +41,12 @@
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-httpclient-apache</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-httpclient-armeria</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

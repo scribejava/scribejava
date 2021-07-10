@@ -1,15 +1,15 @@
 package com.github.scribejava.apis.fitbit;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.OAuth2AccessTokenErrorResponse;
-
-import java.util.regex.Pattern;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.oauth2.OAuth2Error;
+import java.io.IOException;
 
 public class FitBitJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
-    private static final Pattern USER_ID_REGEX_PATTERN = Pattern.compile("\"user_id\"\\s*:\\s*\"(\\S*?)\"");
-    private static final Pattern ERROR_REGEX_PATTERN = Pattern.compile("\"errorType\"\\s*:\\s*\"(\\S*?)\"");
-    private static final Pattern ERROR_DESCRIPTION_REGEX_PATTERN = Pattern.compile("\"message\"\\s*:\\s*\"([^\"]*?)\"");
     protected FitBitJsonTokenExtractor() {
     }
 
@@ -24,27 +24,32 @@ public class FitBitJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
 
     @Override
     protected FitBitOAuth2AccessToken createToken(String accessToken, String tokenType, Integer expiresIn,
-            String refreshToken, String scope, String response) {
+            String refreshToken, String scope, JsonNode response, String rawResponse) {
         return new FitBitOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
-                extractParameter(response, USER_ID_REGEX_PATTERN, false), response);
+                response.get("user_id").asText(), rawResponse);
     }
 
     /**
      * Related documentation: https://dev.fitbit.com/build/reference/web-api/oauth2/
      */
     @Override
-    public void generateError(String response) {
-        final String errorInString = extractParameter(response, ERROR_REGEX_PATTERN, true);
-        final String errorDescription = extractParameter(response, ERROR_DESCRIPTION_REGEX_PATTERN, false);
-
-        OAuth2AccessTokenErrorResponse.ErrorCode errorCode;
+    public void generateError(Response response) throws IOException {
+        final JsonNode errorNode;
         try {
-            errorCode = OAuth2AccessTokenErrorResponse.ErrorCode.valueOf(errorInString);
+            errorNode = OAuth2AccessTokenJsonExtractor.OBJECT_MAPPER.readTree(response.getBody()).get("errors").get(0);
+        } catch (JsonProcessingException ex) {
+            throw new OAuth2AccessTokenErrorResponse(null, null, null, response);
+        }
+
+        OAuth2Error errorCode;
+        try {
+            errorCode = OAuth2Error
+                    .parseFrom(extractRequiredParameter(errorNode, "errorType", response.getBody()).asText());
         } catch (IllegalArgumentException iaE) {
             //non oauth standard error code
             errorCode = null;
         }
 
-        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription, null, response);
+        throw new OAuth2AccessTokenErrorResponse(errorCode, errorNode.get("message").asText(), null, response);
     }
 }

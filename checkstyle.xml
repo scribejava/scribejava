@@ -45,7 +45,6 @@
         <module name="InnerAssignment"/>
         <module name="MissingSwitchDefault"/>
         <module name="MultipleVariableDeclarations"/>
-        <module name="NoClone"/>
         <module name="NoFinalizer"/>
         <module name="OneStatementPerLine"/>
         <module name="OverloadMethodsDeclarationOrder"/>
@@ -94,10 +93,6 @@
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
-        <module name="LineLength">
-            <property name="max" value="120"/>
-            <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
-        </module>
         <module name="OuterTypeNumber"/>
         <module name="GenericWhitespace"/>
         <module name="MethodParamPad"/>
@@ -107,6 +102,10 @@
         <module name="WhitespaceAround">
             <property name="tokens" value="ASSIGN"/>
         </module>
+    </module>
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
     </module>
     <module name="NewlineAtEndOfFile">
         <property name="lineSeparator" value="lf"/>

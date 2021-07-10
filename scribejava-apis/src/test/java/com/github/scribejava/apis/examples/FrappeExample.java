@@ -19,6 +19,7 @@ public class FrappeExample {
     private FrappeExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         //Replace these with your client id and secret
         final String clientId = "clientId";
@@ -26,7 +27,7 @@ public class FrappeExample {
         final String clientDomain = "https://example.com";
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("openid all")
+                .defaultScope("openid all")
                 .callback("https://example.com/callback")
                 .build(FrappeApi.instance(clientDomain));
         final Scanner in = new Scanner(System.in, "UTF-8");
@@ -56,12 +57,12 @@ public class FrappeExample {
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, clientDomain + PROTECTED_RESOURCE_PATH);
         service.signRequest(accessToken, request);
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
     }
 }

@@ -19,6 +19,7 @@ public class SinaWeibo2Example {
     private SinaWeibo2Example() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key and secret
         final String apiKey = "your_api_key";
@@ -54,11 +55,12 @@ public class SinaWeibo2Example {
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
 
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");

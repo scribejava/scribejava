@@ -3,22 +3,23 @@ package com.github.scribejava.apis;
 import javax.net.ssl.SSLContext;
 
 import com.github.scribejava.apis.salesforce.SalesforceJsonTokenExtractor;
-import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import javax.net.ssl.SSLSocket;
 
 /**
  * This class is an implementation of the Salesforce OAuth2 API.
- * The default implementation connects to the Salesforce
- * production environment.
- * If you want to connect to a Sandbox environment you've to use {@link #sandbox()} method to
- * get sandbox instance of this API
+ *
+ * The default implementation connects to the Salesforce production environment. If you want to connect to a Sandbox
+ * environment you've to use {@link #sandbox()} method to get sandbox instance of this API
  */
 public class SalesforceApi extends DefaultApi20 {
 
@@ -50,6 +51,7 @@ public class SalesforceApi extends DefaultApi20 {
     }
 
     private static class InstanceHolder {
+
         private static final SalesforceApi INSTANCE = new SalesforceApi(PRODUCTION_HOST);
     }
 
@@ -83,7 +85,7 @@ public class SalesforceApi extends DefaultApi20 {
 
     private static boolean isTLSv11orUpperEnabled(final SSLSocket socket) {
         for (String protocol : socket.getEnabledProtocols()) {
-            if ("TLSv1.2".equals(protocol) || "TLSv1.1".equals(protocol)) {
+            if (protocol.startsWith("TLSv1.")) {
                 return true;
             }
         }
@@ -96,7 +98,7 @@ public class SalesforceApi extends DefaultApi20 {
      * Java 8 have TLS 1.2 enabled by default. java 7 - no, you should invoke this method or turn TLS&gt;=1.1 somehow
      * else</p>
      *
-     * @throws java.security.NoSuchAlgorithmException in case your jvm doesn't support TLSv1.1 and TLSv1.2
+     * @throws java.security.NoSuchAlgorithmException in case your jvm doesn't support TLSv1.1 or higher
      * @throws java.security.KeyManagementException unexpected Exception from
      * {@link SSLContext#init(javax.net.ssl.KeyManager[], javax.net.ssl.TrustManager[], java.security.SecureRandom)}
      * @throws java.io.IOException unexpected Exception from {@link javax.net.ssl.SSLSocketFactory#createSocket()}
@@ -106,33 +108,23 @@ public class SalesforceApi extends DefaultApi20 {
         if (isTLSv11orUpperEnabled(socket)) {
             return;
         }
-        boolean supportTLSv11 = false;
-        boolean supportTLSv12 = false;
-        for (String protocol : socket.getSupportedProtocols()) {
-            if ("TLSv1.2".equals(protocol)) {
-                supportTLSv12 = true;
-                break;
-            }
-            if ("TLSv1.1".equals(protocol)) {
-                supportTLSv11 = true;
+        final String[] supportedProtocols = socket.getSupportedProtocols();
+        Arrays.sort(supportedProtocols);
+        for (int i = supportedProtocols.length - 1; i >= 0; i--) {
+            final String supportedProtocol = supportedProtocols[i];
+            if (supportedProtocol.startsWith("TLSv1.")) {
+                final SSLContext context = SSLContext.getInstance(supportedProtocol);
+                context.init(null, null, null);
+                SSLContext.setDefault(context);
+                return;
             }
         }
 
-        final SSLContext context;
-        if (supportTLSv12) {
-            context = SSLContext.getInstance("TLSv1.2");
-        } else if (supportTLSv11) {
-            context = SSLContext.getInstance("TLSv1.1");
-        } else {
-            throw new NoSuchAlgorithmException("for Salesforce API to work you need jvm with TLS 1.1 or 1.2 support");
-        }
-
-        context.init(null, null, null);
-        SSLContext.setDefault(context);
+        throw new NoSuchAlgorithmException("for Salesforce API to work you need jvm with TLS 1.1 or higher support");
     }
 
     @Override
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.REQUEST_BODY;
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 }

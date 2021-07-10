@@ -1,25 +1,24 @@
 package com.github.scribejava.apis;
 
+import java.io.OutputStream;
+
 import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
-import com.github.scribejava.apis.service.FacebookService;
-import com.github.scribejava.core.builder.api.ClientAuthenticationType;
+import com.github.scribejava.apis.facebook.FacebookService;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
-import java.io.OutputStream;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
-/**
- * Facebook API
- */
 public class FacebookApi extends DefaultApi20 {
 
     private final String version;
 
     protected FacebookApi() {
-        this("2.11");
+        this("3.2");
     }
 
     protected FacebookApi(String version) {
@@ -65,15 +64,15 @@ public class FacebookApi extends DefaultApi20 {
     }
 
     @Override
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.REQUEST_BODY;
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 
     @Override
-    public FacebookService createService(String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
-        return new FacebookService(this, apiKey, apiSecret, callback, scope, state, responseType, userAgent,
-                httpClientConfig, httpClient);
+    public FacebookService createService(String apiKey, String apiSecret, String callback, String defaultScope,
+            String responseType, OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig,
+            HttpClient httpClient) {
+        return new FacebookService(this, apiKey, apiSecret, callback, defaultScope, responseType, debugStream,
+                userAgent, httpClientConfig, httpClient);
     }
 }

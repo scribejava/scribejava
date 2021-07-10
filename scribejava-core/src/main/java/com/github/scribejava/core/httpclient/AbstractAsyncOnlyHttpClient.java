@@ -13,6 +13,16 @@ public abstract class AbstractAsyncOnlyHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
+
+        return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
+                (OAuthRequest.ResponseConverter<Response>) null).get();
+    }
+
+    @Override
+    public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
+            com.github.scribejava.core.httpclient.multipart.MultipartPayload bodyContents)
+            throws InterruptedException, ExecutionException, IOException {
+
         return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
                 (OAuthRequest.ResponseConverter<Response>) null).get();
     }
@@ -20,6 +30,7 @@ public abstract class AbstractAsyncOnlyHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
                 (OAuthRequest.ResponseConverter<Response>) null).get();
     }
@@ -27,6 +38,7 @@ public abstract class AbstractAsyncOnlyHttpClient implements HttpClient {
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents) throws InterruptedException, ExecutionException, IOException {
+
         return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
                 (OAuthRequest.ResponseConverter<Response>) null).get();
     }

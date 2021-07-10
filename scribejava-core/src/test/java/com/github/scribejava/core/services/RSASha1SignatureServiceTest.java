@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.codec.binary.Base64;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -48,11 +48,12 @@ public class RSASha1SignatureServiceTest {
                 + "I/AfAkEA0Y9vr0tombsUB8cZv0v5OYoBZvCTbMANtzfb4AOHpiKqqbohDOevLQ7/\n"
                 + "SpvgVCmVaDz2PptcRAyEBZ5MCssneQJAB2pmvaDH7Ambfod5bztLfOhLCtY5EkXJ\n"
                 + "n6rZcDbRaHorRhdG7m3VtDKOUKZ2DF7glkQGV33phKukErVPUzlHBwJAScD9TqaG\n"
-                + "wJ3juUsVtujV23SnH43iMggXT7m82STpPGam1hPfmqu2Z0niePFo927ogQ7H1EMJ\n" + "UHgqXmuvk2X/Ww==";
+                + "wJ3juUsVtujV23SnH43iMggXT7m82STpPGam1hPfmqu2Z0niePFo927ogQ7H1EMJ\n"
+                + "UHgqXmuvk2X/Ww==";
 
         try {
             final KeyFactory fac = KeyFactory.getInstance("RSA");
-            final PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(DatatypeConverter.parseBase64Binary(str));
+            final PKCS8EncodedKeySpec privKeySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(str));
             return fac.generatePrivate(privKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);

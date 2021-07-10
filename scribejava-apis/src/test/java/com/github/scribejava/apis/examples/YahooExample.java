@@ -20,6 +20,7 @@ public class YahooExample {
     private YahooExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         final OAuth10aService service = new ServiceBuilder("your client id")
                 .apiSecret("your client secret")
@@ -42,7 +43,7 @@ public class YahooExample {
         final String oauthVerifier = in.nextLine();
         System.out.println();
 
-        // Trade the Request Token and Verfier for the Access Token
+        // Trade the Request Token and Verifier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
         final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, oauthVerifier);
         System.out.println("Got the Access Token!");
@@ -53,12 +54,12 @@ public class YahooExample {
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
 

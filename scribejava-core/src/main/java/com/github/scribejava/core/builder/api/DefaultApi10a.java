@@ -34,7 +34,7 @@ import java.io.OutputStream;
  * fine-tune the process. Please read the javadocs of the interfaces to get an idea of what to do.
  *
  */
-public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
+public abstract class DefaultApi10a {
 
     /**
      * Returns the access token extractor.
@@ -85,7 +85,7 @@ public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
      * @return the signature type, choose between header, querystring, etc. Defaults to Header
      */
     public OAuth1SignatureType getSignatureType() {
-        return OAuth1SignatureType.Header;
+        return OAuth1SignatureType.HEADER;
     }
 
     /**
@@ -143,10 +143,8 @@ public abstract class DefaultApi10a implements BaseApi<OAuth10aService> {
         return parameters.appendTo(getAuthorizationBaseUrl());
     }
 
-    @Override
     public OAuth10aService createService(String apiKey, String apiSecret, String callback, String scope,
-            OutputStream debugStream, String state, String responseType, String userAgent,
-            HttpClientConfig httpClientConfig, HttpClient httpClient) {
+            OutputStream debugStream, String userAgent, HttpClientConfig httpClientConfig, HttpClient httpClient) {
         return new OAuth10aService(this, apiKey, apiSecret, callback, scope, debugStream, userAgent, httpClientConfig,
                 httpClient);
     }

@@ -3,6 +3,7 @@ package com.github.scribejava.core.extractors;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Response;
@@ -37,6 +38,9 @@ public class OAuth2AccessTokenExtractor implements TokenExtractor<OAuth2AccessTo
      */
     @Override
     public OAuth2AccessToken extract(Response response) throws IOException {
+        if (response.getCode() != 200) {
+            throw new OAuthException("Response code is not 200 but '" + response.getCode() + '\'');
+        }
         final String body = response.getBody();
         Preconditions.checkEmptyString(body,
                 "Response body is incorrect. Can't extract a token from an empty string");

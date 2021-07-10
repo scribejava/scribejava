@@ -17,7 +17,7 @@ public class PlaintextSignatureService implements SignatureService {
     @Override
     public String getSignature(String baseString, String apiSecret, String tokenSecret) {
         try {
-            Preconditions.checkEmptyString(apiSecret, "Api secret cant be null or empty string");
+            Preconditions.checkNotNull(apiSecret, "Api secret can't be null");
             return OAuthEncoder.encode(apiSecret) + '&' + OAuthEncoder.encode(tokenSecret);
         } catch (Exception e) {
             throw new OAuthSignatureException(baseString, e);

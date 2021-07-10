@@ -1,6 +1,8 @@
 package com.github.scribejava.apis.facebook;
 
-import com.github.scribejava.core.exceptions.OAuthException;
+import com.github.scribejava.core.model.OAuthResponseException;
+import com.github.scribejava.core.model.Response;
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -14,47 +16,47 @@ import java.util.Objects;
  * '{"error":{"message":"Error validating application. Invalid application
  * ID.","type":"OAuthException","code":101,"fbtrace_id":"CvDR+X4WWIx"}}'
  */
-public class FacebookAccessTokenErrorResponse extends OAuthException {
+public class FacebookAccessTokenErrorResponse extends OAuthResponseException {
 
     private static final long serialVersionUID = -1277129766099856895L;
 
+    private final String errorMessage;
     private final String type;
-    private final String code;
+    private final int codeInt;
     private final String fbtraceId;
-    private final String rawResponse;
 
-    public FacebookAccessTokenErrorResponse(String message, String type, String code, String fbtraceId,
-            String rawResponse) {
-        super(message);
+    public FacebookAccessTokenErrorResponse(String errorMessage, String type, int code, String fbtraceId,
+            Response response)
+            throws IOException {
+        super(response);
+        this.errorMessage = errorMessage;
         this.type = type;
-        this.code = code;
+        this.codeInt = code;
         this.fbtraceId = fbtraceId;
-        this.rawResponse = rawResponse;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     public String getType() {
         return type;
     }
 
-    public String getCode() {
-        return code;
+    public int getCodeInt() {
+        return codeInt;
     }
 
     public String getFbtraceId() {
         return fbtraceId;
     }
 
-    public String getRawResponse() {
-        return rawResponse;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 83 * hash + Objects.hashCode(rawResponse);
-        hash = 83 * hash + Objects.hashCode(getMessage());
+        int hash = super.hashCode();
+        hash = 83 * hash + Objects.hashCode(errorMessage);
         hash = 83 * hash + Objects.hashCode(type);
-        hash = 83 * hash + Objects.hashCode(code);
+        hash = 83 * hash + Objects.hashCode(codeInt);
         hash = 83 * hash + Objects.hashCode(fbtraceId);
         return hash;
     }
@@ -70,17 +72,19 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final FacebookAccessTokenErrorResponse other = (FacebookAccessTokenErrorResponse) obj;
-        if (!Objects.equals(rawResponse, other.getRawResponse())) {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!Objects.equals(getMessage(), other.getMessage())) {
+
+        final FacebookAccessTokenErrorResponse other = (FacebookAccessTokenErrorResponse) obj;
+
+        if (!Objects.equals(errorMessage, other.getErrorMessage())) {
             return false;
         }
         if (!Objects.equals(type, other.getType())) {
             return false;
         }
-        if (!Objects.equals(code, other.getCode())) {
+        if (codeInt != other.getCodeInt()) {
             return false;
         }
         return Objects.equals(fbtraceId, other.getFbtraceId());
@@ -88,8 +92,8 @@ public class FacebookAccessTokenErrorResponse extends OAuthException {
 
     @Override
     public String toString() {
-        return "FacebookAccessTokenErrorResponse{'type'='" + type + "', 'code'='" + code
-                + "', 'fbtraceId'='" + fbtraceId + "', 'rawResponse'='" + rawResponse
-                + "', 'message'='" + getMessage() + "'}";
+        return "FacebookAccessTokenErrorResponse{'type'='" + type + "', 'codeInt'='" + codeInt
+                + "', 'fbtraceId'='" + fbtraceId + "', 'response'='" + getResponse()
+                + "', 'errorMessage'='" + errorMessage + "'}";
     }
 }

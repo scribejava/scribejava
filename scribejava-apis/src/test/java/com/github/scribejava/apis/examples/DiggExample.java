@@ -20,6 +20,7 @@ public class DiggExample {
     private DiggExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your own api key and secret
         final String apiKey = "myKey";
@@ -49,7 +50,7 @@ public class DiggExample {
         final String oauthVerifier = in.nextLine();
         System.out.println();
 
-        // Trade the Request Token and Verfier for the Access Token
+        // Trade the Request Token and Verifier for the Access Token
         System.out.println("Trading the Request Token for an Access Token...");
         final OAuth1AccessToken accessToken = service.getAccessToken(requestToken, oauthVerifier);
         System.out.println("Got the Access Token!");
@@ -61,12 +62,12 @@ public class DiggExample {
         final OAuthRequest request = new OAuthRequest(Verb.POST, PROTECTED_RESOURCE_URL);
         request.addBodyParameter("comment_id", "20100729223726:4fef610331ee46a3b5cbd740bf71313e");
         service.signRequest(accessToken, request);
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println();
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
 

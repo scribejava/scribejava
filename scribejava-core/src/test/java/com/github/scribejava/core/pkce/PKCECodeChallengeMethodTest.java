@@ -16,7 +16,7 @@ public class PKCECodeChallengeMethodTest {
 
     @Test
     public void testGeneratingPKCE() {
-        final PKCE pkce = new PKCEService().generatePKCE(RANDOM_BYTES);
+        final PKCE pkce = PKCEService.defaultInstance().generatePKCE(RANDOM_BYTES);
 
         assertEquals(PKCECodeChallengeMethod.S256, pkce.getCodeChallengeMethod());
         assertEquals("dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk", pkce.getCodeVerifier());

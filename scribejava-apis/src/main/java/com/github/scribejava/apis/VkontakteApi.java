@@ -1,16 +1,18 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.apis.vk.VKJsonTokenExtractor;
-import com.github.scribejava.core.builder.api.ClientAuthenticationType;
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.builder.api.OAuth2SignatureType;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
+import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQueryParameter;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
 public class VkontakteApi extends DefaultApi20 {
 
-    public static final String VERSION = "5.73";
+    public static final String VERSION = "5.92";
 
     protected VkontakteApi() {
     }
@@ -40,13 +42,13 @@ public class VkontakteApi extends DefaultApi20 {
     }
 
     @Override
-    public OAuth2SignatureType getSignatureType() {
-        return OAuth2SignatureType.BEARER_URI_QUERY_PARAMETER;
+    public BearerSignature getBearerSignature() {
+        return BearerSignatureURIQueryParameter.instance();
     }
 
     @Override
-    public ClientAuthenticationType getClientAuthenticationType() {
-        return ClientAuthenticationType.REQUEST_BODY;
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 
     @Override

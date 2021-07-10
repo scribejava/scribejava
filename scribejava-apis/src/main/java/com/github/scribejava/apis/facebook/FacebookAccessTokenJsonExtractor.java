@@ -1,17 +1,14 @@
 package com.github.scribejava.apis.facebook;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
-import java.util.regex.Pattern;
+import com.github.scribejava.core.model.Response;
+import java.io.IOException;
 
 /**
  * non standard Facebook Extractor
  */
 public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtractor {
-
-    private static final Pattern MESSAGE_REGEX_PATTERN = Pattern.compile("\"message\"\\s*:\\s*\"([^\"]*?)\"");
-    private static final Pattern TYPE_REGEX_PATTERN = Pattern.compile("\"type\"\\s*:\\s*\"([^\"]*?)\"");
-    private static final Pattern CODE_REGEX_PATTERN = Pattern.compile("\"code\"\\s*:\\s*\"?([^\",}]*?)[\",}]");
-    private static final Pattern FBTRACE_ID_REGEX_PATTERN = Pattern.compile("\"fbtrace_id\"\\s*:\\s*\"([^\"]*?)\"");
 
     protected FacebookAccessTokenJsonExtractor() {
     }
@@ -33,15 +30,17 @@ public class FacebookAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtra
      *
      * '{"error":{"message":"Error validating application. Invalid application
      * ID.","type":"OAuthException","code":101,"fbtrace_id":"CvDR+X4WWIx"}}'
+     *
+     * @param response response
      */
     @Override
-    public void generateError(String response) {
-        extractParameter(response, MESSAGE_REGEX_PATTERN, false);
+    public void generateError(Response response) throws IOException {
+        final JsonNode errorNode = OAuth2AccessTokenJsonExtractor.OBJECT_MAPPER
+                .readTree(response.getBody())
+                .get("error");
 
-        throw new FacebookAccessTokenErrorResponse(extractParameter(response, MESSAGE_REGEX_PATTERN, false),
-                extractParameter(response, TYPE_REGEX_PATTERN, false),
-                extractParameter(response, CODE_REGEX_PATTERN, false),
-                extractParameter(response, FBTRACE_ID_REGEX_PATTERN, false), response);
+        throw new FacebookAccessTokenErrorResponse(errorNode.get("message").asText(), errorNode.get("type").asText(),
+                errorNode.get("code").asInt(), errorNode.get("fbtrace_id").asText(), response);
     }
 
 }

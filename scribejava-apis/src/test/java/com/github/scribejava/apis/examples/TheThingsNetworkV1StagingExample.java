@@ -22,6 +22,7 @@ public class TheThingsNetworkV1StagingExample {
     private TheThingsNetworkV1StagingExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         // Replace these with your client id and secret
         final String clientId = "your_client_id";
@@ -31,7 +32,6 @@ public class TheThingsNetworkV1StagingExample {
 
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .state(secretState)
                 .callback(redirectURI)
                 .build(TheThingsNetworkV1StagingApi.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
@@ -41,7 +41,7 @@ public class TheThingsNetworkV1StagingExample {
 
         // Obtain the Authorization URL
         System.out.println("Fetching the Authorization URL...");
-        final String authorizationUrl = service.getAuthorizationUrl();
+        final String authorizationUrl = service.getAuthorizationUrl(secretState);
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -50,7 +50,7 @@ public class TheThingsNetworkV1StagingExample {
 
         // TTN v1staging does not have URL safe keys, so we have to decode it
         final String code = URLDecoder.decode(in.nextLine(), "UTF-8");
-        System.out.println("Using code: "+code);
+        System.out.println("Using code: " + code);
         System.out.println();
 
         System.out.println("And paste the state from server here. We have set 'secretState'='" + secretState + "'.");
@@ -78,19 +78,20 @@ public class TheThingsNetworkV1StagingExample {
 
         service.signRequest(accessToken, request);
         request.addHeader("Accept", "application/json");
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-
-        if (response.getCode() == 401) {
-            System.out.println("Not authorised: "+response.getBody());
-        } else {
-            System.out.println("You should see a JSON array of your registered applications:");
-            System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
             System.out.println();
-            System.out.println("That's it man! Go and build something awesome with ScribeJava! :)");
+            System.out.println(response.getCode());
+
+            if (response.getCode() == 401) {
+                System.out.println("Not authorised: " + response.getBody());
+            } else {
+                System.out.println("You should see a JSON array of your registered applications:");
+                System.out.println(response.getBody());
+
+                System.out.println();
+                System.out.println("That's it man! Go and build something awesome with ScribeJava! :)");
+            }
         }
     }
 }

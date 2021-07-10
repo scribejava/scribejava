@@ -21,7 +21,7 @@ public class FreelancerApi extends DefaultApi10a {
 
     @Override
     public OAuth1SignatureType getSignatureType() {
-        return OAuth1SignatureType.QueryString;
+        return OAuth1SignatureType.QUERY_STRING;
     }
 
     @Override

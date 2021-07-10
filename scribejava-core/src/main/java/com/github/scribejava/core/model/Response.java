@@ -4,14 +4,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import com.github.scribejava.core.utils.StreamUtils;
+import java.io.Closeable;
 
-public class Response {
+/**
+ * An HTTP response.
+ *
+ * <p>
+ * This response may contain a non-null body stream of the HttpUrlConnection. If so, this body must be closed to avoid
+ * leaking resources. Use either {@link #getBody()} or {@link #close()} to close the body.
+ */
+public class Response implements Closeable {
 
     private final int code;
     private final String message;
     private final Map<String, String> headers;
     private String body;
     private InputStream stream;
+    private Closeable[] closeables;
+    private boolean closed;
 
     private Response(int code, String message, Map<String, String> headers) {
         this.code = code;
@@ -19,9 +29,11 @@ public class Response {
         this.headers = headers;
     }
 
-    public Response(int code, String message, Map<String, String> headers, InputStream stream) {
+    public Response(int code, String message, Map<String, String> headers, InputStream stream,
+            Closeable... closeables) {
         this(code, message, headers);
         this.stream = stream;
+        this.closeables = closeables;
     }
 
     public Response(int code, String message, Map<String, String> headers, String body) {
@@ -45,6 +57,12 @@ public class Response {
         return code >= 200 && code < 400;
     }
 
+    /**
+     * Returns the response body as a string, closing the stream that backs it. Idempotent.
+     *
+     * @return body as string
+     * @throws IOException IO Exception
+     */
     public String getBody() throws IOException {
         return body == null ? parseBodyContents() : body;
     }
@@ -100,11 +118,37 @@ public class Response {
 
     @Override
     public String toString() {
-        return "Response{" +
-            "code=" + code +
-            ", message='" + message + '\'' +
-            ", body='" + body + '\'' +
-            ", headers=" + headers +
-            '}';
+        return "Response{"
+                + "code=" + code
+                + ", message='" + message + '\''
+                + ", body='" + body + '\''
+                + ", headers=" + headers
+                + '}';
+    }
+
+    @Override
+    public void close() throws IOException {
+        if (closed) {
+            return;
+        }
+        IOException ioException = null;
+        if (closeables != null) {
+            for (Closeable closeable : closeables) {
+                if (closeable == null) {
+                    continue;
+                }
+                try {
+                    closeable.close();
+                } catch (IOException ioE) {
+                    if (ioException != null) {
+                        ioException = ioE;
+                    }
+                }
+            }
+        }
+        if (ioException != null) {
+            throw ioException;
+        }
+        closed = true;
     }
 }

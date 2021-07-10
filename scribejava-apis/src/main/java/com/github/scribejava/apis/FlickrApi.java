@@ -29,6 +29,7 @@ public class FlickrApi extends DefaultApi10a {
     }
 
     private static class InstanceHolder {
+
         private static final FlickrApi INSTANCE = new FlickrApi();
     }
 

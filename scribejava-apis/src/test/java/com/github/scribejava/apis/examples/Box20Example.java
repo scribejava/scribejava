@@ -22,6 +22,7 @@ public class Box20Example {
     private Box20Example() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws IOException, InterruptedException, ExecutionException {
         //Replace these with your client id and secret
         final String clientId = "your client id";
@@ -29,7 +30,6 @@ public class Box20Example {
         final String secretState = "security_token" + new Random().nextInt(999_999);
         final OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .state(secretState)
                 .callback("https://example.com/callback")
                 .build(BoxApi20.instance());
         final Scanner in = new Scanner(System.in, "UTF-8");
@@ -42,9 +42,12 @@ public class Box20Example {
         //pass access_type=offline to get refresh token
         final Map<String, String> additionalParams = new HashMap<>();
         additionalParams.put("access_type", "offline");
-        //force to reget refresh token (if usera are asked not the first time)
+        //force to reget refresh token (if user are asked not the first time)
         additionalParams.put("prompt", "consent");
-        final String authorizationUrl = service.getAuthorizationUrl(additionalParams);
+        final String authorizationUrl = service.createAuthorizationUrlBuilder()
+                .state(secretState)
+                .additionalParams(additionalParams)
+                .build();
         System.out.println("Got the Authorization URL!");
         System.out.println("Now go and authorize ScribeJava here:");
         System.out.println(authorizationUrl);
@@ -65,8 +68,7 @@ public class Box20Example {
             System.out.println();
         }
 
-        // Trade the Request Token and Verfier for the Access Token
-        System.out.println("Trading the Request Token for an Access Token...");
+        System.out.println("Trading the Authorization Code for an Access Token...");
         final OAuth2AccessToken accessToken = service.getAccessToken(code);
         System.out.println("Got the Access Token!");
         System.out.println("(The raw response looks like this: " + accessToken.getRawResponse() + "')");
@@ -77,12 +79,12 @@ public class Box20Example {
         System.out.println("Now we're going to access a protected resource...");
         final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
         service.signRequest(accessToken, request);
-        final Response response = service.execute(request);
-        System.out.println("Got it! Lets see what we found...");
-        System.out.println();
-        System.out.println(response.getCode());
-        System.out.println(response.getBody());
-
+        try (Response response = service.execute(request)) {
+            System.out.println("Got it! Lets see what we found...");
+            System.out.println();
+            System.out.println(response.getCode());
+            System.out.println(response.getBody());
+        }
         System.out.println("Thats it man! Go and build something awesome with ScribeJava! :)");
     }
 

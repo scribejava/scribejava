@@ -19,12 +19,13 @@ import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 
 public class Google20AsyncAHCExample {
 
-    private static final String NETWORK_NAME = "G+ Async";
-    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/plus/v1/people/me";
+    private static final String NETWORK_NAME = "Google Async";
+    private static final String PROTECTED_RESOURCE_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
     private Google20AsyncAHCExample() {
     }
 
+    @SuppressWarnings("PMD.SystemPrintln")
     public static void main(String... args) throws InterruptedException, ExecutionException, IOException {
         // Replace these with your client id and secret
         final String clientId = "your client id";
@@ -39,8 +40,7 @@ public class Google20AsyncAHCExample {
 
         try (OAuth20Service service = new ServiceBuilder(clientId)
                 .apiSecret(clientSecret)
-                .scope("profile") // replace with desired scope
-                .state(secretState)
+                .defaultScope("profile") // replace with desired scope
                 .callback("http://example.com/callback")
                 .httpClientConfig(clientConfig)
                 .build(GoogleApi20.instance())) {
@@ -55,9 +55,12 @@ public class Google20AsyncAHCExample {
             //https://developers.google.com/identity/protocols/OAuth2WebServer#preparing-to-start-the-oauth-20-flow
             final Map<String, String> additionalParams = new HashMap<>();
             additionalParams.put("access_type", "offline");
-            //force to reget refresh token (if usera are asked not the first time)
+            //force to reget refresh token (if user are asked not the first time)
             additionalParams.put("prompt", "consent");
-            final String authorizationUrl = service.getAuthorizationUrl(additionalParams);
+            final String authorizationUrl = service.createAuthorizationUrlBuilder()
+                    .state(secretState)
+                    .additionalParams(additionalParams)
+                    .build();
             System.out.println("Got the Authorization URL!");
             System.out.println("Now go and authorize ScribeJava here:");
             System.out.println(authorizationUrl);
@@ -79,8 +82,7 @@ public class Google20AsyncAHCExample {
                 System.out.println();
             }
 
-            // Trade the Request Token and Verfier for the Access Token
-            System.out.println("Trading the Request Token for an Access Token...");
+            System.out.println("Trading the Authorization Code for an Access Token...");
             OAuth2AccessToken accessToken = service.getAccessToken(code);
             System.out.println("Got the Access Token!");
             System.out.println("(The raw response looks like this: " + accessToken.getRawResponse()
@@ -112,11 +114,11 @@ public class Google20AsyncAHCExample {
 
                 final OAuthRequest request = new OAuthRequest(Verb.GET, requestUrl);
                 service.signRequest(accessToken, request);
-                final Response response = service.execute(request);
                 System.out.println();
-                System.out.println(response.getCode());
-                System.out.println(response.getBody());
-
+                try (Response response = service.execute(request)) {
+                    System.out.println(response.getCode());
+                    System.out.println(response.getBody());
+                }
                 System.out.println();
             }
         }

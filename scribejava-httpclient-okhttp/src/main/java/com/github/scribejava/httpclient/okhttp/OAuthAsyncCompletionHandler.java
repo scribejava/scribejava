@@ -22,10 +22,11 @@ class OAuthAsyncCompletionHandler<T> implements Callback {
     }
 
     @Override
-    public void onFailure(Call call, IOException e) {
+    public void onFailure(Call call, IOException exception) {
         try {
+            okHttpFuture.setException(exception);
             if (callback != null) {
-                callback.onThrowable(e);
+                callback.onThrowable(exception);
             }
         } finally {
             okHttpFuture.finish();
@@ -33,16 +34,22 @@ class OAuthAsyncCompletionHandler<T> implements Callback {
     }
 
     @Override
-    public void onResponse(Call call, okhttp3.Response okHttpResponse) throws IOException {
+    public void onResponse(Call call, okhttp3.Response okHttpResponse) {
         try {
 
             final Response response = OkHttpHttpClient.convertResponse(okHttpResponse);
-
-            @SuppressWarnings("unchecked")
-            final T t = converter == null ? (T) response : converter.convert(response);
-            okHttpFuture.setResult(t);
-            if (callback != null) {
-                callback.onCompleted(t);
+            try {
+                @SuppressWarnings("unchecked")
+                final T t = converter == null ? (T) response : converter.convert(response);
+                okHttpFuture.setResult(t);
+                if (callback != null) {
+                    callback.onCompleted(t);
+                }
+            } catch (IOException | RuntimeException e) {
+                okHttpFuture.setException(e);
+                if (callback != null) {
+                    callback.onThrowable(e);
+                }
             }
         } finally {
             okHttpFuture.finish();
