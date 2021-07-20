@@ -22,6 +22,7 @@
         <module>scribejava-httpclient-ning</module>
         <module>scribejava-httpclient-okhttp</module>
         <module>scribejava-httpclient-apache</module>
+        <module>scribejava-httpclient-apache5</module>
         <module>scribejava-httpclient-armeria</module>
     </modules>
 
