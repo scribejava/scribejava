@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertThrows;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -22,6 +22,7 @@ import okhttp3.MediaType;
 import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.ResponseBody;
+import org.junit.function.ThrowingRunnable;
 
 public class OAuthAsyncCompletionHandlerTest {
 
@@ -88,7 +89,7 @@ public class OAuthAsyncCompletionHandlerTest {
     }
 
     @Test
-    public void shouldReleaseLatchOnIOException() throws Exception {
+    public void shouldReleaseLatchOnIOException() {
         handler = new OAuthAsyncCompletionHandler<>(callback, EXCEPTION_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
 
@@ -105,16 +106,16 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                future.get();
+            }
+        });
     }
 
     @Test
-    public void shouldReportOAuthException() throws Exception {
+    public void shouldReportOAuthException() {
         handler = new OAuthAsyncCompletionHandler<>(callback, OAUTH_EXCEPTION_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
 
@@ -131,16 +132,16 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof OAuthException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                future.get();
+            }
+        });
     }
 
     @Test
-    public void shouldReleaseLatchOnCancel() throws Exception {
+    public void shouldReleaseLatchOnCancel() {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
 
@@ -149,16 +150,16 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                future.get();
+            }
+        });
     }
 
     @Test
-    public void shouldReleaseLatchOnFailure() throws Exception {
+    public void shouldReleaseLatchOnFailure() {
         handler = new OAuthAsyncCompletionHandler<>(callback, ALL_GOOD_RESPONSE_CONVERTER, future);
         call.enqueue(handler);
 
@@ -167,12 +168,12 @@ public class OAuthAsyncCompletionHandlerTest {
         assertNotNull(callback.getThrowable());
         assertTrue(callback.getThrowable() instanceof IOException);
         // verify latch is released
-        try {
-            future.get();
-            fail();
-        } catch (ExecutionException expected) {
-            // expected
-        }
+        assertThrows(ExecutionException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                future.get();
+            }
+        });
     }
 
     private static class AllGoodResponseConverter implements OAuthRequest.ResponseConverter<String> {

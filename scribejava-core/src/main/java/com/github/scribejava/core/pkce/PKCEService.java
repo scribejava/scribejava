@@ -1,6 +1,6 @@
 package com.github.scribejava.core.pkce;
 
-import com.github.scribejava.core.java8.Base64;
+import com.github.scribejava.core.base64.Base64;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
@@ -11,7 +11,6 @@ import java.security.SecureRandom;
 public class PKCEService {
 
     private static final SecureRandom RANDOM = new SecureRandom();
-    private static final Base64.Encoder BASE_64_ENCODER = Base64.getUrlEncoder().withoutPadding();
     /**
      * number of octets to randomly generate.
      */
@@ -44,7 +43,7 @@ public class PKCEService {
     }
 
     public PKCE generatePKCE(byte[] randomBytes) {
-        final String codeVerifier = BASE_64_ENCODER.encodeToString(randomBytes);
+        final String codeVerifier = Base64.encodeUrlWithoutPadding(randomBytes);
 
         final PKCE pkce = new PKCE();
         pkce.setCodeVerifier(codeVerifier);

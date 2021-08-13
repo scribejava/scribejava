@@ -18,6 +18,9 @@ public interface ServiceBuilderOAuth20 extends ServiceBuilderCommon {
     ServiceBuilderOAuth20 apiSecret(String apiSecret);
 
     @Override
+    ServiceBuilderOAuth20 apiSecretIsEmptyStringUnsafe();
+
+    @Override
     ServiceBuilderOAuth20 httpClientConfig(HttpClientConfig httpClientConfig);
 
     @Override
@@ -47,6 +50,8 @@ public interface ServiceBuilderOAuth20 extends ServiceBuilderCommon {
      * @return the {@link ServiceBuilder} instance for method chaining
      */
     ServiceBuilderOAuth20 defaultScope(String defaultScope);
+
+    ServiceBuilderOAuth20 defaultScope(ScopeBuilder scopeBuilder);
 
     OAuth20Service build(DefaultApi20 api);
 }

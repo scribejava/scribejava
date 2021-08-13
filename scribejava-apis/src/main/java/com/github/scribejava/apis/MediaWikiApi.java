@@ -36,7 +36,7 @@ public class MediaWikiApi extends DefaultApi10a {
     }
 
     /**
-     * The instance for wikis hosted by the Wikimedia Foundation.Consumers are requested on
+     * The instance for wikis hosted by the Wikimedia Foundation. Consumers are requested on
      * <a href="https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose">
      * Special:OAuthConsumerRegistration/propose
      * </a>.

@@ -13,9 +13,6 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
 import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
-/**
- * Facebook API
- */
 public class FacebookApi extends DefaultApi20 {
 
     private final String version;
