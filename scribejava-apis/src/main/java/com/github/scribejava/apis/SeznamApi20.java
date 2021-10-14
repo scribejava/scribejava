@@ -25,7 +25,7 @@ public class SeznamApi20 extends DefaultApi20 {
 
     @Override
     public String getRevokeTokenEndpoint() {
-        return "https://profil.seznam.cz/api/v1/oauth/revoke";
+        return "https://login.szn.cz/api/v1/oauth/revoke";
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 public class Seznam20Example {
     private static final String PROTECTED_RESOURCE_URL
-            = "https://profil.seznam.cz/api/v1/user";
+            = "https://login.szn.cz/api/v1/user";
 
     private Seznam20Example() {
     }
