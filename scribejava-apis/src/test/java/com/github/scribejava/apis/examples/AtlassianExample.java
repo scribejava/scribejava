@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 public class AtlassianExample {
 
-    private static final String PROTECTED_RESOURCE_URL = "https://api.atlassian.com/oauth/token/accessible-resources";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.atlassian.com/me";
 
     private AsanaExample() {
     }
