@@ -1,8 +1,12 @@
 You can now help ScribeJava not only by Pull Requests.
 
-You can use [https://paypal.me/kullfar](https://paypal.me/kullfar) directly
+You can use [https://www.paypal.com/paypalme/algr453](https://www.paypal.com/paypalme/algr453) directly.
 
-or try donation button from PayPal: [![Donate with PayPal button](https://www.paypalobjects.com/en_US/RU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=E3XAUM2ET2R3Y&source=url)
+<details><summary>Donation button for monthly donations or donations by card (VISA, MasterCard, etc) may not be working, but you can try...</summary>
+...or try donation button from PayPal: [![Donate with PayPal button](https://www.paypalobjects.com/en_US/RU/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=E3XAUM2ET2R3Y&source=url)
+
+or old link [https://paypal.me/kullfar](https://paypal.me/kullfar)
+</details>
 
 Thanks in advance!
 
