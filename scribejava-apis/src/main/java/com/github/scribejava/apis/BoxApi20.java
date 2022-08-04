@@ -1,8 +1,8 @@
 package com.github.scribejava.apis;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
-import com.github.scribejava.core.oauth2.bearersignature.BearerSignature;
-import com.github.scribejava.core.oauth2.bearersignature.BearerSignatureURIQueryParameter;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
 /**
  * Box.com Api
@@ -32,7 +32,7 @@ public class BoxApi20 extends DefaultApi20 {
     }
 
     @Override
-    public BearerSignature getBearerSignature() {
-        return BearerSignatureURIQueryParameter.instance();
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 }
