@@ -39,7 +39,7 @@ public class OAuth10aService extends OAuthService {
         final OAuthRequest request = prepareRequestTokenRequest();
 
         log("sending request...");
-        try (Response response = execute(request)) {
+        try ( Response response = execute(request)) {
             if (isDebug()) {
                 final String body = response.getBody();
                 log("response status code: %s", response.getCode());
@@ -105,7 +105,7 @@ public class OAuth10aService extends OAuthService {
             log("obtaining access token from %s", api.getAccessTokenEndpoint());
         }
         final OAuthRequest request = prepareAccessTokenRequest(requestToken, oauthVerifier);
-        try (Response response = execute(request)) {
+        try ( Response response = execute(request)) {
             return api.getAccessTokenExtractor().extract(response);
         }
     }
