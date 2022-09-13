@@ -8,7 +8,7 @@
         <version>8.3.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-httpclient-ning</artifactId>
     <name>ScribeJava Ning Async Http Client support</name>
@@ -19,6 +19,12 @@
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-core</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.ning</groupId>
