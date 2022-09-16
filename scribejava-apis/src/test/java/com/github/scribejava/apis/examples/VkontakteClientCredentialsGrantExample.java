@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 public class VkontakteClientCredentialsGrantExample {
 
-    private static final String NETWORK_NAME = "Vkontakte.ru";
+    private static final String NETWORK_NAME = "vk.com>";
 
     private VkontakteClientCredentialsGrantExample() {
     }
