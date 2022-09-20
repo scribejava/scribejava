@@ -208,7 +208,6 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <excludes>main/java/com/github/scribejava/core/java8/*</excludes>
                             <sourceDirectories>
                                 <sourceDirectory>${basedir}/src</sourceDirectory>
                             </sourceDirectories>
