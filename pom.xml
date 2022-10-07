@@ -33,8 +33,8 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/scribejava/scribejava.git</connection>
-        <developerConnection>scm:git:git@github.com:scribejava/scribejava.git</developerConnection>
+        <connection>scm:git:https://github.com/scribejava/scribejava</connection>
+        <developerConnection>scm:git:https://github.com/scribejava/scribejava</developerConnection>
         <url>https://github.com/scribejava/scribejava</url>
         <tag>HEAD</tag>
     </scm>
