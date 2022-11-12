@@ -3,7 +3,7 @@
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava</artifactId>
     <packaging>pom</packaging>
-    <version>8.3.2-SNAPSHOT</version>
+    <version>8.3.3-SNAPSHOT</version>
     <name>ScribeJava OAuth Library</name>
     <description>The best OAuth library out there</description>
     <url>https://github.com/scribejava/scribejava</url>
@@ -33,8 +33,8 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/scribejava/scribejava.git</connection>
-        <developerConnection>scm:git:git@github.com:scribejava/scribejava.git</developerConnection>
+        <connection>scm:git:https://github.com/scribejava/scribejava</connection>
+        <developerConnection>scm:git:https://github.com/scribejava/scribejava</developerConnection>
         <url>https://github.com/scribejava/scribejava</url>
         <tag>HEAD</tag>
     </scm>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.12.3</version>
+            <version>2.13.4</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>mockwebserver</artifactId>
-            <version>4.9.1</version>
+            <version>4.10.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -76,7 +76,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.2</version>
+                    <version>5.1.8</version>
                     <executions>
                         <execution>
                             <id>bundle-manifest</id>
@@ -90,7 +90,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.2.2</version>
                     <configuration>
                         <archive>
                             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
@@ -100,7 +100,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>3.2.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
@@ -125,19 +125,19 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
+                    <version>3.0.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <release>${java.release}</release>
@@ -149,7 +149,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>default-deploy</id>
@@ -163,7 +163,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
@@ -184,7 +184,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.4.1</version>
                 <configuration>
                     <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                     <encoding>UTF-8</encoding>
@@ -208,7 +208,6 @@
                         <id>validate</id>
                         <phase>validate</phase>
                         <configuration>
-                            <excludes>main/java/com/github/scribejava/core/java8/*</excludes>
                             <sourceDirectories>
                                 <sourceDirectory>${basedir}/src</sourceDirectory>
                             </sourceDirectories>
@@ -225,7 +224,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.14.0</version>
+                <version>3.16.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>net.sourceforge.pmd</groupId>

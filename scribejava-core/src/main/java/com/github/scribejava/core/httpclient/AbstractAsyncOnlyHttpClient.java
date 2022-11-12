@@ -1,6 +1,6 @@
 package com.github.scribejava.core.httpclient;
 
-import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import java.io.File;
@@ -14,8 +14,17 @@ public abstract class AbstractAsyncOnlyHttpClient implements HttpClient {
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             byte[] bodyContents) throws InterruptedException, ExecutionException, IOException {
 
-        return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
-                (OAuthRequest.ResponseConverter<Response>) null).get();
+        final OAuthAsyncRequestThrowableHolderCallback oAuthAsyncRequestThrowableHolderCallback
+                = new OAuthAsyncRequestThrowableHolderCallback();
+
+        final Response response = executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents,
+                oAuthAsyncRequestThrowableHolderCallback, null).get();
+
+        final Throwable throwable = oAuthAsyncRequestThrowableHolderCallback.getThrowable();
+        if (throwable != null) {
+            throw new ExecutionException(throwable);
+        }
+        return response;
     }
 
     @Override
@@ -23,23 +32,71 @@ public abstract class AbstractAsyncOnlyHttpClient implements HttpClient {
             com.github.scribejava.core.httpclient.multipart.MultipartPayload bodyContents)
             throws InterruptedException, ExecutionException, IOException {
 
-        return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
-                (OAuthRequest.ResponseConverter<Response>) null).get();
+        final OAuthAsyncRequestThrowableHolderCallback oAuthAsyncRequestThrowableHolderCallback
+                = new OAuthAsyncRequestThrowableHolderCallback();
+
+        final Response response = executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents,
+                oAuthAsyncRequestThrowableHolderCallback, null).get();
+
+        final Throwable throwable = oAuthAsyncRequestThrowableHolderCallback.getThrowable();
+        if (throwable != null) {
+            throw new ExecutionException(throwable);
+        }
+
+        return response;
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             String bodyContents) throws InterruptedException, ExecutionException, IOException {
 
-        return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
-                (OAuthRequest.ResponseConverter<Response>) null).get();
+        final OAuthAsyncRequestThrowableHolderCallback oAuthAsyncRequestThrowableHolderCallback
+                = new OAuthAsyncRequestThrowableHolderCallback();
+
+        final Response response = executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents,
+                oAuthAsyncRequestThrowableHolderCallback, null).get();
+
+        final Throwable throwable = oAuthAsyncRequestThrowableHolderCallback.getThrowable();
+        if (throwable != null) {
+            throw new ExecutionException(throwable);
+        }
+
+        return response;
     }
 
     @Override
     public Response execute(String userAgent, Map<String, String> headers, Verb httpVerb, String completeUrl,
             File bodyContents) throws InterruptedException, ExecutionException, IOException {
 
-        return executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents, null,
-                (OAuthRequest.ResponseConverter<Response>) null).get();
+        final OAuthAsyncRequestThrowableHolderCallback oAuthAsyncRequestThrowableHolderCallback
+                = new OAuthAsyncRequestThrowableHolderCallback();
+
+        final Response response = executeAsync(userAgent, headers, httpVerb, completeUrl, bodyContents,
+                oAuthAsyncRequestThrowableHolderCallback, null).get();
+
+        final Throwable throwable = oAuthAsyncRequestThrowableHolderCallback.getThrowable();
+        if (throwable != null) {
+            throw new ExecutionException(throwable);
+        }
+
+        return response;
+    }
+
+    private class OAuthAsyncRequestThrowableHolderCallback implements OAuthAsyncRequestCallback<Response> {
+
+        private Throwable throwable;
+
+        @Override
+        public void onCompleted(Response response) {
+        }
+
+        @Override
+        public void onThrowable(Throwable t) {
+            throwable = t;
+        }
+
+        public Throwable getThrowable() {
+            return throwable;
+        }
     }
 }
