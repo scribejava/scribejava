@@ -3,7 +3,7 @@
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava</artifactId>
     <packaging>pom</packaging>
-    <version>8.3.3-SNAPSHOT</version>
+    <version>8.3.3</version>
     <name>ScribeJava OAuth Library</name>
     <description>The best OAuth library out there</description>
     <url>https://github.com/scribejava/scribejava</url>
@@ -36,7 +36,7 @@
         <connection>scm:git:https://github.com/scribejava/scribejava</connection>
         <developerConnection>scm:git:https://github.com/scribejava/scribejava</developerConnection>
         <url>https://github.com/scribejava/scribejava</url>
-        <tag>HEAD</tag>
+        <tag>scribejava-8.3.3</tag>
     </scm>
 
     <developers>
