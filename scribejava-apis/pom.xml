@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.scribejava</groupId>
         <artifactId>scribejava</artifactId>
-        <version>8.3.2-SNAPSHOT</version>
+        <version>8.3.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -48,6 +48,12 @@
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-httpclient-armeria</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver</artifactId>
+            <version>4.1.84.Final</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -8,7 +8,7 @@ public class OAuthResponseException extends OAuthException {
 
     private static final long serialVersionUID = 1309424849700276816L;
 
-    private final Response response;
+    private final transient Response response;
 
     public OAuthResponseException(Response rawResponse) throws IOException {
         super(rawResponse.getBody());
