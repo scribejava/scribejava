@@ -55,6 +55,7 @@ ScribeJava support out-of-box several HTTP clients:
 
 ### Supports all (50+) major 1.0a and 2.0 OAuth APIs out-of-the-box
 
+* Airtable (https://airtable.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/AirtableExample.java)
 * Asana (https://asana.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/AsanaExample.java)
 * Automatic (https://www.automatic.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/AutomaticExample.java)
 * AWeber (http://www.aweber.com/) [example](https://github.com/scribejava/scribejava/blob/master/scribejava-apis/src/test/java/com/github/scribejava/apis/examples/AWeberExample.java)
