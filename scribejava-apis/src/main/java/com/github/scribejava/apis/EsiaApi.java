@@ -10,6 +10,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 
 import java.io.OutputStream;
 
+
 public class EsiaApi extends DefaultApi20 {
   private static final String PROTOCOL = "https://";
   private static final String PRODUCTION_HOST = "esia.gosuslugi.ru";
