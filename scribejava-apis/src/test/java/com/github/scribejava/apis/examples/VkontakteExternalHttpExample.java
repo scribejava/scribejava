@@ -16,7 +16,7 @@ import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 
 public class VkontakteExternalHttpExample {
 
-    private static final String NETWORK_NAME = "Vkontakte.ru";
+    private static final String NETWORK_NAME = "vk.com";
     private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/users.get?v="
             + VkontakteApi.VERSION;
 
@@ -37,7 +37,7 @@ public class VkontakteExternalHttpExample {
                 .setReadTimeout(1_000)
                 .build();
         //wrap it
-        try (DefaultAsyncHttpClient ahcHttpClient = new DefaultAsyncHttpClient(httpClientConfig)) {
+        try ( DefaultAsyncHttpClient ahcHttpClient = new DefaultAsyncHttpClient(httpClientConfig)) {
             //wrap it
             final AhcHttpClient wrappedAHCHttpClient = new AhcHttpClient(ahcHttpClient);
 
@@ -74,7 +74,7 @@ public class VkontakteExternalHttpExample {
             System.out.println("Now we're going to access a protected resource...");
             final OAuthRequest request = new OAuthRequest(Verb.GET, PROTECTED_RESOURCE_URL);
             service.signRequest(accessToken, request);
-            try (Response response = service.execute(request)) {
+            try ( Response response = service.execute(request)) {
                 System.out.println("Got it! Lets see what we found...");
                 System.out.println();
                 System.out.println(response.getCode());

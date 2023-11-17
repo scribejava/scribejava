@@ -10,8 +10,8 @@
 Who said OAuth/OAuth2 was difficult? Configuring ScribeJava is __so easy your grandma can do it__! check it out:
 
 ```java
-OAuthService service = new ServiceBuilder(YOUR_API_KEY)
-                                  .apiSecret(YOUR_API_SECRET)
+OAuthService service = new ServiceBuilder(YOUR_CLIENT_ID)
+                                  .apiSecret(YOUR_CLIENT_SECRET)
                                   .build(LinkedInApi20.instance());
 ```
 
@@ -137,7 +137,7 @@ You can pull ScribeJava from the central maven repository, just add these to you
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-apis</artifactId>
-    <version>8.3.1</version>
+    <version>8.3.3</version>
 </dependency>
 ```
 
@@ -146,7 +146,7 @@ And in case you need just core classes (that's it, without any external API (FB,
 <dependency>
     <groupId>com.github.scribejava</groupId>
     <artifactId>scribejava-core</artifactId>
-    <version>8.3.1</version>
+    <version>8.3.3</version>
 </dependency>
 ```
 

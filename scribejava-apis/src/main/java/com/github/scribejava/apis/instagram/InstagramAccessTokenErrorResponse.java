@@ -19,7 +19,7 @@ public class InstagramAccessTokenErrorResponse extends OAuthResponseException {
     private final String errorType;
     private final int code;
     private final String errorMessage;
-    private final Response response;
+    private final transient Response response;
 
     public InstagramAccessTokenErrorResponse(String errorType, int code, String errorMessage, Response response)
             throws IOException {

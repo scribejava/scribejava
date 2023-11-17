@@ -1,3 +1,11 @@
+[8.3.3]
+ * update dependencies, including security updates in libraries
+
+[8.3.2]
+ * minor fixes and enhances
+ * update dependencies
+ * while using async HTTP client, you could miss some Throwables, now they will be thrown
+
 [8.3.1]
  * fix java.lang.NoClassDefFoundError for non-java8 runtimes (e.g. Android 7.1.1)
    (thanks to https://github.com/ChristopherGittner)

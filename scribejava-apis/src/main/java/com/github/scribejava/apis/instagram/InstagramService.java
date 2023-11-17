@@ -72,6 +72,9 @@ public class InstagramService extends OAuth20Service {
      *
      * @param accessToken short-lived access token
      * @return long-lived access token with filled expireIn and refreshToken
+     * @throws java.lang.InterruptedException
+     * @throws java.util.concurrent.ExecutionException
+     * @throws java.io.IOException
      */
     public OAuth2AccessToken getLongLivedAccessToken(OAuth2AccessToken accessToken)
             throws InterruptedException, ExecutionException, IOException {

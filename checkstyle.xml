@@ -99,7 +99,9 @@
         <module name="OuterTypeNumber"/>
         <module name="GenericWhitespace"/>
         <module name="MethodParamPad"/>
-        <module name="ParenPad"/>
+        <!--<module name="ParenPad"/> disabled due to the bug in the NetBeans (nb-javac)
+        "try with resources formatting adding extra space" https://github.com/apache/netbeans/issues/3720
+        Let's make our life easier, just skip this check temporarily -->
         <module name="TypecastParenPad"/>
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround">
