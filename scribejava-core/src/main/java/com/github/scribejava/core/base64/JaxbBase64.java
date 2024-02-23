@@ -11,11 +11,17 @@ public class JaxbBase64 extends Base64 {
 
     @Override
     protected String internalEncodeUrlWithoutPadding(byte[] bytes) {
-        String string = DatatypeConverter.printBase64Binary(bytes);
-        while (string.endsWith("=")) {
-            string = string.substring(0, string.length() - 1);
-        }
-        return string.replace('+', '-').replace('/', '_');
+        return makeUrlSafe(DatatypeConverter.printBase64Binary(bytes));
+    }
+
+    @Override
+    protected byte[] internalDecode(String string) {
+        return DatatypeConverter.parseBase64Binary(string);
+    }
+
+    @Override
+    protected byte[] internalDecodeUrl(String string) {
+        return internalDecode(unmakeUrlSafe(string));
     }
 
     static boolean isAvailable() {

@@ -22,7 +22,10 @@
         <module name="RightCurly"/>
         <module name="HideUtilityClassConstructor"/>
         <module name="OneTopLevelClass"/>
-        <module name="VisibilityModifier"/>
+        <module name="VisibilityModifier">
+            <property name="ignoreAnnotationCanonicalNames"
+                value="com.fasterxml.jackson.annotation.JsonProperty, com.fasterxml.jackson.annotation.JsonAnySetter"/>
+        </module>
         <module name="CovariantEquals"/>
         <module name="DeclarationOrder"/>
         <module name="DefaultComesLast"/>

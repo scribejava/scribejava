@@ -25,6 +25,16 @@ public class CommonsCodecBase64 extends Base64 {
         return BASE64_URL_ENCODER_WITHOUT_PADDING.encodeToString(bytes);
     }
 
+    @Override
+    protected byte[] internalDecode(String string) {
+        return BASE64_ENCODER.decode(string);
+    }
+
+    @Override
+    protected byte[] internalDecodeUrl(String string) {
+        return BASE64_URL_ENCODER_WITHOUT_PADDING.decode(string);
+    }
+
     static boolean isAvailable() {
         try {
             Class.forName("org.apache.commons.codec.binary.Base64", false, CommonsCodecBase64.class.getClassLoader());

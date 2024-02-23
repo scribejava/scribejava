@@ -1,10 +1,12 @@
 package com.github.scribejava.core.base64;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 
 public class Base64Test {
 
@@ -21,12 +23,12 @@ public class Base64Test {
 
     @Before
     public void setUp() throws UnsupportedEncodingException {
-        helloWorldBytes = "Hello World".getBytes("UTF-8");
-        helloWorldTwoLinesBytes = "Hello World\r\nNew Line2".getBytes("UTF-8");
-        helloWorldTwoLinesAndNewLineBytes = "Hello World\r\nSecond Line\r\n".getBytes("UTF-8");
+        helloWorldBytes = "Hello World".getBytes(StandardCharsets.UTF_8);
+        helloWorldTwoLinesBytes = "Hello World\r\nNew Line2".getBytes(StandardCharsets.UTF_8);
+        helloWorldTwoLinesAndNewLineBytes = "Hello World\r\nSecond Line\r\n".getBytes(StandardCharsets.UTF_8);
         helloWorldDifferentCharsBytes = ("`1234567890-=~!@#$%^&*()_+ёЁ\"№;:?qwertyuiop[]asdfghjkl;'zxcvbnm,./QWERTYUIOP"
                 + "{}|ASDFGHJKL:ZXCVBNM<>?йфяцычувскамепинртгоьшлбщдюзж.хэъ\\ЙФЯЦЫЧУВСКАМЕПИНРТГОЬШЛБЩДЮЗЖ,ХЭЪ/\r\t\f\'"
-                + "\b\n").getBytes("UTF-8");
+                + "\b\n").getBytes(StandardCharsets.UTF_8);
         bytes = new byte[]{48, -126, 2, 118, 2, 1, 0, 48, 13, 6, 9, 42, -122, 72, -122, -9, 13, 1, 1, 1, 5, 0, 4, -126,
             2, 96, 48, -126, 2, 92, 2, 1, 0, 2, -127, -127, 0, -61, -48, -28, 16, -116, -58, 85, 42, -39, 54, 50, -119,
             18, 40, 17, 75, 51, -24, 113, -109, 38, 17, -18, 106, -60, -74, -97, 29, 82, 123, -128, -88, -34, 92, 112,
@@ -145,6 +147,72 @@ public class Base64Test {
     }
 
     @Test
+    public void testDecode() {
+        final String helloWorldEncoded = "SGVsbG8gV29ybGQ=";
+        final String helloWorldTwoLinesEncoded = "SGVsbG8gV29ybGQNCk5ldyBMaW5lMg==";
+        final String helloWorldTwoLinesAndNewLineEncoded = "SGVsbG8gV29ybGQNClNlY29uZCBMaW5lDQo=";
+        final String helloWorldDifferentCharsEncoded = "YDEyMzQ1Njc4OTAtPX4hQCMkJV4mKigpXyvRkdCBIuKEljs6P3F3ZXJ0eXVpb3B"
+            + "bXWFzZGZnaGprbDsnenhjdmJubSwuL1FXRVJUWVVJT1B7fXxBU0RGR0hKS0w6WlhDVkJOTTw+P9C50YTRj9GG0YvRh9GD0LLRgdC"
+            + "60LDQvNC10L/QuNC90YDRgtCz0L7RjNGI0LvQsdGJ0LTRjtC30LYu0YXRjdGKXNCZ0KTQr9Cm0KvQp9Cj0JLQodCa0JDQnNCV0J/"
+            + "QmNCd0KDQotCT0J7QrNCo0JvQkdCp0JTQrtCX0JYs0KXQrdCqLw0JDCcICg==";
+        final String str = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMPQ5BCMxlUq2TYy"
+            + "iRIoEUsz6HGTJhHuasS2nx1Se4Co3lxwxyubVdFj8AuhHNJSmJvjlpbTsGOjLZpr"
+            + "HyDEDdJmf1Fensh1MhUnBZ4a7uLrZrKzFHHJdamX9pxapB89vLeHlCot9hVXdrZH"
+            + "nNtg6FdmRKH/8gbs8iDyIayFvzYDAgMBAAECgYA+c9MpTBy9cQsR9BAvkEPjvkx2"
+            + "XL4ZnfbDgpNA4Nuu7yzsQrPjPomiXMNkkiAFHH67yVxwAlgRjyuuQlgNNTpKvyQt"
+            + "XcHxffnU0820VmE23M+L7jg2TlB3+rUnEDmDvCoyjlwGDR6lNb7t7Fgg2iR+iaov"
+            + "0iVzz+l9w0slRlyGsQJBAPWXW2m3NmFgqfDxtw8fsKC2y8o17/cnPjozRGtWb8LQ"
+            + "g3VCb8kbOFHOYNGazq3M7+wD1qILF2h/HecgK9eQrZ0CQQDMHXoJMfKKbrFrTKgE"
+            + "zyggO1gtuT5OXYeFewMEb5AbDI2FfSc2YP7SHij8iQ2HdukBrbTmi6qxh3HmIR58"
+            + "I/AfAkEA0Y9vr0tombsUB8cZv0v5OYoBZvCTbMANtzfb4AOHpiKqqbohDOevLQ7/"
+            + "SpvgVCmVaDz2PptcRAyEBZ5MCssneQJAB2pmvaDH7Ambfod5bztLfOhLCtY5EkXJ"
+            + "n6rZcDbRaHorRhdG7m3VtDKOUKZ2DF7glkQGV33phKukErVPUzlHBwJAScD9TqaG"
+            + "wJ3juUsVtujV23SnH43iMggXT7m82STpPGam1hPfmqu2Z0niePFo927ogQ7H1EMJ"
+            + "UHgqXmuvk2X/Ww==";
+
+        final String allBytesStr = "gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2"
+            + "+v8DBwsPExcbHyMnKy8zNzs/Q0dLT1NXW19jZ2tvc3d7f4OHi4+Tl5ufo6err7O3u7/Dx8vP09fb3+Pn6+/z9/v8AAQIDBAUGBwg"
+            + "JCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlN"
+            + "UVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+fw==";
+
+        assertArrayEquals(helloWorldBytes, java8Base64.internalDecode(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, java8Base64.internalDecode(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            java8Base64.internalDecode(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            java8Base64.internalDecode(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, java8Base64.internalDecode(str));
+        assertArrayEquals(allBytes, java8Base64.internalDecode(allBytesStr));
+
+        assertArrayEquals(helloWorldBytes, commonsCodecBase64.internalDecode(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, commonsCodecBase64.internalDecode(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            commonsCodecBase64.internalDecode(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            commonsCodecBase64.internalDecode(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, commonsCodecBase64.internalDecode(str));
+        assertArrayEquals(allBytes, commonsCodecBase64.internalDecode(allBytesStr));
+
+        assertArrayEquals(helloWorldBytes, jaxbBase64.internalDecode(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, jaxbBase64.internalDecode(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            jaxbBase64.internalDecode(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            jaxbBase64.internalDecode(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, jaxbBase64.internalDecode(str));
+        assertArrayEquals(allBytes, jaxbBase64.internalDecode(allBytesStr));
+
+        assertArrayEquals(helloWorldBytes, jaxb230Base64.internalDecode(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, jaxb230Base64.internalDecode(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            jaxb230Base64.internalDecode(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            jaxb230Base64.internalDecode(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, jaxb230Base64.internalDecode(str));
+        assertArrayEquals(allBytes, jaxb230Base64.internalDecode(allBytesStr));
+    }
+
+    @Test
     public void testEncodeUrlWithoutPadding() {
         final String helloWorldEncoded = "SGVsbG8gV29ybGQ";
         final String helloWorldTwoLinesEncoded = "SGVsbG8gV29ybGQNCk5ldyBMaW5lMg";
@@ -209,5 +277,71 @@ public class Base64Test {
                 jaxb230Base64.internalEncodeUrlWithoutPadding(helloWorldDifferentCharsBytes));
         assertEquals(str, jaxb230Base64.internalEncodeUrlWithoutPadding(bytes));
         assertEquals(allBytesStr, jaxb230Base64.internalEncodeUrlWithoutPadding(allBytes));
+    }
+
+    @Test
+    public void testDecodeUrl() {
+        final String helloWorldEncoded = "SGVsbG8gV29ybGQ";
+        final String helloWorldTwoLinesEncoded = "SGVsbG8gV29ybGQNCk5ldyBMaW5lMg";
+        final String helloWorldTwoLinesAndNewLineEncoded = "SGVsbG8gV29ybGQNClNlY29uZCBMaW5lDQo";
+        final String helloWorldDifferentCharsEncoded = "YDEyMzQ1Njc4OTAtPX4hQCMkJV4mKigpXyvRkdCBIuKEljs6P3F3ZXJ0eXVpb3B"
+            + "bXWFzZGZnaGprbDsnenhjdmJubSwuL1FXRVJUWVVJT1B7fXxBU0RGR0hKS0w6WlhDVkJOTTw-P9C50YTRj9GG0YvRh9GD0LLRgdC"
+            + "60LDQvNC10L_QuNC90YDRgtCz0L7RjNGI0LvQsdGJ0LTRjtC30LYu0YXRjdGKXNCZ0KTQr9Cm0KvQp9Cj0JLQodCa0JDQnNCV0J_"
+            + "QmNCd0KDQotCT0J7QrNCo0JvQkdCp0JTQrtCX0JYs0KXQrdCqLw0JDCcICg";
+        final String str = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMPQ5BCMxlUq2TYy"
+            + "iRIoEUsz6HGTJhHuasS2nx1Se4Co3lxwxyubVdFj8AuhHNJSmJvjlpbTsGOjLZpr"
+            + "HyDEDdJmf1Fensh1MhUnBZ4a7uLrZrKzFHHJdamX9pxapB89vLeHlCot9hVXdrZH"
+            + "nNtg6FdmRKH_8gbs8iDyIayFvzYDAgMBAAECgYA-c9MpTBy9cQsR9BAvkEPjvkx2"
+            + "XL4ZnfbDgpNA4Nuu7yzsQrPjPomiXMNkkiAFHH67yVxwAlgRjyuuQlgNNTpKvyQt"
+            + "XcHxffnU0820VmE23M-L7jg2TlB3-rUnEDmDvCoyjlwGDR6lNb7t7Fgg2iR-iaov"
+            + "0iVzz-l9w0slRlyGsQJBAPWXW2m3NmFgqfDxtw8fsKC2y8o17_cnPjozRGtWb8LQ"
+            + "g3VCb8kbOFHOYNGazq3M7-wD1qILF2h_HecgK9eQrZ0CQQDMHXoJMfKKbrFrTKgE"
+            + "zyggO1gtuT5OXYeFewMEb5AbDI2FfSc2YP7SHij8iQ2HdukBrbTmi6qxh3HmIR58"
+            + "I_AfAkEA0Y9vr0tombsUB8cZv0v5OYoBZvCTbMANtzfb4AOHpiKqqbohDOevLQ7_"
+            + "SpvgVCmVaDz2PptcRAyEBZ5MCssneQJAB2pmvaDH7Ambfod5bztLfOhLCtY5EkXJ"
+            + "n6rZcDbRaHorRhdG7m3VtDKOUKZ2DF7glkQGV33phKukErVPUzlHBwJAScD9TqaG"
+            + "wJ3juUsVtujV23SnH43iMggXT7m82STpPGam1hPfmqu2Z0niePFo927ogQ7H1EMJ"
+            + "UHgqXmuvk2X_Ww";
+
+        final String allBytesStr = "gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp-goaKjpKWmp6ipqqusra6vsLGys7S1tre4ubq7vL2"
+            + "-v8DBwsPExcbHyMnKy8zNzs_Q0dLT1NXW19jZ2tvc3d7f4OHi4-Tl5ufo6err7O3u7_Dx8vP09fb3-Pn6-_z9_v8AAQIDBAUGBwg"
+            + "JCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4_QEFCQ0RFRkdISUpLTE1OT1BRUlN"
+            + "UVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1-fw";
+
+        assertArrayEquals(helloWorldBytes, java8Base64.internalDecodeUrl(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, java8Base64.internalDecodeUrl(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            java8Base64.internalDecodeUrl(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            java8Base64.internalDecodeUrl(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, java8Base64.internalDecodeUrl(str));
+        assertArrayEquals(allBytes, java8Base64.internalDecodeUrl(allBytesStr));
+
+        assertArrayEquals(helloWorldBytes, commonsCodecBase64.internalDecodeUrl(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, commonsCodecBase64.internalDecodeUrl(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            commonsCodecBase64.internalDecodeUrl(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            commonsCodecBase64.internalDecodeUrl(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, commonsCodecBase64.internalDecodeUrl(str));
+        assertArrayEquals(allBytes, commonsCodecBase64.internalDecodeUrl(allBytesStr));
+
+        assertArrayEquals(helloWorldBytes, jaxbBase64.internalDecodeUrl(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, jaxbBase64.internalDecodeUrl(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            jaxbBase64.internalDecodeUrl(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            jaxbBase64.internalDecodeUrl(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, jaxbBase64.internalDecodeUrl(str));
+        assertArrayEquals(allBytes, jaxbBase64.internalDecodeUrl(allBytesStr));
+
+        assertArrayEquals(helloWorldBytes, jaxb230Base64.internalDecodeUrl(helloWorldEncoded));
+        assertArrayEquals(helloWorldTwoLinesBytes, jaxb230Base64.internalDecodeUrl(helloWorldTwoLinesEncoded));
+        assertArrayEquals(helloWorldTwoLinesAndNewLineBytes,
+            jaxb230Base64.internalDecodeUrl(helloWorldTwoLinesAndNewLineEncoded));
+        assertArrayEquals(helloWorldDifferentCharsBytes,
+            jaxb230Base64.internalDecodeUrl(helloWorldDifferentCharsEncoded));
+        assertArrayEquals(bytes, jaxb230Base64.internalDecodeUrl(str));
+        assertArrayEquals(allBytes, jaxb230Base64.internalDecodeUrl(allBytesStr));
     }
 }

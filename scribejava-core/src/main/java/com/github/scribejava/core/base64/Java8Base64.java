@@ -15,6 +15,16 @@ public class Java8Base64 extends Base64 {
         return JAVA8_BASE64.internalEncodeUrlWithoutPadding(bytes);
     }
 
+    @Override
+    protected byte[] internalDecode(String string) {
+        return JAVA8_BASE64.internalDecode(string);
+    }
+
+    @Override
+    public byte[] internalDecodeUrl(String string) {
+        return JAVA8_BASE64.internalDecodeUrl(string);
+    }
+
     static boolean isAvailable() {
         try {
             Class.forName("java.util.Base64", false, Java8Base64.class.getClassLoader());

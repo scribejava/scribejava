@@ -49,7 +49,44 @@ public abstract class Base64 {
         return getInstance().internalEncodeUrlWithoutPadding(bytes);
     }
 
+    public static byte[] decode(String string) {
+        return getInstance().internalDecode(string);
+    }
+
+    public static byte[] decodeUrl(String string) {
+        return getInstance().internalDecodeUrl(string);
+    }
+
+    protected static String pad(String string) {
+        switch (string.length() % 4) {
+            case 1: return string + "===";
+            case 2: return string + "==";
+            case 3: return string + "=";
+            default: return string;
+        }
+    }
+
+    protected static String unpad(String string) {
+        int length = string.length();
+        while (string.charAt(length - 1) == '=') {
+            length--;
+        }
+        return string.substring(0, length);
+    }
+
+    protected static String makeUrlSafe(String string) {
+        return unpad(string.replace('+', '-').replace('/', '_'));
+    }
+
+    protected static String unmakeUrlSafe(String string) {
+        return pad(string.replace('-', '+').replace('_', '/'));
+    }
+
     protected abstract String internalEncode(byte[] bytes);
 
     protected abstract String internalEncodeUrlWithoutPadding(byte[] bytes);
+
+    protected abstract byte[] internalDecode(String string);
+
+    protected abstract byte[] internalDecodeUrl(String string);
 }
