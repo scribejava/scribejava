@@ -6,6 +6,7 @@ import okhttp3.OkHttpClient;
 public class OkHttpHttpClientConfig implements HttpClientConfig {
 
     private final OkHttpClient.Builder clientBuilder;
+    private OkHttpRequestDecorator decorator;
 
     public OkHttpHttpClientConfig(OkHttpClient.Builder clientBuilder) {
         this.clientBuilder = clientBuilder;
@@ -23,4 +24,19 @@ public class OkHttpHttpClientConfig implements HttpClientConfig {
     public static OkHttpHttpClientConfig defaultConfig() {
         return new OkHttpHttpClientConfig(null);
     }
+
+    public OkHttpRequestDecorator getDecorator() {
+        return decorator;
+    }
+
+    public void setDecorator(OkHttpRequestDecorator decorator) {
+        this.decorator = decorator;
+    }
+
+    public OkHttpHttpClientConfig withDecorator(OkHttpRequestDecorator decorator) {
+        this.decorator = decorator;
+        return this;
+    }
+
+
 }
