@@ -255,8 +255,14 @@ public class OAuth20Service extends OAuthService {
         return getAccessToken(AccessTokenRequestParams.create(code), callback);
     }
 
-    // ===== refresh AccessToken methods =====
+
     protected OAuthRequest createRefreshTokenRequest(String refreshToken, String scope) {
+        return createRefreshTokenRequest(refreshToken, scope, null);
+    }
+
+    // ===== refresh AccessToken methods =====
+    protected OAuthRequest createRefreshTokenRequest(String refreshToken, String scope,
+                                                     Map<String, String> additionalParams) {
         if (refreshToken == null || refreshToken.isEmpty()) {
             throw new IllegalArgumentException("The refreshToken cannot be null or empty");
         }
@@ -273,6 +279,12 @@ public class OAuth20Service extends OAuthService {
         request.addParameter(OAuthConstants.REFRESH_TOKEN, refreshToken);
         request.addParameter(OAuthConstants.GRANT_TYPE, OAuthConstants.REFRESH_TOKEN);
 
+        if (additionalParams != null && !additionalParams.isEmpty()) {
+            for (Map.Entry<String, String> entry : additionalParams.entrySet()) {
+                request.addParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
         logRequestWithParams("refresh token", request);
 
         return request;
@@ -283,7 +295,7 @@ public class OAuth20Service extends OAuthService {
     }
 
     public Future<OAuth2AccessToken> refreshAccessTokenAsync(String refreshToken, String scope) {
-        return refreshAccessToken(refreshToken, scope, null);
+        return refreshAccessToken(refreshToken, scope, (OAuthAsyncRequestCallback<OAuth2AccessToken>) null);
     }
 
     public OAuth2AccessToken refreshAccessToken(String refreshToken)
@@ -293,7 +305,12 @@ public class OAuth20Service extends OAuthService {
 
     public OAuth2AccessToken refreshAccessToken(String refreshToken, String scope)
             throws IOException, InterruptedException, ExecutionException {
-        final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope);
+        return refreshAccessToken(refreshToken, scope, (Map<String, String>) null);
+    }
+
+    public OAuth2AccessToken refreshAccessToken(String refreshToken, String scope, Map<String, String> additionalParams)
+            throws IOException, InterruptedException, ExecutionException {
+        final OAuthRequest request = createRefreshTokenRequest(refreshToken, scope, additionalParams);
 
         return sendAccessTokenRequestSync(request);
     }
