@@ -7,9 +7,10 @@ import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthent
 public abstract class BaseMicrosoftAzureActiveDirectoryApi extends DefaultApi20 {
 
     protected static final String COMMON_TENANT = "common";
+    protected static final String COMMON_LOGIN_URL = "https://login.microsoftonline.com/";
 
-    private static final String MSFT_LOGIN_URL = "https://login.microsoftonline.com/";
     private static final String OAUTH_2 = "/oauth2";
+    private final String login_url;
     private final String tenant;
 
     protected BaseMicrosoftAzureActiveDirectoryApi() {
@@ -18,16 +19,22 @@ public abstract class BaseMicrosoftAzureActiveDirectoryApi extends DefaultApi20 
 
     protected BaseMicrosoftAzureActiveDirectoryApi(String tenant) {
         this.tenant = tenant == null || tenant.isEmpty() ? COMMON_TENANT : tenant;
+        this.login_url = COMMON_LOGIN_URL;
+    }
+
+    protected BaseMicrosoftAzureActiveDirectoryApi(String login_url, String tenant) {
+        this(tenant);
+        this.login_url = login_url == null || login_url.isEmpty() ? COMMON_LOGIN_URL : login_url;
     }
 
     @Override
     public String getAccessTokenEndpoint() {
-        return MSFT_LOGIN_URL + tenant + OAUTH_2 + getEndpointVersionPath() + "/token";
+        return login_url + tenant + OAUTH_2 + getEndpointVersionPath() + "/token";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return MSFT_LOGIN_URL + tenant + OAUTH_2 + getEndpointVersionPath() + "/authorize";
+        return login_url + tenant + OAUTH_2 + getEndpointVersionPath() + "/authorize";
     }
 
     @Override

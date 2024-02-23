@@ -23,6 +23,10 @@ public class MicrosoftAzureActiveDirectory20Api extends BaseMicrosoftAzureActive
         super(tenant);
     }
 
+    protected MicrosoftAzureActiveDirectory20Api(String login_url, String tenant) {
+        super(login_url, tenant);
+    }
+
     private static class InstanceHolder {
 
         private static final MicrosoftAzureActiveDirectory20Api INSTANCE = new MicrosoftAzureActiveDirectory20Api();
@@ -34,6 +38,10 @@ public class MicrosoftAzureActiveDirectory20Api extends BaseMicrosoftAzureActive
 
     public static MicrosoftAzureActiveDirectory20Api custom(String tenant) {
         return new MicrosoftAzureActiveDirectory20Api(tenant);
+    }
+
+    public static MicrosoftAzureActiveDirectory20Api custom(String login_url, String tenant) {
+        return new MicrosoftAzureActiveDirectory20Api(login_url, tenant);
     }
 
     @Override
