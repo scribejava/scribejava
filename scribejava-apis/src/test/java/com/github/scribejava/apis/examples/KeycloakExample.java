@@ -23,10 +23,10 @@ public class KeycloakExample {
         final String apiKey = "your_api_key";
         final String apiSecret = "your_api_secret";
         final String callback = "your_callback";
-        final String baseUrl = "your_base_url";
+        final String baseUrl = "your_base_url"; // Add /auth at the end when using keycloak version < 17
         final String realm = "your_realm";
 
-        final String protectedResourceUrl = baseUrl + "/auth/realms/" + realm + "/protocol/openid-connect/userinfo";
+        final String protectedResourceUrl = baseUrl + "/realms/" + realm + "/protocol/openid-connect/userinfo";
 
         final OAuth20Service service = new ServiceBuilder(apiKey)
                 .apiSecret(apiSecret)

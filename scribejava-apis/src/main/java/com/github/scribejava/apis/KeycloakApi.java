@@ -4,6 +4,8 @@ import com.github.scribejava.apis.openid.OpenIdJsonTokenExtractor;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.extractors.TokenExtractor;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication;
+import com.github.scribejava.core.oauth2.clientauthentication.RequestBodyAuthenticationScheme;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -38,7 +40,7 @@ public class KeycloakApi extends DefaultApi20 {
     }
 
     protected static String composeBaseUrlWithRealm(String baseUrl, String realm) {
-        return baseUrl + (baseUrl.endsWith("/") ? "" : "/") + "auth/realms/" + realm;
+        return baseUrl + (baseUrl.endsWith("/") ? "" : "/") + "realms/" + realm;
     }
 
     @Override
@@ -49,6 +51,11 @@ public class KeycloakApi extends DefaultApi20 {
     @Override
     protected String getAuthorizationBaseUrl() {
         return baseUrlWithRealm + "/protocol/openid-connect/auth";
+    }
+
+    @Override
+    public ClientAuthentication getClientAuthentication() {
+        return RequestBodyAuthenticationScheme.instance();
     }
 
     @Override
