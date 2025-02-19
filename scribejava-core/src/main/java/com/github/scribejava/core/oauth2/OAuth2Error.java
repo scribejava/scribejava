@@ -83,7 +83,12 @@ public enum OAuth2Error {
     /**
      * @see <a href="https://tools.ietf.org/html/rfc8628#section-3.5">RFC 8628, 3.5. Device Access Token Response</a>
      */
-    EXPIRED_TOKEN("expired_token");
+    EXPIRED_TOKEN("expired_token"),
+    /**
+     * @see <a href="https://developers.google.com/identity/protocols/oauth2/web-server#creatingclient">
+     * Google OAuth 2.0 for Web Server Applications</a>
+     */
+    REDIRECT_URI_MISMATCH("redirect_uri_mismatch");
 
     private static final Set<OAuth2Error> VALUES = EnumSet.allOf(OAuth2Error.class);
 
