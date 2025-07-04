@@ -51,6 +51,7 @@ public class ApacheHttpClient5 extends AbstractAsyncOnlyHttpClient {
     @Override
     public void close() throws IOException {
         client.close();
+        entityConsumerExecutor.shutdown();
     }
 
     @Override
