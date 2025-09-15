@@ -33,12 +33,12 @@ public class VkontakteApi extends DefaultApi20 {
 
     @Override
     public String getAccessTokenEndpoint() {
-        return "https://oauth.vk.com/access_token";
+        return "https://oauth.vk.ru/access_token";
     }
 
     @Override
     protected String getAuthorizationBaseUrl() {
-        return "https://oauth.vk.com/authorize?v=" + VERSION;
+        return "https://oauth.vk.ru/authorize?v=" + VERSION;
     }
 
     @Override
