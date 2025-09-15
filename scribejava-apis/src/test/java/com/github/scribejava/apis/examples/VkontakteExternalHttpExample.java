@@ -16,8 +16,8 @@ import org.asynchttpclient.DefaultAsyncHttpClientConfig;
 
 public class VkontakteExternalHttpExample {
 
-    private static final String NETWORK_NAME = "vk.com";
-    private static final String PROTECTED_RESOURCE_URL = "https://api.vk.com/method/users.get?v="
+    private static final String NETWORK_NAME = "vk.ru";
+    private static final String PROTECTED_RESOURCE_URL = "https://api.vk.ru/method/users.get?v="
             + VkontakteApi.VERSION;
 
     private VkontakteExternalHttpExample() {
