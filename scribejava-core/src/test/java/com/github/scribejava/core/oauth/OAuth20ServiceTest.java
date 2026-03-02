@@ -1,7 +1,7 @@
 package com.github.scribejava.core.oauth;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.base64.Base64;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -30,17 +30,17 @@ public class OAuth20ServiceTest {
 
         final JsonNode response = OBJECT_MAPPER.readTree(token.getRawResponse());
 
-        assertEquals(OAuth20ServiceUnit.TOKEN, response.get(OAuthConstants.ACCESS_TOKEN).asText());
+        assertEquals(OAuth20ServiceUnit.TOKEN, response.get(OAuthConstants.ACCESS_TOKEN).asString());
         assertEquals(OAuth20ServiceUnit.EXPIRES, response.get("expires_in").asInt());
 
         final String authorize = Base64.encode(
                 String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
-        assertEquals(OAuthConstants.BASIC + ' ' + authorize, response.get(OAuthConstants.HEADER).asText());
+        assertEquals(OAuthConstants.BASIC + ' ' + authorize, response.get(OAuthConstants.HEADER).asString());
 
-        assertEquals("user1", response.get("query-username").asText());
-        assertEquals("password1", response.get("query-password").asText());
-        assertEquals("password", response.get("query-grant_type").asText());
+        assertEquals("user1", response.get("query-username").asString());
+        assertEquals("password1", response.get("query-password").asString());
+        assertEquals("password", response.get("query-grant_type").asString());
     }
 
     @Test
@@ -55,17 +55,17 @@ public class OAuth20ServiceTest {
 
         final JsonNode response = OBJECT_MAPPER.readTree(token.getRawResponse());
 
-        assertEquals(OAuth20ServiceUnit.TOKEN, response.get(OAuthConstants.ACCESS_TOKEN).asText());
+        assertEquals(OAuth20ServiceUnit.TOKEN, response.get(OAuthConstants.ACCESS_TOKEN).asString());
         assertEquals(OAuth20ServiceUnit.EXPIRES, response.get("expires_in").asInt());
 
         final String authorize = Base64.encode(
                 String.format("%s:%s", service.getApiKey(), service.getApiSecret()).getBytes(Charset.forName("UTF-8")));
 
-        assertEquals(OAuthConstants.BASIC + ' ' + authorize, response.get(OAuthConstants.HEADER).asText());
+        assertEquals(OAuthConstants.BASIC + ' ' + authorize, response.get(OAuthConstants.HEADER).asString());
 
-        assertEquals("user1", response.get("query-username").asText());
-        assertEquals("password1", response.get("query-password").asText());
-        assertEquals("password", response.get("query-grant_type").asText());
+        assertEquals("user1", response.get("query-username").asString());
+        assertEquals("password1", response.get("query-password").asString());
+        assertEquals("password", response.get("query-grant_type").asString());
     }
 
     @Test

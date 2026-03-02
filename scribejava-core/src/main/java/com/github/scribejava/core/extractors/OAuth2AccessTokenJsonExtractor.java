@@ -1,7 +1,6 @@
 package com.github.scribejava.core.extractors;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.net.URI;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -10,6 +9,7 @@ import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.oauth2.OAuth2Error;
 import com.github.scribejava.core.utils.Preconditions;
+import tools.jackson.core.JacksonException;
 
 /**
  * JSON (default) implementation of {@link TokenExtractor} for OAuth 2.0
@@ -51,14 +51,14 @@ public class OAuth2AccessTokenJsonExtractor extends AbstractJsonExtractor implem
         final JsonNode responseBodyJson;
         try {
             responseBodyJson = OBJECT_MAPPER.readTree(responseBody);
-        } catch (JsonProcessingException ex) {
+        } catch (JacksonException ex) {
             throw new OAuth2AccessTokenErrorResponse(null, null, null, response);
         }
 
         final JsonNode errorUriInString = responseBodyJson.get("error_uri");
         URI errorUri;
         try {
-            errorUri = errorUriInString == null ? null : URI.create(errorUriInString.asText());
+            errorUri = errorUriInString == null ? null : URI.create(errorUriInString.asString());
         } catch (IllegalArgumentException iae) {
             errorUri = null;
         }
@@ -66,7 +66,7 @@ public class OAuth2AccessTokenJsonExtractor extends AbstractJsonExtractor implem
         OAuth2Error errorCode;
         try {
             errorCode = OAuth2Error
-                    .parseFrom(extractRequiredParameter(responseBodyJson, "error", responseBody).asText());
+                    .parseFrom(extractRequiredParameter(responseBodyJson, "error", responseBody).asString());
         } catch (IllegalArgumentException iaE) {
             //non oauth standard error code
             errorCode = null;
@@ -74,8 +74,8 @@ public class OAuth2AccessTokenJsonExtractor extends AbstractJsonExtractor implem
 
         final JsonNode errorDescription = responseBodyJson.get("error_description");
 
-        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription == null ? null : errorDescription.asText(),
-                errorUri, response);
+        throw new OAuth2AccessTokenErrorResponse(errorCode, errorDescription == null ? null
+                : errorDescription.asString(), errorUri, response);
     }
 
     private OAuth2AccessToken createToken(String rawResponse) throws IOException {
@@ -87,9 +87,11 @@ public class OAuth2AccessTokenJsonExtractor extends AbstractJsonExtractor implem
         final JsonNode scope = response.get(OAuthConstants.SCOPE);
         final JsonNode tokenType = response.get("token_type");
 
-        return createToken(extractRequiredParameter(response, OAuthConstants.ACCESS_TOKEN, rawResponse).asText(),
-                tokenType == null ? null : tokenType.asText(), expiresInNode == null ? null : expiresInNode.asInt(),
-                refreshToken == null ? null : refreshToken.asText(), scope == null ? null : scope.asText(), response,
+        return createToken(extractRequiredParameter(response, OAuthConstants.ACCESS_TOKEN, rawResponse).asString(),
+                tokenType == null ? null : tokenType.asString(),
+                expiresInNode == null ? null : expiresInNode.asInt(),
+                refreshToken == null ? null : refreshToken.asString(),
+                scope == null ? null : scope.asString(), response,
                 rawResponse);
     }
 

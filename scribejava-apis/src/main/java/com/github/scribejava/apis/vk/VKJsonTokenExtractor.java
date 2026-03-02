@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.vk;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 
 /**
@@ -25,6 +25,6 @@ public class VKJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
             String refreshToken, String scope, JsonNode response, String rawResponse) {
         final JsonNode email = response.get("email");
         return new VKOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope,
-                email == null ? null : email.asText(), rawResponse);
+                email == null ? null : email.asString(), rawResponse);
     }
 }

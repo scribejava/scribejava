@@ -53,9 +53,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.14.0</version>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -248,7 +248,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <targetJdk>1.${java.release}</targetJdk>
+                    <targetJdk>${java.release}</targetJdk>
                     <linkXRef>false</linkXRef>
                     <rulesets>
                         <ruleset>../pmd.xml</ruleset>
@@ -269,7 +269,7 @@
     </build>
 
     <properties>
-        <java.release>7</java.release>
+        <java.release>17</java.release>
         <pmdVersion>6.51.0</pmdVersion>
     </properties>
 
