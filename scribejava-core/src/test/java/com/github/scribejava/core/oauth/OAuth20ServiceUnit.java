@@ -1,7 +1,6 @@
 package com.github.scribejava.core.oauth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.httpclient.HttpClient;
 import com.github.scribejava.core.httpclient.HttpClientConfig;
@@ -10,6 +9,7 @@ import com.github.scribejava.core.model.OAuthAsyncRequestCallback;
 import com.github.scribejava.core.model.OAuthConstants;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Parameter;
+import tools.jackson.core.JacksonException;
 
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -50,7 +50,7 @@ class OAuth20ServiceUnit extends OAuth20Service {
 
         try {
             return OBJECT_MAPPER.writeValueAsString(response);
-        } catch (JsonProcessingException ex) {
+        } catch (JacksonException ex) {
             throw new IllegalStateException("smth wrong with Jackson?");
         }
     }

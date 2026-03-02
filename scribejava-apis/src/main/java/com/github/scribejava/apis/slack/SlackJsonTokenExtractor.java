@@ -1,6 +1,6 @@
 package com.github.scribejava.apis.slack;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 
 public class SlackJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
@@ -25,7 +25,7 @@ public class SlackJsonTokenExtractor extends OAuth2AccessTokenJsonExtractor {
         if (userAccessTokenNode == null) {
             userAccessToken = "";
         } else {
-            userAccessToken = userAccessTokenNode.asText();
+            userAccessToken = userAccessTokenNode.asString();
         }
 
         return new SlackOAuth2AccessToken(accessToken, tokenType, expiresIn, refreshToken, scope, userAccessToken,

@@ -1,7 +1,7 @@
 package com.github.scribejava.core.extractors;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth1Token;
 import com.github.scribejava.core.model.OAuthConstants;
@@ -31,7 +31,7 @@ public abstract class AbstractOAuth1JSONTokenExtractor<T extends OAuth1Token> im
                     + rawBody + '\'', null);
         }
 
-        return createToken(token.asText(), secret.asText(), rawBody);
+        return createToken(token.asString(), secret.asString(), rawBody);
     }
 
     protected abstract T createToken(String token, String secret, String response);

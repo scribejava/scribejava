@@ -1,7 +1,7 @@
 package com.github.scribejava.apis.instagram;
 
 import java.io.IOException;
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import com.github.scribejava.apis.facebook.FacebookAccessTokenJsonExtractor;
 import com.github.scribejava.core.extractors.OAuth2AccessTokenJsonExtractor;
 import com.github.scribejava.core.model.Response;
@@ -45,9 +45,9 @@ public class InstagramAccessTokenJsonExtractor extends OAuth2AccessTokenJsonExtr
             FacebookAccessTokenJsonExtractor.instance().generateError(response);
         } else {
             throw new InstagramAccessTokenErrorResponse(
-                    errorNode.get("error_type").asText(),
+                    errorNode.get("error_type").asString(),
                     errorNode.get("code").asInt(),
-                    errorNode.get("error_message").asText(),
+                    errorNode.get("error_message").asString(),
                     response
             );
         }

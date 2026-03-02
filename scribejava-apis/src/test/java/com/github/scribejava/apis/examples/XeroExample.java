@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.github.scribejava.apis.XeroApi20;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
