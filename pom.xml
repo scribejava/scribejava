@@ -270,7 +270,7 @@
 
     <properties>
         <java.release>7</java.release>
-        <pmdVersion>6.51.0</pmdVersion>
+        <pmdVersion>7.22.0</pmdVersion>
     </properties>
 
     <profiles>
