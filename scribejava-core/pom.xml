@@ -35,7 +35,7 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version> <!-- the latest for the JRE 7 -->
+            <version>2.3.1</version> <!-- the latest for the JRE 7 -->
             <optional>true</optional>
         </dependency>
     </dependencies>
