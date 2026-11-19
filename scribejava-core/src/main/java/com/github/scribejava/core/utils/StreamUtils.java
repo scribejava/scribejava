@@ -3,6 +3,7 @@ package com.github.scribejava.core.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PushbackInputStream;
 import java.io.Reader;
 import java.util.zip.GZIPInputStream;
 
@@ -46,4 +47,31 @@ public abstract class StreamUtils {
         final GZIPInputStream gis = new GZIPInputStream(is);
         return getStreamContents(gis);
     }
+
+    /**
+     * Return String content from a gzip stream. If the stream is not gzipped,
+     * it falls back to reading it as a regular stream.
+     *
+     * @param is input stream
+     * @return string contents
+     * @throws java.io.IOException in any. SocketTimeout in example
+     */
+    public static String getGzipStreamContentsWithFallback(InputStream is) throws IOException {
+        Preconditions.checkNotNull(is, "Cannot get String from a null object");
+        final PushbackInputStream pushback = new PushbackInputStream(is, 2);
+        final int firstByte = pushback.read();
+        final int secondByte = pushback.read();
+        if (secondByte != -1) {
+            pushback.unread(secondByte);
+        }
+        if (firstByte != -1) {
+            pushback.unread(firstByte);
+        }
+
+        if (firstByte == 0x1f && secondByte == 0x8b) {
+            return getGzipStreamContents(pushback);
+        }
+        return getStreamContents(pushback);
+    }
+
 }

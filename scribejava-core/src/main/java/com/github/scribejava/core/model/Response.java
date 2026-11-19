@@ -46,7 +46,7 @@ public class Response implements Closeable {
             return null;
         }
         if ("gzip".equals(getHeader("Content-Encoding"))) {
-            body = StreamUtils.getGzipStreamContents(stream);
+            body = StreamUtils.getGzipStreamContentsWithFallback(stream);
         } else {
             body = StreamUtils.getStreamContents(stream);
         }
