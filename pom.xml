@@ -270,7 +270,7 @@
     </build>
 
     <properties>
-        <java.release>7</java.release>
+        <java.release>8</java.release>
         <pmdVersion>6.51.0</pmdVersion>
     </properties>
 
