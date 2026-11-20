@@ -9,6 +9,7 @@ import com.github.scribejava.core.model.OAuth2Authorization;
 import com.github.scribejava.core.model.OAuthConstants;
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -92,26 +93,26 @@ public class OAuth20ServiceTest {
 
         authorization = service.extractAuthorization("https://cl.ex.com/cb?code=SplxlOB&state=");
         assertEquals("SplxlOB", authorization.getCode());
-        assertEquals(null, authorization.getState());
+        assertNull(authorization.getState());
 
         authorization = service.extractAuthorization("https://cl.ex.com/cb?code=SplxlOB");
         assertEquals("SplxlOB", authorization.getCode());
-        assertEquals(null, authorization.getState());
+        assertNull(authorization.getState());
 
         authorization = service.extractAuthorization("https://cl.ex.com/cb?code=");
-        assertEquals(null, authorization.getCode());
-        assertEquals(null, authorization.getState());
+        assertNull(authorization.getCode());
+        assertNull(authorization.getState());
 
         authorization = service.extractAuthorization("https://cl.ex.com/cb?code");
-        assertEquals(null, authorization.getCode());
-        assertEquals(null, authorization.getState());
+        assertNull(authorization.getCode());
+        assertNull(authorization.getState());
 
         authorization = service.extractAuthorization("https://cl.ex.com/cb?");
-        assertEquals(null, authorization.getCode());
-        assertEquals(null, authorization.getState());
+        assertNull(authorization.getCode());
+        assertNull(authorization.getState());
 
         authorization = service.extractAuthorization("https://cl.ex.com/cb");
-        assertEquals(null, authorization.getCode());
-        assertEquals(null, authorization.getState());
+        assertNull(authorization.getCode());
+        assertNull(authorization.getState());
     }
 }

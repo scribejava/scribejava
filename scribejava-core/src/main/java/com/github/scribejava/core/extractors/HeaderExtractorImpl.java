@@ -48,7 +48,7 @@ public class HeaderExtractorImpl implements HeaderExtractor {
     private void checkPreconditions(OAuthRequest request) {
         Preconditions.checkNotNull(request, "Cannot extract a header from a null object");
 
-        if (request.getOauthParameters() == null || request.getOauthParameters().size() <= 0) {
+        if (request.getOauthParameters() == null || request.getOauthParameters().isEmpty()) {
             throw new OAuthParametersMissingException(request);
         }
     }

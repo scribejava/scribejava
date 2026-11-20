@@ -57,9 +57,7 @@ public class OAuth1AccessToken extends OAuth1Token {
             return false;
         }
         final OAuth1AccessToken other = (OAuth1AccessToken) obj;
-        if (!Objects.equals(getToken(), other.getToken())) {
-            return false;
-        }
-        return Objects.equals(getTokenSecret(), other.getTokenSecret());
+        return Objects.equals(getToken(), other.getToken()) &&
+               Objects.equals(getTokenSecret(), other.getTokenSecret());
     }
 }

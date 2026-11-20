@@ -50,7 +50,7 @@ public class BaseStringExtractorImpl implements BaseStringExtractor {
     protected void checkPreconditions(OAuthRequest request) {
         Preconditions.checkNotNull(request, "Cannot extract base string from a null object");
 
-        if (request.getOauthParameters() == null || request.getOauthParameters().size() <= 0) {
+        if (request.getOauthParameters() == null || request.getOauthParameters().isEmpty()) {
             throw new OAuthParametersMissingException(request);
         }
     }

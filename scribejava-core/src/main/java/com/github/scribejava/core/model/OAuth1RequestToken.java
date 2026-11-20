@@ -78,9 +78,7 @@ public class OAuth1RequestToken extends OAuth1Token {
         if (oauthCallbackConfirmed != other.isOauthCallbackConfirmed()) {
             return false;
         }
-        if (!Objects.equals(getToken(), other.getToken())) {
-            return false;
-        }
-        return Objects.equals(getTokenSecret(), other.getTokenSecret());
+        return Objects.equals(getToken(), other.getToken()) &&
+               Objects.equals(getTokenSecret(), other.getTokenSecret());
     }
 }

@@ -2,6 +2,7 @@ package com.github.scribejava.core.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 public class TokenTest {
@@ -45,7 +46,7 @@ public class TokenTest {
                 "user_id=3107154759&screen_name=someuser&empty=&=");
         assertEquals("someuser", actual.getParameter("screen_name"));
         assertEquals("3107154759", actual.getParameter("user_id"));
-        assertEquals(null, actual.getParameter("empty"));
-        assertEquals(null, actual.getParameter(null));
+        assertNull(actual.getParameter("empty"));
+        assertNull(actual.getParameter(null));
     }
 }

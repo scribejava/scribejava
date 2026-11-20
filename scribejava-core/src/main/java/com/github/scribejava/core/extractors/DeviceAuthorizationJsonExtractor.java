@@ -1,7 +1,5 @@
 package com.github.scribejava.core.extractors;
 
-import static com.github.scribejava.core.extractors.AbstractJsonExtractor.OBJECT_MAPPER;
-import static com.github.scribejava.core.extractors.AbstractJsonExtractor.extractRequiredParameter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.scribejava.core.model.DeviceAuthorization;
 import java.io.IOException;
