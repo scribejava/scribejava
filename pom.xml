@@ -225,7 +225,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.19.0</version>
+                <version>3.28.0</version>
                 <dependencies>
                     <dependency>
                         <groupId>net.sourceforge.pmd</groupId>
@@ -271,7 +271,7 @@
 
     <properties>
         <java.release>8</java.release>
-        <pmdVersion>6.51.0</pmdVersion>
+        <pmdVersion>7.29.0</pmdVersion>
     </properties>
 
     <profiles>
