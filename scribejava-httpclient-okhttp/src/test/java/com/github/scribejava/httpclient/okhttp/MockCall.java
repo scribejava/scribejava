@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import kotlin.jvm.functions.Function0;
+import kotlin.reflect.KClass;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.EventListener;
 import okhttp3.Request;
 import okhttp3.Response;
 import okio.Timeout;
@@ -56,5 +59,30 @@ public class MockCall implements Call {
     @Override
     public Timeout timeout() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void addEventListener(EventListener arg0) {
+        throw new UnsupportedOperationException("Unimplemented method 'addEventListener'");
+    }
+
+    @Override
+    public <T> T tag(KClass<T> arg0) {
+        throw new UnsupportedOperationException("Unimplemented method 'tag'");
+    }
+
+    @Override
+    public <T> T tag(Class<? extends T> arg0) {
+        throw new UnsupportedOperationException("Unimplemented method 'tag'");
+    }
+
+    @Override
+    public <T> T tag(KClass<T> arg0, Function0<? extends T> arg1) {
+        throw new UnsupportedOperationException("Unimplemented method 'tag'");
+    }
+
+    @Override
+    public <T> T tag(Class<T> arg0, Function0<? extends T> arg1) {
+        throw new UnsupportedOperationException("Unimplemented method 'tag'");
     }
 }
