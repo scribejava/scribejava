@@ -13,7 +13,7 @@ public class FlickrApi extends DefaultApi10a {
 
     public enum FlickrPerm {
         READ, WRITE, DELETE
-    };
+    }
 
     /**
      * read, write, or delete (delete includes read/write)
