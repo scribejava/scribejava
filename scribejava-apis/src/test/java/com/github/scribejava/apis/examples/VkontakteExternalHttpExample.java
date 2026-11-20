@@ -10,6 +10,7 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.github.scribejava.httpclient.ahc.AhcHttpClient;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import org.asynchttpclient.DefaultAsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClientConfig;
@@ -32,9 +33,9 @@ public class VkontakteExternalHttpExample {
         //create any http client externally
         final DefaultAsyncHttpClientConfig httpClientConfig = new DefaultAsyncHttpClientConfig.Builder()
                 .setMaxConnections(5)
-                .setRequestTimeout(10_000)
-                .setPooledConnectionIdleTimeout(1_000)
-                .setReadTimeout(1_000)
+                .setRequestTimeout(Duration.ofSeconds(10))
+                .setPooledConnectionIdleTimeout(Duration.ofSeconds(1))
+                .setReadTimeout(Duration.ofSeconds(1))
                 .build();
         //wrap it
         try ( DefaultAsyncHttpClient ahcHttpClient = new DefaultAsyncHttpClient(httpClientConfig)) {
